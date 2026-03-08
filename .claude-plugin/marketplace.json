@@ -1,0 +1,63 @@
+{
+  "name": "chittymarket",
+  "owner": {
+    "name": "ChittyOS",
+    "email": "dev@chitty.cc"
+  },
+  "metadata": {
+    "description": "ChittyOS ecosystem plugins, skills, agents, and hooks for Claude Code",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "chittyhelper",
+      "description": "Architectural navigation — ask 'which service handles X?' queries against the ChittyOS ecosystem",
+      "source": {
+        "source": "github",
+        "repo": "CHITTYOS/chittyhelper"
+      },
+      "category": "ecosystem",
+      "keywords": ["chittyos", "architecture", "navigation", "services"]
+    },
+    {
+      "name": "chittyagent",
+      "description": "ChittyOS specialized agents — schema validation, registration compliance, connection management, and more",
+      "source": {
+        "source": "github",
+        "repo": "CHITTYOS/chittyagent"
+      },
+      "category": "ecosystem",
+      "keywords": ["chittyos", "agents", "schema", "compliance"]
+    },
+    {
+      "name": "chittycommand",
+      "description": "ChittyOS CLI commands — deploy, health-check, registry queries, and ecosystem management",
+      "source": {
+        "source": "github",
+        "repo": "CHITTYOS/chittycommand"
+      },
+      "category": "ecosystem",
+      "keywords": ["chittyos", "cli", "deploy", "health", "registry"]
+    },
+    {
+      "name": "legal-arsenal",
+      "description": "Legal case management — evidence governance, fact tracking, docket monitoring, dispute management",
+      "source": {
+        "source": "github",
+        "repo": "CHITTYOS/legal-cases"
+      },
+      "category": "legal",
+      "keywords": ["legal", "evidence", "cases", "disputes", "docket"]
+    },
+    {
+      "name": "github-workflows",
+      "description": "GitHub Actions workflow management and CI/CD automation for ChittyOS services",
+      "source": {
+        "source": "github",
+        "repo": "CHITTYOS/chittyagent"
+      },
+      "category": "code",
+      "keywords": ["github", "ci", "workflows", "actions"]
+    }
+  ]
+}
