@@ -2,7 +2,35 @@
 
 ## What This Is
 
-ChittyMarket is the artifact marketplace and manager for the ChittyOS Claude Code environment. It provides a single manifest (`marketplace.json`) that catalogs all installed artifacts (MCP servers, skills, plugins, agents, hooks) and a `/market` skill to manage them.
+ChittyMarket is the Claude Code marketplace for the ChittyOS ecosystem. It serves two purposes:
+
+1. **Native Claude Code Marketplace** — `.claude-plugin/marketplace.json` lists 12 plugins installable via `/plugin add`
+2. **Artifact Inventory** — `marketplace.json` catalogs all 108 artifacts with rich metadata for the `/market` skill
+
+## Structure
+
+```
+chittymarket/
+  .claude-plugin/marketplace.json   # Native Claude Code marketplace (12 plugins)
+  marketplace.json                  # Full artifact inventory (108 artifacts, for /market skill)
+  plugins/
+    chittyos-core/                  # Session, context, cleanup + 5 ecosystem agents
+    chittyos-devops/                # Deploy, health, registry, pipelines, compliance
+    chittyos-legal/                 # Evidence, disputes, docket, evidence-collect
+    chittyos-governance/            # Hookify rules + neon-schema agent
+    chittyos-proxy-agents/          # Notion, ChatGPT, Cloudflare proxy agents
+    chittymarket-manager/           # /market skill + market.sh
+    chittyos-mcp/                   # Standalone ChittyOS MCP gateway
+    neon-mcp/                       # Standalone Neon PostgreSQL MCP
+  scripts/
+    generate-marketplace.sh         # Regenerate native manifest from plugins/
+```
+
+## Dual Manifest
+
+- **`.claude-plugin/marketplace.json`** — What Claude Code sees via `/plugin add`. Lists 12 plugins (6 inline, 4 GitHub repos, 2 standalone MCP wrappers).
+- **`marketplace.json`** — Authoritative inventory read by `/market` skill and `market.sh`. 108 artifacts including official Anthropic plugins, Claude.ai MCP servers, and Ch1tty-managed servers.
+- **`~/.claude/marketplace.json`** — Symlink to `marketplace.json`
 
 ## Commands
 
@@ -16,35 +44,26 @@ ChittyMarket is the artifact marketplace and manager for the ChittyOS Claude Cod
 /market sync         # Reconcile manifest with filesystem
 ```
 
-## Architecture
+## Ch1tty Integration
 
-- **marketplace.json** — Single source of truth for all artifact metadata and state
-- **~/.claude/marketplace.json** — Symlink to the repo's marketplace.json
-- **/market skill** — Claude Code skill at `~/.claude/skills/market/SKILL.md`
+Ch1tty is the optional MCP orchestrator. When present, it manages MCP servers via `servers.json`. Without it, standalone `.mcp.json` configs in `plugins/chittyos-mcp/` and `plugins/neon-mcp/` provide direct MCP access.
 
-### Toggle Actuators
-
-Each artifact type has a specific mechanism for enabling/disabling:
-
-| Type | Enable | Disable |
-|------|--------|---------|
-| mcp-server | `"enabled": true` in Ch1tty servers.json | `"enabled": false` |
-| skill | Rename `.disabled` → `SKILL.md` | Rename `SKILL.md` → `.disabled` |
-| plugin (official) | `true` in settings.json `enabledPlugins` | `false` |
-| plugin (local) | Remove from blocklist.json | Add to blocklist.json |
-| agent | Rename `.disabled` → `.md` | Rename `.md` → `.disabled` |
-| hook | `enabled: true` in YAML frontmatter | `enabled: false` |
+The `installMode` field in `marketplace.json` tracks which mode each MCP server uses:
+- `ch1tty` — Managed by Ch1tty's aggregator
+- `standalone` — Direct Claude Code MCP config
+- `both` — Available in either mode
 
 ## Key Paths
 
-- Manifest: `/Users/nb/Desktop/Projects/github.com/CHITTYOS/chittymarket/marketplace.json`
+- Native marketplace: `.claude-plugin/marketplace.json`
+- Full inventory: `marketplace.json` (symlinked to `~/.claude/marketplace.json`)
 - Ch1tty servers: `/Users/nb/Desktop/Projects/github.com/CHITTYOS/ch1tty/servers.json`
 - Settings: `~/.claude/settings.json`
-- Skill: `~/.claude/skills/market/SKILL.md`
 
 ## Key Patterns
 
-- The `installMode` field tracks whether an artifact runs via Ch1tty (orchestrated) or standalone (direct Claude Code)
-- Artifacts with `installMode: "both"` are available in either mode
-- The `/market sync` command is the reconciliation tool — run it to align manifest with reality
-- Never edit marketplace.json by hand during normal operations — use `/market` commands
+- Each inline plugin has `.claude-plugin/plugin.json` + `skills/`, `agents/`, `hooks/` directories
+- Skills use `SKILL.md` convention, agents use `<name>.md`
+- The `scripts/generate-marketplace.sh` can regenerate the native manifest from plugins/
+- Never edit `.claude-plugin/marketplace.json` by hand — edit plugin.json files and regenerate
+- The full `marketplace.json` inventory is managed via `/market` commands

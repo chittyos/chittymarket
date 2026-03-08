@@ -1,0 +1,9 @@
+{
+  "name": "chittyos-proxy-agents",
+  "version": "1.0.0",
+  "description": "Remote proxy agents for Notion database operations, ChatGPT integrations, and Cloudflare infrastructure management via agent.chitty.cc",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/CHITTYOS"
+  }
+}

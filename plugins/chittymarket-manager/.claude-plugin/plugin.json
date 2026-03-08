@@ -1,0 +1,9 @@
+{
+  "name": "chittymarket-manager",
+  "version": "1.0.0",
+  "description": "Artifact marketplace manager — list, enable, disable, sync, and toggle install modes for all ChittyOS Claude Code artifacts",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/CHITTYOS"
+  }
+}

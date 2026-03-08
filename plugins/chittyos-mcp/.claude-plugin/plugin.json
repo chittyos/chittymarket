@@ -1,0 +1,9 @@
+{
+  "name": "chittyos-mcp",
+  "version": "1.0.0",
+  "description": "ChittyOS MCP gateway (standalone mode) — MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness via mcp.chitty.cc",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/CHITTYOS"
+  }
+}

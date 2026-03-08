@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Governance hooks are managed via hookify rules at ~/.claude/hooks/hookify.*.local.md'"
+          }
+        ]
+      }
+    ]
+  },
+  "_note": "ChittyOS governance hooks are implemented as hookify rules. The following rules are part of this plugin:",
+  "rules": [
+    "hookify.validate-entity-types.local.md",
+    "hookify.claude-person-not-thing.local.md",
+    "hookify.block-chittyid-generation.local.md",
+    "hookify.chittyid-accountability.local.md",
+    "hookify.session-identity-card.local.md",
+    "hookify.canon-certification-gate.local.md",
+    "hookify.block-direct-deploy.local.md",
+    "hookify.require-pr-workflow.local.md",
+    "hookify.block-governance-edits.local.md",
+    "hookify.suggest-chittyconnect.local.md"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "chittyos-devops",
+  "version": "1.0.0",
+  "description": "ChittyOS deployment and infrastructure — deploy services, health checks, registry queries, pipelines, wrangler audits, and compliance",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/CHITTYOS"
+  }
+}
