@@ -12,52 +12,82 @@
     {
       "name": "chittyhelper",
       "description": "Architectural navigation — ask 'which service handles X?' queries against the ChittyOS ecosystem",
+      "version": "1.0.0",
       "source": {
         "source": "github",
         "repo": "CHITTYOS/chittyhelper"
       },
+      "strict": false,
       "category": "ecosystem",
-      "keywords": ["chittyos", "architecture", "navigation", "services"]
+      "keywords": ["chittyos", "architecture", "navigation", "services"],
+      "skills": ["./skills/chittyhelper"],
+      "commands": ["./commands/"],
+      "agents": ["./agents/chittyhelper-navigator.md"]
     },
     {
       "name": "chittyagent",
-      "description": "ChittyOS specialized agents — schema validation, registration compliance, connection management, and more",
+      "description": "ChittyOS session lifecycle — authenticated bootstrap, ecosystem routing, session identity, and Mercury finance",
+      "version": "0.1.0",
       "source": {
         "source": "github",
         "repo": "CHITTYOS/chittyagent"
       },
+      "strict": false,
       "category": "ecosystem",
-      "keywords": ["chittyos", "agents", "schema", "compliance"]
+      "keywords": ["chittyos", "session", "bootstrap", "identity", "ecosystem"],
+      "skills": [
+        "./skills/ecosystem-router",
+        "./skills/session-identity",
+        "./skills/mercury-finance"
+      ],
+      "commands": ["./commands/"],
+      "hooks": "./hooks/hooks.json"
     },
     {
       "name": "chittycommand",
-      "description": "ChittyOS CLI commands — deploy, health-check, registry queries, and ecosystem management",
+      "description": "Life management dashboard — query finances, manage disputes, monitor syncs, get AI-powered recommendations",
+      "version": "0.1.0",
       "source": {
         "source": "github",
         "repo": "CHITTYOS/chittycommand"
       },
-      "category": "ecosystem",
-      "keywords": ["chittyos", "cli", "deploy", "health", "registry"]
+      "strict": false,
+      "category": "productivity",
+      "keywords": ["dashboard", "finance", "disputes", "obligations", "cashflow"],
+      "skills": ["./skills/chittycommand"],
+      "commands": ["./commands/"],
+      "agents": [
+        "./agents/dispute-strategist.md",
+        "./agents/recommendation-engine.md",
+        "./agents/sync-monitor.md",
+        "./agents/urgency-advisor.md"
+      ],
+      "mcpServers": "./.mcp.json"
     },
     {
       "name": "legal-arsenal",
-      "description": "Legal case management — evidence governance, fact tracking, docket monitoring, dispute management",
+      "description": "Legal case management — evidence standards, chain of custody, adversarial analysis with ChittyStorage integration",
+      "version": "1.0.0",
       "source": {
         "source": "github",
         "repo": "CHITTYOS/legal-cases"
       },
+      "strict": false,
       "category": "legal",
-      "keywords": ["legal", "evidence", "cases", "disputes", "docket"]
+      "keywords": ["legal", "evidence", "cases", "disputes", "custody", "docket"]
     },
     {
       "name": "github-workflows",
-      "description": "GitHub Actions workflow management and CI/CD automation for ChittyOS services",
+      "description": "GitHub Actions, Issues, and PR management via gh CLI",
+      "version": "1.0.0",
       "source": {
         "source": "github",
         "repo": "CHITTYOS/chittyagent"
       },
+      "strict": false,
       "category": "code",
-      "keywords": ["github", "ci", "workflows", "actions"]
+      "keywords": ["github", "actions", "ci", "workflows", "pr", "issues"],
+      "commands": ["./commands/"]
     }
   ]
 }
