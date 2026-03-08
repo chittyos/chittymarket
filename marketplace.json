@@ -1,22 +1,31 @@
 {
   "version": "1.0.0",
-  "lastSync": "2026-03-08T00:00:00.000Z",
+  "lastSync": "2026-03-08T22:45:31.648657Z",
   "artifacts": [
-
-    {"_comment": "── MCP Servers (via Ch1tty) ──────────────────────────────────"},
-
+    {
+      "_comment": "\u2500\u2500 MCP Servers (via Ch1tty) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+    },
     {
       "id": "remote",
       "name": "Read and Write ChittyOS",
-      "description": "ChittyOS MCP gateway — MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness",
+      "description": "ChittyOS MCP gateway \u2014 MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness",
       "type": "mcp-server",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "ch1tty",
-      "ch1tty": { "serverId": "remote" },
-      "standalone": { "available": false },
-      "tags": ["chittyos", "mcp", "gateway", "memory"]
+      "ch1tty": {
+        "serverId": "remote"
+      },
+      "standalone": {
+        "available": false
+      },
+      "tags": [
+        "chittyos",
+        "mcp",
+        "gateway",
+        "memory"
+      ]
     },
     {
       "id": "cloudflare",
@@ -27,43 +36,65 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "ch1tty",
-      "ch1tty": { "serverId": "cloudflare" },
-      "standalone": { "available": false },
-      "tags": ["cloudflare", "workers", "infrastructure"]
+      "ch1tty": {
+        "serverId": "cloudflare"
+      },
+      "standalone": {
+        "available": false
+      },
+      "tags": [
+        "cloudflare",
+        "workers",
+        "infrastructure"
+      ]
     },
     {
       "id": "neon",
       "name": "Read and Write Neon Database",
-      "description": "Neon PostgreSQL — branches, migrations, SQL, schema management",
+      "description": "Neon PostgreSQL \u2014 branches, migrations, SQL, schema management",
       "type": "mcp-server",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "both",
-      "ch1tty": { "serverId": "neon" },
+      "ch1tty": {
+        "serverId": "neon"
+      },
       "standalone": {
         "available": true,
         "type": "mcp-server",
         "ref": "Neon@claude-ai"
       },
-      "tags": ["database", "postgres", "neon", "sql"]
+      "tags": [
+        "database",
+        "postgres",
+        "neon",
+        "sql"
+      ]
     },
     {
       "id": "serena",
       "name": "Read and Write Source Code",
-      "description": "Serena LSP — semantic code intelligence, symbol navigation, refactoring",
+      "description": "Serena LSP \u2014 semantic code intelligence, symbol navigation, refactoring",
       "type": "mcp-server",
       "category": "code",
       "access": "readwrite",
       "enabled": true,
       "installMode": "both",
-      "ch1tty": { "serverId": "serena" },
+      "ch1tty": {
+        "serverId": "serena"
+      },
       "standalone": {
         "available": true,
         "type": "plugin",
         "ref": "serena@claude-plugins-official"
       },
-      "tags": ["code", "lsp", "refactor", "semantic"]
+      "tags": [
+        "code",
+        "lsp",
+        "refactor",
+        "semantic"
+      ]
     },
     {
       "id": "quality",
@@ -74,22 +105,39 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "ch1tty",
-      "ch1tty": { "serverId": "quality" },
-      "standalone": { "available": false },
-      "tags": ["quality", "metrics", "code"]
+      "ch1tty": {
+        "serverId": "quality"
+      },
+      "standalone": {
+        "available": false
+      },
+      "tags": [
+        "quality",
+        "metrics",
+        "code"
+      ]
     },
     {
       "id": "evidence",
       "name": "Search Evidence Documents",
-      "description": "Cloudflare AutoRAG — evidence document search for Arias v. Bianchi",
+      "description": "Cloudflare AutoRAG \u2014 evidence document search for Arias v. Bianchi",
       "type": "mcp-server",
       "category": "search",
       "access": "read",
       "enabled": true,
       "installMode": "ch1tty",
-      "ch1tty": { "serverId": "evidence" },
-      "standalone": { "available": false },
-      "tags": ["search", "evidence", "legal", "rag"]
+      "ch1tty": {
+        "serverId": "evidence"
+      },
+      "standalone": {
+        "available": false
+      },
+      "tags": [
+        "search",
+        "evidence",
+        "legal",
+        "rag"
+      ]
     },
     {
       "id": "thinking",
@@ -100,65 +148,104 @@
       "access": "read",
       "enabled": true,
       "installMode": "ch1tty",
-      "ch1tty": { "serverId": "thinking" },
-      "standalone": { "available": false },
-      "tags": ["reasoning", "thinking", "stdlib"]
+      "ch1tty": {
+        "serverId": "thinking"
+      },
+      "standalone": {
+        "available": false
+      },
+      "tags": [
+        "reasoning",
+        "thinking",
+        "stdlib"
+      ]
     },
     {
       "id": "fs",
       "name": "Read and Write Filesystem",
-      "description": "MCP filesystem server — constrained to projects, Documents, Desktop",
+      "description": "MCP filesystem server \u2014 constrained to projects, Documents, Desktop",
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
       "enabled": true,
       "installMode": "ch1tty",
-      "ch1tty": { "serverId": "fs" },
-      "standalone": { "available": false },
-      "tags": ["filesystem", "files", "desktop"]
+      "ch1tty": {
+        "serverId": "fs"
+      },
+      "standalone": {
+        "available": false
+      },
+      "tags": [
+        "filesystem",
+        "files",
+        "desktop"
+      ]
     },
     {
       "id": "desktop",
       "name": "Control your Mac",
-      "description": "Desktop commander — window management, screenshots, system control",
+      "description": "Desktop commander \u2014 window management, screenshots, system control",
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
       "enabled": true,
       "installMode": "ch1tty",
-      "ch1tty": { "serverId": "desktop" },
-      "standalone": { "available": false },
-      "tags": ["desktop", "mac", "control"]
+      "ch1tty": {
+        "serverId": "desktop"
+      },
+      "standalone": {
+        "available": false
+      },
+      "tags": [
+        "desktop",
+        "mac",
+        "control"
+      ]
     },
     {
       "id": "chrome",
       "name": "Control Chrome",
-      "description": "Chrome browser automation — navigation, screenshots, forms, console",
+      "description": "Chrome browser automation \u2014 navigation, screenshots, forms, console",
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
       "enabled": true,
       "installMode": "ch1tty",
-      "ch1tty": { "serverId": "chrome" },
-      "standalone": { "available": false },
-      "tags": ["browser", "chrome", "automation"]
+      "ch1tty": {
+        "serverId": "chrome"
+      },
+      "standalone": {
+        "available": false
+      },
+      "tags": [
+        "browser",
+        "chrome",
+        "automation"
+      ]
     },
     {
       "id": "playwright",
       "name": "Control Browser Automation",
-      "description": "Playwright MCP — cross-browser automation, testing, scraping",
+      "description": "Playwright MCP \u2014 cross-browser automation, testing, scraping",
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
       "enabled": true,
       "installMode": "both",
-      "ch1tty": { "serverId": "playwright" },
+      "ch1tty": {
+        "serverId": "playwright"
+      },
       "standalone": {
         "available": true,
         "type": "plugin",
         "ref": "playwright@claude-plugins-official"
       },
-      "tags": ["browser", "playwright", "automation", "testing"]
+      "tags": [
+        "browser",
+        "playwright",
+        "automation",
+        "testing"
+      ]
     },
     {
       "id": "pdf",
@@ -169,9 +256,17 @@
       "access": "write",
       "enabled": true,
       "installMode": "ch1tty",
-      "ch1tty": { "serverId": "pdf" },
-      "standalone": { "available": false },
-      "tags": ["pdf", "documents", "forms"]
+      "ch1tty": {
+        "serverId": "pdf"
+      },
+      "standalone": {
+        "available": false
+      },
+      "tags": [
+        "pdf",
+        "documents",
+        "forms"
+      ]
     },
     {
       "id": "chittymac",
@@ -182,9 +277,17 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "ch1tty",
-      "ch1tty": { "serverId": "chittymac" },
-      "standalone": { "available": false },
-      "tags": ["notes", "apple", "communication"]
+      "ch1tty": {
+        "serverId": "chittymac"
+      },
+      "standalone": {
+        "available": false
+      },
+      "tags": [
+        "notes",
+        "apple",
+        "communication"
+      ]
     },
     {
       "id": "imessage",
@@ -195,13 +298,21 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "ch1tty",
-      "ch1tty": { "serverId": "imessage" },
-      "standalone": { "available": false },
-      "tags": ["imessage", "messaging", "communication"]
+      "ch1tty": {
+        "serverId": "imessage"
+      },
+      "standalone": {
+        "available": false
+      },
+      "tags": [
+        "imessage",
+        "messaging",
+        "communication"
+      ]
     },
-
-    {"_comment": "── Skills ────────────────────────────────────────────────────"},
-
+    {
+      "_comment": "\u2500\u2500 Skills \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+    },
     {
       "id": "skill-chittyxl",
       "name": "ChittyXL Session Manager",
@@ -211,9 +322,20 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/chittyxl" },
-      "ch1tty": { "available": false },
-      "tags": ["session", "persistence", "notion", "tokens"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chittyxl"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "session",
+        "persistence",
+        "notion",
+        "tokens"
+      ]
     },
     {
       "id": "skill-fact-governance",
@@ -224,74 +346,136 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/fact-governance" },
-      "ch1tty": { "available": false },
-      "tags": ["legal", "evidence", "facts", "governance"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/fact-governance"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "legal",
+        "evidence",
+        "facts",
+        "governance"
+      ]
     },
     {
       "id": "skill-chittycontext",
       "name": "ChittyContext Checkpoints",
-      "description": "Persistent conversation state via JSON files — checkpoint, restore, status",
+      "description": "Persistent conversation state via JSON files \u2014 checkpoint, restore, status",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/chittycontext" },
-      "ch1tty": { "available": false },
-      "tags": ["context", "checkpoint", "state", "persistence"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chittycontext"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "context",
+        "checkpoint",
+        "state",
+        "persistence"
+      ]
     },
     {
       "id": "skill-chitty-deploy",
       "name": "Deploy to Cloudflare Workers",
-      "description": "Deploy ChittyOS services via wrangler — /deploy command",
+      "description": "Deploy ChittyOS services via wrangler \u2014 /deploy command",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/chitty-deploy" },
-      "ch1tty": { "available": false },
-      "tags": ["deploy", "cloudflare", "workers"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-deploy"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "deploy",
+        "cloudflare",
+        "workers"
+      ]
     },
     {
       "id": "skill-chitty-health",
       "name": "Health Check Services",
-      "description": "Health-check ChittyOS services at *.chitty.cc/health — /health command",
+      "description": "Health-check ChittyOS services at *.chitty.cc/health \u2014 /health command",
       "type": "skill",
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/chitty-health" },
-      "ch1tty": { "available": false },
-      "tags": ["health", "monitoring", "services"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-health"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "health",
+        "monitoring",
+        "services"
+      ]
     },
     {
       "id": "skill-chitty-registry",
       "name": "Query Service Registry",
-      "description": "Query ChittyRegistry at registry.chitty.cc — /registry command",
+      "description": "Query ChittyRegistry at registry.chitty.cc \u2014 /registry command",
       "type": "skill",
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/chitty-registry" },
-      "ch1tty": { "available": false },
-      "tags": ["registry", "discovery", "services"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-registry"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "registry",
+        "discovery",
+        "services"
+      ]
     },
     {
       "id": "skill-chitty-pipelines",
       "name": "Cloudflare Pipelines",
-      "description": "Manage Cloudflare Pipelines (stream/SQL/sink/R2) — /pipelines command",
+      "description": "Manage Cloudflare Pipelines (stream/SQL/sink/R2) \u2014 /pipelines command",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/chitty-pipelines" },
-      "ch1tty": { "available": false },
-      "tags": ["pipelines", "cloudflare", "streaming"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-pipelines"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "pipelines",
+        "cloudflare",
+        "streaming"
+      ]
     },
     {
       "id": "skill-chitty-cleanup",
@@ -302,9 +486,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/chitty-cleanup" },
-      "ch1tty": { "available": false },
-      "tags": ["cleanup", "session", "maintenance"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-cleanup"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "cleanup",
+        "session",
+        "maintenance"
+      ]
     },
     {
       "id": "skill-checkpoint",
@@ -315,9 +509,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/checkpoint" },
-      "ch1tty": { "available": false },
-      "tags": ["checkpoint", "save", "restore"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/checkpoint"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "checkpoint",
+        "save",
+        "restore"
+      ]
     },
     {
       "id": "skill-dispute",
@@ -328,9 +532,20 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/dispute" },
-      "ch1tty": { "available": false },
-      "tags": ["dispute", "legal", "claims", "issues"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/dispute"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "dispute",
+        "legal",
+        "claims",
+        "issues"
+      ]
     },
     {
       "id": "skill-docket",
@@ -341,9 +556,20 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/docket" },
-      "ch1tty": { "available": false },
-      "tags": ["docket", "court", "legal", "case"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/docket"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "docket",
+        "court",
+        "legal",
+        "case"
+      ]
     },
     {
       "id": "skill-evidence-collect",
@@ -354,9 +580,20 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/evidence-collect" },
-      "ch1tty": { "available": false },
-      "tags": ["evidence", "collection", "legal", "pipeline"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/evidence-collect"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "evidence",
+        "collection",
+        "legal",
+        "pipeline"
+      ]
     },
     {
       "id": "skill-wrangler-audit",
@@ -367,9 +604,20 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/wrangler-audit" },
-      "ch1tty": { "available": false },
-      "tags": ["wrangler", "audit", "workers", "consistency"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/wrangler-audit"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "wrangler",
+        "audit",
+        "workers",
+        "consistency"
+      ]
     },
     {
       "id": "skill-chittyos-compliance",
@@ -380,25 +628,70 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "skill", "path": "~/.claude/skills/chittyos-compliance" },
-      "ch1tty": { "available": false },
-      "tags": ["compliance", "audit", "certification", "scaffolding"]
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chittyos-compliance"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "compliance",
+        "audit",
+        "certification",
+        "scaffolding"
+      ]
     },
-
-    {"_comment": "── Official Plugins ──────────────────────────────────────────"},
-
+    {
+      "id": "skill-market",
+      "name": "ChittyMarket Manager",
+      "description": "Manage all Claude Code artifacts \u2014 list, enable, disable, info, mode, sync",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/market"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "marketplace",
+        "manager",
+        "artifacts",
+        "toggle"
+      ]
+    },
+    {
+      "_comment": "\u2500\u2500 Official Plugins \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+    },
     {
       "id": "plugin-agent-sdk-dev",
       "name": "Agent SDK Dev",
-      "description": "Claude Agent SDK development tools — create, verify, test agent apps",
+      "description": "Claude Agent SDK development tools \u2014 create, verify, test agent apps",
       "type": "plugin",
       "category": "code",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "agent-sdk-dev@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["agent", "sdk", "development"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "agent-sdk-dev@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "agent",
+        "sdk",
+        "development"
+      ]
     },
     {
       "id": "plugin-code-review",
@@ -409,9 +702,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "code-review@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["code", "review", "pr"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "code-review@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "code",
+        "review",
+        "pr"
+      ]
     },
     {
       "id": "plugin-context7",
@@ -422,9 +725,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "context7@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["docs", "documentation", "libraries"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "context7@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "docs",
+        "documentation",
+        "libraries"
+      ]
     },
     {
       "id": "plugin-frontend-design",
@@ -435,22 +748,44 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "frontend-design@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["frontend", "design", "ui", "web"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "frontend-design@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "frontend",
+        "design",
+        "ui",
+        "web"
+      ]
     },
     {
       "id": "plugin-github",
       "name": "GitHub",
-      "description": "GitHub integration — issues, PRs, checks, releases",
+      "description": "GitHub integration \u2014 issues, PRs, checks, releases",
       "type": "plugin",
       "category": "code",
       "access": "readwrite",
       "enabled": false,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "github@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["github", "git", "pr", "issues"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "github@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "github",
+        "git",
+        "pr",
+        "issues"
+      ]
     },
     {
       "id": "plugin-gopls-lsp",
@@ -461,22 +796,43 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "gopls-lsp@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["go", "lsp", "language-server"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "gopls-lsp@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "go",
+        "lsp",
+        "language-server"
+      ]
     },
     {
       "id": "plugin-hookify",
       "name": "Hookify",
-      "description": "Create hooks to prevent unwanted behaviors — rule management",
+      "description": "Create hooks to prevent unwanted behaviors \u2014 rule management",
       "type": "plugin",
       "category": "automation",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "hookify@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["hooks", "rules", "automation", "behavior"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "hookify@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "hooks",
+        "rules",
+        "automation",
+        "behavior"
+      ]
     },
     {
       "id": "plugin-feature-dev",
@@ -487,22 +843,42 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "feature-dev@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["features", "development", "architecture"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "feature-dev@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "features",
+        "development",
+        "architecture"
+      ]
     },
     {
       "id": "plugin-notion",
       "name": "Notion",
-      "description": "Notion workspace integration — pages, databases, comments",
+      "description": "Notion workspace integration \u2014 pages, databases, comments",
       "type": "plugin",
       "category": "communication",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "Notion@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["notion", "workspace", "docs"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "Notion@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "notion",
+        "workspace",
+        "docs"
+      ]
     },
     {
       "id": "plugin-plugin-dev",
@@ -513,22 +889,42 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "plugin-dev@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["plugin", "development"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "plugin-dev@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "plugin",
+        "development"
+      ]
     },
     {
       "id": "plugin-pr-review-toolkit",
       "name": "PR Review Toolkit",
-      "description": "Comprehensive PR review — code, types, tests, comments, silent failures",
+      "description": "Comprehensive PR review \u2014 code, types, tests, comments, silent failures",
       "type": "plugin",
       "category": "code",
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "pr-review-toolkit@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["pr", "review", "testing", "types"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "pr-review-toolkit@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "pr",
+        "review",
+        "testing",
+        "types"
+      ]
     },
     {
       "id": "plugin-typescript-lsp",
@@ -539,9 +935,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "typescript-lsp@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["typescript", "lsp", "language-server"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "typescript-lsp@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "typescript",
+        "lsp",
+        "language-server"
+      ]
     },
     {
       "id": "plugin-superpowers",
@@ -552,9 +958,18 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "superpowers@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["superpowers", "extended"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "superpowers@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "superpowers",
+        "extended"
+      ]
     },
     {
       "id": "plugin-code-simplifier",
@@ -565,9 +980,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "code-simplifier@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["simplify", "refactor", "code"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "code-simplifier@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "simplify",
+        "refactor",
+        "code"
+      ]
     },
     {
       "id": "plugin-ralph-loop",
@@ -578,9 +1003,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "ralph-loop@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["loop", "autonomous", "automation"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "ralph-loop@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "loop",
+        "autonomous",
+        "automation"
+      ]
     },
     {
       "id": "plugin-playwright",
@@ -591,9 +1026,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "playwright@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["playwright", "browser", "automation"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "playwright@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "playwright",
+        "browser",
+        "automation"
+      ]
     },
     {
       "id": "plugin-commit-commands",
@@ -604,9 +1049,20 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "commit-commands@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["git", "commit", "push", "pr"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "commit-commands@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "git",
+        "commit",
+        "push",
+        "pr"
+      ]
     },
     {
       "id": "plugin-security-guidance",
@@ -617,9 +1073,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "security-guidance@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["security", "vulnerabilities", "guidance"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "security-guidance@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "security",
+        "vulnerabilities",
+        "guidance"
+      ]
     },
     {
       "id": "plugin-serena",
@@ -630,9 +1096,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "serena@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["serena", "code", "lsp"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "serena@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "serena",
+        "code",
+        "lsp"
+      ]
     },
     {
       "id": "plugin-claude-md-management",
@@ -643,9 +1119,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "claude-md-management@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["claude-md", "docs", "compliance"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "claude-md-management@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "claude-md",
+        "docs",
+        "compliance"
+      ]
     },
     {
       "id": "plugin-pyright-lsp",
@@ -656,9 +1142,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "pyright-lsp@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["python", "lsp", "language-server"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "pyright-lsp@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "python",
+        "lsp",
+        "language-server"
+      ]
     },
     {
       "id": "plugin-supabase",
@@ -669,9 +1165,19 @@
       "access": "readwrite",
       "enabled": false,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "supabase@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["supabase", "database", "auth"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "supabase@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "supabase",
+        "database",
+        "auth"
+      ]
     },
     {
       "id": "plugin-claude-code-setup",
@@ -682,9 +1188,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "claude-code-setup@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["setup", "automation", "recommendations"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "claude-code-setup@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "setup",
+        "automation",
+        "recommendations"
+      ]
     },
     {
       "id": "plugin-greptile",
@@ -695,9 +1211,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "greptile@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["search", "codebase", "understanding"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "greptile@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "search",
+        "codebase",
+        "understanding"
+      ]
     },
     {
       "id": "plugin-linear",
@@ -708,9 +1234,19 @@
       "access": "readwrite",
       "enabled": false,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "linear@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["linear", "project", "management"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "linear@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "linear",
+        "project",
+        "management"
+      ]
     },
     {
       "id": "plugin-sentry",
@@ -721,9 +1257,19 @@
       "access": "read",
       "enabled": false,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "sentry@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["sentry", "errors", "monitoring"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "sentry@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "sentry",
+        "errors",
+        "monitoring"
+      ]
     },
     {
       "id": "plugin-playground",
@@ -734,9 +1280,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "playground@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["playground", "interactive", "html"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "playground@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "playground",
+        "interactive",
+        "html"
+      ]
     },
     {
       "id": "plugin-jdtls-lsp",
@@ -747,22 +1303,43 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "jdtls-lsp@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["java", "lsp", "language-server"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "jdtls-lsp@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "java",
+        "lsp",
+        "language-server"
+      ]
     },
     {
       "id": "plugin-huggingface-skills",
       "name": "Hugging Face Skills",
-      "description": "Hugging Face Hub tools — models, datasets, papers, spaces",
+      "description": "Hugging Face Hub tools \u2014 models, datasets, papers, spaces",
       "type": "plugin",
       "category": "code",
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "huggingface-skills@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["huggingface", "ml", "models", "datasets"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "huggingface-skills@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "huggingface",
+        "ml",
+        "models",
+        "datasets"
+      ]
     },
     {
       "id": "plugin-coderabbit",
@@ -773,9 +1350,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "coderabbit@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["code", "review", "ai"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "coderabbit@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "code",
+        "review",
+        "ai"
+      ]
     },
     {
       "id": "plugin-circleback",
@@ -786,9 +1373,19 @@
       "access": "read",
       "enabled": false,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "circleback@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["meetings", "notes", "actions"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "circleback@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "meetings",
+        "notes",
+        "actions"
+      ]
     },
     {
       "id": "plugin-firecrawl",
@@ -799,9 +1396,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "firecrawl@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["scraping", "crawling", "web"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "firecrawl@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "scraping",
+        "crawling",
+        "web"
+      ]
     },
     {
       "id": "plugin-skill-creator",
@@ -812,9 +1419,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "skill-creator@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["skills", "creator", "optimization"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "skill-creator@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "skills",
+        "creator",
+        "optimization"
+      ]
     },
     {
       "id": "plugin-semgrep",
@@ -825,25 +1442,45 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "ref": "semgrep@claude-plugins-official" },
-      "ch1tty": { "available": false },
-      "tags": ["security", "static-analysis", "scanning"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "ref": "semgrep@claude-plugins-official"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "security",
+        "static-analysis",
+        "scanning"
+      ]
     },
-
-    {"_comment": "── Local Plugins ─────────────────────────────────────────────"},
-
+    {
+      "_comment": "\u2500\u2500 Local Plugins \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+    },
     {
       "id": "plugin-chittyhelper",
       "name": "ChittyHelper",
-      "description": "Architectural navigation — ask which service handles X?",
+      "description": "Architectural navigation \u2014 ask which service handles X?",
       "type": "plugin",
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "path": "~/.claude/plugins/chittyhelper" },
-      "ch1tty": { "available": false },
-      "tags": ["helper", "architecture", "navigation"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "path": "~/.claude/plugins/chittyhelper"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "helper",
+        "architecture",
+        "navigation"
+      ]
     },
     {
       "id": "plugin-chittyagent",
@@ -854,9 +1491,18 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "path": "~/.claude/plugins/chittyagent" },
-      "ch1tty": { "available": false },
-      "tags": ["agent", "framework"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "path": "~/.claude/plugins/chittyagent"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "agent",
+        "framework"
+      ]
     },
     {
       "id": "plugin-chittycommand",
@@ -867,9 +1513,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "path": "~/.claude/plugins/chittycommand" },
-      "ch1tty": { "available": false },
-      "tags": ["command", "wrapper", "cli"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "path": "~/.claude/plugins/chittycommand"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "command",
+        "wrapper",
+        "cli"
+      ]
     },
     {
       "id": "plugin-legal-arsenal",
@@ -880,9 +1536,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "path": "~/.claude/plugins/legal-arsenal" },
-      "ch1tty": { "available": false },
-      "tags": ["legal", "documents", "templates"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "path": "~/.claude/plugins/legal-arsenal"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "legal",
+        "documents",
+        "templates"
+      ]
     },
     {
       "id": "plugin-github-workflows",
@@ -893,13 +1559,24 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "plugin", "path": "~/.claude/plugins/github-workflows" },
-      "ch1tty": { "available": false },
-      "tags": ["github", "actions", "workflows", "ci"]
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "path": "~/.claude/plugins/github-workflows"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "github",
+        "actions",
+        "workflows",
+        "ci"
+      ]
     },
-
-    {"_comment": "── Agents ────────────────────────────────────────────────────"},
-
+    {
+      "_comment": "\u2500\u2500 Agents \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+    },
     {
       "id": "agent-chittyagent-schema",
       "name": "Schema Validator",
@@ -909,9 +1586,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "agent", "path": "~/.claude/agents/chittyagent-schema.md" },
-      "ch1tty": { "available": false },
-      "tags": ["schema", "database", "validation"]
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-schema.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "schema",
+        "database",
+        "validation"
+      ]
     },
     {
       "id": "agent-chittyagent-register",
@@ -922,9 +1609,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "agent", "path": "~/.claude/agents/chittyagent-register.md" },
-      "ch1tty": { "available": false },
-      "tags": ["register", "compliance", "services"]
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-register.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "register",
+        "compliance",
+        "services"
+      ]
     },
     {
       "id": "agent-chittyagent-connect",
@@ -935,9 +1632,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "agent", "path": "~/.claude/agents/chittyagent-connect.md" },
-      "ch1tty": { "available": false },
-      "tags": ["connect", "credentials", "integration"]
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-connect.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "connect",
+        "credentials",
+        "integration"
+      ]
     },
     {
       "id": "agent-chittyagent-claude",
@@ -948,9 +1655,20 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "agent", "path": "~/.claude/agents/chittyagent-claude.md" },
-      "ch1tty": { "available": false },
-      "tags": ["claude", "integration", "skills", "marketplace"]
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-claude.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "claude",
+        "integration",
+        "skills",
+        "marketplace"
+      ]
     },
     {
       "id": "agent-chittyagent-canon",
@@ -961,9 +1679,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "agent", "path": "~/.claude/agents/chittyagent-canon.md" },
-      "ch1tty": { "available": false },
-      "tags": ["canon", "patterns", "audit"]
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-canon.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "canon",
+        "patterns",
+        "audit"
+      ]
     },
     {
       "id": "agent-chittyagent-neon-schema",
@@ -974,9 +1702,20 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "agent", "path": "~/.claude/agents/chittyagent-neon-schema.md" },
-      "ch1tty": { "available": false },
-      "tags": ["neon", "schema", "drift", "database"]
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-neon-schema.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "neon",
+        "schema",
+        "drift",
+        "database"
+      ]
     },
     {
       "id": "agent-chittyagent-notion",
@@ -987,9 +1726,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "agent", "path": "~/.claude/agents/chittyagent-notion.md" },
-      "ch1tty": { "available": false },
-      "tags": ["notion", "proxy", "agent"]
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-notion.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "notion",
+        "proxy",
+        "agent"
+      ]
     },
     {
       "id": "agent-chittyagent-chatgpt",
@@ -1000,9 +1749,19 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "agent", "path": "~/.claude/agents/chittyagent-chatgpt.md" },
-      "ch1tty": { "available": false },
-      "tags": ["chatgpt", "proxy", "agent"]
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-chatgpt.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "chatgpt",
+        "proxy",
+        "agent"
+      ]
     },
     {
       "id": "agent-chittyagent-cloudflare",
@@ -1013,13 +1772,23 @@
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "agent", "path": "~/.claude/agents/chittyagent-cloudflare.md" },
-      "ch1tty": { "available": false },
-      "tags": ["cloudflare", "proxy", "agent"]
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-cloudflare.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "cloudflare",
+        "proxy",
+        "agent"
+      ]
     },
-
-    {"_comment": "── Hooks (Hookify Rules) ─────────────────────────────────────"},
-
+    {
+      "_comment": "\u2500\u2500 Hooks (Hookify Rules) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+    },
     {
       "id": "hook-validate-entity-types",
       "name": "Validate Entity Types",
@@ -1029,9 +1798,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "hook", "path": "~/.claude/hooks/hookify.validate-entity-types.local.md" },
-      "ch1tty": { "available": false },
-      "tags": ["entity", "validation", "canonical"]
+      "standalone": {
+        "available": true,
+        "type": "hook",
+        "path": "~/.claude/hooks/hookify.validate-entity-types.local.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "entity",
+        "validation",
+        "canonical"
+      ]
     },
     {
       "id": "hook-claude-person-not-thing",
@@ -1042,22 +1821,43 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "hook", "path": "~/.claude/hooks/hookify.claude-person-not-thing.local.md" },
-      "ch1tty": { "available": false },
-      "tags": ["entity", "claude", "person", "canonical"]
+      "standalone": {
+        "available": true,
+        "type": "hook",
+        "path": "~/.claude/hooks/hookify.claude-person-not-thing.local.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "entity",
+        "claude",
+        "person",
+        "canonical"
+      ]
     },
     {
       "id": "hook-block-chittyid-generation",
       "name": "Block ChittyID Generation",
-      "description": "Block local ChittyID generation — must use mint service",
+      "description": "Block local ChittyID generation \u2014 must use mint service",
       "type": "hook",
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "hook", "path": "~/.claude/hooks/hookify.block-chittyid-generation.local.md" },
-      "ch1tty": { "available": false },
-      "tags": ["chittyid", "security", "generation"]
+      "standalone": {
+        "available": true,
+        "type": "hook",
+        "path": "~/.claude/hooks/hookify.block-chittyid-generation.local.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "chittyid",
+        "security",
+        "generation"
+      ]
     },
     {
       "id": "hook-chittyid-accountability",
@@ -1068,9 +1868,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "hook", "path": "~/.claude/hooks/hookify.chittyid-accountability.local.md" },
-      "ch1tty": { "available": false },
-      "tags": ["chittyid", "accountability", "audit"]
+      "standalone": {
+        "available": true,
+        "type": "hook",
+        "path": "~/.claude/hooks/hookify.chittyid-accountability.local.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "chittyid",
+        "accountability",
+        "audit"
+      ]
     },
     {
       "id": "hook-session-identity-card",
@@ -1081,9 +1891,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "hook", "path": "~/.claude/hooks/hookify.session-identity-card.local.md" },
-      "ch1tty": { "available": false },
-      "tags": ["session", "identity", "validation"]
+      "standalone": {
+        "available": true,
+        "type": "hook",
+        "path": "~/.claude/hooks/hookify.session-identity-card.local.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "session",
+        "identity",
+        "validation"
+      ]
     },
     {
       "id": "hook-canon-certification-gate",
@@ -1094,22 +1914,42 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "hook", "path": "~/.claude/hooks/hookify.canon-certification-gate.local.md" },
-      "ch1tty": { "available": false },
-      "tags": ["canon", "certification", "deploy"]
+      "standalone": {
+        "available": true,
+        "type": "hook",
+        "path": "~/.claude/hooks/hookify.canon-certification-gate.local.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "canon",
+        "certification",
+        "deploy"
+      ]
     },
     {
       "id": "hook-block-direct-deploy",
       "name": "Block Direct Deploy",
-      "description": "Block direct deploys — must use /deploy skill",
+      "description": "Block direct deploys \u2014 must use /deploy skill",
       "type": "hook",
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "hook", "path": "~/.claude/hooks/hookify.block-direct-deploy.local.md" },
-      "ch1tty": { "available": false },
-      "tags": ["deploy", "workflow", "security"]
+      "standalone": {
+        "available": true,
+        "type": "hook",
+        "path": "~/.claude/hooks/hookify.block-direct-deploy.local.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "deploy",
+        "workflow",
+        "security"
+      ]
     },
     {
       "id": "hook-require-pr-workflow",
@@ -1120,9 +1960,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "hook", "path": "~/.claude/hooks/hookify.require-pr-workflow.local.md" },
-      "ch1tty": { "available": false },
-      "tags": ["pr", "workflow", "git"]
+      "standalone": {
+        "available": true,
+        "type": "hook",
+        "path": "~/.claude/hooks/hookify.require-pr-workflow.local.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "pr",
+        "workflow",
+        "git"
+      ]
     },
     {
       "id": "hook-block-governance-edits",
@@ -1133,9 +1983,19 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "hook", "path": "~/.claude/hooks/hookify.block-governance-edits.local.md" },
-      "ch1tty": { "available": false },
-      "tags": ["governance", "security", "protection"]
+      "standalone": {
+        "available": true,
+        "type": "hook",
+        "path": "~/.claude/hooks/hookify.block-governance-edits.local.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "governance",
+        "security",
+        "protection"
+      ]
     },
     {
       "id": "hook-suggest-chittyconnect",
@@ -1146,9 +2006,361 @@
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
-      "standalone": { "available": true, "type": "hook", "path": "~/.claude/hooks/hookify.suggest-chittyconnect.local.md" },
-      "ch1tty": { "available": false },
-      "tags": ["connect", "integration", "suggestion"]
+      "standalone": {
+        "available": true,
+        "type": "hook",
+        "path": "~/.claude/hooks/hookify.suggest-chittyconnect.local.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "connect",
+        "integration",
+        "suggestion"
+      ]
+    },
+    {
+      "_comment": "\u2500\u2500 Claude.ai MCP Servers (deferred) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+    },
+    {
+      "id": "claude-ai-notion",
+      "name": "Notion (Claude.ai)",
+      "description": "Notion workspace \u2014 search, pages, databases, comments via Claude.ai",
+      "type": "mcp-server",
+      "category": "communication",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Notion@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "notion",
+        "workspace",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-cloudflare",
+      "name": "Cloudflare Developer Platform (Claude.ai)",
+      "description": "Cloudflare Workers, KV, R2, D1, Hyperdrive via Claude.ai",
+      "type": "mcp-server",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Cloudflare_Developer_Platform@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "cloudflare",
+        "workers",
+        "kv",
+        "r2",
+        "d1",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-figma",
+      "name": "Figma (Claude.ai)",
+      "description": "Read Figma designs, create FigJam diagrams, Code Connect mappings",
+      "type": "mcp-server",
+      "category": "code",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Figma@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "figma",
+        "design",
+        "ui",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-mercury",
+      "name": "Mercury Banking (Claude.ai)",
+      "description": "Mercury bank accounts, transactions, recipients, treasury",
+      "type": "mcp-server",
+      "category": "ecosystem",
+      "access": "read",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Mercury@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "mercury",
+        "banking",
+        "finance",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-huggingface",
+      "name": "Hugging Face (Claude.ai)",
+      "description": "Hugging Face Hub \u2014 models, datasets, papers, spaces, doc search",
+      "type": "mcp-server",
+      "category": "code",
+      "access": "read",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Hugging_Face@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "huggingface",
+        "ml",
+        "models",
+        "datasets",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-context7",
+      "name": "Context7 (Claude.ai)",
+      "description": "Up-to-date library documentation and code examples via Claude.ai",
+      "type": "mcp-server",
+      "category": "code",
+      "access": "read",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Context7@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "docs",
+        "documentation",
+        "libraries",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-gmail",
+      "name": "Gmail (Claude.ai)",
+      "description": "Gmail \u2014 search, read messages/threads, drafts, labels",
+      "type": "mcp-server",
+      "category": "communication",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Gmail@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "gmail",
+        "email",
+        "communication",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-google-calendar",
+      "name": "Google Calendar (Claude.ai)",
+      "description": "Google Calendar \u2014 events, free time, scheduling, RSVP",
+      "type": "mcp-server",
+      "category": "communication",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Google_Calendar@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "calendar",
+        "google",
+        "scheduling",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-vercel",
+      "name": "Vercel (Claude.ai)",
+      "description": "Vercel deployments, projects, logs, documentation",
+      "type": "mcp-server",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Vercel@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "vercel",
+        "deploy",
+        "hosting",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-plaid",
+      "name": "Plaid Developer Tools (Claude.ai)",
+      "description": "Plaid debug items, link analytics, usage reporting",
+      "type": "mcp-server",
+      "category": "ecosystem",
+      "access": "read",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Plaid_Developer_Tools@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "plaid",
+        "finance",
+        "banking",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-chittymcp",
+      "name": "ChittyMCP (Claude.ai)",
+      "description": "ChittyOS MCP via Claude.ai \u2014 identity, cases, evidence, facts, ledger, finance, memory, credentials",
+      "type": "mcp-server",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "chittymcp@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "chittyos",
+        "mcp",
+        "identity",
+        "ledger",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-jam",
+      "name": "Jam Bug Reports (Claude.ai)",
+      "description": "Jam bug reports \u2014 details, network, console, screenshots, video",
+      "type": "mcp-server",
+      "category": "code",
+      "access": "read",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Jam@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "jam",
+        "bugs",
+        "debugging",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-trivago",
+      "name": "Trivago (Claude.ai)",
+      "description": "Trivago accommodation search and suggestions",
+      "type": "mcp-server",
+      "category": "search",
+      "access": "read",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Trivago@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "trivago",
+        "travel",
+        "accommodation",
+        "claude-ai"
+      ]
+    },
+    {
+      "id": "claude-ai-play-sheet-music",
+      "name": "Play Sheet Music (Claude.ai)",
+      "description": "Play sheet music notation",
+      "type": "mcp-server",
+      "category": "documents",
+      "access": "read",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "ref": "Play_Sheet_Music@claude-ai"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "music",
+        "sheet-music",
+        "audio",
+        "claude-ai"
+      ]
     }
   ]
 }
