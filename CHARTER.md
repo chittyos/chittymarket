@@ -1,51 +1,92 @@
-# CHARTER.md — ChittyMarket
+---
+uri: chittycanon://docs/ops/policy/chittymarket-charter
+namespace: chittycanon://docs/ops
+type: policy
+version: 1.0.0
+status: DRAFT
+registered_with: chittycanon://core/services/canon
+title: "ChittyMarket Charter"
+certifier: chittycanon://core/services/chittycertify
+visibility: PUBLIC
+---
 
-## Service Identity
+# ChittyMarket Charter
 
-- **Name**: ChittyMarket
-- **ID**: chittymarket
+## Classification
+- **Canonical URI**: `chittycanon://core/services/chittymarket`
 - **Tier**: 3 (Operational)
-- **Domain**: Artifact management, marketplace
-- **Status**: Active
+- **Organization**: CHITTYOS
+- **Domain**: Local-only (no HTTP deployment)
+- **ChittyID**: `03-1-USA-5222-T-2603-1-36`
+
+## Mission
+
+Provide a unified marketplace manifest and management interface for all Claude Code artifacts (MCP servers, skills, plugins, agents, hooks) in the ChittyOS ecosystem, enabling enable/disable toggling and install mode switching through a single `/market` skill.
 
 ## Scope
 
-ChittyMarket manages the lifecycle of all Claude Code artifacts in the ChittyOS ecosystem. It provides:
+### IS Responsible For
+- Maintaining the central artifact manifest (`marketplace.json`)
+- Toggling artifacts enabled/disabled via type-specific actuators
+- Switching artifact install mode between Ch1tty (orchestrated) and standalone
+- Reconciling manifest state with filesystem state via `/market sync`
+- Providing CLI-style management through the `/market` skill
 
-1. A central manifest (`marketplace.json`) cataloging all artifacts
-2. A `/market` skill for listing, enabling, disabling, and switching modes
-3. Toggle actuators for each artifact type (MCP servers, skills, plugins, agents, hooks)
-4. Filesystem reconciliation via `/market sync`
-
-## API Contract
-
-ChittyMarket is a local-only service — no HTTP endpoints. It operates through:
-
-- **Manifest**: `marketplace.json` — JSON file read/written by the `/market` skill
-- **Skill**: `/market` — Claude Code skill for artifact management
-
-### Manifest Schema
-
-Each artifact entry:
-```
-id: string           — unique identifier
-name: string         — display name
-description: string  — one-liner
-type: enum           — mcp-server | skill | plugin | agent | hook
-category: enum       — ecosystem | code | search | reasoning | desktop | documents | communication | legal | automation
-access: enum         — read | write | readwrite
-enabled: boolean     — current state
-installMode: enum    — ch1tty | standalone | both
-standalone: object   — { available, type, ref|path }
-ch1tty: object       — { available, serverId? }
-tags: string[]       — searchable tags
-```
+### IS NOT Responsible For
+- Installing new artifacts or downloading packages
+- Modifying artifact source code or configuration beyond toggle state
+- Exposing a network API or HTTP endpoints
+- Identity generation (ChittyID)
+- Token provisioning (ChittyAuth)
+- Service registration (ChittyRegister)
 
 ## Dependencies
 
-- **Ch1tty** (upstream) — MCP server management, `enabled` field in servers.json
-- **Claude Code settings.json** — Official plugin toggles
-- **Hookify** — Hook rule frontmatter for enable/disable
+| Type | Service | Purpose |
+|------|---------|---------|
+| Upstream | Ch1tty | MCP server management — `enabled` field in servers.json |
+| Upstream | Claude Code | Plugin toggles via settings.json `enabledPlugins` |
+| Upstream | Hookify | Hook rule frontmatter for enable/disable |
+| Storage | Local filesystem | marketplace.json, skill dirs, agent .md files |
+
+## API Contract
+
+**Interface**: Local `/market` skill (no HTTP endpoints)
+
+### Commands
+| Command | Purpose |
+|---------|---------|
+| `/market list` | List all artifacts grouped by type |
+| `/market list --type=X` | Filter by artifact type |
+| `/market list --category=X` | Filter by category |
+| `/market enable <id>` | Enable an artifact |
+| `/market disable <id>` | Disable an artifact |
+| `/market info <id>` | Show artifact details |
+| `/market mode <id> ch1tty\|standalone` | Switch install mode |
+| `/market sync` | Reconcile manifest with filesystem |
+
+### Manifest Schema
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string | Unique identifier |
+| `name` | string | Display name |
+| `description` | string | One-liner |
+| `type` | enum | mcp-server, skill, plugin, agent, hook |
+| `category` | enum | ecosystem, code, search, reasoning, desktop, documents, communication, legal, automation |
+| `access` | enum | read, write, readwrite |
+| `enabled` | boolean | Current state |
+| `installMode` | enum | ch1tty, standalone, both |
+| `standalone` | object | Standalone install metadata |
+| `ch1tty` | object | Ch1tty-managed install metadata |
+| `tags` | string[] | Searchable tags |
+
+## Ownership
+
+| Role | Owner |
+|------|-------|
+| Service Owner | ChittyOS |
+| Technical Lead | @chittyos-infrastructure |
+| Contact | chittymarket@chitty.cc |
 
 ## Consumers
 
@@ -53,8 +94,13 @@ tags: string[]       — searchable tags
 - Future: ChittyConnect for remote artifact management
 - Future: ChittyDashboard for visual marketplace UI
 
-## Boundaries
+## Compliance
 
-- ChittyMarket does NOT install new artifacts — it manages existing ones
-- ChittyMarket does NOT modify artifact code — it only toggles enabled state
-- ChittyMarket does NOT expose a network API — it is local-only
+- [x] Service registered in ChittyRegister
+- [ ] CLAUDE.md development guide present
+- [x] CHARTER.md present
+- [x] CHITTY.md present
+- [x] marketplace.json manifest validated (86 artifacts)
+
+---
+*Charter Version: 1.0.0 | Last Updated: 2026-03-08*

@@ -1,13 +1,39 @@
-# CHITTY.md — ChittyMarket
+---
+uri: chittycanon://docs/ops/architecture/chittymarket
+namespace: chittycanon://docs/ops
+type: architecture
+version: 1.0.0
+status: DRAFT
+registered_with: chittycanon://core/services/canon
+title: "ChittyMarket"
+certifier: chittycanon://core/services/chittycertify
+visibility: PUBLIC
+---
+
+# ChittyMarket
+
+> `chittycanon://core/services/chittymarket` | Tier 3 (Operational) | Local-only
+
+## What It Does
+
+Local artifact marketplace and manager for the ChittyOS Claude Code environment. Catalogs 86+ artifacts (MCP servers, skills, plugins, agents, hooks) with enable/disable toggle support and install mode switching (Ch1tty vs standalone).
 
 ## Architecture
 
-ChittyMarket is a local artifact marketplace for the ChittyOS Claude Code environment. It consists of:
+Claude Code skill + JSON manifest — no standalone process or HTTP deployment.
 
-1. **marketplace.json** — Central manifest listing all 86+ artifacts with metadata and state
-2. **/market skill** — Claude Code skill providing CLI-style management commands
-3. **Toggle actuators** — Type-specific mechanisms for enabling/disabling artifacts
+### Stack
+- **Runtime**: Claude Code session
+- **Storage**: JSON file on local filesystem (`marketplace.json`)
+- **Interface**: `/market` slash command skill
+- **Actuator**: `market.sh` shell script for instant toggles
 
+### Key Components
+- `marketplace.json` — Central manifest (single source of truth)
+- `~/.claude/skills/market/SKILL.md` — Skill definition
+- `~/.claude/skills/market/market.sh` — Shell actuator for toggles
+
+### Toggle Flow
 ```
 /market list                          <-- Skill interface
     |
@@ -22,43 +48,39 @@ marketplace.json                      <-- Single source of truth
     +-> ~/.claude/hooks/*.md          <-- Hookify rules (YAML enabled field)
 ```
 
-## Stack
+## ChittyOS Ecosystem
 
-- **Runtime**: Claude Code session (no standalone process)
-- **Storage**: JSON file on local filesystem
-- **Interface**: `/market` slash command skill
+### Certification
+- **Badge**: ChittyOS Compatible
+- **Certifier**: ChittyCertify (`chittycanon://core/services/chittycertify`)
+- **Last Certified**: Pending
 
-## Ecosystem Position
+### ChittyDNA
+- **ChittyID**: `03-1-USA-5222-T-2603-1-36`
+- **DNA Hash**: Pending
+- **Lineage**: root (new service)
 
-ChittyMarket sits at Tier 3 (Operational), providing management capabilities over:
+### Dependencies
+| Service | Purpose |
+|---------|---------|
+| Ch1tty | MCP server enabled/disabled field |
+| Claude Code | Plugin toggles (settings.json) |
+| Hookify | Hook rule frontmatter toggles |
 
-- **Tier 0-2 services** accessed via MCP servers through Ch1tty
-- **Skills** that provide slash commands and auto-active behaviors
-- **Plugins** (official + local) that extend Claude Code capabilities
-- **Agents** that provide specialized subagent workflows
-- **Hooks** that enforce behavioral rules
-
-## Install Modes
-
-Each artifact supports one or more install modes:
-
-- **ch1tty**: Managed by Ch1tty MCP gateway — tools namespaced as `serverId/toolName`
-- **standalone**: Installed directly in Claude Code (skill dir, plugin, agent .md)
-- **both**: Available in either mode, user chooses via `/market mode`
-
-## Artifact Counts (as of 2026-03-08)
-
+### Artifact Counts (2026-03-08)
 | Type | Count |
 |------|-------|
 | MCP Servers | 14 |
 | Skills | 14 |
-| Official Plugins | 30 |
-| Local Plugins | 5 |
+| Plugins (official) | 30 |
+| Plugins (local) | 5 |
 | Agents | 9 |
 | Hooks | 10 |
-| **Total** | **86** (with 4 disabled) |
+| **Total** | **86** (81 enabled, 5 disabled) |
 
-## Certification
-
-- **Level**: Bronze (local tooling, no network exposure)
-- **Compliance**: CHARTER.md + CHITTY.md + CLAUDE.md present
+### Install Modes
+| Mode | Description |
+|------|-------------|
+| `ch1tty` | Managed by Ch1tty MCP gateway |
+| `standalone` | Direct Claude Code (skill/plugin/agent) |
+| `both` | Available in either mode |
