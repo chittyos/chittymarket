@@ -1,0 +1,36 @@
+{
+  "_comment": "Plugin profiles — preset configurations for different work contexts",
+  "version": "1.0.0",
+  "profiles": {
+    "minimal": {
+      "description": "Bare essentials — session persistence and context only",
+      "plugins": ["chittyos-core"],
+      "mcp": []
+    },
+    "devops": {
+      "description": "Infrastructure and deployment — Cloudflare Workers, health checks, compliance",
+      "plugins": ["chittyos-core", "chittyos-devops", "chittyos-governance"],
+      "mcp": ["chittyos-mcp", "neon-mcp"]
+    },
+    "legal": {
+      "description": "Legal case management — evidence, disputes, docket, chain of custody",
+      "plugins": ["chittyos-core", "chittyos-legal", "chittyos-governance"],
+      "mcp": ["chittyos-mcp", "neon-mcp"]
+    },
+    "full": {
+      "description": "Everything enabled — all plugins, all MCP servers",
+      "plugins": ["chittyos-core", "chittyos-devops", "chittyos-legal", "chittyos-governance", "chittyos-proxy-agents", "chittymarket-manager"],
+      "mcp": ["chittyos-mcp", "neon-mcp"]
+    },
+    "coding": {
+      "description": "Pure development — core ecosystem plus devops tools",
+      "plugins": ["chittyos-core", "chittyos-devops"],
+      "mcp": ["neon-mcp"]
+    },
+    "integrations": {
+      "description": "External service integrations — Notion, ChatGPT, Cloudflare proxies",
+      "plugins": ["chittyos-core", "chittyos-proxy-agents"],
+      "mcp": ["chittyos-mcp"]
+    }
+  }
+}
