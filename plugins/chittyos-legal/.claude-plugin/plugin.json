@@ -1,0 +1,9 @@
+{
+  "name": "chittyos-legal",
+  "version": "1.0.0",
+  "description": "Legal case management — evidence fact governance, dispute tracking, court docket monitoring, and evidence collection pipeline",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/CHITTYOS"
+  }
+}

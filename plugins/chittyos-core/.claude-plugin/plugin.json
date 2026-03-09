@@ -1,0 +1,9 @@
+{
+  "name": "chittyos-core",
+  "version": "1.0.0",
+  "description": "Core ChittyOS ecosystem — session persistence, context checkpoints, cleanup, and ecosystem agents for schema, registration, connection, integration, and canonical governance",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/CHITTYOS"
+  }
+}

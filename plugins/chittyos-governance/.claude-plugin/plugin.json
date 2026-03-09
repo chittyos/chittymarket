@@ -1,0 +1,9 @@
+{
+  "name": "chittyos-governance",
+  "version": "1.0.0",
+  "description": "Canonical governance hooks — entity type validation, ChittyID accountability, deploy gates, PR workflow enforcement, and Neon schema drift detection",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/CHITTYOS"
+  }
+}

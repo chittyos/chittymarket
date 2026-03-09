@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "neon": {
+      "command": "/bin/sh",
+      "args": ["-lc", "exec npx -y @neondatabase/mcp-server-neon start \"$NEON_API_KEY\""],
+      "env": {
+        "NEON_API_KEY": "op://ChittyOS-Integrations/neon/api_key"
+      }
+    }
+  }
+}

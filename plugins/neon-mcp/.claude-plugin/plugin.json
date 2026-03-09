@@ -1,0 +1,9 @@
+{
+  "name": "neon-mcp",
+  "version": "1.0.0",
+  "description": "Neon PostgreSQL MCP server (standalone mode) — branches, migrations, SQL queries, schema management",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/CHITTYOS"
+  }
+}

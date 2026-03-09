@@ -1,0 +1,133 @@
+{
+  "name": "chittymarket",
+  "owner": {
+    "name": "ChittyOS",
+    "email": "dev@chitty.cc"
+  },
+  "metadata": {
+    "description": "The ChittyOS ecosystem marketplace — skills, agents, hooks, and MCP servers for Claude Code. Install standalone or use with Ch1tty for orchestrated MCP management.",
+    "version": "2.0.0"
+  },
+  "plugins": [
+    {
+      "name": "chittyos-core",
+      "description": "Core ChittyOS ecosystem — session persistence (ChittyXL), context checkpoints, cleanup, and ecosystem agents for schema, registration, connection, integration, and canonical governance",
+      "version": "1.0.0",
+      "source": "./plugins/chittyos-core",
+      "strict": false,
+      "category": "ecosystem",
+      "keywords": ["chittyos", "session", "context", "agents", "schema", "canon"]
+    },
+    {
+      "name": "chittyos-devops",
+      "description": "ChittyOS deployment and infrastructure — deploy to Cloudflare Workers, health checks, registry queries, pipelines, wrangler audits, and full compliance auditing",
+      "version": "1.0.0",
+      "source": "./plugins/chittyos-devops",
+      "strict": false,
+      "category": "operations",
+      "keywords": ["deploy", "health", "registry", "pipelines", "wrangler", "compliance"]
+    },
+    {
+      "name": "chittyos-legal",
+      "description": "Legal case management — evidence fact governance, multi-domain dispute tracking, Cook County docket monitoring, and canonical evidence collection pipeline",
+      "version": "1.0.0",
+      "source": "./plugins/chittyos-legal",
+      "strict": false,
+      "category": "legal",
+      "keywords": ["legal", "evidence", "disputes", "docket", "cases", "custody"]
+    },
+    {
+      "name": "chittyos-governance",
+      "description": "Canonical governance hooks — entity type validation (P/L/T/E/A), ChittyID accountability, deploy gates, PR workflow enforcement, and Neon schema drift detection",
+      "version": "1.0.0",
+      "source": "./plugins/chittyos-governance",
+      "strict": false,
+      "category": "security",
+      "keywords": ["governance", "hooks", "entity-types", "chittyid", "deploy-gate", "schema"]
+    },
+    {
+      "name": "chittyos-proxy-agents",
+      "description": "Remote proxy agents for Notion database operations, ChatGPT integrations, and Cloudflare infrastructure management via agent.chitty.cc",
+      "version": "1.0.0",
+      "source": "./plugins/chittyos-proxy-agents",
+      "strict": false,
+      "category": "integrations",
+      "keywords": ["notion", "chatgpt", "cloudflare", "proxy", "agent"]
+    },
+    {
+      "name": "chittymarket-manager",
+      "description": "Artifact marketplace manager — list, enable, disable, sync, and toggle install modes for all ChittyOS Claude Code artifacts via /market",
+      "version": "1.0.0",
+      "source": "./plugins/chittymarket-manager",
+      "strict": false,
+      "category": "ecosystem",
+      "keywords": ["marketplace", "market", "artifacts", "toggle", "manage"]
+    },
+    {
+      "name": "chittyhelper",
+      "description": "Architectural navigation — ask 'which service handles X?' queries against the ChittyOS ecosystem",
+      "version": "1.0.0",
+      "source": {
+        "source": "github",
+        "repo": "CHITTYOS/chittyhelper"
+      },
+      "strict": false,
+      "category": "ecosystem",
+      "keywords": ["chittyos", "architecture", "navigation", "services"]
+    },
+    {
+      "name": "chittyagent",
+      "description": "ChittyOS session lifecycle — authenticated bootstrap, ecosystem routing, session identity, and Mercury finance",
+      "version": "0.1.0",
+      "source": {
+        "source": "github",
+        "repo": "CHITTYOS/chittyagent"
+      },
+      "strict": false,
+      "category": "ecosystem",
+      "keywords": ["chittyos", "session", "bootstrap", "identity"]
+    },
+    {
+      "name": "chittycommand",
+      "description": "Life management dashboard — query finances, manage disputes, monitor syncs, get AI-powered recommendations",
+      "version": "0.1.0",
+      "source": {
+        "source": "github",
+        "repo": "CHITTYOS/chittycommand"
+      },
+      "strict": false,
+      "category": "productivity",
+      "keywords": ["dashboard", "finance", "disputes", "obligations", "cashflow"]
+    },
+    {
+      "name": "legal-arsenal",
+      "description": "Legal case management — evidence standards, chain of custody, adversarial analysis with ChittyStorage integration",
+      "version": "1.0.0",
+      "source": {
+        "source": "github",
+        "repo": "CHITTYOS/legal-cases"
+      },
+      "strict": false,
+      "category": "legal",
+      "keywords": ["legal", "evidence", "cases", "disputes", "custody"]
+    },
+    {
+      "name": "chittyos-mcp",
+      "description": "ChittyOS MCP gateway (standalone mode) — MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness. Use this if you don't have Ch1tty.",
+      "version": "1.0.0",
+      "source": "./plugins/chittyos-mcp",
+      "strict": false,
+      "category": "ecosystem",
+      "keywords": ["mcp", "chittyos", "gateway", "standalone"]
+    },
+    {
+      "name": "neon-mcp",
+      "description": "Neon PostgreSQL MCP server (standalone mode) — branches, migrations, SQL queries, schema management. Use this if you don't have Ch1tty.",
+      "version": "1.0.0",
+      "source": "./plugins/neon-mcp",
+      "strict": false,
+      "category": "database",
+      "keywords": ["neon", "postgres", "database", "sql", "standalone"]
+    }
+  ]
+}
