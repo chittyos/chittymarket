@@ -2,15 +2,22 @@
 
 The ChittyOS ecosystem marketplace for Claude Code — skills, agents, hooks, and MCP servers.
 
-## Install
+## Quick Start
 
 ```bash
-# Via Claude Code /plugin command
-/plugin add /path/to/chittymarket
+# Clone and bootstrap (new machine)
+gh repo clone CHITTYOS/chittymarket
+cd chittymarket
+./scripts/bootstrap.sh
 
-# Or from GitHub
+# Or with a specific profile
+./scripts/bootstrap.sh --profile=devops
+
+# Or install as a Claude Code plugin
 /plugin add CHITTYOS/chittymarket
 ```
+
+The `chittymarket-manager` plugin is the entry point — install it first, then use `/market` to manage everything else. This is the self-bootstrapping pattern: the marketplace installs itself, then installs the rest.
 
 ## What's Included
 
@@ -29,6 +36,55 @@ The ChittyOS ecosystem marketplace for Claude Code — skills, agents, hooks, an
 | **chittyos-mcp** | Standalone ChittyOS MCP gateway |
 | **neon-mcp** | Standalone Neon PostgreSQL MCP server |
 
+## Profiles
+
+Preset plugin configurations for different work contexts:
+
+| Profile | Plugins | Use Case |
+|---------|---------|----------|
+| `minimal` | core | Bare essentials — session and context only |
+| `coding` | core, devops | Pure development work |
+| `devops` | core, devops, governance + MCP | Infrastructure and deployment |
+| `legal` | core, legal, governance + MCP | Legal case management |
+| `integrations` | core, proxy-agents + MCP | External service work |
+| `full` | everything | All plugins enabled |
+
+```bash
+./scripts/bootstrap.sh --profile=legal
+# or
+/market profile legal
+```
+
+## Dependencies
+
+Plugins declare dependencies via `requires` in their `plugin.json`:
+
+```
+chittyos-core (no deps)
+├── chittyos-devops
+├── chittyos-legal
+├── chittyos-governance
+└── chittyos-proxy-agents
+```
+
+Enabling a plugin auto-checks that its dependencies are available.
+
+## Per-Project Overrides
+
+Place `.claude/marketplace.project.json` in any project root:
+
+```json
+{
+  "profile": "devops",
+  "plugins": {
+    "enable": ["chittyos-proxy-agents"],
+    "disable": ["chittyos-legal"]
+  }
+}
+```
+
+See [docs/per-project-overrides.md](docs/per-project-overrides.md) for full schema.
+
 ## Ch1tty (Optional)
 
 Ch1tty is an MCP server orchestrator that aggregates 14 MCP servers through a single stdio connection with lazy loading. If you use Ch1tty, MCP servers are managed through its `servers.json` instead of standalone `.mcp.json` configs.
@@ -43,5 +99,30 @@ Ch1tty is an MCP server orchestrator that aggregates 14 MCP servers through a si
 /market              # List all artifacts
 /market enable <id>  # Enable an artifact
 /market disable <id> # Disable an artifact
+/market info <id>    # Show artifact details
+/market profile <p>  # Switch to a profile
 /market sync         # Reconcile manifest with filesystem
+/market lint         # Check for conflicts
 ```
+
+## Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `scripts/bootstrap.sh` | One-command setup (symlinks, profiles) |
+| `scripts/generate-marketplace.sh` | Regenerate native manifest from plugins/ |
+| `scripts/lint-plugins.sh` | Detect conflicts across plugins |
+| `scripts/test-plugins.sh` | Validate plugin structure and files |
+| `scripts/record-telemetry.sh` | Record and view plugin usage stats |
+
+## Self-Bootstrapping
+
+The marketplace is itself a marketplace item. The installation flow:
+
+1. Clone `CHITTYOS/chittymarket`
+2. Run `bootstrap.sh` — installs `chittymarket-manager` plugin (the `/market` skill)
+3. `/market list` shows all available artifacts
+4. `/market profile full` enables everything
+5. The marketplace manages itself from then on
+
+This means a fresh machine goes from zero to fully operational with one clone + one script.
