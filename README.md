@@ -1,3 +1,6 @@
+![ChittyOS](https://img.shields.io/badge/ChittyOS-service-6366F1?style=flat-square)
+![Tier](https://img.shields.io/badge/tier-3%20operational-3730A3?style=flat-square)
+
 # ChittyMarket
 
 The ChittyOS ecosystem marketplace for Claude Code — skills, agents, hooks, and MCP servers.
