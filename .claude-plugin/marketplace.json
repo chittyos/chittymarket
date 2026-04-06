@@ -80,6 +80,16 @@
     }
 ,
     {
+      "name": "furnished-condos",
+      "description": "Property management — TurboTenant lease templating pipeline, rental document processing, e-signature integration, and RLTO compliance",
+      "version": "1.0.0",
+      "source": "./plugins/furnished-condos",
+      "strict": false,
+      "category": "property",
+      "keywords": ["property", "rental", "turbotenant", "lease", "template", "esignature", "proptech", "rlto"]
+    }
+,
+    {
       "name": "neon-mcp",
       "description": "Neon PostgreSQL MCP server (standalone mode) — branches, migrations, SQL queries, schema management",
       "version": "1.0.0",

@@ -1,0 +1,10 @@
+{
+  "name": "furnished-condos",
+  "version": "1.0.0",
+  "description": "Property management — TurboTenant lease templating pipeline, rental document processing, e-signature integration, and RLTO compliance",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/FURNISHED-CONDOS"
+  },
+  "requires": ["chittyos-core"]
+}
