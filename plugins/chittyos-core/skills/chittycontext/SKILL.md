@@ -1,10 +1,10 @@
-# ChittyContext Skill - Persistent State Management v2.0
+# ChittyContext Skill - Persistent State Management v2.1
 
 ## Overview
 ChittyContext enables Claude to maintain persistent state across conversations. It is a **capability of ChittyConnect** — the local component (`~/.claude/chittycontext/`) serves as an edge cache, while ChittyConnect's ContextConsciousness™ and MemoryCloude™ are the source of truth.
 
 ## State Location
-`/Users/nb/.claude/chittycontext/`
+`~/.claude/chittycontext/`
 
 ## Automatic Behaviors (Hook-Driven)
 
@@ -55,10 +55,11 @@ Update state after:
 ├── canon/
 │   └── ontology.json           # P/L/T/E/A canonical definitions
 └── entities/{chittyId}/
-    ├── identity.json            # Entity metadata + canonical type
-    ├── experience_accumulator.json  # Rolling experience metrics
+    ├── identity.json                # Entity metadata + canonical type
+    ├── experience_accumulator.json  # Per-entity rolling totals (sessions, interactions, decisions, toolCalls, expertiseDomains)
+    ├── context_ledger.jsonl         # Hash-chained, tamper-evident session_complete log (one JSON line per session)
     └── {project-slug}/
-        ├── current_state.json   # Active working state
+        ├── current_state.json   # Active working state (v2.1 schema)
         └── checkpoints/         # Named restore points
 ```
 
@@ -104,24 +105,64 @@ When MCP is unavailable:
 }
 ```
 
-### current_state.json (v2.0)
+### current_state.json (v2.1)
 ```json
 {
-  "version": "2.0",
+  "version": "2.1",
   "chittyId": "VV-G-LLL-SSSS-P-YYMM-C-X",
   "project": { "slug": "", "name": "", "path": "" },
   "session": {
     "id": "", "startedAt": "ISO8601", "lastActivity": "ISO8601",
-    "metrics": { "interactions": 0, "decisions": 0, "toolCalls": 0, "filesModified": [] }
+    "metrics": {
+      "interactions": 0, "decisions": 0, "toolCalls": 0, "filesModified": [],
+      "openTasks": 0, "completedTasks": 0, "taskFiles": 0,
+      "livePending": 0, "liveInProgress": 0, "liveCompleted": 0, "liveSessionUuid": "",
+      "stagedFiles": 0, "modifiedFiles": 0, "untrackedFiles": 0
+    }
   },
+  "coordinates": {
+    "ty": { "type": "P", "characterization": "Synthetic" },
+    "vy": { "posture": "active|drained|...", "trustScore": 0, "trustLevel": 0 },
+    "ry": { "freshness": "fresh|stale", "causalParent": "prior session id" },
+    "tau": "ISO8601 — session anchor timestamp"
+  },
+  "lane": "operational lane resolved from ~/.ops/operator-manifest.json (e.g. implementation, dev, stage, prod)",
   "context": { "summary": "", "activeGoals": [], "completedGoals": [], "blockers": [] },
-  "git": { "branch": "", "lastCommit": "", "uncommittedFiles": [] },
-  "decisions": [],
+  "git": {
+    "branch": "", "lastCommit": "", "uncommittedFiles": [],
+    "inRepo": false, "recentCommits": [], "activePRs": []
+  },
+  "activeRepos": [],
+  "decisions": [
+    { "timestamp": "ISO8601", "description": "", "reasoning": "", "alternatives": [] }
+  ],
   "nextActions": [],
+  "derived": {
+    "metrics": {},
+    "keyFacts": [],
+    "pendingTasks": [],
+    "completedTasks": [],
+    "taskHighlights": [],
+    "nextRecommendedAction": ""
+  },
+  "memoryHash": "sha256 of canonical signal block — drives no-op skip + ledger chain",
+  "lastSessionEndedAt": "ISO8601",
   "syncedToBackend": false,
-  "lastSyncAt": "ISO8601"
+  "lastSyncAt": null
 }
 ```
+
+### What's new in v2.1 (vs. v2.0)
+- **`coordinates`** — operator ontology coordinates (ty/vy/ry/tau) sourced from `~/.ops/operator-manifest.json` and binding state. `ry.causalParent` links to the previous session for lineage.
+- **`lane`** — resolved dev/stage/prod from operator manifest.
+- **`activeRepos`**, **`git.inRepo`**, **`git.recentCommits`**, **`git.activePRs`** — workspace repo + PR signals collected from the project root.
+- **`decisions[]`** — now structured objects (`{timestamp, description, reasoning, alternatives}`) instead of bare strings.
+- **`derived{}`** — read-only aggregations the SessionStart reader can render directly without re-deriving (`keyFacts`, `pendingTasks`, `completedTasks`, `taskHighlights`, `nextRecommendedAction`).
+- **`memoryHash`** + **`lastSessionEndedAt`** — feed the `entities/{chittyId}/context_ledger.jsonl` hash chain.
+- **`session.metrics.live*`** — live TodoWrite/TaskList capture from the active Claude Code session (`~/.claude/todos/{uuid}-agent-{uuid}.json`). When present, overrides stale prior pendingTasks/completedTasks.
+
+### Concurrency contract
+The writer skips on no-op (same `memoryHash` + same git/canonical metrics + same trust posture) and skips on **race** (on-disk file written by a different `session.id` whose `lastActivity` is newer than the current write's `timestamp`). Atomic `os.replace` guarantees per-file integrity; the race guard prevents an older session ending late from clobbering a newer one's state.
 
 ## Cross-Instance Continuity
 Any Claude instance can:
