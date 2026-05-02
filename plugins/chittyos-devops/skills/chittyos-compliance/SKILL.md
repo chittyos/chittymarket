@@ -91,7 +91,13 @@ All 5 types MUST be included in any entity type validation. Claude contexts are 
 
 ### Auth & Security
 
-- Standardize on `CHITTY_AUTH_SERVICE_TOKEN` (not `CHITTYCONNECT_API_TOKEN` or variants)
+- Standardize on `CHITTYAUTH_ISSUED_<SERVICE>_TOKEN` as primary naming
+- Legacy fallback allowed: `CHITTY_<SERVICE>_TOKEN`
+- Generic fallback only for compatibility: `CHITTY_SERVICE_TOKEN`
+- Explicit service examples:
+  - `CHITTYAUTH_ISSUED_SCHEMA_TOKEN` (for chittyschema)
+  - `CHITTYAUTH_ISSUED_CANON_TOKEN` (for chittycanon)
+  - `CHITTYAUTH_ISSUED_ONTOLOGY_TOKEN` (for chittyontology, if deployed)
 - Use `jose` library for JWT/JWKS on edge (not `jsonwebtoken`)
 - CORS restricted to `*.chitty.cc` + localhost
 - No hardcoded secrets in `[vars]`

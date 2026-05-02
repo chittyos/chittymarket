@@ -20,7 +20,7 @@ All Notion database operations should be forwarded to the remote ChittyAgent:
 ```bash
 curl -X POST https://agent.chitty.cc/api/notion \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $CHITTY_SERVICE_TOKEN" \
+  -H "Authorization: Bearer ${CHITTYAUTH_ISSUED_NOTION_TOKEN:-${CHITTY_NOTION_TOKEN:-$CHITTY_SERVICE_TOKEN}}" \
   -d '{
     "operation": "query|create|update|archive",
     "registry": "service|domain|systems|...",
@@ -54,7 +54,12 @@ The remote agent has access to all canonical registries:
 
 ## Authentication
 
-Authenticate via ChittyAuth service token. The remote agent handles Notion API authentication internally.
+Authenticate via ChittyAuth-issued service token. The remote agent handles Notion API authentication internally.
+
+Token precedence:
+1. `CHITTYAUTH_ISSUED_NOTION_TOKEN` (preferred)
+2. `CHITTY_NOTION_TOKEN` (legacy fallback)
+3. `CHITTY_SERVICE_TOKEN` (generic fallback)
 
 ## Example
 
@@ -62,7 +67,7 @@ Authenticate via ChittyAuth service token. The remote agent handles Notion API a
 # Query all active services
 curl -X POST https://agent.chitty.cc/api/notion \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $CHITTY_SERVICE_TOKEN" \
+  -H "Authorization: Bearer ${CHITTYAUTH_ISSUED_NOTION_TOKEN:-${CHITTY_NOTION_TOKEN:-$CHITTY_SERVICE_TOKEN}}" \
   -d '{
     "operation": "query",
     "registry": "service",

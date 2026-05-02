@@ -83,7 +83,7 @@ When handling credentials:
 - **Never expose secrets in code or logs** - always reference through environment variables or 1Password vault references
 - **Use ChittyConnect × 1Password integration** for centralized secret management
 - **Implement secret rotation schedules** for long-lived credentials
-- **Verify CHITTY_*_TOKEN naming conventions** for service-to-service authentication
+- **Enforce auth-issued token naming convention**: prefer `CHITTYAUTH_ISSUED_<SERVICE>_TOKEN`, fallback `CHITTY_<SERVICE>_TOKEN`
 - **Check Wrangler secret configuration** with `wrangler secret list` before deployment
 - **Validate secret accessibility** in target environment (staging vs production)
 
@@ -134,7 +134,7 @@ When integrating a service:
 const response = await fetch('https://{service}.chitty.cc/api/v2/{endpoint}', {
   method: 'POST',
   headers: {
-    'Authorization': `Bearer ${env.CHITTY_{SERVICE}_TOKEN}`,
+    'Authorization': `Bearer ${env.CHITTYAUTH_ISSUED_{SERVICE}_TOKEN || env.CHITTY_{SERVICE}_TOKEN}`,
     'Content-Type': 'application/json',
     'X-Request-ID': crypto.randomUUID(),
     'X-Source-Service': 'calling-service-name',
@@ -155,7 +155,7 @@ op item create --category=password --title="CHITTY_{SERVICE}_TOKEN" \
 
 # Reference in wrangler.toml
 [vars]
-SERVICE_TOKEN = "op://ChittyOS-Secrets/CHITTY_{SERVICE}_TOKEN/password"
+CHITTYAUTH_ISSUED_SERVICE_TOKEN = "op://ChittyOS-Secrets/CHITTYAUTH_ISSUED_{SERVICE}_TOKEN/password"
 ```
 
 ### ContextConsciousness Session Management

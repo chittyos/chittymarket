@@ -20,7 +20,7 @@ All Cloudflare operations should be forwarded to the remote ChittyAgent:
 ```bash
 curl -X POST https://agent.chitty.cc/api/cloudflare \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $CHITTY_SERVICE_TOKEN" \
+  -H "Authorization: Bearer ${CHITTYAUTH_ISSUED_CLOUDFLARE_TOKEN:-${CHITTY_CLOUDFLARE_TOKEN:-$CHITTY_SERVICE_TOKEN}}" \
   -d '{
     "operation": "workers|pages|r2|d1|kv|dns|...",
     "action": "deploy|configure|query|...",
@@ -43,7 +43,12 @@ The remote agent handles:
 
 ## Authentication
 
-Authenticate via ChittyAuth service token. The remote agent handles Cloudflare API authentication internally.
+Authenticate via ChittyAuth-issued service token. The remote agent handles Cloudflare API authentication internally.
+
+Token precedence:
+1. `CHITTYAUTH_ISSUED_CLOUDFLARE_TOKEN` (preferred)
+2. `CHITTY_CLOUDFLARE_TOKEN` (legacy fallback)
+3. `CHITTY_SERVICE_TOKEN` (generic fallback)
 
 ## Example
 
@@ -51,7 +56,7 @@ Authenticate via ChittyAuth service token. The remote agent handles Cloudflare A
 # Deploy a worker
 curl -X POST https://agent.chitty.cc/api/cloudflare \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $CHITTY_SERVICE_TOKEN" \
+  -H "Authorization: Bearer ${CHITTYAUTH_ISSUED_CLOUDFLARE_TOKEN:-${CHITTY_CLOUDFLARE_TOKEN:-$CHITTY_SERVICE_TOKEN}}" \
   -d '{
     "operation": "workers",
     "action": "deploy",

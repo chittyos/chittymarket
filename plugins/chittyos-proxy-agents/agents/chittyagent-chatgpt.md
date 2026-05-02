@@ -20,7 +20,7 @@ All ChatGPT integration operations should be forwarded to the remote ChittyAgent
 ```bash
 curl -X POST https://agent.chitty.cc/api/chatgpt \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $CHITTY_SERVICE_TOKEN" \
+  -H "Authorization: Bearer ${CHITTYAUTH_ISSUED_CHATGPT_TOKEN:-${CHITTY_CHATGPT_TOKEN:-$CHITTY_SERVICE_TOKEN}}" \
   -d '{
     "operation": "mcp|actions|plugins|troubleshoot",
     "payload": { ... }
@@ -37,7 +37,12 @@ The remote agent handles:
 
 ## Authentication
 
-Authenticate via ChittyAuth service token. The remote agent handles OpenAI API authentication internally.
+Authenticate via ChittyAuth-issued service token. The remote agent handles OpenAI API authentication internally.
+
+Token precedence:
+1. `CHITTYAUTH_ISSUED_CHATGPT_TOKEN` (preferred)
+2. `CHITTY_CHATGPT_TOKEN` (legacy fallback)
+3. `CHITTY_SERVICE_TOKEN` (generic fallback)
 
 ## Example
 
@@ -45,7 +50,7 @@ Authenticate via ChittyAuth service token. The remote agent handles OpenAI API a
 # Design MCP server architecture
 curl -X POST https://agent.chitty.cc/api/chatgpt \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $CHITTY_SERVICE_TOKEN" \
+  -H "Authorization: Bearer ${CHITTYAUTH_ISSUED_CHATGPT_TOKEN:-${CHITTY_CHATGPT_TOKEN:-$CHITTY_SERVICE_TOKEN}}" \
   -d '{
     "operation": "mcp",
     "action": "design",
