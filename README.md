@@ -26,7 +26,7 @@ The `chittymarket-manager` plugin is the entry point — install it first, then 
 
 | Plugin | Contents |
 |--------|----------|
-| **chittyos-core** | Session persistence (ChittyXL), context checkpoints, cleanup, ecosystem agents (schema, register, connect, claude, canon) |
+| **chittyos-core** | Session persistence (ChittyXL), context checkpoints, cleanup, ecosystem agents (schema, register, connect, auth, claude, canon) |
 | **chittyos-devops** | Deploy, health checks, registry, pipelines, wrangler audit, compliance |
 | **chittyos-legal** | Evidence governance, disputes, court docket, evidence collection |
 | **chittyos-governance** | Entity type validation hooks, ChittyID accountability, deploy gates |
