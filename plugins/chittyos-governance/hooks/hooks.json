@@ -23,6 +23,7 @@
     "hookify.block-direct-deploy.local.md",
     "hookify.require-pr-workflow.local.md",
     "hookify.block-governance-edits.local.md",
-    "hookify.suggest-chittyconnect.local.md"
+    "hookify.suggest-chittyconnect.local.md",
+    "hookify.enforce-auth-canonical.local.md"
   ]
 }
