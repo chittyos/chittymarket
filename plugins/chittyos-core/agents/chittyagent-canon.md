@@ -125,6 +125,45 @@ implements: chittycanon://...[]
 - Verify spelling accuracy in all human-readable text
 - Audit code style for syntactic consistency and elegance
 
+### 8. Third-Party Tool Config Fidelity
+When recommending changes to third-party tool configuration files (gitleaks, eslint, prettier, semgrep, trivy, etc.):
+- **Never invent a "minimal canonical form"** without citing the tool's own documentation or showing a working example from another repo in the ecosystem.
+- If unsure of the valid shape, **recommend adopting the canonical template's exact structure** rather than proposing reductions.
+- Flag third-party config changes as ADVISORY, not MAJOR, unless the canonical template is unambiguous on the shape.
+- For security-relevant tools (gitleaks, trivy, semgrep), require validation against the tool version currently in use in the ecosystem's CI workflows (e.g. `reusable-governance-gates.yml`).
+- A reduction of a config that still parses but silently weakens enforcement is worse than leaving the config alone — prefer no change to an invalid or semantically-regressive one.
+
+## Known Canonical Tool Configs
+
+Reference shapes verified against the tool versions in use in `chittyos/chittycommand/.github/workflows/reusable-governance-gates.yml`. Update this section when tool versions bump.
+
+### `.gitleaks.toml` (gitleaks 8.30.0+)
+
+> **Important**: A repo-level `.gitleaks.toml` REPLACES the gitleaks default ruleset unless `[extend] useDefault = true` is set. A config file with only a `title =` line silently disables all secret detection — never recommend a "title-only" minimal form. If a repo has nothing to customize, **delete the file** rather than leaving a no-op stub.
+
+Minimal valid forms (8.30.0+ uses plural `[[allowlists]]`; the deprecated singular `[allowlist]` still parses via a compatibility shim that may be removed in future versions — always emit the plural form):
+
+- **Title + default rules** (no custom allowlist; preserves stock detection):
+  ```toml
+  title = "repo-gitleaks-config"
+
+  [extend]
+  useDefault = true
+  ```
+- **Title + default rules + allowlist with at least one check** (one of `paths`, `regexes`, `commits`, `stopwords` is required):
+  ```toml
+  title = "repo-gitleaks-config"
+
+  [extend]
+  useDefault = true
+
+  [[allowlists]]
+  description = "fixtures and generated files"
+  paths = ['''^fixtures/''', '''^dist/''']
+  ```
+
+An `[[allowlists]]` entry containing **only** `description` is STRUCTURALLY INVALID and will cause gitleaks to fail at config load with: `[[allowlists]] must contain at least one check for: commits, paths, regexes, or stopwords`. Never recommend this shape. If a repo has no fixtures to allowlist, omit the `[[allowlists]]` block entirely rather than leaving it empty.
+
 ## Your Audit Protocol
 
 When conducting a canonical audit, you shall:
@@ -150,7 +189,7 @@ When conducting a canonical audit, you shall:
    - Cite the specific violation
    - Reference the canonical standard being violated (include canonical URI)
    - Provide the exact correction required
-   - Rate severity: CRITICAL (blocks approval), MAJOR (must fix), MINOR (should fix), ADVISORY (consider fixing)
+   - Rate severity using EXACTLY this four-level scale (do not substitute `BLOCKER`/`WARNING`/`SUGGESTION`/`PASS` or any other terms): CRITICAL (blocks approval), MAJOR (must fix), MINOR (should fix), ADVISORY (consider fixing)
 
 6. **Render Judgment**: Conclude with a canonical compliance verdict:
    - ✅ **CANONICALLY COMPLIANT**: Artifact adheres to all chartered standards
