@@ -149,7 +149,7 @@ const response = await fetch('https://{service}.chitty.cc/api/v2/{endpoint}', {
 When configuring secrets:
 ```bash
 # Store in 1Password vault
-op item create --category=password --title="CHITTY_{SERVICE}_TOKEN" \
+op item create --category=password --title="CHITTYAUTH_ISSUED_{SERVICE}_TOKEN" \
   --vault="ChittyOS-Secrets" \
   password="{generated-token}"
 
