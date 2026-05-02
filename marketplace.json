@@ -321,7 +321,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -345,7 +345,7 @@
       "category": "legal",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -369,7 +369,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -393,7 +393,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -416,7 +416,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -439,7 +439,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -462,7 +462,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -485,7 +485,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -508,7 +508,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -531,7 +531,7 @@
       "category": "legal",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -555,7 +555,7 @@
       "category": "legal",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -579,7 +579,7 @@
       "category": "legal",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -603,7 +603,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -627,7 +627,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -651,7 +651,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -678,7 +678,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -701,7 +701,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -724,7 +724,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -747,7 +747,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -771,7 +771,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": false,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -795,7 +795,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -818,7 +818,7 @@
       "category": "automation",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -842,7 +842,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -865,7 +865,7 @@
       "category": "communication",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -888,7 +888,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -910,7 +910,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -934,7 +934,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -957,7 +957,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -979,7 +979,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1002,7 +1002,7 @@
       "category": "automation",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1025,7 +1025,7 @@
       "category": "desktop",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1048,7 +1048,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1072,7 +1072,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1095,7 +1095,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1118,7 +1118,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1141,7 +1141,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1164,7 +1164,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": false,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1187,7 +1187,7 @@
       "category": "automation",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1210,7 +1210,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1233,7 +1233,7 @@
       "category": "communication",
       "access": "readwrite",
       "enabled": false,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1256,7 +1256,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": false,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1279,7 +1279,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1302,7 +1302,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1325,7 +1325,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1349,7 +1349,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1372,7 +1372,7 @@
       "category": "communication",
       "access": "read",
       "enabled": false,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1395,7 +1395,7 @@
       "category": "search",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1418,7 +1418,7 @@
       "category": "automation",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1441,7 +1441,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1467,7 +1467,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1490,7 +1490,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1512,7 +1512,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1535,7 +1535,7 @@
       "category": "legal",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1558,7 +1558,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "plugin",
@@ -1585,7 +1585,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1608,7 +1608,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1631,7 +1631,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1654,7 +1654,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1678,7 +1678,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1694,6 +1694,31 @@
       ]
     },
     {
+      "id": "agent-chittyagent-auth",
+      "name": "ChittyAuth Neon Warden",
+      "description": "Provider-backed auth architecture, token governance, and secret rotation policy",
+      "type": "agent",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "ch1tty",
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-auth.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "auth",
+        "oauth",
+        "tokens",
+        "secrets",
+        "neon"
+      ]
+    },
+    {
       "id": "agent-chittyagent-neon-schema",
       "name": "Neon Schema Drift",
       "description": "Detect schema drift between Neon databases and service code",
@@ -1701,7 +1726,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1725,7 +1750,7 @@
       "category": "communication",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1748,7 +1773,7 @@
       "category": "communication",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1771,7 +1796,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1797,7 +1822,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "hook",
@@ -1820,7 +1845,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "hook",
@@ -1844,7 +1869,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "hook",
@@ -1867,7 +1892,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "hook",
@@ -1890,7 +1915,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "hook",
@@ -1913,7 +1938,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "hook",
@@ -1936,7 +1961,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "hook",
@@ -1959,7 +1984,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "hook",
@@ -1982,7 +2007,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "hook",
@@ -2005,7 +2030,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "both",
       "standalone": {
         "available": true,
         "type": "hook",
@@ -2031,7 +2056,7 @@
       "category": "communication",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2054,7 +2079,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2080,7 +2105,7 @@
       "category": "code",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2104,7 +2129,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2128,7 +2153,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2153,7 +2178,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2177,7 +2202,7 @@
       "category": "communication",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2201,7 +2226,7 @@
       "category": "communication",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2225,7 +2250,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2249,7 +2274,7 @@
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2273,7 +2298,7 @@
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2298,7 +2323,7 @@
       "category": "code",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2322,7 +2347,7 @@
       "category": "search",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
@@ -2346,7 +2371,7 @@
       "category": "documents",
       "access": "read",
       "enabled": true,
-      "installMode": "standalone",
+      "installMode": "ch1tty",
       "standalone": {
         "available": true,
         "type": "mcp-server",
