@@ -18,6 +18,20 @@ canonical/
 
 See `plugins/chittyagent-dispatch/agents/chittyagent-dispatch.md` ("Canonical Document Format" section) for the binding frontmatter contract.
 
+**Binding rule: canonical frontmatter MUST be strict YAML.** Multi-line `description:` values must use a block scalar (`|`), not a single-line string with literal `\n` escape sequences:
+
+```yaml
+description: |
+  Use this agent when ...
+
+  <example>
+  Context: ...
+  user: "..."
+  </example>
+```
+
+The single-line `description: ... \n<example>\n...` form found in some legacy Claude Code agents is not valid YAML — unquoted colons inside the scalar break the parser, and `\n` escapes are not interpreted in plain scalars. Block scalars round-trip cleanly through PyYAML and Claude Code's loader handles them — Anthropic's own `plugin-dev` and `pr-review-toolkit` agents use this form.
+
 ## Workflow
 
 1. **Edit** a canonical here.
