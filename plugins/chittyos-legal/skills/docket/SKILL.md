@@ -1,55 +1,86 @@
 ---
 name: docket
-description: Pull, view, and update Cook County Circuit Court docket for Arias v. Bianchi (2024D007847). Triggers on "docket", "court date", "next hearing", "case status", "pull docket", "court activity". Scrapes live docket via browser automation, updates master timeline CSV, and syncs to ChittyLedger.
+description: Pull, view, and update Cook County Circuit Court docket for a specified case. Triggers on "docket", "court date", "next hearing", "case status", "pull docket", "court activity". REQUIRES an explicit case parameter (case number or registry slug) — refuses to run without one. Scrapes live docket via browser automation, updates the master timeline CSV, and syncs to ChittyLedger.
 ---
 
 # Docket — Cook County Case Tracker
 
-## Case Configuration
+## Required: `case` parameter
+
+This skill **requires** an explicit case identifier on every invocation. It MUST NOT default to any particular case. Accept either:
+
+- **`case_number`** — the Cook County case number (e.g. `2024D007847`)
+- **`case_slug`** — a registered case slug (e.g. `arias-v-bianchi`); resolve through the chittyrouter case registry or chittyevidence-db `evidence_cases` table
+
+If the invocation does not specify a case, stop and ask the caller for one. Do not guess.
+
+## Case Configuration Schema
+
+For each case, expect the following configuration shape (populate from the case registry, not from skill defaults):
+
+| Field | Required | Source |
+|-------|----------|--------|
+| `caseNumber` | yes | invocation parameter |
+| `division` | yes | case registry (e.g. "Domestic Relations" = value 4) |
+| `calendar` | yes | case registry |
+| `court` | yes | "Circuit Court of Cook County, Illinois" |
+| `room` | no | case registry |
+| `judge` | no | case registry |
+| `plaintiff` / `defendant` | no | case registry |
+| `url` | constant | `https://casesearch.cookcountyclerkofcourt.org/CivilCaseSearchAPI.aspx` |
+
+### Worked Example: Arias v. Bianchi
+
+Only as an illustration of the shape — do NOT use this as a default:
 
 | Field | Value |
 |-------|-------|
-| **Case Number** | 2024D007847 |
-| **Division** | Domestic Relations (value=4) |
-| **Calendar** | DRCAL23 |
-| **Court** | Circuit Court of Cook County, Illinois |
-| **Room** | 2108, Richard J Daley Center |
-| **Judge** | Johnson, Robert W. |
-| **Plaintiff** | Luisa Fernanda Arias Montealegre |
-| **Defendant** | Nicholas Bianchi |
-| **Attorney (Plaintiff)** | Rebecca Melzer |
-| **URL** | `https://casesearch.cookcountyclerkofcourt.org/CivilCaseSearchAPI.aspx` |
+| `caseNumber` | `2024D007847` |
+| `division` | Domestic Relations (value=4) |
+| `calendar` | DRCAL23 |
+| `court` | Circuit Court of Cook County, Illinois |
+| `room` | 2108, Richard J Daley Center |
+| `judge` | Johnson, Robert W. |
 
-## Data Stores
+## Data Stores (per case)
 
-| Store | Location | Format |
-|-------|----------|--------|
-| **Master Timeline** | `/Users/nb/Desktop/Projects/development/dev/connections/notion/Master_Timeline_Aribia_Arias_v_Bianchi.csv` | CSV |
-| **Notion Evidence** | `/Users/nb/Desktop/Projects/development/dev/connections/notion/Private & Shared/ChittyLedger/CL - Evidence/` | Markdown files per entry |
-| **Case Checkpoints** | `/Users/nb/.claude/chittycontext/checkpoints/` | JSON |
-| **Notion Projects DB** | `999c414c-06c5-4064-a51b-921193830968` | Notion API |
-| **Notion Actions DB** | `6b52d580-f810-4009-964d-478039c144e1` | Notion API |
+All paths MUST be scoped by case slug. Never share a master timeline CSV across cases.
+
+| Store | Location pattern | Format |
+|-------|------------------|--------|
+| **Master Timeline** | `<cases_root>/<case_slug>/Master_Timeline.csv` | CSV |
+| **Notion Evidence** | `<notion_root>/ChittyLedger/CL - Evidence/<case_slug>/` | Markdown files per entry |
+| **Case Checkpoints** | `~/.claude/chittycontext/checkpoints/<case_slug>/` | JSON |
+| **Notion Projects DB** | `999c414c-06c5-4064-a51b-921193830968` | Notion API (case filtered by `case_slug`) |
+| **Notion Actions DB** | `6b52d580-f810-4009-964d-478039c144e1` | Notion API (case filtered by `case_slug`) |
 
 ## Commands
 
-### `/docket` or `/docket pull`
-Pull the full live docket from Cook County Clerk website.
+All commands below require `case=<slug or number>`. Examples use `case=<case_slug>` as a placeholder.
 
-### `/docket new`
-Pull only entries newer than the last entry in the master timeline CSV.
+### `/docket pull case=<case_slug>`
+Pull the full live docket from Cook County Clerk website for the specified case.
 
-### `/docket next`
-Show the next scheduled court date only.
+### `/docket new case=<case_slug>`
+Pull only entries newer than the last entry in that case's master timeline CSV.
 
-### `/docket summary`
-Show a summary of recent activity (last 30 days) and next court date.
+### `/docket next case=<case_slug>`
+Show the next scheduled court date for the specified case.
 
-### `/docket update`
-Pull live docket and update the master timeline CSV with new entries.
+### `/docket summary case=<case_slug>`
+Show a summary of recent activity (last 30 days) and next court date for the specified case.
+
+### `/docket update case=<case_slug>`
+Pull live docket and update that case's master timeline CSV with new entries.
 
 ## Workflow: Pull Live Docket
 
-### Step 1: Load Browser Tools
+### Step 1: Resolve the case
+1. Read `case` parameter from invocation.
+2. Resolve against the case registry (chittyrouter `CASE_BY_NUMBER` / `CASE_BY_SLUG` or chittyevidence-db `evidence_cases`).
+3. If not found: stop, report "unknown case" to caller. Do not fall back.
+
+### Step 2: Load Browser Tools
 ```
 ToolSearch: select:mcp__claude-in-chrome__tabs_context_mcp
 ToolSearch: select:mcp__claude-in-chrome__tabs_create_mcp
@@ -59,22 +90,22 @@ ToolSearch: select:mcp__claude-in-chrome__computer
 ToolSearch: select:mcp__claude-in-chrome__javascript_tool
 ```
 
-### Step 2: Navigate to Case Search
+### Step 3: Navigate to Case Search
 1. Get tab context: `mcp__claude-in-chrome__tabs_context_mcp` (createIfEmpty: true)
 2. Create new tab: `mcp__claude-in-chrome__tabs_create_mcp`
 3. Navigate to: `https://casesearch.cookcountyclerkofcourt.org/CivilCaseSearchAPI.aspx`
 
-### Step 3: Search for Case
+### Step 4: Search for Case
 The site is ASP.NET WebForms. **Do NOT use JavaScript to set form values** — they get cleared on postback. Use direct interaction:
 
-1. **Select Division**: Use `computer` action to click the dropdown (ref for combobox), then select "Domestic Relations / Child Support" (value="4")
+1. **Select Division** per the resolved case (e.g. "Domestic Relations / Child Support" = value "4")
 2. **Ensure "Search by Case Number" radio** is selected (first radio button)
 3. **Click into the case number text input** (triple_click to select any existing text)
-4. **Type case number**: Use `computer` type action: `2024D007847`
+4. **Type case number**: Use `computer` type action with `<caseNumber>` from the resolved case (e.g. `2024D007847` for arias-v-bianchi)
 5. **Click "Start New Search"** button (type="submit")
 6. **Wait 3-4 seconds** for page load
 
-### Step 4: Read Docket Results
+### Step 5: Read Docket Results
 Use `read_page` with:
 - `filter: "all"`
 - `depth: 10`
@@ -93,13 +124,13 @@ Event Desc: [description]
 Comments: [optional comments]
 ```
 
-### Step 5: Parse Results
+### Step 6: Parse Results
 Extract from the accessibility tree:
 1. **Next court date** from "Future Court Activity" section
 2. **All case activities** with date, event description, and comments
-3. Compare against master timeline CSV to identify NEW entries
+3. Compare against the case's master timeline CSV to identify NEW entries
 
-### Step 6: Update Master Timeline (if `/docket update`)
+### Step 7: Update Master Timeline (if `/docket update`)
 **CSV Format** (7 columns):
 ```csv
 Date,Event,Entity,Document Title,Description,Evidence Source (file),Link
@@ -113,16 +144,16 @@ Date,Event,Entity,Document Title,Description,Evidence Source (file),Link
 | "Cook County Circuit Court" | Entity |
 | "Cook County online docket" | Document Title |
 | Comments (or Event Desc if no comments) | Description |
-| "Docket: 2024D007847" | Evidence Source |
+| `"Docket: <caseNumber>"` (from resolved case) | Evidence Source |
 | (empty) | Link |
 
 **Append** new entries to the CSV in chronological order. Do NOT duplicate existing entries.
 
-### Step 7: Report
+### Step 8: Report
 Output a formatted summary:
 
 ```markdown
-## Docket Pull — [Date]
+## Docket Pull — <case_slug> — [Date]
 
 **Next Court Date:** [date] at [time] — [type] — Room [room]
 
@@ -144,16 +175,11 @@ Output a formatted summary:
 3. **Future dates**: Mark as "(FUTURE)" in the Event column when adding to CSV
 4. **Comments with commas**: Wrap in double quotes in CSV
 5. **Special characters**: Escape quotes in CSV fields
+6. **Case scope**: Never write docket entries from case A into case B's master timeline. Validate on write that `Evidence Source` contains the expected `caseNumber`.
 
-## Quick Reference
+## Invocation Rejection
 
-**Last known state (Feb 6, 2026):**
-- Next hearing: 03/31/2026, 11:00 AM, Room 2108 (Open Call)
-- Last docket entry: 02/06/2026 — Quash Writ Allowed
-- Total CSV entries: ~137
-- Plaintiff attorney: Rebecca Melzer
-
-**Critical pending items:**
-- Petition to Disgorge Fees (filed 11/14/2025) — unruled
-- TRO still technically active (filed 10/31/2024, 493+ days)
-- Motion to Quash Body Attachment — GRANTED 02/06/2026
+If invoked without a `case` parameter, the skill MUST:
+1. Refuse to proceed.
+2. Return a message: "docket: no `case` specified — refusing to run. Provide `case=<slug>` or `case_number=<number>`."
+3. List currently registered cases (from the registry) so the caller can pick one.

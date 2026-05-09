@@ -120,7 +120,7 @@
     {
       "id": "evidence",
       "name": "Search Evidence Documents",
-      "description": "Cloudflare AutoRAG \u2014 evidence document search for Arias v. Bianchi",
+      "description": "Cloudflare AutoRAG \u2014 evidence document search (case-scoped; invocation must pass a case parameter)",
       "type": "mcp-server",
       "category": "search",
       "access": "read",
@@ -340,7 +340,7 @@
     {
       "id": "skill-fact-governance",
       "name": "Fact Governance",
-      "description": "Evidence lifecycle management (draft/verified/locked) for Arias v. Bianchi",
+      "description": "Evidence lifecycle management (draft/verified/locked) for a specified case; requires `case` parameter",
       "type": "skill",
       "category": "legal",
       "access": "readwrite",
@@ -550,7 +550,7 @@
     {
       "id": "skill-docket",
       "name": "Court Docket",
-      "description": "Pull, view, and update Cook County Circuit Court docket for Arias v. Bianchi",
+      "description": "Pull, view, and update Cook County Circuit Court docket for a specified case; requires `case` parameter",
       "type": "skill",
       "category": "legal",
       "access": "readwrite",
@@ -574,7 +574,7 @@
     {
       "id": "skill-evidence-collect",
       "name": "Evidence Collection",
-      "description": "Evidence collection and ingestion pipeline for Arias v. Bianchi",
+      "description": "Evidence collection and ingestion pipeline for a specified case; requires `case` parameter",
       "type": "skill",
       "category": "legal",
       "access": "readwrite",
