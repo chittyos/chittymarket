@@ -1,0 +1,37 @@
+{
+  "name": "chittyagent-autobot",
+  "version": "0.1.0",
+  "description": "Autonomous PR-driver agent for ChittyOS — orchestrates Sovereignty → Discover → Plan → Generate → Implement → Review → Tidy → CI/CD → Ship → Memory phases. Successor to structured-autonomy trio with ChittyOS canonical enforcement.",
+  "category": "automation",
+  "tier": 1,
+  "canonicalUri": "chittycanon://plugins/chittyagent-autobot",
+  "depends": [
+    "chittyagent",
+    "chittycommand",
+    "chittyhelper",
+    "superpowers"
+  ],
+  "skills": [
+    "chitty-autonomy",
+    "chitty-autonomy-affirm",
+    "chitty-autonomy-discover",
+    "chitty-autonomy-plan",
+    "chitty-autonomy-generate",
+    "chitty-autonomy-implement",
+    "chitty-autonomy-tidy",
+    "chitty-autonomy-cicd",
+    "chitty-autonomy-ship"
+  ],
+  "agents": [
+    "chittyagent-autobot"
+  ],
+  "commands": [
+    "autonomy"
+  ],
+  "compliance": {
+    "pentad_required": true,
+    "sovereignty_cert_required": true,
+    "sovereignty_cert_issuer": "chittycanon://core/services/chitty-cert",
+    "ecosystem_discovery_mandatory": true
+  }
+}

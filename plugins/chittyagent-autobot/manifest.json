@@ -1,0 +1,32 @@
+{
+  "id": "plugin-chittyagent-autobot",
+  "name": "ChittyAgent Autobot",
+  "description": "Autonomous PR-driver — Sovereignty-cert gated workflow orchestrator. Replaces structured-autonomy trio with ChittyOS-canonical enforcement.",
+  "type": "plugin",
+  "category": "automation",
+  "access": "readwrite",
+  "enabled": true,
+  "installMode": "both",
+  "standalone": {
+    "available": true,
+    "type": "plugin",
+    "path": "~/.claude/plugins/chittyagent-autobot"
+  },
+  "ch1tty": {
+    "available": false
+  },
+  "tags": [
+    "agent",
+    "autonomy",
+    "chittyos",
+    "pr",
+    "automation",
+    "sovereignty",
+    "canon"
+  ],
+  "compliance": {
+    "tier": 1,
+    "pentad": ["CHARTER.md", "CHITTY.md", "CLAUDE.md", "SECURITY.md", "AGENTS.md"],
+    "sovereignty_cert": "chittycanon://docs/sovereignty-affirmation-v1"
+  }
+}

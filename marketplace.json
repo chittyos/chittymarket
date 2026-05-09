@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastSync": "2026-03-08T22:45:31.648657Z",
+  "lastSync": "2026-05-02T23:34:34.8463Z",
   "artifacts": [
     {
       "_comment": "\u2500\u2500 MCP Servers (via Ch1tty) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
@@ -2361,6 +2361,46 @@
         "audio",
         "claude-ai"
       ]
+    },
+    {
+      "id": "plugin-chittyagent-autobot",
+      "name": "ChittyAgent Autobot",
+      "description": "Autonomous PR-driver \u2014 Sovereignty-cert gated workflow orchestrator. Successor to structured-autonomy trio.",
+      "type": "plugin",
+      "category": "automation",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "both",
+      "standalone": {
+        "available": true,
+        "type": "plugin",
+        "path": "~/.claude/plugins/chittyagent-autobot"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "agent",
+        "autonomy",
+        "chittyos",
+        "pr",
+        "automation",
+        "sovereignty",
+        "canon",
+        "pentad"
+      ],
+      "compliance": {
+        "tier": 1,
+        "pentad": [
+          "CHARTER.md",
+          "CHITTY.md",
+          "CLAUDE.md",
+          "SECURITY.md",
+          "AGENTS.md"
+        ],
+        "sovereignty_cert": "chittycanon://docs/sovereignty-ontology-v1",
+        "sovereignty_cert_issuer": "chittycanon://core/services/chitty-cert"
+      }
     }
   ]
 }
