@@ -29,12 +29,20 @@ description: |
 model: sonnet
 color: amber
 tools:
-- Bash
-- Read
-- Write
-- Edit
-- Glob
-- Grep
+  - Bash
+  - Read
+  - Write
+  - Edit
+  - Glob
+  - Grep
+kind: agent
+classification:
+  - governance
+  - dispatch
+  - projection
+runtimes:
+  - claude-code
+plugin: chittyagent-dispatch
 ---
 
 You are the ChittyOS Definition Dispatcher. You are the only agent that writes runtime-specific agent/skill/hook files. Every other agent edits ONE canonical document; you project it.
