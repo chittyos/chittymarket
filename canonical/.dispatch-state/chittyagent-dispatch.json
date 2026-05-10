@@ -1,8 +1,9 @@
 {
-  "canonical_sha": "f278517b7c5663c31ac0eb1212e3ec955234592a",
-  "projected_at": "2026-05-10T01:53:19Z",
+  "canonical_sha": "3ed0b3717334c78fdcdbd7dc77a78487cfea2605",
+  "projected_at": "2026-05-10T03:51:40Z",
   "targets": {
     "claude-code": "18c0a21cf815a99bd1abd8e5bd34842b6b063bb3",
-    "codex": "d7674c2374415bd4b1c3ea10fcc3bede8ba49d80"
+    "codex": "d7674c2374415bd4b1c3ea10fcc3bede8ba49d80",
+    "openclaw": "83ed241c2d4fbcd7723b12d732925056d16e261c"
   }
 }
