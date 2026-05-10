@@ -69,6 +69,12 @@ PY
             proj_sha=$(git hash-object "$out")
             targets_json=$(python3 -c "import json,sys; d=json.loads(sys.argv[1]); d[sys.argv[2]]=sys.argv[3]; print(json.dumps(d))" "$targets_json" "$runtime" "$proj_sha")
             ;;
+          codex)
+            out="$REPO_ROOT/plugins/${plugin}/codex-skills/${name}/SKILL.md"
+            "$ADAPTER_DIR/codex-skill.sh" "$can" "$out"
+            proj_sha=$(git hash-object "$out")
+            targets_json=$(python3 -c "import json,sys; d=json.loads(sys.argv[1]); d[sys.argv[2]]=sys.argv[3]; print(json.dumps(d))" "$targets_json" "$runtime" "$proj_sha")
+            ;;
           *)
             echo "[dispatch] $name: runtime '$runtime' adapter not yet implemented — skipping"
             ;;
