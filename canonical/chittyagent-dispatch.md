@@ -43,6 +43,7 @@ classification:
 runtimes:
   - claude-code
   - codex
+  - openclaw
 plugin: chittyagent-dispatch
 ---
 
