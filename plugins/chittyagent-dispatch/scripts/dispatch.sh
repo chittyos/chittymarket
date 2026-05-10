@@ -90,10 +90,9 @@ PY
 import json, sys
 open(sys.argv[1], 'w').write(json.dumps({
     'canonical_sha': sys.argv[2],
-    'projected_at': sys.argv[3],
-    'targets': json.loads(sys.argv[4]),
+    'targets': json.loads(sys.argv[3]),
 }, indent=2, sort_keys=True))
-" "$STATE_DIR/${name}.json" "$can_sha" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$targets_json"
+" "$STATE_DIR/${name}.json" "$can_sha" "$targets_json"
       echo "[dispatch] sync $name: canonical=$can_sha targets=$targets_json"
     done
     ;;
