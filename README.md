@@ -22,22 +22,61 @@ cd chittymarket
 
 The `chittymarket-manager` plugin is the entry point — install it first, then use `/market` to manage everything else. This is the self-bootstrapping pattern: the marketplace installs itself, then installs the rest.
 
-## What's Included
+## Plugin Groupings
 
-| Plugin | Contents |
-|--------|----------|
-| **chittyos-core** | Session persistence (ChittyXL), context checkpoints, cleanup, ecosystem agents (schema, register, connect, claude, canon) |
-| **chittyos-devops** | Deploy, health checks, registry, pipelines, wrangler audit, compliance |
-| **chittyos-legal** | Evidence governance, disputes, court docket, evidence collection |
-| **chittyos-governance** | Entity type validation hooks, ChittyID accountability, deploy gates |
-| **chittyos-proxy-agents** | Notion, ChatGPT, Cloudflare proxy agents via agent.chitty.cc |
-| **chittymarket-manager** | The `/market` skill for managing all artifacts |
-| **chittyhelper** | Architectural navigation ("which service handles X?") |
-| **chittyagent** | Session lifecycle, ecosystem routing, Mercury finance |
-| **chittycommand** | Life management dashboard |
-| **legal-arsenal** | Legal case management with ChittyStorage |
-| **chittyos-mcp** | Standalone ChittyOS MCP gateway |
-| **neon-mcp** | Standalone Neon PostgreSQL MCP server |
+### Foundation
+
+| Plugin | Purpose |
+|--------|---------|
+| **chittymarket-manager** | Marketplace control plane (`/market`) |
+| **chittymarket-canonical** | Canonical marketplace definitions and sync source |
+| **chittyos-core** | Core session/context operations and base ecosystem agents |
+
+### Agent Orchestration
+
+| Plugin | Purpose |
+|--------|---------|
+| **chittyagent-autobot** | Autonomous feature/PR workflow orchestrator |
+| **chittyagent-dispatch** | Canonical-to-runtime projection/dispatch pipeline |
+
+### Platform Domains
+
+| Plugin | Purpose |
+|--------|---------|
+| **chittyos-devops** | Deploy, health, registry, pipelines, wrangler audit, compliance ops |
+| **chittyos-governance** | Governance controls and Neon governance bridge |
+| **chittyos-legal** | Legal workflows: dispute, docket, evidence, fact governance |
+| **chittyos-proxy-agents** | Remote proxy agents (ChatGPT, Cloudflare, Notion) |
+
+### MCP Delivery
+
+| Plugin | Purpose |
+|--------|---------|
+| **chittyos-mcp** | ChittyOS MCP gateway packaging |
+| **neon-mcp** | Neon MCP packaging |
+
+### Notes on Runtime Artifacts
+
+Some IDs shown by `/market` are runtime artifacts (skills/agents/MCP entries), not plugin directories. Examples include `chittyhelper`, `chittyagent`, `chittycommand`, and `legal-arsenal`.
+
+## Agent Groupings
+
+| Group | Agents |
+|------|--------|
+| **Core Service Agents** | `chittycanon-code-cardinal`, `chittyschema-overlord`, `chittyregister-compliance-sergeant`, `chittyconnect-concierge`, `chittyagent-claude` |
+| **Orchestration Agents** | `chittyagent-autobot`, `chittyagent-dispatch` |
+| **Governance/Platform Agents** | `chittyagent-neon` |
+| **Proxy Agents** | `chittyagent-chatgpt`, `chittyagent-cloudflare`, `chittyagent-notion` |
+
+## Skill Groupings
+
+| Group | Skills |
+|------|--------|
+| **Autonomy Pipeline** | `chitty-autonomy`, `chitty-autonomy-affirm`, `chitty-autonomy-discover`, `chitty-autonomy-plan`, `chitty-autonomy-generate`, `chitty-autonomy-implement`, `chitty-autonomy-tidy`, `chitty-autonomy-cicd`, `chitty-autonomy-ship` |
+| **Marketplace** | `market` |
+| **Core Operations** | `checkpoint`, `chitty-cleanup`, `chittycontext`, `chittyxl` |
+| **DevOps Operations** | `chitty-deploy`, `chitty-health`, `chitty-pipelines`, `chitty-registry`, `chittyos-compliance`, `wrangler-audit` |
+| **Legal Operations** | `dispute`, `docket`, `evidence-collect`, `fact-governance` |
 
 ## Profiles
 

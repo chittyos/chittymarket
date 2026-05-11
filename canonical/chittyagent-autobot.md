@@ -25,6 +25,14 @@ color: blue
 canonical_uri: chittycanon://core/agents/chittyagent-autobot
 sovereignty_cert_required: true
 sovereignty_cert_issuer: chittycanon://core/services/chitty-cert
+kind: agent
+classification:
+  - governance
+  - autonomy
+  - orchestration
+runtimes:
+  - claude-code
+plugin: chittyagent-autobot
 ---
 
 # ChittyAgent Autobot
