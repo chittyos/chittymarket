@@ -57,12 +57,16 @@ Slug convention:
 
 The groups below use bare schema slugs. Human-facing UI may render branded display labels such as `ChittyWorkspace`, `ChittyBuild`, and `ChittyGovern`.
 
+Each group declares its canonical ontology as explicit `primary` and `secondary` lists. The Phase 1 generator (`GROUP_ONTOLOGY` lookup) reads this section as its source of truth.
+
 ### `workspace`
 
 **Label:** Workspace Memory & Session Continuity  
 **Job:** Preserve and restore operational continuity.  
 **Examples:** checkpoints, session restore, state summaries, edge cache, context persistence, sequential thinking.  
-**Ontology:** `P` Synthetic Person, `E` session events.
+**Ontology primary:** `P` (Synthetic Person — Claude contexts)  
+**Ontology secondary:** `E` (session events), `T` (local state files)  
+**Rule:** Per ChittyCanon, Claude contexts are Person (P), NEVER Thing (T).
 
 ---
 
@@ -70,7 +74,8 @@ The groups below use bare schema slugs. Human-facing UI may render branded displ
 
 **Label:** Understand, Edit & Review Code  
 **Job:** Support code search, repo navigation, LSP integrations, PR review, semantic analysis, and code improvement.  
-**Ontology:** `T` digital code artifacts, `E` commits/reviews.
+**Ontology primary:** `T` (digital code artifacts)  
+**Ontology secondary:** `E` (commits/reviews), `A` (branch/write authority)
 
 ---
 
@@ -79,7 +84,8 @@ The groups below use bare schema slugs. Human-facing UI may render branded displ
 **Label:** Ship & Operate Services  
 **Job:** Deploy, monitor, and operate services.  
 **Examples:** Cloudflare Worker deployment, service registry queries, health checks, pipelines, wrangler audit.  
-**Ontology:** `L` deployment location, `A` deploy authority, `E` deployment event.
+**Ontology primary:** `L` (deployment location), `E` (deployment event)  
+**Ontology secondary:** `A` (deploy authority), `T` (service artifact)
 
 ---
 
@@ -88,7 +94,8 @@ The groups below use bare schema slugs. Human-facing UI may render branded displ
 **Label:** Governance, Identity & Trust  
 **Job:** Enforce identity, canonical rules, trust, policy, and schema discipline.  
 **Examples:** ChittyID enforcement, Hookify rules, canonical pattern auditors, schema drift checks.  
-**Ontology:** `A` authority, `P` actor identity.  
+**Ontology primary:** `A` (authority)  
+**Ontology secondary:** `P` (actor identity), `E` (governance decision events), `T` (governed artifacts)  
 **Rule:** Globally enabled system-wide; independent of profiles.
 
 ---
@@ -98,7 +105,8 @@ The groups below use bare schema slugs. Human-facing UI may render branded displ
 **Label:** Legal Evidence & Case Workflows  
 **Job:** Manage case-scoped legal evidence, facts, disputes, dockets, and chain-of-custody workflows.  
 **Examples:** evidence collection, dispute management, fact governance, docket monitoring.  
-**Ontology:** `E` evidence/fact events, `T` documents, `L` jurisdiction.  
+**Ontology primary:** `E` (evidence/fact events), `T` (documents)  
+**Ontology secondary:** `P` (parties/actors), `L` (jurisdiction), `A` (court/legal authority)  
 **Rule:** Requires explicit case scope. No “last active case” fallback.
 
 Approved language:
@@ -120,7 +128,8 @@ Banned language until formal audit:
 **Label:** Connect External Systems  
 **Job:** Connect ChittyOS to third-party systems and external namespaces.  
 **Examples:** Notion, Cloudflare, ChatGPT, Neon, Supabase, Plaid, Gmail, Calendar, Figma, Mercury.  
-**Ontology:** `L` external namespace, `A` delegated OAuth.
+**Ontology primary:** `L` (external namespace)  
+**Ontology secondary:** `A` (delegated OAuth), `E` (access events)
 
 ---
 
@@ -128,7 +137,9 @@ Banned language until formal audit:
 
 **Label:** Local-Only Tools  
 **Job:** Run tools that physically require a local host.  
-**Examples:** browser automation, desktop control, shell-dependent scripts, local filesystem, LSPs.
+**Examples:** browser automation, desktop control, shell-dependent scripts, local filesystem, LSPs.  
+**Ontology primary:** `L` (local machine/workspace)  
+**Ontology secondary:** `T` (local files), `A` (local user authority)
 
 ---
 
@@ -137,6 +148,8 @@ Banned language until formal audit:
 **Label:** Agent Runtime Projection  
 **Job:** Manage canonical agent definitions and runtime projection adapters.  
 **Examples:** Claude Code agents, Codex skills, OpenClaw agents, orchestrator KV entries.  
+**Ontology primary:** `P` (Synthetic Person definition)  
+**Ontology secondary:** `T` (generated projection artifacts), `E` (dispatch events), `A` (projection authority)  
 **Mode:** Advanced / developer mode.
 
 ---
@@ -145,7 +158,9 @@ Banned language until formal audit:
 
 **Label:** Marketplace Control Plane  
 **Job:** Discover, enable, disable, sync, profile, lint, and diagnose capabilities.  
-**Examples:** `/market`, profiles, alias resolution, projection diagnostics.
+**Examples:** `/market`, profiles, alias resolution, projection diagnostics.  
+**Ontology primary:** `T` (marketplace artifacts)  
+**Ontology secondary:** `A` (install authority), `E` (enable/disable events)
 
 ---
 
@@ -153,6 +168,8 @@ Banned language until formal audit:
 
 **Label:** Experimental / Owner-only Tools  
 **Job:** Hold unsafe, experimental, deprecated, or owner-only artifacts.  
+**Ontology primary:** `T` (artifacts pending classification)  
+**Ontology secondary:** (none)  
 **Rule:** Hidden from normal marketplace UX.
 
 ---
@@ -336,7 +353,7 @@ Output format:
   "reason": "multiple_capabilities_match_intent",
   "candidates": [
     {
-      "id": "chitty.legal.evidence.collect",
+      "id": "chittycanon://capability/legal/evidence.collect",
       "why": "matches evidence + collect"
     }
   ]
@@ -734,11 +751,14 @@ Physical folder deprecation occurs strictly in Phase 6.
 
 ## 9.1 Merge into JTBD Packs
 
+IDs prefixed `skill-`, `plugin-`, `agent-`, `hook-` are **artifact IDs** in `marketplace.json`. Bare names without prefix are **plugin-package directory names** (see `docs/audits/chittymarket-plugin-package-audit.json`). The two address different layers — the package is the on-disk unit, the artifact ID is the marketplace catalog entry.
+
 ### `workspace`
 
-Keep as projections. IDs as they appear in `marketplace.json`:
+Plugin packages: `chittyos-core`.
 
-- `chittyos-core` (plugin package)
+Artifact IDs in `marketplace.json`:
+
 - `skill-chittyxl`
 - `skill-chittycontext`
 - `skill-checkpoint`
@@ -762,14 +782,17 @@ Keep as projections:
 
 ### `govern`
 
-Keep as projections:
+Plugin packages: `chittyos-governance`.
 
-- Hookify entity rules (`hook-validate-entity-types`, `hook-claude-person-not-thing`, `hook-block-bypass-pipeline`)
-- ChittyID hooks (`hook-block-chittyid-generation`, `hook-chittyid-accountability`)
-- deploy gate hooks (`hook-deploy-gate-*`)
-- schema drift agents (`agent-chittyagent-schema`)
+Artifact IDs in `marketplace.json`:
+
+- Hookify entity rules: `hook-validate-entity-types`, `hook-claude-person-not-thing`
+- ChittyID hooks: `hook-block-chittyid-generation`, `hook-chittyid-accountability`
+- schema drift agents: `agent-chittyagent-schema`
 - `plugin-ralph-loop`
 - `agent-chittyagent-canon`
+
+Target artifact IDs (unregistered, slated for Phase 1.5 registration): `hook-block-bypass-pipeline`, `hook-deploy-gate-*`.
 
 ---
 
@@ -787,17 +810,18 @@ Keep as projections:
 
 ### `agent-runtime`
 
-Consolidate into advanced/on-demand runtime capability:
+Consolidate into advanced/on-demand runtime capability.
 
-- `chittyagent-autobot` skills
-- `plan`
-- `ship`
-- `tidy`
-- `affirm`
+Plugin packages: `chittyagent-autobot`, `chittyagent-dispatch`.
+
+Artifact IDs in `marketplace.json`:
+
+- `plugin-chittyagent-autobot`
 - `plugin-chittyhelper`
 - `plugin-chittyagent`
 - `plugin-chittycommand`
-- `chittyagent-dispatch`
+
+Target artifact IDs (unregistered, the autobot's 4 sub-skills `plan`/`ship`/`tidy`/`affirm` slated for Phase 1.5 registration as `skill-chitty-autonomy-{plan,ship,tidy,affirm}`).
 
 ---
 
