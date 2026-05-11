@@ -1,7 +1,17 @@
+---
+uri: chittycanon://docs/ops/architecture/chittymarket-capability-router
+namespace: chittycanon://docs/ops
+type: architecture
+version: 4.0.0
+status: PENDING
+registered_with: chittycanon://core/services/canon
+title: "ChittyMarket Capability Router Architecture"
+certifier: chittycanon://core/services/chittycertify
+visibility: PUBLIC
+---
+
 # ChittyMarket: Capability Router Architecture
 
-**Status:** Approved & Finalized  
-**Target path:** `docs/architecture/CHITTYMARKET_CAPABILITY_ROUTER.md`  
 **Scope:** ChittyMarket, Ch1tty, ChittyMCP, Canonical Agent Projections, Channel Manifests
 
 ---
