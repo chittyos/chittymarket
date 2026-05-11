@@ -1,0 +1,142 @@
+[
+  {
+    "legacy_id": "chittyagent-autobot",
+    "proposed_capability_uri": "chittycanon://capability/internal/chittyagent-autobot",
+    "jtbd_group": "internal",
+    "status": "active",
+    "migration_action": "keep-as-projection",
+    "projections_detected": {
+      "claude_native": false,
+      "mcp_server": false,
+      "agents": true,
+      "skills": true,
+      "hooks": false
+    }
+  },
+  {
+    "legacy_id": "chittyagent-dispatch",
+    "proposed_capability_uri": "chittycanon://capability/agent-runtime/chittyagent-dispatch",
+    "jtbd_group": "agent-runtime",
+    "status": "active",
+    "migration_action": "keep-as-projection",
+    "projections_detected": {
+      "claude_native": true,
+      "mcp_server": false,
+      "agents": true,
+      "skills": false,
+      "hooks": false
+    }
+  },
+  {
+    "legacy_id": "chittymarket-manager",
+    "proposed_capability_uri": "chittycanon://capability/market/chittymarket-manager",
+    "jtbd_group": "market",
+    "status": "active",
+    "migration_action": "keep-as-projection",
+    "projections_detected": {
+      "claude_native": true,
+      "mcp_server": false,
+      "agents": false,
+      "skills": true,
+      "hooks": false
+    }
+  },
+  {
+    "legacy_id": "chittyos-core",
+    "proposed_capability_uri": "chittycanon://capability/workspace/chittyos-core",
+    "jtbd_group": "workspace",
+    "status": "active",
+    "migration_action": "keep-as-projection",
+    "projections_detected": {
+      "claude_native": true,
+      "mcp_server": false,
+      "agents": true,
+      "skills": true,
+      "hooks": false
+    }
+  },
+  {
+    "legacy_id": "chittyos-devops",
+    "proposed_capability_uri": "chittycanon://capability/ship/chittyos-devops",
+    "jtbd_group": "ship",
+    "status": "active",
+    "migration_action": "keep-as-projection",
+    "projections_detected": {
+      "claude_native": true,
+      "mcp_server": false,
+      "agents": false,
+      "skills": true,
+      "hooks": false
+    }
+  },
+  {
+    "legacy_id": "chittyos-governance",
+    "proposed_capability_uri": "chittycanon://capability/govern/chittyos-governance",
+    "jtbd_group": "govern",
+    "status": "active",
+    "migration_action": "keep-as-projection",
+    "projections_detected": {
+      "claude_native": true,
+      "mcp_server": false,
+      "agents": true,
+      "skills": false,
+      "hooks": true
+    }
+  },
+  {
+    "legacy_id": "chittyos-legal",
+    "proposed_capability_uri": "chittycanon://capability/legal/chittyos-legal",
+    "jtbd_group": "legal",
+    "status": "active",
+    "migration_action": "keep-as-projection",
+    "projections_detected": {
+      "claude_native": true,
+      "mcp_server": false,
+      "agents": false,
+      "skills": true,
+      "hooks": false
+    }
+  },
+  {
+    "legacy_id": "chittyos-mcp",
+    "proposed_capability_uri": "chittycanon://capability/gateway-legacy/chittyos-mcp",
+    "jtbd_group": "gateway-legacy",
+    "status": "active",
+    "migration_action": "demote-to-legacy",
+    "projections_detected": {
+      "claude_native": true,
+      "mcp_server": true,
+      "agents": false,
+      "skills": false,
+      "hooks": false
+    }
+  },
+  {
+    "legacy_id": "chittyos-proxy-agents",
+    "proposed_capability_uri": "chittycanon://capability/connect/chittyos-proxy-agents",
+    "jtbd_group": "connect",
+    "status": "active",
+    "migration_action": "demote-to-ch1tty-backend",
+    "projections_detected": {
+      "claude_native": true,
+      "mcp_server": false,
+      "agents": true,
+      "skills": false,
+      "hooks": false
+    }
+  },
+  {
+    "legacy_id": "neon-mcp",
+    "proposed_capability_uri": "chittycanon://capability/connect/neon-mcp",
+    "jtbd_group": "connect",
+    "status": "active",
+    "migration_action": "demote-to-ch1tty-backend",
+    "projections_detected": {
+      "claude_native": true,
+      "mcp_server": true,
+      "agents": false,
+      "skills": false,
+      "hooks": false
+    }
+  }
+]

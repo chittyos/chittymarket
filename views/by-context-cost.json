@@ -1,0 +1,835 @@
+{
+  "version": "1.1.0",
+  "generated_at": "2026-05-11",
+  "view": "by-context-cost",
+  "description": "Capabilities grouped by execution context cost",
+  "counts": {
+    "high": 9,
+    "low": 4,
+    "medium": 89
+  },
+  "groups": {
+    "high": [
+      {
+        "id": "chittycanon://capability/govern/block-governance-edits",
+        "name": "Block Governance Edits",
+        "group": "govern",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/chittymcp-claude-ai",
+        "name": "ChittyMCP (Claude.ai)",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/court-docket",
+        "name": "Court Docket",
+        "group": "legal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/dispute-manager",
+        "name": "Dispute Manager",
+        "group": "legal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/ship/evidence-collection",
+        "name": "Evidence Collection",
+        "group": "ship",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/govern/fact-governance",
+        "name": "Fact Governance",
+        "group": "govern",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/legal-arsenal",
+        "name": "Legal Arsenal",
+        "group": "legal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/read-and-write-chittyos",
+        "name": "Read and Write ChittyOS",
+        "group": "workspace",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/search-evidence-documents",
+        "name": "Search Evidence Documents",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      }
+    ],
+    "low": [
+      {
+        "id": "chittycanon://capability/workspace/checkpoint-manager",
+        "name": "Checkpoint Manager",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/chittycontext-checkpoints",
+        "name": "ChittyContext Checkpoints",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/chittyxl-session-manager",
+        "name": "ChittyXL Session Manager",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/sequential-thinking",
+        "name": "Sequential Thinking",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      }
+    ],
+    "medium": [
+      {
+        "id": "chittycanon://capability/build/agent-sdk-dev",
+        "name": "Agent SDK Dev",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/govern/block-chittyid-generation",
+        "name": "Block ChittyID Generation",
+        "group": "govern",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/ship/block-direct-deploy",
+        "name": "Block Direct Deploy",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/govern/claude-md-management",
+        "name": "CLAUDE.md Management",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/ship/canon-certification-gate",
+        "name": "Canon Certification Gate",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/chatgpt-proxy-agent",
+        "name": "ChatGPT Proxy Agent",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/agent-runtime/chittyagent",
+        "name": "ChittyAgent",
+        "group": "agent-runtime",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/internal/chittyagent-autobot",
+        "name": "ChittyAgent Autobot",
+        "group": "internal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/govern/chittycanon-code-cardinal",
+        "name": "ChittyCanon Code Cardinal",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/agent-runtime/chittycommand",
+        "name": "ChittyCommand",
+        "group": "agent-runtime",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/chittyconnect-concierge",
+        "name": "ChittyConnect Concierge",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/agent-runtime/chittyhelper",
+        "name": "ChittyHelper",
+        "group": "agent-runtime",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/govern/chittyid-accountability",
+        "name": "ChittyID Accountability",
+        "group": "govern",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "ChittyMarket Manager",
+        "group": "market",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/govern/chittyos-compliance",
+        "name": "ChittyOS Compliance",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/circleback",
+        "name": "Circleback",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/govern/claude-person-not-thing",
+        "name": "Claude = Person, Not Thing",
+        "group": "govern",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/internal/claude-code-setup",
+        "name": "Claude Code Setup",
+        "group": "internal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/claude-integration-architect",
+        "name": "Claude Integration Architect",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/ship/cloudflare-developer-platform-claude-ai",
+        "name": "Cloudflare Developer Platform (Claude.ai)",
+        "group": "ship",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/ship/cloudflare-pipelines",
+        "name": "Cloudflare Pipelines",
+        "group": "ship",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/agent-runtime/cloudflare-proxy-agent",
+        "name": "Cloudflare Proxy Agent",
+        "group": "agent-runtime",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/build/code-review",
+        "name": "Code Review",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/code-simplifier",
+        "name": "Code Simplifier",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/coderabbit",
+        "name": "CodeRabbit",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/commit-commands",
+        "name": "Commit Commands",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/context7",
+        "name": "Context7",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/context7-claude-ai",
+        "name": "Context7 (Claude.ai)",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/local-lab/control-browser-automation",
+        "name": "Control Browser Automation",
+        "group": "local-lab",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/local-lab/control-chrome",
+        "name": "Control Chrome",
+        "group": "local-lab",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/local-lab/control-your-mac",
+        "name": "Control your Mac",
+        "group": "local-lab",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
+        "name": "Deploy to Cloudflare Workers",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/build/feature-dev",
+        "name": "Feature Dev",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/figma-claude-ai",
+        "name": "Figma (Claude.ai)",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/fill-and-analyze-pdfs",
+        "name": "Fill and Analyze PDFs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/firecrawl",
+        "name": "Firecrawl",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/frontend-design",
+        "name": "Frontend Design",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/github",
+        "name": "GitHub",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/github-workflows",
+        "name": "GitHub Workflows",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/gmail-claude-ai",
+        "name": "Gmail (Claude.ai)",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/build/go-lsp",
+        "name": "Go LSP",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-calendar-claude-ai",
+        "name": "Google Calendar (Claude.ai)",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/build/greptile",
+        "name": "Greptile",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/ship/health-check-services",
+        "name": "Health Check Services",
+        "group": "ship",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/govern/hookify",
+        "name": "Hookify",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/hugging-face-claude-ai",
+        "name": "Hugging Face (Claude.ai)",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/hugging-face-skills",
+        "name": "Hugging Face Skills",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/jam-bug-reports-claude-ai",
+        "name": "Jam Bug Reports (Claude.ai)",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/java-lsp",
+        "name": "Java LSP",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/linear",
+        "name": "Linear",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
+        "name": "Mercury Banking (Claude.ai)",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/govern/neon-schema-drift",
+        "name": "Neon Schema Drift",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/notion",
+        "name": "Notion",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/notion-claude-ai",
+        "name": "Notion (Claude.ai)",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/notion-proxy-agent",
+        "name": "Notion Proxy Agent",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/build/pr-review-toolkit",
+        "name": "PR Review Toolkit",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/plaid-developer-tools-claude-ai",
+        "name": "Plaid Developer Tools (Claude.ai)",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/play-sheet-music-claude-ai",
+        "name": "Play Sheet Music (Claude.ai)",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/playground",
+        "name": "Playground",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/local-lab/playwright-plugin",
+        "name": "Playwright Plugin",
+        "group": "local-lab",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/build/plugin-dev",
+        "name": "Plugin Dev",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/python-lsp",
+        "name": "Python LSP",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/ship/query-service-registry",
+        "name": "Query Service Registry",
+        "group": "ship",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/govern/ralph-loop",
+        "name": "Ralph Loop",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/read-and-send-imessages",
+        "name": "Read and Send iMessages",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/read-and-write-apple-notes",
+        "name": "Read and Write Apple Notes",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/ship/read-and-write-cloudflare",
+        "name": "Read and Write Cloudflare",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/local-lab/read-and-write-filesystem",
+        "name": "Read and Write Filesystem",
+        "group": "local-lab",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/read-and-write-neon-database",
+        "name": "Read and Write Neon Database",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/read-and-write-quality-metrics",
+        "name": "Read and Write Quality Metrics",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/build/read-and-write-source-code",
+        "name": "Read and Write Source Code",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/govern/registration-compliance",
+        "name": "Registration Compliance",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/build/require-pr-workflow",
+        "name": "Require PR Workflow",
+        "group": "build",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/govern/schema-validator",
+        "name": "Schema Validator",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/security-guidance",
+        "name": "Security Guidance",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/semgrep",
+        "name": "Semgrep",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/ship/sentry",
+        "name": "Sentry",
+        "group": "ship",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/serena-plugin",
+        "name": "Serena Plugin",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/workspace/session-cleanup",
+        "name": "Session Cleanup",
+        "group": "workspace",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/govern/session-identity-card",
+        "name": "Session Identity Card",
+        "group": "govern",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/internal/skill-creator",
+        "name": "Skill Creator",
+        "group": "internal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/suggest-chittyconnect",
+        "name": "Suggest ChittyConnect",
+        "group": "connect",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/supabase",
+        "name": "Supabase",
+        "group": "connect",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/superpowers",
+        "name": "Superpowers",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/trivago-claude-ai",
+        "name": "Trivago (Claude.ai)",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/typescript-lsp",
+        "name": "TypeScript LSP",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/govern/validate-entity-types",
+        "name": "Validate Entity Types",
+        "group": "govern",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/ship/vercel-claude-ai",
+        "name": "Vercel (Claude.ai)",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/ship/wrangler-audit",
+        "name": "Wrangler Audit",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      }
+    ]
+  }
+}
