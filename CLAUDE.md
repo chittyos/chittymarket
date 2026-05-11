@@ -2,7 +2,7 @@
 
 ## What This Is
 
-ChittyMarket is the Claude Code marketplace for the ChittyOS ecosystem. It serves two purposes:
+ChittyMarket is the Claude Code marketplace for the ChittyOS ecosystem. It serves three purposes:
 
 1. **Native Claude Code Marketplace** — `.claude-plugin/marketplace.json` lists 12 plugins installable via `/plugin add`
 2. **Artifact Inventory** — `marketplace.json` catalogs all 102 capabilities with rich metadata for the `/market` skill
@@ -23,6 +23,8 @@ chittymarket/
     chittymarket-manager/           # /market skill + market.sh
     chittyos-mcp/                   # Standalone ChittyOS MCP gateway
     neon-mcp/                       # Standalone Neon PostgreSQL MCP
+    chittyagent-autobot/            # Autonomous PR-driver agent (advanced/on-demand)
+    chittyagent-dispatch/           # Canonical → runtime projection adapters
   scripts/
     generate-marketplace.sh         # Regenerate native manifest from plugins/
 ```

@@ -23,9 +23,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "P"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -89,9 +92,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L",
+          "E"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -162,9 +169,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -231,7 +241,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -297,9 +310,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -364,9 +380,14 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
+          "E",
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "L",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -440,9 +461,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "P"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -506,9 +530,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "T",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -576,9 +603,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "T",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -646,9 +676,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "T",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -716,9 +749,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "T",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -786,9 +822,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -853,9 +892,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -920,9 +962,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -987,9 +1032,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "P"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -1053,9 +1101,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -1123,9 +1175,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "P"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -1189,9 +1244,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L",
+          "E"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -1262,9 +1321,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L",
+          "E"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -1330,9 +1393,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L",
+          "E"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -1398,9 +1465,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L",
+          "E"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -1466,9 +1537,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "P"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -1532,9 +1606,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "P"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -1598,10 +1675,14 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "L",
+          "E",
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "L",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -1675,10 +1756,14 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "L",
-          "E"
+          "E",
+          "T"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "L",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -1752,9 +1837,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L",
+          "E"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -1821,9 +1910,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L",
+          "E"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -1894,9 +1987,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -1963,10 +2060,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "L",
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2031,10 +2130,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P",
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2102,7 +2203,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2168,10 +2272,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T",
-          "E"
+          "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2239,7 +2345,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2307,7 +2416,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2375,7 +2487,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2441,9 +2556,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "E"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -2512,7 +2631,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2578,9 +2700,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2647,7 +2772,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2715,7 +2843,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2783,7 +2914,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2851,7 +2985,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2919,7 +3056,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -2985,9 +3125,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -3054,9 +3198,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "T",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -3126,7 +3273,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -3194,7 +3344,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -3262,7 +3415,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -3328,10 +3484,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
+          "A"
+        ],
+        "secondary": [
+          "P",
           "E",
           "T"
-        ],
-        "secondary": []
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -3400,7 +3559,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -3466,9 +3628,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -3602,7 +3767,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -3668,9 +3836,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -3735,9 +3906,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L",
+          "E"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -3805,7 +3980,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -3873,7 +4051,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -3941,7 +4122,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -4009,7 +4193,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -4075,10 +4262,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "E",
-          "A"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -4143,9 +4332,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -4274,7 +4466,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -4340,9 +4535,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "P"
         ],
-        "secondary": []
+        "secondary": [
+          "T",
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -4412,7 +4611,11 @@
         "primary": [
           "P"
         ],
-        "secondary": []
+        "secondary": [
+          "T",
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -4480,9 +4683,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "P"
         ],
-        "secondary": []
+        "secondary": [
+          "T",
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -4550,9 +4757,14 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
+          "E",
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "L",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -4626,9 +4838,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "A"
+          "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -4694,9 +4909,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -4763,9 +4982,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -4832,9 +5055,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -4899,10 +5125,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P",
-          "L"
+          "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -4968,10 +5196,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P",
-          "T"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -5038,9 +5269,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -5107,9 +5342,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -5174,9 +5412,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -5243,7 +5484,11 @@
         "primary": [
           "P"
         ],
-        "secondary": []
+        "secondary": [
+          "T",
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -5311,9 +5556,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "E"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -5385,9 +5634,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -5459,9 +5712,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -5533,9 +5790,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -5607,9 +5868,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -5681,9 +5946,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L",
+          "E"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -5754,9 +6023,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L",
+          "E"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -5829,7 +6102,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -5900,9 +6176,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "A"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -5975,9 +6255,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -6047,9 +6330,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -6114,9 +6400,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L",
+          "E"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -6182,9 +6472,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -6249,10 +6542,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "A",
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -6319,7 +6614,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -6385,10 +6683,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T",
-          "E"
+          "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -6454,9 +6754,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -6521,9 +6824,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "E"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -6588,9 +6894,13 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L",
+          "E"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "T"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -6661,9 +6971,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -6728,10 +7041,14 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P",
+          "E",
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "P",
+          "L",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true,
@@ -6807,7 +7124,10 @@
         "primary": [
           "T"
         ],
-        "secondary": []
+        "secondary": [
+          "E",
+          "A"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -6873,9 +7193,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -6940,9 +7263,12 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "T"
+          "L"
         ],
-        "secondary": []
+        "secondary": [
+          "A",
+          "E"
+        ]
       },
       "authority": {
         "requires_chittyid": true
@@ -7007,7 +7333,6 @@
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
-          "P",
           "T"
         ],
         "secondary": []

@@ -252,8 +252,11 @@ The canonical record is the sole source of truth. Runtime projections inherit ca
     "secondary": ["P", "L", "A"]
   },
   "discovery": {
-    "slim_mcp_hints": ["evidence", "ingest", "chain-of-custody"],
-    "high_signal_verbs": ["evidence", "collect", "preserve"]
+    "indexable": true,
+    "session_index": "hidden",
+    "ambient_by_intent": false,
+    "verbs": ["evidence", "collect", "docket", "dispute"],
+    "fallback_search": true
   },
   "auth_flow": {
     "mode": "existing-session",
@@ -559,13 +562,16 @@ Phase 1 unified pass produced full coverage across 102 capabilities.
 
 ## 7.5 By Authority
 
+Authority flags are non-exclusive — capabilities may carry multiple flags (e.g., a `legal` write requires both `requires_case` and `non_repudiation_required`). Sum exceeds 102.
+
 | Flag | Count |
 |---|---:|
-| requires_chittyid_only | 70 |
+| requires_chittyid_only (default) | 70 |
 | requires_governance_authority | 15 |
 | requires_deploy_authority | 12 |
 | non_repudiation_required | 8 |
 | requires_case | 5 |
+| no_last_case_fallback | 5 |
 
 ## 7.6 Assignment Attribution
 
@@ -730,14 +736,14 @@ Physical folder deprecation occurs strictly in Phase 6.
 
 ### `workspace`
 
-Keep as projections:
+Keep as projections. IDs as they appear in `marketplace.json`:
 
-- `chittyos-core`
-- `chittyxl`
-- `chittycontext`
-- `checkpoint`
-- `chitty-cleanup`
-- `sequential-thinking`
+- `chittyos-core` (plugin package)
+- `skill-chittyxl`
+- `skill-chittycontext`
+- `skill-checkpoint`
+- `skill-chitty-cleanup`
+- `thinking` (Sequential Thinking)
 
 ---
 
@@ -745,11 +751,11 @@ Keep as projections:
 
 Keep as projections:
 
-- `chitty-deploy`
-- `chitty-health`
-- `chitty-registry`
-- `chitty-pipelines`
-- `wrangler-audit`
+- `skill-chitty-deploy`
+- `skill-chitty-health`
+- `skill-chitty-registry`
+- `skill-chitty-pipelines`
+- `skill-wrangler-audit`
 - `plugin-sentry`
 
 ---
@@ -758,10 +764,10 @@ Keep as projections:
 
 Keep as projections:
 
-- Hookify entity rules
-- ChittyID hooks
-- deploy gate hooks
-- schema drift agents
+- Hookify entity rules (`hook-validate-entity-types`, `hook-claude-person-not-thing`, `hook-block-bypass-pipeline`)
+- ChittyID hooks (`hook-block-chittyid-generation`, `hook-chittyid-accountability`)
+- deploy gate hooks (`hook-deploy-gate-*`)
+- schema drift agents (`agent-chittyagent-schema`)
 - `plugin-ralph-loop`
 - `agent-chittyagent-canon`
 
@@ -771,11 +777,11 @@ Keep as projections:
 
 Keep as projections:
 
-- `evidence-collect`
-- `fact-governance`
-- `docket`
-- `dispute`
-- `search-evidence-documents`
+- `skill-evidence-collect`
+- `skill-fact-governance`
+- `skill-docket`
+- `skill-dispute`
+- `evidence` (Search Evidence Documents)
 
 ---
 
@@ -797,17 +803,19 @@ Consolidate into advanced/on-demand runtime capability:
 
 ## 9.2 Demotions and Removals
 
-### `chittyos-proxy-agents`
+Names below refer to **plugin packages** (directories under `plugins/`) as catalogued in `docs/audits/chittymarket-plugin-package-audit.json`, NOT to individual artifact IDs in `marketplace.json`. The demotion targets the package as a whole; specific artifact IDs within each package are demoted per the action items.
+
+### `chittyos-proxy-agents` (plugin package)
 
 Demote to `connect`.
 
-Examples:
+Affected artifact IDs in `marketplace.json` include:
 
-- Notion
-- Cloudflare
-- ChatGPT
-- Supabase
-- Plaid
+- `plugin-supabase`
+- `plugin-firecrawl`
+- `claude-ai-plaid`
+- `claude-ai-trivago`
+- the Notion / Cloudflare / ChatGPT connector entries
 
 Action:
 
@@ -816,9 +824,11 @@ Action:
 
 ---
 
-### `chittyos-mcp` and `neon-mcp`
+### `chittyos-mcp` and `neon-mcp` (plugin packages)
 
 Demote to legacy/advanced.
+
+The `chittyos-mcp` package surfaces via the `remote` artifact ID (canonical ChittyOS MCP gateway). `neon-mcp` surfaces via `neon` and related Neon connector artifact IDs.
 
 Action:
 
