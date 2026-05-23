@@ -72,4 +72,35 @@ if [ "$snapshot_before" != "$snapshot_after" ]; then
   failed=1
 fi
 
+# Evidence-gate policy enforcement
+# Source: docs/overrides/evidence-gate-overrides.json
+# Policy: any capability with authority.non_repudiation_required:true MUST carry
+# authority.evidence_gate populated. Block on the combination
+# (non_repudiation_required:true, evidence_gate:null|missing).
+overlay="$REPO_ROOT/capabilities.generated.json"
+if printf '%s\n' "${staged[@]}" | grep -qx "capabilities.generated.json" && [ -f "$overlay" ]; then
+  if command -v jq >/dev/null 2>&1; then
+    violations=$(jq -r '
+      .capabilities[]
+      | select(.authority.non_repudiation_required == true)
+      | select(.authority.evidence_gate == null or .authority.evidence_gate == "")
+      | .capability_id
+    ' "$overlay" 2>/dev/null || true)
+    if [ -n "$violations" ]; then
+      echo "" >&2
+      echo "[pre-commit-drift] BLOCKED — evidence-gate policy violation." >&2
+      echo "" >&2
+      echo "These capabilities assert non_repudiation_required:true but evidence_gate is unset:" >&2
+      printf '  - %s\n' $violations >&2
+      echo "" >&2
+      echo "Populate authority.evidence_gate (one of: pre-execute-middleware," >&2
+      echo "projection-internal, legal-space-only). See docs/overrides/evidence-gate-overrides.json" >&2
+      echo "and docs/decisions/capability-audit-log.md#2026-05-23." >&2
+      failed=1
+    fi
+  else
+    echo "[pre-commit-drift] WARN — jq not available; evidence-gate policy check skipped." >&2
+  fi
+fi
+
 exit "$failed"

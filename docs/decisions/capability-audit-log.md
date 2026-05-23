@@ -19,10 +19,17 @@ skill.
 - **0** capabilities missing primary P/L/T/E/A ontology mapping across all 10 capability groups.
 - Quality gate §11 "Every artifact has one entity mapping" — **satisfied**.
 
-#### Block — non-repudiation gate incomplete (legal group)
+#### Block — non-repudiation gate incomplete
 
-All 5 capabilities in `capability_group: legal` declare
-`authority.non_repudiation_required: true` but carry `authority.evidence_gate: null`:
+**Update 2026-05-23 (later):** initial audit checked the `legal` group only and
+flagged 5 records. Once the pre-commit drift hook's evidence-gate enforcement
+landed, it found **8** violators total — 3 additional records outside the
+`legal` group (`govern/fact-governance`, `ship/evidence-collection`,
+`govern/block-governance-edits`). All 8 are now covered in
+`docs/overrides/evidence-gate-overrides.json`.
+
+All 8 capabilities declare `authority.non_repudiation_required: true` but
+carry `authority.evidence_gate: null`:
 
 | capability_id | exec_class | mutation_risk |
 |---|---|---|
@@ -31,6 +38,9 @@ All 5 capabilities in `capability_group: legal` declare
 | `chittycanon://capability/legal/court-docket` | `@chitty/connectors` | high |
 | `chittycanon://capability/legal/legal-arsenal` | `@chitty/connectors` | high |
 | `chittycanon://capability/legal/chittymcp-claude-ai` | `@chitty/reasoning` | high |
+| `chittycanon://capability/govern/fact-governance` | `@chitty/reasoning` | high |
+| `chittycanon://capability/ship/evidence-collection` | `@chitty/reasoning` | high |
+| `chittycanon://capability/govern/block-governance-edits` | `@chitty/workspace` | high |
 
 Runbook §11 non-repudiation gate requires hash + timestamp + source trail
 **before activation**. The flag is asserted but the enforcement mechanism

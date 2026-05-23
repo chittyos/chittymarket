@@ -22,6 +22,18 @@
     "chittycanon://capability/legal/chittymcp-claude-ai": {
       "evidence_gate": "pre-execute-middleware",
       "rationale": "Claude.ai-routed MCP access to legal tools. The Ch1tty execute boundary is the natural gate point — the middleware verifies ChittyID + workspace + non-repudiation receipt before passing the call through to the underlying capability."
+    },
+    "chittycanon://capability/govern/fact-governance": {
+      "evidence_gate": "projection-internal",
+      "rationale": "Fact lifecycle (draft→verified→locked) writes to ChittyEvidence-DB. Each transition must carry the fact hash, transition timestamp, and verifier ChittyID as an immutable receipt. The projection owns the receipt because state transitions ARE the evidence event."
+    },
+    "chittycanon://capability/ship/evidence-collection": {
+      "evidence_gate": "projection-internal",
+      "rationale": "Evidence ingest pipeline writes hash + source + collection timestamp at intake. The receipt is structurally identical to the ingest record; the projection emits it as part of the ingest."
+    },
+    "chittycanon://capability/govern/block-governance-edits": {
+      "evidence_gate": "pre-execute-middleware",
+      "rationale": "Hook capability that blocks edits to canonical governance artifacts. Ch1tty execute verifies operator authority + emits a deny-decision receipt before the block fires. Middleware is correct here because the gate enforces refusal, not mutation."
     }
   },
   "audit_reference": "docs/decisions/capability-audit-log.md#2026-05-23",
