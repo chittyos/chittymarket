@@ -41,12 +41,12 @@
 ,
     {
       "name": "chittyos-governance",
-      "description": "Canonical governance hooks — entity type validation, ChittyID accountability, deploy gates, PR workflow enforcement, and Neon schema drift detection",
+      "description": "Canonical governance hooks — entity type validation, ChittyID accountability, deploy gates, PR workflow enforcement, Neon schema drift detection, and capability registry audit",
       "version": "1.0.0",
       "source": "./plugins/chittyos-governance",
       "strict": false,
       "category": "security",
-      "keywords": ["governance", "hooks", "entity-types", "chittyid", "deploy-gate", "schema"]
+      "keywords": ["governance", "hooks", "entity-types", "chittyid", "deploy-gate", "schema", "capability-audit"]
     }
 ,
     {
