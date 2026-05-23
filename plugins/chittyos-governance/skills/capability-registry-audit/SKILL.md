@@ -37,12 +37,15 @@ requested_action:       # classify | add | merge | retire | migrate | expose
 
 ### Step 1 — Existing-first search (MANDATORY)
 
-Before classifying anything, search the existing canonical inventory. Do all four in parallel:
+Before classifying anything, search the existing canonical inventory. Do all five in parallel:
 
-1. `curl -s https://registry.chitty.cc/api/services | jq '.services[] | select(.name | test("<keyword>"; "i"))'`
-2. Grep `marketplace.json` and `.claude-plugin/marketplace.json` for related names.
-3. Read related CHARTER.md / CHITTY.md / CLAUDE.md for closest canonical capability.
-4. Check Ch1tty `servers.json` and ChittyMCP tool list for live registrations.
+1. **Canonical overlay (primary)** — `jq '.capabilities[] | select(.name | test("<keyword>"; "i") or .description | test("<keyword>"; "i"))' capabilities.generated.json`. This is the canonical Capability Record source as of Phase 1 (102 capabilities). Each record carries `capability_id` (chittycanon URI), `capability_group`, `execution_class`, `ontology` (P/L/T/E/A), `canonical_version`, and `discovery` rules.
+2. `curl -s https://registry.chitty.cc/api/services | jq '.services[] | select(.name | test("<keyword>"; "i"))'`
+3. Grep `marketplace.json` and `.claude-plugin/marketplace.json` for related names.
+4. Read related CHARTER.md / CHITTY.md / CLAUDE.md for closest canonical capability.
+5. Check Ch1tty `servers.json` and ChittyMCP tool list for live registrations.
+
+The overlay is generated; if your audit produces a disposition that would change a record, the upstream generator must be re-run — do not hand-edit `capabilities.generated.json`. See `docs/architecture/CHITTYMARKET_CAPABILITY_ROUTER.md`.
 
 **Gate:** if a canonical capability already exists with overlapping job-to-be-done, the new artifact is a **projection / adapter / duplicate candidate**, not a new root. Stop and route to Step 5 with `merge` or `project` disposition.
 
