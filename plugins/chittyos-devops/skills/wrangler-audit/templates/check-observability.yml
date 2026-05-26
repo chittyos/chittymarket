@@ -1,0 +1,122 @@
+# GitHub Actions workflow — validates Cloudflare Worker observability config
+# matches the ChittyOS canonical OTLP-to-chittytrack standard.
+#
+# Drop into any ChittyOS Worker repo at .github/workflows/check-observability.yml
+# Runs on every PR + push to main / fix/* / feat/* branches.
+#
+# Standard enforced (per chittycanon://docs/tech/spec/worker-observability):
+#   observability.enabled == true
+#   observability.logs.enabled == true
+#   observability.logs.destinations includes "chittytrack"
+#   observability.traces.enabled == true
+#   observability.traces.destinations includes "chittytrack"
+#   observability.traces.persist == false (don't duplicate-store in CF dashboard)
+#
+# Why: every Worker MUST forward telemetry to track.chitty.cc/v1/{traces,logs}
+# (the canonical chittytrack OTLP receiver, version >= bc1a875c). This guarantees
+# ChittyOS-wide observability without per-service collector configuration.
+#
+# @canon: chittycanon://core/services/chittytrack
+# @canon: chittycanon://docs/tech/spec/worker-observability
+
+name: check-observability
+
+on:
+  pull_request:
+    paths:
+      - "wrangler.toml"
+      - "wrangler.json"
+      - "wrangler.jsonc"
+      - "**/wrangler.toml"
+      - "**/wrangler.json"
+      - "**/wrangler.jsonc"
+  push:
+    branches:
+      - main
+      - "fix/**"
+      - "feat/**"
+    paths:
+      - "wrangler.toml"
+      - "wrangler.json"
+      - "wrangler.jsonc"
+      - "**/wrangler.toml"
+      - "**/wrangler.json"
+      - "**/wrangler.jsonc"
+
+jobs:
+  observability:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install json5 parser
+        run: pip install --user json5
+
+      - name: Validate observability blocks
+        run: |
+          python3 <<'PY'
+          import json, json5, re, sys, glob, os
+
+          FAILURES = []
+
+          def load(path):
+              with open(path) as f:
+                  text = f.read()
+              if path.endswith(".toml"):
+                  try:
+                      import tomllib  # py>=3.11
+                  except ImportError:
+                      import tomli as tomllib
+                  return tomllib.loads(text)
+              return json5.loads(text)
+
+          def check(path, data):
+              name = data.get("name", os.path.basename(os.path.dirname(path)))
+              obs = data.get("observability", {}) or {}
+              if not obs.get("enabled"):
+                  FAILURES.append(f"{name} ({path}): observability.enabled is not true")
+                  return
+              logs = obs.get("logs", {}) or {}
+              if not logs.get("enabled"):
+                  FAILURES.append(f"{name}: observability.logs.enabled is not true")
+              if "chittytrack-logs" not in (logs.get("destinations") or []):
+                  FAILURES.append(f"{name}: observability.logs.destinations must include 'chittytrack-logs'")
+              traces = obs.get("traces", {}) or {}
+              if not traces.get("enabled"):
+                  FAILURES.append(f"{name}: observability.traces.enabled is not true (block missing or disabled)")
+              if "chittytrack-traces" not in (traces.get("destinations") or []):
+                  FAILURES.append(f"{name}: observability.traces.destinations must include 'chittytrack-traces'")
+              if traces.get("persist") is True:
+                  FAILURES.append(f"{name}: observability.traces.persist=true wastes storage; set to false (telemetry forwarded to chittytrack instead)")
+              # tail_consumers is belt-and-suspenders, warn if missing but don't fail
+              tails = data.get("tail_consumers", [])
+              if not any(t.get("service") == "chittytrack" for t in tails):
+                  print(f"::warning::{name}: tail_consumers missing 'chittytrack' (recommended belt-and-suspenders alongside OTLP)")
+
+          patterns = ["wrangler.toml", "wrangler.json", "wrangler.jsonc",
+                      "**/wrangler.toml", "**/wrangler.json", "**/wrangler.jsonc"]
+          configs = set()
+          for p in patterns:
+              for path in glob.glob(p, recursive=True):
+                  if "/node_modules/" in path or "/.wrangler/" in path:
+                      continue
+                  configs.add(os.path.abspath(path))
+
+          if not configs:
+              print("No wrangler config files found — skipping")
+              sys.exit(0)
+
+          for path in sorted(configs):
+              try:
+                  data = load(path)
+                  check(path, data)
+              except Exception as e:
+                  FAILURES.append(f"{path}: parse error — {e}")
+
+          if FAILURES:
+              print("\n".join(f"::error::{f}" for f in FAILURES))
+              print(f"\n{len(FAILURES)} observability standard violation(s). Fix and re-push.")
+              print("Standard reference: chittycanon://core/services/chittytrack")
+              sys.exit(1)
+          print(f"OK — {len(configs)} wrangler config(s) conform to ChittyOS observability standard")
+          PY

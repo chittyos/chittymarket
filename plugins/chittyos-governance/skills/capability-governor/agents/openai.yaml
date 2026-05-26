@@ -1,0 +1,4 @@
+interface:
+  display_name: "Capability Governor"
+  short_description: "Audit, route, merge, retire, or package ChittyOS capabilities through an identity-first governance loop."
+  primary_color: "#111827"
