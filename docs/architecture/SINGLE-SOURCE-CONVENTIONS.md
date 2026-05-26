@@ -82,10 +82,10 @@ Anything in `~/.claude/`, `~/.codex/`, `~/.openclaw/` is a **rendered output**, 
 
 | File | name (slug) |
 |---|---|
-| `chittyagent-canon.md` | `chittycanon-code-cardinal` |
-| `chittyagent-claude.md` | `claude-integration-architect` |
-| `chittyagent-connect.md` | `chittyconnect-concierge` |
-| `chittyagent-register.md` | `chittyregister-compliance-sergeant` |
+| `chittyagent-canon.md` | `chittyagent-canon` |
+| `chittyagent-claude.md` | `chittyagent-claude` |
+| `chittyagent-connect.md` | `chittyagent-connect` |
+| `chittyagent-register.md` | `chittyagent-register` |
 | `chittyagent-schema.md` | `chittyschema-overlord` |
 
 Meanwhile `chittyos-proxy-agents/` and `chittyagent-{autobot,dispatch,neon}` all have filename == slug.
@@ -94,8 +94,8 @@ Meanwhile `chittyos-proxy-agents/` and `chittyagent-{autobot,dispatch,neon}` all
 
 **Decision required**: Which way to align?
 
-- **(A) Rename files to slugs.** `chittyagent-canon.md` → `chittycanon-code-cardinal.md`. Preserves public API (slugs are what callers reference via `subagent_type:`). Breaks nothing externally. But abandons the `chittyagent-*` family-prefix convention that canonical/ favors.
-- **(B) Rename slugs to family-prefix.** `chittycanon-code-cardinal` → `chittyagent-canon`. Aligns with canonical/ direction. **Breaks any code that uses `subagent_type: chittycanon-code-cardinal`** — those would all need updating. The published `~/.claude/plugins/marketplaces/chittymarket/plugins/chittyos-core/agents/*` files on every installed host would need re-fetching.
+- **(A) Rename files to slugs.** `chittyagent-canon.md` → `chittyagent-canon.md`. Preserves public API (slugs are what callers reference via `subagent_type:`). Breaks nothing externally. But abandons the `chittyagent-*` family-prefix convention that canonical/ favors.
+- **(B) Rename slugs to family-prefix.** `chittyagent-canon` → `chittyagent-canon`. Aligns with canonical/ direction. **Breaks any code that uses `subagent_type: chittyagent-canon`** — those would all need updating. The published `~/.claude/plugins/marketplaces/chittymarket/plugins/chittyos-core/agents/*` files on every installed host would need re-fetching.
 - **(C) Keep current divergence, codify both as valid.** Add CI rule: agent's frontmatter `name:` MUST match filename stem (allowing the role-slug option). Then *enforcing* convention going forward without forcing a rename pass.
 
 **Recommendation**: (C) for stability + (A) on the next major release. Option B is breaking-change territory that should ride with another major bump.

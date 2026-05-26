@@ -212,7 +212,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/connect/chittyconnect-concierge",
+        "id": "chittycanon://capability/connect/chittyagent-connect",
         "name": "ChittyConnect Concierge",
         "group": "connect",
         "execution_class": "@chitty/connectors",
@@ -268,7 +268,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/build/claude-integration-architect",
+        "id": "chittycanon://capability/build/chittyagent-claude",
         "name": "Claude Integration Architect",
         "group": "build",
         "execution_class": "@chitty/connectors",
@@ -848,7 +848,7 @@
         "group_assignment_source": "name-rule"
       },
       {
-        "id": "chittycanon://capability/govern/chittycanon-code-cardinal",
+        "id": "chittycanon://capability/govern/chittyagent-canon",
         "name": "ChittyCanon Code Cardinal",
         "group": "govern",
         "execution_class": "@chitty/connectors",

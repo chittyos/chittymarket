@@ -154,10 +154,10 @@ Dispatch specialized agents in parallel using `Task` with `run_in_background: tr
 
 | Agent | Checks |
 |-------|--------|
-| `chittycanon-code-cardinal` | URI scheme, frontmatter, naming, ontology |
+| `chittyagent-canon` | URI scheme, frontmatter, naming, ontology |
 | `chittyagent-neon-schema` | Schema drift, cross-service compatibility |
-| `chittyregister-compliance-sergeant` | Registration readiness, payload validation |
-| `chittyconnect-concierge` | Credentials, auth patterns, integrations |
+| `chittyagent-register` | Registration readiness, payload validation |
+| `chittyagent-connect` | Credentials, auth patterns, integrations |
 
 Perform the quick audit inline while agents run. Aggregate all findings into a unified report using the format in **`references/compliance-checklist.md`** (Audit Report Format section).
 
