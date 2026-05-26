@@ -50,11 +50,14 @@ m = re.match(r"^---\n(.*?\n)---\n", src, re.DOTALL)
 fm = m.group(1) if m else ""
 plugin_m = re.search(r"^plugin:\s*(\S.*)$", fm, re.MULTILINE)
 plugin = plugin_m.group(1).strip() if plugin_m else ""
+kind_m = re.search(r"^kind:\s*(\S.*)$", fm, re.MULTILINE)
+kind = (kind_m.group(1).strip() if kind_m else "agent")
 runtimes = []
 rt_m = re.search(r"^runtimes:\s*\n((?:[ \t]+-\s*\S.*\n)+)", fm, re.MULTILINE)
 if rt_m:
     runtimes = [ln.strip().lstrip("-").strip() for ln in rt_m.group(1).splitlines() if ln.strip()]
 print(f"plugin={shlex.quote(plugin)}")
+print(f"kind={shlex.quote(kind)}")
 print(f"runtimes={shlex.quote(' '.join(runtimes))}")
 PY
 )"
@@ -62,29 +65,46 @@ PY
       can_sha=$(git hash-object "$can")
       targets_json="{}"
       for runtime in $runtimes; do
-        case "$runtime" in
-          claude-code)
+        # Resolve output path by (runtime, kind).
+        case "$runtime:$kind" in
+          claude-code:agent)
             out="$REPO_ROOT/plugins/${plugin}/agents/${name}.md"
-            "$ADAPTER_DIR/claude-code-agent.sh" "$can" "$out"
-            proj_sha=$(git hash-object "$out")
-            targets_json=$(python3 -c "import json,sys; d=json.loads(sys.argv[1]); d[sys.argv[2]]=sys.argv[3]; print(json.dumps(d))" "$targets_json" "$runtime" "$proj_sha")
+            adapter="$ADAPTER_DIR/claude-code-agent.sh"
             ;;
-          codex)
+          claude-code:skill)
+            out="$REPO_ROOT/plugins/${plugin}/skills/${name}/SKILL.md"
+            adapter="$ADAPTER_DIR/claude-code-agent.sh"   # same markdown+frontmatter shape
+            ;;
+          claude-code:command)
+            out="$REPO_ROOT/plugins/${plugin}/commands/${name}.md"
+            adapter="$ADAPTER_DIR/claude-code-agent.sh"   # same markdown+frontmatter shape
+            ;;
+          claude-code:hook)
+            out="$REPO_ROOT/plugins/${plugin}/hooks/hooks.json"
+            adapter="$ADAPTER_DIR/claude-code-hook.sh"
+            ;;
+          claude-code:mcp-server)
+            out="$REPO_ROOT/plugins/${plugin}/.mcp.json"
+            adapter="$ADAPTER_DIR/claude-code-mcp.sh"
+            ;;
+          codex:agent|codex:skill)
             out="$REPO_ROOT/plugins/${plugin}/codex-skills/${name}/SKILL.md"
-            "$ADAPTER_DIR/codex-skill.sh" "$can" "$out"
-            proj_sha=$(git hash-object "$out")
-            targets_json=$(python3 -c "import json,sys; d=json.loads(sys.argv[1]); d[sys.argv[2]]=sys.argv[3]; print(json.dumps(d))" "$targets_json" "$runtime" "$proj_sha")
+            adapter="$ADAPTER_DIR/codex-skill.sh"
             ;;
-          openclaw)
+          openclaw:agent)
             out="$REPO_ROOT/plugins/${plugin}/openclaw-agents/${name}.yaml"
-            "$ADAPTER_DIR/openclaw-agent.sh" "$can" "$out"
-            proj_sha=$(git hash-object "$out")
-            targets_json=$(python3 -c "import json,sys; d=json.loads(sys.argv[1]); d[sys.argv[2]]=sys.argv[3]; print(json.dumps(d))" "$targets_json" "$runtime" "$proj_sha")
+            adapter="$ADAPTER_DIR/openclaw-agent.sh"
             ;;
           *)
-            echo "[dispatch] $name: runtime '$runtime' adapter not yet implemented — skipping"
+            echo "[dispatch] $name: ($runtime,$kind) adapter not yet implemented — skipping"
+            adapter=""
             ;;
         esac
+        if [ -n "$adapter" ]; then
+          "$adapter" "$can" "$out"
+          proj_sha=$(git hash-object "$out")
+          targets_json=$(python3 -c "import json,sys; d=json.loads(sys.argv[1]); d[sys.argv[2]]=sys.argv[3]; print(json.dumps(d))" "$targets_json" "$runtime" "$proj_sha")
+        fi
       done
       python3 -c "
 import json, sys
