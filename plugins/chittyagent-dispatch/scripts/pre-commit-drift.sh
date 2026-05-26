@@ -28,7 +28,11 @@ declare -A names=()
 for f in "${staged[@]}"; do
   case "$f" in
     canonical/*.md)
-      n="${f#canonical/}"; n="${n%.md}"
+      # Strip any kind-subdir prefix so name is just the basename. Files like
+      # canonical/agents/foo.md and canonical/skills/foo.md both yield name=foo.
+      n="${f#canonical/}"
+      n="${n##*/}"     # strip subdir(s) → basename
+      n="${n%.md}"
       [ "$n" = "README" ] || names["$n"]=1 ;;
     plugins/*/agents/*.md)
       n="${f##*/}"; names["${n%.md}"]=1 ;;
@@ -45,19 +49,30 @@ snapshot_before=$(git status --porcelain)
 
 failed=0
 for name in "${!names[@]}"; do
-  can="$REPO_ROOT/canonical/${name}.md"
-  if [ ! -f "$can" ]; then
-    # Pointer-file exception: if the projection declares prompt_url and owner_repo
-    # frontmatter, it is a per-service-owned pointer — canonical body lives outside
-    # this repo. Source of truth is the external repo; do not require canonical/.
-    # See plugins/chittyagent-dispatch/scripts/hydrate-pointers.sh
+  # Search canonical/<kind>/<name>.md first, then flat canonical/<name>.md.
+  can=""
+  for sub in agents skills commands mcp hooks; do
+    if [ -f "$REPO_ROOT/canonical/$sub/${name}.md" ]; then
+      can="$REPO_ROOT/canonical/$sub/${name}.md"
+      break
+    fi
+  done
+  if [ -z "$can" ] && [ -f "$REPO_ROOT/canonical/${name}.md" ]; then
+    can="$REPO_ROOT/canonical/${name}.md"
+  fi
+  if [ -z "$can" ]; then
+    # Pointer-file exception.
     proj=$(printf '%s\n' "${staged[@]}" | grep -E "plugins/[^/]+/agents/${name}\.md$" | head -1 || true)
     if [ -n "$proj" ] && grep -qE "^prompt_url:" "$REPO_ROOT/$proj" && grep -qE "^owner_repo:" "$REPO_ROOT/$proj"; then
       dim_msg="[pre-commit-drift] $name: pointer (owner_repo declared) — canonical/ not required"
       printf '\033[0;90m%s\033[0m\n' "$dim_msg" >&2
       continue
     fi
-    echo "[pre-commit-drift] $name: projection staged but canonical missing ($can)" >&2
+    # Skip leftover SKILL.md or similar that don't have a canonical name.
+    if [ "$name" = "SKILL" ] || [ "$name" = "README" ]; then
+      continue
+    fi
+    echo "[pre-commit-drift] $name: projection staged but canonical missing (searched canonical/{agents,skills,commands,mcp,hooks}/${name}.md and canonical/${name}.md)" >&2
     failed=1
     continue
   fi

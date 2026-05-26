@@ -5,6 +5,7 @@ kind: skill
 plugin: chittymarket-manager
 runtimes:
   - claude-code
+  - codex
 classification:
   - marketplace
   - discovery

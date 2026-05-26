@@ -257,9 +257,17 @@ fi
 echo ""
 
 # --- 9. Projection-must-have-canonical (Phase E lock) ---
-# Every projection file (agent/skill/command/mcp/hook in plugins/) MUST derive
-# from a canonical/<name>.md source. Exception: pointer agents declaring
-# owner_repo + prompt_url in frontmatter (per-service-owned, source elsewhere).
+# Every projection file (agent/skill/command/mcp in plugins/) MUST derive
+# from a canonical/<kind>/<name>.md or canonical/<name>.md source.
+# Exception: pointer agents declaring owner_repo + prompt_url in frontmatter
+# (per-service-owned, source elsewhere).
+#
+# DELIBERATELY EXCLUDED — plugins/<plug>/hooks/hooks.json:
+#   The existing hooks.json in chittyos-governance is a manifest of EXTERNAL
+#   hookify rule references, not a projection of inline hook bodies. Per-hook
+#   canonicalization (canonical/hooks/<name>.md) was planned in Phase C but
+#   not yet implemented because the value is low while hooks are external.
+#   When hooks move inline, add the check here.
 echo "Checking projection ↔ canonical alignment..."
 projection_paths=()
 while IFS= read -r f; do projection_paths+=("$f"); done < <(
@@ -286,8 +294,18 @@ for proj in "${projection_paths[@]}"; do
   else
     continue
   fi
-  canonical="$REPO_DIR/canonical/${name}.md"
-  if [ -f "$canonical" ]; then
+  # Resolve canonical from kind-subdirs first, then flat-layout fallback.
+  found_canonical=""
+  for sub in agents skills commands mcp hooks; do
+    if [ -f "$REPO_DIR/canonical/$sub/${name}.md" ]; then
+      found_canonical="$REPO_DIR/canonical/$sub/${name}.md"
+      break
+    fi
+  done
+  if [ -z "$found_canonical" ] && [ -f "$REPO_DIR/canonical/${name}.md" ]; then
+    found_canonical="$REPO_DIR/canonical/${name}.md"
+  fi
+  if [ -n "$found_canonical" ]; then
     continue   # has a canonical source
   fi
   # Pointer-file exception: owner_repo + prompt_url frontmatter
@@ -299,6 +317,23 @@ for proj in "${projection_paths[@]}"; do
   ERRORS=$((ERRORS + 1))
 done
 echo ""
+
+
+# Also enforce: every mcpServers entry in plugins/<plug>/.mcp.json must have a canonical source.
+for mcp_json in $(find "$PLUGINS_DIR" -maxdepth 3 -name ".mcp.json" 2>/dev/null); do
+  while IFS= read -r srv; do
+    [ -n "$srv" ] || continue
+    canonical=""
+    for sub in mcp agents; do  # check mcp/ then fallback to agents/ for old-naming
+      if [ -f "$REPO_DIR/canonical/$sub/${srv}.md" ]; then canonical="found"; break; fi
+    done
+    [ -z "$canonical" ] && [ -f "$REPO_DIR/canonical/${srv}.md" ] && canonical="found"
+    if [ -z "$canonical" ]; then
+      red "  ERROR: $mcp_json declares mcpServers.${srv} but no canonical/mcp/${srv}.md exists"
+      ERRORS=$((ERRORS + 1))
+    fi
+  done < <(python3 -c "import json,sys; d=json.load(open(sys.argv[1])); print('\n'.join((d.get('mcpServers') or {}).keys()))" "$mcp_json" 2>/dev/null)
+done
 
 # --- Summary ---
 echo "=== Lint Summary ==="
