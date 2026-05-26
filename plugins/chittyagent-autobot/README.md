@@ -15,7 +15,7 @@ The autobot will:
 4. Plan into commits with `[NEEDS_CLARIFICATION]` markers that pause for your input.
 5. Generate copy-paste-ready implementation with canonical-URI citations.
 6. Implement commit-by-commit, with TDD if `--tdd` was set.
-7. Run `chittycanon-code-cardinal` + `code-reviewer` + `silent-failure-hunter` review.
+7. Run `chittyagent-canon` + `code-reviewer` + `silent-failure-hunter` review.
 8. Tidy: format, lint, branch cleanup, wrangler-audit if applicable.
 9. Scaffold CI/CD if missing; audit your GitHub-Actions CF token scopes.
 10. Ship: push, PR, ChittyRegistry update for new services, Notion sync, auto-merge if allowed.

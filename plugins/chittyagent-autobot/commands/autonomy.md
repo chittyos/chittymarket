@@ -1,6 +1,6 @@
 ---
 name: autonomy
-description: Drive a feature from one-line intent to merged PR via the ChittyOS canonical autonomy workflow. Requests a SOVEREIGNTY.cert, runs ecosystem discovery, plans/generates/implements with TDD-aware code, reviews via chittycanon-code-cardinal + code-reviewer + silent-failure-hunter, tidies, scaffolds CI/CD, ships, and persists memory.
+description: Drive a feature from one-line intent to merged PR via the ChittyOS canonical autonomy workflow. Requests a SOVEREIGNTY.cert, runs ecosystem discovery, plans/generates/implements with TDD-aware code, reviews via chittyagent-canon + code-reviewer + silent-failure-hunter, tidies, scaffolds CI/CD, ships, and persists memory.
 canonical_uri: chittycanon://commands/autonomy
 ---
 
@@ -23,7 +23,7 @@ The autobot enters Phase 0 (Sovereignty Affirmation) immediately. If you do not 
 
 You will be prompted only at:
 - Phase 3 (Plan) if there are `[NEEDS_CLARIFICATION]` markers
-- Phase 6 (Review) if `chittycanon-code-cardinal` flags a canon violation that the autobot cannot self-correct
+- Phase 6 (Review) if `chittyagent-canon` flags a canon violation that the autobot cannot self-correct
 - Phase 8 (CI/CD) if a required GitHub Actions secret scope is missing (dashboard step)
 
 All other phases run autonomously.

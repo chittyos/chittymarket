@@ -63,7 +63,7 @@ Some IDs shown by `/market` are runtime artifacts (skills/agents/MCP entries), n
 
 | Group | Agents |
 |------|--------|
-| **Core Service Agents** | `chittycanon-code-cardinal`, `chittyschema-overlord`, `chittyregister-compliance-sergeant`, `chittyconnect-concierge`, `chittyagent-claude` |
+| **Core Service Agents** | `chittyagent-canon`, `chittyschema-overlord`, `chittyagent-register`, `chittyagent-connect`, `chittyagent-claude` |
 | **Orchestration Agents** | `chittyagent-autobot`, `chittyagent-dispatch` |
 | **Governance/Platform Agents** | `chittyagent-neon` |
 | **Proxy Agents** | `chittyagent-chatgpt`, `chittyagent-cloudflare`, `chittyagent-notion` |

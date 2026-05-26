@@ -48,7 +48,7 @@
         "group_assignment_source": "category"
       },
       {
-        "capability_id": "chittycanon://capability/build/claude-integration-architect",
+        "capability_id": "chittycanon://capability/build/chittyagent-claude",
         "name": "Claude Integration Architect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
@@ -282,7 +282,7 @@
         "group_assignment_source": "name-rule"
       },
       {
-        "capability_id": "chittycanon://capability/connect/chittyconnect-concierge",
+        "capability_id": "chittycanon://capability/connect/chittyagent-connect",
         "name": "ChittyConnect Concierge",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
@@ -476,7 +476,7 @@
         "group_assignment_source": "name-rule"
       },
       {
-        "capability_id": "chittycanon://capability/govern/chittycanon-code-cardinal",
+        "capability_id": "chittycanon://capability/govern/chittyagent-canon",
         "name": "ChittyCanon Code Cardinal",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",

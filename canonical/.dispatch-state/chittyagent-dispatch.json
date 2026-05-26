@@ -1,8 +1,8 @@
 {
-  "canonical_sha": "3ed0b3717334c78fdcdbd7dc77a78487cfea2605",
+  "canonical_sha": "9d7c3b1b93db995d31fc233d16f98e5e98994dce",
   "targets": {
-    "claude-code": "18c0a21cf815a99bd1abd8e5bd34842b6b063bb3",
-    "codex": "d7674c2374415bd4b1c3ea10fcc3bede8ba49d80",
-    "openclaw": "83ed241c2d4fbcd7723b12d732925056d16e261c"
+    "claude-code": "695934f24d30a0273ba58a6827dfcdb8ec1044d0",
+    "codex": "69a5745be4ec23f242631a7a88d9a5244bf46c68",
+    "openclaw": "dbff6275dad23b4aeaf24a505bd55f3379123199"
   }
 }
