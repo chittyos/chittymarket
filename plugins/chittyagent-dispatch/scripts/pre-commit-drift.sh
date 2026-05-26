@@ -47,6 +47,16 @@ failed=0
 for name in "${!names[@]}"; do
   can="$REPO_ROOT/canonical/${name}.md"
   if [ ! -f "$can" ]; then
+    # Pointer-file exception: if the projection declares prompt_url and owner_repo
+    # frontmatter, it is a per-service-owned pointer — canonical body lives outside
+    # this repo. Source of truth is the external repo; do not require canonical/.
+    # See plugins/chittyagent-dispatch/scripts/hydrate-pointers.sh
+    proj=$(printf '%s\n' "${staged[@]}" | grep -E "plugins/[^/]+/agents/${name}\.md$" | head -1 || true)
+    if [ -n "$proj" ] && grep -qE "^prompt_url:" "$REPO_ROOT/$proj" && grep -qE "^owner_repo:" "$REPO_ROOT/$proj"; then
+      dim_msg="[pre-commit-drift] $name: pointer (owner_repo declared) — canonical/ not required"
+      printf '\033[0;90m%s\033[0m\n' "$dim_msg" >&2
+      continue
+    fi
     echo "[pre-commit-drift] $name: projection staged but canonical missing ($can)" >&2
     failed=1
     continue
