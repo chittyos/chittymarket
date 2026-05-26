@@ -6,6 +6,7 @@ color: orange
 canon_uri: chittycanon://core/services/chittyschema#agent-overlord
 prompt_source: github://CHITTYFOUNDATION/chittyschema/main/identity/agents/chittyschema-overlord.md
 prompt_url: https://raw.githubusercontent.com/chittyfoundation/chittyschema/main/identity/agents/chittyschema-overlord.md
+prompt_sha: c95066f87361ef9d4909b6bc0fad58f49c2acb424d7927a779bb3b9779db289c
 owner_repo: CHITTYFOUNDATION/chittyschema
 owner_path: identity/agents/chittyschema-overlord.md
 ---
@@ -342,7 +343,7 @@ Each service with database tables must document its schema (ER diagrams for comp
 Prefer the **Neon MCP** for cross-session safety + audited access. Fall back to psql only when MCP is unavailable.
 
 Neon MCP examples:
-- `run_sql({ projectId, branchId, sql: "\dt" })`
+- `run_sql({ projectId, branchId, sql: "\\dt" })`
 - `describe_table_schema({ projectId, tableName })`
 
 psql fallback:

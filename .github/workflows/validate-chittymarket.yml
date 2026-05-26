@@ -42,9 +42,28 @@ jobs:
       - name: scripts/test-plugins.sh
         run: bash scripts/test-plugins.sh
 
-      # 3. Manifest idempotency: regenerating from plugins/ must produce
-      #    no diff. Catches hand-edits to .claude-plugin/marketplace.json
-      #    and plugin.json changes that weren't propagated to the manifest.
+      # 3a. Dispatch idempotency (adversarial review #3): re-running
+      #     dispatch.sh sync must not change any projection file. Catches
+      #     direct edits to plugins/<plug>/{agents,skills,...}/ that
+      #     diverge from canonical/.
+      - name: Dispatch idempotency (dispatch.sh sync → no diff)
+        run: |
+          chmod +x plugins/chittyagent-dispatch/scripts/dispatch.sh plugins/chittyagent-dispatch/scripts/adapters/*.sh
+          bash plugins/chittyagent-dispatch/scripts/dispatch.sh sync > /dev/null
+          if ! git diff --quiet -- canonical/ plugins/; then
+            echo "::error::Direct edits to projection files detected — they diverge from canonical/."
+            echo "Run dispatch.sh sync locally and commit, OR edit the canonical source instead."
+            echo ""
+            echo "--- drift ---"
+            git diff --stat -- canonical/ plugins/
+            git diff -- canonical/ plugins/ | head -100
+            exit 1
+          fi
+          echo "✓ Projection files are in sync with canonical/"
+
+      # 3b. Manifest idempotency: regenerating from plugins/ must produce
+      #     no diff. Catches hand-edits to .claude-plugin/marketplace.json
+      #     and plugin.json changes that weren't propagated to the manifest.
       - name: Manifest idempotency (generate-marketplace.sh → no diff)
         run: |
           bash scripts/generate-marketplace.sh
