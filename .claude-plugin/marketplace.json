@@ -10,6 +10,16 @@
   },
   "plugins": [
     {
+      "name": "chittyagent-autobot",
+      "description": "Autonomous PR-driver agent for ChittyOS — orchestrates the canonical Sovereignty → Discover → Plan → Generate → Implement → Review → Tidy → CI/CD → Ship → Memory pipeline. Sovereignty-cert gated, pentad-aware, replaces the structured-autonomy trio.",
+      "version": "0.1.0",
+      "source": "./plugins/chittyagent-autobot",
+      "strict": false,
+      "category": "ecosystem",
+      "keywords": []
+    }
+,
+    {
       "name": "chittyagent-dispatch",
       "description": "Single-source-of-truth projection for ChittyOS agents/skills/hooks. Reads `chittymarket/canonical/<name>.md` and projects to every runtime format — Claude Code agents, Codex skills, OpenClaw agents, ChatGPT GPT configs, Notion agents, and the agent.chitty.cc orchestrator KV index. Eliminates per-runtime forks; canonical is the only file edited, projections are generated.",
       "version": "0.1.0",
