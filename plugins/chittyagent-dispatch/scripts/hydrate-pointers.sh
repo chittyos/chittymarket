@@ -87,11 +87,12 @@ if not m:
 frontmatter = m.group(1)
 rest = m.group(2)
 # Find HTML comment block (the warning) — keep it
-comment_match = re.match(r"^\s*(<!--.*?-->\s*)", rest, re.DOTALL)
-comment = comment_match.group(1) if comment_match else ""
-# Build new content
-new_body = """$fetched_body"""
-new_text = f"---\n{frontmatter}\n---\n\n{comment}\n{new_body}\n"
+comment_match = re.match(r"^\s*(<!--.*?-->)", rest, re.DOTALL)
+comment = comment_match.group(1).rstrip() if comment_match else ""
+# Build new content (normalize whitespace to prevent diff drift on idempotent re-runs)
+new_body = """$fetched_body""".strip()
+sep = "\n\n" if comment else ""
+new_text = f"---\n{frontmatter}\n---\n\n{comment}{sep}{new_body}\n"
 # Only write if changed
 if new_text != text:
     p.write_text(new_text)
