@@ -50,11 +50,7 @@ case "$mode" in
           break
         fi
       done
-      # Backward compat: also check flat canonical/<name>.md
-      if [ -z "$can" ] && [ -f "$CANONICAL_DIR/${name}.md" ]; then
-        can="$CANONICAL_DIR/${name}.md"
-      fi
-      [ -n "$can" ] || { echo "[dispatch] canonical not found for $name (searched canonical/{agents,skills,commands,mcp,hooks}/${name}.md and canonical/${name}.md)" >&2; exit 1; }
+      [ -n "$can" ] || { echo "[dispatch] canonical not found for $name (searched canonical/{agents,skills,commands,mcp,hooks}/${name}.md). Flat layout removed; place canonicals in their kind-subdir." >&2; exit 1; }
       eval "$(python3 - "$can" <<'PY'
 import sys, re, shlex
 src = open(sys.argv[1]).read()
@@ -76,7 +72,6 @@ PY
       [ -n "$plugin" ] || { echo "[dispatch] $name: missing plugin field" >&2; exit 1; }
       can_sha=$(git hash-object "$can")
       sub="$(basename "$(dirname "$can")")"
-      if [ "$sub" = "canonical" ]; then sub="agents"; fi  # flat-layout fallback
       mkdir -p "$STATE_DIR/$sub"
       targets_json="{}"
       for runtime in $runtimes; do

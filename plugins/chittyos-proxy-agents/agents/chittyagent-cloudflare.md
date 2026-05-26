@@ -1,6 +1,7 @@
 ---
 name: chittyagent-cloudflare
 description: Proxy to remote ChittyAgent Cloudflare service for infrastructure operations
+canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-cloudflare
 ---
 
 # ChittyAgent Cloudflare

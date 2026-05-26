@@ -1,5 +1,6 @@
 ---
 name: chittycontext
+canon_uri: chittycanon://core/services/chittymarket#skills/chittycontext
 description: ChittyContext session persistence — capture, restore, and inspect conversation state across sessions via checkpoint/restore/status JSON files.
 kind: skill
 plugin: chittyos-core

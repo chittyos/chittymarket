@@ -1,5 +1,6 @@
 ---
 name: neon
+canon_uri: chittycanon://core/services/chittymarket#mcp/neon
 description: |-
   MCP server neon packaged by the neon-mcp plugin.
 kind: mcp-server

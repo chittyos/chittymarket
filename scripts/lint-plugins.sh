@@ -302,11 +302,8 @@ for proj in "${projection_paths[@]}"; do
       break
     fi
   done
-  if [ -z "$found_canonical" ] && [ -f "$REPO_DIR/canonical/${name}.md" ]; then
-    found_canonical="$REPO_DIR/canonical/${name}.md"
-  fi
   if [ -n "$found_canonical" ]; then
-    continue   # has a canonical source
+    continue   # has a canonical source (from kind-subdir)
   fi
   # Pointer-file exception: owner_repo + prompt_url frontmatter
   if grep -qE "^prompt_url:" "$proj" 2>/dev/null && grep -qE "^owner_repo:" "$proj" 2>/dev/null; then

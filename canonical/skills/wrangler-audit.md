@@ -1,5 +1,6 @@
 ---
 name: wrangler-audit
+canon_uri: chittycanon://core/services/chittymarket#skills/wrangler-audit
 description: Audit all wrangler.toml files across CHITTYOS projects for consistency, stale compatibility dates, missing tail consumers, binding gaps, and route conflicts. Triggers on "wrangler audit", "audit workers", "check wrangler", "worker consistency", or /wrangler-audit.
 kind: skill
 plugin: chittyos-devops

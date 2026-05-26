@@ -1,6 +1,7 @@
 ---
 name: chitty-registry
 description: Query ChittyRegistry (registry.chitty.cc) for service catalog, tiers, domains, dependencies, and certification badges. Discovery before integration.
+canon_uri: chittycanon://core/services/chittymarket#skills/chitty-registry
 ---
 
 # ChittyOS Registry Skill

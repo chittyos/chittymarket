@@ -1,6 +1,7 @@
 ---
 name: chittyxl
 description: ChittyXL session manager — auto-checkpointing at token-budget intervals, Notion sync, persistent state across long sessions.
+canon_uri: chittycanon://core/services/chittymarket#skills/chittyxl
 ---
 
 # ChittyXL v2.0 - Session Persistence & Auto-Compacting Protocol

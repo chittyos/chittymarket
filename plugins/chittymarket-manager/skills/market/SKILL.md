@@ -1,6 +1,7 @@
 ---
 name: market
 description: ChittyMarket artifact manager — list, enable, disable, sync, and configure install mode for skills, agents, MCP servers, plugins, and hooks via the /market command.
+canon_uri: chittycanon://core/services/chittymarket#skills/market
 ---
 
 # /market — ChittyMarket Artifact Manager

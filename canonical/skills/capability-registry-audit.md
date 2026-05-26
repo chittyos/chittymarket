@@ -1,5 +1,6 @@
 ---
 name: capability-registry-audit
+canon_uri: chittycanon://core/services/chittymarket#skills/capability-registry-audit
 description: Audit a ChittyOS capability (tool, agent, skill, MCP server, plugin, manifest entry) against the canonical Capability Registry. Produces taxonomy entry, disposition decision, migration queue item, and decision log per the v0.2 runbook. Triggers on "audit capability", "classify capability", "registry audit", "is this a duplicate?", "/capability-registry-audit", or any new agent/tool/skill proposal.
 kind: skill
 plugin: chittyos-governance

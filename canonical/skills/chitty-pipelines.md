@@ -1,5 +1,6 @@
 ---
 name: chitty-pipelines
+canon_uri: chittycanon://core/services/chittymarket#skills/chitty-pipelines
 description: Inspect and operate ChittyOS data pipelines — Mercury sync, Notion mirrors, Drive ingestion, evidence ingress. Status, retry, drain failed jobs.
 kind: skill
 plugin: chittyos-devops

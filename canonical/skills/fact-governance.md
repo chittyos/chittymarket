@@ -1,5 +1,6 @@
 ---
 name: fact-governance
+canon_uri: chittycanon://core/services/chittymarket#skills/fact-governance
 description: Evidence fact governance for a specified case. Triggers on "fact", "evidence", "verify", "verification", case materials, dates/amounts/claims, or chittyevidence-db operations. REQUIRES an explicit `case` parameter — refuses to run without one. Manages fact lifecycle (draft→verified→locked), versioning, corrections, and Notion sync.
 kind: skill
 plugin: chittyos-legal
