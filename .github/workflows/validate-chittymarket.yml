@@ -1,0 +1,59 @@
+name: Validate ChittyMarket
+
+on:
+  pull_request:
+    paths:
+      - "plugins/**"
+      - ".claude-plugin/**"
+      - "marketplace.json"
+      - "profiles.json"
+      - "scripts/**"
+      - ".github/workflows/validate-chittymarket.yml"
+  push:
+    branches:
+      - main
+      - "feat/**"
+
+# Cancel in-progress runs when a new commit lands on the same PR/branch.
+concurrency:
+  group: validate-chittymarket-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: lint + test + manifest idempotency
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure scripts are executable
+        run: chmod +x scripts/*.sh
+
+      # 1. Plugin lint: every plugin has a valid .claude-plugin/plugin.json,
+      #    dependencies resolve, hook configs parse, profiles.json validates.
+      - name: scripts/lint-plugins.sh
+        run: bash scripts/lint-plugins.sh
+
+      # 2. Plugin tests: SKILL.md headers, agent file shapes, MCP configs,
+      #    plugins/ tree matches .claude-plugin/marketplace.json.
+      - name: scripts/test-plugins.sh
+        run: bash scripts/test-plugins.sh
+
+      # 3. Manifest idempotency: regenerating from plugins/ must produce
+      #    no diff. Catches hand-edits to .claude-plugin/marketplace.json
+      #    and plugin.json changes that weren't propagated to the manifest.
+      - name: Manifest idempotency (generate-marketplace.sh → no diff)
+        run: |
+          bash scripts/generate-marketplace.sh
+          if ! git diff --quiet -- .claude-plugin/marketplace.json; then
+            echo "::error::.claude-plugin/marketplace.json is out of sync with plugins/."
+            echo "Run 'bash scripts/generate-marketplace.sh' locally and commit the result."
+            echo ""
+            echo "--- drift ---"
+            git diff -- .claude-plugin/marketplace.json
+            exit 1
+          fi
+          echo "✓ Manifest is idempotent with respect to plugins/"
