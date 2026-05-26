@@ -1,5 +1,6 @@
 ---
 name: chittyagent-neon
+canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-neon
 description: |
   Use this agent for Neon-platform integration work — Neon Auth setup (RLS, JWT, organizations/users/sessions), branch operations (per-PR ephemeral branches, promotion, restore, cleanup), project/role/connection management, Neon OAuth/OIDC for the ChittyAuth facade, and canonical CHITTYAUTH_ISSUED_* token lifecycle. Operates across multiple Neon projects via the Neon MCP. **All schema work — drift detection, design review, type generation, migration governance — is owned by `chittyschema-overlord`. This agent delegates schema concerns to it.** This agent + chittyschema-overlord + chittyagent-connect are the canonical trio for any Neon-touching task.
 

@@ -1,5 +1,6 @@
 ---
 name: chittyxl
+canon_uri: chittycanon://core/services/chittymarket#skills/chittyxl
 description: ChittyXL session manager — auto-checkpointing at token-budget intervals, Notion sync, persistent state across long sessions.
 kind: skill
 plugin: chittyos-core

@@ -1,5 +1,6 @@
 ---
 name: chittyagent-dispatch
+canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-dispatch
 description: |
   Project canonical agent/skill/hook definitions to every runtime format. The single canonical doc lives at `chittymarket/canonical/<name>.md`; this agent reads it and emits Claude Code agent files, Codex SKILL.md (+ scripts/), OpenClaw YAML agents, ChatGPT Custom GPT configs, Notion agent records, and orchestrator KV entries at agent.chitty.cc. Use when (1) the canonical was just updated and runtimes need re-sync, (2) a new agent is being added and needs first-time projection, (3) drift is detected between canonical and a projected file, (4) a new runtime target is being onboarded. Companion to `chittyagent-autobot` (feature implementation orchestrator) — autobot does feature work, dispatch handles the definition-projection lifecycle.
 

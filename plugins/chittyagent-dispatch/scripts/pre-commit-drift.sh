@@ -57,9 +57,7 @@ for name in "${!names[@]}"; do
       break
     fi
   done
-  if [ -z "$can" ] && [ -f "$REPO_ROOT/canonical/${name}.md" ]; then
-    can="$REPO_ROOT/canonical/${name}.md"
-  fi
+
   if [ -z "$can" ]; then
     # Pointer-file exception.
     proj=$(printf '%s\n' "${staged[@]}" | grep -E "plugins/[^/]+/agents/${name}\.md$" | head -1 || true)

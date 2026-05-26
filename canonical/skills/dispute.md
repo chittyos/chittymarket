@@ -1,5 +1,6 @@
 ---
 name: dispute
+canon_uri: chittycanon://core/services/chittymarket#skills/dispute
 description: >-
   Issue and dispute management for property, insurance, legal, and financial matters.
   Triggers on: "dispute", "issue", "claim", "damage", "leak", "create dispute",

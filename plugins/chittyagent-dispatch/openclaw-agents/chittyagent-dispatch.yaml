@@ -200,3 +200,4 @@ instructions: |
   4. 🔜 Migrate existing agents/skills into `chittymarket/canonical/` and run first `bootstrap`.
   5. 🔜 `openclaw-agent.sh`, `chatgpt-gpt.sh`, `notion-agent.sh`, `orchestrator-kv.sh` adapters.
   6. 🔜 Drift hooks: pre-commit hook on chittymarket that detects direct edits to projected files and triggers `reconcile`.
+canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-dispatch

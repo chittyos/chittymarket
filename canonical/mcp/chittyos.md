@@ -1,5 +1,6 @@
 ---
 name: chittyos
+canon_uri: chittycanon://core/services/chittymarket#mcp/chittyos
 description: |-
   MCP server chittyos packaged by the chittyos-mcp plugin.
 kind: mcp-server

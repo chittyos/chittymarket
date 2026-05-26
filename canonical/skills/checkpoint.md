@@ -1,5 +1,6 @@
 ---
 name: checkpoint
+canon_uri: chittycanon://core/services/chittymarket#skills/checkpoint
 description: Save or resume session state. Use /checkpoint to save progress at session end, or /checkpoint resume to reload prior session state at session start. Triggers on "checkpoint", "save progress", "session state", "where did I leave off", "resume", "pick up where I left off".
 kind: skill
 classification:

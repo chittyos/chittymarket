@@ -1,6 +1,7 @@
 ---
 name: capability-governor
 description: govern chittyos capability inventory, marketplace agents, skills, tools, plugins, mcp routes, and platform projections through an identity-first audit loop. use when asked to classify a capability, design or refactor a tool marketplace, deduplicate agents, decide whether something belongs as a skill/plugin/gateway/local integration/legal workflow, create a migration or retirement decision, audit system footprint, or enforce evidence-grade routing for legal, governance, valuation, custody, dispute, or forensic capabilities.
+canon_uri: chittycanon://core/services/chittymarket#skills/capability-governor
 ---
 
 # Capability Governor

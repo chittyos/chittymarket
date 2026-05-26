@@ -1,5 +1,6 @@
 ---
 name: docket
+canon_uri: chittycanon://core/services/chittymarket#skills/docket
 description: Pull, view, and update Cook County Circuit Court docket for a specified case. Triggers on "docket", "court date", "next hearing", "case status", "pull docket", "court activity". REQUIRES an explicit case parameter (case number or registry slug) — refuses to run without one. Scrapes live docket via browser automation, updates the master timeline CSV, and syncs to ChittyLedger.
 kind: skill
 plugin: chittyos-legal

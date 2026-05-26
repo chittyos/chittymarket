@@ -1,6 +1,7 @@
 ---
 name: chittycontext
 description: ChittyContext session persistence — capture, restore, and inspect conversation state across sessions via checkpoint/restore/status JSON files.
+canon_uri: chittycanon://core/services/chittymarket#skills/chittycontext
 ---
 
 # ChittyContext Skill - Persistent State Management v2.1

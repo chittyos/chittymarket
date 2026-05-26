@@ -1,5 +1,6 @@
 ---
 name: chittyos-compliance
+canon_uri: chittycanon://core/services/chittymarket#skills/chittyos-compliance
 description: "This skill should be used when building, auditing, deploying, or certifying any ChittyOS service or artifact. It covers compliance auditing ('check compliance', 'audit this service', 'is this compliant?'), scaffolding new services ('scaffold new service', 'generate CHARTER.md/CHITTY.md/CLAUDE.md'), monitoring deployed health endpoints ('check health', 'monitor services', 'service status'), and certification ('certify', 'ChittyCertify', 'what badge level?'). Also trigger proactively when creating new ChittyOS services, modifying wrangler configs, writing CHARTER/CHITTY/CLAUDE docs, checking canonical compliance, registration readiness, or preparing for deployment."
 kind: skill
 plugin: chittyos-devops

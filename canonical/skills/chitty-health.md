@@ -1,5 +1,6 @@
 ---
 name: chitty-health
+canon_uri: chittycanon://core/services/chittymarket#skills/chitty-health
 description: Hit /health endpoints across the ChittyOS ecosystem (*.chitty.cc), aggregate results, and report drift from expected status.
 kind: skill
 plugin: chittyos-devops

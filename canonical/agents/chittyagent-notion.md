@@ -1,5 +1,6 @@
 ---
 name: chittyagent-notion
+canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-notion
 description: Proxy to remote ChittyAgent Notion service for database operations
 kind: agent
 plugin: chittyos-proxy-agents
