@@ -9,6 +9,7 @@ kind: skill
 plugin: chittyagent-autobot
 runtimes:
   - claude-code
+  - codex
 classification:
   - governance
   - autonomy

@@ -6,6 +6,8 @@ kind: agent
 plugin: chittyos-proxy-agents
 runtimes:
   - claude-code
+  - codex
+  - openclaw
 classification:
   - proxy
   - integration

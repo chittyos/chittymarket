@@ -12,6 +12,8 @@ classification:
   - claude-platform
 runtimes:
   - claude-code
+  - codex
+  - openclaw
 plugin: chittyos-core
 ---
 

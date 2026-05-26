@@ -32,6 +32,8 @@ classification:
   - orchestration
 runtimes:
   - claude-code
+  - codex
+  - openclaw
 plugin: chittyagent-autobot
 ---
 
