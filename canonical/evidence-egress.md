@@ -1,6 +1,13 @@
 ---
 name: evidence-egress
-description: 'Migrate evidence/document files out of scattered local source directories (Desktop, iCloud, Downloads, external) into the canonical pipeline (R2 + Drive mirror + local working copy). Read-only audit by default — produces per-case CSV reports of {in_neon, in_drive, action_needed} before any move or delete. Case-agnostic: discovers cases from <root>/cases/* and resolves Drive remotes by convention (sd_<case_id>:). Triggers on: ''egress'', ''evidence egress'', ''migrate evidence'', ''free up desktop'', ''iCloud evidence sprawl'', ''audit before move'', ''/evidence-egress'', ''where are the duplicates''.'
+description: "Migrate evidence/document files out of scattered local source directories (Desktop, iCloud, Downloads, external) into the canonical pipeline (R2 + Drive mirror + local working copy). Read-only audit by default — produces per-case CSV reports of {in_neon, in_drive, action_needed} before any move or delete. Case-agnostic: discovers cases from <root>/cases/* and resolves Drive remotes by convention (sd_<case_id>:). Triggers on: 'egress', 'evidence egress', 'migrate evidence', 'free up desktop', 'iCloud evidence sprawl', 'audit before move', '/evidence-egress', 'where are the duplicates'."
+kind: skill
+plugin: chittyos-legal
+runtimes:
+  - claude-code
+classification:
+  - legal
+  - evidence
 ---
 
 # Evidence Egress — Audit Before You Move
