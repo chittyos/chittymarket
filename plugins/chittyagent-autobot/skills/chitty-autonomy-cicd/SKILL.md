@@ -22,7 +22,7 @@ Observed failure (2026-05-01): chittyconnect Worker entered a deploy loop becaus
 3. Scaffold `.github/workflows/`:
    - `deploy.yml` — push to main → lint+test+deploy
    - `pr-checks.yml` — on PR → lint+test
-   - `chitty-canon-check.yml` — invokes chittycanon-code-cardinal
+   - `chitty-canon-check.yml` — invokes chittyagent-canon
 4. **Token scope audit** — programmatically list scopes on `CLOUDFLARE_API_TOKEN`:
    - REQUIRE: `Workers Scripts:Edit` (always)
    - IF wrangler config has `secrets_store_secrets` → REQUIRE: `Workers Secrets Store:Edit`

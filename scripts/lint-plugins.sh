@@ -79,6 +79,45 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
 done
 echo ""
 
+# --- 3b. Check SKILL.md frontmatter has name: and description: ---
+echo "Checking SKILL.md frontmatter..."
+for plugin_dir in "$PLUGINS_DIR"/*/; do
+  plugin_name=$(basename "$plugin_dir")
+  skills_dir="$plugin_dir/skills"
+  [ -d "$skills_dir" ] || continue
+  for sd in "$skills_dir"/*/; do
+    [ -d "$sd" ] || continue
+    skill_name=$(basename "$sd")
+    sm="$sd/SKILL.md"
+    [ -f "$sm" ] || continue
+    # Must start with --- frontmatter delimiter
+    if ! head -1 "$sm" | grep -qx -- "---"; then
+      red "  ERROR: $plugin_name/$skill_name/SKILL.md missing YAML frontmatter (must start with ---)"
+      ERRORS=$((ERRORS + 1))
+      continue
+    fi
+    # Find frontmatter end (second --- within first 30 lines)
+    fm_end=$(head -30 "$sm" | grep -n -x -- "---" | sed -n "2p" | cut -d: -f1)
+    if [ -z "$fm_end" ]; then
+      red "  ERROR: $plugin_name/$skill_name/SKILL.md frontmatter not closed within 30 lines"
+      ERRORS=$((ERRORS + 1))
+      continue
+    fi
+    # Extract frontmatter and check for required fields
+    fm=$(head -n "$fm_end" "$sm")
+    missing=""
+    echo "$fm" | grep -qE "^name\s*:" || missing="$missing name"
+    echo "$fm" | grep -qE "^description\s*:" || missing="$missing description"
+    if [ -n "$missing" ]; then
+      red "  ERROR: $plugin_name/$skill_name/SKILL.md frontmatter missing fields:$missing"
+      ERRORS=$((ERRORS + 1))
+    else
+      dim "  ok: $plugin_name/$skill_name SKILL.md frontmatter"
+    fi
+  done
+done
+echo ""
+
 # --- 4. Check plugin.json validity ---
 echo "Checking plugin.json files..."
 for plugin_dir in "$PLUGINS_DIR"/*/; do
@@ -107,6 +146,17 @@ print(','.join(missing) if missing else '')
         dim "  ok: $plugin_name/plugin.json"
       fi
     fi
+  fi
+done
+echo ""
+
+# --- 4b. Check for non-canonical plugin.json at plugin top-level ---
+echo "Checking plugin.json location..."
+for plugin_dir in "$PLUGINS_DIR"/*/; do
+  plugin_name=$(basename "$plugin_dir")
+  if [ -f "$plugin_dir/plugin.json" ]; then
+    red "  ERROR: $plugin_name has plugin.json at top-level — canonical location is .claude-plugin/plugin.json"
+    ERRORS=$((ERRORS + 1))
   fi
 done
 echo ""
@@ -205,6 +255,82 @@ for name, profile in data.get('profiles', {}).items():
   dim "  ok: profiles.json validated"
 fi
 echo ""
+
+# --- 9. Projection-must-have-canonical (Phase E lock) ---
+# Every projection file (agent/skill/command/mcp in plugins/) MUST derive
+# from a canonical/<kind>/<name>.md or canonical/<name>.md source.
+# Exception: pointer agents declaring owner_repo + prompt_url in frontmatter
+# (per-service-owned, source elsewhere).
+#
+# DELIBERATELY EXCLUDED — plugins/<plug>/hooks/hooks.json:
+#   The existing hooks.json in chittyos-governance is a manifest of EXTERNAL
+#   hookify rule references, not a projection of inline hook bodies. Per-hook
+#   canonicalization (canonical/hooks/<name>.md) was planned in Phase C but
+#   not yet implemented because the value is low while hooks are external.
+#   When hooks move inline, add the check here.
+echo "Checking projection ↔ canonical alignment..."
+projection_paths=()
+while IFS= read -r f; do projection_paths+=("$f"); done < <(
+  find "$PLUGINS_DIR" \
+    -type f \
+    \( -path "*/agents/*.md" \
+       -o -path "*/skills/*/SKILL.md" \
+       -o -path "*/commands/*.md" \
+       -o -path "*/codex-skills/*/SKILL.md" \
+       -o -path "*/openclaw-agents/*.yaml" \) 2>/dev/null
+)
+for proj in "${projection_paths[@]}"; do
+  # Derive canonical name from the projection path.
+  if [[ "$proj" == */agents/*.md ]]; then
+    name=$(basename "$proj" .md)
+  elif [[ "$proj" == */skills/*/SKILL.md ]]; then
+    name=$(basename "$(dirname "$proj")")
+  elif [[ "$proj" == */commands/*.md ]]; then
+    name=$(basename "$proj" .md)
+  elif [[ "$proj" == */codex-skills/*/SKILL.md ]]; then
+    name=$(basename "$(dirname "$proj")")
+  elif [[ "$proj" == */openclaw-agents/*.yaml ]]; then
+    name=$(basename "$proj" .yaml)
+  else
+    continue
+  fi
+  # Resolve canonical from kind-subdirs first, then flat-layout fallback.
+  found_canonical=""
+  for sub in agents skills commands mcp hooks; do
+    if [ -f "$REPO_DIR/canonical/$sub/${name}.md" ]; then
+      found_canonical="$REPO_DIR/canonical/$sub/${name}.md"
+      break
+    fi
+  done
+  if [ -n "$found_canonical" ]; then
+    continue   # has a canonical source (from kind-subdir)
+  fi
+  # Pointer-file exception: owner_repo + prompt_url frontmatter
+  if grep -qE "^prompt_url:" "$proj" 2>/dev/null && grep -qE "^owner_repo:" "$proj" 2>/dev/null; then
+    dim "  ok: $(basename "$(dirname "$(dirname "$proj")")")/$name (pointer; canonical/ not required)"
+    continue
+  fi
+  red "  ERROR: projection $proj has no canonical/${name}.md (and is not a pointer)"
+  ERRORS=$((ERRORS + 1))
+done
+echo ""
+
+
+# Also enforce: every mcpServers entry in plugins/<plug>/.mcp.json must have a canonical source.
+for mcp_json in $(find "$PLUGINS_DIR" -maxdepth 3 -name ".mcp.json" 2>/dev/null); do
+  while IFS= read -r srv; do
+    [ -n "$srv" ] || continue
+    canonical=""
+    for sub in mcp agents; do  # check mcp/ then fallback to agents/ for old-naming
+      if [ -f "$REPO_DIR/canonical/$sub/${srv}.md" ]; then canonical="found"; break; fi
+    done
+    [ -z "$canonical" ] && [ -f "$REPO_DIR/canonical/${srv}.md" ] && canonical="found"
+    if [ -z "$canonical" ]; then
+      red "  ERROR: $mcp_json declares mcpServers.${srv} but no canonical/mcp/${srv}.md exists"
+      ERRORS=$((ERRORS + 1))
+    fi
+  done < <(python3 -c "import json,sys; d=json.load(open(sys.argv[1])); print('\n'.join((d.get('mcpServers') or {}).keys()))" "$mcp_json" 2>/dev/null)
+done
 
 # --- Summary ---
 echo "=== Lint Summary ==="

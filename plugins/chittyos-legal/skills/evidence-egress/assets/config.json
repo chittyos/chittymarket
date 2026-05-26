@@ -1,0 +1,17 @@
+{
+  "document_extensions": [
+    "pdf", "eml", "docx", "doc", "txt", "csv", "zip",
+    "jpg", "jpeg", "png", "heic", "tiff", "tif",
+    "mp3", "m4a", "caf", "wav",
+    "xlsx", "xls", "pptx", "ppt",
+    "rtf", "html", "htm", "msg", "pages", "numbers"
+  ],
+  "code_marker_files": ["package.json", "pyproject.toml", "Cargo.toml", "go.mod", "requirements.txt", "Gemfile"],
+  "code_marker_dirs": ["node_modules", ".git", "__pycache__", "dist", "build", ".next", "venv", ".venv", "target"],
+  "drive_remote_pattern": "sd_{case_id}",
+  "neon_tables_to_try": ["storage.documents", "evidence_documents", "evidence.documents", "documents"],
+  "neon_hash_column": "content_hash",
+  "neon_hash_column_alternates": ["sha256", "hash", "doc_hash"],
+  "report_dir": "/tmp",
+  "report_retention_days": 30
+}

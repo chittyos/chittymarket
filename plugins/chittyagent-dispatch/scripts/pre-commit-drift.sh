@@ -28,7 +28,11 @@ declare -A names=()
 for f in "${staged[@]}"; do
   case "$f" in
     canonical/*.md)
-      n="${f#canonical/}"; n="${n%.md}"
+      # Strip any kind-subdir prefix so name is just the basename. Files like
+      # canonical/agents/foo.md and canonical/skills/foo.md both yield name=foo.
+      n="${f#canonical/}"
+      n="${n##*/}"     # strip subdir(s) → basename
+      n="${n%.md}"
       [ "$n" = "README" ] || names["$n"]=1 ;;
     plugins/*/agents/*.md)
       n="${f##*/}"; names["${n%.md}"]=1 ;;
@@ -45,9 +49,28 @@ snapshot_before=$(git status --porcelain)
 
 failed=0
 for name in "${!names[@]}"; do
-  can="$REPO_ROOT/canonical/${name}.md"
-  if [ ! -f "$can" ]; then
-    echo "[pre-commit-drift] $name: projection staged but canonical missing ($can)" >&2
+  # Search canonical/<kind>/<name>.md first, then flat canonical/<name>.md.
+  can=""
+  for sub in agents skills commands mcp hooks; do
+    if [ -f "$REPO_ROOT/canonical/$sub/${name}.md" ]; then
+      can="$REPO_ROOT/canonical/$sub/${name}.md"
+      break
+    fi
+  done
+
+  if [ -z "$can" ]; then
+    # Pointer-file exception.
+    proj=$(printf '%s\n' "${staged[@]}" | grep -E "plugins/[^/]+/agents/${name}\.md$" | head -1 || true)
+    if [ -n "$proj" ] && grep -qE "^prompt_url:" "$REPO_ROOT/$proj" && grep -qE "^owner_repo:" "$REPO_ROOT/$proj"; then
+      dim_msg="[pre-commit-drift] $name: pointer (owner_repo declared) — canonical/ not required"
+      printf '\033[0;90m%s\033[0m\n' "$dim_msg" >&2
+      continue
+    fi
+    # Skip leftover SKILL.md or similar that don't have a canonical name.
+    if [ "$name" = "SKILL" ] || [ "$name" = "README" ]; then
+      continue
+    fi
+    echo "[pre-commit-drift] $name: projection staged but canonical missing (searched canonical/{agents,skills,commands,mcp,hooks}/${name}.md and canonical/${name}.md)" >&2
     failed=1
     continue
   fi
@@ -70,6 +93,37 @@ if [ "$snapshot_before" != "$snapshot_after" ]; then
   echo "" >&2
   diff <(printf '%s\n' "$snapshot_before") <(printf '%s\n' "$snapshot_after") | grep '^>' | sed 's/^> /  /' >&2
   failed=1
+fi
+
+# Evidence-gate policy enforcement
+# Source: docs/overrides/evidence-gate-overrides.json
+# Policy: any capability with authority.non_repudiation_required:true MUST carry
+# authority.evidence_gate populated. Block on the combination
+# (non_repudiation_required:true, evidence_gate:null|missing).
+overlay="$REPO_ROOT/capabilities.generated.json"
+if printf '%s\n' "${staged[@]}" | grep -qx "capabilities.generated.json" && [ -f "$overlay" ]; then
+  if command -v jq >/dev/null 2>&1; then
+    violations=$(jq -r '
+      .capabilities[]
+      | select(.authority.non_repudiation_required == true)
+      | select(.authority.evidence_gate == null or .authority.evidence_gate == "")
+      | .capability_id
+    ' "$overlay" 2>/dev/null || true)
+    if [ -n "$violations" ]; then
+      echo "" >&2
+      echo "[pre-commit-drift] BLOCKED — evidence-gate policy violation." >&2
+      echo "" >&2
+      echo "These capabilities assert non_repudiation_required:true but evidence_gate is unset:" >&2
+      printf '  - %s\n' $violations >&2
+      echo "" >&2
+      echo "Populate authority.evidence_gate (one of: pre-execute-middleware," >&2
+      echo "projection-internal, legal-space-only). See docs/overrides/evidence-gate-overrides.json" >&2
+      echo "and docs/decisions/capability-audit-log.md#2026-05-23." >&2
+      failed=1
+    fi
+  else
+    echo "[pre-commit-drift] WARN — jq not available; evidence-gate policy check skipped." >&2
+  fi
 fi
 
 exit "$failed"

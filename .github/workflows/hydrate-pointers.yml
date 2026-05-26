@@ -1,0 +1,65 @@
+name: Hydrate Pointer Agents
+
+# Per chittycanon://gov/governance auto-healing advisory: refresh per-service-
+# owned pointer agent content on a schedule, opening a PR if upstream has
+# drifted. Currently only chittyagent-schema (CHITTYFOUNDATION/chittyschema)
+# is a pointer agent; the workflow scales to whichever pointers exist.
+
+on:
+  schedule:
+    - cron: '17 7 * * 1'    # Weekly, Mondays 07:17 UTC (off-peak)
+  workflow_dispatch:         # Manual trigger
+  push:
+    paths:
+      - '.github/workflows/hydrate-pointers.yml'
+      - 'plugins/chittyagent-dispatch/scripts/hydrate-pointers.sh'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  hydrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run hydrator
+        id: hydrate
+        run: |
+          chmod +x plugins/chittyagent-dispatch/scripts/hydrate-pointers.sh
+          set +e
+          bash plugins/chittyagent-dispatch/scripts/hydrate-pointers.sh
+          exit_code=$?
+          echo "exit_code=$exit_code" >> "$GITHUB_OUTPUT"
+          set -e
+          # Exit codes: 0 current, 1 hydrated-something, 2 fetch-failed
+          if [ "$exit_code" -eq 2 ]; then
+            echo "::error::Hydrator could not reach one or more prompt_url sources"
+            exit 1
+          fi
+
+      - name: Open PR on drift
+        if: steps.hydrate.outputs.exit_code == '1'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: chore/hydrate-pointers-${{ github.run_number }}
+          base: feat/market-refactor-v2
+          title: 'chore(hydrate): refresh pointer-agent content from upstream'
+          body: |
+            Automated hydration via `plugins/chittyagent-dispatch/scripts/hydrate-pointers.sh`.
+
+            Upstream content for one or more pointer agents has drifted from the
+            local cache. This PR refreshes the projection body while preserving
+            the pointer frontmatter (owner_repo, prompt_source, prompt_url).
+
+            Review the diff to confirm the upstream change is intentional.
+          commit-message: |
+            chore(hydrate): refresh pointer-agent content from upstream
+
+            Automated by .github/workflows/hydrate-pointers.yml
+          delete-branch: true

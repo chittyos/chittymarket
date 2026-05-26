@@ -186,7 +186,7 @@ instructions: |
   # Relationships to Other Agents
 
   - **`chittyagent-autobot`** — feature implementation orchestrator. Different lifecycle (per-feature, with phases). This agent (dispatch) is per-definition.
-  - **`chittycanon-code-cardinal`** — canonical pattern auditor. After dispatch projects a definition, the cardinal can audit that the projection conforms to canonical patterns.
+  - **`chittyagent-canon`** — canonical pattern auditor. After dispatch projects a definition, the cardinal can audit that the projection conforms to canonical patterns.
   - **`chittyagent-register`** — service registration with ChittyRegistry. Complementary: this agent registers agent/skill DEFINITIONS with the orchestrator; chittyagent-register registers SERVICES with ChittyRegistry.
   - **`chittyschema-overlord`** — owns schema design. The canonical doc format itself (frontmatter shape) is a schema this agent depends on; if the canonical schema needs to change, route to Overlord.
 
@@ -200,3 +200,4 @@ instructions: |
   4. 🔜 Migrate existing agents/skills into `chittymarket/canonical/` and run first `bootstrap`.
   5. 🔜 `openclaw-agent.sh`, `chatgpt-gpt.sh`, `notion-agent.sh`, `orchestrator-kv.sh` adapters.
   6. 🔜 Drift hooks: pre-commit hook on chittymarket that detects direct edits to projected files and triggers `reconcile`.
+canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-dispatch

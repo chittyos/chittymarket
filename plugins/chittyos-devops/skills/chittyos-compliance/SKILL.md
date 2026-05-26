@@ -1,6 +1,7 @@
 ---
 name: chittyos-compliance
-description: "This skill should be used when building, auditing, deploying, or certifying any ChittyOS service or artifact. It covers compliance auditing ('check compliance', 'audit this service', 'is this compliant?'), scaffolding new services ('scaffold new service', 'generate CHARTER.md/CHITTY.md/CLAUDE.md'), monitoring deployed health endpoints ('check health', 'monitor services', 'service status'), and certification ('certify', 'ChittyCertify', 'what badge level?'). Also trigger proactively when creating new ChittyOS services, modifying wrangler configs, writing CHARTER/CHITTY/CLAUDE docs, checking canonical compliance, registration readiness, or preparing for deployment."
+description: This skill should be used when building, auditing, deploying, or certifying any ChittyOS service or artifact. It covers compliance auditing ('check compliance', 'audit this service', 'is this compliant?'), scaffolding new services ('scaffold new service', 'generate CHARTER.md/CHITTY.md/CLAUDE.md'), monitoring deployed health endpoints ('check health', 'monitor services', 'service status'), and certification ('certify', 'ChittyCertify', 'what badge level?'). Also trigger proactively when creating new ChittyOS services, modifying wrangler configs, writing CHARTER/CHITTY/CLAUDE docs, checking canonical compliance, registration readiness, or preparing for deployment.
+canon_uri: chittycanon://core/services/chittymarket#skills/chittyos-compliance
 ---
 
 # ChittyOS Compatibility & Compliance
@@ -154,10 +155,10 @@ Dispatch specialized agents in parallel using `Task` with `run_in_background: tr
 
 | Agent | Checks |
 |-------|--------|
-| `chittycanon-code-cardinal` | URI scheme, frontmatter, naming, ontology |
+| `chittyagent-canon` | URI scheme, frontmatter, naming, ontology |
 | `chittyagent-neon-schema` | Schema drift, cross-service compatibility |
-| `chittyregister-compliance-sergeant` | Registration readiness, payload validation |
-| `chittyconnect-concierge` | Credentials, auth patterns, integrations |
+| `chittyagent-register` | Registration readiness, payload validation |
+| `chittyagent-connect` | Credentials, auth patterns, integrations |
 
 Perform the quick audit inline while agents run. Aggregate all findings into a unified report using the format in **`references/compliance-checklist.md`** (Audit Report Format section).
 

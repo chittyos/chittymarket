@@ -14,7 +14,7 @@ sovereignty_cert_issuer: chittycanon://core/services/chitty-cert
 Drive a feature request from one-line prompt to merged PR with full ChittyOS canonical compliance. This is the SUCCESSOR to the `structured-autonomy-{plan,generate,implement}` trio. It addresses three classes of defect in the original:
 
 1. **Tool-syntax debt** (`#tool:runSubagent`, `#context7`, `ResizeMe` Windows references).
-2. **Governance blindness** (no ChittyRegistry discovery, no canon citations, no `chittycanon-code-cardinal` review).
+2. **Governance blindness** (no ChittyRegistry discovery, no canon citations, no `chittyagent-canon` review).
 3. **No state machine** (three skills that don't compose; no failure recovery).
 
 ## Sovereignty Affirmation (Phase 0 — MANDATORY)
@@ -60,7 +60,7 @@ Response payload is persisted to `chittycontext/structured-autonomy/<feature>/SO
 | 3 | Plan | `chitty-autonomy-plan` | `plan.md` with [NEEDS_CLARIFICATION] markers enforced |
 | 4 | Generate | `chitty-autonomy-generate` | `implementation.md` with copy-paste TDD-aware code |
 | 5 | Implement | `chitty-autonomy-implement` | committed code, format/lint inline |
-| 6 | Review | delegate to `chittycanon-code-cardinal` + `code-reviewer` + `silent-failure-hunter` + `comment-analyzer` | review report; gate to next phase |
+| 6 | Review | delegate to `chittyagent-canon` + `code-reviewer` + `silent-failure-hunter` + `comment-analyzer` | review report; gate to next phase |
 | 7 | Tidy | `chitty-autonomy-tidy` | branch-cleanup, format, lint, chitty-cleanup invocation |
 | 8 | CI/CD | `chitty-autonomy-cicd` | `.github/workflows/`, wrangler deploy targets, secrets scaffold |
 | 9 | Ship | `chitty-autonomy-ship` | PR created/auto-merged, ChittyRegistry update, Notion sync |

@@ -1,6 +1,7 @@
 ---
 name: evidence-collect
-description: "Evidence collection and ingestion for a specified case. REQUIRES an explicit `case` parameter — refuses to run without one. Triggers on: downloading evidence, staging documents, collecting exhibits, pulling files from Google Drive, ALTA statements, closing disclosures, deeds, wire receipts, purchase contracts, mortgage documents, financial records, or any file retrieval for litigation purposes. Prevents ad-hoc file copying by enforcing the canonical pipeline."
+description: 'Evidence collection and ingestion for a specified case. REQUIRES an explicit `case` parameter — refuses to run without one. Triggers on: downloading evidence, staging documents, collecting exhibits, pulling files from Google Drive, ALTA statements, closing disclosures, deeds, wire receipts, purchase contracts, mortgage documents, financial records, or any file retrieval for litigation purposes. Prevents ad-hoc file copying by enforcing the canonical pipeline.'
+canon_uri: chittycanon://core/services/chittymarket#skills/evidence-collect
 ---
 
 # Evidence Collection — Canonical Pipeline

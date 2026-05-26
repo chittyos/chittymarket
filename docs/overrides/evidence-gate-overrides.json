@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "description": "Manual authority.evidence_gate overrides for capabilities that assert non_repudiation_required:true. Resolves the 2026-05-23 audit finding (docs/decisions/capability-audit-log.md). Generator must apply these before emitting capabilities.generated.json. Values: 'pre-execute-middleware' (Ch1tty execute enforces before tool invocation), 'projection-internal' (projection verifies + emits receipt), 'legal-space-only' (only callable inside Legal-space runtime).",
+  "policy": "Any capability with authority.non_repudiation_required:true MUST carry authority.evidence_gate populated with one of the three enum values. The generator MUST refuse to emit a record that asserts non_repudiation_required without a populated evidence_gate. Pre-commit drift hook should treat the combination (non_repudiation_required:true, evidence_gate:null) as a blocking error.",
+  "overrides": {
+    "chittycanon://capability/legal/search-evidence-documents": {
+      "evidence_gate": "pre-execute-middleware",
+      "rationale": "Read-side reasoning over evidence; Ch1tty execute verifies the requestor authority + emits an access receipt to the chain-of-custody log before returning results. Mutation_risk:high is paranoid — search is read-only — but the receipt is required."
+    },
+    "chittycanon://capability/legal/dispute-manager": {
+      "evidence_gate": "projection-internal",
+      "rationale": "Write-side capability that mutates dispute records. The projection itself hashes the payload, timestamps via ChittyLedger, and emits the source trail as part of every mutation. Cannot defer to middleware because the projection owns the immutable receipt."
+    },
+    "chittycanon://capability/legal/court-docket": {
+      "evidence_gate": "projection-internal",
+      "rationale": "Court docket sync writes to the case timeline. Each docket entry must carry the source URL hash, scrape timestamp, and Cook County docket ID. Projection emits these as a triple before any timeline write."
+    },
+    "chittycanon://capability/legal/legal-arsenal": {
+      "evidence_gate": "legal-space-only",
+      "rationale": "Aggregate over the full Arias v. Bianchi legal corpus. Too broad an attack surface to expose outside the Legal space runtime, where workspace-level authority is already established."
+    },
+    "chittycanon://capability/legal/chittymcp-claude-ai": {
+      "evidence_gate": "pre-execute-middleware",
+      "rationale": "Claude.ai-routed MCP access to legal tools. The Ch1tty execute boundary is the natural gate point — the middleware verifies ChittyID + workspace + non-repudiation receipt before passing the call through to the underlying capability."
+    },
+    "chittycanon://capability/govern/fact-governance": {
+      "evidence_gate": "projection-internal",
+      "rationale": "Fact lifecycle (draft→verified→locked) writes to ChittyEvidence-DB. Each transition must carry the fact hash, transition timestamp, and verifier ChittyID as an immutable receipt. The projection owns the receipt because state transitions ARE the evidence event."
+    },
+    "chittycanon://capability/ship/evidence-collection": {
+      "evidence_gate": "projection-internal",
+      "rationale": "Evidence ingest pipeline writes hash + source + collection timestamp at intake. The receipt is structurally identical to the ingest record; the projection emits it as part of the ingest."
+    },
+    "chittycanon://capability/govern/block-governance-edits": {
+      "evidence_gate": "pre-execute-middleware",
+      "rationale": "Hook capability that blocks edits to canonical governance artifacts. Ch1tty execute verifies operator authority + emits a deny-decision receipt before the block fires. Middleware is correct here because the gate enforces refusal, not mutation."
+    }
+  },
+  "audit_reference": "docs/decisions/capability-audit-log.md#2026-05-23",
+  "review_date": "2026-06-06"
+}

@@ -1,11 +1,7 @@
 ---
 name: dispute
-description: >-
-  Issue and dispute management for property, insurance, legal, and financial matters.
-  Triggers on: "dispute", "issue", "claim", "damage", "leak", "create dispute",
-  "list disputes", "dispute status", "water damage", "insurance claim",
-  "property issue", "vendor dispute", "tenant complaint".
-  Creates, tracks, and resolves multi-domain disputes via the ChittyDisputes API.
+description: 'Issue and dispute management for property, insurance, legal, and financial matters. Triggers on: "dispute", "issue", "claim", "damage", "leak", "create dispute", "list disputes", "dispute status", "water damage", "insurance claim", "property issue", "vendor dispute", "tenant complaint". Creates, tracks, and resolves multi-domain disputes via the ChittyDisputes API.'
+canon_uri: chittycanon://core/services/chittymarket#skills/dispute
 ---
 
 # Dispute — Issue/Dispute Management

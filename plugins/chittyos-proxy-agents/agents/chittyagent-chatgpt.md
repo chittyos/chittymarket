@@ -1,6 +1,7 @@
 ---
 name: chittyagent-chatgpt
 description: Proxy to remote ChittyAgent ChatGPT integration service
+canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-chatgpt
 ---
 
 # ChittyAgent ChatGPT

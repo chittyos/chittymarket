@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "description": "Manual capability_group overrides. Applied before name-rules and category-fallback in capabilities.generated.json.",
+  "overrides": {
+    "evidence": "legal",
+    "thinking": "workspace",
+    "plugin-hookify": "govern",
+    "plugin-ralph-loop": "govern",
+    "plugin-claude-code-setup": "internal",
+    "plugin-chittyagent-autobot": "internal",
+    "plugin-chittyhelper": "agent-runtime",
+    "plugin-chittyagent": "agent-runtime",
+    "plugin-chittycommand": "agent-runtime",
+    "agent-chittyagent-schema": "govern",
+    "agent-chittyagent-canon": "govern",
+    "agent-chittyagent-connect": "connect",
+    "hook-suggest-chittyconnect": "connect",
+    "plugin-supabase": "connect",
+    "plugin-firecrawl": "connect",
+    "claude-ai-plaid": "connect",
+    "claude-ai-trivago": "connect",
+    "plugin-sentry": "ship",
+    "agent-chittyagent-claude": "build",
+    "skill-chitty-registry": "ship",
+    "hook-claude-person-not-thing": "govern",
+    "hook-block-chittyid-generation": "govern",
+    "hook-chittyid-accountability": "govern"
+  }
+}
