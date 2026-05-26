@@ -30,6 +30,16 @@
     }
 ,
     {
+      "name": "chittymarket-canonical",
+      "description": "Canonical marketplace definitions and sync source. Holds the canonical/ artifact files projected by chittyagent-dispatch into runtime-native formats (Claude Code agents, Codex skills, OpenClaw agents). Edit canonicals here; projections are generated.",
+      "version": "0.1.0",
+      "source": "./plugins/chittymarket-canonical",
+      "strict": false,
+      "category": "ecosystem",
+      "keywords": []
+    }
+,
+    {
       "name": "chittymarket-manager",
       "description": "Artifact marketplace manager — list, enable, disable, sync, and toggle install modes for all ChittyOS Claude Code artifacts",
       "version": "1.0.0",
