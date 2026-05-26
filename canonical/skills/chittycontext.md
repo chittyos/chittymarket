@@ -6,6 +6,7 @@ kind: skill
 plugin: chittyos-core
 runtimes:
   - claude-code
+  - codex
 classification:
   - session
   - operations

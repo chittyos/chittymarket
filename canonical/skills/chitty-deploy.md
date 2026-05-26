@@ -6,6 +6,7 @@ kind: skill
 plugin: chittyos-devops
 runtimes:
   - claude-code
+  - codex
 classification:
   - operations
   - deployment

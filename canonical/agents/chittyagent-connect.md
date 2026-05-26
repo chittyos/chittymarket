@@ -69,6 +69,8 @@ classification:
   - auth
 runtimes:
   - claude-code
+  - codex
+  - openclaw
 plugin: chittyos-core
 ---
 

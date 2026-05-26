@@ -11,6 +11,7 @@ kind: skill
 plugin: chittyos-legal
 runtimes:
   - claude-code
+  - codex
 classification:
   - legal
   - evidence

@@ -66,6 +66,7 @@ classification:
 runtimes:
   - claude-code
   - codex
+  - openclaw
 plugin: chittyos-governance
 ---
 

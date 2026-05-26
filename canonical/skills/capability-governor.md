@@ -6,6 +6,7 @@ kind: skill
 plugin: chittyos-governance
 runtimes:
   - claude-code
+  - codex
 classification:
   - governance
   - compliance
