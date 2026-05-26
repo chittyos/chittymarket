@@ -1,3 +1,8 @@
+---
+name: chitty-pipelines
+description: Inspect and operate ChittyOS data pipelines — Mercury sync, Notion mirrors, Drive ingestion, evidence ingress. Status, retry, drain failed jobs.
+---
+
 # ChittyOS Pipelines Skill
 
 ## Overview

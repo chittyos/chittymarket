@@ -1,3 +1,8 @@
+---
+name: market
+description: ChittyMarket artifact manager — list, enable, disable, sync, and configure install mode for skills, agents, MCP servers, plugins, and hooks via the /market command.
+---
+
 # /market — ChittyMarket Artifact Manager
 
 Manage all Claude Code artifacts (MCP servers, skills, plugins, agents, hooks) from a single interface.

@@ -1,3 +1,8 @@
+---
+name: chitty-cleanup
+description: Free disk space on macOS by clearing regenerable caches (npm, pip, brew, Xcode, Docker, etc.). Safe to run anytime — only removes data apps will rebuild.
+---
+
 # ChittyOS Mac Cleanup Skill
 
 ## Overview

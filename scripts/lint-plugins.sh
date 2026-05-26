@@ -79,6 +79,45 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
 done
 echo ""
 
+# --- 3b. Check SKILL.md frontmatter has name: and description: ---
+echo "Checking SKILL.md frontmatter..."
+for plugin_dir in "$PLUGINS_DIR"/*/; do
+  plugin_name=$(basename "$plugin_dir")
+  skills_dir="$plugin_dir/skills"
+  [ -d "$skills_dir" ] || continue
+  for sd in "$skills_dir"/*/; do
+    [ -d "$sd" ] || continue
+    skill_name=$(basename "$sd")
+    sm="$sd/SKILL.md"
+    [ -f "$sm" ] || continue
+    # Must start with --- frontmatter delimiter
+    if ! head -1 "$sm" | grep -qx -- "---"; then
+      red "  ERROR: $plugin_name/$skill_name/SKILL.md missing YAML frontmatter (must start with ---)"
+      ERRORS=$((ERRORS + 1))
+      continue
+    fi
+    # Find frontmatter end (second --- within first 30 lines)
+    fm_end=$(head -30 "$sm" | grep -n -x -- "---" | sed -n "2p" | cut -d: -f1)
+    if [ -z "$fm_end" ]; then
+      red "  ERROR: $plugin_name/$skill_name/SKILL.md frontmatter not closed within 30 lines"
+      ERRORS=$((ERRORS + 1))
+      continue
+    fi
+    # Extract frontmatter and check for required fields
+    fm=$(head -n "$fm_end" "$sm")
+    missing=""
+    echo "$fm" | grep -qE "^name\s*:" || missing="$missing name"
+    echo "$fm" | grep -qE "^description\s*:" || missing="$missing description"
+    if [ -n "$missing" ]; then
+      red "  ERROR: $plugin_name/$skill_name/SKILL.md frontmatter missing fields:$missing"
+      ERRORS=$((ERRORS + 1))
+    else
+      dim "  ok: $plugin_name/$skill_name SKILL.md frontmatter"
+    fi
+  done
+done
+echo ""
+
 # --- 4. Check plugin.json validity ---
 echo "Checking plugin.json files..."
 for plugin_dir in "$PLUGINS_DIR"/*/; do
