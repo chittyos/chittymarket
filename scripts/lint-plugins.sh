@@ -256,6 +256,50 @@ for name, profile in data.get('profiles', {}).items():
 fi
 echo ""
 
+# --- 9. Projection-must-have-canonical (Phase E lock) ---
+# Every projection file (agent/skill/command/mcp/hook in plugins/) MUST derive
+# from a canonical/<name>.md source. Exception: pointer agents declaring
+# owner_repo + prompt_url in frontmatter (per-service-owned, source elsewhere).
+echo "Checking projection ↔ canonical alignment..."
+projection_paths=()
+while IFS= read -r f; do projection_paths+=("$f"); done < <(
+  find "$PLUGINS_DIR" \
+    -type f \
+    \( -path "*/agents/*.md" \
+       -o -path "*/skills/*/SKILL.md" \
+       -o -path "*/commands/*.md" \
+       -o -path "*/codex-skills/*/SKILL.md" \
+       -o -path "*/openclaw-agents/*.yaml" \) 2>/dev/null
+)
+for proj in "${projection_paths[@]}"; do
+  # Derive canonical name from the projection path.
+  if [[ "$proj" == */agents/*.md ]]; then
+    name=$(basename "$proj" .md)
+  elif [[ "$proj" == */skills/*/SKILL.md ]]; then
+    name=$(basename "$(dirname "$proj")")
+  elif [[ "$proj" == */commands/*.md ]]; then
+    name=$(basename "$proj" .md)
+  elif [[ "$proj" == */codex-skills/*/SKILL.md ]]; then
+    name=$(basename "$(dirname "$proj")")
+  elif [[ "$proj" == */openclaw-agents/*.yaml ]]; then
+    name=$(basename "$proj" .yaml)
+  else
+    continue
+  fi
+  canonical="$REPO_DIR/canonical/${name}.md"
+  if [ -f "$canonical" ]; then
+    continue   # has a canonical source
+  fi
+  # Pointer-file exception: owner_repo + prompt_url frontmatter
+  if grep -qE "^prompt_url:" "$proj" 2>/dev/null && grep -qE "^owner_repo:" "$proj" 2>/dev/null; then
+    dim "  ok: $(basename "$(dirname "$(dirname "$proj")")")/$name (pointer; canonical/ not required)"
+    continue
+  fi
+  red "  ERROR: projection $proj has no canonical/${name}.md (and is not a pointer)"
+  ERRORS=$((ERRORS + 1))
+done
+echo ""
+
 # --- Summary ---
 echo "=== Lint Summary ==="
 if [ $ERRORS -eq 0 ] && [ $WARNINGS -eq 0 ]; then

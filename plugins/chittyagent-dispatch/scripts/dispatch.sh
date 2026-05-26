@@ -53,7 +53,7 @@ plugin = plugin_m.group(1).strip() if plugin_m else ""
 kind_m = re.search(r"^kind:\s*(\S.*)$", fm, re.MULTILINE)
 kind = (kind_m.group(1).strip() if kind_m else "agent")
 runtimes = []
-rt_m = re.search(r"^runtimes:\s*\n((?:[ \t]+-\s*\S.*\n)+)", fm, re.MULTILINE)
+rt_m = re.search(r"^runtimes:\s*\n((?:[ \t]*-\s*\S.*\n)+)", fm, re.MULTILINE)
 if rt_m:
     runtimes = [ln.strip().lstrip("-").strip() for ln in rt_m.group(1).splitlines() if ln.strip()]
 print(f"plugin={shlex.quote(plugin)}")
