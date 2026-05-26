@@ -10,6 +10,16 @@
   },
   "plugins": [
     {
+      "name": "chittyagent-dispatch",
+      "description": "Single-source-of-truth projection for ChittyOS agents/skills/hooks. Reads `chittymarket/canonical/<name>.md` and projects to every runtime format — Claude Code agents, Codex skills, OpenClaw agents, ChatGPT GPT configs, Notion agents, and the agent.chitty.cc orchestrator KV index. Eliminates per-runtime forks; canonical is the only file edited, projections are generated.",
+      "version": "0.1.0",
+      "source": "./plugins/chittyagent-dispatch",
+      "strict": false,
+      "category": "ecosystem",
+      "keywords": []
+    }
+,
+    {
       "name": "chittymarket-manager",
       "description": "Artifact marketplace manager — list, enable, disable, sync, and toggle install modes for all ChittyOS Claude Code artifacts",
       "version": "1.0.0",
@@ -41,12 +51,12 @@
 ,
     {
       "name": "chittyos-governance",
-      "description": "Canonical governance hooks — entity type validation, ChittyID accountability, deploy gates, PR workflow enforcement, Neon schema drift detection, and capability registry audit",
+      "description": "Canonical governance hooks — entity type validation, ChittyID accountability, deploy gates, PR workflow enforcement, and unified Neon integration governance (schema drift, Neon Auth, OAuth/OIDC, branch ops, project/role/connection management, migration governance, canonical token lifecycle)",
       "version": "1.0.0",
       "source": "./plugins/chittyos-governance",
       "strict": false,
       "category": "security",
-      "keywords": ["governance", "hooks", "entity-types", "chittyid", "deploy-gate", "schema", "capability-audit"]
+      "keywords": ["governance", "hooks", "entity-types", "chittyid", "deploy-gate", "schema"]
     }
 ,
     {
