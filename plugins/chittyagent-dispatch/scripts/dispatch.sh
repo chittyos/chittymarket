@@ -38,11 +38,23 @@ case "$mode" in
     # with a notice until their adapters land.
     targets=("$@")
     if [ "${#targets[@]}" -eq 0 ]; then
-      mapfile -t targets < <(find "$CANONICAL_DIR" -maxdepth 1 -name "*.md" -not -name "README.md" -printf "%f\n" | sed 's/\.md$//')
+      # Discover canonicals across kind-subdirs (canonical/agents/, canonical/skills/, ...)
+      mapfile -t targets < <(find "$CANONICAL_DIR" -mindepth 2 -name "*.md" -not -name "README.md" -not -path "*/.dispatch-state/*" -printf "%f\n" | sed 's/\.md$//')
     fi
     for name in "${targets[@]}"; do
-      can="$CANONICAL_DIR/${name}.md"
-      [ -f "$can" ] || { echo "[dispatch] canonical not found: $can" >&2; exit 1; }
+      # Resolve canonical: search kind-subdirs (canonical/<kind-plural>/<name>.md)
+      can=""
+      for sub in agents skills commands mcp hooks; do
+        if [ -f "$CANONICAL_DIR/$sub/${name}.md" ]; then
+          can="$CANONICAL_DIR/$sub/${name}.md"
+          break
+        fi
+      done
+      # Backward compat: also check flat canonical/<name>.md
+      if [ -z "$can" ] && [ -f "$CANONICAL_DIR/${name}.md" ]; then
+        can="$CANONICAL_DIR/${name}.md"
+      fi
+      [ -n "$can" ] || { echo "[dispatch] canonical not found for $name (searched canonical/{agents,skills,commands,mcp,hooks}/${name}.md and canonical/${name}.md)" >&2; exit 1; }
       eval "$(python3 - "$can" <<'PY'
 import sys, re, shlex
 src = open(sys.argv[1]).read()
@@ -63,6 +75,9 @@ PY
 )"
       [ -n "$plugin" ] || { echo "[dispatch] $name: missing plugin field" >&2; exit 1; }
       can_sha=$(git hash-object "$can")
+      sub="$(basename "$(dirname "$can")")"
+      if [ "$sub" = "canonical" ]; then sub="agents"; fi  # flat-layout fallback
+      mkdir -p "$STATE_DIR/$sub"
       targets_json="{}"
       for runtime in $runtimes; do
         # Resolve output path by (runtime, kind).
@@ -112,7 +127,7 @@ open(sys.argv[1], 'w').write(json.dumps({
     'canonical_sha': sys.argv[2],
     'targets': json.loads(sys.argv[3]),
 }, indent=2, sort_keys=True))
-" "$STATE_DIR/${name}.json" "$can_sha" "$targets_json"
+" "$STATE_DIR/$sub/${name}.json" "$can_sha" "$targets_json"
       echo "[dispatch] sync $name: canonical=$can_sha targets=$targets_json"
     done
     ;;
