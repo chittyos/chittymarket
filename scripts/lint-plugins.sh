@@ -111,6 +111,17 @@ print(','.join(missing) if missing else '')
 done
 echo ""
 
+# --- 4b. Check for non-canonical plugin.json at plugin top-level ---
+echo "Checking plugin.json location..."
+for plugin_dir in "$PLUGINS_DIR"/*/; do
+  plugin_name=$(basename "$plugin_dir")
+  if [ -f "$plugin_dir/plugin.json" ]; then
+    red "  ERROR: $plugin_name has plugin.json at top-level — canonical location is .claude-plugin/plugin.json"
+    ERRORS=$((ERRORS + 1))
+  fi
+done
+echo ""
+
 # --- 5. Check dependency resolution ---
 echo "Checking dependencies..."
 declare -A AVAILABLE_PLUGINS
