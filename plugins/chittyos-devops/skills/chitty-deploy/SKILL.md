@@ -1,3 +1,8 @@
+---
+name: chitty-deploy
+description: Deploy a ChittyOS service to Cloudflare Workers via SSH-bridged wrangler. Handles compatibility flags, secrets provisioning, and post-deploy health verification.
+---
+
 # ChittyOS Deploy Skill
 
 ## Overview

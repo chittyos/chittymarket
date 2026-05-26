@@ -1,3 +1,8 @@
+---
+name: chitty-registry
+description: Query ChittyRegistry (registry.chitty.cc) for service catalog, tiers, domains, dependencies, and certification badges. Discovery before integration.
+---
+
 # ChittyOS Registry Skill
 
 ## Overview
