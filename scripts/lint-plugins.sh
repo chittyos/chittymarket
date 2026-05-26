@@ -256,6 +256,30 @@ for name, profile in data.get('profiles', {}).items():
 fi
 echo ""
 
+# --- 8b. Cross-kind name collision check (adversarial review #1) ---
+# A canonical name must be unique across all kind-subdirs. Without this check,
+# `canonical/agents/foo.md` and `canonical/skills/foo.md` would collide silently
+# (dispatch.sh's first-match-wins lookup would project the agent and orphan the skill).
+echo "Checking canonical name uniqueness across kind-subdirs..."
+collisions=$(python3 -c "
+import pathlib
+from collections import defaultdict
+seen = defaultdict(list)
+for p in pathlib.Path('$REPO_DIR/canonical').rglob('*.md'):
+    if p.name == 'README.md': continue
+    seen[p.stem].append(str(p.relative_to('$REPO_DIR')))
+for name, paths in seen.items():
+    if len(paths) > 1:
+        print(name + ': ' + ' '.join(paths))
+")
+if [ -n "$collisions" ]; then
+  echo "$collisions" | while IFS= read -r line; do
+    red "  ERROR: canonical name collision: $line"
+    ERRORS=$((ERRORS + 1))
+  done
+fi
+echo ""
+
 # --- 9. Projection-must-have-canonical (Phase E lock) ---
 # Every projection file (agent/skill/command/mcp in plugins/) MUST derive
 # from a canonical/<kind>/<name>.md or canonical/<name>.md source.
