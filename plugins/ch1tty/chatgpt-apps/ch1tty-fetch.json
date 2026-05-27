@@ -1,0 +1,65 @@
+{
+  "_meta": {
+    "chittycanon/canon_uri": "chittycanon://core/services/chittymarket#tools/ch1tty-fetch",
+    "chittycanon/visibility": "public",
+    "ui": {
+      "visibility": [
+        "model",
+        "app"
+      ]
+    }
+  },
+  "annotations": {
+    "destructiveHint": false,
+    "openWorldHint": true,
+    "readOnlyHint": true
+  },
+  "description": "Fetch the full definition for a single tool from the Ch1tty tool registry by its namespaced id (e.g. `serverId/toolName`). Returns the canonical tool record including title, prose, source URL, and optional metadata. This is the companion fetch tool to `ch1tty-search` and together they form the search+fetch pair required for ChatGPT Apps SDK \"company knowledge\" connector eligibility (Business/Enterprise/Edu). Read-only lookup; safe to call repeatedly. Open-world because tool ids resolve through arbitrary upstream MCP servers bridged by the gateway.",
+  "inputSchema": {
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "description": "Tool identifier (`serverId/toolName`) returned by `ch1tty-search`.\nTreated as opaque by the gateway; resolves to a registered tool.\n",
+        "type": "string"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "type": "object"
+  },
+  "name": "ch1tty-fetch",
+  "outputSchema": {
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "description": "The same tool id that was requested.",
+        "type": "string"
+      },
+      "metadata": {
+        "additionalProperties": true,
+        "description": "Optional opaque object carrying additional context (input_schema,\nsafety_class, world_class, upstream server id, version, etc.).\nConsumers MAY ignore unknown fields.\n",
+        "type": "object"
+      },
+      "text": {
+        "description": "Full prose description / documentation body for the tool, suitable\nfor the ChatGPT \"company knowledge\" connector to display and embed.\n",
+        "type": "string"
+      },
+      "title": {
+        "description": "Human-readable tool title (typically the tool name).",
+        "type": "string"
+      },
+      "url": {
+        "description": "Canonical URL pointing back to the source of truth for this tool\n(e.g. its entry in the Ch1tty registry or upstream catalog).\n",
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "title",
+      "text",
+      "url"
+    ],
+    "type": "object"
+  }
+}

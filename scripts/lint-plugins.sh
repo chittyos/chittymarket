@@ -313,7 +313,8 @@ while IFS= read -r f; do projection_paths+=("$f"); done < <(
        -o -path "*/commands/*.md" \
        -o -path "*/codex-skills/*/SKILL.md" \
        -o -path "*/openclaw-agents/*.yaml" \
-       -o -path "*/claude-skills/*.json" \) 2>/dev/null
+       -o -path "*/claude-skills/*.json" \
+       -o -path "*/chatgpt-apps/*.json" \) 2>/dev/null
 )
 for proj in "${projection_paths[@]}"; do
   # Derive canonical name + expected canonical kind-subdir from the projection path.
@@ -333,6 +334,9 @@ for proj in "${projection_paths[@]}"; do
     name=$(basename "$proj" .yaml)
     expected_kind="agents"
   elif [[ "$proj" == */claude-skills/*.json ]]; then
+    name=$(basename "$proj" .json)
+    expected_kind="tools"
+  elif [[ "$proj" == */chatgpt-apps/*.json ]]; then
     name=$(basename "$proj" .json)
     expected_kind="tools"
   else

@@ -1,0 +1,7 @@
+{
+  "canonical_sha": "816fa6faf5f8141164df0329ca9c42a61820a63e",
+  "targets": {
+    "chatgpt-apps": "5977a5939a7833478cf48c045e1600cd9d6fb79f",
+    "claude-skills": "5977a5939a7833478cf48c045e1600cd9d6fb79f"
+  }
+}
