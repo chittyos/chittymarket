@@ -41,6 +41,8 @@ for f in "${staged[@]}"; do
       tmp="${f%/SKILL.md}"; names["${tmp##*/}"]=1 ;;
     plugins/*/openclaw-agents/*.yaml)
       n="${f##*/}"; names["${n%.yaml}"]=1 ;;
+    plugins/*/claude-skills/*.json)
+      n="${f##*/}"; names["${n%.json}"]=1 ;;
   esac
 done
 
@@ -53,7 +55,7 @@ if [ "${#names[@]}" -gt 0 ]; then
   for name in "${!names[@]}"; do
     # Search canonical/<kind>/<name>.md first, then flat canonical/<name>.md.
     can=""
-    for sub in agents skills commands mcp hooks; do
+    for sub in agents skills commands mcp hooks tools; do
       if [ -f "$REPO_ROOT/canonical/$sub/${name}.md" ]; then
         can="$REPO_ROOT/canonical/$sub/${name}.md"
         break
@@ -72,7 +74,7 @@ if [ "${#names[@]}" -gt 0 ]; then
       if [ "$name" = "SKILL" ] || [ "$name" = "README" ]; then
         continue
       fi
-      echo "[pre-commit-drift] $name: projection staged but canonical missing (searched canonical/{agents,skills,commands,mcp,hooks}/${name}.md and canonical/${name}.md)" >&2
+      echo "[pre-commit-drift] $name: projection staged but canonical missing (searched canonical/{agents,skills,commands,mcp,hooks,tools}/${name}.md and canonical/${name}.md)" >&2
       failed=1
       continue
     fi

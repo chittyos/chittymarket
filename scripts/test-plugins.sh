@@ -129,6 +129,57 @@ except Exception as e:
 done
 echo ""
 
+# --- Test 5b: Claude Skills tool descriptors (kind: tool projections) ---
+echo "--- Claude Skills tool descriptors ---"
+found_cs=false
+for cs_file in "$PLUGINS_DIR"/*/claude-skills/*.json; do
+  [ -f "$cs_file" ] || continue
+  found_cs=true
+  plugin_name=$(basename "$(dirname "$(dirname "$cs_file")")")
+  tool_name=$(basename "$cs_file" .json)
+
+  result=$(python3 -c "
+import json, sys
+try:
+    d = json.load(open('$cs_file'))
+except Exception as e:
+    print(f'FAIL:invalid JSON: {e}')
+    sys.exit(0)
+errors = []
+for f in ['name', 'description', 'inputSchema', 'outputSchema', 'annotations']:
+    if f not in d:
+        errors.append(f'missing {f}')
+if 'annotations' in d:
+    ann = d['annotations']
+    if not isinstance(ann, dict):
+        errors.append('annotations must be object')
+    else:
+        for f in ['readOnlyHint', 'openWorldHint']:
+            if f not in ann:
+                errors.append(f'annotations.{f} missing')
+            elif not isinstance(ann[f], bool):
+                errors.append(f'annotations.{f} must be bool')
+for f in ['inputSchema', 'outputSchema']:
+    if f in d:
+        s = d[f]
+        if not isinstance(s, dict) or s.get('type') != 'object':
+            errors.append(f'{f} must be object schema (type: object)')
+if errors:
+    print('FAIL:' + '; '.join(errors))
+else:
+    print('PASS')
+")
+  if [ "$result" = "PASS" ]; then
+    green "$plugin_name/claude-skills/$tool_name.json (tool descriptor valid)"
+  else
+    red "$plugin_name/claude-skills/$tool_name.json: ${result#FAIL:}"
+  fi
+done
+if [ "$found_cs" = false ]; then
+  echo "  (no claude-skills/*.json files found)"
+fi
+echo ""
+
 # --- Test 6: hooks.json validity ---
 echo "--- Hooks configs ---"
 found_hooks=false
