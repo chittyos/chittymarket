@@ -501,6 +501,61 @@
       ]
     },
     {
+      "id": "skill-skill-creator",
+      "name": "Skill Creator (ChittyMarket-routed)",
+      "description": "Overrides upstream skill-creator. Routes all skill artifacts through ChittyMarket — no local ~/.claude/skills/ writes; updates marketplace.json + regenerates native manifest.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "plugins/chittyos-core/skills/skill-creator"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "overrides": "claude-plugins-official:skill-creator",
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/skill-creator",
+      "tags": [
+        "skill",
+        "authoring",
+        "marketplace",
+        "governance"
+      ]
+    },
+    {
+      "id": "skill-goal-creator",
+      "name": "Goal Creator",
+      "description": "Three-block (goal · conditions · not-met-until) pipeline driver: discover→elicit→architect→adversarial→SoT→build→persist→handoff. Pairs WITH the Claude Code built-in `/goal` (built-in enforces stop-gate; this skill runs the pipeline). Invoke via `/goal-creator` or planning-intent phrases.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "plugins/chittyos-core/skills/goal-creator"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/goal-creator",
+      "aliases": ["goal-pipeline"],
+      "tags": [
+        "goal",
+        "pipeline",
+        "discovery",
+        "adversarial",
+        "sot",
+        "planning",
+        "architecture"
+      ]
+    },
+    {
       "id": "skill-checkpoint",
       "name": "Checkpoint Manager",
       "description": "Save named checkpoints for session state",

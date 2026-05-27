@@ -1,0 +1,308 @@
+{
+  "_README": "Proposed additions to /home/ubuntu/projects/github.com/CHITTYOS/ch1tty/servers.json — 13 entries to close the claude.ai-personal-connector gap. Merge into the `servers` array. Endpoints marked TODO need verification against upstream docs before deploy. 1Password vault assumed `ChittyOS-Integrations` (consistent with existing Notion/Stripe entries).",
+
+  "additions": [
+    {
+      "_comment": "── high-value third-party (replace claude.ai personal duplicates) ──"
+    },
+
+    {
+      "id": "ahrefs",
+      "name": "Ahrefs",
+      "type": "remote",
+      "access": "readonly",
+      "category": "research",
+      "endpoint": "https://api.ahrefs.com/v3/mcp",
+      "authTokenKey": "ahrefs-api",
+      "_endpoint_TODO": "verify Ahrefs MCP endpoint — claude.ai proxies it; direct URL may differ",
+      "lazy": true,
+      "enabled": true,
+      "slim_mcp": true,
+      "_slim_mcp_note": "Ahrefs exposes 126 tools — register behind slim-MCP search/execute via orchestrator, do not surface all tools directly"
+    },
+
+    {
+      "id": "mercury",
+      "name": "Mercury Banking",
+      "type": "remote",
+      "access": "readwrite",
+      "category": "finance",
+      "endpoint": "https://api.mercury.com/api/v1/mcp",
+      "_endpoint_TODO": "verify Mercury MCP endpoint",
+      "lazy": true,
+      "enabled": true,
+      "multitenant": true,
+      "requireTenantParam": true,
+      "tenants": {
+        "_doc": "Each ChittyOS legal-entity = one Mercury tenant. Proxy selects 1Password credential per tenant_id at call time. No default. tenant_id MUST be a Legal Person ChittyID.",
+        "chittycorp": {
+          "label": "ChittyCorp LLC",
+          "chittyId": "TODO-chittyid-chittycorp",
+          "authTokenKey": "mercury-chittycorp",
+          "space": "business"
+        },
+        "digital-dossier": {
+          "label": "Digital Dossier",
+          "chittyId": "TODO-chittyid-digital-dossier",
+          "authTokenKey": "mercury-digital-dossier",
+          "space": "business"
+        },
+        "furnished-condos": {
+          "label": "Furnished-Condos",
+          "chittyId": "TODO-chittyid-furnished-condos",
+          "authTokenKey": "mercury-furnished-condos",
+          "space": "business"
+        },
+        "_add_more": "one entry per Mercury org. Legalink-space tenants stay isolated from business-space callers."
+      },
+      "policy": {
+        "twoSpaceEnforced": true,
+        "refuseWithoutTenant": "POLICY_BLOCKED_MERCURY_TENANT_REQUIRED",
+        "auditLog": "chittyops.mercury_calls"
+      }
+    },
+
+    {
+      "id": "postman",
+      "name": "Postman API",
+      "type": "remote",
+      "access": "readwrite",
+      "category": "developer-tools",
+      "endpoint": "https://api.postman.com/mcp",
+      "_endpoint_TODO": "verify",
+      "authTokenKey": "postman-api",
+      "lazy": true,
+      "enabled": true,
+      "slim_mcp": true,
+      "_slim_mcp_note": "40+ tools — slim-MCP candidate"
+    },
+
+    {
+      "id": "docusign",
+      "name": "Docusign",
+      "type": "remote",
+      "access": "readwrite",
+      "category": "legal",
+      "endpoint": "https://account.docusign.com/mcp",
+      "_endpoint_TODO": "verify; Docusign uses OAuth not bearer",
+      "authTokenKey": "docusign-oauth",
+      "lazy": true,
+      "enabled": true,
+      "_oauth_note": "Docusign requires OAuth flow — wire via ChittyConnect OAuth broker, not direct bearer"
+    },
+
+    {
+      "id": "gmail",
+      "name": "Gmail",
+      "type": "remote",
+      "access": "readwrite",
+      "category": "communications",
+      "endpoint": "https://gmail.googleapis.com/mcp",
+      "_endpoint_TODO": "Gmail MCP is Google-OAuth — route via ChittyConnect Google broker",
+      "authTokenKey": "google-oauth-gmail",
+      "lazy": true,
+      "enabled": true
+    },
+
+    {
+      "id": "google-calendar",
+      "name": "Google Calendar",
+      "type": "remote",
+      "access": "readwrite",
+      "category": "communications",
+      "endpoint": "https://calendar.googleapis.com/mcp",
+      "_endpoint_TODO": "OAuth via ChittyConnect Google broker",
+      "authTokenKey": "google-oauth-calendar",
+      "lazy": true,
+      "enabled": true
+    },
+
+    {
+      "id": "google-drive",
+      "name": "Google Drive",
+      "type": "remote",
+      "access": "readwrite",
+      "category": "documents",
+      "endpoint": "https://drive.googleapis.com/mcp",
+      "_endpoint_TODO": "OAuth via ChittyConnect Google broker",
+      "authTokenKey": "google-oauth-drive",
+      "lazy": true,
+      "enabled": true,
+      "_note": "evidence-collect skill depends on this — required for case material ingestion"
+    },
+
+    {
+      "id": "zapier",
+      "name": "Zapier",
+      "type": "remote",
+      "access": "readwrite",
+      "category": "automation",
+      "endpoint": "https://mcp.zapier.com/api/mcp",
+      "_endpoint_TODO": "verify",
+      "authTokenKey": "zapier-mcp",
+      "lazy": true,
+      "enabled": true,
+      "slim_mcp": true,
+      "_slim_mcp_note": "Zapier exposes 300+ Zaps — mandatory slim-MCP; debatable whether to nest a gateway-in-gateway"
+    },
+
+    {
+      "id": "twilio",
+      "name": "Twilio",
+      "type": "remote",
+      "access": "readwrite",
+      "category": "communications",
+      "endpoint": "https://mcp.twilio.com/mcp",
+      "_endpoint_TODO": "verify",
+      "authTokenKey": "twilio-api",
+      "lazy": true,
+      "enabled": true
+    },
+
+    {
+      "id": "quo",
+      "name": "Quo",
+      "type": "remote",
+      "access": "readwrite",
+      "category": "communications",
+      "endpoint": "https://api.quo.cc/mcp",
+      "_endpoint_TODO": "verify",
+      "authTokenKey": "quo-api",
+      "lazy": true,
+      "enabled": true
+    },
+
+    {
+      "id": "mermaid",
+      "name": "Mermaid Chart",
+      "type": "remote",
+      "access": "readonly",
+      "category": "documents",
+      "endpoint": "https://www.mermaidchart.com/mcp",
+      "_endpoint_TODO": "verify",
+      "authTokenKey": "mermaid-api",
+      "lazy": true,
+      "enabled": true
+    },
+
+    {
+      "_comment": "── accounting / books (multitenant — same pattern as Mercury) ──"
+    },
+
+    {
+      "id": "wave",
+      "name": "Wave Accounting",
+      "type": "remote",
+      "access": "readwrite",
+      "category": "finance",
+      "endpoint": "https://gql.waveapps.com/graphql/public/mcp",
+      "_endpoint_TODO": "Wave's primary API is GraphQL; verify whether they ship native MCP or wrap via ChittyConnect",
+      "lazy": true,
+      "enabled": true,
+      "multitenant": true,
+      "requireTenantParam": true,
+      "tenants": {
+        "_doc": "One Wave business = one tenant. Mirror Mercury tenants where the same legal entity has both a Mercury bank account and Wave books. tenant_id MUST be a Legal Person ChittyID and SHOULD reconcile with the Mercury tenant of the same ChittyID.",
+        "chittycorp": {
+          "label": "ChittyCorp LLC",
+          "chittyId": "TODO-chittyid-chittycorp",
+          "wave_business_id": "TODO-wave-business-id",
+          "authTokenKey": "wave-chittycorp",
+          "space": "business",
+          "mercury_tenant": "chittycorp"
+        },
+        "digital-dossier": {
+          "label": "Digital Dossier",
+          "chittyId": "TODO-chittyid-digital-dossier",
+          "wave_business_id": "TODO-wave-business-id",
+          "authTokenKey": "wave-digital-dossier",
+          "space": "business",
+          "mercury_tenant": "digital-dossier"
+        },
+        "furnished-condos": {
+          "label": "Furnished-Condos",
+          "chittyId": "TODO-chittyid-furnished-condos",
+          "wave_business_id": "TODO-wave-business-id",
+          "authTokenKey": "wave-furnished-condos",
+          "space": "business",
+          "mercury_tenant": "furnished-condos"
+        }
+      },
+      "policy": {
+        "twoSpaceEnforced": true,
+        "refuseWithoutTenant": "POLICY_BLOCKED_WAVE_TENANT_REQUIRED",
+        "auditLog": "chittyops.wave_calls",
+        "reconcileWith": "mercury",
+        "_reconcile_note": "Reconciliation handled by ChittyFinance (Wave webhook receiver per-business at /api/webhooks/wave/:tenantId/:businessId + Mercury sync via chittycommand) — NOT a separate ChittyBooks service (deprecated 2026-05-27, see CHITTYAPPS/chittybooks#2)"
+      }
+    },
+
+    {
+      "_comment": "── ChittyFinance — canonical bookkeeping engine (absorbs former ChittyBooks) ──"
+    },
+
+    {
+      "id": "chittyfinance",
+      "name": "ChittyFinance",
+      "type": "remote",
+      "access": "readwrite",
+      "category": "finance",
+      "endpoint": "https://finance.chitty.cc",
+      "_endpoint_note": "REST surface today (auth-gated /api/<resource>); MCP endpoint pending — add /mcp when ChittyFinance ships native MCP",
+      "lazy": true,
+      "enabled": true,
+      "multitenant": true,
+      "requireTenantParam": true,
+      "tenants": {
+        "_doc": "ChittyFinance IS the bookkeeping UI + engine for ChittyOS. Multi-tenant via IT CAN BE LLC entity tree. Tenant set = Mercury orgs + Wave businesses, since Finance ingests both. tenant_id MUST be a Legal Person ChittyID.",
+        "_inherits_from": ["mercury.tenants", "wave.tenants"],
+        "_invariant": "Finance is the single bookkeeping surface — the former ChittyBooks service was deprecated on 2026-05-27 (CHITTYAPPS/chittybooks#2) after substance audit found both its features (AI categorization + insights) already present in Finance at higher quality"
+      },
+      "policy": {
+        "twoSpaceEnforced": true,
+        "auditLog": "chittyops.chittyfinance_calls",
+        "upstreamServices": ["mercury", "wave", "stripe"],
+        "projection": "chittycanon://core/services/chittyledger#projection/finance",
+        "_projection_note": "Ledger writes flow through the ChittyLedger substrate as the Finance projection; Finance is the engine + UI, ChittyLedger is the immutable substrate"
+      }
+    },
+
+    {
+      "_comment": "── ChittyOS-managed CUSTOM (move out of claude.ai personal) ──"
+    },
+
+    {
+      "id": "chitty-msg",
+      "name": "Chitty Msg",
+      "type": "remote",
+      "access": "readwrite",
+      "category": "ecosystem",
+      "endpoint": "https://msg.chitty.cc/mcp",
+      "_endpoint_TODO": "verify against chittyserv-vm",
+      "authTokenKey": "chittyauth-issued-msg",
+      "lazy": true,
+      "enabled": true
+    },
+
+    {
+      "id": "openai-dev-docs",
+      "name": "OpenAI Dev Docs",
+      "type": "remote",
+      "access": "readonly",
+      "category": "developer-tools",
+      "endpoint": "https://platform.openai.com/docs/mcp",
+      "_endpoint_TODO": "verify",
+      "lazy": true,
+      "enabled": true
+    }
+  ],
+
+  "_post_merge_checklist": [
+    "1. Replace 12 TODO endpoints with verified URLs from upstream docs",
+    "2. For OAuth services (Gmail/GCal/GDrive/Docusign): wire ChittyConnect OAuth broker per ~/.claude/CLAUDE.md sensitive-intent contract — do not store long-lived tokens",
+    "3. Mercury / Wave / ChittyFinance: fill TODO-chittyid-* placeholders with real Legal Person ChittyIDs from registry; add 1Password vault items mercury-{tenant}, wave-{tenant} for each. Wave also needs wave_business_id from Wave dashboard. ChittyFinance tenants reconcile 1:1 with Mercury+Wave tenants of the same chittyId (Finance is the canonical bookkeeping engine; former ChittyBooks deprecated 2026-05-27).",
+    "4. After merge: deploy ch1tty worker, verify each new endpoint via curl mcp.ch1tty.com/health",
+    "5. Once ch1tty serves them: delete the 13 duplicates from claude.ai Personal Connectors UI (CloudflareMCP, NEON, Notion, Context7, GitHub, Ahrefs, Mercury, Postman, Docusign, Gmail, GCal, GDrive, Zapier, Twilio, Quo, Mermaid, Chitty Msg, OpenAI Dev Docs)",
+    "6. Register slim_mcp:true entries in orchestrator skill:index so search/execute path works (Ahrefs, Postman, Zapier; Notion/Mercury already candidates)"
+  ]
+}
