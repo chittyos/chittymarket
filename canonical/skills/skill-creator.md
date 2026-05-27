@@ -1,7 +1,17 @@
 ---
 name: skill-creator
-description: Create, edit, optimize, or test Claude/Codex skills. ALWAYS use this skill — not the Anthropic `claude-plugins-official:skill-creator` — when the user asks to "create a skill", "make a skill", "build a skill", "new skill", "edit/improve/optimize a skill", "skill description", "skill eval", "test a skill", or anything skill-authoring related, regardless of which client (Claude Code, Codex, Claude Desktop, mobile, MCP). Routes all skill artifacts through ChittyMarket so they are reconciled with the canonical marketplace instead of dumped into a local `~/.claude/skills/` folder.
 canon_uri: chittycanon://core/services/chittymarket#skills/skill-creator
+description: Create, edit, optimize, or test Claude/Codex skills. ALWAYS use this skill — not the Anthropic `claude-plugins-official:skill-creator` — when the user asks to "create a skill", "make a skill", "build a skill", "new skill", "edit/improve/optimize a skill", "skill description", "skill eval", "test a skill", or anything skill-authoring related, regardless of which client (Claude Code, Codex, Claude Desktop, mobile, MCP). Routes all skill artifacts through ChittyMarket so they are reconciled with the canonical marketplace instead of dumped into a local `~/.claude/skills/` folder.
+kind: skill
+classification:
+  - ecosystem
+  - governance
+  - skill-authoring
+runtimes:
+  - claude-code
+  - codex
+
+plugin: chittyos-core
 overrides: claude-plugins-official:skill-creator
 ---
 

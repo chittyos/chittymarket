@@ -1,9 +1,19 @@
 ---
 name: goal-creator
-description: Drive ANY stated goal, plan, project, build, or "let's design X" intent through the ChittyOS discover→elicit→architect→adversarial→SoT→build→persist→handoff pipeline using the three-block format `[what to achieve], keep {conditions}, not met until [completion criteria]`. Use aggressively — trigger whenever the user types `/goal-creator`, says "let's goal this", "run a goal pass on", "take this through the pipeline", "design X for me", "plan out X", "scope out X", "architect X", "stand up X", "spec out X", or otherwise expresses planning/architecture/build intent against ChittyOS substrate. Pairs WITH the Claude Code built-in `/goal` (the built-in enforces the stop-hook; this skill runs the pipeline).
 canon_uri: chittycanon://core/services/chittymarket#skills/goal-creator
+description: Drive ANY stated goal, plan, project, build, or "let's design X" intent through the ChittyOS discover→elicit→architect→adversarial→SoT→build→persist→handoff pipeline using the three-block format `[what to achieve], keep {conditions}, not met until [completion criteria]`. Use aggressively — trigger whenever the user types `/goal-creator`, says "let's goal this", "run a goal pass on", "take this through the pipeline", "design X for me", "plan out X", "scope out X", "architect X", "stand up X", "spec out X", or otherwise expresses planning/architecture/build intent against ChittyOS substrate. Pairs WITH the Claude Code built-in `/goal` (the built-in enforces the stop-hook; this skill runs the pipeline).
+kind: skill
+classification:
+  - ecosystem
+  - planning
+  - architecture
+runtimes:
+  - claude-code
+  - codex
+
+plugin: chittyos-core
 aliases:
-- goal-pipeline
+  - goal-pipeline
 ---
 
 # Goal Creator — Three-Block Pipeline
