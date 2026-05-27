@@ -134,6 +134,28 @@ git checkout -b deprecate/fold-into-chittyfinance
 
 ## Goal-condition status
 
+## CORRECTION (post-execution)
+
+The initial substance audit of ChittyBooks (~100 lines of Flask, two AI functions) was performed against stale `main` (commits up to `2ce21b7 Add canonical CHITTY.md`). Between audit time and PR-A open, `main` shipped 6 commits adding:
+
+- `a79050d` SQLite database with export/import
+- `a5b5bd1` PostgreSQL persistence layer
+- `ffc23ab` ChittyConnect integration for financial data management
+- `6effd00` Bank-account connection via ChittyConnect API
+- `3f9365c` Documentation updates for new service integrations
+
+This is **active development**, not abandonment. The "two-functions-already-in-ChittyFinance" deprecation thesis no longer holds — ChittyBooks now has its own PostgreSQL data layer, ChittyConnect bank-account flow, and integration surface distinct from ChittyFinance's Wave/Mercury path.
+
+**Action taken:** PR-A (`chittyapps/chittybooks#2`) and PR-B (`chittyapps/chittyfinance#118`) **both closed without merge.** Branches deleted. Decision on ChittyBooks scope vs ChittyFinance scope is now an operator question, not an audit conclusion.
+
+**Updated gap inventory (post-correction):**
+
+| Gap | Status |
+|---|---|
+| Gap 1 — Stripe webhook secret (chittyfinance) | unchanged — still POLICY_BLOCKED on ChittyConnect (broker has no public secrets endpoint; `/api/v1/secrets` → 500, `/api/secrets` → 401) |
+| Gap 2 — ChittyCharge secrets | unchanged — same policy block |
+| Gap 3 — ChittyBooks deployment | **REOPENED.** Active development on main means the question is now "deploy what?" Not yet wired to `chittybooks.chitty.cc` (DNS still NXDOMAIN). Operator decision needed on: deploy as-is (Flask container behind tunnel), port to Worker, or unify with ChittyFinance now that both have ChittyConnect bank-account paths. |
+
 **Goal:** "use the deep discovery to get chittyfinance/chittybooks functions and functioning as intended"
 
 **State after this document:**
