@@ -10,7 +10,18 @@
 set -euo pipefail
 
 MANIFEST="$HOME/.claude/marketplace.json"
-CH1TTY_SERVERS="$HOME/Desktop/Projects/github.com/CHITTYOS/ch1tty/servers.json"
+# Allow env override; fall back to known workstation/legacy paths.
+# Workstations (Mac /Users/nb/Workspace) use the first hit; Linux dev VMs use the last.
+CH1TTY_SERVERS="${CH1TTY_SERVERS:-}"
+if [ -z "$CH1TTY_SERVERS" ]; then
+  for cand in \
+    "$HOME/Workspace/ch1tty/servers.json" \
+    "$HOME/Workspace/CHITTYOS/ch1tty/servers.json" \
+    "$HOME/Desktop/Projects/github.com/CHITTYOS/ch1tty/servers.json" \
+    "$HOME/projects/github.com/CHITTYOS/ch1tty/servers.json"; do
+    [ -f "$cand" ] && CH1TTY_SERVERS="$cand" && break
+  done
+fi
 SETTINGS="$HOME/.claude/settings.json"
 BLOCKLIST="$HOME/.claude/plugins/blocklist.json"
 SKILLS_DIR="$HOME/.claude/skills"
