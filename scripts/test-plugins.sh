@@ -180,6 +180,74 @@ if [ "$found_cs" = false ]; then
 fi
 echo ""
 
+# --- Test 5c: ChatGPT Apps SDK tool descriptors (kind: tool projections) ---
+echo "--- ChatGPT Apps tool descriptors ---"
+found_cg=false
+for cg_file in "$PLUGINS_DIR"/*/chatgpt-apps/*.json; do
+  [ -f "$cg_file" ] || continue
+  found_cg=true
+  plugin_name=$(basename "$(dirname "$(dirname "$cg_file")")")
+  tool_name=$(basename "$cg_file" .json)
+
+  result=$(python3 -c "
+import json, sys
+try:
+    d = json.load(open('$cg_file'))
+except Exception as e:
+    print(f'FAIL:invalid JSON: {e}')
+    sys.exit(0)
+errors = []
+for f in ['name', 'description', 'inputSchema', 'outputSchema', 'annotations']:
+    if f not in d:
+        errors.append(f'missing {f}')
+if 'annotations' in d:
+    ann = d['annotations']
+    if not isinstance(ann, dict):
+        errors.append('annotations must be object')
+    else:
+        for f in ['readOnlyHint', 'openWorldHint']:
+            if f not in ann:
+                errors.append(f'annotations.{f} missing')
+            elif not isinstance(ann[f], bool):
+                errors.append(f'annotations.{f} must be bool')
+for f in ['inputSchema', 'outputSchema']:
+    if f in d:
+        s = d[f]
+        if not isinstance(s, dict) or s.get('type') != 'object':
+            errors.append(f'{f} must be object schema (type: object)')
+meta = d.get('_meta') or {}
+if 'openai/outputTemplate' in meta:
+    v = meta['openai/outputTemplate']
+    if not isinstance(v, str) or not v.strip():
+        errors.append('_meta[openai/outputTemplate] must be non-empty string')
+if 'openai/widgetCSP' in meta:
+    csp = meta['openai/widgetCSP']
+    if not isinstance(csp, dict):
+        errors.append('_meta[openai/widgetCSP] must be object')
+    else:
+        for k in ('connectDomains', 'resourceDomains', 'frameDomains', 'redirect_domains'):
+            if k in csp and (not isinstance(csp[k], list) or not all(isinstance(x, str) for x in csp[k])):
+                errors.append(f'_meta[openai/widgetCSP].{k} must be list of strings')
+if 'openai/fileParams' in meta:
+    fp = meta['openai/fileParams']
+    if not isinstance(fp, list) or not all(isinstance(x, str) for x in fp):
+        errors.append('_meta[openai/fileParams] must be list of strings')
+if errors:
+    print('FAIL:' + '; '.join(errors))
+else:
+    print('PASS')
+")
+  if [ "$result" = "PASS" ]; then
+    green "$plugin_name/chatgpt-apps/$tool_name.json (tool descriptor valid)"
+  else
+    red "$plugin_name/chatgpt-apps/$tool_name.json: ${result#FAIL:}"
+  fi
+done
+if [ "$found_cg" = false ]; then
+  echo "  (no chatgpt-apps/*.json files found)"
+fi
+echo ""
+
 # --- Test 6: hooks.json validity ---
 echo "--- Hooks configs ---"
 found_hooks=false

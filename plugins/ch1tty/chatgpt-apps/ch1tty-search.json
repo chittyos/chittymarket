@@ -1,0 +1,78 @@
+{
+  "_meta": {
+    "chittycanon/canon_uri": "chittycanon://core/services/chittymarket#tools/ch1tty-search",
+    "chittycanon/visibility": "public",
+    "ui": {
+      "visibility": [
+        "model",
+        "app"
+      ]
+    }
+  },
+  "annotations": {
+    "destructiveHint": false,
+    "openWorldHint": true,
+    "readOnlyHint": true
+  },
+  "description": "Search the Ch1tty tool registry. Returns matching tool names, descriptions, and input schemas for tools registered with the Ch1tty gateway (chitty.cc surface + upstream MCP servers). Use this BEFORE `ch1tty/execute` to discover the canonical namespaced tool id and required arguments. Read-only query; safe to call repeatedly. Open-world because it queries arbitrary upstream registries that the gateway is currently bridging.",
+  "inputSchema": {
+    "additionalProperties": false,
+    "properties": {
+      "limit": {
+        "default": 20,
+        "description": "Maximum number of results to return.",
+        "maximum": 100,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "query": {
+        "description": "Free-text search query matched against tool name, namespaced id,\nand description. Returns all tools whose metadata contains the\nquery as a case-insensitive substring.\n",
+        "type": "string"
+      }
+    },
+    "required": [
+      "query"
+    ],
+    "type": "object"
+  },
+  "name": "ch1tty-search",
+  "outputSchema": {
+    "additionalProperties": false,
+    "properties": {
+      "results": {
+        "items": {
+          "additionalProperties": true,
+          "properties": {
+            "description": {
+              "description": "Human-readable tool description.",
+              "type": "string"
+            },
+            "input_schema": {
+              "description": "JSON Schema for the tool's input arguments.",
+              "type": "object"
+            },
+            "name": {
+              "description": "Namespaced tool id (e.g. `ch1tty/execute`, `serverId/toolName`).",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "input_schema"
+          ],
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "truncated": {
+        "description": "True when more matches existed than `limit` allowed.",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "results"
+    ],
+    "type": "object"
+  }
+}

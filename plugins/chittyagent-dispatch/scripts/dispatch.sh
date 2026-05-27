@@ -131,8 +131,12 @@ PY
             out="$REPO_ROOT/plugins/${plugin}/claude-skills/${name}.json"
             adapter="$ADAPTER_DIR/claude-skills.sh"
             ;;
+          chatgpt-apps:tool)
+            out="$REPO_ROOT/plugins/${plugin}/chatgpt-apps/${name}.json"
+            adapter="$ADAPTER_DIR/chatgpt-apps.sh"
+            ;;
           *)
-            echo "[dispatch] $name: unknown runtime '$runtime' for kind '$kind' (canonical=$can). Known runtimes: claude-code, codex, openclaw, claude-skills." >&2
+            echo "[dispatch] $name: unknown runtime '$runtime' for kind '$kind' (canonical=$can). Known runtimes: claude-code, codex, openclaw, claude-skills, chatgpt-apps." >&2
             exit 1
             ;;
         esac

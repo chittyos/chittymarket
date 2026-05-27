@@ -43,6 +43,8 @@ for f in "${staged[@]}"; do
       n="${f##*/}"; names["${n%.yaml}"]=1 ;;
     plugins/*/claude-skills/*.json)
       n="${f##*/}"; names["${n%.json}"]=1 ;;
+    plugins/*/chatgpt-apps/*.json)
+      n="${f##*/}"; names["${n%.json}"]=1 ;;
   esac
 done
 

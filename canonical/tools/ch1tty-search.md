@@ -13,6 +13,7 @@ kind: tool
 plugin: ch1tty
 runtimes:
   - claude-skills
+  - chatgpt-apps
 safety_class: read_only
 world_class: open_world
 visibility: public
