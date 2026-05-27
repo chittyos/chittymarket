@@ -1,0 +1,27 @@
+{
+  "skill_name": "goal-creator",
+  "evaluation_mode": "qualitative",
+  "evals": [
+    {
+      "id": 1,
+      "name": "vague-greenfield-planning-intent",
+      "prompt": "ok i want to spec out a notion → neon sync thing for the legal cases db. should mirror new pages + property edits within ~5min, keep the legalink/business split clean, and not blow up if a property type changes. budget is small, want a pilot first before flipping the whole 14-case workspace. where do we start?",
+      "expected_behavior": "Skill triggers (planning + multi-component + Notion/Neon + pilot intent). Phase 1 restate w/ analogy. Phase 2 discovery table querying registry/chittyops/Notion. Phase 3 lock decisions via ask_user_input (scope, sync direction, conflict policy, cost cap). Does NOT auto-create Neon tables. Does NOT mix Legalink/Business. Stops after ≤3 questions.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "explicit-goal-slash-three-block",
+      "prompt": "/goal stand up a chittyops routine that watches PR labels on CHITTYOS/* repos and auto-files a docket entry when label=evidence is added, keep schema discipline + two-space discipline + max 3 questions/turn, not met until v0.5 SoT exists with 0 critical 0 high adversarial findings and the chittyops.goal_artifacts row is proposed",
+      "expected_behavior": "Skill triggers on explicit /goal. Treats user's three-block as canonical (don't re-elicit conditions/completion). Runs full 9-phase pipeline. Adversarial review converges at 0 crit / 0 high before declaring v0.5 done. Writes `<slug>-v0.5.md` to /mnt/user-data/outputs/. Proposes (does not auto-create) chittyops.goal_artifacts row.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "near-miss-bugfix-should-not-overscope",
+      "prompt": "the chittymarket /market sync command is silently swallowing the case where marketplace.json has a duplicate id. can you fix that real quick",
+      "expected_behavior": "Skill should NOT trigger the full 9-phase pipeline — this is a tactical bugfix, not a goal-spec exercise. If the skill is invoked anyway, it should immediately recognize the scope mismatch in Phase 1 restate, propose dropping out of the pipeline, and hand back to a normal fix-it flow. (Tests that the aggressive description doesn't over-trigger on small reactive tasks.)",
+      "files": []
+    }
+  ]
+}
