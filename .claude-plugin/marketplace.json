@@ -10,6 +10,16 @@
   },
   "plugins": [
     {
+      "name": "ch1tty",
+      "description": "Ch1tty surface — natural-language intent resolver and tool gateway. Public-API tools projected to Claude Skills app SDK and (future) ChatGPT Apps SDK via canonical/tools/.",
+      "version": "0.1.0",
+      "source": "./plugins/ch1tty",
+      "strict": false,
+      "category": "ecosystem",
+      "keywords": []
+    }
+,
+    {
       "name": "chittyagent-autobot",
       "description": "Autonomous PR-driver agent for ChittyOS — orchestrates the canonical Sovereignty → Discover → Plan → Generate → Implement → Review → Tidy → CI/CD → Ship → Memory pipeline. Sovereignty-cert gated, pentad-aware, replaces the structured-autonomy trio.",
       "version": "0.1.0",
