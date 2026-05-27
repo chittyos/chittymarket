@@ -3,6 +3,7 @@ name: Validate ChittyMarket
 on:
   pull_request:
     paths:
+      - "canonical/**"
       - "plugins/**"
       - ".claude-plugin/**"
       - "marketplace.json"
@@ -76,3 +77,88 @@ jobs:
             exit 1
           fi
           echo "✓ Manifest is idempotent with respect to plugins/"
+
+  # 4. Codex runtime smoke (adversarial review #4): every projected
+  #    plugins/<plug>/codex-skills/<name>/SKILL.md must load. Uses real
+  #    codex CLI if it ships a load subcommand; otherwise falls back to a
+  #    schema-mimic loader and logs the reason.
+  codex-smoke:
+    name: codex runtime smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: validate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install PyYAML
+        run: pip install --quiet pyyaml
+
+      - name: Ensure script is executable
+        run: chmod +x scripts/runtime-tests/codex-smoke.sh
+
+      - name: Run codex smoke loader
+        id: codex_smoke
+        continue-on-error: true
+        run: |
+          set +e
+          bash scripts/runtime-tests/codex-smoke.sh
+          rc=$?
+          echo "exit_code=$rc" >> "$GITHUB_OUTPUT"
+          exit $rc
+
+      - name: Report skip reason if runtime unavailable
+        if: steps.codex_smoke.outcome == 'failure'
+        run: |
+          echo "::warning::codex-smoke reported failures or runtime is unavailable."
+          echo "If the schema-mimic loader was used (no real codex skill-load CLI), this job"
+          echo "still surfaces parse/shape errors and is treated as a hard failure."
+          exit ${{ steps.codex_smoke.outputs.exit_code }}
+
+  # 5. OpenClaw runtime smoke (adversarial review #4): every projected
+  #    plugins/<plug>/openclaw-agents/<name>.yaml must load. Real openclaw
+  #    runtime is not yet publicly distributed — falls back cleanly to
+  #    schema-mimic validator that mirrors the openclaw-agent.sh adapter
+  #    contract.
+  openclaw-smoke:
+    name: openclaw runtime smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: validate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install PyYAML
+        run: pip install --quiet pyyaml
+
+      - name: Ensure script is executable
+        run: chmod +x scripts/runtime-tests/openclaw-smoke.sh
+
+      - name: Run openclaw smoke loader
+        id: openclaw_smoke
+        continue-on-error: true
+        run: |
+          set +e
+          bash scripts/runtime-tests/openclaw-smoke.sh
+          rc=$?
+          echo "exit_code=$rc" >> "$GITHUB_OUTPUT"
+          exit $rc
+
+      - name: Report skip reason if runtime unavailable
+        if: steps.openclaw_smoke.outcome == 'failure'
+        run: |
+          echo "::warning::openclaw-smoke reported failures."
+          echo "Real openclaw runtime is not yet on PATH in CI; schema-mimic loader was used."
+          echo "Failures indicate adapter or projection drift, not runtime absence."
+          exit ${{ steps.openclaw_smoke.outputs.exit_code }}
