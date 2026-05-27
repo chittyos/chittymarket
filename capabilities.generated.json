@@ -394,7 +394,8 @@
         "requires_case": true,
         "write_scope": "case-scoped",
         "no_last_case_fallback": true,
-        "non_repudiation_required": true
+        "non_repudiation_required": true,
+        "evidence_gate": "pre-execute-middleware"
       },
       "execution": {
         "default_surface": "ch1tty",
@@ -1112,7 +1113,8 @@
       "authority": {
         "requires_chittyid": true,
         "requires_governance_authority": true,
-        "non_repudiation_required": true
+        "non_repudiation_required": true,
+        "evidence_gate": "projection-internal"
       },
       "execution": {
         "default_surface": "ch1tty",
@@ -1689,7 +1691,8 @@
         "requires_case": true,
         "write_scope": "case-scoped",
         "no_last_case_fallback": true,
-        "non_repudiation_required": true
+        "non_repudiation_required": true,
+        "evidence_gate": "projection-internal"
       },
       "execution": {
         "default_surface": "ch1tty",
@@ -1770,7 +1773,8 @@
         "requires_case": true,
         "write_scope": "case-scoped",
         "no_last_case_fallback": true,
-        "non_repudiation_required": true
+        "non_repudiation_required": true,
+        "evidence_gate": "projection-internal"
       },
       "execution": {
         "default_surface": "ch1tty",
@@ -1848,7 +1852,8 @@
       "authority": {
         "requires_chittyid": true,
         "requires_deploy_authority": true,
-        "non_repudiation_required": true
+        "non_repudiation_required": true,
+        "evidence_gate": "projection-internal"
       },
       "execution": {
         "default_surface": "ch1tty",
@@ -4771,7 +4776,8 @@
         "requires_case": true,
         "write_scope": "case-scoped",
         "no_last_case_fallback": true,
-        "non_repudiation_required": true
+        "non_repudiation_required": true,
+        "evidence_gate": "legal-space-only"
       },
       "execution": {
         "default_surface": "ch1tty",
@@ -6187,7 +6193,8 @@
       "authority": {
         "requires_chittyid": true,
         "requires_governance_authority": true,
-        "non_repudiation_required": true
+        "non_repudiation_required": true,
+        "evidence_gate": "pre-execute-middleware"
       },
       "execution": {
         "default_surface": "ch1tty",
@@ -7055,7 +7062,8 @@
         "requires_case": true,
         "write_scope": "case-scoped",
         "no_last_case_fallback": true,
-        "non_repudiation_required": true
+        "non_repudiation_required": true,
+        "evidence_gate": "pre-execute-middleware"
       },
       "execution": {
         "default_surface": "ch1tty",

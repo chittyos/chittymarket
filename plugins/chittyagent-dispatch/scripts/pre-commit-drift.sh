@@ -22,7 +22,8 @@ DISPATCH="$REPO_ROOT/plugins/chittyagent-dispatch/scripts/dispatch.sh"
 cd "$REPO_ROOT"
 
 mapfile -t staged < <(git diff --cached --name-only --diff-filter=ACMR)
-[ "${#staged[@]}" -gt 0 ] || exit 0
+# Note: we intentionally do NOT early-exit when staged is empty. The evidence-gate
+# policy check at the bottom must run regardless (adversarial review #7).
 
 declare -A names=()
 for f in "${staged[@]}"; do
@@ -43,65 +44,72 @@ for f in "${staged[@]}"; do
   esac
 done
 
-[ "${#names[@]}" -gt 0 ] || exit 0
-
 snapshot_before=$(git status --porcelain)
 
 failed=0
-for name in "${!names[@]}"; do
-  # Search canonical/<kind>/<name>.md first, then flat canonical/<name>.md.
-  can=""
-  for sub in agents skills commands mcp hooks; do
-    if [ -f "$REPO_ROOT/canonical/$sub/${name}.md" ]; then
-      can="$REPO_ROOT/canonical/$sub/${name}.md"
-      break
+# Skip drift sync when no canonical/projection paths are touched, but still fall
+# through to the always-on evidence-gate check below.
+if [ "${#names[@]}" -gt 0 ]; then
+  for name in "${!names[@]}"; do
+    # Search canonical/<kind>/<name>.md first, then flat canonical/<name>.md.
+    can=""
+    for sub in agents skills commands mcp hooks; do
+      if [ -f "$REPO_ROOT/canonical/$sub/${name}.md" ]; then
+        can="$REPO_ROOT/canonical/$sub/${name}.md"
+        break
+      fi
+    done
+
+    if [ -z "$can" ]; then
+      # Pointer-file exception.
+      proj=$(printf '%s\n' "${staged[@]}" | grep -E "plugins/[^/]+/agents/${name}\.md$" | head -1 || true)
+      if [ -n "$proj" ] && grep -qE "^prompt_url:" "$REPO_ROOT/$proj" && grep -qE "^owner_repo:" "$REPO_ROOT/$proj"; then
+        dim_msg="[pre-commit-drift] $name: pointer (owner_repo declared) — canonical/ not required"
+        printf '\033[0;90m%s\033[0m\n' "$dim_msg" >&2
+        continue
+      fi
+      # Skip leftover SKILL.md or similar that don't have a canonical name.
+      if [ "$name" = "SKILL" ] || [ "$name" = "README" ]; then
+        continue
+      fi
+      echo "[pre-commit-drift] $name: projection staged but canonical missing (searched canonical/{agents,skills,commands,mcp,hooks}/${name}.md and canonical/${name}.md)" >&2
+      failed=1
+      continue
     fi
+    "$DISPATCH" sync "$name" >/dev/null 2>&1 || {
+      echo "[pre-commit-drift] $name: dispatch.sh sync failed" >&2
+      failed=1
+    }
   done
 
-  if [ -z "$can" ]; then
-    # Pointer-file exception.
-    proj=$(printf '%s\n' "${staged[@]}" | grep -E "plugins/[^/]+/agents/${name}\.md$" | head -1 || true)
-    if [ -n "$proj" ] && grep -qE "^prompt_url:" "$REPO_ROOT/$proj" && grep -qE "^owner_repo:" "$REPO_ROOT/$proj"; then
-      dim_msg="[pre-commit-drift] $name: pointer (owner_repo declared) — canonical/ not required"
-      printf '\033[0;90m%s\033[0m\n' "$dim_msg" >&2
-      continue
-    fi
-    # Skip leftover SKILL.md or similar that don't have a canonical name.
-    if [ "$name" = "SKILL" ] || [ "$name" = "README" ]; then
-      continue
-    fi
-    echo "[pre-commit-drift] $name: projection staged but canonical missing (searched canonical/{agents,skills,commands,mcp,hooks}/${name}.md and canonical/${name}.md)" >&2
+  snapshot_after=$(git status --porcelain)
+
+  if [ "$snapshot_before" != "$snapshot_after" ]; then
+    echo ""
+    echo "[pre-commit-drift] BLOCKED — canonical/projection drift detected." >&2
+    echo "" >&2
+    echo "Re-running dispatch.sh produced changes that aren't in your commit." >&2
+    echo "Either:" >&2
+    echo "  (a) git add the regenerated files below, or" >&2
+    echo "  (b) revert direct edits to projected files and edit the canonical instead." >&2
+    echo "" >&2
+    diff <(printf '%s\n' "$snapshot_before") <(printf '%s\n' "$snapshot_after") | grep '^>' | sed 's/^> /  /' >&2
     failed=1
-    continue
   fi
-  "$DISPATCH" sync "$name" >/dev/null 2>&1 || {
-    echo "[pre-commit-drift] $name: dispatch.sh sync failed" >&2
-    failed=1
-  }
-done
-
-snapshot_after=$(git status --porcelain)
-
-if [ "$snapshot_before" != "$snapshot_after" ]; then
-  echo ""
-  echo "[pre-commit-drift] BLOCKED — canonical/projection drift detected." >&2
-  echo "" >&2
-  echo "Re-running dispatch.sh produced changes that aren't in your commit." >&2
-  echo "Either:" >&2
-  echo "  (a) git add the regenerated files below, or" >&2
-  echo "  (b) revert direct edits to projected files and edit the canonical instead." >&2
-  echo "" >&2
-  diff <(printf '%s\n' "$snapshot_before") <(printf '%s\n' "$snapshot_after") | grep '^>' | sed 's/^> /  /' >&2
-  failed=1
 fi
 
-# Evidence-gate policy enforcement
+# Evidence-gate policy enforcement (adversarial review #7)
 # Source: docs/overrides/evidence-gate-overrides.json
 # Policy: any capability with authority.non_repudiation_required:true MUST carry
 # authority.evidence_gate populated. Block on the combination
 # (non_repudiation_required:true, evidence_gate:null|missing).
+#
+# ALWAYS-ON: this check runs whenever capabilities.generated.json exists,
+# regardless of staging. Previously it only ran when the overlay was in the
+# staged diff, which let pre-existing violations persist across unrelated
+# commits indefinitely. Decoupling from staging closes that hole.
 overlay="$REPO_ROOT/capabilities.generated.json"
-if printf '%s\n' "${staged[@]}" | grep -qx "capabilities.generated.json" && [ -f "$overlay" ]; then
+if [ -f "$overlay" ]; then
   if command -v jq >/dev/null 2>&1; then
     violations=$(jq -r '
       .capabilities[]

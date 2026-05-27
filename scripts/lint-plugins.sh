@@ -286,6 +286,17 @@ echo ""
 # Exception: pointer agents declaring owner_repo + prompt_url in frontmatter
 # (per-service-owned, source elsewhere).
 #
+# ORPHAN-PROJECTION DETECTION (adversarial review #6b):
+#   This section also serves as the orphan-projection check. Because the loop
+#   enumerates EVERY projection file under plugins/ and resolves its canonical
+#   fresh on each run, deleting canonical/<kind>/<name>.md without also removing
+#   the projection will cause this section to error on the orphan projection(s)
+#   — the canonical lookup fails and the projection is not a pointer file.
+#   No separate section 9b is needed; the error path is the same.
+#   Tested: `rm canonical/agents/chittyagent-canon.md && bash scripts/lint-plugins.sh`
+#   surfaces ERROR for plugins/chittyos-core/{agents/chittyagent-canon.md,
+#   codex-skills/chittyagent-canon/SKILL.md, openclaw-agents/chittyagent-canon.yaml}.
+#
 # DELIBERATELY EXCLUDED — plugins/<plug>/hooks/hooks.json:
 #   The existing hooks.json in chittyos-governance is a manifest of EXTERNAL
 #   hookify rule references, not a projection of inline hook bodies. Per-hook
@@ -304,17 +315,22 @@ while IFS= read -r f; do projection_paths+=("$f"); done < <(
        -o -path "*/openclaw-agents/*.yaml" \) 2>/dev/null
 )
 for proj in "${projection_paths[@]}"; do
-  # Derive canonical name from the projection path.
+  # Derive canonical name + expected canonical kind-subdir from the projection path.
   if [[ "$proj" == */agents/*.md ]]; then
     name=$(basename "$proj" .md)
+    expected_kind="agents"
   elif [[ "$proj" == */skills/*/SKILL.md ]]; then
     name=$(basename "$(dirname "$proj")")
+    expected_kind="skills"
   elif [[ "$proj" == */commands/*.md ]]; then
     name=$(basename "$proj" .md)
+    expected_kind="commands"
   elif [[ "$proj" == */codex-skills/*/SKILL.md ]]; then
     name=$(basename "$(dirname "$proj")")
+    expected_kind="agents|skills"   # codex-skills accepts either
   elif [[ "$proj" == */openclaw-agents/*.yaml ]]; then
     name=$(basename "$proj" .yaml)
+    expected_kind="agents"
   else
     continue
   fi
@@ -334,7 +350,7 @@ for proj in "${projection_paths[@]}"; do
     dim "  ok: $(basename "$(dirname "$(dirname "$proj")")")/$name (pointer; canonical/ not required)"
     continue
   fi
-  red "  ERROR: projection $proj has no canonical/${name}.md (and is not a pointer)"
+  red "  ERROR: orphan projection $proj — missing canonical/${expected_kind}/${name}.md (not a pointer either)"
   ERRORS=$((ERRORS + 1))
 done
 echo ""
