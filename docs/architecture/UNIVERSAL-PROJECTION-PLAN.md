@@ -2,8 +2,8 @@
 uri: chittycanon://docs/ops/policy/chittymarket-universal-projection-plan
 namespace: chittycanon://docs/ops
 type: policy
-version: 0.1.0
-status: DRAFT
+version: 1.0.0
+status: ACTIVE
 registered_with: chittycanon://core/services/canon
 title: "ChittyMarket Universal Projection — Migration Plan"
 visibility: PUBLIC
@@ -11,71 +11,65 @@ visibility: PUBLIC
 
 # ChittyMarket Universal Projection — Migration Plan
 
-**Status:** DRAFT. Resolves §2.4 (per `SINGLE-SOURCE-CONVENTIONS.md`): chittymarket as agent/model/platform-agnostic universal marketplace, with native projections per runtime.
+**Status:** ACTIVE — migration substantially complete (2026-06-10). Resolves §2.4 (per `SINGLE-SOURCE-CONVENTIONS.md`): chittymarket as agent/model/platform-agnostic universal marketplace, with native projections per runtime.
 
 ## TL;DR
 
-The architecture already exists. `plugins/chittyagent-dispatch/scripts/dispatch.sh` reads `canonical/<name>.md` and projects to claude-code agent, codex skill, and openclaw agent formats. 7 artifacts are canonicalized; ~25 are not. This document is the migration path to fully-canonical, with no per-runtime forks.
+The architecture exists and the migration is essentially done. `plugins/chittyagent-dispatch/scripts/dispatch.sh` reads `canonical/<kind>/<name>.md` and projects to claude-code agent/skill/hook/mcp, codex skill, openclaw agent, and claude-skills tool formats. **46 artifacts are canonicalized** (12 agents, 29 skills, 1 command, 2 mcp, 2 tools); the remaining surfaces are pointer-by-design (`chittyagent-schema`, hookify-rule hooks) and not projectable. `lint-plugins.sh` enforces projection↔canonical alignment tree-wide; the repo reconciles clean. What remains is optional hardening, not backlog.
 
-## Current state (2026-05-26)
+## Current state (2026-06-10)
 
 ### Implemented and working
 
 - **`canonical/<name>.md`** — single source for any artifact opting into universal projection. Frontmatter declares `name`, `description: |`, `kind: agent`, `plugin: <home-plugin>`, `runtimes: [claude-code, codex, openclaw, ...]`, `classification: [...]`.
 - **`plugins/chittyagent-dispatch/scripts/dispatch.sh sync [<name>]`** — projects every canonical (or one) into every declared runtime adapter's output location. Computes per-canonical SHA + per-target SHA, tracks them in `canonical/.dispatch-state/<name>.json`.
-- **Adapters** at `plugins/chittyagent-dispatch/scripts/adapters/*.sh`:
+- **Adapters** at `plugins/chittyagent-dispatch/scripts/adapters/*.sh` — all seven present:
   - `claude-code-agent.sh` → `plugins/<home-plugin>/agents/<name>.md`
+  - `claude-code-hook.sh` → `plugins/<home-plugin>/hooks/hooks.json`
+  - `claude-code-mcp.sh` → `plugins/<home-plugin>/.mcp.json`
+  - `claude-skills.sh` → `plugins/<home-plugin>/claude-skills/<name>.json`
   - `codex-skill.sh` → `plugins/<home-plugin>/codex-skills/<name>/SKILL.md`
   - `openclaw-agent.sh` → `plugins/<home-plugin>/openclaw-agents/<name>.yaml`
+  - `chatgpt-apps.sh` → ChatGPT Apps SDK projection
 - **`plugins/chittyagent-dispatch/scripts/pre-commit-drift.sh`** — enforces no projection edits without canonical-source change.
 - **`plugins/chittyagent-dispatch/scripts/hydrate-pointers.sh`** (PR #30) — pulls per-service-owned content (e.g. `chittyschema-overlord`) from external repos.
+- **`scripts/lint-plugins.sh`** — tree-wide projection↔canonical alignment check (Phase E lock); pointer files (`chittyagent-schema`) are explicitly exempted.
 
-### Canonicalized (7)
+### Canonicalized (46)
 
-| Canonical | Home plugin | Runtimes projected |
+Single sources live under `canonical/<kind>/<name>.md`. Current inventory:
+
+| Kind | Count | Location |
 |---|---|---|
-| `chittyagent-autobot` | `chittyagent-autobot` | claude-code |
-| `chittyagent-dispatch` | `chittyagent-dispatch` | claude-code, codex, openclaw |
-| `chittyagent-neon` | `chittyos-governance` | claude-code, codex |
-| `chittyagent-canon` | `chittyos-core` | claude-code |
-| `chittyagent-claude` | `chittyos-core` | claude-code |
-| `chittyagent-connect` | `chittyos-core` | claude-code |
-| `chittyagent-register` | `chittyos-core` | claude-code |
+| agents | 12 | `canonical/agents/` |
+| skills | 29 | `canonical/skills/` |
+| commands | 1 | `canonical/commands/` (`autonomy`) |
+| mcp | 2 | `canonical/mcp/` (`chittyos`, `neon`) |
+| tools | 2 | `canonical/tools/` (`ch1tty-search`, `ch1tty-fetch`) |
 
-### Not yet canonicalized (the migration backlog)
+Every plugin agent and skill now projects from a canonical source; the proxy agents (`chittyagent-chatgpt`, `chittyagent-cloudflare`, `chittyagent-notion`) were canonicalized rather than inlined.
 
-**Agents (4 remaining)**:
-- `chittyagent-chatgpt`, `chittyagent-cloudflare`, `chittyagent-notion` (chittyos-proxy-agents) — proxy-style, possibly thin enough to inline rather than canonicalize
-- `chittyagent-schema` — pointer file; hydrated by hydrate-pointers.sh (intentionally stays as pointer)
+### Pointer-by-design (not canonicalized — intentional)
 
-**Skills (27 — full list)**:
-- chittyagent-autobot: chitty-autonomy, chitty-autonomy-affirm, chitty-autonomy-cicd, chitty-autonomy-discover, chitty-autonomy-generate, chitty-autonomy-implement, chitty-autonomy-plan, chitty-autonomy-ship, chitty-autonomy-tidy (9)
-- chittymarket-manager: market (1)
-- chittyos-core: checkpoint, chitty-cleanup, chittycontext, chittyxl (4)
-- chittyos-devops: chitty-deploy, chitty-health, chitty-pipelines, chitty-registry, chittyos-compliance, wrangler-audit (6)
-- chittyos-governance: capability-governor, capability-registry-audit (2)
-- chittyos-legal: dispute, docket, evidence-collect, evidence-egress, fact-governance (5)
-
-**Hooks (12 in `chittyos-governance/hooks/hooks.json`)** — under-canonicalized; the hooks.json catalog could become `canonical/hooks/<name>.md` per hook.
-
-**Commands** (slash commands) — only `chittyagent-autobot/commands/autonomy.md` exists currently; no canonical adapter yet.
-
-**MCP configs** (in `plugins/chittyos-mcp/.mcp.json`, `plugins/neon-mcp/.mcp.json`) — could become `canonical/mcp/<name>.json`.
+- **`chittyagent-schema`** — pointer file hydrated from the owning service repo by `hydrate-pointers.sh`. Lint exempts it.
+- **Governance hooks** — `chittyos-governance/hooks/hooks.json` is a thin stub that delegates to hookify rules in `~/.claude/hooks/hookify.*.local.md`. There are no projectable hook bodies here, so there is nothing to move into `canonical/hooks/`. The `claude-code-hook.sh` adapter exists for any future plugin that authors real hook bodies, but the governance hooks remain a pointer to the hookify-rule system. (This supersedes the original Phase C, which assumed twelve canonicalizable hook entries.)
 
 ## Target end state
 
 ```
 chittymarket/
   canonical/
-    <agent-name>.md          # canonical agent definition (frontmatter + body)
-    <skill-name>.md          # canonical skill definition
-    hooks/
-      <hook-name>.md         # canonical hook (matchers + script)
+    agents/
+      <agent-name>.md        # canonical agent definition (frontmatter + body)
+    skills/
+      <skill-name>.md        # canonical skill definition
     commands/
       <command-name>.md      # canonical slash command
     mcp/
-      <server-name>.json     # canonical MCP server config
-    .dispatch-state/         # tracking SHAs
+      <server-name>.md       # canonical MCP server config
+    tools/
+      <tool-name>.md         # canonical tool definition
+    .dispatch-state/         # tracking SHAs, per kind-subdir
 
   plugins/<plugin>/
     .claude-plugin/plugin.json    # plugin manifest, deps
@@ -89,53 +83,24 @@ chittymarket/
 
 Direct edits to `plugins/<plugin>/{agents,skills,...}` are blocked by the pre-commit drift hook. The only authored content lives in `canonical/`.
 
-## Migration phases
+## Migration phases — status
 
-### Phase A — Adapter coverage (1–2 PRs)
+The migration as originally scoped is complete. Status as of 2026-06-10:
 
-Add the missing adapters in `plugins/chittyagent-dispatch/scripts/adapters/`:
+| Phase | Scope | Status |
+|---|---|---|
+| A | Adapter coverage (skill, hook, command/mcp, claude-skills, chatgpt) | ✅ Done — all seven adapters present in `adapters/`. The command/mcp surfaces are covered by `claude-code-mcp.sh` + the `claude-code:mcp-server` runtime map; commands project via the kind-subdir loop. |
+| B | Canonicalize all skills | ✅ Done — 29 skills under `canonical/skills/`, including all 9 autobot autonomy skills, the chittyos-core/devops/legal/governance sets, and `market`. |
+| C | Canonicalize hooks | ⛔ Moot — governance hooks are a hookify-rule pointer, not projectable bodies (see *Pointer-by-design* above). No work to do; reclassified, not deferred. |
+| D | Remaining surfaces (commands, mcp) | ✅ Done — `autonomy` command + `chittyos`/`neon` mcp configs are canonicalized. |
+| E | CI lock | ✅ Done — `lint-plugins.sh` enforces tree-wide projection↔canonical alignment; pre-commit drift hook enforces per-staged-file. Pointer files exempted. |
 
-- **`claude-code-skill.sh`** → `plugins/<home-plugin>/skills/<name>/SKILL.md` (currently no skill projection exists; skills are authored directly)
-- **`claude-code-hook.sh`** → entry in `plugins/chittyos-governance/hooks/hooks.json`
-- **`claude-code-command.sh`** → `plugins/<home-plugin>/commands/<name>.md`
-- **`mcp-config.sh`** → entry in `plugins/<host-plugin>/.mcp.json`
-- **`chatgpt-gpt.sh`** → `plugins/<home-plugin>/chatgpt-gpts/<name>.json` (deferred; needs ChatGPT GPT schema)
-- **`notion-agent.sh`** → `plugins/<home-plugin>/notion-agents/<name>.json` (deferred; needs Notion agent schema)
+**Net:** chittymarket is canonical-driven. The only authored content lives in `canonical/`; direct edits to projection paths are blocked by the pre-commit drift hook and flagged by `lint-plugins.sh`.
 
-### Phase B — Canonicalize existing skills (3–5 PRs)
+### Optional hardening (not blocking)
 
-For each plugin with un-canonicalized skills:
-
-1. For each `plugins/<plug>/skills/<name>/SKILL.md`:
-   - Move content to `canonical/<name>.md`
-   - Add frontmatter: `kind: skill`, `plugin: <plug>`, `runtimes: [claude-code]` (plus codex/openclaw if applicable)
-2. Run `dispatch.sh sync <name>` to regenerate `plugins/<plug>/skills/<name>/SKILL.md`
-3. Verify CI passes; pre-commit drift hook confirms canonical↔projection alignment.
-
-Batch by plugin (~5 skills per PR):
-- PR-B1: chittyos-core skills (4)
-- PR-B2: chittyos-devops skills (6)
-- PR-B3: chittyos-legal skills (5)
-- PR-B4: chittyos-governance skills (2) + chittymarket-manager (1)
-- PR-B5: chittyagent-autobot autonomy skills (9)
-
-### Phase C — Canonicalize hooks (1 PR)
-
-Migrate `plugins/chittyos-governance/hooks/hooks.json` entries into individual `canonical/hooks/<name>.md` files; add `hook` adapter that rebuilds the hooks.json.
-
-### Phase D — Canonicalize remaining surfaces (1 PR each, optional)
-
-- Slash commands (currently just `autonomy`)
-- MCP server configs (currently `chittyos-mcp`, `neon-mcp`)
-
-### Phase E — Lock the migration with CI (1 PR)
-
-Once all artifacts are canonicalized:
-
-- Add `scripts/lint-plugins.sh` rule: every `plugins/<plug>/{agents,skills,...}/<file>` must have a corresponding `canonical/<name>.md`. No exceptions except pointer files.
-- The pre-commit drift hook already enforces this for staged files; the lint check enforces it for the whole tree.
-
-After Phase E, no direct edits to projection paths are possible; chittymarket is fully canonical-driven.
+- **`reconcile` / `audit` dispatch modes** are currently stubs (`dispatch.sh audit` prints `STUB. Will emit canonical×runtime sync matrix.`). Implementing the audit matrix would give a single-command drift report beyond what `lint-plugins.sh` covers.
+- **New deferred runtimes** (Notion agents, full ChatGPT GPT configs) take one adapter PR each when their native schemas are pinned; the canonical library projects to them automatically once the adapter lands.
 
 ## Cross-platform projection (the "make sense?" question)
 
@@ -166,7 +131,7 @@ User question (verbatim from §2.4):
 
 - **Adapter divergence**: each adapter is independently maintained. Schema changes to one runtime's native format (e.g. Claude Code agent frontmatter spec) require adapter updates. Mitigation: keep adapters simple, snapshot their fixture output in tests.
 - **Lossy projection**: not every canonical field maps to every runtime. Adapters need to either pick a sensible default or error. Mitigation: validate `runtimes:` allowlist per artifact kind.
-- **Big-bang risk**: phase B migrates 27 skills. If something goes wrong mid-PR, partial canonicalization is hard to roll back. Mitigation: batch by plugin, test each batch independently.
+- **Drift on hand-edit**: the durable risk now that migration is done is someone editing a projected file directly instead of its canonical source. Mitigation: the pre-commit drift hook blocks staged projection edits, and `lint-plugins.sh` flags tree-wide misalignment in CI.
 
 ## Not in scope of this plan
 
