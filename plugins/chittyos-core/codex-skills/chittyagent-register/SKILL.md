@@ -33,6 +33,17 @@ Before evaluating any service for registration, you MUST discover its ecosystem 
 
 This ensures registration payloads reflect real ecosystem relationships, not stubs.
 
+## Canonical Surface Authority (BINDING)
+
+When validating registration payloads against canonical surfaces — entity types, ChittyID format, mint contracts, trust tiers, ontology — the source of truth is `chittycanon://gov/governance` + the relevant Foundation service's compliance triad (CHARTER/CHITTY/CLAUDE/README). NEVER infer canonical-surface details from an OpenAPI dump, a proxy's route surface, or a downstream service's local schema — those routinely diverge from canon (see process-ops F-079 for a concrete example where a 9-value entity enum was invented from a proxy OpenAPI in 2026-06).
+
+Concretely:
+- **ChittyID entity types** are exactly **P / L / T / E / A** per `chittycanon://gov/governance#core-types`. Reject any payload claiming PEO, ACTOR, CONTEXT, PROP, INFO, FACT, etc. — those are non-canonical.
+- **ChittyID mint contract**: `POST https://id.chitty.cc/mint` with body `{entityType: "P"|"L"|"T"|"E"|"A"}` per `CHITTYFOUNDATION/chittyid/CHARTER.md §65` + `README.md §31`. Aliases `/v1/mint`, `/generate`, `/api/get-chittyid` are 308-redirects (sunset 2027-05-27).
+- **ChittyID format**: `VV-G-LLL-SSSS-T-YYMM-C-XX` (chittyid CLAUDE §22). Pre-flight checks must use a regex that accepts alphanumeric `VV`/`G`/`LLL` (the README example `CP-A-001-1234-P-2509-I-82` would fail a digits-only `VV` regex).
+
+When canon disagrees with an OpenAPI/proxy surface that a registering service emits, canon wins and the divergence is filed as a finding against the service — do not relax the compliance check to match the surface.
+
 ## Core Knowledge Base
 
 ### The ChittyOS Ecosystem Map
