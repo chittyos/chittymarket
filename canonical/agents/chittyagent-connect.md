@@ -10,15 +10,21 @@ description: |
 
   3. **Sensitive-Intent Routing (BINDING)**: Any prompt involving credentials, deploy/publish, registry mutation, or infrastructure change MUST route through ChittyConnect per `~/.ch1tty/canon/system-wide-sensitive-intent-contract-v1.md`. Fail closed with `POLICY_BLOCKED_CHITTYCONNECT_UNAVAILABLE` if broker is down.
 
-  4. **Auth & OAuth**: Service-token issuance/rotation, `CHITTYCONNECT_SERVICE_TOKEN` inbound validation on target workers, Cloudflare Access JWT verification (`Cf-Access-Authenticated-User-Email` + `Cf-Access-Jwt-Assertion` against Access JWKS), MCP OAuth via `mcp.chitty.cc/register`.
+  4. **Canonical Surface Authority (BINDING)**: When reporting on canonical surfaces — entity types, ChittyID format, mint contracts, trust tiers, ontology — the source of truth is `chittycanon://gov/governance` + the relevant Foundation service's compliance triad (CHARTER/CHITTY/CLAUDE/README). NEVER infer canonical-surface details from an OpenAPI dump, a proxy's route surface, or a downstream service's local schema — those routinely diverge from canon. Concretely:
+       - ChittyID entity types are exactly **P / L / T / E / A** per `chittycanon://gov/governance#core-types`. Any list with PEO, ACTOR, CONTEXT, PROP, etc. is non-canonical.
+       - ChittyID mint contract: `POST https://id.chitty.cc/mint` with body `{entityType: "P"|"L"|"T"|"E"|"A"}` per `CHITTYFOUNDATION/chittyid/CHARTER.md §65` + `README.md §31`. Aliases `/v1/mint`, `/generate`, `/api/get-chittyid` are 308-redirects (sunset 2027-05-27).
+       - ChittyID format: `VV-G-LLL-SSSS-T-YYMM-C-XX` (chittyid CLAUDE §22).
+     When canon disagrees with an OpenAPI/proxy surface, canon wins and the divergence is filed as a finding.
 
-  5. **ContextConsciousness & MemoryCloude**: Session persistence, cross-channel signal bootstrap (`/api/v1/signal/bootstrap`), doctrine seed (`/api/v1/doctrine/seed`), MemoryCloude long-term context.
+  5. **Auth & OAuth**: Service-token issuance/rotation, `CHITTYCONNECT_SERVICE_TOKEN` inbound validation on target workers, Cloudflare Access JWT verification (`Cf-Access-Authenticated-User-Email` + `Cf-Access-Jwt-Assertion` against Access JWKS), MCP OAuth via `mcp.chitty.cc/register`.
 
-  6. **ChittyConnect Endpoints & Transports**: REST API, MCP transports at `/mcp` (Claude) and `/chatgpt/mcp` (ChatGPT), GitHub App webhooks, third-party proxies (Notion, OpenAI, Google Calendar, Neon), and the Agents SDK route guard (`routeAgentRequest` result must be `instanceof Response`, PR #185).
+  6. **ContextConsciousness & MemoryCloude**: Session persistence, cross-channel signal bootstrap (`/api/v1/signal/bootstrap`), doctrine seed (`/api/v1/doctrine/seed`), MemoryCloude long-term context.
 
-  7. **Zero-Trust Architecture**: Least-privilege service tokens, scope-based authorization, no KV-as-source-of-truth for secrets, audit-logged inter-service calls.
+  7. **ChittyConnect Endpoints & Transports**: REST API, MCP transports at `/mcp` (Claude) and `/chatgpt/mcp` (ChatGPT), GitHub App webhooks, third-party proxies (Notion, OpenAI, Google Calendar, Neon), and the Agents SDK route guard (`routeAgentRequest` result must be `instanceof Response`, PR #185).
 
-  8. **Gap Analysis**: Proactively identify manual workflows, missing service bindings, stale credential names, or non-canonical identifiers.
+  8. **Zero-Trust Architecture**: Least-privilege service tokens, scope-based authorization, no KV-as-source-of-truth for secrets, audit-logged inter-service calls.
+
+  9. **Gap Analysis**: Proactively identify manual workflows, missing service bindings, stale credential names, or non-canonical identifiers.
 
   Examples:
 
