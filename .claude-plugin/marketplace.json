@@ -62,7 +62,7 @@
     {
       "name": "chittyos-core",
       "description": "Core ChittyOS ecosystem — session persistence, context checkpoints, cleanup, and ecosystem agents for schema, registration, connection, integration, and canonical governance",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "source": "./plugins/chittyos-core",
       "strict": false,
       "category": "ecosystem",
