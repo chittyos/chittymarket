@@ -3,15 +3,16 @@ uri: chittycanon://docs/ops/policy/chittymarket-universal-projection-plan
 namespace: chittycanon://docs/ops
 type: policy
 version: 1.0.0
-status: ACTIVE
+status: PENDING
 registered_with: chittycanon://core/services/canon
+certifier: chittycanon://core/services/chittycertify
 title: "ChittyMarket Universal Projection — Migration Plan"
 visibility: PUBLIC
 ---
 
 # ChittyMarket Universal Projection — Migration Plan
 
-**Status:** ACTIVE — migration substantially complete (2026-06-10). Resolves §2.4 (per `SINGLE-SOURCE-CONVENTIONS.md`): chittymarket as agent/model/platform-agnostic universal marketplace, with native projections per runtime.
+**Status:** PENDING (awaiting certification) — migration substantially complete (2026-06-10). Resolves §2.4 (per `SINGLE-SOURCE-CONVENTIONS.md`): chittymarket as agent/model/platform-agnostic universal marketplace, with native projections per runtime.
 
 ## TL;DR
 
