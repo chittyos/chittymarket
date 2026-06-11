@@ -62,6 +62,14 @@ jobs:
           fi
           echo "✓ Projection files are in sync with canonical/"
 
+      # 3a-bis. Drift + orphan matrix. The sync→no-diff gate above catches
+      #     content drift on *declared* projections; audit additionally catches
+      #     orphan targets (state records a runtime the canonical dropped),
+      #     orphan projection files (no canonical backing), and never-synced
+      #     declared runtimes. Read-only; exit 1 on any finding.
+      - name: Dispatch audit (canonical × runtime drift + orphan matrix)
+        run: bash plugins/chittyagent-dispatch/scripts/dispatch.sh audit
+
       # 3b. Manifest idempotency: regenerating from plugins/ must produce
       #     no diff. Catches hand-edits to .claude-plugin/marketplace.json
       #     and plugin.json changes that weren't propagated to the manifest.
