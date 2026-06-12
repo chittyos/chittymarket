@@ -10,6 +10,15 @@
 set -euo pipefail
 
 MANIFEST="$HOME/.claude/marketplace.json"
+# Capability Overlay (provenance/content_hash source). Resolves next to the
+# real manifest, then falls back to ~/.claude. Override with MARKET_OVERLAY.
+if [ -n "${MARKET_OVERLAY:-}" ]; then
+  OVERLAY="$MARKET_OVERLAY"
+else
+  _mreal="$(readlink -f "$MANIFEST" 2>/dev/null || echo "$MANIFEST")"
+  OVERLAY="$(dirname "$_mreal")/capabilities.generated.json"
+  [ -f "$OVERLAY" ] || OVERLAY="$HOME/.claude/capabilities.generated.json"
+fi
 # Allow env override; fall back to known workstation/legacy paths.
 # Workstations (Mac /Users/nb/Workspace) use the first hit; Linux dev VMs use the last.
 CH1TTY_SERVERS="${CH1TTY_SERVERS:-}"
@@ -48,6 +57,52 @@ for a in data['artifacts']:
         sys.exit(0)
 sys.exit(1)
 " 2>/dev/null || die "Artifact '$1' not found"
+}
+
+# ─── PROVENANCE ──────────────────────────────────────────────────────────────
+# Verify an artifact's Capability Overlay record against its content_hash.
+# Prints a status line. Exit: 0 = verified/unsigned/unknown (non-blocking),
+# 2 = content_hash MISMATCH (tampered → callers fail closed).
+verify_provenance() {
+  local artifact_id="$1"
+  [[ -f "$OVERLAY" ]] || { echo "  provenance: overlay not found — skipped"; return 0; }
+  OVERLAY_FILE="$OVERLAY" ARTIFACT_ID="$artifact_id" python3 -c '
+import json, hashlib, os, sys
+
+with open(os.environ["OVERLAY_FILE"]) as f:
+    data = json.load(f)
+
+aid = os.environ["ARTIFACT_ID"]
+rec = next((c for c in data.get("capabilities", []) if c.get("legacy_id") == aid), None)
+if rec is None:
+    print(f"  provenance: no overlay record for {aid} — unverified")
+    sys.exit(0)
+
+prov = rec.get("provenance") or {}
+stored = prov.get("content_hash")
+if not stored:
+    print(f"  provenance: record has no content_hash — unverified")
+    sys.exit(0)
+
+# Canonicalization MUST match scripts/overlay-provenance.py exactly.
+body = {k: v for k, v in rec.items() if k != "provenance"}
+canon = json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+computed = "sha256:" + hashlib.sha256(canon).hexdigest()
+
+if computed != stored:
+    print(f"  provenance: \033[0;31mCONTENT HASH MISMATCH — record tampered/stale\033[0m")
+    print(f"    stored:   {stored}")
+    print(f"    computed: {computed}")
+    sys.exit(2)
+
+sig = prov.get("signature")
+signer = prov.get("signer_chittyid")
+if sig and signer:
+    print(f"  provenance: \033[0;32m✓ content verified + signed by {signer}\033[0m")
+else:
+    print(f"  provenance: \033[0;32m✓ content verified\033[0m (unsigned — signature pending L2)")
+sys.exit(0)
+'
 }
 
 # ─── LIST ────────────────────────────────────────────────────────────────────
@@ -222,6 +277,20 @@ cmd_toggle() {
   art_type=$(echo "$art_json" | python3 -c "import json,sys; print(json.load(sys.stdin)['type'])")
   art_enabled=$(echo "$art_json" | python3 -c "import json,sys; print(json.load(sys.stdin)['enabled'])")
 
+  # Fail-closed provenance check on enable: a tampered overlay record blocks
+  # activation unless explicitly overridden (MARKET_SKIP_VERIFY=1).
+  if [[ "$enable" == "enable" ]]; then
+    local vrc=0
+    verify_provenance "$artifact_id" || vrc=$?
+    if [[ "$vrc" -eq 2 ]]; then
+      if [[ "${MARKET_SKIP_VERIFY:-}" == "1" ]]; then
+        echo "  WARNING: provenance check failed — proceeding (MARKET_SKIP_VERIFY=1)" >&2
+      else
+        die "BLOCKED: provenance verification failed for '$artifact_id' (content_hash mismatch). Re-stamp the overlay or investigate tampering. Override with MARKET_SKIP_VERIFY=1."
+      fi
+    fi
+  fi
+
   if [[ "$enable" == "enable" && "$art_enabled" == "True" ]]; then
     echo "Already enabled: $artifact_id"
     return 0
@@ -302,6 +371,35 @@ for a in data['artifacts']:
 else:
     print(f'Artifact not found: $artifact_id')
 "
+  echo "  ─ Provenance ─"
+  verify_provenance "$artifact_id"
+}
+
+# ─── VERIFY ──────────────────────────────────────────────────────────────────
+# Verify provenance for one artifact or all. Exits non-zero if any record is
+# tampered (content_hash mismatch).
+cmd_verify() {
+  local target="${1:-}"
+  if [[ -z "$target" || "$target" == "--all" ]]; then
+    [[ -f "$OVERLAY" ]] || die "overlay not found at $OVERLAY"
+    local ids rc=0
+    ids=$(python3 -c "import json,os; d=json.load(open('$OVERLAY')); print('\n'.join(c['legacy_id'] for c in d.get('capabilities',[])))")
+    local n_ok=0 n_bad=0
+    while IFS= read -r id; do
+      [[ -z "$id" ]] && continue
+      if verify_provenance "$id" >/dev/null 2>&1; then
+        n_ok=$((n_ok+1))
+      else
+        n_bad=$((n_bad+1)); echo "TAMPERED: $id"; rc=1
+      fi
+    done <<< "$ids"
+    echo "Provenance: $n_ok verified, $n_bad tampered"
+    return $rc
+  else
+    local rc=0
+    verify_provenance "$target" || rc=$?
+    [[ "$rc" -eq 2 ]] && return 1 || return 0
+  fi
 }
 
 # ─── SYNC ────────────────────────────────────────────────────────────────────
@@ -398,6 +496,7 @@ case "${1:-list}" in
   enable)  [[ -n "${2:-}" ]] || die "Usage: market.sh enable <id>"; cmd_toggle "$2" "enable" ;;
   disable) [[ -n "${2:-}" ]] || die "Usage: market.sh disable <id>"; cmd_toggle "$2" "disable" ;;
   info)    [[ -n "${2:-}" ]] || die "Usage: market.sh info <id>"; cmd_info "$2" ;;
+  verify)  cmd_verify "${2:-}" ;;
   sync)    cmd_sync ;;
   *)       die "Unknown command: $1" ;;
 esac
