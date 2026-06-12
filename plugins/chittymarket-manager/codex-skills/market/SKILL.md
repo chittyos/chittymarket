@@ -22,9 +22,20 @@ Manage all Claude Code artifacts (MCP servers, skills, plugins, agents, hooks) f
 - `/market list --disabled` — Show only disabled artifacts
 - `/market enable <id>` — Enable an artifact
 - `/market disable <id>` — Disable an artifact
-- `/market info <id>` — Show artifact details
+- `/market info <id>` — Show artifact details (incl. provenance status)
+- `/market verify [<id>|--all]` — Verify capability-record provenance (content_hash)
 - `/market mode <id> ch1tty|standalone` — Switch install mode
 - `/market sync` — Scan filesystem and reconcile manifest with actual state
+
+## Provenance (verify-on-enable)
+
+Every capability has a content-addressed record in `capabilities.generated.json`
+(SHA-256 `content_hash`; see `docs/architecture/CAPABILITY_PROVENANCE.md`).
+`enable` is **fail-closed**: if an artifact's record fails its `content_hash`
+(tampered/stale), activation is blocked unless `MARKET_SKIP_VERIFY=1`. `verify`
+audits one or all records; `info` shows provenance status. Signatures
+(`signer_chittyid`) are surfaced when present — pending Layer 2 they read
+"unsigned — signature pending".
 
 ## Manifest Location
 
@@ -43,7 +54,8 @@ A shell script at `~/.claude/skills/market/market.sh` handles all commands. **Us
 ~/.claude/skills/market/market.sh list --disabled         # Only disabled
 ~/.claude/skills/market/market.sh enable <id>             # Enable artifact
 ~/.claude/skills/market/market.sh disable <id>            # Disable artifact
-~/.claude/skills/market/market.sh info <id>               # Show details
+~/.claude/skills/market/market.sh info <id>               # Show details + provenance
+~/.claude/skills/market/market.sh verify [<id>|--all]     # Verify content_hash provenance
 ~/.claude/skills/market/market.sh sync                    # Reconcile with filesystem
 ```
 
