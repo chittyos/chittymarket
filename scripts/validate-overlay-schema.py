@@ -45,7 +45,11 @@ REQUIRED_TOP = {
     "projection_version_policy", "ontology", "authority", "execution",
     "discovery", "auth_flow", "runtime_exclusions", "compatible_channels",
     "source_links", "phase0_audit", "legacy_type", "legacy_category",
-    "deprecated_aliases", "visibility",
+    "deprecated_aliases", "visibility", "provenance",
+}
+REQUIRED_PROVENANCE = {
+    "content_hash", "canonicalization", "hash_covers", "schema_ref",
+    "signature", "signer_chittyid", "anchored_in_ledger",
 }
 REQUIRED_EXECUTION = {"default_surface", "local_allowed", "context_cost", "mutation_risk"}
 REQUIRED_DISCOVERY = {"indexable", "session_index", "ambient_by_intent", "verbs", "fallback_search"}
@@ -158,6 +162,17 @@ def validate():
 
         if not isinstance(c.get("compatible_channels"), list) or not c.get("compatible_channels"):
             err(i, ident, "compatible_channels must be a non-empty list")
+
+        prov = c.get("provenance", {})
+        if isinstance(prov, dict):
+            pm = REQUIRED_PROVENANCE - set(prov.keys())
+            if pm:
+                err(i, ident, f"provenance missing: {', '.join(sorted(pm))}")
+            ch = prov.get("content_hash", "")
+            if not (isinstance(ch, str) and re.match(r"^sha256:[0-9a-f]{64}$", ch)):
+                err(i, ident, f"provenance.content_hash not sha256:<64hex>: {ch!r}")
+        else:
+            err(i, ident, "provenance missing/not an object (run overlay-provenance.py stamp)")
 
     for cap_id, owners in seen_cap.items():
         if len(owners) > 1:

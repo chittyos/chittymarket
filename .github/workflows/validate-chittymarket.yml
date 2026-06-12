@@ -64,6 +64,12 @@ jobs:
       - name: scripts/check-source-freshness.sh
         run: bash scripts/check-source-freshness.sh
 
+      # 2e. Content provenance: every record carries a SHA-256 content_hash over
+      #     its canonical form; verify recomputes and fails on tamper/drift. This
+      #     is the content-addressing substrate the signing/trust layer binds to.
+      - name: scripts/overlay-provenance.py verify
+        run: python3 scripts/overlay-provenance.py verify
+
       # 3a. Dispatch idempotency (adversarial review #3): re-running
       #     dispatch.sh sync must not change any projection file. Catches
       #     direct edits to plugins/<plug>/{agents,skills,...}/ that
