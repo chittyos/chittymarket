@@ -1,10 +1,10 @@
 {
   "version": "1.1.0",
-  "generated_at": "2026-05-11",
-  "phase": "Phase 1 \u2014 capability overlay (view-only, no behavior change)",
+  "generated_at": "2026-06-12",
+  "phase": "Phase 1 — capability overlay (view-only, no behavior change)",
   "source": "marketplace.json + docs/audits/chittymarket-{artifact,plugin-package}-audit.json + docs/overrides/capability-group-overrides.json",
   "naming": "Bare JTBD group ids (no chitty- prefix). Namespace chittycanon://capability/ already encodes 'chitty'.",
-  "total": 102,
+  "total": 104,
   "group_assignment_sources": {
     "name-rule": 45,
     "category": 34,
@@ -15,7 +15,7 @@
       "capability_id": "chittycanon://capability/workspace/read-and-write-chittyos",
       "legacy_id": "remote",
       "name": "Read and Write ChittyOS",
-      "description": "ChittyOS MCP gateway \u2014 MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness",
+      "description": "ChittyOS MCP gateway — MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness",
       "capability_group": "workspace",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/reasoning",
@@ -161,7 +161,7 @@
       "capability_id": "chittycanon://capability/connect/read-and-write-neon-database",
       "legacy_id": "neon",
       "name": "Read and Write Neon Database",
-      "description": "Neon PostgreSQL \u2014 branches, migrations, SQL, schema management",
+      "description": "Neon PostgreSQL — branches, migrations, SQL, schema management",
       "capability_group": "connect",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -231,7 +231,7 @@
       "capability_id": "chittycanon://capability/build/read-and-write-source-code",
       "legacy_id": "serena",
       "name": "Read and Write Source Code",
-      "description": "Serena LSP \u2014 semantic code intelligence, symbol navigation, refactoring",
+      "description": "Serena LSP — semantic code intelligence, symbol navigation, refactoring",
       "capability_group": "build",
       "group_assignment_source": "category",
       "execution_class": "@chitty/connectors",
@@ -372,7 +372,7 @@
       "capability_id": "chittycanon://capability/legal/search-evidence-documents",
       "legacy_id": "evidence",
       "name": "Search Evidence Documents",
-      "description": "Cloudflare AutoRAG \u2014 evidence document search (case-scoped; invocation must pass a case parameter)",
+      "description": "Cloudflare AutoRAG — evidence document search (case-scoped; invocation must pass a case parameter)",
       "capability_group": "legal",
       "group_assignment_source": "override",
       "execution_class": "@chitty/reasoning",
@@ -523,7 +523,7 @@
       "capability_id": "chittycanon://capability/local-lab/read-and-write-filesystem",
       "legacy_id": "fs",
       "name": "Read and Write Filesystem",
-      "description": "MCP filesystem server \u2014 constrained to projects, Documents, Desktop",
+      "description": "MCP filesystem server — constrained to projects, Documents, Desktop",
       "capability_group": "local-lab",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/workspace",
@@ -596,7 +596,7 @@
       "capability_id": "chittycanon://capability/local-lab/control-your-mac",
       "legacy_id": "desktop",
       "name": "Control your Mac",
-      "description": "Desktop commander \u2014 window management, screenshots, system control",
+      "description": "Desktop commander — window management, screenshots, system control",
       "capability_group": "local-lab",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -669,7 +669,7 @@
       "capability_id": "chittycanon://capability/local-lab/control-chrome",
       "legacy_id": "chrome",
       "name": "Control Chrome",
-      "description": "Chrome browser automation \u2014 navigation, screenshots, forms, console",
+      "description": "Chrome browser automation — navigation, screenshots, forms, console",
       "capability_group": "local-lab",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -742,7 +742,7 @@
       "capability_id": "chittycanon://capability/local-lab/control-browser-automation",
       "legacy_id": "playwright",
       "name": "Control Browser Automation",
-      "description": "Playwright MCP \u2014 cross-browser automation, testing, scraping",
+      "description": "Playwright MCP — cross-browser automation, testing, scraping",
       "capability_group": "local-lab",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -1169,7 +1169,7 @@
       "capability_id": "chittycanon://capability/workspace/chittycontext-checkpoints",
       "legacy_id": "skill-chittycontext",
       "name": "ChittyContext Checkpoints",
-      "description": "Persistent conversation state via JSON files \u2014 checkpoint, restore, status",
+      "description": "Persistent conversation state via JSON files — checkpoint, restore, status",
       "capability_group": "workspace",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/ambient",
@@ -1238,7 +1238,7 @@
       "capability_id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
       "legacy_id": "skill-chitty-deploy",
       "name": "Deploy to Cloudflare Workers",
-      "description": "Deploy ChittyOS services via wrangler \u2014 /deploy command",
+      "description": "Deploy ChittyOS services via wrangler — /deploy command",
       "capability_group": "ship",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/workspace",
@@ -1315,7 +1315,7 @@
       "capability_id": "chittycanon://capability/ship/health-check-services",
       "legacy_id": "skill-chitty-health",
       "name": "Health Check Services",
-      "description": "Health-check ChittyOS services at *.chitty.cc/health \u2014 /health command",
+      "description": "Health-check ChittyOS services at *.chitty.cc/health — /health command",
       "capability_group": "ship",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -1387,7 +1387,7 @@
       "capability_id": "chittycanon://capability/ship/query-service-registry",
       "legacy_id": "skill-chitty-registry",
       "name": "Query Service Registry",
-      "description": "Query ChittyRegistry at registry.chitty.cc \u2014 /registry command",
+      "description": "Query ChittyRegistry at registry.chitty.cc — /registry command",
       "capability_group": "ship",
       "group_assignment_source": "override",
       "execution_class": "@chitty/connectors",
@@ -1459,7 +1459,7 @@
       "capability_id": "chittycanon://capability/ship/cloudflare-pipelines",
       "legacy_id": "skill-chitty-pipelines",
       "name": "Cloudflare Pipelines",
-      "description": "Manage Cloudflare Pipelines (stream/SQL/sink/R2) \u2014 /pipelines command",
+      "description": "Manage Cloudflare Pipelines (stream/SQL/sink/R2) — /pipelines command",
       "capability_group": "ship",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -2057,7 +2057,7 @@
       "capability_id": "chittycanon://capability/market/chittymarket-manager",
       "legacy_id": "skill-market",
       "name": "ChittyMarket Manager",
-      "description": "Manage all Claude Code artifacts \u2014 list, enable, disable, info, mode, sync",
+      "description": "Manage all Claude Code artifacts — list, enable, disable, info, mode, sync",
       "capability_group": "market",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -2127,7 +2127,7 @@
       "capability_id": "chittycanon://capability/build/agent-sdk-dev",
       "legacy_id": "plugin-agent-sdk-dev",
       "name": "Agent SDK Dev",
-      "description": "Claude Agent SDK development tools \u2014 create, verify, test agent apps",
+      "description": "Claude Agent SDK development tools — create, verify, test agent apps",
       "capability_group": "build",
       "group_assignment_source": "category",
       "execution_class": "@chitty/connectors",
@@ -2411,7 +2411,7 @@
       "capability_id": "chittycanon://capability/build/github",
       "legacy_id": "plugin-github",
       "name": "GitHub",
-      "description": "GitHub integration \u2014 issues, PRs, checks, releases",
+      "description": "GitHub integration — issues, PRs, checks, releases",
       "capability_group": "build",
       "group_assignment_source": "category",
       "execution_class": "@chitty/connectors",
@@ -2553,7 +2553,7 @@
       "capability_id": "chittycanon://capability/govern/hookify",
       "legacy_id": "plugin-hookify",
       "name": "Hookify",
-      "description": "Create hooks to prevent unwanted behaviors \u2014 rule management",
+      "description": "Create hooks to prevent unwanted behaviors — rule management",
       "capability_group": "govern",
       "group_assignment_source": "override",
       "execution_class": "@chitty/connectors",
@@ -2697,7 +2697,7 @@
       "capability_id": "chittycanon://capability/connect/notion",
       "legacy_id": "plugin-notion",
       "name": "Notion",
-      "description": "Notion workspace integration \u2014 pages, databases, comments",
+      "description": "Notion workspace integration — pages, databases, comments",
       "capability_group": "connect",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -2838,7 +2838,7 @@
       "capability_id": "chittycanon://capability/build/pr-review-toolkit",
       "legacy_id": "plugin-pr-review-toolkit",
       "name": "PR Review Toolkit",
-      "description": "Comprehensive PR review \u2014 code, types, tests, comments, silent failures",
+      "description": "Comprehensive PR review — code, types, tests, comments, silent failures",
       "capability_group": "build",
       "group_assignment_source": "category",
       "execution_class": "@chitty/connectors",
@@ -4117,7 +4117,7 @@
       "capability_id": "chittycanon://capability/build/hugging-face-skills",
       "legacy_id": "plugin-huggingface-skills",
       "name": "Hugging Face Skills",
-      "description": "Hugging Face Hub tools \u2014 models, datasets, papers, spaces",
+      "description": "Hugging Face Hub tools — models, datasets, papers, spaces",
       "capability_group": "build",
       "group_assignment_source": "category",
       "execution_class": "@chitty/connectors",
@@ -4532,7 +4532,7 @@
       "capability_id": "chittycanon://capability/agent-runtime/chittyhelper",
       "legacy_id": "plugin-chittyhelper",
       "name": "ChittyHelper",
-      "description": "Architectural navigation \u2014 ask which service handles X?",
+      "description": "Architectural navigation — ask which service handles X?",
       "capability_group": "agent-runtime",
       "group_assignment_source": "override",
       "execution_class": "@chitty/connectors",
@@ -5710,7 +5710,7 @@
       "capability_id": "chittycanon://capability/govern/block-chittyid-generation",
       "legacy_id": "hook-block-chittyid-generation",
       "name": "Block ChittyID Generation",
-      "description": "Block local ChittyID generation \u2014 must use mint service",
+      "description": "Block local ChittyID generation — must use mint service",
       "capability_group": "govern",
       "group_assignment_source": "override",
       "execution_class": "@chitty/workspace",
@@ -6021,7 +6021,7 @@
       "capability_id": "chittycanon://capability/ship/block-direct-deploy",
       "legacy_id": "hook-block-direct-deploy",
       "name": "Block Direct Deploy",
-      "description": "Block direct deploys \u2014 must use /deploy skill",
+      "description": "Block direct deploys — must use /deploy skill",
       "capability_group": "ship",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/workspace",
@@ -6329,7 +6329,7 @@
       "capability_id": "chittycanon://capability/connect/notion-claude-ai",
       "legacy_id": "claude-ai-notion",
       "name": "Notion (Claude.ai)",
-      "description": "Notion workspace \u2014 search, pages, databases, comments via Claude.ai",
+      "description": "Notion workspace — search, pages, databases, comments via Claude.ai",
       "capability_group": "connect",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -6611,7 +6611,7 @@
       "capability_id": "chittycanon://capability/build/hugging-face-claude-ai",
       "legacy_id": "claude-ai-huggingface",
       "name": "Hugging Face (Claude.ai)",
-      "description": "Hugging Face Hub \u2014 models, datasets, papers, spaces, doc search",
+      "description": "Hugging Face Hub — models, datasets, papers, spaces, doc search",
       "capability_group": "build",
       "group_assignment_source": "category",
       "execution_class": "@chitty/connectors",
@@ -6753,7 +6753,7 @@
       "capability_id": "chittycanon://capability/connect/gmail-claude-ai",
       "legacy_id": "claude-ai-gmail",
       "name": "Gmail (Claude.ai)",
-      "description": "Gmail \u2014 search, read messages/threads, drafts, labels",
+      "description": "Gmail — search, read messages/threads, drafts, labels",
       "capability_group": "connect",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -6823,7 +6823,7 @@
       "capability_id": "chittycanon://capability/connect/google-calendar-claude-ai",
       "legacy_id": "claude-ai-google-calendar",
       "name": "Google Calendar (Claude.ai)",
-      "description": "Google Calendar \u2014 events, free time, scheduling, RSVP",
+      "description": "Google Calendar — events, free time, scheduling, RSVP",
       "capability_group": "connect",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -7040,7 +7040,7 @@
       "capability_id": "chittycanon://capability/legal/chittymcp-claude-ai",
       "legacy_id": "claude-ai-chittymcp",
       "name": "ChittyMCP (Claude.ai)",
-      "description": "ChittyOS MCP via Claude.ai \u2014 identity, cases, evidence, facts, ledger, finance, memory, credentials",
+      "description": "ChittyOS MCP via Claude.ai — identity, cases, evidence, facts, ledger, finance, memory, credentials",
       "capability_group": "legal",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/reasoning",
@@ -7122,7 +7122,7 @@
       "capability_id": "chittycanon://capability/build/jam-bug-reports-claude-ai",
       "legacy_id": "claude-ai-jam",
       "name": "Jam Bug Reports (Claude.ai)",
-      "description": "Jam bug reports \u2014 details, network, console, screenshots, video",
+      "description": "Jam bug reports — details, network, console, screenshots, video",
       "capability_group": "build",
       "group_assignment_source": "category",
       "execution_class": "@chitty/connectors",
@@ -7333,7 +7333,7 @@
       "capability_id": "chittycanon://capability/internal/chittyagent-autobot",
       "legacy_id": "plugin-chittyagent-autobot",
       "name": "ChittyAgent Autobot",
-      "description": "Autonomous PR-driver \u2014 Sovereignty-cert gated workflow orchestrator. Successor to structured-autonomy trio.",
+      "description": "Autonomous PR-driver — Sovereignty-cert gated workflow orchestrator. Successor to structured-autonomy trio.",
       "capability_group": "internal",
       "group_assignment_source": "override",
       "execution_class": "@chitty/connectors",
@@ -7388,6 +7388,144 @@
       "legacy_category": "automation",
       "deprecated_aliases": [
         "plugin-chittyagent-autobot"
+      ],
+      "visibility": "recommended"
+    },
+    {
+      "capability_id": "chittycanon://capability/workspace/goal-creator",
+      "legacy_id": "skill-goal-creator",
+      "name": "Goal Creator",
+      "description": "Three-block (goal · conditions · not-met-until) pipeline driver: discover→elicit→architect→adversarial→SoT→build→persist→handoff. Pairs with the Claude Code built-in /goal stop-gate.",
+      "capability_group": "workspace",
+      "group_assignment_source": "name-rule",
+      "execution_class": "@chitty/ambient",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "P"
+        ],
+        "secondary": [
+          "E",
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": true,
+        "context_cost": "low",
+        "mutation_risk": "low"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "summary",
+        "ambient_by_intent": true,
+        "verbs": [
+          "goal",
+          "plan",
+          "goal-creator"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "local-only",
+        "stores_credentials_in": "n/a",
+        "fail_closed_if_unavailable": false
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "claude_ai",
+        "claude_desktop",
+        "chatgpt",
+        "codex",
+        "openclaw"
+      ],
+      "source_links": [
+        "local://plugins/chittyos-core/skills/goal-creator"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "plan",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-goal-creator"
+      ],
+      "visibility": "recommended"
+    },
+    {
+      "capability_id": "chittycanon://capability/build/skill-creator",
+      "legacy_id": "skill-skill-creator",
+      "name": "Skill Creator (ChittyMarket-routed)",
+      "description": "Overrides upstream skill-creator. Routes all skill artifacts through ChittyMarket — no local ~/.claude/skills/ writes; updates marketplace.json + regenerates the native manifest.",
+      "capability_group": "build",
+      "group_assignment_source": "name-rule",
+      "execution_class": "@chitty/ambient",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "E",
+          "A"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": true,
+        "context_cost": "medium",
+        "mutation_risk": "high"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "summary",
+        "ambient_by_intent": true,
+        "verbs": [
+          "create skill",
+          "author skill",
+          "skill-creator"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "local-only",
+        "stores_credentials_in": "n/a",
+        "fail_closed_if_unavailable": false
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "claude_ai",
+        "claude_desktop",
+        "chatgpt",
+        "codex",
+        "openclaw"
+      ],
+      "source_links": [
+        "local://plugins/chittyos-core/skills/skill-creator"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "create",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-skill-creator"
       ],
       "visibility": "recommended"
     }

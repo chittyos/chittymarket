@@ -5,7 +5,7 @@
 ChittyMarket is the Claude Code marketplace for the ChittyOS ecosystem. It serves three purposes:
 
 1. **Native Claude Code Marketplace** — `.claude-plugin/marketplace.json` lists 12 plugins installable via `/plugin add`
-2. **Artifact Inventory** — `marketplace.json` catalogs all 102 capabilities with rich metadata for the `/market` skill
+2. **Artifact Inventory** — `marketplace.json` catalogs all 104 capabilities with rich metadata for the `/market` skill
 3. **Capability Overlay (Phase 1, 2026-05-11)** — `capabilities.generated.json` projects every artifact into a Canonical Capability Record with ChittyCanon URI, JTBD group, execution_class, and full §16 metadata schema. See `docs/architecture/CHITTYMARKET_CAPABILITY_ROUTER.md`.
 
 ## Structure
@@ -13,7 +13,7 @@ ChittyMarket is the Claude Code marketplace for the ChittyOS ecosystem. It serve
 ```
 chittymarket/
   .claude-plugin/marketplace.json   # Native Claude Code marketplace (12 plugins)
-  marketplace.json                  # Full artifact inventory (102 capabilities, for /market skill)
+  marketplace.json                  # Full artifact inventory (104 capabilities, for /market skill)
   plugins/
     chittyos-core/                  # Session, context, cleanup + 5 ecosystem agents
     chittyos-devops/                # Deploy, health, registry, pipelines, compliance
@@ -32,7 +32,7 @@ chittymarket/
 ## Dual Manifest
 
 - **`.claude-plugin/marketplace.json`** — What Claude Code sees via `/plugin add`. Lists 12 plugins (6 inline, 4 GitHub repos, 2 standalone MCP wrappers).
-- **`marketplace.json`** — Authoritative inventory read by `/market` skill and `market.sh`. 102 capabilities including official Anthropic plugins, Claude.ai MCP servers, and Ch1tty-managed servers.
+- **`marketplace.json`** — Authoritative inventory read by `/market` skill and `market.sh`. 104 capabilities including official Anthropic plugins, Claude.ai MCP servers, and Ch1tty-managed servers.
 - **`~/.claude/marketplace.json`** — Symlink to `marketplace.json`
 
 ## Commands
