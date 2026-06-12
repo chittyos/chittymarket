@@ -78,7 +78,16 @@
       "deprecated_aliases": [
         "remote"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:6c46be0d923b4b9e028d96ab9ddd43ff4fefadafa2188de025b32574ec7d3ab2",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/ship/read-and-write-cloudflare",
@@ -155,7 +164,16 @@
       "deprecated_aliases": [
         "cloudflare"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:3ddce8d63cb18fbd7108a11ad48e183c8a11333015b51c38e2f7338e98482e22",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/read-and-write-neon-database",
@@ -225,7 +243,16 @@
       "deprecated_aliases": [
         "neon"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:d4a9209bdadfe89ae8061270b3401df42f6465b182f7ea445f30ba28f34834a3",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/read-and-write-source-code",
@@ -296,7 +323,16 @@
       "deprecated_aliases": [
         "serena"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:6996d1bbeb6188dca1a4b35364c02cc184662a35193f5c0d5415f948955189c1",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/read-and-write-quality-metrics",
@@ -366,7 +402,16 @@
       "deprecated_aliases": [
         "quality"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:fb20b2e1a64befed84392e7229b0a7110e4a57fe4e48332aec02dba8decf8974",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/legal/search-evidence-documents",
@@ -448,7 +493,16 @@
       "deprecated_aliases": [
         "evidence"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:41bc6e26600ea7ddd769367c954173d22aa7892125ab263146448b0e0c492adb",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/workspace/sequential-thinking",
@@ -517,7 +571,16 @@
       "deprecated_aliases": [
         "thinking"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:a78bd3cb81308f8ec9116acc9922e861319488de1ed2b6434ff4bf882d39ed48",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/local-lab/read-and-write-filesystem",
@@ -590,7 +653,16 @@
       "deprecated_aliases": [
         "fs"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:1455363241b90d259cce3514362319e131d89325c81ff0247acd3378acdc5c15",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/local-lab/control-your-mac",
@@ -663,7 +735,16 @@
       "deprecated_aliases": [
         "desktop"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:dd07f2e98252f92f01d3c9933e63f3764a85f901cc212bf512096673633d2d69",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/local-lab/control-chrome",
@@ -736,7 +817,16 @@
       "deprecated_aliases": [
         "chrome"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:45ce4eb642cb88c0f3f29e2dbe538d7d1b4450a36b990a2b5fcca1990ee41323",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/local-lab/control-browser-automation",
@@ -809,7 +899,16 @@
       "deprecated_aliases": [
         "playwright"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:972dc102f7e5da3ffb1a642fffa4ce6aab0b285c64433bf77926512637e193ed",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/fill-and-analyze-pdfs",
@@ -879,7 +978,16 @@
       "deprecated_aliases": [
         "pdf"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:8e8e71f490b70a510905ee025b2a8a3e3408d8743e08aa21601ce43ba8f8b8d1",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/read-and-write-apple-notes",
@@ -949,7 +1057,16 @@
       "deprecated_aliases": [
         "chittymac"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:a8559ef8b9d789fef105c2c7130fd4101f3d4f0e959d48d3a5be7e60b9ae3307",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/read-and-send-imessages",
@@ -1019,7 +1136,16 @@
       "deprecated_aliases": [
         "imessage"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:9860e9efb569857e48686b3dd83755a7b52567e5253af0a2bcccfa154c4b9d0a",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/workspace/chittyxl-session-manager",
@@ -1088,7 +1214,16 @@
       "deprecated_aliases": [
         "skill-chittyxl"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:964d56a5eab738fb00b44df3eecb05b52a07d6ce35cf7bd0663ec0d11cdee6d2",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/fact-governance",
@@ -1163,7 +1298,16 @@
       "deprecated_aliases": [
         "skill-fact-governance"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:e7e931250820b08ae4f6e00c325a90974ca0e4c8c56b2371a9e1154ef7819304",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/workspace/chittycontext-checkpoints",
@@ -1232,7 +1376,16 @@
       "deprecated_aliases": [
         "skill-chittycontext"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:f64525b41de4db417927e1df4aba54f51018766eef7671efec22a2f38b07c473",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
@@ -1309,7 +1462,16 @@
       "deprecated_aliases": [
         "skill-chitty-deploy"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:2a26d4b398fae6b0a462f3f122f4bb133df0230eea48af99a082538a46a56e03",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/ship/health-check-services",
@@ -1381,7 +1543,16 @@
       "deprecated_aliases": [
         "skill-chitty-health"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:fadcb817fdfac08144b749fa89b31de8c8ee6c48cee4ac6f5276439844bbed9b",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/ship/query-service-registry",
@@ -1453,7 +1624,16 @@
       "deprecated_aliases": [
         "skill-chitty-registry"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:0b68a87f00ee4fbc4ad311f313c202b65f64b1328965e8ca6b63a9be69bda0c6",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/ship/cloudflare-pipelines",
@@ -1525,7 +1705,16 @@
       "deprecated_aliases": [
         "skill-chitty-pipelines"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:6594192a2dcfd2a72364031b3d658c87efd2996c0463064f2a5cad134fe09a0c",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/workspace/session-cleanup",
@@ -1594,7 +1783,16 @@
       "deprecated_aliases": [
         "skill-chitty-cleanup"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:1b9455ce2748ced00035377b9b8e4e225fdb5641e9e5b8aefb8ab7306ede9327",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/workspace/checkpoint-manager",
@@ -1663,7 +1861,16 @@
       "deprecated_aliases": [
         "skill-checkpoint"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:539bb40f0c8a2d792adaa9063bfe8c1700c7c5f07fcd5fa9192020b6e181550b",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/legal/dispute-manager",
@@ -1745,7 +1952,16 @@
       "deprecated_aliases": [
         "skill-dispute"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:1f508238ed6935495c53b2f7217ee20f47c4f4ba9a7870f26fd0503e21807f51",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/legal/court-docket",
@@ -1827,7 +2043,16 @@
       "deprecated_aliases": [
         "skill-docket"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:21ce6f255dd57e37981f143b18409d2bb585d6c7730fe582222e0f394e68cd01",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/ship/evidence-collection",
@@ -1901,7 +2126,16 @@
       "deprecated_aliases": [
         "skill-evidence-collect"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:b5fa6edc2becff9e476433a380b246e8b155eb0d587e9c3eeb0c988c5b2f1214",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/ship/wrangler-audit",
@@ -1978,7 +2212,16 @@
       "deprecated_aliases": [
         "skill-wrangler-audit"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:a9ba7fd2a976106494cd9ae15f9b0776a086b37b99591376130e295a0b744768",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/chittyos-compliance",
@@ -2051,7 +2294,16 @@
       "deprecated_aliases": [
         "skill-chittyos-compliance"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:95f813c7c3b1c88f25e5b2d7bac340f1123a00664c737114ddd29efca7ca23ec",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/market/chittymarket-manager",
@@ -2121,7 +2373,16 @@
       "deprecated_aliases": [
         "skill-market"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:71424bfb92f64c378ef73f226628b876766cf7b313f10a255f789f62190022d6",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/agent-sdk-dev",
@@ -2192,7 +2453,16 @@
       "deprecated_aliases": [
         "plugin-agent-sdk-dev"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:0b158d9da29db23b17ed6a8f411061b9fecc6c143da12eb5baa1f5b8be50d6ff",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/code-review",
@@ -2263,7 +2533,16 @@
       "deprecated_aliases": [
         "plugin-code-review"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:d25b030f8290f76692ef1b87586e34b288dc642219212ac58d247071c48266e6",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/context7",
@@ -2334,7 +2613,16 @@
       "deprecated_aliases": [
         "plugin-context7"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:239d0396fb7656cf616bfa82c26e5224c7390a8cf19a843de02afb5ef275a27f",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/frontend-design",
@@ -2405,7 +2693,16 @@
       "deprecated_aliases": [
         "plugin-frontend-design"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:e9c44240f414e831e93577fb88868f264c32b6100ae27d457607bc739cbd6d7b",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/github",
@@ -2476,7 +2773,16 @@
       "deprecated_aliases": [
         "plugin-github"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:bd578c864cde963847a6c4ad66320f753bafb0536e28c7242d904c5b6141c0fe",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/go-lsp",
@@ -2547,7 +2853,16 @@
       "deprecated_aliases": [
         "plugin-gopls-lsp"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:0ed3ff9e134e1003c9513c2b96603857296031416883ca11c915f9efc48dd37c",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/hookify",
@@ -2620,7 +2935,16 @@
       "deprecated_aliases": [
         "plugin-hookify"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:f7144206d4cdc1d49a5ec92bb4f74a3c5529f0c3e55555296ca4787d539f0a46",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/feature-dev",
@@ -2691,7 +3015,16 @@
       "deprecated_aliases": [
         "plugin-feature-dev"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:fdb3098f50cf9ebb1974269090c0d2f12b8c0c93299de27618f6541d5c287503",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/notion",
@@ -2761,7 +3094,16 @@
       "deprecated_aliases": [
         "plugin-notion"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:d6a56e983d497bc26529a44a7aba305530b159fc135f4ad76694ea4e35700dd8",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/plugin-dev",
@@ -2832,7 +3174,16 @@
       "deprecated_aliases": [
         "plugin-plugin-dev"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:ae2114d7001335edb796be0b45d087c60a09e795eef5c44afdcdb25c15468838",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/pr-review-toolkit",
@@ -2903,7 +3254,16 @@
       "deprecated_aliases": [
         "plugin-pr-review-toolkit"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:98e7f968dd1c92daa172cde691ccf8ba36e4da390b2c219d47469b5cf74d1d21",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/typescript-lsp",
@@ -2974,7 +3334,16 @@
       "deprecated_aliases": [
         "plugin-typescript-lsp"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:c02ff891c88fb61f43b770362389992090d1b03d4c18222227ad96076e451e60",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/superpowers",
@@ -3045,7 +3414,16 @@
       "deprecated_aliases": [
         "plugin-superpowers"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:a566cc9d1d46da7955986e06d8a4122a6f49b195b3fdc7aeb0722c764dc47a17",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/code-simplifier",
@@ -3116,7 +3494,16 @@
       "deprecated_aliases": [
         "plugin-code-simplifier"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:59d2cb6a6bd35f528ff381e21db2f8b9b160861755d385919a9310d9c90db452",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/ralph-loop",
@@ -3189,7 +3576,16 @@
       "deprecated_aliases": [
         "plugin-ralph-loop"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:24288e7b12c68af199a8b87ea69e4ca7ea206a8ce420776364a59b7225ff151d",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/local-lab/playwright-plugin",
@@ -3262,7 +3658,16 @@
       "deprecated_aliases": [
         "plugin-playwright"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:fc304c58bce396f3e358ae075b7de3da7576ce6c02b433e795dd05cf4e0887d8",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/commit-commands",
@@ -3333,7 +3738,16 @@
       "deprecated_aliases": [
         "plugin-commit-commands"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:5179f7cd58348a1678562c45cec169220200f6af9a172dfc647ddaa5b076b3c5",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/security-guidance",
@@ -3404,7 +3818,16 @@
       "deprecated_aliases": [
         "plugin-security-guidance"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:7a2afe743794ac704ba7ac530c1e6553d2ede84375aef65816d4f085a198d5fa",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/serena-plugin",
@@ -3475,7 +3898,16 @@
       "deprecated_aliases": [
         "plugin-serena"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:30bdc3459ca70d461a0ca1f16968dad2664a4a62602e1c855ce9276af7068882",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/claude-md-management",
@@ -3548,7 +3980,16 @@
       "deprecated_aliases": [
         "plugin-claude-md-management"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:b7d51a5cd00e7759cd67ad7b1d6648e7bea969475f6d86673605a75644e9d921",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/python-lsp",
@@ -3619,7 +4060,16 @@
       "deprecated_aliases": [
         "plugin-pyright-lsp"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:de195a1fc4a01db67294302f8a97005dbb36b056177bba598b3285f1a3aab881",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/supabase",
@@ -3694,7 +4144,16 @@
       "deprecated_aliases": [
         "plugin-supabase"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:951c22c582c0a20a1daf83e6715997bf978fd4682c4d4daa06bef9f6ee89acde",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/internal/claude-code-setup",
@@ -3756,7 +4215,16 @@
       "deprecated_aliases": [
         "plugin-claude-code-setup"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:4a9a9e785931d0c0c31e833547ee9a967a989cfc30d4125df11a071039b3cace",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/greptile",
@@ -3827,7 +4295,16 @@
       "deprecated_aliases": [
         "plugin-greptile"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:8e5a19ff0733efaf33f88c7f491b006bdb91ffdf179a784d777c8906cbe030b9",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/linear",
@@ -3897,7 +4374,16 @@
       "deprecated_aliases": [
         "plugin-linear"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:ab61c05dceba4d00f279e092004e4621b3e9dd363ab8e86d14915534e020a4e7",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/ship/sentry",
@@ -3969,7 +4455,16 @@
       "deprecated_aliases": [
         "plugin-sentry"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:b622f44bc57b86c8cfb80a0ffaeb95736777e292eb3f1f16f331f48526c6a1bd",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/playground",
@@ -4040,7 +4535,16 @@
       "deprecated_aliases": [
         "plugin-playground"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:8abc16230290ca77f6be56ed8506e1cd9a05ae504cabf42a738db54ecaddde67",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/java-lsp",
@@ -4111,7 +4615,16 @@
       "deprecated_aliases": [
         "plugin-jdtls-lsp"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:feba02bdc83635ab93fb2990e5163bac77a0e5734ebd821296ad750bb028fe41",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/hugging-face-skills",
@@ -4182,7 +4695,16 @@
       "deprecated_aliases": [
         "plugin-huggingface-skills"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:394fe1fd0b7b7c34495f59b47e633864f6e41bbe20e73f43a81a4eea6e2d99c9",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/coderabbit",
@@ -4253,7 +4775,16 @@
       "deprecated_aliases": [
         "plugin-coderabbit"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:892807b4a07e081856859da1ef46bf461c0955cbdae43169f8e3a967c59383a0",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/circleback",
@@ -4323,7 +4854,16 @@
       "deprecated_aliases": [
         "plugin-circleback"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:bcc66e996a7a680bb94dc3adaaaa60dffa0a42c2c3d34cc36f191866758d2ef0",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/firecrawl",
@@ -4393,7 +4933,16 @@
       "deprecated_aliases": [
         "plugin-firecrawl"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:db1625e3966f0ac2d1bf33715bec79a8103db1379e48721c24c9ee28ee7afdee",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/internal/skill-creator",
@@ -4455,7 +5004,16 @@
       "deprecated_aliases": [
         "plugin-skill-creator"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:78f69361b38d42b1972c885da776f2e86efc7e056ddf1b9054ed73a2c8e6eac2",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/semgrep",
@@ -4526,7 +5084,16 @@
       "deprecated_aliases": [
         "plugin-semgrep"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:4ade30eeb11bd9d56bbbba504ca1cbeae728fa130c33f5fa1e19c58bd9151516",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/agent-runtime/chittyhelper",
@@ -4600,7 +5167,16 @@
       "deprecated_aliases": [
         "plugin-chittyhelper"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:b91cd2ac08545d58d4488c5016f60ecf0f61f3377a7d0cfdda2214181f0922b0",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/agent-runtime/chittyagent",
@@ -4674,7 +5250,16 @@
       "deprecated_aliases": [
         "plugin-chittyagent"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:5ef1c5e3adcfe28593a0f3494d2b5e2461f511c68bf7ce1f0530a6267c94e754",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/agent-runtime/chittycommand",
@@ -4748,7 +5333,16 @@
       "deprecated_aliases": [
         "plugin-chittycommand"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:36d1a580454b0649fb77fd6d037d5f4f15da5d9d9a65407f376bf81faebc45ad",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/legal/legal-arsenal",
@@ -4830,7 +5424,16 @@
       "deprecated_aliases": [
         "plugin-legal-arsenal"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:02ac1e6cd62e878b552f2ac216d81ba7f57aadc35903b0bfc8e21e74dc647e2c",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/github-workflows",
@@ -4901,7 +5504,16 @@
       "deprecated_aliases": [
         "plugin-github-workflows"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:2bdcd2fa0ef663ac006d661774612378c35db8fd6e3f89a5827656d793c89349",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/schema-validator",
@@ -4974,7 +5586,16 @@
       "deprecated_aliases": [
         "agent-chittyagent-schema"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:46e60bf7a5462d59b6cf1c09183b9ddee72738af195b800a6c979d66dda2792d",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/registration-compliance",
@@ -5047,7 +5668,16 @@
       "deprecated_aliases": [
         "agent-chittyagent-register"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:10bee1b12095fa566d4f4720ba3ec6d2ac67b413657ca979dff5638a94b84154",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/chittyconnect-concierge",
@@ -5117,7 +5747,16 @@
       "deprecated_aliases": [
         "agent-chittyagent-connect"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:92146d7fea9688c4323fbda2d855f1c16fe56d159cf9abfe271d04becfbac078",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/claude-integration-architect",
@@ -5188,7 +5827,16 @@
       "deprecated_aliases": [
         "agent-chittyagent-claude"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:58bd4bffd23ac00c62117c1cc9df40eca38aa14ad67a74765063f4b2b4873cb2",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/chittycanon-code-cardinal",
@@ -5261,7 +5909,16 @@
       "deprecated_aliases": [
         "agent-chittyagent-canon"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:4dc0ab73db071b703e4bac8208f9033759071c7faa54668736bbc0324fb7eb9a",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/neon-schema-drift",
@@ -5334,7 +5991,16 @@
       "deprecated_aliases": [
         "agent-chittyagent-neon-schema"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:16c172a0c794c812bdfc9d38c37b49f0379c85b62917bdf091d2f52837763bb8",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/notion-proxy-agent",
@@ -5404,7 +6070,16 @@
       "deprecated_aliases": [
         "agent-chittyagent-notion"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:f80953648e25a1eeeed1f61c68d17d68031b1522ce3db1adfa7b156734708ce8",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/chatgpt-proxy-agent",
@@ -5474,7 +6149,16 @@
       "deprecated_aliases": [
         "agent-chittyagent-chatgpt"
       ],
-      "visibility": "advanced"
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:1cfb1bf6ef02534b00b17f706d259aaac961e03fe2e776fe9fea208853841f68",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/agent-runtime/cloudflare-proxy-agent",
@@ -5548,7 +6232,16 @@
       "deprecated_aliases": [
         "agent-chittyagent-cloudflare"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:5247e7db183ecfac4692fa4b532312e976bb9c00a3aa74008a4bcdfaee0e4936",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/validate-entity-types",
@@ -5626,7 +6319,16 @@
       "deprecated_aliases": [
         "hook-validate-entity-types"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:0f98816a4fea4e7b556c451f4437630233c45269f6cff9fd931b75359d6168e6",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/claude-person-not-thing",
@@ -5704,7 +6406,16 @@
       "deprecated_aliases": [
         "hook-claude-person-not-thing"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:ae780b60597c3091b485044571929828d547e610f6ec1b3a33e5a4788401b25e",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/block-chittyid-generation",
@@ -5782,7 +6493,16 @@
       "deprecated_aliases": [
         "hook-block-chittyid-generation"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:410f6dac361b28771b1de104c32e6508c07df03c19c9a5d1a5571c7781271593",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/chittyid-accountability",
@@ -5860,7 +6580,16 @@
       "deprecated_aliases": [
         "hook-chittyid-accountability"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:cec7da97d20e602ca80576a67d511c80dc4433a595b87a1b3a94ab679152bdcf",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/session-identity-card",
@@ -5938,7 +6667,16 @@
       "deprecated_aliases": [
         "hook-session-identity-card"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:a84d563a10f119533df91adeb2643e2a7bd109380eaa2f0b92491585cd356536",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/ship/canon-certification-gate",
@@ -6015,7 +6753,16 @@
       "deprecated_aliases": [
         "hook-canon-certification-gate"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:ec1e68ce7ce951c34accfef05bacad0e574244a30f3862fa43225afe24a65861",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/ship/block-direct-deploy",
@@ -6092,7 +6839,16 @@
       "deprecated_aliases": [
         "hook-block-direct-deploy"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:aac1761ece60763193eb23da2a927fe8bb95b83c8f359aa0544ff7bcd07754da",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/require-pr-workflow",
@@ -6168,7 +6924,16 @@
       "deprecated_aliases": [
         "hook-require-pr-workflow"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:acd8656f700f65949a9247aa60967579d160b3a256d5d94d884f14d696925465",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/govern/block-governance-edits",
@@ -6248,7 +7013,16 @@
       "deprecated_aliases": [
         "hook-block-governance-edits"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:0ba53d9c26a77c1365057c86a39e826aaab65b78b6bb347840ef3a072b681d9b",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/suggest-chittyconnect",
@@ -6323,7 +7097,16 @@
       "deprecated_aliases": [
         "hook-suggest-chittyconnect"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:8d8f8fb7a9f16d2ca6ccabf5ec7e24ef1f31e1b205313fbb66b6245baae3e247",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/notion-claude-ai",
@@ -6393,7 +7176,16 @@
       "deprecated_aliases": [
         "claude-ai-notion"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:d8c06ba97454459cc54abf2762fedb8378781332b4761db1a0a3a0929688e07e",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/ship/cloudflare-developer-platform-claude-ai",
@@ -6465,7 +7257,16 @@
       "deprecated_aliases": [
         "claude-ai-cloudflare"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:c2fde152b9ef85aa588fc680caed0a2d586e6e35a9250c7d434fb2d15902057b",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/figma-claude-ai",
@@ -6535,7 +7336,16 @@
       "deprecated_aliases": [
         "claude-ai-figma"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:7aa6f5804cd06ef222f3ac5b3dca3e75b338d7fa427dd834862af945bd822f03",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/mercury-banking-claude-ai",
@@ -6605,7 +7415,16 @@
       "deprecated_aliases": [
         "claude-ai-mercury"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:6afed47a47bdfb7f269ec07fb57e670b45a03ba2723bcf1ee7ab98ec01f39b4f",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/hugging-face-claude-ai",
@@ -6676,7 +7495,16 @@
       "deprecated_aliases": [
         "claude-ai-huggingface"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:d6eed0cac53106adcf3dae9f90f8f0f8cfcfc74df7305a2e7d340b607e4119e5",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/context7-claude-ai",
@@ -6747,7 +7575,16 @@
       "deprecated_aliases": [
         "claude-ai-context7"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:b297c629417bc09cfbd73074e0ffc4f156f290f5c9322fbd696fa9f1325eea24",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/gmail-claude-ai",
@@ -6817,7 +7654,16 @@
       "deprecated_aliases": [
         "claude-ai-gmail"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:969edc496c1e0ac0be3877f6f286ed4b17c98c808a3e75deab2b43a3a7774e5e",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/google-calendar-claude-ai",
@@ -6887,7 +7733,16 @@
       "deprecated_aliases": [
         "claude-ai-google-calendar"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:06e227c8af663f254dfc0a423b079e0ee5c01cd5ee268d99b3472cd6f4fb5fca",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/ship/vercel-claude-ai",
@@ -6964,7 +7819,16 @@
       "deprecated_aliases": [
         "claude-ai-vercel"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:8db2518f4e7a594a0e818a9d70757727e76a07029c5b200f3adcf0190dc6519f",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/plaid-developer-tools-claude-ai",
@@ -7034,7 +7898,16 @@
       "deprecated_aliases": [
         "claude-ai-plaid"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:dda4c05b976ab02a2f0991e5e67745ed2f85c5f6184a42a891c49c784481cdc4",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/legal/chittymcp-claude-ai",
@@ -7116,7 +7989,16 @@
       "deprecated_aliases": [
         "claude-ai-chittymcp"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:c4b813e8dadc2afc4208cea4956f0415415ca836fcedd739a394f745f3da4378",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/jam-bug-reports-claude-ai",
@@ -7187,7 +8069,16 @@
       "deprecated_aliases": [
         "claude-ai-jam"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:49405c36f5c0cb738a4592e3a35486bfccaa51691a7d4c3df8ce9a3c7202ee90",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/trivago-claude-ai",
@@ -7257,7 +8148,16 @@
       "deprecated_aliases": [
         "claude-ai-trivago"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:c1a40a2924d1e2dd4d99e03af7e19afee86cadb04cb291878d960e59d785a9ec",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/connect/play-sheet-music-claude-ai",
@@ -7327,7 +8227,16 @@
       "deprecated_aliases": [
         "claude-ai-play-sheet-music"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:2b710c0d48bdb0bc4bb4c2469dca3c86aeefd9b53784182688372569ed4cf96a",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/internal/chittyagent-autobot",
@@ -7389,7 +8298,16 @@
       "deprecated_aliases": [
         "plugin-chittyagent-autobot"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:9fb1a113d300c536c95d5f3eac22686dadf13f81211d9a24ef89aafb5243f40d",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/workspace/goal-creator",
@@ -7458,7 +8376,16 @@
       "deprecated_aliases": [
         "skill-goal-creator"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:f40a9539e831c83306139f0147549e63d4848a6ce0e2d960f7014b1fa3890919",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     },
     {
       "capability_id": "chittycanon://capability/build/skill-creator",
@@ -7527,7 +8454,23 @@
       "deprecated_aliases": [
         "skill-skill-creator"
       ],
-      "visibility": "recommended"
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:85242024f14771a6259012b383550f57d32af5975bc2b1cdcbdb476b7b37d668",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     }
-  ]
+  ],
+  "overlay_provenance": {
+    "aggregate_hash": "sha256:19bedb5cd549ec3c8607dca953ce516c1a21c900ff3508216a6b3e01a6571fd2",
+    "record_count": 104,
+    "canonicalization": "json-sorted-compact",
+    "hash_alg": "sha256",
+    "anchored_in_ledger": null
+  }
 }
