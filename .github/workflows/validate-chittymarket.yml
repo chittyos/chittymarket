@@ -51,6 +51,12 @@ jobs:
       - name: scripts/check-overlay-coverage.sh
         run: bash scripts/check-overlay-coverage.sh
 
+      # 2c. §16 schema contract: every capabilities.generated.json record must
+      #     satisfy the Canonical Capability Record schema (required fields,
+      #     enum domains, chittycanon URI shape, P/L/T/E/A ontology, unique ids).
+      - name: scripts/validate-overlay-schema.py
+        run: python3 scripts/validate-overlay-schema.py
+
       # 3a. Dispatch idempotency (adversarial review #3): re-running
       #     dispatch.sh sync must not change any projection file. Catches
       #     direct edits to plugins/<plug>/{agents,skills,...}/ that
