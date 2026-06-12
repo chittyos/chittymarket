@@ -57,6 +57,13 @@ jobs:
       - name: scripts/validate-overlay-schema.py
         run: python3 scripts/validate-overlay-schema.py
 
+      # 2d. Source-link freshness: every marketplace://artifact/<id> must
+      #     resolve to a real artifact and every local://<repo-path> must exist.
+      #     (local://~/ home paths and ch1tty:// serverIds are non-gating; the
+      #     latter is probed report-only via --live outside CI.)
+      - name: scripts/check-source-freshness.sh
+        run: bash scripts/check-source-freshness.sh
+
       # 3a. Dispatch idempotency (adversarial review #3): re-running
       #     dispatch.sh sync must not change any projection file. Catches
       #     direct edits to plugins/<plug>/{agents,skills,...}/ that
