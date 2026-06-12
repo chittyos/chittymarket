@@ -70,13 +70,13 @@ model: sonnet
 color: yellow
 kind: agent
 classification:
-  - integration
-  - credentials
-  - auth
+- integration
+- credentials
+- auth
 runtimes:
-  - claude-code
-  - codex
-  - openclaw
+- claude-code
+- codex
+- openclaw
 plugin: chittyos-core
 ---
 

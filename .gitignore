@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+*.log
+npm-debug.log*
+
+# Claude Code harness / session-local state (never commit)
+.claude/
+.claude-worktrees/
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Env / secrets (defense-in-depth; secrets flow via 1Password/CF, never files)
+.env
+.env.*
+!.env.example
