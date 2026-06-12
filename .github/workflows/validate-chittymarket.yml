@@ -43,6 +43,14 @@ jobs:
       - name: scripts/test-plugins.sh
         run: bash scripts/test-plugins.sh
 
+      # 2b. Overlay coverage: capabilities.generated.json must project EVERY
+      #     real (non-_comment) artifact in marketplace.json, with no orphan
+      #     records and a consistent .total. Prevents the overlay from silently
+      #     drifting behind the inventory (the CLAUDE.md "projects every
+      #     artifact" invariant).
+      - name: scripts/check-overlay-coverage.sh
+        run: bash scripts/check-overlay-coverage.sh
+
       # 3a. Dispatch idempotency (adversarial review #3): re-running
       #     dispatch.sh sync must not change any projection file. Catches
       #     direct edits to plugins/<plug>/{agents,skills,...}/ that

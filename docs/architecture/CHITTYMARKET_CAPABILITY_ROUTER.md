@@ -534,23 +534,23 @@ Users should not shop for “ChittyMCP.” They should enable JTBD capabilities.
 
 # 7. Phase 0/1 Current Distribution
 
-Phase 1 unified pass produced full coverage across 102 capabilities.
+Phase 1 unified pass produced full coverage across 104 capabilities (102 at 2026-05-11 generation; +2 skills projected 2026-06-12).
 
 ## 7.1 By Job
 
 | Group | Count | Percent |
 |---|---:|---:|
-| build | 29 | 28% |
+| build | 30 | 29% |
 | connect | 22 | 22% |
 | govern | 15 | 15% |
 | ship | 12 | 12% |
-| workspace | 6 | 6% |
+| workspace | 7 | 7% |
 | legal | 5 | 5% |
 | local-lab | 5 | 5% |
 | agent-runtime | 4 | 4% |
 | internal | 3 | 3% |
 | market | 1 | 1% |
-| Total | 102 | |
+| Total | 104 | |
 
 ## 7.2 By Execution Class
 
@@ -559,31 +559,31 @@ Phase 1 unified pass produced full coverage across 102 capabilities.
 | `@chitty/connectors` | 77 |
 | `@chitty/workspace` | 16 |
 | `@chitty/reasoning` | 5 |
-| `@chitty/ambient` | 4 |
+| `@chitty/ambient` | 6 |
 
 ## 7.3 By Channel Compatibility
 
 | Channel | Compatible | Excluded Reason |
 |---|---:|---|
-| `claude_code` / `claude_desktop` / `codex` | 102 | none |
-| `openclaw` | 97 | 5 legal-write require policy elevation |
-| `chatgpt` / `claude_ai` | 78 | 24 workspace + local-lab + agent-runtime need local host |
+| `claude_code` / `claude_desktop` / `codex` | 104 | none |
+| `openclaw` | 99 | 5 legal-write require policy elevation |
+| `chatgpt` / `claude_ai` | 80 | 24 workspace + local-lab + agent-runtime need local host |
 
 ## 7.4 By Context Cost
 
 | Cost | Count |
 |---|---:|
-| medium | 89 |
+| medium | 90 |
 | high | 9 |
-| low | 4 |
+| low | 5 |
 
 ## 7.5 By Authority
 
-Authority flags are non-exclusive — capabilities may carry multiple flags (e.g., a `legal` write requires both `requires_case` and `non_repudiation_required`). Sum exceeds 102.
+Authority flags are non-exclusive — capabilities may carry multiple flags (e.g., a `legal` write requires both `requires_case` and `non_repudiation_required`). Sum exceeds 104.
 
 | Flag | Count |
 |---|---:|
-| requires_chittyid_only (default) | 70 |
+| requires_chittyid_only (default) | 72 |
 | requires_governance_authority | 15 |
 | requires_deploy_authority | 12 |
 | non_repudiation_required | 8 |
@@ -594,7 +594,7 @@ Authority flags are non-exclusive — capabilities may carry multiple flags (e.g
 
 | Source | Count |
 |---|---:|
-| name-rule | 45 |
+| name-rule | 47 |
 | category | 34 |
 | override | 23 |
 | fallback | 0 |
