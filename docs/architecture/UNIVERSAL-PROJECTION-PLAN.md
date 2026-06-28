@@ -98,9 +98,12 @@ The migration as originally scoped is complete. Status as of 2026-06-10:
 
 **Net:** chittymarket is canonical-driven. The only authored content lives in `canonical/`; direct edits to projection paths are blocked by the pre-commit drift hook and flagged by `lint-plugins.sh`.
 
+### Reconcile + audit pipeline (shipped)
+
+- **`reconcile` / `audit` dispatch modes are live** (PR #60), superseding the original stubs. `dispatch.sh audit` emits the read-only canonical×runtime sync matrix (`lib/audit.py`), classifies drift + orphans, and exits non-zero on any drift — wired into CI (`validate-chittymarket.yml`). Last run: **103 cells, 0 drift, 0 orphans.** `dispatch.sh reconcile` safe-heals lossless canonical drift and refuses to auto-heal direct projection edits (`PROJ_DRIFT`), instructing the operator to port the edit into the canonical source instead. This single-command drift report-and-heal is what turns the single-source punch list (`SINGLE-SOURCE-CONVENTIONS.md`) into a continuously-enforced invariant rather than a recurring manual audit.
+
 ### Optional hardening (not blocking)
 
-- **`reconcile` / `audit` dispatch modes** are currently stubs (`dispatch.sh audit` prints `STUB. Will emit canonical×runtime sync matrix.`). Implementing the audit matrix would give a single-command drift report beyond what `lint-plugins.sh` covers.
 - **New deferred runtimes** (Notion agents, full ChatGPT GPT configs) take one adapter PR each when their native schemas are pinned; the canonical library projects to them automatically once the adapter lands.
 
 ## Cross-platform projection (the "make sense?" question)
