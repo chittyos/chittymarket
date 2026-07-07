@@ -4,19 +4,19 @@ description: Schema governance subagent for the ChittyOS ecosystem. Use for data
 model: opus
 color: orange
 canon_uri: chittycanon://core/services/chittyschema#agent-overlord
-prompt_source: github://CHITTYFOUNDATION/chittyschema/main/identity/agents/chittyschema-overlord.md
-prompt_url: https://raw.githubusercontent.com/chittyfoundation/chittyschema/main/identity/agents/chittyschema-overlord.md
-prompt_sha: e344f1df5383cd4b20621edc8b58c9325bb4c6895e19d74363c1a09cb2a5adb1
-owner_repo: CHITTYFOUNDATION/chittyschema
-owner_path: identity/agents/chittyschema-overlord.md
+prompt_source: github://CHITTYOS/chittyentity/main/workers/chittyagent-schema/chittyagent-schema-overlord.agent.md
+prompt_url: https://raw.githubusercontent.com/chittyos/chittyentity/main/workers/chittyagent-schema/chittyagent-schema-overlord.agent.md
+prompt_sha: 20ad88144e9db90560f72f50a67e1eb42136c974c6c450387ac66c042bebe553
+owner_repo: CHITTYOS/chittyentity
+owner_path: workers/chittyagent-schema/chittyagent-schema-overlord.agent.md
 ---
 
 <!--
 This is a thin pointer entry. Per the ChittyOS per-service ownership pattern,
-the canonical chittyschema-overlord agent prompt is owned by the chittyschema
-repo at:
+the canonical chittyschema-overlord agent prompt is owned by the chittyentity
+monorepo at:
 
-  CHITTYFOUNDATION/chittyschema → identity/agents/chittyschema-overlord.md
+  CHITTYOS/chittyentity → workers/chittyagent-schema/chittyagent-schema-overlord.agent.md
 
 This file exists in chittymarket only for marketplace discovery. Do NOT edit
 the prompt content here — edit it in chittyschema. Loaders that hydrate
@@ -25,7 +25,7 @@ to fetch the canonical prompt.
 
 Why per-service ownership:
 - Single source of truth — no drift between marketplace cache and service repo
-- The service that owns the data shapes owns the agent that governs them
+- The worker that runs the agent owns the prompt that governs it
 - The Schema Owner Manifest at https://schema.chitty.cc/api/owners resolves
   per-service ownership for tables; this mirrors that for agents
 
