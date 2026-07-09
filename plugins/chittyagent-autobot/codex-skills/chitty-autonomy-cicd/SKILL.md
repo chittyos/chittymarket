@@ -15,7 +15,7 @@ Observed failure (2026-05-01): chittyconnect Worker entered a deploy loop becaus
 
 1. Verify cert valid.
 2. Detect build/deploy mode:
-   - Cloudflare Worker → `wrangler deploy`
+   - Cloudflare Worker → `cf deploy`
    - npm package → `npm publish`
    - Static site → CF Pages
    - Mixed → branch the workflow file accordingly.

@@ -51,7 +51,7 @@ npm run build 2>/dev/null || pnpm build 2>/dev/null
 ### 3. Deploy
 ```bash
 # Production deploy
-npx wrangler deploy --env production
+npx cf deploy --env production
 
 # Or using npm script
 npm run deploy:production
@@ -64,9 +64,9 @@ curl -s https://{service}.chitty.cc/health | jq .
 ```
 
 ## Environment Variables
-Secrets are managed via 1Password integration:
+Secrets are managed via chittysecrets integration:
 ```bash
-op run --env-file=/Volumes/chitty/config/cloudflare-chittycorp.env -- npx wrangler deploy
+chittysecrets run --env-file=/Volumes/chitty/config/cloudflare-chittycorp.env -- npx cf deploy
 ```
 
 ## Common Services

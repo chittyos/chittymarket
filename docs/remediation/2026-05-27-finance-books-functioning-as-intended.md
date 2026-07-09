@@ -50,7 +50,7 @@ ChittyBooks  (bookkeeping UI / UX workflow layer)
 
 Evidence: `POST https://finance.chitty.cc/api/webhooks/stripe → 503 "Stripe webhook not configured"`.
 Cause: `STRIPE_WEBHOOK_SECRET` env binding missing on the deployed Worker.
-Remediation: bind via ChittyConnect-brokered secret injection per sensitive-intent contract. If ChittyConnect's `/api/v1/secrets/inject` endpoint is unimplemented (currently returns 500), operator must perform `wrangler secret put STRIPE_WEBHOOK_SECRET` manually, sourced from 1Password.
+Remediation: bind via ChittyConnect-brokered secret injection per sensitive-intent contract. If ChittyConnect's `/api/v1/secrets/inject` endpoint is unimplemented (currently returns 500), operator must perform `wrangler secret put STRIPE_WEBHOOK_SECRET` manually, sourced from chittysecrets.
 
 ### Gap 2 — ChittyCharge integration secrets unbound
 

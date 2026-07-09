@@ -62,7 +62,7 @@ Response payload is persisted to `chittycontext/structured-autonomy/<feature>/SO
 | 5 | Implement | `chitty-autonomy-implement` | committed code, format/lint inline |
 | 6 | Review | delegate to `chittyagent-canon` + `code-reviewer` + `silent-failure-hunter` + `comment-analyzer` | review report; gate to next phase |
 | 7 | Tidy | `chitty-autonomy-tidy` | branch-cleanup, format, lint, chitty-cleanup invocation |
-| 8 | CI/CD | `chitty-autonomy-cicd` | `.github/workflows/`, wrangler deploy targets, secrets scaffold |
+| 8 | CI/CD | `chitty-autonomy-cicd` | `.github/workflows/`, cf deploy targets, secrets scaffold |
 | 9 | Ship | `chitty-autonomy-ship` | PR created/auto-merged, ChittyRegistry update, Notion sync |
 | 10 | Memory | inline | feedback/project memory written; ChittyChronicle finalize entry |
 

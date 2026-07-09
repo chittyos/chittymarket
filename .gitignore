@@ -20,7 +20,7 @@ npm-debug.log*
 .idea/
 .vscode/
 
-# Env / secrets (defense-in-depth; secrets flow via 1Password/CF, never files)
+# Env / secrets (defense-in-depth; secrets flow via chittysecrets/CF, never files)
 .env
 .env.*
 !.env.example

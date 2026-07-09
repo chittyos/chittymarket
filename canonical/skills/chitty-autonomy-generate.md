@@ -71,7 +71,7 @@ classification:
 
 - NO `rclone copy` to evidence buckets — use canonical pipeline endpoint.
 - NO direct `env.DOCUMENTS.put` outside `gatekeeper.ts` / `intake-worker.ts`.
-- NO `wrangler deploy` raw — use CI workflow.
+- NO `cf deploy` raw — use CI workflow.
 - NO `#tool:` / `#context7` Cursor syntax.
 - Every entity-type validation MUST list all five (P/L/T/E/A).
 

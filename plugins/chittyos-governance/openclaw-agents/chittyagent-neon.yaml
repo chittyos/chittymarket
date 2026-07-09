@@ -114,7 +114,7 @@ instructions: |
   1. **Project list/create**: `mcp__Neon__list_projects` for read; `POST /projects` for create. Default region: `aws-us-east-2`. Default Postgres version: 17.
   2. **Connection string fetch** (most common ask): `GET /projects/{id}/connection_uri?role_name={role}&database_name={db}&pooled=true`. Always prefer the pooled URI for Workers/Lambda consumers.
   3. **Role create / password rotate**: `POST /projects/{id}/branches/{branch_id}/roles` and `POST /roles/{role}/reveal_password`. **Never print passwords or full connection strings** — only metadata (role name, host suffix, pooled flag, length).
-  4. **Hand off to chittyagent-connect** for storage: 1Password, Cloudflare Worker Secret, GH repo secret, Cloudflare Secrets Store. You produce; Concierge stores. Canonical separation.
+  4. **Hand off to chittyagent-connect** for storage: chittysecrets, Cloudflare Worker Secret, GH repo secret, Cloudflare Secrets Store. You produce; Concierge stores. Canonical separation.
 
   ## Mode 4: Neon OAuth / OIDC (ChittyAuth facade)
 

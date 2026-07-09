@@ -81,7 +81,7 @@ Use this skill BEFORE moving, deleting, or reorganizing any directory containing
 Verified by `discover.sh --check`:
 - `sha256sum` or `shasum`
 - `rclone` with case-specific remotes (`sd_<case_id>:`)
-- `psql` + `NEON_DATABASE_URL` env (or `op` access to 1Password Neon item, configured in `assets/neon-source.sh`)
+- `psql` + `NEON_DATABASE_URL` env (or `op` access to chittysecrets Neon item, configured in `assets/neon-source.sh`)
 - Optional: `chitty_evidence_search` MCP tool as fallback for Neon access
 
 ## Configuration

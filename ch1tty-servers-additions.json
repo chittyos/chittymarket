@@ -1,5 +1,5 @@
 {
-  "_README": "Proposed additions to /home/ubuntu/projects/github.com/CHITTYOS/ch1tty/servers.json \u2014 13 entries to close the claude.ai-personal-connector gap. Merge into the `servers` array. Endpoints marked TODO need verification against upstream docs before deploy. 1Password vault assumed `ChittyOS-Integrations` (consistent with existing Notion/Stripe entries). SAFETY: all entries with _endpoint_TODO are enabled=false until endpoints are verified. Flip enabled=true only after the endpoint is curl-confirmed AND credentials are wired via ChittyConnect.",
+  "_README": "Proposed additions to /home/ubuntu/projects/github.com/CHITTYOS/ch1tty/servers.json \u2014 13 entries to close the claude.ai-personal-connector gap. Merge into the `servers` array. Endpoints marked TODO need verification against upstream docs before deploy. chittysecrets vault assumed `ChittyOS-Integrations` (consistent with existing Notion/Stripe entries). SAFETY: all entries with _endpoint_TODO are enabled=false until endpoints are verified. Flip enabled=true only after the endpoint is curl-confirmed AND credentials are wired via ChittyConnect.",
   "additions": [
     {
       "_comment": "\u2500\u2500 high-value third-party (replace claude.ai personal duplicates) \u2500\u2500"
@@ -17,7 +17,7 @@
       "enabled": false,
       "slim_mcp": true,
       "_slim_mcp_note": "Ahrefs exposes 126 tools \u2014 register behind slim-MCP search/execute via orchestrator, do not surface all tools directly",
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "id": "mercury",
@@ -32,7 +32,7 @@
       "multitenant": true,
       "requireTenantParam": true,
       "tenants": {
-        "_doc": "Each ChittyOS legal-entity = one Mercury tenant. Proxy selects 1Password credential per tenant_id at call time. No default. tenant_id MUST be a Legal Person ChittyID.",
+        "_doc": "Each ChittyOS legal-entity = one Mercury tenant. Proxy selects chittysecrets credential per tenant_id at call time. No default. tenant_id MUST be a Legal Person ChittyID.",
         "chittycorp": {
           "label": "ChittyCorp LLC",
           "chittyId": "TODO-chittyid-chittycorp",
@@ -58,7 +58,7 @@
         "refuseWithoutTenant": "POLICY_BLOCKED_MERCURY_TENANT_REQUIRED",
         "auditLog": "chittyops.mercury_calls"
       },
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "id": "postman",
@@ -73,7 +73,7 @@
       "enabled": false,
       "slim_mcp": true,
       "_slim_mcp_note": "40+ tools \u2014 slim-MCP candidate",
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "id": "docusign",
@@ -87,7 +87,7 @@
       "lazy": true,
       "enabled": false,
       "_oauth_note": "Docusign requires OAuth flow \u2014 wire via ChittyConnect OAuth broker, not direct bearer",
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "id": "gmail",
@@ -100,7 +100,7 @@
       "authTokenKey": "google-oauth-gmail",
       "lazy": true,
       "enabled": false,
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "id": "google-calendar",
@@ -113,7 +113,7 @@
       "authTokenKey": "google-oauth-calendar",
       "lazy": true,
       "enabled": false,
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "id": "google-drive",
@@ -127,7 +127,7 @@
       "lazy": true,
       "enabled": false,
       "_note": "evidence-collect skill depends on this \u2014 required for case material ingestion",
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "id": "zapier",
@@ -142,7 +142,7 @@
       "enabled": false,
       "slim_mcp": true,
       "_slim_mcp_note": "Zapier exposes 300+ Zaps \u2014 mandatory slim-MCP; debatable whether to nest a gateway-in-gateway",
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "id": "twilio",
@@ -155,7 +155,7 @@
       "authTokenKey": "twilio-api",
       "lazy": true,
       "enabled": false,
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "id": "quo",
@@ -168,7 +168,7 @@
       "authTokenKey": "quo-api",
       "lazy": true,
       "enabled": false,
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "id": "mermaid",
@@ -181,7 +181,7 @@
       "authTokenKey": "mermaid-api",
       "lazy": true,
       "enabled": false,
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "_comment": "\u2500\u2500 accounting / books (multitenant \u2014 same pattern as Mercury) \u2500\u2500"
@@ -232,7 +232,7 @@
         "reconcileWith": "mercury",
         "_reconcile_note": "Reconciliation handled by ChittyFinance (Wave webhook receiver per-business at /api/webhooks/wave/:tenantId/:businessId + Mercury sync via chittycommand) \u2014 NOT a separate ChittyBooks service (deprecated 2026-05-27, see CHITTYAPPS/chittybooks#2)"
       },
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "_comment": "\u2500\u2500 ChittyFinance \u2014 canonical bookkeeping engine (absorbs former ChittyBooks) \u2500\u2500"
@@ -283,7 +283,7 @@
       "authTokenKey": "chittyauth-issued-msg",
       "lazy": true,
       "enabled": false,
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     },
     {
       "id": "openai-dev-docs",
@@ -295,14 +295,14 @@
       "_endpoint_TODO": "verify",
       "lazy": true,
       "enabled": false,
-      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/1Password credential wiring"
+      "_disabled_reason": "POLICY: endpoint URL unverified (_endpoint_TODO); enable only after upstream MCP doc verification + ChittyConnect/chittysecrets credential wiring"
     }
   ],
   "_post_merge_checklist": [
     "0. SAFETY: every entry with _endpoint_TODO ships as enabled=false. Do NOT flip to true without (a) curl verification of the upstream MCP endpoint and (b) credential wiring via ChittyConnect per sensitive-intent contract.",
     "1. Replace 12 TODO endpoints with verified URLs from upstream docs",
     "2. For OAuth services (Gmail/GCal/GDrive/Docusign): wire ChittyConnect OAuth broker per ~/.claude/CLAUDE.md sensitive-intent contract \u2014 do not store long-lived tokens",
-    "3. Mercury / Wave / ChittyFinance: fill TODO-chittyid-* placeholders with real Legal Person ChittyIDs from registry; add 1Password vault items mercury-{tenant}, wave-{tenant} for each. Wave also needs wave_business_id from Wave dashboard. ChittyFinance tenants reconcile 1:1 with Mercury+Wave tenants of the same chittyId (Finance is the canonical bookkeeping engine; former ChittyBooks deprecated 2026-05-27).",
+    "3. Mercury / Wave / ChittyFinance: fill TODO-chittyid-* placeholders with real Legal Person ChittyIDs from registry; add chittysecrets vault items mercury-{tenant}, wave-{tenant} for each. Wave also needs wave_business_id from Wave dashboard. ChittyFinance tenants reconcile 1:1 with Mercury+Wave tenants of the same chittyId (Finance is the canonical bookkeeping engine; former ChittyBooks deprecated 2026-05-27).",
     "4. After merge: deploy ch1tty worker, verify each new endpoint via curl mcp.ch1tty.com/health",
     "5. Once ch1tty serves them: delete the 13 duplicates from claude.ai Personal Connectors UI (CloudflareMCP, NEON, Notion, Context7, GitHub, Ahrefs, Mercury, Postman, Docusign, Gmail, GCal, GDrive, Zapier, Twilio, Quo, Mermaid, Chitty Msg, OpenAI Dev Docs)",
     "6. Register slim_mcp:true entries in orchestrator skill:index so search/execute path works (Ahrefs, Postman, Zapier; Notion/Mercury already candidates)"

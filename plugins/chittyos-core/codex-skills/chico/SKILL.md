@@ -1,6 +1,6 @@
 ---
 name: chico
-description: Shortcut to dispatch the ChittyConnect concierge (chittyos-core/chittyconnect-concierge) — the canonical owner of credentials, connections, secret rotation, KV/D1 bindings, and ChittyConnect-side wiring. Triggers on "/chico", "/chico-keys", or when the user wants to invoke the concierge by its nickname. The concierge handles op/1Password reads, wrangler secret put, CF API token rotation, binding restore, deploy-time binding audits, and anything in the credential lane. The operator (user) is OPERATOR ONLY — never asked to paste a secret; route through chico-keys.
+description: Shortcut to dispatch the ChittyConnect concierge (chittyos-core/chittyconnect-concierge) — the canonical owner of credentials, connections, secret rotation, KV/D1 bindings, and ChittyConnect-side wiring. Triggers on "/chico", "/chico-keys", or when the user wants to invoke the concierge by its nickname. The concierge handles op/chittysecrets reads, wrangler secret put, CF API token rotation, binding restore, deploy-time binding audits, and anything in the credential lane. The operator (user) is OPERATOR ONLY — never asked to paste a secret; route through chico-keys.
 canon_uri: chittycanon://core/services/chittymarket#skills/chico
 ---
 
@@ -22,9 +22,9 @@ The user invoked `/chico` to dispatch the **chittyos-core:chittyconnect-concierg
 
 These are binding for every chico-keys invocation:
 
-- **The operator is OPERATOR ONLY** — never asked to paste/provide/rotate any credential value. If a value is needed, source from 1Password via `op` (concierge's job).
+- **The operator is OPERATOR ONLY** — never asked to paste/provide/rotate any credential value. If a value is needed, source from chittysecrets via `op` (concierge's job).
 - **Real validation only** — no mocks, no placeholder values, no "would-be" config. Concrete evidence (curl output, deploy version id, audit script result).
-- **Safe deploy only** — bare `wrangler deploy` is the documented anti-pattern (see chittyconnect#217/#221, chittyentity#324/#315). Always `--env production` (or staging), routed through `safe-deploy.sh` if the worker has one.
+- **Safe deploy only** — bare `cf deploy` is the documented anti-pattern (see chittyconnect#217/#221, chittyentity#324/#315). Always `--env production` (or staging), routed through `safe-deploy.sh` if the worker has one.
 - **Operator approval required** for: production deploys of new (not yet shipped) code, secret rotations affecting org-wide auth, anything irreversible without rollback. Surface for go/no-go; do not auto-execute.
 - **If genuinely blocked** (missing op item, vault access, cross-cutting policy) → STOP and file a follow-up issue on the right repo (chittyconnect, chittyentity, etc.). Do NOT route the blocker back to the operator as a credential ask.
 
@@ -44,5 +44,5 @@ These are binding for every chico-keys invocation:
 ## Where the concierge lives
 
 - Plugin id: `chittyos-core:chittyconnect-concierge`
-- Lane: credentials, connections, secrets, op/1Password, wrangler secrets, CF tokens, KV/D1 bindings, deploy hygiene.
+- Lane: credentials, connections, secrets, op/chittysecrets, wrangler secrets, CF tokens, KV/D1 bindings, deploy hygiene.
 - Memory alias: "chico-keys" (saved in [[orchestrate-via-systems]]).

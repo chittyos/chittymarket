@@ -107,7 +107,7 @@ Detailed pass/fail criteria for each compliance check.
 
 ### Credential Safety
 - [ ] No hardcoded secrets in code or config
-- [ ] Secrets flow through 1Password / wrangler secrets
+- [ ] Secrets flow through chittysecrets / wrangler secrets
 - [ ] No `DATABASE_URL` or API keys in wrangler `[vars]`
 
 ## Infrastructure Checks
