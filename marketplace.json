@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastSync": "2026-05-02T23:34:34.8463Z",
+  "lastSync": "2026-07-18",
   "artifacts": [
     {
       "_comment": "\u2500\u2500 MCP Servers (via Ch1tty) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
@@ -503,7 +503,7 @@
     {
       "id": "skill-skill-creator",
       "name": "Skill Creator (ChittyMarket-routed)",
-      "description": "Overrides upstream skill-creator. Routes all skill artifacts through ChittyMarket — no local ~/.claude/skills/ writes; updates marketplace.json + regenerates native manifest.",
+      "description": "Overrides upstream skill-creator. Routes all skill artifacts through ChittyMarket \u2014 no local ~/.claude/skills/ writes; updates marketplace.json + regenerates native manifest.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
@@ -529,7 +529,7 @@
     {
       "id": "skill-goal-creator",
       "name": "Goal Creator",
-      "description": "Three-block (goal · conditions · not-met-until) pipeline driver: discover→elicit→architect→adversarial→SoT→build→persist→handoff. Pairs WITH the Claude Code built-in `/goal` (built-in enforces stop-gate; this skill runs the pipeline). Invoke via `/goal-creator` or planning-intent phrases.",
+      "description": "Three-block (goal \u00b7 conditions \u00b7 not-met-until) pipeline driver: discover\u2192elicit\u2192architect\u2192adversarial\u2192SoT\u2192build\u2192persist\u2192handoff. Pairs WITH the Claude Code built-in `/goal` (built-in enforces stop-gate; this skill runs the pipeline). Invoke via `/goal-creator` or planning-intent phrases.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
@@ -544,7 +544,9 @@
         "available": false
       },
       "canon_uri": "chittycanon://core/services/chittymarket#skills/goal-creator",
-      "aliases": ["goal-pipeline"],
+      "aliases": [
+        "goal-pipeline"
+      ],
       "tags": [
         "goal",
         "pipeline",
@@ -2456,6 +2458,32 @@
         "sovereignty_cert": "chittycanon://docs/sovereignty-ontology-v1",
         "sovereignty_cert_issuer": "chittycanon://core/services/chitty-cert"
       }
+    },
+    {
+      "id": "skill-nb-development-defaults",
+      "name": "NB Development Defaults",
+      "description": "Global development defaults for this operator \u2014 execute-now posture, Separated Adversarial Review (reviewer\u2260implementer, break-not-bless, no-mocks re-verify), broker-first credentials (1Password RETIRED), ChittyOS discovery, non-interactive branch finalization. Loaded for almost all coding/debugging/architecture tasks unless explicitly overridden.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/nb-development-defaults"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/nb-development-defaults",
+      "tags": [
+        "skill",
+        "defaults",
+        "workflow",
+        "governance",
+        "adversarial-review"
+      ]
     }
   ]
 }
