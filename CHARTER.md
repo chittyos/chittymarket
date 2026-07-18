@@ -6,7 +6,7 @@ version: 1.0.0
 status: DRAFT
 registered_with: chittycanon://core/services/canon
 title: "ChittyMarket Charter"
-certifier: chittycanon://core/services/chittycertify
+certifier: chittycanon://core/foundation/mychitty-vault
 visibility: PUBLIC
 ---
 

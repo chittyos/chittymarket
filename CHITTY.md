@@ -6,7 +6,7 @@ version: 1.0.0
 status: DRAFT
 registered_with: chittycanon://core/services/canon
 title: "ChittyMarket"
-certifier: chittycanon://core/services/chittycertify
+certifier: chittycanon://core/foundation/mychitty-vault
 visibility: PUBLIC
 ---
 
@@ -52,7 +52,7 @@ marketplace.json                      <-- Single source of truth
 
 ### Certification
 - **Badge**: ChittyOS Compatible
-- **Certifier**: ChittyCertify (`chittycanon://core/services/chittycertify`)
+- **Certifier**: ChittyFoundation (`chittycanon://core/foundation/mychitty-vault`)
 - **Last Certified**: Pending
 
 ### ChittyDNA

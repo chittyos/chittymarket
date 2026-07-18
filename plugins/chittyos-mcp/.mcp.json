@@ -4,7 +4,7 @@
       "command": "/bin/sh",
       "args": [
         "-lc",
-        "TOKEN=\"$(/Users/nb/.local/bin/chitty-mcp-token chittymcp 2>/dev/null || true)\"; if [ -n \"$TOKEN\" ]; then export MCP_AUTH_HEADER=\"Bearer $TOKEN\"; fi; exec npx -y mcp-remote https://mcp.chitty.cc/mcp"
+        "TOKEN=\"$(chitty-mcp-token chittymcp 2>/dev/null || true)\"; if [ -n \"$TOKEN\" ]; then export MCP_AUTH_HEADER=\"Bearer $TOKEN\"; fi; exec npx -y mcp-remote https://mcp.chitty.cc/mcp --header \"CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID\" --header \"CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET\""
       ],
       "env": {}
     }

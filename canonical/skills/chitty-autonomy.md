@@ -30,7 +30,7 @@ Drive a feature request from one-line prompt to merged PR with full ChittyOS can
 Before any other work, the synthetic entity (this Claude context) MUST request a Sovereignty Affirmation certificate from ChittyCert.
 
 ```
-POST https://cert.chitty.cc/api/v1/issue
+POST https://mychitty.com/api/v1/identity/api/v1/issue
 {
   "type": "TRUST_CHAIN",
   "subject_chitty_id": "<P-Synthetic ChittyID for this session>",

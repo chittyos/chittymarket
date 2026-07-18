@@ -119,7 +119,7 @@ Cloudflare Worker (Hono) deployed at {DOMAIN}.chitty.cc.
 
 ### Certification
 - **Badge**: {BADGE_LEVEL} (ChittyOS Compatible | Chitty Compliant | ChittyCertified | ChittyCanonical)
-- **Certifier**: ChittyCertify (`chittycanon://core/services/chittycertify`)
+- **Certifier**: ChittyFoundation (`chittycanon://core/services/chittycertify`)
 - **Last Certified**: {DATE}
 
 ### ChittyDNA

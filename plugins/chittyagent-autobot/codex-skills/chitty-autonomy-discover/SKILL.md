@@ -20,7 +20,7 @@ This phase is **MANDATORY**. The parent orchestrator refuses to advance to Plan 
 ```bash
 cert_id=$(jq -r .cert_id < chittycontext/structured-autonomy/${feature}/SOVEREIGNTY.cert)
 op run --env-file=<(echo "CT_TOKEN=op://ChittyOS-Core/ChittyCert API Token/credential") -- bash -c '
-  curl -sS -X POST https://cert.chitty.cc/api/v1/verify \
+  curl -sS -X POST https://mychitty.com/api/v1/identity/api/v1/verify \
     -H "Authorization: Bearer $CT_TOKEN" \
     -d "{\"cert_id\": \"$cert_id\"}"' | jq -e .valid
 ```

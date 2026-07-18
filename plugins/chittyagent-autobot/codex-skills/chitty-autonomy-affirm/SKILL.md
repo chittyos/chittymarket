@@ -42,7 +42,7 @@ If `chitty_id` is missing, fail with: "No bound ChittyID — cannot affirm sover
 
 ```bash
 op run --env-file=<(echo "CT_TOKEN=op://ChittyOS-Core/ChittyCert API Token/credential") -- bash -c '
-  curl -sS -X POST https://cert.chitty.cc/api/v1/issue \
+  curl -sS -X POST https://mychitty.com/api/v1/identity/api/v1/issue \
     -H "Authorization: Bearer $CT_TOKEN" \
     -H "Content-Type: application/json" \
     -d "$(jq -nc \
