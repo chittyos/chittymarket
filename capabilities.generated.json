@@ -1,12 +1,12 @@
 {
   "version": "1.1.0",
-  "generated_at": "2026-06-12",
+  "generated_at": "2026-07-22",
   "phase": "Phase 1 — capability overlay (view-only, no behavior change)",
   "source": "marketplace.json + docs/audits/chittymarket-{artifact,plugin-package}-audit.json + docs/overrides/capability-group-overrides.json",
   "naming": "Bare JTBD group ids (no chitty- prefix). Namespace chittycanon://capability/ already encodes 'chitty'.",
-  "total": 104,
+  "total": 106,
   "group_assignment_sources": {
-    "name-rule": 45,
+    "name-rule": 49,
     "category": 34,
     "override": 23
   },
@@ -8464,11 +8464,171 @@
         "signer_chittyid": null,
         "anchored_in_ledger": null
       }
+    },
+    {
+      "capability_id": "chittycanon://capability/workspace/nb-development-defaults",
+      "legacy_id": "skill-nb-development-defaults",
+      "name": "NB Development Defaults",
+      "description": "Global development defaults for this operator — execute-now posture, separated adversarial review, ChittyOS discovery, and non-interactive branch finalization.",
+      "capability_group": "workspace",
+      "group_assignment_source": "name-rule",
+      "execution_class": "@chitty/ambient",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "P"
+        ],
+        "secondary": [
+          "E",
+          "A"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "local",
+        "local_allowed": true,
+        "context_cost": "low",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "summary",
+        "ambient_by_intent": true,
+        "verbs": [
+          "implement",
+          "debug",
+          "finish branch"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "local-only",
+        "stores_credentials_in": "n/a",
+        "fail_closed_if_unavailable": false
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "claude_ai",
+        "claude_desktop",
+        "chatgpt",
+        "codex",
+        "openclaw"
+      ],
+      "source_links": [
+        "marketplace://artifact/skill-nb-development-defaults"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "operate",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-nb-development-defaults"
+      ],
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:2944889d259edb042c46d9d78e045fac88cec178c90a98ee42eb77a2829d9235",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/workspace/linear-solo-operator",
+      "legacy_id": "skill-linear-solo-operator",
+      "name": "Linear Solo Operator",
+      "description": "Linear control plane for one human principal and AI execution roles — standardizes intake, issue contracts, roles, status, updates, evidence, human gates, handoffs, and closure.",
+      "capability_group": "workspace",
+      "group_assignment_source": "name-rule",
+      "execution_class": "@chitty/ambient",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "P"
+        ],
+        "secondary": [
+          "E",
+          "A",
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": true,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "summary",
+        "ambient_by_intent": true,
+        "verbs": [
+          "linear",
+          "plan work",
+          "update issue",
+          "project update"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "device-code",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "claude_ai",
+        "claude_desktop",
+        "chatgpt",
+        "codex",
+        "openclaw"
+      ],
+      "source_links": [
+        "marketplace://artifact/skill-linear-solo-operator",
+        "marketplace://artifact/plugin-linear",
+        "local://canonical/skills/linear-solo-operator.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "plan",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "medium",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-linear-solo-operator"
+      ],
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:ce590a78739954e294fddd5d7002a9f6b7f455519344080a246ac4baa393bb4a",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:19bedb5cd549ec3c8607dca953ce516c1a21c900ff3508216a6b3e01a6571fd2",
-    "record_count": 104,
+    "aggregate_hash": "sha256:9c3bc3af11f3cf71ec2add03b9226d0dc17b5ef4cb3a4290a5b519d93bbb27a3",
+    "record_count": 106,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
     "anchored_in_ledger": null

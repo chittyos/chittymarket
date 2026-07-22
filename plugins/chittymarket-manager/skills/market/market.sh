@@ -10,13 +10,19 @@
 set -euo pipefail
 
 MANIFEST="$HOME/.claude/marketplace.json"
+MANIFEST_REAL="$(python3 - "$MANIFEST" <<'PY'
+import os
+import sys
+print(os.path.realpath(os.path.expanduser(sys.argv[1])))
+PY
+)"
+MANIFEST_DIR="$(dirname "$MANIFEST_REAL")"
 # Capability Overlay (provenance/content_hash source). Resolves next to the
 # real manifest, then falls back to ~/.claude. Override with MARKET_OVERLAY.
 if [ -n "${MARKET_OVERLAY:-}" ]; then
   OVERLAY="$MARKET_OVERLAY"
 else
-  _mreal="$(readlink -f "$MANIFEST" 2>/dev/null || echo "$MANIFEST")"
-  OVERLAY="$(dirname "$_mreal")/capabilities.generated.json"
+  OVERLAY="$MANIFEST_DIR/capabilities.generated.json"
   [ -f "$OVERLAY" ] || OVERLAY="$HOME/.claude/capabilities.generated.json"
 fi
 # Allow env override; fall back to known workstation/legacy paths.
@@ -43,6 +49,22 @@ die() { echo "ERROR: $*" >&2; exit 1; }
 
 require_manifest() {
   [[ -f "$MANIFEST" ]] || die "marketplace.json not found at $MANIFEST"
+}
+
+# Resolve artifact filesystem paths consistently. Tilde paths are installed
+# locations; absolute paths remain absolute; repo-relative paths are anchored
+# to the real marketplace manifest rather than the caller's working directory.
+resolve_artifact_path() {
+  python3 - "$MANIFEST_DIR" "$1" <<'PY'
+import os
+import sys
+
+manifest_dir, raw = sys.argv[1:]
+expanded = os.path.expanduser(raw)
+if not os.path.isabs(expanded):
+    expanded = os.path.join(manifest_dir, expanded)
+print(os.path.normpath(expanded))
+PY
 }
 
 # Get artifact JSON by id
@@ -186,7 +208,7 @@ with open('$CH1TTY_SERVERS', 'w') as f:
 toggle_skill() {
   local skill_path="$1" state="$2"
   local skill_dir
-  skill_dir=$(echo "$skill_path" | sed "s|~|$HOME|")
+  skill_dir="$(resolve_artifact_path "$skill_path")"
   if [[ "$state" == "True" ]]; then
     [[ -f "$skill_dir/SKILL.md.disabled" ]] && mv "$skill_dir/SKILL.md.disabled" "$skill_dir/SKILL.md"
   else
@@ -241,7 +263,7 @@ with open('$BLOCKLIST', 'w') as f:
 
 toggle_agent() {
   local agent_path="$1" state="$2"
-  agent_path=$(echo "$agent_path" | sed "s|~|$HOME|")
+  agent_path="$(resolve_artifact_path "$agent_path")"
   if [[ "$state" == "True" ]]; then
     [[ -f "${agent_path}.disabled" ]] && mv "${agent_path}.disabled" "$agent_path"
   else
@@ -409,10 +431,18 @@ cmd_sync() {
 import json, os
 
 manifest_path = '$MANIFEST'
+manifest_dir = os.path.dirname(os.path.realpath(manifest_path))
 ch1tty_path = '$CH1TTY_SERVERS'
 settings_path = '$SETTINGS'
 blocklist_path = '$BLOCKLIST'
-home = os.path.expanduser('~')
+
+def resolve_artifact_path(path):
+    if not path:
+        return ''
+    path = os.path.expanduser(path)
+    if not os.path.isabs(path):
+        path = os.path.join(manifest_dir, path)
+    return os.path.normpath(path)
 
 with open(manifest_path) as f:
     manifest = json.load(f)
@@ -448,7 +478,7 @@ for a in manifest['artifacts']:
             new_enabled = ch1tty_state[sid]
 
     elif art_type == 'skill':
-        path = a.get('standalone',{}).get('path','').replace('~', home)
+        path = resolve_artifact_path(a.get('standalone',{}).get('path',''))
         if path:
             new_enabled = os.path.exists(os.path.join(path, 'SKILL.md'))
 
@@ -462,7 +492,7 @@ for a in manifest['artifacts']:
                 new_enabled = lpath not in blocklist_ids and art_id not in blocklist_ids
 
     elif art_type == 'agent':
-        path = a.get('standalone',{}).get('path','').replace('~', home)
+        path = resolve_artifact_path(a.get('standalone',{}).get('path',''))
         if path:
             new_enabled = os.path.exists(path)
 

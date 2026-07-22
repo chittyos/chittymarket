@@ -97,10 +97,10 @@ Provide a unified marketplace manifest and management interface for all Claude C
 ## Compliance
 
 - [x] Service registered in ChittyRegister
-- [ ] CLAUDE.md development guide present
+- [x] CLAUDE.md development guide present
 - [x] CHARTER.md present
 - [x] CHITTY.md present
-- [x] marketplace.json manifest validated (86 artifacts)
+- [x] marketplace.json manifest validated (106 artifacts)
 
 ---
-*Charter Version: 1.0.0 | Last Updated: 2026-03-08*
+*Charter Version: 1.0.0 | Last Updated: 2026-07-22*

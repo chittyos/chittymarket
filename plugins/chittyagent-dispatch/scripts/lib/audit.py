@@ -23,6 +23,7 @@ Exit code: 0 if fully clean, 1 if any drift/orphan found, 2 on hard error.
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 
@@ -72,14 +73,17 @@ def reproject_sha(repo_root, adapter, canonical, out):
     with no canonical change).
     """
     import tempfile
-    with tempfile.NamedTemporaryFile(suffix=os.path.basename(out), delete=False) as tf:
-        tmp = tf.name
-    try:
+    with tempfile.TemporaryDirectory() as temp_dir:
+        tmp = os.path.join(temp_dir, os.path.basename(out))
+        # Merge adapters (notably claude-code-mcp) require the existing
+        # projection as their input baseline. Seed the temporary target with
+        # that baseline; using an empty NamedTemporaryFile produces invalid
+        # JSON and does not model what sync actually does.
+        if os.path.exists(out):
+            shutil.copy2(out, tmp)
         subprocess.run([adapter, canonical, tmp], check=True,
                        stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
         return git_hash(tmp)
-    finally:
-        os.unlink(tmp)
 
 
 def audit(repo_root):

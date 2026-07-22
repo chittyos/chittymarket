@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastSync": "2026-07-18",
+  "lastSync": "2026-07-22",
   "artifacts": [
     {
       "_comment": "\u2500\u2500 MCP Servers (via Ch1tty) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
@@ -555,6 +555,33 @@
         "sot",
         "planning",
         "architecture"
+      ]
+    },
+    {
+      "id": "skill-linear-solo-operator",
+      "name": "Linear Solo Operator",
+      "description": "Linear control plane for one human principal and AI execution roles — standardizes intake, issue contracts, roles, status, updates, evidence, human gates, handoffs, and closure.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "plugins/chittyos-core/skills/linear-solo-operator"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/linear-solo-operator",
+      "tags": [
+        "linear",
+        "project-management",
+        "solo-operator",
+        "human-in-the-loop",
+        "orchestration",
+        "workflow"
       ]
     },
     {
