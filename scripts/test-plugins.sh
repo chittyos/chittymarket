@@ -314,6 +314,41 @@ else
 fi
 echo ""
 
+# --- Test 8: /market resolves repo-relative skill paths from the manifest ---
+echo "--- Market actuator path resolution ---"
+market_tmp="$(mktemp -d)"
+market_home="$market_tmp/home"
+market_catalog="$market_tmp/catalog"
+mkdir -p "$market_home/.claude" "$market_catalog/skills/demo"
+printf '%s\n' '# Demo' > "$market_catalog/skills/demo/SKILL.md"
+printf '%s\n' '{"artifacts":[{"id":"skill-demo","name":"Demo","description":"fixture","type":"skill","category":"test","access":"readwrite","enabled":true,"installMode":"standalone","standalone":{"available":true,"type":"skill","path":"skills/demo"},"ch1tty":{"available":false},"tags":[]}],"lastSync":null}' > "$market_catalog/marketplace.json"
+printf '%s\n' '{"servers":[]}' > "$market_catalog/servers.json"
+printf '%s\n' '{"enabledPlugins":{}}' > "$market_home/.claude/settings.json"
+mkdir -p "$market_home/.claude/plugins"
+printf '%s\n' '{"plugins":[]}' > "$market_home/.claude/plugins/blocklist.json"
+ln -s "$market_catalog/marketplace.json" "$market_home/.claude/marketplace.json"
+market_script="$PLUGINS_DIR/chittymarket-manager/skills/market/market.sh"
+if HOME="$market_home" bash "$market_script" disable skill-demo >/dev/null \
+  && [ -f "$market_catalog/skills/demo/SKILL.md.disabled" ] \
+  && HOME="$market_home" MARKET_SKIP_VERIFY=1 bash "$market_script" enable skill-demo >/dev/null \
+  && [ -f "$market_catalog/skills/demo/SKILL.md" ] \
+  && mv "$market_catalog/skills/demo/SKILL.md" "$market_catalog/skills/demo/SKILL.md.disabled" \
+  && HOME="$market_home" CH1TTY_SERVERS="$market_catalog/servers.json" bash "$market_script" sync >/dev/null \
+  && python3 - "$market_catalog/marketplace.json" <<'PY'
+import json
+import sys
+with open(sys.argv[1]) as f:
+    data = json.load(f)
+raise SystemExit(0 if data['artifacts'][0]['enabled'] is False else 1)
+PY
+then
+  green "/market enable/disable/sync anchors repo-relative skill paths to the real manifest"
+else
+  red "/market repo-relative skill path resolution"
+fi
+rm -rf "$market_tmp"
+echo ""
+
 # --- Summary ---
 TOTAL=$((PASS + FAIL))
 echo "=== Test Summary ==="

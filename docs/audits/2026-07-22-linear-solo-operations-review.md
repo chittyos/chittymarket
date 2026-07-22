@@ -71,11 +71,10 @@ Use the loop:
 
 ## Remaining marketplace findings
 
-1. Fourteen preexisting canonical skills are still absent from `marketplace.json`, including autonomy phases, capability governance, `cast`, `chico`, and `evidence-egress`. This review does not silently add or enable them; reconcile them in a separate capability-inventory change.
+1. Fourteen preexisting canonical skills are still absent from `marketplace.json`, including autonomy phases, capability governance, `cast`, `chico`, and `evidence-egress`. The count is 32 canonical skills minus 18 canon-backed catalog entries; the nineteenth cataloged skill, `skill-nb-development-defaults`, has no canonical skill file. This review does not silently add or enable the missing skills; reconcile them in a separate capability-inventory change.
 2. `skill-nb-development-defaults` remains a local-home artifact rather than a ChittyMarket-owned canonical source. Its missing overlay record is repaired here, but source migration remains a separate decision.
 3. `plugin-linear` is cataloged but disabled by default. Do not change that global default as a side effect of adding workflow doctrine; fail closed and request connection when no Linear surface is available.
 4. Forty capability source links still point to local-home installation paths. They are warnings rather than CI failures, but they weaken portable provenance.
-5. The repository-wide dispatch audit has a preexisting temporary-file bug when reprojecting MCP definitions. Direct projection works, while the audit wrapper opens an empty output file that the merge adapter then attempts to parse as JSON.
 
 ## Verification
 
@@ -85,4 +84,5 @@ Use the loop:
 - Capability provenance hashes: pass
 - Overlay coverage: 106/106, no orphans
 - Gated source-link freshness: pass
+- Repository-wide dispatch audit: pass after repairing temporary projection seeding for merge adapters
 - New skill Claude/Codex projections: generated from the canonical source

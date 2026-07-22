@@ -6,7 +6,7 @@ ChittyMarket is the Claude Code marketplace for the ChittyOS ecosystem. It serve
 
 1. **Native Claude Code Marketplace** — `.claude-plugin/marketplace.json` lists 16 plugins installable via `/plugin add`
 2. **Artifact Inventory** — `marketplace.json` catalogs all 106 capabilities with rich metadata for the `/market` skill
-3. **Capability Overlay (Phase 1, 2026-05-11)** — `capabilities.generated.json` projects every artifact into a Canonical Capability Record with ChittyCanon URI, JTBD group, execution_class, and full §16 metadata schema. See `docs/architecture/CHITTYMARKET_CAPABILITY_ROUTER.md`.
+3. **Capability Overlay (Phase 1, refreshed 2026-07-22)** — `capabilities.generated.json` projects every artifact into a Canonical Capability Record with ChittyCanon URI, JTBD group, execution_class, and full §16 metadata schema. See `docs/architecture/CHITTYMARKET_CAPABILITY_ROUTER.md`.
 
 ## Structure
 
