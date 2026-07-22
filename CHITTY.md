@@ -16,7 +16,7 @@ visibility: PUBLIC
 
 ## What It Does
 
-Local artifact marketplace and manager for the ChittyOS Claude Code environment. Catalogs **104 capabilities** (MCP servers, skills, plugins, agents, hooks) with enable/disable toggle support and install mode switching (Ch1tty vs standalone). Phase 1 capability overlay generated 2026-05-11 — see `capabilities.generated.json` and `docs/architecture/CHITTYMARKET_CAPABILITY_ROUTER.md`.
+Local artifact marketplace and manager for the ChittyOS Claude Code environment. Catalogs **106 capabilities** (MCP servers, skills, plugins, agents, hooks) with enable/disable toggle support and install mode switching (Ch1tty vs standalone). The Phase 1 capability overlay was refreshed 2026-07-22 — see `capabilities.generated.json` and `docs/architecture/CHITTYMARKET_CAPABILITY_ROUTER.md`.
 
 ## Architecture
 
@@ -67,24 +67,24 @@ marketplace.json                      <-- Single source of truth
 | Claude Code | Plugin toggles (settings.json) |
 | Hookify | Hook rule frontmatter toggles |
 
-### Artifact Counts (2026-05-11, post Phase 1 overlay)
+### Artifact Counts (2026-07-22)
 | Type | Count |
 |------|-------|
 | MCP servers | 28 |
 | Plugins | 40 |
-| Skills | 15 |
+| Skills | 19 |
 | Hooks | 10 |
 | Agents | 9 |
-| **Total** | **104** capabilities |
+| **Total** | **106** capabilities |
 
 ### Capability Distribution (JTBD groups, Phase 1)
 | Group | Count |
 |-------|-------|
-| build | 29 |
+| build | 30 |
 | connect | 22 |
 | govern | 15 |
 | ship | 12 |
-| workspace | 6 |
+| workspace | 9 |
 | legal | 5 |
 | local-lab | 5 |
 | agent-runtime | 4 |

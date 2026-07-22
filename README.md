@@ -52,6 +52,7 @@ The `chittymarket-manager` plugin is the entry point — install it first, then 
 
 | Plugin | Purpose |
 |--------|---------|
+| **ch1tty** | Natural-language intent resolver and tool gateway projections |
 | **chittyos-mcp** | ChittyOS MCP gateway packaging |
 | **neon-mcp** | Neon MCP packaging |
 
@@ -73,10 +74,12 @@ Some IDs shown by `/market` are runtime artifacts (skills/agents/MCP entries), n
 | Group | Skills |
 |------|--------|
 | **Autonomy Pipeline** | `chitty-autonomy`, `chitty-autonomy-affirm`, `chitty-autonomy-discover`, `chitty-autonomy-plan`, `chitty-autonomy-generate`, `chitty-autonomy-implement`, `chitty-autonomy-tidy`, `chitty-autonomy-cicd`, `chitty-autonomy-ship` |
-| **Marketplace** | `market` |
-| **Core Operations** | `checkpoint`, `chitty-cleanup`, `chittycontext`, `chittyxl` |
+| **Marketplace Governance** | `market`, `skill-creator`, `capability-governor`, `capability-registry-audit` |
+| **Planning & Work Control** | `goal-creator`, `linear-solo-operator` |
+| **Core Operations** | `checkpoint`, `chitty-cleanup`, `chittycontext`, `chittyxl`, `chico` |
+| **MCP Orchestration** | `cast` |
 | **DevOps Operations** | `chitty-deploy`, `chitty-health`, `chitty-pipelines`, `chitty-registry`, `chittyos-compliance`, `wrangler-audit` |
-| **Legal Operations** | `dispute`, `docket`, `evidence-collect`, `fact-governance` |
+| **Legal Operations** | `dispute`, `docket`, `evidence-collect`, `evidence-egress`, `fact-governance` |
 
 ## Profiles
 
