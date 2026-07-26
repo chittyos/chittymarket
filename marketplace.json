@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastSync": "2026-07-18",
+  "lastSync": "2026-07-24T03:48:11.497651Z",
   "artifacts": [
     {
       "_comment": "\u2500\u2500 MCP Servers (via Ch1tty) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
@@ -79,7 +79,7 @@
       "type": "mcp-server",
       "category": "code",
       "access": "readwrite",
-      "enabled": true,
+      "enabled": false,
       "installMode": "both",
       "ch1tty": {
         "serverId": "serena"
@@ -103,7 +103,7 @@
       "type": "mcp-server",
       "category": "ecosystem",
       "access": "readwrite",
-      "enabled": true,
+      "enabled": false,
       "installMode": "ch1tty",
       "ch1tty": {
         "serverId": "quality"
@@ -188,7 +188,7 @@
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
-      "enabled": true,
+      "enabled": false,
       "installMode": "ch1tty",
       "ch1tty": {
         "serverId": "desktop"
@@ -209,7 +209,7 @@
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
-      "enabled": true,
+      "enabled": false,
       "installMode": "ch1tty",
       "ch1tty": {
         "serverId": "chrome"
@@ -254,7 +254,7 @@
       "type": "mcp-server",
       "category": "documents",
       "access": "write",
-      "enabled": true,
+      "enabled": false,
       "installMode": "ch1tty",
       "ch1tty": {
         "serverId": "pdf"
@@ -275,7 +275,7 @@
       "type": "mcp-server",
       "category": "communication",
       "access": "readwrite",
-      "enabled": true,
+      "enabled": false,
       "installMode": "ch1tty",
       "ch1tty": {
         "serverId": "chittymac"
@@ -296,7 +296,7 @@
       "type": "mcp-server",
       "category": "communication",
       "access": "readwrite",
-      "enabled": true,
+      "enabled": false,
       "installMode": "ch1tty",
       "ch1tty": {
         "serverId": "imessage"
@@ -507,7 +507,7 @@
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
-      "enabled": true,
+      "enabled": false,
       "installMode": "standalone",
       "standalone": {
         "available": true,
@@ -533,7 +533,7 @@
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
-      "enabled": true,
+      "enabled": false,
       "installMode": "standalone",
       "standalone": {
         "available": true,
@@ -1151,7 +1151,7 @@
       "type": "plugin",
       "category": "code",
       "access": "readwrite",
-      "enabled": true,
+      "enabled": false,
       "installMode": "standalone",
       "standalone": {
         "available": true,
@@ -1220,7 +1220,7 @@
       "type": "plugin",
       "category": "ecosystem",
       "access": "readwrite",
-      "enabled": false,
+      "enabled": true,
       "installMode": "standalone",
       "standalone": {
         "available": true,
@@ -1266,7 +1266,7 @@
       "type": "plugin",
       "category": "code",
       "access": "read",
-      "enabled": true,
+      "enabled": false,
       "installMode": "standalone",
       "standalone": {
         "available": true,
@@ -1289,7 +1289,7 @@
       "type": "plugin",
       "category": "communication",
       "access": "readwrite",
-      "enabled": false,
+      "enabled": true,
       "installMode": "standalone",
       "standalone": {
         "available": true,
@@ -1312,7 +1312,7 @@
       "type": "plugin",
       "category": "ecosystem",
       "access": "read",
-      "enabled": false,
+      "enabled": true,
       "installMode": "standalone",
       "standalone": {
         "available": true,
@@ -1428,7 +1428,7 @@
       "type": "plugin",
       "category": "communication",
       "access": "read",
-      "enabled": false,
+      "enabled": true,
       "installMode": "standalone",
       "standalone": {
         "available": true,
@@ -1757,7 +1757,7 @@
       "type": "agent",
       "category": "ecosystem",
       "access": "read",
-      "enabled": true,
+      "enabled": false,
       "installMode": "standalone",
       "standalone": {
         "available": true,
