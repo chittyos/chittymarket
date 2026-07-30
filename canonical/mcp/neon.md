@@ -16,7 +16,7 @@ mcp:
   - -lc
   - exec npx -y @neondatabase/mcp-server-neon start "$NEON_API_KEY"
   env:
-    NEON_API_KEY: op://ChittyOS-Integrations/neon/api_key
+    NEON_API_KEY: chittysecrets://NEON_API_KEY
 ---
 
 # neon MCP server

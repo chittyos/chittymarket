@@ -56,10 +56,16 @@ curl -s https://{service}.chitty.cc/health | jq .
 ```
 
 ## Environment Variables
-Secrets are managed via 1Password integration:
+Secrets are managed by **ChittySecrets** (`secrets.chitty.cc`, Layer 0) fronting the Cloudflare
+Secrets Store. Runtime values arrive through the worker's `secrets_store_secrets` binding —
+there is no wrapper command that injects them at deploy time:
 ```bash
-op run --env-file=/Volumes/chitty/config/cloudflare-chittycorp.env -- npx wrangler deploy
+npx wrangler deploy --env production
 ```
+Classify before placing: service URLs and Notion DB IDs go in `vars`; tokens, third-party
+credentials, and signing keys go in the Secrets Store. Never `[vars]`, never KV as authority.
+Provisioning or rotating a value is the ChittyConnect broker's job (`/chico`) — do not resolve
+or place secrets yourself.
 
 ## Common Services
 
@@ -73,5 +79,5 @@ op run --env-file=/Volumes/chitty/config/cloudflare-chittycorp.env -- npx wrangl
 
 ## Error Handling
 - Build failures: Check TypeScript errors, missing dependencies
-- Auth failures: Verify `op` is authenticated, check env file paths
+- Auth failures: Confirm the worker declares the `secrets_store_secrets` binding and that the named secret exists (`secrets_list` via ChittySecrets — names only, never values). Do not resolve the value yourself; route provisioning through `/chico`.
 - DNS issues: Verify custom domain in Cloudflare dashboard
