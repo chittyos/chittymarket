@@ -4,7 +4,7 @@
   "phase": "Phase 1 — capability overlay (view-only, no behavior change)",
   "source": "marketplace.json + docs/audits/chittymarket-{artifact,plugin-package}-audit.json + docs/overrides/capability-group-overrides.json",
   "naming": "Bare JTBD group ids (no chitty- prefix). Namespace chittycanon://capability/ already encodes 'chitty'.",
-  "total": 104,
+  "total": 105,
   "group_assignment_sources": {
     "name-rule": 45,
     "category": 34,
@@ -8457,6 +8457,82 @@
       "visibility": "recommended",
       "provenance": {
         "content_hash": "sha256:85242024f14771a6259012b383550f57d32af5975bc2b1cdcbdb476b7b37d668",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/workspace/nb-development-defaults",
+      "legacy_id": "skill-nb-development-defaults",
+      "name": "NB Development Defaults",
+      "description": "Global development defaults for this operator — execute-now posture, Separated Adversarial Review (reviewer≠implementer, break-not-bless, no-mocks re-verify), broker-first credentials (1Password RETIRED), ChittyOS discovery, non-interactive branch finalization. Loaded for almost all coding/debugging/architecture tasks unless explicitly overridden.",
+      "capability_group": "workspace",
+      "group_assignment_source": "name-rule",
+      "execution_class": "@chitty/ambient",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "P"
+        ],
+        "secondary": [
+          "E",
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": true,
+        "context_cost": "low",
+        "mutation_risk": "low"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "summary",
+        "ambient_by_intent": true,
+        "verbs": [
+          "default",
+          "review",
+          "finalize"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "local-only",
+        "stores_credentials_in": "n/a",
+        "fail_closed_if_unavailable": false
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "claude_ai",
+        "claude_desktop",
+        "chatgpt",
+        "codex",
+        "openclaw"
+      ],
+      "source_links": [
+        "local://~/.claude/skills/chittyxl"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "admin-system",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "local-only"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [],
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:964d56a5eab738fb00b44df3eecb05b52a07d6ce35cf7bd0663ec0d11cdee6d2",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
