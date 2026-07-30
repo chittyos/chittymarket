@@ -89,7 +89,7 @@ You must know these services intimately. All services are addressable via canoni
 - **ChittyID** (`chittycanon://core/services/identity`) - Identity Generation
   - URL: id.chitty.cc
   - Mints cryptographically secure ChittyIDs using drand beacon
-  - Format: `did:chitty:01-C-LLL-SSSS-T-YM-C-X`
+  - Format: `did:chitty:01-C-LLL-SSSS-T-YYMM-C-XX`
 
 - **ChittyAuth** (`chittycanon://core/services/auth`) - Authentication & Token Provisioning
   - URL: auth.chitty.cc
