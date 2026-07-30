@@ -8532,7 +8532,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:964d56a5eab738fb00b44df3eecb05b52a07d6ce35cf7bd0663ec0d11cdee6d2",
+        "content_hash": "sha256:7ffa887ae20b324843ca8c14e32b6bb73b5f1075e2d5b2d772eacb1a65d7c42c",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8543,8 +8543,8 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:19bedb5cd549ec3c8607dca953ce516c1a21c900ff3508216a6b3e01a6571fd2",
-    "record_count": 104,
+    "aggregate_hash": "sha256:f6a95548b181900e979d95f6465c189777a5e2f4927fbb8955c2b48f18cb75be",
+    "record_count": 105,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
     "anchored_in_ledger": null
