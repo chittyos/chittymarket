@@ -71,7 +71,7 @@ Mandatory rules:
 - All five types **must** appear in any entity-type validation, regex, or map. Never omit Authority (A).
 - Claude / agent contexts are **Person (P)**, Synthetic — never Thing (T). Actors with agency are always Person.
 - "Entity type" is the field name. "Entity" is **not** a valid type value (would be circular).
-- ChittyID format: `VV-G-LLL-SSSS-T-YM-C-X` where `T` ∈ `{P, L, T, E, A}`.
+- ChittyID format: `VV-G-LLL-SSSS-T-YYMM-C-XX` where `T` ∈ `{P, L, T, E, A}`.
 
 Source of truth: `chittycanon://gov/governance` (local cache: `~/.claude/chittycontext/canon/ontology.json`).
 
@@ -160,7 +160,7 @@ When reviewing a repo's structure, validate it against `chittycanon://core/servi
 
 **ChittyID Pattern:**
 - Every entity has a `chitty_id VARCHAR PRIMARY KEY` (or surrogate `uuid` PK with an indexed `chitty_id` column where existing migrations use uuids — the fractal `scopes` table is one such case)
-- Format: `VV-G-LLL-SSSS-T-YM-C-X`
+- Format: `VV-G-LLL-SSSS-T-YYMM-C-XX`
 - Foreign keys reference ChittyIDs, not internal surrogate ints
 - Never use auto-incrementing integers as the canonical identifier
 
@@ -314,7 +314,7 @@ npm run migration:rollback
 
 ```sql
 COMMENT ON TABLE identities IS 'Core identity records for all ChittyID entities. Owned by chittyid service.';
-COMMENT ON COLUMN identities.chitty_id IS 'Primary ChittyID in format VV-G-LLL-SSSS-T-YM-C-X';
+COMMENT ON COLUMN identities.chitty_id IS 'Primary ChittyID in format VV-G-LLL-SSSS-T-YYMM-C-XX';
 COMMENT ON COLUMN scopes.scope_type IS 'Free-text taxonomy — new domains require zero DDL. Examples: legal_case, dispute, live_stream_session, project.';
 ```
 
