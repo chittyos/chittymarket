@@ -19,11 +19,18 @@ This phase is **MANDATORY**. The parent orchestrator refuses to advance to Plan 
 
 ```bash
 cert_id=$(jq -r .cert_id < chittycontext/structured-autonomy/${feature}/SOVEREIGNTY.cert)
-op run --env-file=<(echo "CT_TOKEN=op://ChittyOS-Core/ChittyCert API Token/credential") -- bash -c '
-  curl -sS -X POST https://mychitty.com/api/v1/identity/api/v1/verify \
-    -H "Authorization: Bearer $CT_TOKEN" \
-    -d "{\"cert_id\": \"$cert_id\"}"' | jq -e .valid
 ```
+
+Dispatch the verify call through the ChittyConnect broker (`/chico`) — it holds the ChittyCert
+binding and supplies `Authorization` itself. Never resolve or inject the token locally. If the
+broker is unavailable, fail closed with `POLICY_BLOCKED_CHITTYCONNECT_UNAVAILABLE`.
+
+```
+POST https://mychitty.com/api/v1/identity/api/v1/verify
+{"cert_id": "<cert_id>"}
+```
+
+The cert is valid when the response has `.valid == true`.
 
 If invalid, return to Phase 0 (re-affirm).
 

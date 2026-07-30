@@ -48,34 +48,38 @@ If `chitty_id` is missing, fail with: "No bound ChittyID — cannot affirm sover
 
 ### 2. Request cert from ChittyCert
 
+Do not resolve or inject the ChittyCert token yourself. Dispatch the request through the
+ChittyConnect broker (`/chico`), which holds the binding and performs the authenticated call.
+If the broker is unavailable, fail closed with `POLICY_BLOCKED_CHITTYCONNECT_UNAVAILABLE` —
+never fall back to a local credential read.
+
+Brief the broker with this request (it supplies `Authorization` itself):
+
 ```bash
-op run --env-file=<(echo "CT_TOKEN=op://ChittyOS-Core/ChittyCert API Token/credential") -- bash -c '
-  curl -sS -X POST https://mychitty.com/api/v1/identity/api/v1/issue \
-    -H "Authorization: Bearer $CT_TOKEN" \
-    -H "Content-Type: application/json" \
-    -d "$(jq -nc \
-      --arg cid "$chitty_id" \
-      --arg ft  "$feature" \
-      --arg br  "$branch" \
-      --arg rp  "$repo" \
-      --arg vu  "$valid_until" \
-      "{
-        type: \"TRUST_CHAIN\",
-        subject_chitty_id: \$cid,
-        subject_type: \"P\",
-        subject_status: \"Operational\",
-        purpose: \"synthetic-entity-sovereignty-affirmation\",
-        scope: { feature: \$ft, branch: \$br, repo: \$rp, valid_until: \$vu },
-        constraints: [
-          \"Cannot bypass canonical pipelines (POST /collect, /documents, /vault/ingest)\",
-          \"Must cite chittycanon:// URIs for entity types (P/L/T/E/A — all five)\",
-          \"Must consult ChittyRegistry before scaffolding new services\",
-          \"Must require Pentad (CHARTER, CHITTY, CLAUDE, SECURITY, AGENTS) for new services\",
-          \"Must emit ChittyChronicle audit entry per phase boundary\"
-        ],
-        ledger_anchor: \"chittycanon://core/services/chittychronicle\"
-      }")"
-'
+# POST https://mychitty.com/api/v1/identity/api/v1/issue
+# Content-Type: application/json
+jq -nc \
+  --arg cid "$chitty_id" \
+  --arg ft  "$feature" \
+  --arg br  "$branch" \
+  --arg rp  "$repo" \
+  --arg vu  "$valid_until" \
+  '{
+    type: "TRUST_CHAIN",
+    subject_chitty_id: $cid,
+    subject_type: "P",
+    subject_status: "Operational",
+    purpose: "synthetic-entity-sovereignty-affirmation",
+    scope: { feature: $ft, branch: $br, repo: $rp, valid_until: $vu },
+    constraints: [
+      "Cannot bypass canonical pipelines (POST /collect, /documents, /vault/ingest)",
+      "Must cite chittycanon:// URIs for entity types (P/L/T/E/A — all five)",
+      "Must consult ChittyRegistry before scaffolding new services",
+      "Must require Pentad (CHARTER, CHITTY, CLAUDE, SECURITY, AGENTS) for new services",
+      "Must emit ChittyChronicle audit entry per phase boundary"
+    ],
+    ledger_anchor: "chittycanon://core/services/chittychronicle"
+  }'
 ```
 
 The response (cert envelope with `cert_id`, `signature`, `issued_at`, `expires_at`, full subject + scope) is persisted:
