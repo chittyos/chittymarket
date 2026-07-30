@@ -79,5 +79,5 @@ or place secrets yourself.
 
 ## Error Handling
 - Build failures: Check TypeScript errors, missing dependencies
-- Auth failures: Verify `op` is authenticated, check env file paths
+- Auth failures: Confirm the worker declares the `secrets_store_secrets` binding and that the named secret exists (`secrets_list` via ChittySecrets — names only, never values). Do not resolve the value yourself; route provisioning through `/chico`.
 - DNS issues: Verify custom domain in Cloudflare dashboard
