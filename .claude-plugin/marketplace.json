@@ -17,8 +17,7 @@
       "strict": false,
       "category": "ecosystem",
       "keywords": []
-    }
-,
+    },
     {
       "name": "chittyagent-autobot",
       "description": "Autonomous PR-driver agent for ChittyOS — orchestrates the canonical Sovereignty → Discover → Plan → Generate → Implement → Review → Tidy → CI/CD → Ship → Memory pipeline. Sovereignty-cert gated, pentad-aware, replaces the structured-autonomy trio.",
@@ -27,8 +26,7 @@
       "strict": false,
       "category": "ecosystem",
       "keywords": []
-    }
-,
+    },
     {
       "name": "chittyagent-dispatch",
       "description": "Single-source-of-truth projection for ChittyOS agents/skills/hooks. Reads `chittymarket/canonical/<name>.md` and projects to every runtime format — Claude Code agents, Codex skills, OpenClaw agents, ChatGPT GPT configs, Notion agents, and the agent.chitty.cc orchestrator KV index. Eliminates per-runtime forks; canonical is the only file edited, projections are generated.",
@@ -37,8 +35,7 @@
       "strict": false,
       "category": "ecosystem",
       "keywords": []
-    }
-,
+    },
     {
       "name": "chittymarket-canonical",
       "description": "Canonical marketplace definitions and sync source. Holds the canonical/ artifact files projected by chittyagent-dispatch into runtime-native formats (Claude Code agents, Codex skills, OpenClaw agents). Edit canonicals here; projections are generated.",
@@ -47,8 +44,7 @@
       "strict": false,
       "category": "ecosystem",
       "keywords": []
-    }
-,
+    },
     {
       "name": "chittymarket-manager",
       "description": "Artifact marketplace manager — list, enable, disable, sync, and toggle install modes for all ChittyOS Claude Code artifacts",
@@ -56,9 +52,14 @@
       "source": "./plugins/chittymarket-manager",
       "strict": false,
       "category": "ecosystem",
-      "keywords": ["marketplace", "market", "artifacts", "toggle", "manage"]
-    }
-,
+      "keywords": [
+        "marketplace",
+        "market",
+        "artifacts",
+        "toggle",
+        "manage"
+      ]
+    },
     {
       "name": "chittyos-core",
       "description": "Core ChittyOS ecosystem — session persistence, context checkpoints, cleanup, and ecosystem agents for schema, registration, connection, integration, and canonical governance",
@@ -66,9 +67,15 @@
       "source": "./plugins/chittyos-core",
       "strict": false,
       "category": "ecosystem",
-      "keywords": ["chittyos", "session", "context", "agents", "schema", "canon"]
-    }
-,
+      "keywords": [
+        "chittyos",
+        "session",
+        "context",
+        "agents",
+        "schema",
+        "canon"
+      ]
+    },
     {
       "name": "chittyos-devops",
       "description": "ChittyOS deployment and infrastructure — deploy services, health checks, registry queries, pipelines, wrangler audits, and compliance",
@@ -76,9 +83,15 @@
       "source": "./plugins/chittyos-devops",
       "strict": false,
       "category": "operations",
-      "keywords": ["deploy", "health", "registry", "pipelines", "wrangler", "compliance"]
-    }
-,
+      "keywords": [
+        "deploy",
+        "health",
+        "registry",
+        "pipelines",
+        "wrangler",
+        "compliance"
+      ]
+    },
     {
       "name": "chittyos-governance",
       "description": "Canonical governance hooks — entity type validation, ChittyID accountability, deploy gates, PR workflow enforcement, and unified Neon integration governance (schema drift, Neon Auth, OAuth/OIDC, branch ops, project/role/connection management, migration governance, canonical token lifecycle)",
@@ -86,9 +99,15 @@
       "source": "./plugins/chittyos-governance",
       "strict": false,
       "category": "security",
-      "keywords": ["governance", "hooks", "entity-types", "chittyid", "deploy-gate", "schema"]
-    }
-,
+      "keywords": [
+        "governance",
+        "hooks",
+        "entity-types",
+        "chittyid",
+        "deploy-gate",
+        "schema"
+      ]
+    },
     {
       "name": "chittyos-legal",
       "description": "Legal case management — evidence fact governance, dispute tracking, court docket monitoring, and evidence collection pipeline",
@@ -96,9 +115,15 @@
       "source": "./plugins/chittyos-legal",
       "strict": false,
       "category": "legal",
-      "keywords": ["legal", "evidence", "disputes", "docket", "cases", "custody"]
-    }
-,
+      "keywords": [
+        "legal",
+        "evidence",
+        "disputes",
+        "docket",
+        "cases",
+        "custody"
+      ]
+    },
     {
       "name": "chittyos-mcp",
       "description": "ChittyOS MCP gateway (standalone mode) — MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness via mcp.chitty.cc",
@@ -106,9 +131,13 @@
       "source": "./plugins/chittyos-mcp",
       "strict": false,
       "category": "ecosystem",
-      "keywords": ["mcp", "chittyos", "gateway", "standalone"]
-    }
-,
+      "keywords": [
+        "mcp",
+        "chittyos",
+        "gateway",
+        "standalone"
+      ]
+    },
     {
       "name": "chittyos-proxy-agents",
       "description": "Remote proxy agents for Notion database operations, ChatGPT integrations, and Cloudflare infrastructure management via agent.chitty.cc",
@@ -116,9 +145,14 @@
       "source": "./plugins/chittyos-proxy-agents",
       "strict": false,
       "category": "integrations",
-      "keywords": ["notion", "chatgpt", "cloudflare", "proxy", "agent"]
-    }
-,
+      "keywords": [
+        "notion",
+        "chatgpt",
+        "cloudflare",
+        "proxy",
+        "agent"
+      ]
+    },
     {
       "name": "neon-mcp",
       "description": "Neon PostgreSQL MCP server (standalone mode) — branches, migrations, SQL queries, schema management",
@@ -126,9 +160,14 @@
       "source": "./plugins/neon-mcp",
       "strict": false,
       "category": "database",
-      "keywords": ["neon", "postgres", "database", "sql", "standalone"]
-    }
-,
+      "keywords": [
+        "neon",
+        "postgres",
+        "database",
+        "sql",
+        "standalone"
+      ]
+    },
     {
       "name": "chittyhelper",
       "description": "Architectural navigation — ask which service handles X? queries against the ChittyOS ecosystem",
@@ -139,9 +178,13 @@
       },
       "strict": false,
       "category": "ecosystem",
-      "keywords": ["chittyos", "architecture", "navigation", "services"]
-    }
-,
+      "keywords": [
+        "chittyos",
+        "architecture",
+        "navigation",
+        "services"
+      ]
+    },
     {
       "name": "chittyagent",
       "description": "ChittyOS session lifecycle — authenticated bootstrap, ecosystem routing, session identity, and Mercury finance",
@@ -152,9 +195,13 @@
       },
       "strict": false,
       "category": "ecosystem",
-      "keywords": ["chittyos", "session", "bootstrap", "identity"]
-    }
-,
+      "keywords": [
+        "chittyos",
+        "session",
+        "bootstrap",
+        "identity"
+      ]
+    },
     {
       "name": "chittycommand",
       "description": "Life management dashboard — query finances, manage disputes, monitor syncs, get AI-powered recommendations",
@@ -165,9 +212,14 @@
       },
       "strict": false,
       "category": "productivity",
-      "keywords": ["dashboard", "finance", "disputes", "obligations", "cashflow"]
-    }
-,
+      "keywords": [
+        "dashboard",
+        "finance",
+        "disputes",
+        "obligations",
+        "cashflow"
+      ]
+    },
     {
       "name": "legal-arsenal",
       "description": "Legal case management — evidence standards, chain of custody, adversarial analysis with ChittyStorage integration",
@@ -178,7 +230,26 @@
       },
       "strict": false,
       "category": "legal",
-      "keywords": ["legal", "evidence", "cases", "disputes", "custody"]
+      "keywords": [
+        "legal",
+        "evidence",
+        "cases",
+        "disputes",
+        "custody"
+      ]
+    },
+    {
+      "name": "nowebmaster",
+      "description": "Universal capability lifecycle plugin for nowebmaster / webmastrai / GORE. Cross-surface hot-loading, MCP tool invocation rules, CLI projections (can wm / can surface), and the 6-stage nutrient pipeline.",
+      "version": "1.1.0",
+      "source": "./plugins/nowebmaster",
+      "strict": false,
+      "category": "ecosystem",
+      "keywords": [
+        "webmaster",
+        "capability-lifecycle",
+        "hot-loading"
+      ]
     }
   ]
 }
