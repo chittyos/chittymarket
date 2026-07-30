@@ -7,6 +7,13 @@ canon_uri: chittycanon://core/services/chittymarket#skills/mcp-tool-calling-rule
 
 # MCP Tool Invocation Rules for nowebmaster
 
+## 0. Implementation Drift (read first)
+
+This skill documents the **intended** contract. Two rules below are NOT yet implemented in `chittyagent-webmaster`:
+
+- **`batch()` atomicity in `webmaster_flag` is REQUIRED but ABSENT.** `webmaster-service.ts:156-186` issues two independent `.prepare().bind().run()` calls; there is no `.batch(` in `src/`. Treat the rule as binding-and-violated, not as a description of current behavior.
+- **The `wm_*` tables have no DDL** anywhere in the monorepo. The tool handlers INSERT against unprovisioned tables.
+
 ## 1. Tool Index & Signatures
 
 ```
@@ -21,7 +28,7 @@ CHITTYAGENT-WEBMASTER (chittycanon://core/services/chittyagent-webmaster)
 ## 2. Invocation Protocols & Rules
 
 ### Tool 1: `webmaster_harvest`
-* **Ontology Role:** Tool / Ingestion (`webmaster_t_harvest`)
+* **`tool_id`:** `webmaster_t_harvest` — `ontology_type: 'T'` (Thing) per `manifest.ts`
 * **Input Schema:**
   - `url` (string, required): Must be a valid `http://` or `https://` URL.
   - `content` (string, optional): Raw markdown text if page is pre-harvested.
@@ -42,7 +49,7 @@ CHITTYAGENT-WEBMASTER (chittycanon://core/services/chittyagent-webmaster)
 ---
 
 ### Tool 2: `webmaster_check`
-* **Ontology Role:** Tool / Verification (`webmaster_t_check`)
+* **`tool_id`:** `webmaster_t_check` — `ontology_type: 'T'` (Thing) per `manifest.ts`
 * **Input Schema:**
   - `source_url` (string, required): Must be `http://` or `https://`.
   - `claim_text` (string, required, min length 5): The factual claim to check.
@@ -50,17 +57,17 @@ CHITTYAGENT-WEBMASTER (chittycanon://core/services/chittyagent-webmaster)
   - Stores claim in `wm_claims`.
   - Performs cross-reference evaluation against claims from different URLs.
   - Word boundary regexes (`\b... \b`) are enforced to prevent false-positive substring matches (e.g. `"must"` vs `"must not"`).
-  - Matches write to `wm_contradictions` with default confidence `0.85`.
+  - Matches write to `wm_contradictions` with confidence `0.85` — a hardcoded SQL literal (`webmaster-service.ts:116`), not a computed default.
 
 ---
 
 ### Tool 3: `webmaster_flag`
-* **Ontology Role:** Tool / User Reporting (`webmaster_t_flag`)
+* **`tool_id`:** `webmaster_t_flag` — `ontology_type: 'T'` (Thing) per `manifest.ts`
 * **Input Schema:**
   - `url` (string, required): Target URL being reported.
   - `description` (string, required, min length 5): Details of contradiction or decay.
   - `flagged_by` (string, required, min length 1): Reporting user ID or handle.
 * **Transaction Integrity Rules:**
-  - D1 `batch()` transaction is strictly required for atomic writes:
+  - D1 `batch()` transaction is strictly required for atomic writes (**NOT YET IMPLEMENTED — see §0**):
     - Insert into `wm_flags` (`reward_status = 'awarded'`, `points_awarded = 100`)
     - Insert into `wm_rewards` (`source = 'wm_flag'`, `points = 100`)
