@@ -1,0 +1,273 @@
+---
+name: nb-development-defaults
+description: Global development defaults for this operator — execute-now posture (licensed by separated adversarial AI review + AI-driven CI/CD, since one human manages the entire system and human diff-review cannot be the gate), discovery-first via /helper or ch1tty/cast before designing, worktree-isolated parallel work, broker-first credentials (1Password RETIRED — ChittySecrets is canonical), ChittyOS ecosystem discovery, non-interactive branch finalization. Use for almost all coding, debugging, ChittyOS integration, architecture, compliance, auth/token, branch-finalization, and workflow-automation tasks unless the operator explicitly overrides these defaults.
+canon_uri: chittycanon://core/services/chittymarket#skills/nb-development-defaults
+---
+
+# NB Development Defaults
+
+Derived from repeated directives across local Claude and Codex histories.
+
+## Default Posture
+
+**Why `execute now` is safe here (BINDING caveat).** The entire system is managed by
+**one human**. Human diff-review therefore cannot be the quality gate — it does not
+scale, and a required-approval rule cannot be self-satisfied by a solo operator. The
+execute-now default is licensed by **separated adversarial AI review plus AI-driven
+CI/CD by automated agents/actors**, not by speed. The two move together: if the
+adversarial review and automated checks are not in the path, the license to act
+without asking is withdrawn and you fall back to proposing first.
+
+Concretely, `execute now` is authorized when all of the following hold:
+1. A **separated** reviewer (different agent, fresh context, ideally different model)
+   will adversarially review the diff before integration — see *Separated Adversarial
+   Review* below.
+2. Automated CI/CD gates are real and can actually fail (not `continue-on-error`, not
+   an empty required-check list, not a suite whose module never loaded).
+3. The action is reversible, or is covered by an explicit approval gate below.
+
+Approval gates that survive regardless: deployment, credential custody, destructive
+actions, external communications, spend, and irreversible operations. Those are
+genuine human decisions; diff approval is not.
+
+- Treat implementation-oriented requests as `execute now`, not `discuss first`.
+- Inspect the real codebase, logs, config, and runtime state before proposing conclusions.
+- Prefer doing the work end-to-end over handing back partial plans unless the user explicitly wants planning only.
+- Keep progress updates and final responses concise, direct, and high-signal.
+- Do not present option menus unless the user explicitly asks for choices or interactive mode.
+
+## Worktrees (default for parallel work)
+
+Multiple sessions run against the same clone. Work in an isolated worktree, not
+the shared checkout — a session that edits the primary tree while another holds
+an in-progress merge will collide.
+
+```bash
+git wt <branch>            # worktree from a freshly-fetched origin/main
+git wt <branch> <base-ref> # explicit base
+git wt --list
+git wt --rm <branch>       # remove worktree + branch
+```
+
+`git wt` (`~/.local/bin/git-wt`) exists because three failure modes recur:
+
+1. **Stale base.** `git worktree add` off `origin/main` uses whatever was last
+   fetched. `git wt` fetches first, so you never verify against old code.
+2. **No `node_modules`.** A bare worktree makes vitest exit with
+   `ERR_MODULE_NOT_FOUND` — which greps as *zero failures*. Tests look green
+   while nothing ran. `git wt` symlinks `node_modules` / `.venv` from the root.
+3. **`git stash` is repository-global, not worktree-local.** Stashing while a
+   parallel session is active can pop *their* entry. Use a worktree instead of
+   stashing; `git wt` never stashes.
+
+Global git defaults set for this workflow: `rerere.enabled` + `rerere.autoupdate`
+(conflict resolutions replay across worktrees), `worktree.guessRemote`,
+`fetch.prune`, `push.default=current`, `push.autoSetupRemote`.
+
+Before editing the primary checkout, `git status` for `MERGE_HEAD` / `UU`
+markers — another session may be mid-merge.
+
+## Engineering Workflow
+
+1. Inspect current state with fast local tools.
+2. Make the smallest coherent change that solves the real problem.
+3. Validate with the most relevant evidence available:
+   - tests
+   - lint/typecheck
+   - live endpoint checks
+   - repo state / logs / CLI output
+4. If the task is branch-finishing work, default to non-interactive completion:
+   - commit
+   - push
+   - create or update PR
+   - enable auto-merge when allowed
+   - report PR URL, checks, and blockers
+
+### Integrating after an upstream squash-merge
+
+When upstream squash-merges commits your branch still carries individually, the
+branch and `origin/main` hold the same content by different history and `git
+merge` conflicts. Do **not** reach for rebase-and-force — merge `origin/main`
+into the branch instead. It fast-forward-pushes, keeps remote history intact,
+and never needs a force flag the operator may (rightly) deny.
+
+Before any integration, confirm the diff is only what you intend:
+
+```bash
+git diff origin/main...HEAD --stat            # must list exactly your files
+git diff --diff-filter=D --name-only origin/main main   # unique-to-local check
+```
+
+The first catches a merge that silently reverts someone else's landed work. The
+second must be run before `git reset --hard origin/main` on a diverged local
+`main` — it proves nothing exists only locally.
+
+## Work Registration and Synchronization
+
+- Treat the conversation as the command surface. Do not make the user manually copy plans, findings, or status between agents and work trackers.
+- For implementation work that spans turns, agents, or systems, identify an existing canonical work item before creating one.
+- If no work item exists and tracker access is available, register the work once with a stable, project-agnostic work key derived from the repository/service and outcome. Reuse that key for every update to prevent duplicates.
+- Prefer GitHub as the source of truth for code scope, acceptance criteria, commits, tests, and pull requests. Use Linear or another planning tracker as a linked workflow projection for priority, ownership, phase, blockers, and status.
+- Synchronize approved requirements, corrections, implementation results, links, and blockers through available integrations. Amend existing records rather than asking the user to ferry text between systems.
+- Preserve provenance: link the canonical issue, projected tracker item, branch, pull request, and relevant evidence in both directions when supported.
+- Do not create competing specifications in multiple systems. Put technical detail in the code tracker and summarize or link it from planning tools.
+- Do not invent tracker projects, teams, labels, fields, statuses, or schemas. Discover existing options first; if required routing is unknown, keep a prepared work payload and ask only for the missing decision.
+- Creating or updating ordinary in-scope work records is a normal workflow step. Preserve explicit approval gates for deployment, credential custody, destructive actions, external communications, and other materially consequential changes.
+- On handoff, dispatch the canonical work reference rather than a copied narrative. Subsequent agents must read the current record, perform the work, and write results back to the same work chain.
+
+## Separated Adversarial Review (BINDING — one human, many AI)
+
+There is one human operator; human diff-review does not scale and must never be the quality gate. Quality comes from **separation of concerns between AI**, not from the human.
+
+- **Reviewer ≠ implementer.** Every non-trivial change is reviewed by a *separated* reviewer — a different agent, a fresh context, and ideally a different model (the chittyclaw AI-gateway, or a distinct code-reviewer / silent-failure-hunter subagent). An agent never adversarially reviews its own diff.
+- **Adversarial framing.** The reviewer is prompted to *break* the change — hunt auth bypass, fail-open paths, silent failures, unawaited promises, state/races — not to bless it. Happy-path tests passing is not evidence of correctness; a separated pass routinely finds what the implementer's own harness missed.
+- **Real-behavior tests are not a substitute for separation.** No-mocks is necessary, not sufficient. When one agent writes the code and its tests in the same pass, both can be wrong in the same direction, and the suite then *encodes the defect as the intended contract* — it asserts the buggy count, or guards an exit code the code never sets. A green no-mock suite authored by the implementer is evidence of internal consistency, not correctness, and reporting it as validation is a false all-clear. Point the reviewer at the tests as a first-class target: ask which assertions would still pass if the behavior were wrong.
+- **Revise → re-verify → integrate.** Findings loop back through a revision pass, then the work is re-verified against real backends (typecheck + live harness, no mocks). Only then integrate non-interactively.
+- **Do not block a merge on human PR approval.** With one human author a required-review rule can't be self-satisfied; when AI review is done+fixed and checks are green, complete the merge (`gh pr merge --admin --squash`, operator has admin). Reserve human attention for genuine decisions (spend, architecture, irreversible ops, external comms) — not diff approval.
+
+Standard dev loop: implement (agent A) → adversarial review (separated agent/model B) → revise → re-verify → integrate.
+
+## ChittyOS Defaults
+
+### Discovery-first: ask who owns it BEFORE designing (BINDING)
+
+**The recurring failure mode is treating the current repo as the system boundary.**
+Standing in a repo and grepping it is not discovery — it is a survey shaped by the
+answer you already assumed, and it reliably misses the service that already does the
+job. Before designing, scaffolding, proposing an architecture, or writing a build
+spec, identify the **owning service** first:
+
+1. **`/helper` (chittyhelper)** — the architectural navigator. "Which service handles
+   X?" One call, answered against the live registry.
+2. **`ch1tty/cast`** — for intent-driven work when the owner is not yet known.
+3. Only then: `CHARTER.md` / `CHITTY.md` / `AGENTS.md` of the services it names, and
+   the repos themselves.
+
+Symptoms that this step was skipped: proposing a component that a `chittyagent-*`
+worker already exposes; designing a durable store when a Neon-backed canonical
+primitive exists; a build spec whose `composes_with` fields are all greenfield.
+`chittyentity/workers/` holds 50+ agent workers and `chittyentity/workers/shared/`
+holds the canonical primitives (`agent-protocol`, `remediation-loop`, `alchemize`,
+`governance`, `ledger-write`, `chronicle-queue`) — read these before concluding
+something does not exist.
+
+A grep that finds nothing is evidence about your search, not about the ecosystem.
+
+- Discover the existing ecosystem before designing, scaffolding, or integrating:
+  - ask `/helper` or `ch1tty/cast` who owns the capability
+  - query ChittyRegistry (`/api/v1/tools` only — `/search`, `/categories`, `/stats`
+    return hardcoded mock data)
+  - read `CHARTER.md`, `CHITTY.md`, and `AGENTS.md`
+  - inspect relevant repos before inventing new service boundaries
+- Reuse canonical ChittyOS patterns before introducing new ones.
+- Treat auth, token, and credential flows as centralized concerns:
+  - prefer ChittyConnect / ChittyAuth / ChittyID / ChittyCert patterns
+  - delegate secret access to the ChittySecrets / ChittyConnect broker — never inject, resolve, or fetch a value yourself (1Password is RETIRED)
+  - avoid ad hoc credential sprawl or parallel auth UX unless clearly justified
+- Respect canonical governance and compliance artifacts when naming, modeling, or wiring services.
+
+## Credentials & Secrets (highest-consequence — see `references/secrets.md`)
+
+- **The operator has ZERO credential access — a hard organizational constraint.** Never ask the user to retrieve, paste, rotate, or relay a secret. **No credential value may appear in chat — ever** (not from the user, tool output, or "examples").
+- **Credentials are never your job — delegate first.** For any credential/secret/token/binding/OAuth intent, your first move is `chittyconnect-concierge` (`/chico`), BEFORE any secret CLI or grep. Never resolve/inject/present a value yourself — a bound service or the broker holds the binding and makes the call; you supply only the payload. (1Password/`op` is RETIRED — see `references/secrets.md`.)
+- **Never grep-and-destroy a credential** (item-ID references make name-greps unsound). **Fail closed** with canonical `POLICY_BLOCKED_*` codes when the broker is unavailable — never fall back to chat.
+- Canonical system: **ChittySecrets** (`secrets.chitty.cc`, Layer 0) fronting Cloudflare Secrets Store (hot `env.*`) → `getServiceToken()` at call site → KV cache-only. 1Password RETIRED. Classify before placing: URLs/DB-IDs → `vars`, tokens/keys → Secrets Store.
+
+## Environment & Host (see `references/environment.md`)
+
+- **Host duality (CONDITIONAL — check where you are first):** `~/.ops` / `~/projects` in
+  CLAUDE.md are **VM paths**. **This rule binds only when you are running on a
+  non-`chittyserv-vm` host.** If the session is already on `chittyserv-vm`, the paths
+  resolve locally and there is nothing to SSH into — do not add a redundant SSH hop.
+  Determine the host before applying this (`hostname`, or the ChittyContext viewport
+  line, e.g. `@chittyserv-vm`).
+  When on the Mac: baselines live at `/Volumes/chitty/Workspace/openclaw/ops/`,
+  ChittyOS repos are VM-only, and repo commands **run on `chittyserv-vm` via SSH**.
+- **`chittymini-00` = the operator ("me") — the personal orchestration seat you work *from*.** It pivots in and out of the cluster and takes *temporary, travel-scoped* cluster-adjacent roles (e.g. the tether gateway) because it's where the operator is — but don't pin *persistent* always-on infra (standing gateway, subnet router, exit node, iMessage host) to it; that belongs on `chittyserv-vm` or `chittymini-02..06`.
+- Posture is governed by Consciousness Coordinates `{TY, VY, RY, tau}` and the lane model (default `implementation`); high-RY/operations lane is required and gated for secrets/deploy/destructive actions.
+
+## MCP Hierarchy — ch1tty is the umbrella
+
+**Ch1tty is the top of the MCP tree, not a peer that gets bypassed.** Model it like Cloudflare's MCP surface — `mcp.cloudflare.com/mcp` is the umbrella, and workers-bindings / browser-rendering / autorag / observability / ai-gateway all sit underneath. The same shape applies here:
+
+```
+ch1tty (5 meta-tools: search / execute / status / reload / cast)
+  ├─ ChittyMCP (mcp.chitty.cc)  — all chittyagent-* tools (167+)
+  ├─ Cloudflare MCP             — workers / R2 / KV / browser
+  ├─ GitHub MCP                 — repos / issues / PRs
+  ├─ Notion MCP                 — pages / databases
+  ├─ Neon MCP                   — projects / branches / SQL
+  └─ everything else, including future MCP backends
+```
+
+Ch1tty's README states the contract explicitly: *"If the runtime exposes raw backend tools directly, the deployment is out of contract."* If you reach for a raw ChittyMCP / Notion / GitHub tool, you've bypassed the hierarch.
+
+### When to use which path
+
+| Path | When |
+|---|---|
+| **`ch1tty/cast`** | Default for orchestration, intent-driven work, or "I want to do X find the tool." This is the wizard layer and the canonical entry. |
+| **`ch1tty/search` + `ch1tty/execute`** | When you want to discover candidates first, then invoke explicitly. |
+| **`ch1tty/status`** | Health / session / coordinator state. |
+| **`/helper` (chittyhelper)** | "Which service handles X?" — the architectural navigator, used before designing or scaffolding. |
+| **Raw ChittyMCP / Notion / GitHub tool direct** | ONLY when the operation is single-tool, well-known, and would not benefit from cast's intent resolution or the coordinator's affinity tracking (e.g. you already know `tasks_claim` is exactly what you need). |
+
+### When briefing subagents
+
+Every dispatched subagent should default to `ch1tty/cast` for orchestration and discovery. Use raw tools only when the tool name is known up-front and the work is single-tool. Mention the hierarch explicitly in the brief; do not assume the agent will infer it from the directive injection.
+
+### Why this matters
+
+- **In contract** — ch1tty's slim surface is the documented client contract.
+- **Coordinator affinity + alchemist observation** — bypassing ch1tty means the SessionCoordinator can't track tool patterns and the Alchemist can't spot composable recipes for promoting into focused `apps/*-mcp` services.
+- **Focus profiles** (finance / governance / design) — only bias `cast`/`search`; direct ChittyMCP calls ignore the lens.
+- **Cross-backend composition** — a `cast` like "search GitHub for X and write a Notion page about it" only works through ch1tty.
+
+## Interaction Rules
+
+- Default to action over explanation.
+- Default to verification over speculation.
+- Default to persistence over repetition:
+  - if a preference or workflow is recurring, encode it in a skill, hook, config, script, or AGENTS layer
+  - do not make the user restate stable preferences every session
+- When a workflow is obviously repetitive, propose or create automation rather than leave it manual.
+- If blocked, surface the blocker crisply and state the next concrete step.
+
+## Correction Loop Rules
+
+- Treat `no`, `i mean`, `actual`, pasted file excerpts, raw tool output, and terse redirects as high-priority course corrections.
+- When corrected, drop the previous assumption immediately instead of defending it or continuing the old branch of reasoning.
+- If the user pastes concrete evidence, use that evidence as the new source of truth and narrow the next step to it.
+- Treat short follow-ups like `continue`, `yes`, file names, and merge-status questions as operational instructions, not invitations for broad re-explanation.
+- After interruption, resume from the last concrete work state instead of restarting with a long recap.
+
+## Workers Builds (CF CI/CD)
+
+All ChittyOS workers deploy via Cloudflare Workers Builds (git-triggered). Config is managed via API, not dashboard.
+
+- **API base**: `https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/builds/`
+- **Auth**: `Authorization: Bearer {cfut_ account token}` — needs "Workers Builds Configuration:Edit" permission
+- **Script ID**: Use script TAG (not name). Get via `GET /workers/services/{name}` → `.result.default_environment.script_tag`
+- **Triggers**: Each worker has 2 (production branch + non-production). PATCH to update, POST to create.
+- **Key endpoints**: `/builds/triggers` (CRUD), `/builds/workers/{script_tag}/triggers` (list), `/builds/triggers/{uuid}/builds` (manual trigger)
+- **Pattern**: Workers with `env.production` blocks deploy via `npx wrangler deploy --env production`
+- **Shared deps**: Workers importing from `../shared/` use build command `cd ../shared && npm ci`
+- **Watch paths**: Shared importers watch both `/workers/{name}/*` and `/workers/shared/*`
+
+## Review and Audit Bias
+
+- For review requests, findings come first.
+- For audits, prioritize behavioral regressions, missing validation, auth/compliance gaps, and ecosystem drift.
+- For debugging, prove the failure mode with direct evidence before declaring root cause.
+- Silent failures live in CI config too. `continue-on-error: true` on a job that has never passed reports the workflow green forever — a check you pay for and never receive. When a job shows `fail` while its workflow shows `success`, treat the mask as the finding: fix the job and drop the flag, or delete the job. Same reflex for a required-check list that is empty, a test step that exits 0 on no tests found, and a green suite whose module never loaded (`ERR_MODULE_NOT_FOUND` greps as zero failures).
+
+## References (load on demand — progressive disclosure)
+
+Detailed operational knowledge lives in `references/`; load the relevant file when a task touches that domain rather than carrying it all in context:
+
+- **`references/environment.md`** — host duality (VM vs local), node roles, conflict precedence, Consciousness Coordinates + lanes, P/L/T/E/A ontology, capability centralization, workspace map, service topology.
+- **`references/network.md`** — tailnet topology (`cockatoo-dominant.ts.net`), Homebrew-only Tailscale on -00, split-DNS dependency, the iPhone-tether internet-sharing chain, the two home networks, DHCP gotchas.
+- **`references/secrets.md`** — the full credential/secret model, broker-first rules, tiering, canonical error codes, wrangler gotchas, the in-progress migration, canonical paths.
+- **`references/llm-routing.md`** — Cloudflare AI Gateway as the model router, chittyclaw/OpenClaw, the `three-wise-men` dynamic route, ai-parity config distribution, deploy/verify.
+
+Cross-agent packaging lives in `agents/openai.yaml` (ChatGPT/Codex/API/Atlas, implicit invocation).

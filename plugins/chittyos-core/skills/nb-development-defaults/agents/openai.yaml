@@ -1,0 +1,15 @@
+interface:
+  display_name: nb development defaults
+  short_description: Global development defaults for this user. Use for almost all
+    coding, debugging, ChittyOS integration, architecture, compliance, auth/token,
+    branch-finalization, and workflow-automation tasks unless the user explicitly
+    overrides these defaults.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
