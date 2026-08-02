@@ -1,6 +1,6 @@
 ---
 name: nb-development-defaults
-description: Global development defaults for this operator — execute-now posture (licensed by separated adversarial AI review + AI-driven CI/CD, since one human manages the entire system and human diff-review cannot be the gate), discovery-first via /helper or ch1tty/cast before designing, worktree-isolated parallel work, broker-first credentials (1Password RETIRED — ChittySecrets is canonical), ChittyOS ecosystem discovery, non-interactive branch finalization. Use for almost all coding, debugging, ChittyOS integration, architecture, compliance, auth/token, branch-finalization, and workflow-automation tasks unless the operator explicitly overrides these defaults.
+description: Global development defaults for this operator. Use for almost all coding, debugging, ChittyOS integration, architecture, compliance, auth/token, branch-finalization, and workflow-automation tasks unless the operator explicitly overrides these defaults. Covers conditional execute-now posture, discovery-first (service + capability), separated adversarial review, worktree isolation, broker-first credentials (1Password RETIRED), and non-interactive branch finalization.
 canon_uri: chittycanon://core/services/chittymarket#skills/nb-development-defaults
 ---
 
@@ -18,19 +18,29 @@ CI/CD by automated agents/actors**, not by speed. The two move together: if the
 adversarial review and automated checks are not in the path, the license to act
 without asking is withdrawn and you fall back to proposing first.
 
-Concretely, `execute now` is authorized when all of the following hold:
-1. A **separated** reviewer (different agent, fresh context, ideally different model)
-   will adversarially review the diff before integration — see *Separated Adversarial
-   Review* below.
-2. Automated CI/CD gates are real and can actually fail (not `continue-on-error`, not
-   an empty required-check list, not a suite whose module never loaded).
-3. The action is reversible, or is covered by an explicit approval gate below.
+Concretely, `execute now` is authorized when all of the following hold. These are
+**checked before acting**, not promised for later:
+
+1. **A separated reviewer is dispatchable now** — different agent, fresh context,
+   ideally a different model. If you cannot dispatch one for this change, you do not
+   have the license. See *Separated Adversarial Review* below.
+2. **The CI gates on this repo can actually fail.** Verify, do not assume: read the
+   workflow files for `continue-on-error: true` on a job that has never passed, a
+   required-check list that is empty, a test step that exits 0 when no tests are
+   found, and a suite whose module never loaded (`ERR_MODULE_NOT_FOUND` greps as zero
+   failures). A gate you did not read is a gate you cannot count.
+3. **The action is reversible**, or is covered by an explicit approval gate below.
+
+If a condition fails, say which one and propose instead — do not act and note the gap
+afterward. Acting first and disclosing second is the failure this caveat exists to
+prevent.
 
 Approval gates that survive regardless: deployment, credential custody, destructive
 actions, external communications, spend, and irreversible operations. Those are
 genuine human decisions; diff approval is not.
 
-- Treat implementation-oriented requests as `execute now`, not `discuss first`.
+- Treat implementation-oriented requests as `execute now`, not `discuss first` —
+  **when the three conditions above hold**. If they do not, propose first.
 - Inspect the real codebase, logs, config, and runtime state before proposing conclusions.
 - Prefer doing the work end-to-end over handing back partial plans unless the user explicitly wants planning only.
 - Keep progress updates and final responses concise, direct, and high-signal.
@@ -76,11 +86,14 @@ markers — another session may be mid-merge.
    - lint/typecheck
    - live endpoint checks
    - repo state / logs / CLI output
-4. If the task is branch-finishing work, default to non-interactive completion:
+4. If the task is branch-finishing work, default to non-interactive completion —
+   **gated on separated adversarial review having run and its findings addressed,
+   and on CI checks that can actually fail being green**:
    - commit
    - push
    - create or update PR
-   - enable auto-merge when allowed
+   - dispatch the separated adversarial reviewer; address findings; re-verify
+   - enable auto-merge when allowed **and** the above gates are satisfied
    - report PR URL, checks, and blockers
 
 ### Integrating after an upstream squash-merge
@@ -127,6 +140,10 @@ There is one human operator; human diff-review does not scale and must never be 
 
 Standard dev loop: implement (agent A) → adversarial review (separated agent/model B) → revise → re-verify → integrate.
 
+`scripts/adversarial-review.sh` (bundled with this skill) dispatches the separated
+reviewer — use it rather than hand-rolling the dispatch, so the review framing stays
+adversarial and consistent across sessions.
+
 ## ChittyOS Defaults
 
 ### Discovery-first: ask who owns it BEFORE designing (BINDING)
@@ -134,8 +151,20 @@ Standard dev loop: implement (agent A) → adversarial review (separated agent/m
 **The recurring failure mode is treating the current repo as the system boundary.**
 Standing in a repo and grepping it is not discovery — it is a survey shaped by the
 answer you already assumed, and it reliably misses the service that already does the
-job. Before designing, scaffolding, proposing an architecture, or writing a build
-spec, identify the **owning service** first:
+job.
+
+**When this fires (narrow, on purpose):** proposing a NEW capability, service,
+component, workflow, or durable store; writing a build spec or architecture; or
+scaffolding a new artifact. **It does not fire** on editing existing code, fixing a
+bug, wiring two existing functions together, or any change whose `composes_with` is
+already known. If you are not adding a new box to the system, skip it.
+
+**If `/helper` or the registry is unreachable:** say so explicitly, state which
+discovery step you could not complete, and treat any resulting design as provisional.
+Silent skip is the failure mode — an unavailable navigator is a caveat on your
+conclusion, not permission to proceed as if you had checked.
+
+When it fires, identify the **owning service** first:
 
 These are **two different questions** and you need both. Service discovery asks *who
 runs this*; capability discovery asks *does this already exist, and where should a new
@@ -240,7 +269,8 @@ Every dispatched subagent should default to `ch1tty/cast` for orchestration and 
 
 ## Interaction Rules
 
-- Default to action over explanation.
+- Default to action over explanation — subject to the *Default Posture* conditions;
+  the license to act without asking is not unconditional.
 - Default to verification over speculation.
 - Default to persistence over repetition:
   - if a preference or workflow is recurring, encode it in a skill, hook, config, script, or AGENTS layer

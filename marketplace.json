@@ -3,12 +3,12 @@
   "lastSync": "2026-07-24T03:48:11.497651Z",
   "artifacts": [
     {
-      "_comment": "── MCP Servers (via Ch1tty) ──────────────────────────────────"
+      "_comment": "\u2500\u2500 MCP Servers (via Ch1tty) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
     },
     {
       "id": "remote",
       "name": "Read and Write ChittyOS",
-      "description": "ChittyOS MCP gateway — MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness",
+      "description": "ChittyOS MCP gateway \u2014 MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness",
       "type": "mcp-server",
       "category": "ecosystem",
       "access": "readwrite",
@@ -51,7 +51,7 @@
     {
       "id": "neon",
       "name": "Read and Write Neon Database",
-      "description": "Neon PostgreSQL — branches, migrations, SQL, schema management",
+      "description": "Neon PostgreSQL \u2014 branches, migrations, SQL, schema management",
       "type": "mcp-server",
       "category": "ecosystem",
       "access": "readwrite",
@@ -75,7 +75,7 @@
     {
       "id": "serena",
       "name": "Read and Write Source Code",
-      "description": "Serena LSP — semantic code intelligence, symbol navigation, refactoring",
+      "description": "Serena LSP \u2014 semantic code intelligence, symbol navigation, refactoring",
       "type": "mcp-server",
       "category": "code",
       "access": "readwrite",
@@ -120,7 +120,7 @@
     {
       "id": "evidence",
       "name": "Search Evidence Documents",
-      "description": "Cloudflare AutoRAG — evidence document search (case-scoped; invocation must pass a case parameter)",
+      "description": "Cloudflare AutoRAG \u2014 evidence document search (case-scoped; invocation must pass a case parameter)",
       "type": "mcp-server",
       "category": "search",
       "access": "read",
@@ -163,7 +163,7 @@
     {
       "id": "fs",
       "name": "Read and Write Filesystem",
-      "description": "MCP filesystem server — constrained to projects, Documents, Desktop",
+      "description": "MCP filesystem server \u2014 constrained to projects, Documents, Desktop",
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
@@ -184,7 +184,7 @@
     {
       "id": "desktop",
       "name": "Control your Mac",
-      "description": "Desktop commander — window management, screenshots, system control",
+      "description": "Desktop commander \u2014 window management, screenshots, system control",
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
@@ -205,7 +205,7 @@
     {
       "id": "chrome",
       "name": "Control Chrome",
-      "description": "Chrome browser automation — navigation, screenshots, forms, console",
+      "description": "Chrome browser automation \u2014 navigation, screenshots, forms, console",
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
@@ -226,7 +226,7 @@
     {
       "id": "playwright",
       "name": "Control Browser Automation",
-      "description": "Playwright MCP — cross-browser automation, testing, scraping",
+      "description": "Playwright MCP \u2014 cross-browser automation, testing, scraping",
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
@@ -311,7 +311,7 @@
       ]
     },
     {
-      "_comment": "── Skills ────────────────────────────────────────────────────"
+      "_comment": "\u2500\u2500 Skills \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
     },
     {
       "id": "skill-chittyxl",
@@ -364,7 +364,7 @@
     {
       "id": "skill-chittycontext",
       "name": "ChittyContext Checkpoints",
-      "description": "Persistent conversation state via JSON files — checkpoint, restore, status",
+      "description": "Persistent conversation state via JSON files \u2014 checkpoint, restore, status",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
@@ -388,7 +388,7 @@
     {
       "id": "skill-chitty-deploy",
       "name": "Deploy to Cloudflare Workers",
-      "description": "Deploy ChittyOS services via wrangler — /deploy command",
+      "description": "Deploy ChittyOS services via wrangler \u2014 /deploy command",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
@@ -411,7 +411,7 @@
     {
       "id": "skill-chitty-health",
       "name": "Health Check Services",
-      "description": "Health-check ChittyOS services at *.chitty.cc/health — /health command",
+      "description": "Health-check ChittyOS services at *.chitty.cc/health \u2014 /health command",
       "type": "skill",
       "category": "ecosystem",
       "access": "read",
@@ -434,7 +434,7 @@
     {
       "id": "skill-chitty-registry",
       "name": "Query Service Registry",
-      "description": "Query ChittyRegistry at registry.chitty.cc — /registry command",
+      "description": "Query ChittyRegistry at registry.chitty.cc \u2014 /registry command",
       "type": "skill",
       "category": "ecosystem",
       "access": "read",
@@ -457,7 +457,7 @@
     {
       "id": "skill-chitty-pipelines",
       "name": "Cloudflare Pipelines",
-      "description": "Manage Cloudflare Pipelines (stream/SQL/sink/R2) — /pipelines command",
+      "description": "Manage Cloudflare Pipelines (stream/SQL/sink/R2) \u2014 /pipelines command",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
@@ -503,7 +503,7 @@
     {
       "id": "skill-skill-creator",
       "name": "Skill Creator (ChittyMarket-routed)",
-      "description": "Overrides upstream skill-creator. Routes all skill artifacts through ChittyMarket — no local ~/.claude/skills/ writes; updates marketplace.json + regenerates native manifest.",
+      "description": "Overrides upstream skill-creator. Routes all skill artifacts through ChittyMarket \u2014 no local ~/.claude/skills/ writes; updates marketplace.json + regenerates native manifest.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
@@ -529,7 +529,7 @@
     {
       "id": "skill-goal-creator",
       "name": "Goal Creator",
-      "description": "Three-block (goal · conditions · not-met-until) pipeline driver: discover→elicit→architect→adversarial→SoT→build→persist→handoff. Pairs WITH the Claude Code built-in `/goal` (built-in enforces stop-gate; this skill runs the pipeline). Invoke via `/goal-creator` or planning-intent phrases.",
+      "description": "Three-block (goal \u00b7 conditions \u00b7 not-met-until) pipeline driver: discover\u2192elicit\u2192architect\u2192adversarial\u2192SoT\u2192build\u2192persist\u2192handoff. Pairs WITH the Claude Code built-in `/goal` (built-in enforces stop-gate; this skill runs the pipeline). Invoke via `/goal-creator` or planning-intent phrases.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
@@ -703,7 +703,7 @@
     {
       "id": "skill-market",
       "name": "ChittyMarket Manager",
-      "description": "Manage all Claude Code artifacts — list, enable, disable, info, mode, sync",
+      "description": "Manage all Claude Code artifacts \u2014 list, enable, disable, info, mode, sync",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
@@ -725,12 +725,12 @@
       ]
     },
     {
-      "_comment": "── Official Plugins ──────────────────────────────────────────"
+      "_comment": "\u2500\u2500 Official Plugins \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
     },
     {
       "id": "plugin-agent-sdk-dev",
       "name": "Agent SDK Dev",
-      "description": "Claude Agent SDK development tools — create, verify, test agent apps",
+      "description": "Claude Agent SDK development tools \u2014 create, verify, test agent apps",
       "type": "plugin",
       "category": "code",
       "access": "readwrite",
@@ -823,7 +823,7 @@
     {
       "id": "plugin-github",
       "name": "GitHub",
-      "description": "GitHub integration — issues, PRs, checks, releases",
+      "description": "GitHub integration \u2014 issues, PRs, checks, releases",
       "type": "plugin",
       "category": "code",
       "access": "readwrite",
@@ -870,7 +870,7 @@
     {
       "id": "plugin-hookify",
       "name": "Hookify",
-      "description": "Create hooks to prevent unwanted behaviors — rule management",
+      "description": "Create hooks to prevent unwanted behaviors \u2014 rule management",
       "type": "plugin",
       "category": "automation",
       "access": "readwrite",
@@ -917,7 +917,7 @@
     {
       "id": "plugin-notion",
       "name": "Notion",
-      "description": "Notion workspace integration — pages, databases, comments",
+      "description": "Notion workspace integration \u2014 pages, databases, comments",
       "type": "plugin",
       "category": "communication",
       "access": "readwrite",
@@ -962,7 +962,7 @@
     {
       "id": "plugin-pr-review-toolkit",
       "name": "PR Review Toolkit",
-      "description": "Comprehensive PR review — code, types, tests, comments, silent failures",
+      "description": "Comprehensive PR review \u2014 code, types, tests, comments, silent failures",
       "type": "plugin",
       "category": "code",
       "access": "read",
@@ -1377,7 +1377,7 @@
     {
       "id": "plugin-huggingface-skills",
       "name": "Hugging Face Skills",
-      "description": "Hugging Face Hub tools — models, datasets, papers, spaces",
+      "description": "Hugging Face Hub tools \u2014 models, datasets, papers, spaces",
       "type": "plugin",
       "category": "code",
       "access": "read",
@@ -1514,12 +1514,12 @@
       ]
     },
     {
-      "_comment": "── Local Plugins ─────────────────────────────────────────────"
+      "_comment": "\u2500\u2500 Local Plugins \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
     },
     {
       "id": "plugin-chittyhelper",
       "name": "ChittyHelper",
-      "description": "Architectural navigation — ask which service handles X?",
+      "description": "Architectural navigation \u2014 ask which service handles X?",
       "type": "plugin",
       "category": "ecosystem",
       "access": "read",
@@ -1632,7 +1632,7 @@
       ]
     },
     {
-      "_comment": "── Agents ────────────────────────────────────────────────────"
+      "_comment": "\u2500\u2500 Agents \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
     },
     {
       "id": "agent-chittyagent-schema",
@@ -1844,7 +1844,7 @@
       ]
     },
     {
-      "_comment": "── Hooks (Hookify Rules) ─────────────────────────────────────"
+      "_comment": "\u2500\u2500 Hooks (Hookify Rules) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
     },
     {
       "id": "hook-validate-entity-types",
@@ -1896,7 +1896,7 @@
     {
       "id": "hook-block-chittyid-generation",
       "name": "Block ChittyID Generation",
-      "description": "Block local ChittyID generation — must use mint service",
+      "description": "Block local ChittyID generation \u2014 must use mint service",
       "type": "hook",
       "category": "ecosystem",
       "access": "read",
@@ -1988,7 +1988,7 @@
     {
       "id": "hook-block-direct-deploy",
       "name": "Block Direct Deploy",
-      "description": "Block direct deploys — must use /deploy skill",
+      "description": "Block direct deploys \u2014 must use /deploy skill",
       "type": "hook",
       "category": "ecosystem",
       "access": "read",
@@ -2078,12 +2078,12 @@
       ]
     },
     {
-      "_comment": "── Claude.ai MCP Servers (deferred) ─────────────────────────"
+      "_comment": "\u2500\u2500 Claude.ai MCP Servers (deferred) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
     },
     {
       "id": "claude-ai-notion",
       "name": "Notion (Claude.ai)",
-      "description": "Notion workspace — search, pages, databases, comments via Claude.ai",
+      "description": "Notion workspace \u2014 search, pages, databases, comments via Claude.ai",
       "type": "mcp-server",
       "category": "communication",
       "access": "readwrite",
@@ -2180,7 +2180,7 @@
     {
       "id": "claude-ai-huggingface",
       "name": "Hugging Face (Claude.ai)",
-      "description": "Hugging Face Hub — models, datasets, papers, spaces, doc search",
+      "description": "Hugging Face Hub \u2014 models, datasets, papers, spaces, doc search",
       "type": "mcp-server",
       "category": "code",
       "access": "read",
@@ -2229,7 +2229,7 @@
     {
       "id": "claude-ai-gmail",
       "name": "Gmail (Claude.ai)",
-      "description": "Gmail — search, read messages/threads, drafts, labels",
+      "description": "Gmail \u2014 search, read messages/threads, drafts, labels",
       "type": "mcp-server",
       "category": "communication",
       "access": "readwrite",
@@ -2253,7 +2253,7 @@
     {
       "id": "claude-ai-google-calendar",
       "name": "Google Calendar (Claude.ai)",
-      "description": "Google Calendar — events, free time, scheduling, RSVP",
+      "description": "Google Calendar \u2014 events, free time, scheduling, RSVP",
       "type": "mcp-server",
       "category": "communication",
       "access": "readwrite",
@@ -2325,7 +2325,7 @@
     {
       "id": "claude-ai-chittymcp",
       "name": "ChittyMCP (Claude.ai)",
-      "description": "ChittyOS MCP via Claude.ai — identity, cases, evidence, facts, ledger, finance, memory, credentials",
+      "description": "ChittyOS MCP via Claude.ai \u2014 identity, cases, evidence, facts, ledger, finance, memory, credentials",
       "type": "mcp-server",
       "category": "ecosystem",
       "access": "readwrite",
@@ -2350,7 +2350,7 @@
     {
       "id": "claude-ai-jam",
       "name": "Jam Bug Reports (Claude.ai)",
-      "description": "Jam bug reports — details, network, console, screenshots, video",
+      "description": "Jam bug reports \u2014 details, network, console, screenshots, video",
       "type": "mcp-server",
       "category": "code",
       "access": "read",
@@ -2422,7 +2422,7 @@
     {
       "id": "plugin-chittyagent-autobot",
       "name": "ChittyAgent Autobot",
-      "description": "Autonomous PR-driver — Sovereignty-cert gated workflow orchestrator. Successor to structured-autonomy trio.",
+      "description": "Autonomous PR-driver \u2014 Sovereignty-cert gated workflow orchestrator. Successor to structured-autonomy trio.",
       "type": "plugin",
       "category": "automation",
       "access": "readwrite",
@@ -2462,7 +2462,7 @@
     {
       "id": "skill-nb-development-defaults",
       "name": "NB Development Defaults",
-      "description": "Global development defaults for this operator — execute-now posture, Separated Adversarial Review (reviewer≠implementer, break-not-bless, no-mocks re-verify), broker-first credentials (1Password RETIRED), ChittyOS discovery, non-interactive branch finalization. Loaded for almost all coding/debugging/architecture tasks unless explicitly overridden.",
+      "description": "Global development defaults for this operator. Use for almost all coding, debugging, ChittyOS integration, architecture, compliance, auth/token, branch-finalization, and workflow-automation tasks unless the operator explicitly overrides these defaults. Covers conditional execute-now posture, discovery-first (service + capability), separated adversarial review, worktree isolation, broker-first credentials (1Password RETIRED), and non-interactive branch finalization.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
@@ -2472,7 +2472,8 @@
         "available": true,
         "type": "skill",
         "path": "plugins/chittyos-core/skills/nb-development-defaults",
-        "plugin": "chittyos-core"
+        "plugin": "chittyos-core",
+        "canonical": "canonical/skills/nb-development-defaults.md"
       },
       "ch1tty": {
         "available": false
@@ -2484,8 +2485,7 @@
         "workflow",
         "governance",
         "adversarial-review"
-      ],
-      "canonical": "canonical/skills/nb-development-defaults.md"
+      ]
     }
   ]
 }
