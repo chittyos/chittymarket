@@ -137,15 +137,30 @@ answer you already assumed, and it reliably misses the service that already does
 job. Before designing, scaffolding, proposing an architecture, or writing a build
 spec, identify the **owning service** first:
 
+These are **two different questions** and you need both. Service discovery asks *who
+runs this*; capability discovery asks *does this already exist, and where should a new
+one live*. Answering only the first still lets you rebuild something that already
+ships as a skill, agent, or MCP route.
+
 1. **`/helper` (chittyhelper)** — the architectural navigator. "Which service handles
    X?" One call, answered against the live registry.
-2. **`ch1tty/cast`** — for intent-driven work when the owner is not yet known.
-3. Only then: `CHARTER.md` / `CHITTY.md` / `AGENTS.md` of the services it names, and
+2. **`capability-registry-audit`** — BEFORE proposing any new skill, agent, tool, MCP
+   server, plugin, or manifest entry. Its own trigger is *"any new agent/tool/skill
+   proposal"* and the question it answers is *"is this a duplicate?"*. The canonical
+   inventory is `chittymarket/capabilities.generated.json` (104 capabilities, JTBD
+   group ids under `chittycanon://capability/`); `capability-governor` handles the
+   follow-on — classify, deduplicate, and decide skill vs plugin vs gateway vs local
+   integration. **Proposing a new capability without this audit is the default
+   failure**, not a shortcut.
+3. **`ch1tty/cast`** — for intent-driven work when the owner is not yet known.
+4. Only then: `CHARTER.md` / `CHITTY.md` / `AGENTS.md` of the services it names, and
    the repos themselves.
 
 Symptoms that this step was skipped: proposing a component that a `chittyagent-*`
 worker already exposes; designing a durable store when a Neon-backed canonical
-primitive exists; a build spec whose `composes_with` fields are all greenfield.
+primitive exists; a build spec whose `composes_with` fields are all greenfield;
+proposing a new skill/agent without a duplicate check against the capability
+registry.
 `chittyentity/workers/` holds 50+ agent workers and `chittyentity/workers/shared/`
 holds the canonical primitives (`agent-protocol`, `remediation-loop`, `alchemize`,
 `governance`, `ledger-write`, `chronicle-queue`) — read these before concluding
