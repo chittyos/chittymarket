@@ -10,6 +10,51 @@ runtimes:
 classification:
   - legal
   - evidence
+overlay:
+  title: Evidence Collection
+  capability_group: ship
+  execution_class: '@chitty/reasoning'
+  visibility: recommended
+  ontology:
+    primary:
+    - L
+    - E
+    secondary:
+    - A
+    - T
+  authority:
+    requires_chittyid: true
+    requires_deploy_authority: true
+    non_repudiation_required: true
+    evidence_gate: projection-internal
+  execution:
+    default_surface: ch1tty
+    local_allowed: false
+    context_cost: high
+    mutation_risk: high
+  discovery:
+    indexable: true
+    session_index: hidden
+    ambient_by_intent: false
+    verbs:
+    - deploy
+    - ship
+    - release
+    - wrangler
+    fallback_search: true
+  auth_flow:
+    mode: service-token
+    stores_credentials_in: ChittyConnect
+    fail_closed_if_unavailable: true
+  phase0_audit:
+    job_to_be_done: collect
+    environmental_footprint: forensic-legal-grade
+    evidentiary_risk: legal-grade
+    advisory_disposition: legal-only
+  canonical_version: 1.0.0
+  group_assignment_source: name-rule
+  runtime_exclusions: {}
+  legacy_category: legal
 ---
 
 # Evidence Collection — Canonical Pipeline

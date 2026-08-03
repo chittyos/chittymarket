@@ -15,6 +15,58 @@ runtimes:
 classification:
   - legal
   - evidence
+overlay:
+  title: Dispute Manager
+  capability_group: legal
+  execution_class: '@chitty/connectors'
+  visibility: recommended
+  ontology:
+    primary:
+    - E
+    - T
+    secondary:
+    - P
+    - L
+    - A
+  authority:
+    requires_chittyid: true
+    requires_case: true
+    write_scope: case-scoped
+    no_last_case_fallback: true
+    non_repudiation_required: true
+    evidence_gate: projection-internal
+  execution:
+    default_surface: ch1tty
+    local_allowed: false
+    context_cost: high
+    mutation_risk: high
+  discovery:
+    indexable: true
+    session_index: hidden
+    ambient_by_intent: false
+    verbs:
+    - evidence
+    - collect
+    - docket
+    - dispute
+    fallback_search: true
+  auth_flow:
+    mode: existing-session
+    stores_credentials_in: ChittyConnect
+    fail_closed_if_unavailable: true
+    requires_case_id: true
+    no_fallback_last_case: true
+  phase0_audit:
+    job_to_be_done: resolve
+    environmental_footprint: write-capable
+    evidentiary_risk: legal-grade
+    advisory_disposition: legal-only
+  canonical_version: 1.0.0
+  group_assignment_source: name-rule
+  runtime_exclusions:
+    openclaw:
+    - write_requires_policy_elevation
+  legacy_category: legal
 ---
 
 # Dispute — Issue/Dispute Management

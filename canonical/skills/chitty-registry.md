@@ -10,6 +10,49 @@ runtimes:
 classification:
   - operations
   - deployment
+overlay:
+  title: Query Service Registry
+  capability_group: ship
+  execution_class: '@chitty/connectors'
+  visibility: recommended
+  ontology:
+    primary:
+    - L
+    - E
+    secondary:
+    - A
+    - T
+  authority:
+    requires_chittyid: true
+    requires_deploy_authority: true
+  execution:
+    default_surface: ch1tty
+    local_allowed: false
+    context_cost: medium
+    mutation_risk: low
+  discovery:
+    indexable: true
+    session_index: hidden
+    ambient_by_intent: false
+    verbs:
+    - deploy
+    - ship
+    - release
+    - wrangler
+    fallback_search: true
+  auth_flow:
+    mode: service-token
+    stores_credentials_in: ChittyConnect
+    fail_closed_if_unavailable: true
+  phase0_audit:
+    job_to_be_done: route
+    environmental_footprint: network-service
+    evidentiary_risk: none
+    advisory_disposition: gateway
+  canonical_version: 1.0.0
+  group_assignment_source: override
+  runtime_exclusions: {}
+  legacy_category: ecosystem
 ---
 
 # ChittyOS Registry Skill

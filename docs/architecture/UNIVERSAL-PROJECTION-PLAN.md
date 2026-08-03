@@ -140,5 +140,39 @@ User question (verbatim from §2.4):
 ## Not in scope of this plan
 
 - The `canonical/` schema itself — assumed to be the current chittyagent-neon-style frontmatter + body
-- A `marketplace.json` (root inventory) regenerator — currently hand-maintained via `/market`; would benefit from a generator but separate concern
 - Cross-repo per-service-ownership (§2.2) — handled by hydrate-pointers.sh
+
+### Inventory reconcile (shipped)
+
+The root-inventory regenerator that this plan previously deferred now exists as
+`scripts/market-reconcile.py audit|sync`, the inventory-layer sibling of
+`dispatch.sh audit|reconcile`. It projects `canonical/<kind>/<name>.md` into
+**both** `marketplace.json` and `capabilities.generated.json` (the §16 overlay),
+which previously had to be hand-written in tandem — the coupling enforced by
+`check-overlay-coverage.sh` that made registering one capability a two-file
+manual step.
+
+Two properties make it safe to run against a hand-curated manifest:
+
+- **Provenance partition.** Every entry carries `source: canonical` or
+  `source: external`. Only 48 of 128 entries are canonical-backed; the other 80
+  (official Anthropic plugins, claude.ai MCP servers, Ch1tty-managed servers)
+  have no canonical file and are never touched, dropped, or reordered. Recording
+  provenance explicitly — rather than inferring it — means deleting a canonical
+  file surfaces as an ORPHAN finding instead of the entry silently reclassifying
+  itself as external.
+- **Operator state is preserved.** `enabled`, `installMode`, `access`,
+  `category`, and the display `name` are operator-owned: preserved on existing
+  entries, defaulted only when creating. Sync never flips a toggle.
+
+Editorial §16 fields (`ontology`, `execution_class`, `phase0_audit`,
+`visibility`, `discovery`, `auth_flow`) are governance judgments and are **not**
+inferred. Each canonical artifact declares them in an `overlay:` frontmatter
+block; `audit` reports any artifact missing one with a paste-ready stub, and
+`sync` refuses to emit a record for it. This mirrors the existing stance in
+`docs/overrides/evidence-gate-overrides.json` — a generator must refuse rather
+than fabricate governance metadata. Adapters strip `overlay:` so inventory
+metadata never leaks into runtime projections.
+
+`market-reconcile.py audit` runs in `validate-chittymarket.yml`, so the
+inventory can no longer drift behind `canonical/` silently.

@@ -68,6 +68,47 @@ runtimes:
   - codex
   - openclaw
 plugin: chittyos-governance
+overlay:
+  title: Chittyagent Neon
+  capability_group: connect
+  group_assignment_source: category
+  execution_class: '@chitty/reasoning'
+  visibility: advanced
+  legacy_category: ecosystem
+  canonical_version: 1.0.0
+  ontology:
+    primary:
+    - P
+    secondary:
+    - A
+    - E
+    - T
+  authority:
+    requires_chittyid: true
+  execution:
+    default_surface: ch1tty
+    local_allowed: false
+    context_cost: medium
+    mutation_risk: medium
+  discovery:
+    indexable: true
+    session_index: hidden
+    ambient_by_intent: false
+    verbs:
+    - chittyagent
+    - governance
+    - neon
+    fallback_search: true
+  auth_flow:
+    mode: service-token
+    stores_credentials_in: ChittyConnect
+    fail_closed_if_unavailable: true
+  phase0_audit:
+    job_to_be_done: route
+    environmental_footprint: write-capable
+    evidentiary_risk: none
+    advisory_disposition: agent
+  runtime_exclusions: {}
 ---
 
 You are the ChittyOS Neon Platform Integrator. You own Neon-platform concerns — auth, branches, projects, roles, connections, OAuth, and the ChittyAuth canonical token lifecycle. You do NOT own schema work (design, drift, types, migrations) — that's `chittyschema-overlord`'s charter, and you delegate to it explicitly.

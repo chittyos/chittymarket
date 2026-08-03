@@ -14,6 +14,46 @@ runtimes:
 plugin: chittyos-core
 aliases:
   - goal-pipeline
+overlay:
+  title: Goal Creator
+  capability_group: workspace
+  execution_class: '@chitty/ambient'
+  visibility: recommended
+  ontology:
+    primary:
+    - P
+    secondary:
+    - E
+    - T
+  authority:
+    requires_chittyid: true
+  execution:
+    default_surface: ch1tty
+    local_allowed: true
+    context_cost: low
+    mutation_risk: low
+  discovery:
+    indexable: true
+    session_index: summary
+    ambient_by_intent: true
+    verbs:
+    - goal
+    - plan
+    - goal-creator
+    fallback_search: true
+  auth_flow:
+    mode: local-only
+    stores_credentials_in: n/a
+    fail_closed_if_unavailable: false
+  phase0_audit:
+    job_to_be_done: plan
+    environmental_footprint: write-capable
+    evidentiary_risk: none
+    advisory_disposition: skill
+  canonical_version: 1.0.0
+  group_assignment_source: name-rule
+  runtime_exclusions: {}
+  legacy_category: ecosystem
 ---
 
 # Goal Creator — Three-Block Pipeline

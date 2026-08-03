@@ -1,5 +1,5 @@
 {
-  "canonical_sha": "eceb8b6d3f5043f01c2d274a94110756f1210ff6",
+  "canonical_sha": "a170e31538203b3b104b09279fb525165ca28d45",
   "targets": {
     "chatgpt-apps": "ca0259b09be40f294273e5271c0aecf4a2190f99",
     "claude-skills": "ca0259b09be40f294273e5271c0aecf4a2190f99"

@@ -47,7 +47,7 @@ for req in ("name", "description"):
     if not fm.get(req):
         sys.exit(f"canonical missing required field: {req}")
 
-CANONICAL_ONLY = {"kind", "classification", "runtimes", "plugin", "runtime_overrides"}
+CANONICAL_ONLY = {"kind", "classification", "runtimes", "plugin", "runtime_overrides", "overlay"}
 CLAUDE_CODE_ONLY = {"model", "color", "tools"}
 STRIP = CANONICAL_ONLY | CLAUDE_CODE_ONLY
 

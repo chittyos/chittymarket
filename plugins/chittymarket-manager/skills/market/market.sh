@@ -143,7 +143,7 @@ groups = {}
 for a in arts:
     groups.setdefault(a['type'], []).append(a)
 
-order = ['mcp-server', 'skill', 'plugin', 'agent', 'hook', 'extension']
+order = ['mcp-server', 'skill', 'plugin', 'agent', 'hook', 'command', 'tool', 'extension']
 total = enabled = 0
 for t in order:
     items = groups.get(t, [])

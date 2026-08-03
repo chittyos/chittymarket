@@ -10,6 +10,45 @@ runtimes:
 classification:
   - legal
   - evidence
+overlay:
+  title: Evidence Egress
+  capability_group: legal
+  group_assignment_source: category
+  execution_class: '@chitty/connectors'
+  visibility: advanced
+  legacy_category: legal
+  canonical_version: 1.0.0
+  ontology:
+    primary:
+    - T
+    secondary:
+    - A
+    - E
+  authority:
+    requires_chittyid: true
+  execution:
+    default_surface: ch1tty
+    local_allowed: false
+    context_cost: medium
+    mutation_risk: medium
+  discovery:
+    indexable: true
+    session_index: hidden
+    ambient_by_intent: false
+    verbs:
+    - evidence
+    - legal
+    fallback_search: true
+  auth_flow:
+    mode: service-token
+    stores_credentials_in: ChittyConnect
+    fail_closed_if_unavailable: true
+  phase0_audit:
+    job_to_be_done: route
+    environmental_footprint: write-capable
+    evidentiary_risk: none
+    advisory_disposition: skill
+  runtime_exclusions: {}
 ---
 
 # Evidence Egress — Audit Before You Move

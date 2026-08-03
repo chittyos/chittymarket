@@ -10,6 +10,46 @@ runtimes:
   - claude-code
   - codex
 plugin: chittyos-mcp
+overlay:
+  title: Cast
+  capability_group: agent-runtime
+  group_assignment_source: category
+  execution_class: '@chitty/connectors'
+  visibility: advanced
+  legacy_category: ecosystem
+  canonical_version: 1.0.0
+  ontology:
+    primary:
+    - T
+    secondary:
+    - A
+    - E
+  authority:
+    requires_chittyid: true
+  execution:
+    default_surface: ch1tty
+    local_allowed: false
+    context_cost: medium
+    mutation_risk: medium
+  discovery:
+    indexable: true
+    session_index: hidden
+    ambient_by_intent: false
+    verbs:
+    - cast
+    - orchestration
+    - mcp
+    fallback_search: true
+  auth_flow:
+    mode: service-token
+    stores_credentials_in: ChittyConnect
+    fail_closed_if_unavailable: true
+  phase0_audit:
+    job_to_be_done: route
+    environmental_footprint: write-capable
+    evidentiary_risk: none
+    advisory_disposition: skill
+  runtime_exclusions: {}
 ---
 
 # /cast — Route an intent through the ch1tty hierarch

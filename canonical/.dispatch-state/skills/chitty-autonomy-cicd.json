@@ -1,5 +1,5 @@
 {
-  "canonical_sha": "5ac95fa19dcd8f92e91c7b05ccb91f6140a7dafe",
+  "canonical_sha": "fa025694d6bdb973162096bb31f1b513b0940bfd",
   "targets": {
     "claude-code": "c0965b185ac29bd16fb0749245252729f8b689b1",
     "codex": "c0965b185ac29bd16fb0749245252729f8b689b1"

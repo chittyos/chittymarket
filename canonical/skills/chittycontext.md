@@ -10,6 +10,46 @@ runtimes:
 classification:
   - session
   - operations
+overlay:
+  title: ChittyContext Checkpoints
+  capability_group: workspace
+  execution_class: '@chitty/ambient'
+  visibility: recommended
+  ontology:
+    primary:
+    - P
+    secondary:
+    - E
+    - T
+  authority:
+    requires_chittyid: true
+  execution:
+    default_surface: ch1tty
+    local_allowed: true
+    context_cost: low
+    mutation_risk: low
+  discovery:
+    indexable: true
+    session_index: summary
+    ambient_by_intent: true
+    verbs:
+    - checkpoint
+    - restore
+    - remember
+    fallback_search: true
+  auth_flow:
+    mode: local-only
+    stores_credentials_in: n/a
+    fail_closed_if_unavailable: false
+  phase0_audit:
+    job_to_be_done: remember
+    environmental_footprint: filesystem-local
+    evidentiary_risk: none
+    advisory_disposition: local-only
+  canonical_version: 1.0.0
+  group_assignment_source: name-rule
+  runtime_exclusions: {}
+  legacy_category: ecosystem
 ---
 
 # ChittyContext Skill - Persistent State Management v2.1

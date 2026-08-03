@@ -7,6 +7,7 @@ on:
       - "plugins/**"
       - ".claude-plugin/**"
       - "marketplace.json"
+      - "capabilities.generated.json"
       - "profiles.json"
       - "scripts/**"
       - ".github/workflows/validate-chittymarket.yml"
@@ -69,6 +70,16 @@ jobs:
       #     is the content-addressing substrate the signing/trust layer binds to.
       - name: scripts/overlay-provenance.py verify
         run: python3 scripts/overlay-provenance.py verify
+
+      # 2f. Inventory reconciliation: every canonical/<kind>/<name>.md that
+      #     declares an `overlay:` block must have a matching marketplace.json
+      #     entry AND a matching §16 overlay record, with description/type/tags
+      #     in sync. Catches the failure mode that left the inventory behind
+      #     canonical/ and made registration a manual per-artifact punch list
+      #     (e.g. c46cc01 added a marketplace entry with no §16 record, which
+      #     broke check-overlay-coverage on main). Read-only; exit 1 on drift.
+      - name: scripts/market-reconcile.py audit
+        run: python3 scripts/market-reconcile.py audit
 
       # 3a. Dispatch idempotency (adversarial review #3): re-running
       #     dispatch.sh sync must not change any projection file. Catches

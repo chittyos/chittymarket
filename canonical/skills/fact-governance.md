@@ -10,6 +10,52 @@ runtimes:
 classification:
   - legal
   - evidence
+overlay:
+  title: Fact Governance
+  capability_group: govern
+  execution_class: '@chitty/reasoning'
+  visibility: recommended
+  ontology:
+    primary:
+    - A
+    secondary:
+    - P
+    - E
+    - T
+  authority:
+    requires_chittyid: true
+    requires_governance_authority: true
+    non_repudiation_required: true
+    evidence_gate: projection-internal
+  execution:
+    default_surface: ch1tty
+    local_allowed: false
+    context_cost: high
+    mutation_risk: high
+  discovery:
+    indexable: true
+    session_index: hidden
+    ambient_by_intent: false
+    verbs:
+    - govern
+    - audit
+    - validate
+    - certify
+    - enforce
+    fallback_search: true
+  auth_flow:
+    mode: service-token
+    stores_credentials_in: ChittyConnect
+    fail_closed_if_unavailable: true
+  phase0_audit:
+    job_to_be_done: generate
+    environmental_footprint: forensic-legal-grade
+    evidentiary_risk: legal-grade
+    advisory_disposition: legal-only
+  canonical_version: 1.0.0
+  group_assignment_source: name-rule
+  runtime_exclusions: {}
+  legacy_category: legal
 ---
 
 # Fact Governance — Evidence Pipeline

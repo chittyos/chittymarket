@@ -3,12 +3,12 @@
   "lastSync": "2026-07-18",
   "artifacts": [
     {
-      "_comment": "\u2500\u2500 MCP Servers (via Ch1tty) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+      "_comment": "── MCP Servers (via Ch1tty) ──────────────────────────────────"
     },
     {
       "id": "remote",
       "name": "Read and Write ChittyOS",
-      "description": "ChittyOS MCP gateway \u2014 MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness",
+      "description": "ChittyOS MCP gateway — MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness",
       "type": "mcp-server",
       "category": "ecosystem",
       "access": "readwrite",
@@ -25,7 +25,8 @@
         "mcp",
         "gateway",
         "memory"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "cloudflare",
@@ -46,36 +47,37 @@
         "cloudflare",
         "workers",
         "infrastructure"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "neon",
       "name": "Read and Write Neon Database",
-      "description": "Neon PostgreSQL \u2014 branches, migrations, SQL, schema management",
+      "description": "MCP server neon packaged by the neon-mcp plugin.",
       "type": "mcp-server",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "both",
-      "ch1tty": {
-        "serverId": "neon"
-      },
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "mcp-server",
         "ref": "Neon@claude-ai"
       },
+      "ch1tty": {
+        "serverId": "neon"
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp/neon",
       "tags": [
-        "database",
-        "postgres",
-        "neon",
-        "sql"
+        "mcp",
+        "integration"
       ]
     },
     {
       "id": "serena",
       "name": "Read and Write Source Code",
-      "description": "Serena LSP \u2014 semantic code intelligence, symbol navigation, refactoring",
+      "description": "Serena LSP — semantic code intelligence, symbol navigation, refactoring",
       "type": "mcp-server",
       "category": "code",
       "access": "readwrite",
@@ -94,7 +96,8 @@
         "lsp",
         "refactor",
         "semantic"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "quality",
@@ -115,12 +118,13 @@
         "quality",
         "metrics",
         "code"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "evidence",
       "name": "Search Evidence Documents",
-      "description": "Cloudflare AutoRAG \u2014 evidence document search (case-scoped; invocation must pass a case parameter)",
+      "description": "Cloudflare AutoRAG — evidence document search (case-scoped; invocation must pass a case parameter)",
       "type": "mcp-server",
       "category": "search",
       "access": "read",
@@ -137,7 +141,8 @@
         "evidence",
         "legal",
         "rag"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "thinking",
@@ -158,12 +163,13 @@
         "reasoning",
         "thinking",
         "stdlib"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "fs",
       "name": "Read and Write Filesystem",
-      "description": "MCP filesystem server \u2014 constrained to projects, Documents, Desktop",
+      "description": "MCP filesystem server — constrained to projects, Documents, Desktop",
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
@@ -179,12 +185,13 @@
         "filesystem",
         "files",
         "desktop"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "desktop",
       "name": "Control your Mac",
-      "description": "Desktop commander \u2014 window management, screenshots, system control",
+      "description": "Desktop commander — window management, screenshots, system control",
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
@@ -200,12 +207,13 @@
         "desktop",
         "mac",
         "control"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "chrome",
       "name": "Control Chrome",
-      "description": "Chrome browser automation \u2014 navigation, screenshots, forms, console",
+      "description": "Chrome browser automation — navigation, screenshots, forms, console",
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
@@ -221,12 +229,13 @@
         "browser",
         "chrome",
         "automation"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "playwright",
       "name": "Control Browser Automation",
-      "description": "Playwright MCP \u2014 cross-browser automation, testing, scraping",
+      "description": "Playwright MCP — cross-browser automation, testing, scraping",
       "type": "mcp-server",
       "category": "desktop",
       "access": "readwrite",
@@ -245,7 +254,8 @@
         "playwright",
         "automation",
         "testing"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "pdf",
@@ -266,7 +276,8 @@
         "pdf",
         "documents",
         "forms"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "chittymac",
@@ -287,7 +298,8 @@
         "notes",
         "apple",
         "communication"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "imessage",
@@ -308,20 +320,22 @@
         "imessage",
         "messaging",
         "communication"
-      ]
+      ],
+      "source": "external"
     },
     {
-      "_comment": "\u2500\u2500 Skills \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+      "_comment": "── Skills ────────────────────────────────────────────────────"
     },
     {
       "id": "skill-chittyxl",
       "name": "ChittyXL Session Manager",
-      "description": "Session persistence, token tracking, auto-checkpointing at 20% intervals, Notion sync",
+      "description": "ChittyXL session manager — auto-checkpointing at token-budget intervals, Notion sync, persistent state across long sessions.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -330,22 +344,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/chittyxl",
       "tags": [
         "session",
-        "persistence",
-        "notion",
-        "tokens"
+        "operations"
       ]
     },
     {
       "id": "skill-fact-governance",
       "name": "Fact Governance",
-      "description": "Evidence lifecycle management (draft/verified/locked) for a specified case; requires `case` parameter",
+      "description": "Evidence fact governance for a specified case. Triggers on \"fact\", \"evidence\", \"verify\", \"verification\", case materials, dates/amounts/claims, or chittyevidence-db operations. REQUIRES an explicit `case` parameter — refuses to run without one. Manages fact lifecycle (draft→verified→locked), versioning, corrections, and Notion sync.",
       "type": "skill",
       "category": "legal",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -354,22 +368,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/fact-governance",
       "tags": [
         "legal",
-        "evidence",
-        "facts",
-        "governance"
+        "evidence"
       ]
     },
     {
       "id": "skill-chittycontext",
       "name": "ChittyContext Checkpoints",
-      "description": "Persistent conversation state via JSON files \u2014 checkpoint, restore, status",
+      "description": "ChittyContext session persistence — capture, restore, and inspect conversation state across sessions via checkpoint/restore/status JSON files.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -378,22 +392,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/chittycontext",
       "tags": [
-        "context",
-        "checkpoint",
-        "state",
-        "persistence"
+        "session",
+        "operations"
       ]
     },
     {
       "id": "skill-chitty-deploy",
       "name": "Deploy to Cloudflare Workers",
-      "description": "Deploy ChittyOS services via wrangler \u2014 /deploy command",
+      "description": "Deploy a ChittyOS service to Cloudflare Workers via SSH-bridged wrangler. Handles compatibility flags, secrets provisioning, and post-deploy health verification.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -402,21 +416,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/chitty-deploy",
       "tags": [
-        "deploy",
-        "cloudflare",
-        "workers"
+        "operations",
+        "deployment"
       ]
     },
     {
       "id": "skill-chitty-health",
       "name": "Health Check Services",
-      "description": "Health-check ChittyOS services at *.chitty.cc/health \u2014 /health command",
+      "description": "Hit /health endpoints across the ChittyOS ecosystem (*.chitty.cc), aggregate results, and report drift from expected status.",
       "type": "skill",
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -425,21 +440,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/chitty-health",
       "tags": [
-        "health",
-        "monitoring",
-        "services"
+        "operations",
+        "deployment"
       ]
     },
     {
       "id": "skill-chitty-registry",
       "name": "Query Service Registry",
-      "description": "Query ChittyRegistry at registry.chitty.cc \u2014 /registry command",
+      "description": "Query ChittyRegistry (registry.chitty.cc) for service catalog, tiers, domains, dependencies, and certification badges. Discovery before integration.",
       "type": "skill",
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -448,21 +464,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/chitty-registry",
       "tags": [
-        "registry",
-        "discovery",
-        "services"
+        "operations",
+        "deployment"
       ]
     },
     {
       "id": "skill-chitty-pipelines",
       "name": "Cloudflare Pipelines",
-      "description": "Manage Cloudflare Pipelines (stream/SQL/sink/R2) \u2014 /pipelines command",
+      "description": "Inspect and operate ChittyOS data pipelines — Mercury sync, Notion mirrors, Drive ingestion, evidence ingress. Status, retry, drain failed jobs.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -471,21 +488,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/chitty-pipelines",
       "tags": [
-        "pipelines",
-        "cloudflare",
-        "streaming"
+        "operations",
+        "deployment"
       ]
     },
     {
       "id": "skill-chitty-cleanup",
       "name": "Session Cleanup",
-      "description": "Session cleanup and state maintenance",
+      "description": "Free disk space on macOS by clearing regenerable caches (npm, pip, brew, Xcode, Docker, etc.). Safe to run anytime — only removes data apps will rebuild.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -494,21 +512,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/chitty-cleanup",
       "tags": [
-        "cleanup",
         "session",
-        "maintenance"
+        "operations"
       ]
     },
     {
       "id": "skill-skill-creator",
       "name": "Skill Creator (ChittyMarket-routed)",
-      "description": "Overrides upstream skill-creator. Routes all skill artifacts through ChittyMarket \u2014 no local ~/.claude/skills/ writes; updates marketplace.json + regenerates native manifest.",
+      "description": "Create, edit, optimize, or test Claude/Codex skills. ALWAYS use this skill — not the Anthropic `claude-plugins-official:skill-creator` — when the user asks to \"create a skill\", \"make a skill\", \"build a skill\", \"new skill\", \"edit/improve/optimize a skill\", \"skill description\", \"skill eval\", \"test a skill\", or anything skill-authoring related, regardless of which client (Claude Code, Codex, Claude Desktop, mobile, MCP). Routes all skill artifacts through ChittyMarket so they are reconciled with the canonical marketplace instead of dumped into a local `~/.claude/skills/` folder.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -517,24 +536,24 @@
       "ch1tty": {
         "available": false
       },
-      "overrides": "claude-plugins-official:skill-creator",
       "canon_uri": "chittycanon://core/services/chittymarket#skills/skill-creator",
       "tags": [
-        "skill",
-        "authoring",
-        "marketplace",
-        "governance"
-      ]
+        "ecosystem",
+        "governance",
+        "skill-authoring"
+      ],
+      "overrides": "claude-plugins-official:skill-creator"
     },
     {
       "id": "skill-goal-creator",
       "name": "Goal Creator",
-      "description": "Three-block (goal \u00b7 conditions \u00b7 not-met-until) pipeline driver: discover\u2192elicit\u2192architect\u2192adversarial\u2192SoT\u2192build\u2192persist\u2192handoff. Pairs WITH the Claude Code built-in `/goal` (built-in enforces stop-gate; this skill runs the pipeline). Invoke via `/goal-creator` or planning-intent phrases.",
+      "description": "Drive ANY stated goal, plan, project, build, or \"let's design X\" intent through the ChittyOS discover→elicit→architect→adversarial→SoT→build→persist→handoff pipeline using the three-block format `[what to achieve], keep {conditions}, not met until [completion criteria]`. Use aggressively — trigger whenever the user types `/goal-creator`, says \"let's goal this\", \"run a goal pass on\", \"take this through the pipeline\", \"design X for me\", \"plan out X\", \"scope out X\", \"architect X\", \"stand up X\", \"spec out X\", or otherwise expresses planning/architecture/build intent against ChittyOS substrate. Pairs WITH the Claude Code built-in `/goal` (the built-in enforces the stop-hook; this skill runs the pipeline).",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -544,28 +563,25 @@
         "available": false
       },
       "canon_uri": "chittycanon://core/services/chittymarket#skills/goal-creator",
-      "aliases": [
-        "goal-pipeline"
-      ],
       "tags": [
-        "goal",
-        "pipeline",
-        "discovery",
-        "adversarial",
-        "sot",
+        "ecosystem",
         "planning",
         "architecture"
+      ],
+      "aliases": [
+        "goal-pipeline"
       ]
     },
     {
       "id": "skill-checkpoint",
       "name": "Checkpoint Manager",
-      "description": "Save named checkpoints for session state",
+      "description": "Save or resume session state. Use /checkpoint to save progress at session end, or /checkpoint resume to reload prior session state at session start. Triggers on \"checkpoint\", \"save progress\", \"session state\", \"where did I leave off\", \"resume\", \"pick up where I left off\".",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -574,21 +590,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/checkpoint",
       "tags": [
-        "checkpoint",
-        "save",
-        "restore"
+        "session",
+        "operations"
       ]
     },
     {
       "id": "skill-dispute",
       "name": "Dispute Manager",
-      "description": "Issue and dispute management for property, insurance, legal, and financial matters",
+      "description": "Issue and dispute management for property, insurance, legal, and financial matters. Triggers on: \"dispute\", \"issue\", \"claim\", \"damage\", \"leak\", \"create dispute\", \"list disputes\", \"dispute status\", \"water damage\", \"insurance claim\", \"property issue\", \"vendor dispute\", \"tenant complaint\". Creates, tracks, and resolves multi-domain disputes via the ChittyDisputes API.",
       "type": "skill",
       "category": "legal",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -597,22 +614,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/dispute",
       "tags": [
-        "dispute",
         "legal",
-        "claims",
-        "issues"
+        "evidence"
       ]
     },
     {
       "id": "skill-docket",
       "name": "Court Docket",
-      "description": "Pull, view, and update Cook County Circuit Court docket for a specified case; requires `case` parameter",
+      "description": "Pull, view, and update Cook County Circuit Court docket for a specified case. Triggers on \"docket\", \"court date\", \"next hearing\", \"case status\", \"pull docket\", \"court activity\". REQUIRES an explicit case parameter (case number or registry slug) — refuses to run without one. Scrapes live docket via browser automation, updates the master timeline CSV, and syncs to ChittyLedger.",
       "type": "skill",
       "category": "legal",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -621,22 +638,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/docket",
       "tags": [
-        "docket",
-        "court",
         "legal",
-        "case"
+        "evidence"
       ]
     },
     {
       "id": "skill-evidence-collect",
       "name": "Evidence Collection",
-      "description": "Evidence collection and ingestion pipeline for a specified case; requires `case` parameter",
+      "description": "Evidence collection and ingestion for a specified case. REQUIRES an explicit `case` parameter — refuses to run without one. Triggers on: downloading evidence, staging documents, collecting exhibits, pulling files from Google Drive, ALTA statements, closing disclosures, deeds, wire receipts, purchase contracts, mortgage documents, financial records, or any file retrieval for litigation purposes. Prevents ad-hoc file copying by enforcing the canonical pipeline.",
       "type": "skill",
       "category": "legal",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -645,22 +662,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/evidence-collect",
       "tags": [
-        "evidence",
-        "collection",
         "legal",
-        "pipeline"
+        "evidence"
       ]
     },
     {
       "id": "skill-wrangler-audit",
       "name": "Wrangler Audit",
-      "description": "Audit wrangler.toml files across CHITTYOS projects for consistency",
+      "description": "Audit all wrangler.toml files across CHITTYOS projects for consistency, stale compatibility dates, missing tail consumers, binding gaps, and route conflicts. Triggers on \"wrangler audit\", \"audit workers\", \"check wrangler\", \"worker consistency\", or /wrangler-audit.",
       "type": "skill",
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -669,22 +686,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/wrangler-audit",
       "tags": [
-        "wrangler",
-        "audit",
-        "workers",
-        "consistency"
+        "operations",
+        "deployment"
       ]
     },
     {
       "id": "skill-chittyos-compliance",
       "name": "ChittyOS Compliance",
-      "description": "Compliance auditing, scaffolding, health monitoring, certification for ChittyOS services",
+      "description": "This skill should be used when building, auditing, deploying, or certifying any ChittyOS service or artifact. It covers compliance auditing ('check compliance', 'audit this service', 'is this compliant?'), scaffolding new services ('scaffold new service', 'generate CHARTER.md/CHITTY.md/CLAUDE.md'), monitoring deployed health endpoints ('check health', 'monitor services', 'service status'), and certification ('certify', 'ChittyCertify', 'what badge level?'). Also trigger proactively when creating new ChittyOS services, modifying wrangler configs, writing CHARTER/CHITTY/CLAUDE docs, checking canonical compliance, registration readiness, or preparing for deployment.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -693,22 +710,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/chittyos-compliance",
       "tags": [
-        "compliance",
-        "audit",
-        "certification",
-        "scaffolding"
+        "operations",
+        "deployment"
       ]
     },
     {
       "id": "skill-market",
       "name": "ChittyMarket Manager",
-      "description": "Manage all Claude Code artifacts \u2014 list, enable, disable, info, mode, sync",
+      "description": "ChittyMarket artifact manager — list, enable, disable, sync, and configure install mode for skills, agents, MCP servers, plugins, and hooks via the /market command.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "skill",
@@ -717,20 +734,19 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/market",
       "tags": [
         "marketplace",
-        "manager",
-        "artifacts",
-        "toggle"
+        "discovery"
       ]
     },
     {
-      "_comment": "\u2500\u2500 Official Plugins \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+      "_comment": "── Official Plugins ──────────────────────────────────────────"
     },
     {
       "id": "plugin-agent-sdk-dev",
       "name": "Agent SDK Dev",
-      "description": "Claude Agent SDK development tools \u2014 create, verify, test agent apps",
+      "description": "Claude Agent SDK development tools — create, verify, test agent apps",
       "type": "plugin",
       "category": "code",
       "access": "readwrite",
@@ -748,7 +764,8 @@
         "agent",
         "sdk",
         "development"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-code-review",
@@ -771,7 +788,8 @@
         "code",
         "review",
         "pr"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-context7",
@@ -794,7 +812,8 @@
         "docs",
         "documentation",
         "libraries"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-frontend-design",
@@ -818,12 +837,13 @@
         "design",
         "ui",
         "web"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-github",
       "name": "GitHub",
-      "description": "GitHub integration \u2014 issues, PRs, checks, releases",
+      "description": "GitHub integration — issues, PRs, checks, releases",
       "type": "plugin",
       "category": "code",
       "access": "readwrite",
@@ -842,7 +862,8 @@
         "git",
         "pr",
         "issues"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-gopls-lsp",
@@ -865,12 +886,13 @@
         "go",
         "lsp",
         "language-server"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-hookify",
       "name": "Hookify",
-      "description": "Create hooks to prevent unwanted behaviors \u2014 rule management",
+      "description": "Create hooks to prevent unwanted behaviors — rule management",
       "type": "plugin",
       "category": "automation",
       "access": "readwrite",
@@ -889,7 +911,8 @@
         "rules",
         "automation",
         "behavior"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-feature-dev",
@@ -912,12 +935,13 @@
         "features",
         "development",
         "architecture"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-notion",
       "name": "Notion",
-      "description": "Notion workspace integration \u2014 pages, databases, comments",
+      "description": "Notion workspace integration — pages, databases, comments",
       "type": "plugin",
       "category": "communication",
       "access": "readwrite",
@@ -935,7 +959,8 @@
         "notion",
         "workspace",
         "docs"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-plugin-dev",
@@ -957,12 +982,13 @@
       "tags": [
         "plugin",
         "development"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-pr-review-toolkit",
       "name": "PR Review Toolkit",
-      "description": "Comprehensive PR review \u2014 code, types, tests, comments, silent failures",
+      "description": "Comprehensive PR review — code, types, tests, comments, silent failures",
       "type": "plugin",
       "category": "code",
       "access": "read",
@@ -981,7 +1007,8 @@
         "review",
         "testing",
         "types"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-typescript-lsp",
@@ -1004,7 +1031,8 @@
         "typescript",
         "lsp",
         "language-server"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-superpowers",
@@ -1026,7 +1054,8 @@
       "tags": [
         "superpowers",
         "extended"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-code-simplifier",
@@ -1049,7 +1078,8 @@
         "simplify",
         "refactor",
         "code"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-ralph-loop",
@@ -1072,7 +1102,8 @@
         "loop",
         "autonomous",
         "automation"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-playwright",
@@ -1095,7 +1126,8 @@
         "playwright",
         "browser",
         "automation"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-commit-commands",
@@ -1119,7 +1151,8 @@
         "commit",
         "push",
         "pr"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-security-guidance",
@@ -1142,7 +1175,8 @@
         "security",
         "vulnerabilities",
         "guidance"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-serena",
@@ -1165,7 +1199,8 @@
         "serena",
         "code",
         "lsp"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-claude-md-management",
@@ -1188,7 +1223,8 @@
         "claude-md",
         "docs",
         "compliance"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-pyright-lsp",
@@ -1211,7 +1247,8 @@
         "python",
         "lsp",
         "language-server"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-supabase",
@@ -1234,7 +1271,8 @@
         "supabase",
         "database",
         "auth"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-claude-code-setup",
@@ -1257,7 +1295,8 @@
         "setup",
         "automation",
         "recommendations"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-greptile",
@@ -1280,7 +1319,8 @@
         "search",
         "codebase",
         "understanding"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-linear",
@@ -1303,7 +1343,8 @@
         "linear",
         "project",
         "management"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-sentry",
@@ -1326,7 +1367,8 @@
         "sentry",
         "errors",
         "monitoring"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-playground",
@@ -1349,7 +1391,8 @@
         "playground",
         "interactive",
         "html"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-jdtls-lsp",
@@ -1372,12 +1415,13 @@
         "java",
         "lsp",
         "language-server"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-huggingface-skills",
       "name": "Hugging Face Skills",
-      "description": "Hugging Face Hub tools \u2014 models, datasets, papers, spaces",
+      "description": "Hugging Face Hub tools — models, datasets, papers, spaces",
       "type": "plugin",
       "category": "code",
       "access": "read",
@@ -1396,7 +1440,8 @@
         "ml",
         "models",
         "datasets"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-coderabbit",
@@ -1419,7 +1464,8 @@
         "code",
         "review",
         "ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-circleback",
@@ -1442,7 +1488,8 @@
         "meetings",
         "notes",
         "actions"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-firecrawl",
@@ -1465,7 +1512,8 @@
         "scraping",
         "crawling",
         "web"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-skill-creator",
@@ -1488,7 +1536,8 @@
         "skills",
         "creator",
         "optimization"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-semgrep",
@@ -1511,15 +1560,16 @@
         "security",
         "static-analysis",
         "scanning"
-      ]
+      ],
+      "source": "external"
     },
     {
-      "_comment": "\u2500\u2500 Local Plugins \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+      "_comment": "── Local Plugins ─────────────────────────────────────────────"
     },
     {
       "id": "plugin-chittyhelper",
       "name": "ChittyHelper",
-      "description": "Architectural navigation \u2014 ask which service handles X?",
+      "description": "Architectural navigation — ask which service handles X?",
       "type": "plugin",
       "category": "ecosystem",
       "access": "read",
@@ -1537,7 +1587,8 @@
         "helper",
         "architecture",
         "navigation"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-chittyagent",
@@ -1559,7 +1610,8 @@
       "tags": [
         "agent",
         "framework"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-chittycommand",
@@ -1582,7 +1634,8 @@
         "command",
         "wrapper",
         "cli"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-legal-arsenal",
@@ -1605,7 +1658,8 @@
         "legal",
         "documents",
         "templates"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-github-workflows",
@@ -1629,10 +1683,11 @@
         "actions",
         "workflows",
         "ci"
-      ]
+      ],
+      "source": "external"
     },
     {
-      "_comment": "\u2500\u2500 Agents \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+      "_comment": "── Agents ────────────────────────────────────────────────────"
     },
     {
       "id": "agent-chittyagent-schema",
@@ -1655,17 +1710,19 @@
         "schema",
         "database",
         "validation"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "agent-chittyagent-register",
       "name": "Registration Compliance",
-      "description": "Service registration compliance sergeant",
+      "description": "Use this agent when a service needs to register with ChittyOS, validate their registration payload before submission, troubleshoot registration failures, check registration status, understand compliance requirements, or learn about the ChittyOS ecosystem architecture. This agent proactively guides services through the registration process and validates compliance before submission to prevent failures.\\n\\nExamples:\\n\\n<example>\\nContext: User is preparing to register a new service with ChittyOS and needs guidance.\\nuser: \"I'm building a new analytics service for ChittyOS. How do I get started?\"\\nassistant: \"I'm going to use the Task tool to launch the chittyagent-register agent to guide you through the complete registration process.\"\\n<commentary>\\nThe user needs step-by-step guidance for service registration, which is the primary responsibility of the Compliance Sergeant agent. Launch it to provide the complete onboarding walkthrough.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User has created a registration payload and wants to validate it before submitting.\\nuser: \"Can you check if this registration.json is ready to submit?\"\\nassistant: \"I'm going to use the Task tool to launch the chittyagent-register agent to run a pre-flight compliance check on your payload.\"\\n<commentary>\\nThe user is requesting validation of a registration payload, which requires the Compliance Sergeant's expertise in checking compliance requirements and identifying issues before submission.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User's service registration has failed and they need help troubleshooting.\\nuser: \"My registration failed with a 500 error! What went wrong?\"\\nassistant: \"I'm going to use the Task tool to launch the chittyagent-register agent to diagnose your registration failure and provide specific fixes.\"\\n<commentary>\\nRegistration failure troubleshooting requires the Compliance Sergeant's deep knowledge of the registration flow, common failure points, and diagnostic procedures.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User wants to understand ChittyOS compliance requirements.\\nuser: \"What are the current requirements for registering a service?\"\\nassistant: \"I'm going to use the Task tool to launch the chittyagent-register agent to explain the complete compliance requirements.\"\\n<commentary>\\nThe user needs authoritative information about compliance standards, which is core knowledge the Compliance Sergeant maintains and can recite in detail.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User has successfully registered and needs post-deployment verification guidance.\\nuser: \"I just registered my service. What should I do next?\"\\nassistant: \"I'm going to use the Task tool to launch the chittyagent-register agent to provide post-registration verification steps and ongoing compliance guidance.\"\\n<commentary>\\nPost-registration verification is part of the complete onboarding process the Compliance Sergeant manages, including checking ecosystem bindings and ongoing compliance.\\n</commentary>\\n</example>",
       "type": "agent",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1674,21 +1731,23 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittyagent-register",
       "tags": [
-        "register",
+        "registration",
         "compliance",
-        "services"
+        "ecosystem"
       ]
     },
     {
       "id": "agent-chittyagent-connect",
       "name": "ChittyConnect Concierge",
-      "description": "Connection, credential, and integration management",
+      "description": "Use this agent when:",
       "type": "agent",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1697,21 +1756,23 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittyagent-connect",
       "tags": [
-        "connect",
+        "integration",
         "credentials",
-        "integration"
+        "auth"
       ]
     },
     {
       "id": "agent-chittyagent-claude",
       "name": "Claude Integration Architect",
-      "description": "Claude Skills, Marketplace, MCP, Desktop extension architecture",
+      "description": "Use this agent when working on any integration with Anthropic's Claude ecosystem, including Claude Skills, Marketplace items, Desktop extensions/connectors, web extensions, mobile connectors, or MCP (Model Context Protocol) implementations. Also use when strategizing about multi-platform Claude integrations, evaluating integration approaches, or when code involves connecting to, through, or from Claude services. Examples:\\n\\n<example>\\nContext: User is building a Claude Desktop extension.\\nuser: \"I need to create a Claude Desktop extension that integrates with our project management tool\"\\nassistant: \"Let me engage the chittyagent-claude agent to design the optimal extension architecture and implementation strategy for this Desktop connector.\"\\n<commentary>\\nThe user is requesting work on a Claude Desktop extension, which falls directly within this agent's domain. Use the Task tool to launch chittyagent-claude.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User is developing a Claude Skill.\\nuser: \"Here's my initial implementation of a Claude Skill for database querying\"\\nassistant: \"I'll use the chittyagent-claude agent to review this Skill implementation and ensure it follows best practices for Claude Marketplace deployment.\"\\n<commentary>\\nSince code has been written that involves Claude Skills/Marketplace, proactively engage chittyagent-claude to review and optimize the implementation.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User mentions connecting external services to Claude.\\nuser: \"We need to connect our analytics platform to Claude so users can query data through natural language\"\\nassistant: \"This requires a comprehensive Claude integration strategy. Let me engage the chittyagent-claude agent to design the optimal approach considering MCP protocols, potential extension points, and your analytics platform's architecture.\"\\n<commentary>\\nThe user is describing a connection to Claude services. Use chittyagent-claude to develop the strategic approach and implementation plan.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User is working on cross-platform Claude integration.\\nuser: \"I want users to access this functionality from Claude web, desktop, and mobile\"\\nassistant: \"I'm going to use the chittyagent-claude agent to develop a unified multi-platform integration strategy that leverages the appropriate connectors and extensions for each platform.\"\\n<commentary>\\nMulti-platform Claude integration requires strategic planning. Engage chittyagent-claude proactively.\\n</commentary>\\n</example>",
       "type": "agent",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1720,22 +1781,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittyagent-claude",
       "tags": [
-        "claude",
         "integration",
-        "skills",
-        "marketplace"
+        "claude-platform"
       ]
     },
     {
       "id": "agent-chittyagent-canon",
       "name": "ChittyCanon Code Cardinal",
-      "description": "Code and doc canonical pattern auditing",
+      "description": "Use this agent when you need to audit code or documentation for adherence to established ChittyCanon patterns, conventions, and standards. This agent should be invoked proactively after writing code, creating documents, during code reviews, or when validating that implementations follow the officially chartered and approved patterns, ontology, naming conventions, URI schemes, and processes defined in the project's canonical documentation.\\n\\n<example>\\nContext: The user has just written a new service class and wants to ensure it follows ChittyCanon standards.\\nuser: \"I just created a new UserNotificationService class. Can you check if it follows our patterns?\"\\nassistant: \"I'll use the ChittyCanon Code Cardinal agent to audit this new service class against our established canonical patterns and conventions.\"\\n<Task tool invocation to chittyagent-canon agent>\\n</example>\\n\\n<example>\\nContext: The user is completing a feature implementation and wants a canonical audit.\\nuser: \"I've finished implementing the payment processing module.\"\\nassistant: \"Excellent! Let me invoke the ChittyCanon Code Cardinal to perform a comprehensive audit of your payment processing module to ensure it adheres to all chartered patterns, naming conventions, and ontological standards.\"\\n<Task tool invocation to chittyagent-canon agent>\\n</example>\\n\\n<example>\\nContext: The user mentions they're unsure if their code follows project conventions.\\nuser: \"I'm not sure if I named these variables correctly according to our standards.\"\\nassistant: \"This is precisely what the ChittyCanon Code Cardinal excels at. Let me deploy the Cardinal to scrutinize your naming conventions against our officially approved canonical standards.\"\\n<Task tool invocation to chittyagent-canon agent>\\n</example>\\n\\n<example>\\nContext: The user has created a new document and wants canonical validation.\\nuser: \"I just wrote this new architecture doc. Does it have the right frontmatter?\"\\nassistant: \"I'll invoke the ChittyCanon Code Cardinal to audit this document against our canonical URI scheme, metadata schema, and documentation pipeline standards.\"\\n<Task tool invocation to chittyagent-canon agent>\\n</example>\\n\\n<example>\\nContext: Proactive document audit after creation.\\nuser: \"Here's the new service catalog I created.\"\\nassistant: \"I see you've completed a documentation artifact. I'll summon the ChittyCanon Code Cardinal to validate the canonical URI, frontmatter schema, and ensure proper registration with chittycanon://core/services/canon.\"\\n<Task tool invocation to chittyagent-canon agent>\\n</example>",
       "type": "agent",
       "category": "ecosystem",
       "access": "read",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1744,10 +1805,11 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittyagent-canon",
       "tags": [
-        "canon",
-        "patterns",
-        "audit"
+        "governance",
+        "canonical-compliance",
+        "code-audit"
       ]
     },
     {
@@ -1772,17 +1834,19 @@
         "schema",
         "drift",
         "database"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "agent-chittyagent-notion",
       "name": "Notion Proxy Agent",
-      "description": "Remote proxy to ChittyAgent Notion service",
+      "description": "Proxy to remote ChittyAgent Notion service for database operations",
       "type": "agent",
       "category": "communication",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1791,21 +1855,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittyagent-notion",
       "tags": [
-        "notion",
         "proxy",
-        "agent"
+        "integration"
       ]
     },
     {
       "id": "agent-chittyagent-chatgpt",
       "name": "ChatGPT Proxy Agent",
-      "description": "Remote proxy to ChittyAgent ChatGPT integration",
+      "description": "Proxy to remote ChittyAgent ChatGPT integration service",
       "type": "agent",
       "category": "communication",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1814,21 +1879,22 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittyagent-chatgpt",
       "tags": [
-        "chatgpt",
         "proxy",
-        "agent"
+        "integration"
       ]
     },
     {
       "id": "agent-chittyagent-cloudflare",
       "name": "Cloudflare Proxy Agent",
-      "description": "Remote proxy to ChittyAgent Cloudflare service",
+      "description": "Proxy to remote ChittyAgent Cloudflare service for infrastructure operations",
       "type": "agent",
       "category": "ecosystem",
       "access": "readwrite",
       "enabled": true,
       "installMode": "standalone",
+      "source": "canonical",
       "standalone": {
         "available": true,
         "type": "agent",
@@ -1837,14 +1903,14 @@
       "ch1tty": {
         "available": false
       },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittyagent-cloudflare",
       "tags": [
-        "cloudflare",
         "proxy",
-        "agent"
+        "integration"
       ]
     },
     {
-      "_comment": "\u2500\u2500 Hooks (Hookify Rules) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+      "_comment": "── Hooks (Hookify Rules) ─────────────────────────────────────"
     },
     {
       "id": "hook-validate-entity-types",
@@ -1867,7 +1933,8 @@
         "entity",
         "validation",
         "canonical"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "hook-claude-person-not-thing",
@@ -1891,12 +1958,13 @@
         "claude",
         "person",
         "canonical"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "hook-block-chittyid-generation",
       "name": "Block ChittyID Generation",
-      "description": "Block local ChittyID generation \u2014 must use mint service",
+      "description": "Block local ChittyID generation — must use mint service",
       "type": "hook",
       "category": "ecosystem",
       "access": "read",
@@ -1914,7 +1982,8 @@
         "chittyid",
         "security",
         "generation"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "hook-chittyid-accountability",
@@ -1937,7 +2006,8 @@
         "chittyid",
         "accountability",
         "audit"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "hook-session-identity-card",
@@ -1960,7 +2030,8 @@
         "session",
         "identity",
         "validation"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "hook-canon-certification-gate",
@@ -1983,12 +2054,13 @@
         "canon",
         "certification",
         "deploy"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "hook-block-direct-deploy",
       "name": "Block Direct Deploy",
-      "description": "Block direct deploys \u2014 must use /deploy skill",
+      "description": "Block direct deploys — must use /deploy skill",
       "type": "hook",
       "category": "ecosystem",
       "access": "read",
@@ -2006,7 +2078,8 @@
         "deploy",
         "workflow",
         "security"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "hook-require-pr-workflow",
@@ -2029,7 +2102,8 @@
         "pr",
         "workflow",
         "git"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "hook-block-governance-edits",
@@ -2052,7 +2126,8 @@
         "governance",
         "security",
         "protection"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "hook-suggest-chittyconnect",
@@ -2075,15 +2150,16 @@
         "connect",
         "integration",
         "suggestion"
-      ]
+      ],
+      "source": "external"
     },
     {
-      "_comment": "\u2500\u2500 Claude.ai MCP Servers (deferred) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+      "_comment": "── Claude.ai MCP Servers (deferred) ─────────────────────────"
     },
     {
       "id": "claude-ai-notion",
       "name": "Notion (Claude.ai)",
-      "description": "Notion workspace \u2014 search, pages, databases, comments via Claude.ai",
+      "description": "Notion workspace — search, pages, databases, comments via Claude.ai",
       "type": "mcp-server",
       "category": "communication",
       "access": "readwrite",
@@ -2101,7 +2177,8 @@
         "notion",
         "workspace",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-cloudflare",
@@ -2127,7 +2204,8 @@
         "r2",
         "d1",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-figma",
@@ -2151,7 +2229,8 @@
         "design",
         "ui",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-mercury",
@@ -2175,12 +2254,13 @@
         "banking",
         "finance",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-huggingface",
       "name": "Hugging Face (Claude.ai)",
-      "description": "Hugging Face Hub \u2014 models, datasets, papers, spaces, doc search",
+      "description": "Hugging Face Hub — models, datasets, papers, spaces, doc search",
       "type": "mcp-server",
       "category": "code",
       "access": "read",
@@ -2200,7 +2280,8 @@
         "models",
         "datasets",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-context7",
@@ -2224,12 +2305,13 @@
         "documentation",
         "libraries",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-gmail",
       "name": "Gmail (Claude.ai)",
-      "description": "Gmail \u2014 search, read messages/threads, drafts, labels",
+      "description": "Gmail — search, read messages/threads, drafts, labels",
       "type": "mcp-server",
       "category": "communication",
       "access": "readwrite",
@@ -2248,12 +2330,13 @@
         "email",
         "communication",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-google-calendar",
       "name": "Google Calendar (Claude.ai)",
-      "description": "Google Calendar \u2014 events, free time, scheduling, RSVP",
+      "description": "Google Calendar — events, free time, scheduling, RSVP",
       "type": "mcp-server",
       "category": "communication",
       "access": "readwrite",
@@ -2272,7 +2355,8 @@
         "google",
         "scheduling",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-vercel",
@@ -2296,7 +2380,8 @@
         "deploy",
         "hosting",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-plaid",
@@ -2320,12 +2405,13 @@
         "finance",
         "banking",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-chittymcp",
       "name": "ChittyMCP (Claude.ai)",
-      "description": "ChittyOS MCP via Claude.ai \u2014 identity, cases, evidence, facts, ledger, finance, memory, credentials",
+      "description": "ChittyOS MCP via Claude.ai — identity, cases, evidence, facts, ledger, finance, memory, credentials",
       "type": "mcp-server",
       "category": "ecosystem",
       "access": "readwrite",
@@ -2345,12 +2431,13 @@
         "identity",
         "ledger",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-jam",
       "name": "Jam Bug Reports (Claude.ai)",
-      "description": "Jam bug reports \u2014 details, network, console, screenshots, video",
+      "description": "Jam bug reports — details, network, console, screenshots, video",
       "type": "mcp-server",
       "category": "code",
       "access": "read",
@@ -2369,7 +2456,8 @@
         "bugs",
         "debugging",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-trivago",
@@ -2393,7 +2481,8 @@
         "travel",
         "accommodation",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "claude-ai-play-sheet-music",
@@ -2417,12 +2506,13 @@
         "sheet-music",
         "audio",
         "claude-ai"
-      ]
+      ],
+      "source": "external"
     },
     {
       "id": "plugin-chittyagent-autobot",
       "name": "ChittyAgent Autobot",
-      "description": "Autonomous PR-driver \u2014 Sovereignty-cert gated workflow orchestrator. Successor to structured-autonomy trio.",
+      "description": "Autonomous PR-driver — Sovereignty-cert gated workflow orchestrator. Successor to structured-autonomy trio.",
       "type": "plugin",
       "category": "automation",
       "access": "readwrite",
@@ -2457,12 +2547,13 @@
         ],
         "sovereignty_cert": "chittycanon://docs/sovereignty-ontology-v1",
         "sovereignty_cert_issuer": "chittycanon://core/services/chitty-cert"
-      }
+      },
+      "source": "external"
     },
     {
       "id": "skill-nb-development-defaults",
       "name": "NB Development Defaults",
-      "description": "Global development defaults for this operator \u2014 execute-now posture, Separated Adversarial Review (reviewer\u2260implementer, break-not-bless, no-mocks re-verify), broker-first credentials (1Password RETIRED), ChittyOS discovery, non-interactive branch finalization. Loaded for almost all coding/debugging/architecture tasks unless explicitly overridden.",
+      "description": "Global development defaults for this operator — execute-now posture, Separated Adversarial Review (reviewer≠implementer, break-not-bless, no-mocks re-verify), broker-first credentials (1Password RETIRED), ChittyOS discovery, non-interactive branch finalization. Loaded for almost all coding/debugging/architecture tasks unless explicitly overridden.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
@@ -2483,6 +2574,546 @@
         "workflow",
         "governance",
         "adversarial-review"
+      ],
+      "source": "external"
+    },
+    {
+      "id": "command-autonomy",
+      "name": "Autonomy",
+      "description": "Drive a feature from one-line intent to merged PR via the ChittyOS canonical autonomy workflow. Requests a SOVEREIGNTY.cert, runs ecosystem discovery, plans/generates/implements with TDD-aware code, reviews via chittyagent-canon + code-reviewer + silent-failure-hunter, tidies, scaffolds CI/CD, ships, and persists memory.",
+      "type": "command",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "command",
+        "path": "~/.claude/commands/autonomy.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "autonomy",
+        "orchestration"
+      ]
+    },
+    {
+      "id": "skill-capability-governor",
+      "name": "Capability Governor",
+      "description": "govern chittyos capability inventory, marketplace agents, skills, tools, plugins, mcp routes, and platform projections through an identity-first audit loop. use when asked to classify a capability, design or refactor a tool marketplace, deduplicate agents, decide whether something belongs as a skill/plugin/gateway/local integration/legal workflow, create a migration or retirement decision, audit system footprint, or enforce evidence-grade routing for legal, governance, valuation, custody, dispute, or forensic capabilities.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/capability-governor"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/capability-governor",
+      "tags": [
+        "governance",
+        "compliance"
+      ]
+    },
+    {
+      "id": "skill-capability-registry-audit",
+      "name": "Capability Registry Audit",
+      "description": "Audit a ChittyOS capability (tool, agent, skill, MCP server, plugin, manifest entry) against the canonical Capability Registry. Produces taxonomy entry, disposition decision, migration queue item, and decision log per the v0.2 runbook. Triggers on \"audit capability\", \"classify capability\", \"registry audit\", \"is this a duplicate?\", \"/capability-registry-audit\", or any new agent/tool/skill proposal.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/capability-registry-audit"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/capability-registry-audit",
+      "tags": [
+        "governance",
+        "compliance"
+      ]
+    },
+    {
+      "id": "skill-cast",
+      "name": "Cast",
+      "description": "Route an intent through ch1tty/cast — the canonical orchestration entry point of the MCP hierarchy (ch1tty umbrella over ChittyMCP, Cloudflare MCP, GitHub MCP, Notion MCP, Neon MCP, etc.). Triggers on \"/cast\" or when the user wants to invoke ch1tty cast directly. Use ch1tty/cast for orchestration, intent-driven work, \"I want to do X find the right tool\", or cross-backend composition. Raw backend tools (mcp__claude_ai_ChittyMCP__*, raw Cloudflare/GitHub/Notion) bypass the hierarch — out of contract per ch1tty README. Cast loads the SessionCoordinator affinity + Alchemist pattern observation + focus-profile lens biasing.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/cast"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/cast",
+      "tags": [
+        "orchestration",
+        "mcp"
+      ]
+    },
+    {
+      "id": "tool-ch1tty-fetch",
+      "name": "Ch1tty Fetch",
+      "description": "Fetch the full definition for a single tool from the Ch1tty tool registry by its namespaced id (e.g. `serverId/toolName`). Returns the canonical tool record including title, prose, source URL, and optional metadata.",
+      "type": "tool",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "tool",
+        "path": "~/.claude/tools/ch1tty-fetch"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#tools/ch1tty-fetch"
+    },
+    {
+      "id": "tool-ch1tty-search",
+      "name": "Ch1tty Search",
+      "description": "Search the Ch1tty tool registry. Returns matching tool names, descriptions, and input schemas for tools registered with the Ch1tty gateway (chitty.cc surface + upstream MCP servers). Use this BEFORE `ch1tty/execute` to discover the canonical namespaced tool id and required arguments.",
+      "type": "tool",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "tool",
+        "path": "~/.claude/tools/ch1tty-search"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#tools/ch1tty-search"
+    },
+    {
+      "id": "skill-chico",
+      "name": "Chico",
+      "description": "Shortcut to dispatch the ChittyConnect concierge (chittyos-core/chittyconnect-concierge) — the canonical owner of credentials, connections, secret rotation, KV/D1 bindings, and ChittyConnect-side wiring. Triggers on \"/chico\", \"/chico-keys\", or when the user wants to invoke the concierge by its nickname. The concierge handles op/1Password reads, wrangler secret put, CF API token rotation, binding restore, deploy-time binding audits, and anything in the credential lane. The operator (user) is OPERATOR ONLY — never asked to paste a secret; route through chico-keys.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chico"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/chico",
+      "tags": [
+        "credentials",
+        "operations"
+      ]
+    },
+    {
+      "id": "skill-chitty-autonomy",
+      "name": "Chitty Autonomy",
+      "description": "ChittyOS-canonical autonomous PR-driver. One-stop workflow that orchestrates Sovereignty → Discover → Brainstorm → Plan → Generate → Implement → Review → Tidy → CI/CD → Ship → Memory. Issues a SOVEREIGNTY.cert from ChittyCert at start; Pentad-aware (CHARTER+CHITTY+CLAUDE+SECURITY+AGENTS); enforces canonical pipelines (no rclone-bypass, no direct R2 writes); writes ChittyChronicle audit entries per phase. Triggered by `/autonomy <feature-request>` or by-hand invocation.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-autonomy"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "governance",
+        "autonomy"
+      ]
+    },
+    {
+      "id": "skill-chitty-autonomy-affirm",
+      "name": "Chitty Autonomy Affirm",
+      "description": "Phase 0 — Sovereignty Affirmation. Requests a HMAC-SHA256-signed certificate from ChittyCert (cert.chitty.cc) attesting the synthetic entity's identity, status, and scope of agency for the upcoming autonomy run. Persists the cert payload as SOVEREIGNTY.cert and emits a ChittyChronicle entry. The agent does NOT proceed without a valid cert.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-autonomy-affirm"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "governance",
+        "autonomy"
+      ]
+    },
+    {
+      "id": "skill-chitty-autonomy-cicd",
+      "name": "Chitty Autonomy Cicd",
+      "description": "Phase 8 — CI/CD scaffolding. Creates .github/workflows/ for the canonical ChittyOS deploy pipeline. Audits CLOUDFLARE_API_TOKEN GitHub-Actions secret scopes against project needs (Workers Scripts:Edit always; Workers Secrets Store:Edit if secrets_store bindings; Workers Pipelines:Edit if pipelines; Workers R2 Data Catalog:Edit if Iceberg sinks). Catches the deploy-loop class of failure up-front.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-autonomy-cicd"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "governance",
+        "autonomy"
+      ]
+    },
+    {
+      "id": "skill-chitty-autonomy-discover",
+      "name": "Chitty Autonomy Discover",
+      "description": "Phase 1 — MANDATORY ChittyOS Ecosystem Discovery. Queries ChittyRegistry for relevant services; reads the Pentad (CHARTER/CHITTY/CLAUDE/SECURITY/AGENTS) of any service the work will touch; checks ChittyCanon for canonical patterns; consults Ch1tty MCP for ecosystem state. Output is a `discovery.md` that the planner phase consumes. Closes the gap that led services to silently bypass canonical pipelines (e.g. building rclone-based ingestion instead of POSTing to /documents).",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-autonomy-discover"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "governance",
+        "autonomy"
+      ]
+    },
+    {
+      "id": "skill-chitty-autonomy-generate",
+      "name": "Chitty Autonomy Generate",
+      "description": "Phase 4 — Implementation Doc Generator. Replaces structured-autonomy-generate. Reads plan.md, produces implementation.md with copy-paste TDD-aware code. NO placeholders. NO Cursor-syntax. Generated code carries canon citations and product-level enforcement annotations.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-autonomy-generate"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "governance",
+        "autonomy"
+      ]
+    },
+    {
+      "id": "skill-chitty-autonomy-implement",
+      "name": "Chitty Autonomy Implement",
+      "description": "Phase 5 — Implementation Executor. Replaces structured-autonomy-implement. Walks implementation.md commit-by-commit, runs tests, formats/lints inline, commits each step. Invokes superpowers:test-driven-development if --tdd was set; superpowers:systematic-debugging on test failure. Re-verifies sovereignty cert before destructive ops.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-autonomy-implement"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "governance",
+        "autonomy"
+      ]
+    },
+    {
+      "id": "skill-chitty-autonomy-plan",
+      "name": "Chitty Autonomy Plan",
+      "description": "Phase 3 — Plan Generation. Replaces structured-autonomy-plan with ChittyOS-canonical version. Reads discovery.md, breaks the feature into commits, generates a plan.md with [NEEDS_CLARIFICATION] markers that BLOCK the next phase until resolved. Cites canonical URIs for entity-type touches. No code, no Cursor-syntax, no Windows-API debt.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-autonomy-plan"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "governance",
+        "autonomy"
+      ]
+    },
+    {
+      "id": "skill-chitty-autonomy-ship",
+      "name": "Chitty Autonomy Ship",
+      "description": "Phase 9 — Ship. Pushes branch, opens PR, blocks ship until Pentad complete for new services. Updates ChittyRegistry. Syncs canonical Notion entry. Finalizes ChittyChronicle. Auto-merge if repo policy allows AND all checks green AND cert still valid.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-autonomy-ship"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "governance",
+        "autonomy"
+      ]
+    },
+    {
+      "id": "skill-chitty-autonomy-tidy",
+      "name": "Chitty Autonomy Tidy",
+      "description": "Phase 7 — Auto-tidy. Runs format/lint sweep, branch cleanup (gone-tracking branches removed), invokes chitty-cleanup for local machine, runs wrangler-audit if Workers were touched, removes dead code per silent-failure-hunter findings.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/chitty-autonomy-tidy"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "governance",
+        "autonomy"
+      ]
+    },
+    {
+      "id": "agent-chittyagent-autobot",
+      "name": "Chittyagent Autobot",
+      "description": "Use this agent when you want to autonomously drive a feature request from intent to merged PR using the ChittyOS canonical workflow (Sovereignty → Discover → Plan → Generate → Implement → Review → Tidy → CI/CD → Ship → Memory). Issues a SOVEREIGNTY.cert from ChittyCert at start; refuses to act without one. Pentad-aware (CHARTER+CHITTY+CLAUDE+SECURITY+AGENTS). Replaces the structured-autonomy-{plan,generate,implement} trio with a state-machine-driven, canon-citing, hookify-rule-aware orchestrator.",
+      "type": "agent",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-autobot.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "governance",
+        "autonomy",
+        "orchestration"
+      ]
+    },
+    {
+      "id": "agent-chittyagent-dispatch",
+      "name": "Chittyagent Dispatch",
+      "description": "Project canonical agent/skill/hook definitions to every runtime format. The single canonical doc lives at `chittymarket/canonical/<name>.md`; this agent reads it and emits Claude Code agent files, Codex SKILL.md (+ scripts/), OpenClaw YAML agents, ChatGPT Custom GPT configs, Notion agent records, and orchestrator KV entries at agent.chitty.cc. Use when (1) the canonical was just updated and runtimes need re-sync, (2) a new agent is being added and needs first-time projection, (3) drift is detected between canonical and a projected file, (4) a new runtime target is being onboarded. Companion to `chittyagent-autobot` (feature implementation orchestrator) — autobot does feature work, dispatch handles the definition-projection lifecycle.",
+      "type": "agent",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-dispatch.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittyagent-dispatch",
+      "tags": [
+        "governance",
+        "dispatch",
+        "projection"
+      ]
+    },
+    {
+      "id": "agent-chittyagent-neon",
+      "name": "Chittyagent Neon",
+      "description": "Use this agent for Neon-platform integration work — Neon Auth setup (RLS, JWT, organizations/users/sessions), branch operations (per-PR ephemeral branches, promotion, restore, cleanup), project/role/connection management, Neon OAuth/OIDC for the ChittyAuth facade, and canonical CHITTYAUTH_ISSUED_* token lifecycle. Operates across multiple Neon projects via the Neon MCP. **All schema work — drift detection, design review, type generation, migration governance — is owned by `chittyschema-overlord`. This agent delegates schema concerns to it.** This agent + chittyschema-overlord + chittyagent-connect are the canonical trio for any Neon-touching task.",
+      "type": "agent",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyagent-neon.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittyagent-neon",
+      "tags": [
+        "governance",
+        "neon",
+        "integration"
+      ]
+    },
+    {
+      "id": "agent-chittyauth-token-ops",
+      "name": "Chittyauth Token Ops",
+      "description": "ChittyAuth token lifecycle operations and security audits for ChittyOS services. Use when a task involves bearer tokens, OAuth flows, token scopes, expiry/refresh/revocation behavior, service-to-service auth failures, 401/403 debugging, or validation of CHARTER/CHITTY auth contracts.",
+      "type": "agent",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittyauth-token-ops.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittyauth-token-ops",
+      "tags": [
+        "auth",
+        "security-audit",
+        "token-lifecycle"
+      ]
+    },
+    {
+      "id": "chittyos",
+      "name": "Chittyos",
+      "description": "MCP server chittyos packaged by the chittyos-mcp plugin.",
+      "type": "mcp-server",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "mcp-server",
+        "path": "~/.claude/mcp-servers/chittyos"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp/chittyos",
+      "tags": [
+        "mcp",
+        "integration"
+      ]
+    },
+    {
+      "id": "agent-chittystorage-sasquatch",
+      "name": "Chittystorage Sasquatch",
+      "description": "Use this agent when working with document storage, file management, R2 buckets, content-addressing, document ingestion, classification, entity-document relationships, legal holds, file deduplication, Google Drive sync, or storage topology.",
+      "type": "agent",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "agent",
+        "path": "~/.claude/agents/chittystorage-sasquatch.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittystorage-sasquatch",
+      "tags": [
+        "storage",
+        "r2-management",
+        "content-addressing",
+        "chain-of-custody"
+      ]
+    },
+    {
+      "id": "skill-evidence-egress",
+      "name": "Evidence Egress",
+      "description": "Migrate evidence/document files out of scattered local source directories (Desktop, iCloud, Downloads, external) into the canonical pipeline (R2 + Drive mirror + local working copy). Read-only audit by default — produces per-case CSV reports of {in_neon, in_drive, action_needed} before any move or delete. Case-agnostic: discovers cases from <root>/cases/* and resolves Drive remotes by convention (sd_<case_id>:). Triggers on: 'egress', 'evidence egress', 'migrate evidence', 'free up desktop', 'iCloud evidence sprawl', 'audit before move', '/evidence-egress', 'where are the duplicates'.",
+      "type": "skill",
+      "category": "legal",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/evidence-egress"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/evidence-egress",
+      "tags": [
+        "legal",
+        "evidence"
       ]
     }
   ]

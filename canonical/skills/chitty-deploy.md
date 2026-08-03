@@ -10,6 +10,53 @@ runtimes:
 classification:
   - operations
   - deployment
+overlay:
+  title: Deploy to Cloudflare Workers
+  capability_group: ship
+  execution_class: '@chitty/workspace'
+  visibility: recommended
+  ontology:
+    primary:
+    - L
+    - E
+    secondary:
+    - A
+    - T
+  authority:
+    requires_chittyid: true
+    requires_deploy_authority: true
+  execution:
+    default_surface: local
+    local_allowed: true
+    context_cost: medium
+    mutation_risk: low
+  discovery:
+    indexable: true
+    session_index: hidden
+    ambient_by_intent: false
+    verbs:
+    - deploy
+    - ship
+    - release
+    - wrangler
+    fallback_search: true
+  auth_flow:
+    mode: service-token
+    stores_credentials_in: ChittyConnect
+    fail_closed_if_unavailable: true
+  phase0_audit:
+    job_to_be_done: operate
+    environmental_footprint: admin-system
+    evidentiary_risk: none
+    advisory_disposition: local-only
+  canonical_version: 1.0.0
+  group_assignment_source: name-rule
+  runtime_exclusions:
+    claude_ai:
+    - requires_local_filesystem
+    chatgpt:
+    - requires_local_filesystem
+  legacy_category: ecosystem
 ---
 
 # ChittyOS Deploy Skill

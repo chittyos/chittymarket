@@ -4,7 +4,7 @@
   "phase": "Phase 1 — capability overlay (view-only, no behavior change)",
   "source": "marketplace.json + docs/audits/chittymarket-{artifact,plugin-package}-audit.json + docs/overrides/capability-group-overrides.json",
   "naming": "Bare JTBD group ids (no chitty- prefix). Namespace chittycanon://capability/ already encodes 'chitty'.",
-  "total": 104,
+  "total": 128,
   "group_assignment_sources": {
     "name-rule": 45,
     "category": 34,
@@ -179,7 +179,7 @@
       "capability_id": "chittycanon://capability/connect/read-and-write-neon-database",
       "legacy_id": "neon",
       "name": "Read and Write Neon Database",
-      "description": "Neon PostgreSQL — branches, migrations, SQL, schema management",
+      "description": "MCP server neon packaged by the neon-mcp plugin.",
       "capability_group": "connect",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -222,15 +222,10 @@
       },
       "runtime_exclusions": {},
       "compatible_channels": [
-        "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "claude_code"
       ],
       "source_links": [
-        "ch1tty://servers/neon"
+        "local://canonical/mcp/neon.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "route",
@@ -245,7 +240,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:d4a9209bdadfe89ae8061270b3401df42f6465b182f7ea445f30ba28f34834a3",
+        "content_hash": "sha256:98e99be6616676095dfed048778f47134a5621441f9639d2e1732bde28a1c29c",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -1151,7 +1146,7 @@
       "capability_id": "chittycanon://capability/workspace/chittyxl-session-manager",
       "legacy_id": "skill-chittyxl",
       "name": "ChittyXL Session Manager",
-      "description": "Session persistence, token tracking, auto-checkpointing at 20% intervals, Notion sync",
+      "description": "ChittyXL session manager — auto-checkpointing at token-budget intervals, Notion sync, persistent state across long sessions.",
       "capability_group": "workspace",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/ambient",
@@ -1194,14 +1189,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/chittyxl"
+        "local://plugins/chittyos-core/skills/chittyxl/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "verify",
@@ -1216,7 +1207,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:964d56a5eab738fb00b44df3eecb05b52a07d6ce35cf7bd0663ec0d11cdee6d2",
+        "content_hash": "sha256:19770a0d76ba6f9182b9fae329e41620c5ba2a5402b3217e77ce7ec0fb496282",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -1229,7 +1220,7 @@
       "capability_id": "chittycanon://capability/govern/fact-governance",
       "legacy_id": "skill-fact-governance",
       "name": "Fact Governance",
-      "description": "Evidence lifecycle management (draft/verified/locked) for a specified case; requires `case` parameter",
+      "description": "Evidence fact governance for a specified case. Triggers on \"fact\", \"evidence\", \"verify\", \"verification\", case materials, dates/amounts/claims, or chittyevidence-db operations. REQUIRES an explicit `case` parameter — refuses to run without one. Manages fact lifecycle (draft→verified→locked), versioning, corrections, and Notion sync.",
       "capability_group": "govern",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/reasoning",
@@ -1278,14 +1269,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/fact-governance"
+        "local://plugins/chittyos-legal/skills/fact-governance/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "generate",
@@ -1300,7 +1287,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:e7e931250820b08ae4f6e00c325a90974ca0e4c8c56b2371a9e1154ef7819304",
+        "content_hash": "sha256:6baf8fe980b94332a2e9ec058539fbbabe186e6e99b31bb5567be3633fc44466",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -1313,7 +1300,7 @@
       "capability_id": "chittycanon://capability/workspace/chittycontext-checkpoints",
       "legacy_id": "skill-chittycontext",
       "name": "ChittyContext Checkpoints",
-      "description": "Persistent conversation state via JSON files — checkpoint, restore, status",
+      "description": "ChittyContext session persistence — capture, restore, and inspect conversation state across sessions via checkpoint/restore/status JSON files.",
       "capability_group": "workspace",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/ambient",
@@ -1356,14 +1343,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/chittycontext"
+        "local://plugins/chittyos-core/skills/chittycontext/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "remember",
@@ -1378,7 +1361,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:f64525b41de4db417927e1df4aba54f51018766eef7671efec22a2f38b07c473",
+        "content_hash": "sha256:6197dca59ebd5cd0bfdf1161a1ad623c8b186cfa2b02b4ae4311299ccadccf03",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -1391,7 +1374,7 @@
       "capability_id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
       "legacy_id": "skill-chitty-deploy",
       "name": "Deploy to Cloudflare Workers",
-      "description": "Deploy ChittyOS services via wrangler — /deploy command",
+      "description": "Deploy a ChittyOS service to Cloudflare Workers via SSH-bridged wrangler. Handles compatibility flags, secrets provisioning, and post-deploy health verification.",
       "capability_group": "ship",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/workspace",
@@ -1444,12 +1427,10 @@
       },
       "compatible_channels": [
         "claude_code",
-        "claude_desktop",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/chitty-deploy"
+        "local://plugins/chittyos-devops/skills/chitty-deploy/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "operate",
@@ -1464,7 +1445,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:2a26d4b398fae6b0a462f3f122f4bb133df0230eea48af99a082538a46a56e03",
+        "content_hash": "sha256:065f10c79b2197c4dd9303230974aafbec88d891eadb0eeb06108fce1bfb4437",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -1477,7 +1458,7 @@
       "capability_id": "chittycanon://capability/ship/health-check-services",
       "legacy_id": "skill-chitty-health",
       "name": "Health Check Services",
-      "description": "Health-check ChittyOS services at *.chitty.cc/health — /health command",
+      "description": "Hit /health endpoints across the ChittyOS ecosystem (*.chitty.cc), aggregate results, and report drift from expected status.",
       "capability_group": "ship",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -1523,14 +1504,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/chitty-health"
+        "local://plugins/chittyos-devops/skills/chitty-health/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "operate",
@@ -1545,7 +1522,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:fadcb817fdfac08144b749fa89b31de8c8ee6c48cee4ac6f5276439844bbed9b",
+        "content_hash": "sha256:0a060632b07d298965be648ff877df436833d824b81f81fe821e6438caa5a9e0",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -1558,7 +1535,7 @@
       "capability_id": "chittycanon://capability/ship/query-service-registry",
       "legacy_id": "skill-chitty-registry",
       "name": "Query Service Registry",
-      "description": "Query ChittyRegistry at registry.chitty.cc — /registry command",
+      "description": "Query ChittyRegistry (registry.chitty.cc) for service catalog, tiers, domains, dependencies, and certification badges. Discovery before integration.",
       "capability_group": "ship",
       "group_assignment_source": "override",
       "execution_class": "@chitty/connectors",
@@ -1604,14 +1581,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/chitty-registry"
+        "local://plugins/chittyos-devops/skills/chitty-registry/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "route",
@@ -1626,7 +1599,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:0b68a87f00ee4fbc4ad311f313c202b65f64b1328965e8ca6b63a9be69bda0c6",
+        "content_hash": "sha256:a7091de29e5658620c4b242e9cc940b533986c67f7f1004b6292a64f0089a55c",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -1639,7 +1612,7 @@
       "capability_id": "chittycanon://capability/ship/cloudflare-pipelines",
       "legacy_id": "skill-chitty-pipelines",
       "name": "Cloudflare Pipelines",
-      "description": "Manage Cloudflare Pipelines (stream/SQL/sink/R2) — /pipelines command",
+      "description": "Inspect and operate ChittyOS data pipelines — Mercury sync, Notion mirrors, Drive ingestion, evidence ingress. Status, retry, drain failed jobs.",
       "capability_group": "ship",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -1685,14 +1658,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/chitty-pipelines"
+        "local://plugins/chittyos-devops/skills/chitty-pipelines/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "generate",
@@ -1707,7 +1676,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:6594192a2dcfd2a72364031b3d658c87efd2996c0463064f2a5cad134fe09a0c",
+        "content_hash": "sha256:20fb45d0c86490fb268f06e09151c3b0219db769c8712b57fbe74cf020e22eae",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -1720,7 +1689,7 @@
       "capability_id": "chittycanon://capability/workspace/session-cleanup",
       "legacy_id": "skill-chitty-cleanup",
       "name": "Session Cleanup",
-      "description": "Session cleanup and state maintenance",
+      "description": "Free disk space on macOS by clearing regenerable caches (npm, pip, brew, Xcode, Docker, etc.). Safe to run anytime — only removes data apps will rebuild.",
       "capability_group": "workspace",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -1763,14 +1732,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/chitty-cleanup"
+        "local://plugins/chittyos-core/skills/chitty-cleanup/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "generate",
@@ -1785,7 +1750,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:1b9455ce2748ced00035377b9b8e4e225fdb5641e9e5b8aefb8ab7306ede9327",
+        "content_hash": "sha256:398e383447457967b3746275742fc933d519f2cd1034588316b8c978085dfe55",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -1798,7 +1763,7 @@
       "capability_id": "chittycanon://capability/workspace/checkpoint-manager",
       "legacy_id": "skill-checkpoint",
       "name": "Checkpoint Manager",
-      "description": "Save named checkpoints for session state",
+      "description": "Save or resume session state. Use /checkpoint to save progress at session end, or /checkpoint resume to reload prior session state at session start. Triggers on \"checkpoint\", \"save progress\", \"session state\", \"where did I leave off\", \"resume\", \"pick up where I left off\".",
       "capability_group": "workspace",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/ambient",
@@ -1841,14 +1806,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/checkpoint"
+        "local://plugins/chittyos-core/skills/checkpoint/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "remember",
@@ -1863,7 +1824,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:539bb40f0c8a2d792adaa9063bfe8c1700c7c5f07fcd5fa9192020b6e181550b",
+        "content_hash": "sha256:4b007c56ec9c5b8307779c6727bc48a2ef1f7db2c34720a7c8561ea4b38ed2b0",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -1876,7 +1837,7 @@
       "capability_id": "chittycanon://capability/legal/dispute-manager",
       "legacy_id": "skill-dispute",
       "name": "Dispute Manager",
-      "description": "Issue and dispute management for property, insurance, legal, and financial matters",
+      "description": "Issue and dispute management for property, insurance, legal, and financial matters. Triggers on: \"dispute\", \"issue\", \"claim\", \"damage\", \"leak\", \"create dispute\", \"list disputes\", \"dispute status\", \"water damage\", \"insurance claim\", \"property issue\", \"vendor dispute\", \"tenant complaint\". Creates, tracks, and resolves multi-domain disputes via the ChittyDisputes API.",
       "capability_group": "legal",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -1933,13 +1894,10 @@
       },
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
         "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/dispute"
+        "local://plugins/chittyos-legal/skills/dispute/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "resolve",
@@ -1954,7 +1912,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:1f508238ed6935495c53b2f7217ee20f47c4f4ba9a7870f26fd0503e21807f51",
+        "content_hash": "sha256:db2ff47956b8c33f6a3a32171af4c3acfdc96b0e377c4eafd05056cc361360e4",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -1967,7 +1925,7 @@
       "capability_id": "chittycanon://capability/legal/court-docket",
       "legacy_id": "skill-docket",
       "name": "Court Docket",
-      "description": "Pull, view, and update Cook County Circuit Court docket for a specified case; requires `case` parameter",
+      "description": "Pull, view, and update Cook County Circuit Court docket for a specified case. Triggers on \"docket\", \"court date\", \"next hearing\", \"case status\", \"pull docket\", \"court activity\". REQUIRES an explicit case parameter (case number or registry slug) — refuses to run without one. Scrapes live docket via browser automation, updates the master timeline CSV, and syncs to ChittyLedger.",
       "capability_group": "legal",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -2024,13 +1982,10 @@
       },
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
         "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/docket"
+        "local://plugins/chittyos-legal/skills/docket/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "generate",
@@ -2045,7 +2000,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:21ce6f255dd57e37981f143b18409d2bb585d6c7730fe582222e0f394e68cd01",
+        "content_hash": "sha256:02d6dcc22d4b906e54bd9832dcc52883b85b5e8187afe5d39490fae77a4aa425",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -2058,7 +2013,7 @@
       "capability_id": "chittycanon://capability/ship/evidence-collection",
       "legacy_id": "skill-evidence-collect",
       "name": "Evidence Collection",
-      "description": "Evidence collection and ingestion pipeline for a specified case; requires `case` parameter",
+      "description": "Evidence collection and ingestion for a specified case. REQUIRES an explicit `case` parameter — refuses to run without one. Triggers on: downloading evidence, staging documents, collecting exhibits, pulling files from Google Drive, ALTA statements, closing disclosures, deeds, wire receipts, purchase contracts, mortgage documents, financial records, or any file retrieval for litigation purposes. Prevents ad-hoc file copying by enforcing the canonical pipeline.",
       "capability_group": "ship",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/reasoning",
@@ -2106,14 +2061,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/evidence-collect"
+        "local://plugins/chittyos-legal/skills/evidence-collect/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "collect",
@@ -2128,7 +2079,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:b5fa6edc2becff9e476433a380b246e8b155eb0d587e9c3eeb0c988c5b2f1214",
+        "content_hash": "sha256:e19efa13c4e6c7fdc9a7cb6a85d33c4abde884f2f2c3a209dbbf21df366c6550",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -2141,7 +2092,7 @@
       "capability_id": "chittycanon://capability/ship/wrangler-audit",
       "legacy_id": "skill-wrangler-audit",
       "name": "Wrangler Audit",
-      "description": "Audit wrangler.toml files across CHITTYOS projects for consistency",
+      "description": "Audit all wrangler.toml files across CHITTYOS projects for consistency, stale compatibility dates, missing tail consumers, binding gaps, and route conflicts. Triggers on \"wrangler audit\", \"audit workers\", \"check wrangler\", \"worker consistency\", or /wrangler-audit.",
       "capability_group": "ship",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/workspace",
@@ -2194,12 +2145,10 @@
       },
       "compatible_channels": [
         "claude_code",
-        "claude_desktop",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/wrangler-audit"
+        "local://plugins/chittyos-devops/skills/wrangler-audit/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "verify",
@@ -2214,7 +2163,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:a9ba7fd2a976106494cd9ae15f9b0776a086b37b99591376130e295a0b744768",
+        "content_hash": "sha256:45ffa48a4f269e57cf5d2076ab891622946091760337b559d4df46fdeb77bc4c",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -2227,7 +2176,7 @@
       "capability_id": "chittycanon://capability/govern/chittyos-compliance",
       "legacy_id": "skill-chittyos-compliance",
       "name": "ChittyOS Compliance",
-      "description": "Compliance auditing, scaffolding, health monitoring, certification for ChittyOS services",
+      "description": "This skill should be used when building, auditing, deploying, or certifying any ChittyOS service or artifact. It covers compliance auditing ('check compliance', 'audit this service', 'is this compliant?'), scaffolding new services ('scaffold new service', 'generate CHARTER.md/CHITTY.md/CLAUDE.md'), monitoring deployed health endpoints ('check health', 'monitor services', 'service status'), and certification ('certify', 'ChittyCertify', 'what badge level?'). Also trigger proactively when creating new ChittyOS services, modifying wrangler configs, writing CHARTER/CHITTY/CLAUDE docs, checking canonical compliance, registration readiness, or preparing for deployment.",
       "capability_group": "govern",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -2274,14 +2223,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/chittyos-compliance"
+        "local://plugins/chittyos-devops/skills/chittyos-compliance/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "operate",
@@ -2296,7 +2241,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:95f813c7c3b1c88f25e5b2d7bac340f1123a00664c737114ddd29efca7ca23ec",
+        "content_hash": "sha256:3fe45bb3e5f624d3359ac65fcfa96f5538529f155a590f8b11d10745b7fe78bb",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -2309,7 +2254,7 @@
       "capability_id": "chittycanon://capability/market/chittymarket-manager",
       "legacy_id": "skill-market",
       "name": "ChittyMarket Manager",
-      "description": "Manage all Claude Code artifacts — list, enable, disable, info, mode, sync",
+      "description": "ChittyMarket artifact manager — list, enable, disable, sync, and configure install mode for skills, agents, MCP servers, plugins, and hooks via the /market command.",
       "capability_group": "market",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -2353,14 +2298,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://~/.claude/skills/market"
+        "local://plugins/chittymarket-manager/skills/market/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "verify",
@@ -2375,7 +2316,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:71424bfb92f64c378ef73f226628b876766cf7b313f10a255f789f62190022d6",
+        "content_hash": "sha256:bc894c9432361c713e6aab2ac42c6b76641e2c68d5442de8fdaab3e8e762e1ec",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -5601,7 +5542,7 @@
       "capability_id": "chittycanon://capability/govern/registration-compliance",
       "legacy_id": "agent-chittyagent-register",
       "name": "Registration Compliance",
-      "description": "Service registration compliance sergeant",
+      "description": "Use this agent when a service needs to register with ChittyOS, validate their registration payload before submission, troubleshoot registration failures, check registration status, understand compliance requirements, or learn about the ChittyOS ecosystem architecture. This agent proactively guides services through the registration process and validates compliance before submission to prevent failures.\\n\\nExamples:\\n\\n<example>\\nContext: User is preparing to register a new service with ChittyOS and needs guidance.\\nuser: \"I'm building a new analytics service for ChittyOS. How do I get started?\"\\nassistant: \"I'm going to use the Task tool to launch the chittyagent-register agent to guide you through the complete registration process.\"\\n<commentary>\\nThe user needs step-by-step guidance for service registration, which is the primary responsibility of the Compliance Sergeant agent. Launch it to provide the complete onboarding walkthrough.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User has created a registration payload and wants to validate it before submitting.\\nuser: \"Can you check if this registration.json is ready to submit?\"\\nassistant: \"I'm going to use the Task tool to launch the chittyagent-register agent to run a pre-flight compliance check on your payload.\"\\n<commentary>\\nThe user is requesting validation of a registration payload, which requires the Compliance Sergeant's expertise in checking compliance requirements and identifying issues before submission.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User's service registration has failed and they need help troubleshooting.\\nuser: \"My registration failed with a 500 error! What went wrong?\"\\nassistant: \"I'm going to use the Task tool to launch the chittyagent-register agent to diagnose your registration failure and provide specific fixes.\"\\n<commentary>\\nRegistration failure troubleshooting requires the Compliance Sergeant's deep knowledge of the registration flow, common failure points, and diagnostic procedures.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User wants to understand ChittyOS compliance requirements.\\nuser: \"What are the current requirements for registering a service?\"\\nassistant: \"I'm going to use the Task tool to launch the chittyagent-register agent to explain the complete compliance requirements.\"\\n<commentary>\\nThe user needs authoritative information about compliance standards, which is core knowledge the Compliance Sergeant maintains and can recite in detail.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User has successfully registered and needs post-deployment verification guidance.\\nuser: \"I just registered my service. What should I do next?\"\\nassistant: \"I'm going to use the Task tool to launch the chittyagent-register agent to provide post-registration verification steps and ongoing compliance guidance.\"\\n<commentary>\\nPost-registration verification is part of the complete onboarding process the Compliance Sergeant manages, including checking ecosystem bindings and ongoing compliance.\\n</commentary>\\n</example>",
       "capability_group": "govern",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -5648,14 +5589,11 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
         "codex",
         "openclaw"
       ],
       "source_links": [
-        "local://~/.claude/agents/chittyagent-register.md"
+        "local://plugins/chittyos-core/agents/chittyagent-register.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "govern",
@@ -5670,7 +5608,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:10bee1b12095fa566d4f4720ba3ec6d2ac67b413657ca979dff5638a94b84154",
+        "content_hash": "sha256:bed62d7bdccfa2198d4fb6fb07a8502e6b9fac971e002b36954e9eb33975a80e",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -5683,7 +5621,7 @@
       "capability_id": "chittycanon://capability/connect/chittyconnect-concierge",
       "legacy_id": "agent-chittyagent-connect",
       "name": "ChittyConnect Concierge",
-      "description": "Connection, credential, and integration management",
+      "description": "Use this agent when:",
       "capability_group": "connect",
       "group_assignment_source": "override",
       "execution_class": "@chitty/connectors",
@@ -5727,14 +5665,11 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
         "codex",
         "openclaw"
       ],
       "source_links": [
-        "local://~/.claude/agents/chittyagent-connect.md"
+        "local://plugins/chittyos-core/agents/chittyagent-connect.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "generate",
@@ -5749,7 +5684,7 @@
       ],
       "visibility": "advanced",
       "provenance": {
-        "content_hash": "sha256:92146d7fea9688c4323fbda2d855f1c16fe56d159cf9abfe271d04becfbac078",
+        "content_hash": "sha256:b9ac1d85fadea13d0849c812d8c480d5065d4bfd2f5589eadabd31845f5950d1",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -5762,7 +5697,7 @@
       "capability_id": "chittycanon://capability/build/claude-integration-architect",
       "legacy_id": "agent-chittyagent-claude",
       "name": "Claude Integration Architect",
-      "description": "Claude Skills, Marketplace, MCP, Desktop extension architecture",
+      "description": "Use this agent when working on any integration with Anthropic's Claude ecosystem, including Claude Skills, Marketplace items, Desktop extensions/connectors, web extensions, mobile connectors, or MCP (Model Context Protocol) implementations. Also use when strategizing about multi-platform Claude integrations, evaluating integration approaches, or when code involves connecting to, through, or from Claude services. Examples:\\n\\n<example>\\nContext: User is building a Claude Desktop extension.\\nuser: \"I need to create a Claude Desktop extension that integrates with our project management tool\"\\nassistant: \"Let me engage the chittyagent-claude agent to design the optimal extension architecture and implementation strategy for this Desktop connector.\"\\n<commentary>\\nThe user is requesting work on a Claude Desktop extension, which falls directly within this agent's domain. Use the Task tool to launch chittyagent-claude.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User is developing a Claude Skill.\\nuser: \"Here's my initial implementation of a Claude Skill for database querying\"\\nassistant: \"I'll use the chittyagent-claude agent to review this Skill implementation and ensure it follows best practices for Claude Marketplace deployment.\"\\n<commentary>\\nSince code has been written that involves Claude Skills/Marketplace, proactively engage chittyagent-claude to review and optimize the implementation.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User mentions connecting external services to Claude.\\nuser: \"We need to connect our analytics platform to Claude so users can query data through natural language\"\\nassistant: \"This requires a comprehensive Claude integration strategy. Let me engage the chittyagent-claude agent to design the optimal approach considering MCP protocols, potential extension points, and your analytics platform's architecture.\"\\n<commentary>\\nThe user is describing a connection to Claude services. Use chittyagent-claude to develop the strategic approach and implementation plan.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User is working on cross-platform Claude integration.\\nuser: \"I want users to access this functionality from Claude web, desktop, and mobile\"\\nassistant: \"I'm going to use the chittyagent-claude agent to develop a unified multi-platform integration strategy that leverages the appropriate connectors and extensions for each platform.\"\\n<commentary>\\nMulti-platform Claude integration requires strategic planning. Engage chittyagent-claude proactively.\\n</commentary>\\n</example>",
       "capability_group": "build",
       "group_assignment_source": "override",
       "execution_class": "@chitty/connectors",
@@ -5807,14 +5742,11 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
         "codex",
         "openclaw"
       ],
       "source_links": [
-        "local://~/.claude/agents/chittyagent-claude.md"
+        "local://plugins/chittyos-core/agents/chittyagent-claude.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "route",
@@ -5829,7 +5761,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:58bd4bffd23ac00c62117c1cc9df40eca38aa14ad67a74765063f4b2b4873cb2",
+        "content_hash": "sha256:9ea7fec56d08530ef77cdd562d688b803fdd4209e3bdca02d2c1060eda9c4b5c",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -5842,7 +5774,7 @@
       "capability_id": "chittycanon://capability/govern/chittycanon-code-cardinal",
       "legacy_id": "agent-chittyagent-canon",
       "name": "ChittyCanon Code Cardinal",
-      "description": "Code and doc canonical pattern auditing",
+      "description": "Use this agent when you need to audit code or documentation for adherence to established ChittyCanon patterns, conventions, and standards. This agent should be invoked proactively after writing code, creating documents, during code reviews, or when validating that implementations follow the officially chartered and approved patterns, ontology, naming conventions, URI schemes, and processes defined in the project's canonical documentation.\\n\\n<example>\\nContext: The user has just written a new service class and wants to ensure it follows ChittyCanon standards.\\nuser: \"I just created a new UserNotificationService class. Can you check if it follows our patterns?\"\\nassistant: \"I'll use the ChittyCanon Code Cardinal agent to audit this new service class against our established canonical patterns and conventions.\"\\n<Task tool invocation to chittyagent-canon agent>\\n</example>\\n\\n<example>\\nContext: The user is completing a feature implementation and wants a canonical audit.\\nuser: \"I've finished implementing the payment processing module.\"\\nassistant: \"Excellent! Let me invoke the ChittyCanon Code Cardinal to perform a comprehensive audit of your payment processing module to ensure it adheres to all chartered patterns, naming conventions, and ontological standards.\"\\n<Task tool invocation to chittyagent-canon agent>\\n</example>\\n\\n<example>\\nContext: The user mentions they're unsure if their code follows project conventions.\\nuser: \"I'm not sure if I named these variables correctly according to our standards.\"\\nassistant: \"This is precisely what the ChittyCanon Code Cardinal excels at. Let me deploy the Cardinal to scrutinize your naming conventions against our officially approved canonical standards.\"\\n<Task tool invocation to chittyagent-canon agent>\\n</example>\\n\\n<example>\\nContext: The user has created a new document and wants canonical validation.\\nuser: \"I just wrote this new architecture doc. Does it have the right frontmatter?\"\\nassistant: \"I'll invoke the ChittyCanon Code Cardinal to audit this document against our canonical URI scheme, metadata schema, and documentation pipeline standards.\"\\n<Task tool invocation to chittyagent-canon agent>\\n</example>\\n\\n<example>\\nContext: Proactive document audit after creation.\\nuser: \"Here's the new service catalog I created.\"\\nassistant: \"I see you've completed a documentation artifact. I'll summon the ChittyCanon Code Cardinal to validate the canonical URI, frontmatter schema, and ensure proper registration with chittycanon://core/services/canon.\"\\n<Task tool invocation to chittyagent-canon agent>\\n</example>",
       "capability_group": "govern",
       "group_assignment_source": "override",
       "execution_class": "@chitty/connectors",
@@ -5889,14 +5821,11 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
         "codex",
         "openclaw"
       ],
       "source_links": [
-        "local://~/.claude/agents/chittyagent-canon.md"
+        "local://plugins/chittyos-core/agents/chittyagent-canon.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "verify",
@@ -5911,7 +5840,7 @@
       ],
       "visibility": "advanced",
       "provenance": {
-        "content_hash": "sha256:4dc0ab73db071b703e4bac8208f9033759071c7faa54668736bbc0324fb7eb9a",
+        "content_hash": "sha256:0279cabca6932867217053471b8b1eb6acdb824b272a64c12204762b25a8320f",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -6006,7 +5935,7 @@
       "capability_id": "chittycanon://capability/connect/notion-proxy-agent",
       "legacy_id": "agent-chittyagent-notion",
       "name": "Notion Proxy Agent",
-      "description": "Remote proxy to ChittyAgent Notion service",
+      "description": "Proxy to remote ChittyAgent Notion service for database operations",
       "capability_group": "connect",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -6050,14 +5979,11 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
         "codex",
         "openclaw"
       ],
       "source_links": [
-        "local://~/.claude/agents/chittyagent-notion.md"
+        "local://plugins/chittyos-proxy-agents/agents/chittyagent-notion.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "generate",
@@ -6072,7 +5998,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:f80953648e25a1eeeed1f61c68d17d68031b1522ce3db1adfa7b156734708ce8",
+        "content_hash": "sha256:728ae5fed0e0500c2c2e064214dc6cb840963f3e45359cf221ced38f0d7c8719",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -6085,7 +6011,7 @@
       "capability_id": "chittycanon://capability/connect/chatgpt-proxy-agent",
       "legacy_id": "agent-chittyagent-chatgpt",
       "name": "ChatGPT Proxy Agent",
-      "description": "Remote proxy to ChittyAgent ChatGPT integration",
+      "description": "Proxy to remote ChittyAgent ChatGPT integration service",
       "capability_group": "connect",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -6129,14 +6055,11 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
         "codex",
         "openclaw"
       ],
       "source_links": [
-        "local://~/.claude/agents/chittyagent-chatgpt.md"
+        "local://plugins/chittyos-proxy-agents/agents/chittyagent-chatgpt.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "generate",
@@ -6151,7 +6074,7 @@
       ],
       "visibility": "advanced",
       "provenance": {
-        "content_hash": "sha256:1cfb1bf6ef02534b00b17f706d259aaac961e03fe2e776fe9fea208853841f68",
+        "content_hash": "sha256:8875f4730bdb911cf7e487a6f406c6114952f3027eb039835145fa016a47bcce",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -6164,7 +6087,7 @@
       "capability_id": "chittycanon://capability/agent-runtime/cloudflare-proxy-agent",
       "legacy_id": "agent-chittyagent-cloudflare",
       "name": "Cloudflare Proxy Agent",
-      "description": "Remote proxy to ChittyAgent Cloudflare service",
+      "description": "Proxy to remote ChittyAgent Cloudflare service for infrastructure operations",
       "capability_group": "agent-runtime",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/connectors",
@@ -6214,12 +6137,11 @@
       },
       "compatible_channels": [
         "claude_code",
-        "claude_desktop",
         "codex",
         "openclaw"
       ],
       "source_links": [
-        "local://~/.claude/agents/chittyagent-cloudflare.md"
+        "local://plugins/chittyos-proxy-agents/agents/chittyagent-cloudflare.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "generate",
@@ -6234,7 +6156,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:5247e7db183ecfac4692fa4b532312e976bb9c00a3aa74008a4bcdfaee0e4936",
+        "content_hash": "sha256:221c4ae8023f4d7210a8788e7a8d13b2ab7d61c2db62f56303949ed44ccbc600",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8313,7 +8235,7 @@
       "capability_id": "chittycanon://capability/workspace/goal-creator",
       "legacy_id": "skill-goal-creator",
       "name": "Goal Creator",
-      "description": "Three-block (goal · conditions · not-met-until) pipeline driver: discover→elicit→architect→adversarial→SoT→build→persist→handoff. Pairs with the Claude Code built-in /goal stop-gate.",
+      "description": "Drive ANY stated goal, plan, project, build, or \"let's design X\" intent through the ChittyOS discover→elicit→architect→adversarial→SoT→build→persist→handoff pipeline using the three-block format `[what to achieve], keep {conditions}, not met until [completion criteria]`. Use aggressively — trigger whenever the user types `/goal-creator`, says \"let's goal this\", \"run a goal pass on\", \"take this through the pipeline\", \"design X for me\", \"plan out X\", \"scope out X\", \"architect X\", \"stand up X\", \"spec out X\", or otherwise expresses planning/architecture/build intent against ChittyOS substrate. Pairs WITH the Claude Code built-in `/goal` (the built-in enforces the stop-hook; this skill runs the pipeline).",
       "capability_group": "workspace",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/ambient",
@@ -8356,14 +8278,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://plugins/chittyos-core/skills/goal-creator"
+        "local://plugins/chittyos-core/skills/goal-creator/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "plan",
@@ -8378,7 +8296,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:f40a9539e831c83306139f0147549e63d4848a6ce0e2d960f7014b1fa3890919",
+        "content_hash": "sha256:5f873c308c5083725e4cbecf4c63bb9b235b34073ed12f7118dfaa8eda2a5740",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8388,10 +8306,10 @@
       }
     },
     {
-      "capability_id": "chittycanon://capability/build/skill-creator",
+      "capability_id": "chittycanon://capability/build/skill-creator-chittymarket-routed",
       "legacy_id": "skill-skill-creator",
       "name": "Skill Creator (ChittyMarket-routed)",
-      "description": "Overrides upstream skill-creator. Routes all skill artifacts through ChittyMarket — no local ~/.claude/skills/ writes; updates marketplace.json + regenerates the native manifest.",
+      "description": "Create, edit, optimize, or test Claude/Codex skills. ALWAYS use this skill — not the Anthropic `claude-plugins-official:skill-creator` — when the user asks to \"create a skill\", \"make a skill\", \"build a skill\", \"new skill\", \"edit/improve/optimize a skill\", \"skill description\", \"skill eval\", \"test a skill\", or anything skill-authoring related, regardless of which client (Claude Code, Codex, Claude Desktop, mobile, MCP). Routes all skill artifacts through ChittyMarket so they are reconciled with the canonical marketplace instead of dumped into a local `~/.claude/skills/` folder.",
       "capability_group": "build",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/ambient",
@@ -8434,14 +8352,10 @@
       "runtime_exclusions": {},
       "compatible_channels": [
         "claude_code",
-        "claude_ai",
-        "claude_desktop",
-        "chatgpt",
-        "codex",
-        "openclaw"
+        "codex"
       ],
       "source_links": [
-        "local://plugins/chittyos-core/skills/skill-creator"
+        "local://plugins/chittyos-core/skills/skill-creator/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "create",
@@ -8456,7 +8370,1780 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:85242024f14771a6259012b383550f57d32af5975bc2b1cdcbdb476b7b37d668",
+        "content_hash": "sha256:80065be514e2e7d0b878bccc823e7ad1cac788071e08a420c118ab47a48908fc",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/agent-runtime/autonomy",
+      "legacy_id": "command-autonomy",
+      "name": "Autonomy",
+      "description": "Drive a feature from one-line intent to merged PR via the ChittyOS canonical autonomy workflow. Requests a SOVEREIGNTY.cert, runs ecosystem discovery, plans/generates/implements with TDD-aware code, reviews via chittyagent-canon + code-reviewer + silent-failure-hunter, tidies, scaffolds CI/CD, ships, and persists memory.",
+      "capability_group": "agent-runtime",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "E"
+        ],
+        "secondary": [
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "autonomy",
+          "orchestration"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code"
+      ],
+      "source_links": [
+        "local://plugins/chittyagent-autobot/commands/autonomy.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "route",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "command",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "command-autonomy"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:f58091de778873ab784e48f711862336f990960584a453e3dd7d7d7d17740c57",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/capability-governor",
+      "legacy_id": "skill-capability-governor",
+      "name": "Capability Governor",
+      "description": "govern chittyos capability inventory, marketplace agents, skills, tools, plugins, mcp routes, and platform projections through an identity-first audit loop. use when asked to classify a capability, design or refactor a tool marketplace, deduplicate agents, decide whether something belongs as a skill/plugin/gateway/local integration/legal workflow, create a migration or retirement decision, audit system footprint, or enforce evidence-grade routing for legal, governance, valuation, custody, dispute, or forensic capabilities.",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "capability",
+          "governance",
+          "compliance"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyos-governance/skills/capability-governor/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-capability-governor"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:d88a662c832e0481b02a727d3bdb217cf58864912b9642975d9228a96b631aba",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/capability-registry-audit",
+      "legacy_id": "skill-capability-registry-audit",
+      "name": "Capability Registry Audit",
+      "description": "Audit a ChittyOS capability (tool, agent, skill, MCP server, plugin, manifest entry) against the canonical Capability Registry. Produces taxonomy entry, disposition decision, migration queue item, and decision log per the v0.2 runbook. Triggers on \"audit capability\", \"classify capability\", \"registry audit\", \"is this a duplicate?\", \"/capability-registry-audit\", or any new agent/tool/skill proposal.",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "capability",
+          "governance",
+          "compliance"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyos-governance/skills/capability-registry-audit/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-capability-registry-audit"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:e63ad5dd911c44805ed66ca2b0f84c9e552cc3e64f5ac4861cfb876352abac55",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/agent-runtime/cast",
+      "legacy_id": "skill-cast",
+      "name": "Cast",
+      "description": "Route an intent through ch1tty/cast — the canonical orchestration entry point of the MCP hierarchy (ch1tty umbrella over ChittyMCP, Cloudflare MCP, GitHub MCP, Notion MCP, Neon MCP, etc.). Triggers on \"/cast\" or when the user wants to invoke ch1tty cast directly. Use ch1tty/cast for orchestration, intent-driven work, \"I want to do X find the right tool\", or cross-backend composition. Raw backend tools (mcp__claude_ai_ChittyMCP__*, raw Cloudflare/GitHub/Notion) bypass the hierarch — out of contract per ch1tty README. Cast loads the SessionCoordinator affinity + Alchemist pattern observation + focus-profile lens biasing.",
+      "capability_group": "agent-runtime",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "cast",
+          "orchestration",
+          "mcp"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyos-mcp/skills/cast/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "route",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-cast"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:4882901f0820cee6d93e44f839a202a2344397b87a4ef2561cbb0b030b1bdb6c",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/agent-runtime/ch1tty-fetch",
+      "legacy_id": "tool-ch1tty-fetch",
+      "name": "Ch1tty Fetch",
+      "description": "Fetch the full definition for a single tool from the Ch1tty tool registry by its namespaced id (e.g. `serverId/toolName`). Returns the canonical tool record including title, prose, source URL, and optional metadata.",
+      "capability_group": "agent-runtime",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "low"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "ch1tty"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_ai",
+        "chatgpt"
+      ],
+      "source_links": [
+        "local://plugins/ch1tty/claude-skills/ch1tty-fetch.json"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "route",
+        "environmental_footprint": "read-only connector",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "tool"
+      },
+      "legacy_type": "tool",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "tool-ch1tty-fetch"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:9c79b6847fe552151f0f956c7ceafb4918ae0a237d45184668e6089d49fc037e",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/agent-runtime/ch1tty-search",
+      "legacy_id": "tool-ch1tty-search",
+      "name": "Ch1tty Search",
+      "description": "Search the Ch1tty tool registry. Returns matching tool names, descriptions, and input schemas for tools registered with the Ch1tty gateway (chitty.cc surface + upstream MCP servers). Use this BEFORE `ch1tty/execute` to discover the canonical namespaced tool id and required arguments.",
+      "capability_group": "agent-runtime",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "low"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "ch1tty"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_ai",
+        "chatgpt"
+      ],
+      "source_links": [
+        "local://plugins/ch1tty/claude-skills/ch1tty-search.json"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "route",
+        "environmental_footprint": "read-only connector",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "tool"
+      },
+      "legacy_type": "tool",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "tool-ch1tty-search"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:dac0bff65a07fbfaf4c71c6429b2fae2e01e6ca7ea57d98629eb3ee4e114d3c8",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/connect/chico",
+      "legacy_id": "skill-chico",
+      "name": "Chico",
+      "description": "Shortcut to dispatch the ChittyConnect concierge (chittyos-core/chittyconnect-concierge) — the canonical owner of credentials, connections, secret rotation, KV/D1 bindings, and ChittyConnect-side wiring. Triggers on \"/chico\", \"/chico-keys\", or when the user wants to invoke the concierge by its nickname. The concierge handles op/1Password reads, wrangler secret put, CF API token rotation, binding restore, deploy-time binding audits, and anything in the credential lane. The operator (user) is OPERATOR ONLY — never asked to paste a secret; route through chico-keys.",
+      "capability_group": "connect",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chico",
+          "credentials",
+          "operations"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyos-core/skills/chico/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "route",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-chico"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:a56e811b3ab8edada238d8bc21d1fb1d34ededff48a5519f0908100ee721854c",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/chitty-autonomy",
+      "legacy_id": "skill-chitty-autonomy",
+      "name": "Chitty Autonomy",
+      "description": "ChittyOS-canonical autonomous PR-driver. One-stop workflow that orchestrates Sovereignty → Discover → Brainstorm → Plan → Generate → Implement → Review → Tidy → CI/CD → Ship → Memory. Issues a SOVEREIGNTY.cert from ChittyCert at start; Pentad-aware (CHARTER+CHITTY+CLAUDE+SECURITY+AGENTS); enforces canonical pipelines (no rclone-bypass, no direct R2 writes); writes ChittyChronicle audit entries per phase. Triggered by `/autonomy <feature-request>` or by-hand invocation.",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chitty",
+          "governance",
+          "autonomy"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyagent-autobot/skills/chitty-autonomy/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-chitty-autonomy"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:a2c6e414f8e35ce2d3c9ecfd6d810e3bcea9f4bd57954eca535a873984b10b66",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/chitty-autonomy-affirm",
+      "legacy_id": "skill-chitty-autonomy-affirm",
+      "name": "Chitty Autonomy Affirm",
+      "description": "Phase 0 — Sovereignty Affirmation. Requests a HMAC-SHA256-signed certificate from ChittyCert (cert.chitty.cc) attesting the synthetic entity's identity, status, and scope of agency for the upcoming autonomy run. Persists the cert payload as SOVEREIGNTY.cert and emits a ChittyChronicle entry. The agent does NOT proceed without a valid cert.",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chitty",
+          "governance",
+          "autonomy"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyagent-autobot/skills/chitty-autonomy-affirm/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-chitty-autonomy-affirm"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:782149b28dae88ce056135e96e4bd3c179df9fd19979991b88fe7db4f5127c43",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/chitty-autonomy-cicd",
+      "legacy_id": "skill-chitty-autonomy-cicd",
+      "name": "Chitty Autonomy Cicd",
+      "description": "Phase 8 — CI/CD scaffolding. Creates .github/workflows/ for the canonical ChittyOS deploy pipeline. Audits CLOUDFLARE_API_TOKEN GitHub-Actions secret scopes against project needs (Workers Scripts:Edit always; Workers Secrets Store:Edit if secrets_store bindings; Workers Pipelines:Edit if pipelines; Workers R2 Data Catalog:Edit if Iceberg sinks). Catches the deploy-loop class of failure up-front.",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chitty",
+          "governance",
+          "autonomy"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyagent-autobot/skills/chitty-autonomy-cicd/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-chitty-autonomy-cicd"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:962ed9d78373ba4f834f0d972b7c294f0f843f1a7b51c6724f8b2bdfd011d4fe",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/chitty-autonomy-discover",
+      "legacy_id": "skill-chitty-autonomy-discover",
+      "name": "Chitty Autonomy Discover",
+      "description": "Phase 1 — MANDATORY ChittyOS Ecosystem Discovery. Queries ChittyRegistry for relevant services; reads the Pentad (CHARTER/CHITTY/CLAUDE/SECURITY/AGENTS) of any service the work will touch; checks ChittyCanon for canonical patterns; consults Ch1tty MCP for ecosystem state. Output is a `discovery.md` that the planner phase consumes. Closes the gap that led services to silently bypass canonical pipelines (e.g. building rclone-based ingestion instead of POSTing to /documents).",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chitty",
+          "governance",
+          "autonomy"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyagent-autobot/skills/chitty-autonomy-discover/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-chitty-autonomy-discover"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:95a5fcc82e76fce3f0a7da5fee6b22fd06195ded3260adb5a3221e153d25fc3e",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/chitty-autonomy-generate",
+      "legacy_id": "skill-chitty-autonomy-generate",
+      "name": "Chitty Autonomy Generate",
+      "description": "Phase 4 — Implementation Doc Generator. Replaces structured-autonomy-generate. Reads plan.md, produces implementation.md with copy-paste TDD-aware code. NO placeholders. NO Cursor-syntax. Generated code carries canon citations and product-level enforcement annotations.",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chitty",
+          "governance",
+          "autonomy"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyagent-autobot/skills/chitty-autonomy-generate/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-chitty-autonomy-generate"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:81616ba885a5917319cb45f8d1009e42530c405e7e09367451c2cd0cb10dd2e7",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/chitty-autonomy-implement",
+      "legacy_id": "skill-chitty-autonomy-implement",
+      "name": "Chitty Autonomy Implement",
+      "description": "Phase 5 — Implementation Executor. Replaces structured-autonomy-implement. Walks implementation.md commit-by-commit, runs tests, formats/lints inline, commits each step. Invokes superpowers:test-driven-development if --tdd was set; superpowers:systematic-debugging on test failure. Re-verifies sovereignty cert before destructive ops.",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chitty",
+          "governance",
+          "autonomy"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyagent-autobot/skills/chitty-autonomy-implement/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-chitty-autonomy-implement"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:a83b0bd3ed6a88e60dadf617f3c1894560ef410751c36eda0a1a7e1a98320f44",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/chitty-autonomy-plan",
+      "legacy_id": "skill-chitty-autonomy-plan",
+      "name": "Chitty Autonomy Plan",
+      "description": "Phase 3 — Plan Generation. Replaces structured-autonomy-plan with ChittyOS-canonical version. Reads discovery.md, breaks the feature into commits, generates a plan.md with [NEEDS_CLARIFICATION] markers that BLOCK the next phase until resolved. Cites canonical URIs for entity-type touches. No code, no Cursor-syntax, no Windows-API debt.",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chitty",
+          "governance",
+          "autonomy"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyagent-autobot/skills/chitty-autonomy-plan/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-chitty-autonomy-plan"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:39690a36f87f1f065c3175df6db7e50138cb07f347b33ffdcb21880e94f209a4",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/chitty-autonomy-ship",
+      "legacy_id": "skill-chitty-autonomy-ship",
+      "name": "Chitty Autonomy Ship",
+      "description": "Phase 9 — Ship. Pushes branch, opens PR, blocks ship until Pentad complete for new services. Updates ChittyRegistry. Syncs canonical Notion entry. Finalizes ChittyChronicle. Auto-merge if repo policy allows AND all checks green AND cert still valid.",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chitty",
+          "governance",
+          "autonomy"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyagent-autobot/skills/chitty-autonomy-ship/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-chitty-autonomy-ship"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:ece1956bbcc03807b74d186f65a5e63aa3c5ba0160f942a3c2be23135a83c341",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/chitty-autonomy-tidy",
+      "legacy_id": "skill-chitty-autonomy-tidy",
+      "name": "Chitty Autonomy Tidy",
+      "description": "Phase 7 — Auto-tidy. Runs format/lint sweep, branch cleanup (gone-tracking branches removed), invokes chitty-cleanup for local machine, runs wrangler-audit if Workers were touched, removes dead code per silent-failure-hunter findings.",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chitty",
+          "governance",
+          "autonomy"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyagent-autobot/skills/chitty-autonomy-tidy/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-chitty-autonomy-tidy"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:04d7940fa0d8fc925214ae8902ce7fd944f10c30b879dab6400e1807a3994fbc",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/chittyagent-autobot",
+      "legacy_id": "agent-chittyagent-autobot",
+      "name": "Chittyagent Autobot",
+      "description": "Use this agent when you want to autonomously drive a feature request from intent to merged PR using the ChittyOS canonical workflow (Sovereignty → Discover → Plan → Generate → Implement → Review → Tidy → CI/CD → Ship → Memory). Issues a SOVEREIGNTY.cert from ChittyCert at start; refuses to act without one. Pentad-aware (CHARTER+CHITTY+CLAUDE+SECURITY+AGENTS). Replaces the structured-autonomy-{plan,generate,implement} trio with a state-machine-driven, canon-citing, hookify-rule-aware orchestrator.",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/reasoning",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "P"
+        ],
+        "secondary": [
+          "A",
+          "E",
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chittyagent",
+          "governance",
+          "autonomy"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex",
+        "openclaw"
+      ],
+      "source_links": [
+        "local://plugins/chittyagent-autobot/agents/chittyagent-autobot.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "agent"
+      },
+      "legacy_type": "agent",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "agent-chittyagent-autobot"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:0a251b0673d1a8d4d0bcaf6774703e0866ebc4e0929999649e7a26479b749357",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/chittyagent-dispatch",
+      "legacy_id": "agent-chittyagent-dispatch",
+      "name": "Chittyagent Dispatch",
+      "description": "Project canonical agent/skill/hook definitions to every runtime format. The single canonical doc lives at `chittymarket/canonical/<name>.md`; this agent reads it and emits Claude Code agent files, Codex SKILL.md (+ scripts/), OpenClaw YAML agents, ChatGPT Custom GPT configs, Notion agent records, and orchestrator KV entries at agent.chitty.cc. Use when (1) the canonical was just updated and runtimes need re-sync, (2) a new agent is being added and needs first-time projection, (3) drift is detected between canonical and a projected file, (4) a new runtime target is being onboarded. Companion to `chittyagent-autobot` (feature implementation orchestrator) — autobot does feature work, dispatch handles the definition-projection lifecycle.",
+      "capability_group": "govern",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/reasoning",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "P"
+        ],
+        "secondary": [
+          "A",
+          "E",
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chittyagent",
+          "governance",
+          "dispatch"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex",
+        "openclaw"
+      ],
+      "source_links": [
+        "local://plugins/chittyagent-dispatch/agents/chittyagent-dispatch.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "agent"
+      },
+      "legacy_type": "agent",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "agent-chittyagent-dispatch"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:4a5b3f435238b442a6f75038bf1c1012efc567577d74d0287bb3800c9c856dbe",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/connect/chittyagent-neon",
+      "legacy_id": "agent-chittyagent-neon",
+      "name": "Chittyagent Neon",
+      "description": "Use this agent for Neon-platform integration work — Neon Auth setup (RLS, JWT, organizations/users/sessions), branch operations (per-PR ephemeral branches, promotion, restore, cleanup), project/role/connection management, Neon OAuth/OIDC for the ChittyAuth facade, and canonical CHITTYAUTH_ISSUED_* token lifecycle. Operates across multiple Neon projects via the Neon MCP. **All schema work — drift detection, design review, type generation, migration governance — is owned by `chittyschema-overlord`. This agent delegates schema concerns to it.** This agent + chittyschema-overlord + chittyagent-connect are the canonical trio for any Neon-touching task.",
+      "capability_group": "connect",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/reasoning",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "P"
+        ],
+        "secondary": [
+          "A",
+          "E",
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chittyagent",
+          "governance",
+          "neon"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex",
+        "openclaw"
+      ],
+      "source_links": [
+        "local://plugins/chittyos-governance/agents/chittyagent-neon.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "route",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "agent"
+      },
+      "legacy_type": "agent",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "agent-chittyagent-neon"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:6873b0962b3ddb2470890e478f7e4c84a4bb00b81d11df764fc4eac71f0c174f",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/connect/chittyauth-token-ops",
+      "legacy_id": "agent-chittyauth-token-ops",
+      "name": "Chittyauth Token Ops",
+      "description": "ChittyAuth token lifecycle operations and security audits for ChittyOS services. Use when a task involves bearer tokens, OAuth flows, token scopes, expiry/refresh/revocation behavior, service-to-service auth failures, 401/403 debugging, or validation of CHARTER/CHITTY auth contracts.",
+      "capability_group": "connect",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/reasoning",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "P"
+        ],
+        "secondary": [
+          "A",
+          "E",
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chittyauth",
+          "auth",
+          "security-audit"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyos-core/agents/chittyauth-token-ops.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "route",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "agent"
+      },
+      "legacy_type": "agent",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "agent-chittyauth-token-ops"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:0bf341f8393e7aaf31042b7f40fda0b54b4478fa5968a71a06f573ab20dd3508",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/connect/chittyos-mcp-gateway",
+      "legacy_id": "chittyos",
+      "name": "Chittyos",
+      "description": "MCP server chittyos packaged by the chittyos-mcp plugin.",
+      "capability_group": "connect",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chittyos",
+          "mcp",
+          "integration"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code"
+      ],
+      "source_links": [
+        "local://canonical/mcp/chittyos.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "route",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "route"
+      },
+      "legacy_type": "mcp-server",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "chittyos"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:f61f16e12da650de7b25e5c625ac28c1808b1706e542a86a19c2156304afc2b2",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/workspace/chittystorage-sasquatch",
+      "legacy_id": "agent-chittystorage-sasquatch",
+      "name": "Chittystorage Sasquatch",
+      "description": "Use this agent when working with document storage, file management, R2 buckets, content-addressing, document ingestion, classification, entity-document relationships, legal holds, file deduplication, Google Drive sync, or storage topology.",
+      "capability_group": "workspace",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/reasoning",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "P"
+        ],
+        "secondary": [
+          "A",
+          "E",
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "chittystorage",
+          "storage",
+          "r2-management"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyos-core/agents/chittystorage-sasquatch.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "route",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "agent"
+      },
+      "legacy_type": "agent",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "agent-chittystorage-sasquatch"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:6b330130c74c3eff8366a269c18511f60d543a3c74014657b21ec9a583ff823b",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/legal/evidence-egress",
+      "legacy_id": "skill-evidence-egress",
+      "name": "Evidence Egress",
+      "description": "Migrate evidence/document files out of scattered local source directories (Desktop, iCloud, Downloads, external) into the canonical pipeline (R2 + Drive mirror + local working copy). Read-only audit by default — produces per-case CSV reports of {in_neon, in_drive, action_needed} before any move or delete. Case-agnostic: discovers cases from <root>/cases/* and resolves Drive remotes by convention (sd_<case_id>:). Triggers on: 'egress', 'evidence egress', 'migrate evidence', 'free up desktop', 'iCloud evidence sprawl', 'audit before move', '/evidence-egress', 'where are the duplicates'.",
+      "capability_group": "legal",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "T"
+        ],
+        "secondary": [
+          "A",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "evidence",
+          "legal"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://plugins/chittyos-legal/skills/evidence-egress/SKILL.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "route",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "legal",
+      "deprecated_aliases": [
+        "skill-evidence-egress"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:d15b02cff6a5b6be9055c9ecb895405decfc58264620b3343676844f792ffdbf",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/govern/nb-development-defaults",
+      "legacy_id": "skill-nb-development-defaults",
+      "name": "NB Development Defaults",
+      "description": "Global development defaults for this operator — execute-now posture, Separated Adversarial Review (reviewer≠implementer, break-not-bless, no-mocks re-verify), broker-first credentials (1Password RETIRED), ChittyOS discovery, non-interactive branch finalization. Loaded for almost all coding/debugging/architecture tasks unless explicitly overridden.",
+      "capability_group": "govern",
+      "group_assignment_source": "override",
+      "execution_class": "@chitty/ambient",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "A"
+        ],
+        "secondary": [
+          "P",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true,
+        "requires_governance_authority": true
+      },
+      "execution": {
+        "default_surface": "local",
+        "local_allowed": true,
+        "context_cost": "medium",
+        "mutation_risk": "low"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": true,
+        "verbs": [
+          "default",
+          "govern",
+          "review"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "local-only",
+        "stores_credentials_in": "n/a",
+        "fail_closed_if_unavailable": false
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://~/.claude/skills/nb-development-defaults"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "read-only connector",
+        "evidentiary_risk": "none",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "skill-nb-development-defaults"
+      ],
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:f7d6e9c46be209858f72d58d6ea01414a258019d29f2def56767ccfa6d4eb050",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8467,8 +10154,8 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:19bedb5cd549ec3c8607dca953ce516c1a21c900ff3508216a6b3e01a6571fd2",
-    "record_count": 104,
+    "aggregate_hash": "sha256:4a376cdcb729aba7277134788d3dc75d2be756df2fb0a6b988fb742b0fe66154",
+    "record_count": 128,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
     "anchored_in_ledger": null

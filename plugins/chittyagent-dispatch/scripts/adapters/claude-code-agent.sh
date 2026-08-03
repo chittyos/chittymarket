@@ -45,7 +45,7 @@ for req in ("name", "description"):
     if not fm.get(req):
         sys.exit(f"canonical missing required field: {req}")
 
-CANONICAL_ONLY = {"kind", "classification", "runtimes", "plugin", "runtime_overrides"}
+CANONICAL_ONLY = {"kind", "classification", "runtimes", "plugin", "runtime_overrides", "overlay"}
 overrides = (fm.get("runtime_overrides") or {}).get("claude-code") or {}
 projected = {k: v for k, v in fm.items() if k not in CANONICAL_ONLY}
 projected.update(overrides)
