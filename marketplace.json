@@ -2462,7 +2462,7 @@
     {
       "id": "skill-nb-development-defaults",
       "name": "NB Development Defaults",
-      "description": "Global development defaults for this operator \u2014 execute-now posture, Separated Adversarial Review (reviewer\u2260implementer, break-not-bless, no-mocks re-verify), broker-first credentials (1Password RETIRED), ChittyOS discovery, non-interactive branch finalization. Loaded for almost all coding/debugging/architecture tasks unless explicitly overridden.",
+      "description": "Global development defaults for this operator. Use for almost all coding, debugging, ChittyOS integration, architecture, compliance, auth/token, branch-finalization, and workflow-automation tasks unless the operator explicitly overrides these defaults. Covers conditional execute-now posture, discovery-first (service + capability), separated adversarial review, worktree isolation, broker-first credentials (1Password RETIRED), and non-interactive branch finalization.",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",
@@ -2471,7 +2471,9 @@
       "standalone": {
         "available": true,
         "type": "skill",
-        "path": "~/.claude/skills/nb-development-defaults"
+        "path": "plugins/chittyos-core/skills/nb-development-defaults",
+        "plugin": "chittyos-core",
+        "canonical": "canonical/skills/nb-development-defaults.md"
       },
       "ch1tty": {
         "available": false
