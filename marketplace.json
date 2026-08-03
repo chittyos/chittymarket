@@ -2107,6 +2107,29 @@
       ]
     },
     {
+      "id": "hook-epistemic-audit",
+      "name": "Epistemic Audit",
+      "description": "Operator-invoked challenge to unverified claims \u2014 type 'bs' to force a measure-vs-infer check",
+      "type": "hook",
+      "category": "ecosystem",
+      "access": "read",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "hook",
+        "path": "~/.claude/hooks/hookify.epistemic-audit.local.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "tags": [
+        "verification",
+        "calibration",
+        "governance"
+      ]
+    },
+    {
       "_comment": "\u2500\u2500 Claude.ai MCP Servers (deferred) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
     },
     {
