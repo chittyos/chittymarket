@@ -1,6 +1,6 @@
 {
   "name": "nowebmaster",
   "version": "1.1.0",
-  "description": "Universal capability lifecycle plugin for nowebmaster / webmastrai / GORE. Governs cross-surface hot-loading, MCP tool invocation rules, CLI projections (can wm / can surface), and the 6-stage nutrient pipeline.",
+  "description": "Universal capability lifecycle plugin for nowebmaster / webmastrai / GORE. Cross-surface hot-loading, MCP tool invocation rules, CLI projections (can wm / can surface), and the 6-stage nutrient pipeline.",
   "author": "ChittyCorp / AGY"
 }
