@@ -154,6 +154,89 @@ Standard dev loop: implement (agent A) → adversarial review (separated agent/m
 reviewer — use it rather than hand-rolling the dispatch, so the review framing stays
 adversarial and consistent across sessions.
 
+## Ultracode-Shaped Execution (BINDING posture)
+
+Separation of concerns between AI is the quality mechanism; **fan-out is how it gets
+applied to execution, not just to review.** The default stance is orchestrate, not
+solo. This is a posture, not a keyword — it holds whether or not the projection has
+an `ultracode` trigger.
+
+### The carve-out (explicit, so it can't be argued away)
+
+Solo is correct for exactly two things: **conversational turns**, and **trivial
+mechanical edits** (a rename, a one-line fix, a config value whose blast radius you
+have already read). Everything else — anything with breadth, anything you would want
+a second opinion on, anything where "what did I miss" is a real question — fans out.
+
+"I can just do this quickly" is the failure mode this section exists to prevent. If
+you are reaching for that sentence about work that is not in the carve-out, that is
+the signal to fan out, not to proceed.
+
+### Route by shape: claw for breadth, viewport for depth
+
+chittyclaw runs Workers AI models (`@cf/meta/llama-3.3-70b-instruct-fp8-fast`,
+`@cf/meta/llama-3.1-8b-instruct`, `@cf/qwen/qwen2.5-coder-32b-instruct`). Two
+properties follow, and both matter:
+
+- **Its tokens are a different quota pool than the viewport session's.** Work moved
+  there is work the viewport does not pay for — in budget *or* in context. This is
+  the actual efficiency win: offloading a 40-file sweep to claw keeps 40 files of
+  output out of the viewport, so the session stays legible instead of drowning in
+  its own tool results.
+- **It is lower-capability.** Route by shape, not by convenience.
+
+| Route to **claw** (breadth) | Keep in **viewport** (depth) |
+|---|---|
+| File/repo sweeps, "where is X", inventory | Synthesis across what the sweep found |
+| First-pass triage and classification | Architecture, design, trade-off calls |
+| Adversarial refutation votes (N skeptics) | The judgment that weighs those votes |
+| Health/reachability checks across a fleet | Diagnosing *why* something is unhealthy |
+| Mechanical transforms over a known list | Deciding what the list should be |
+
+**The line is judgment, and it will be pushed.** Under time pressure the temptation is
+to send depth work to claw and accept a cheap confident answer. A claw result that
+reads as a *conclusion* rather than as *gathered material* is the tell — treat it as
+input to be verified, never as the finding itself.
+
+### Per-projection mechanism
+
+The shape is constant; the primitive differs by where the projection runs. Discover
+the local budget and scale fan-out width to it — **never hardcode N**, because the
+native quota differs per projection and a width tuned for one starves or overruns
+another.
+
+- **Claude Code** — the `Workflow` tool, and the `ultracode` keyword for standing
+  opt-in. Concurrency is already capped at `min(16, cores-2)` per workflow; pass the
+  full work-list and let it queue rather than pre-trimming.
+- **Codex / OpenClaw agents / ChatGPT / Notion** — no `Workflow` primitive. The
+  ultracode-like shape is a chittyclaw fan-out: `ssh chittyclaw`, then
+  `docker exec openclaw-prod-openclaw-cli-1 openclaw ...`. Use the **CLI container**,
+  not the gateway HTTP API directly.
+- **Any projection** — the durable board (`chittyagent-tasks` Neon queue) is what
+  makes a fan-out survivable across a crash. Session-local state is not a plan.
+
+### Health-check claw BEFORE fanning out (and check it on the right host)
+
+Local subagents are the fallback, not the default — but a BINDING rule pointing at a
+dead endpoint fails closed on every task, and claw has been dead for 46 days before
+without anyone noticing. So the check is part of the rule:
+
+```
+ssh chittyclaw 'curl -s -o /dev/null -w "%{http_code}\n" http://localhost:18789/health'
+```
+
+**chittyclaw is its own tailnet node (`100.69.69.7`), NOT `chittyserv-vm`.** Running
+`docker ps` on the VM and finding no openclaw containers is the wrong check and
+produces a false "claw is down" — verified failure, made in practice. Two containers
+should be up: `openclaw-prod-openclaw-gateway-1` (healthy) and
+`openclaw-prod-openclaw-cli-1`.
+
+If claw is genuinely unreachable: **say so explicitly**, fall back to local subagents,
+and note that the fan-out spent viewport budget rather than the separate pool. Silent
+fallback is the failure mode — it hides both the outage and the cost. On restart,
+**gateway first, then CLI** — they share a netns, and restarting the gateway alone
+kills the CLI container into a fake "network connection error".
+
 ## ChittyOS Defaults
 
 ### Discovery-first: ask who owns it BEFORE designing (BINDING)
