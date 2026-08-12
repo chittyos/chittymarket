@@ -172,31 +172,69 @@ a second opinion on, anything where "what did I miss" is a real question — fan
 you are reaching for that sentence about work that is not in the carve-out, that is
 the signal to fan out, not to proceed.
 
-### Route by shape: claw for breadth, viewport for depth
+### Route by GATHERING vs JUDGMENT — never by "wide, so make it cheap"
 
-chittyclaw runs Workers AI models (`@cf/meta/llama-3.3-70b-instruct-fp8-fast`,
-`@cf/meta/llama-3.1-8b-instruct`, `@cf/qwen/qwen2.5-coder-32b-instruct`). Two
-properties follow, and both matter:
+**Fan-out width and model capability are orthogonal axes. Do not couple them.** The
+tempting shortcut — "this is a wide fan-out, so use the cheap model" — is the single
+most expensive mistake available here, and it has already been made once (see the
+failure record below).
 
-- **Its tokens are a different quota pool than the viewport session's.** Work moved
-  there is work the viewport does not pay for — in budget *or* in context. This is
-  the actual efficiency win: offloading a 40-file sweep to claw keeps 40 files of
-  output out of the viewport, so the session stays legible instead of drowning in
-  its own tool results.
-- **It is lower-capability.** Route by shape, not by convenience.
+The axis that matters is what the output *is*:
 
-| Route to **claw** (breadth) | Keep in **viewport** (depth) |
-|---|---|
-| File/repo sweeps, "where is X", inventory | Synthesis across what the sweep found |
-| First-pass triage and classification | Architecture, design, trade-off calls |
-| Adversarial refutation votes (N skeptics) | The judgment that weighs those votes |
-| Health/reachability checks across a fleet | Diagnosing *why* something is unhealthy |
-| Mechanical transforms over a known list | Deciding what the list should be |
+- **Gathering** — mechanical, independently verifiable, low-judgment. Where is X.
+  List the files. Does this endpoint return 200. Which workers declare this binding.
+  A wrong answer is *caught by the next step* because it is checkable. Cheap models
+  are fine here, at any width.
+- **Judgment** — anything a human or another agent will **act on** as a finding.
+  Review verdicts, refutations, risk calls, "is this a real bug", classifications
+  that gate downstream work. A wrong answer here is **not caught** — it is absorbed.
+  These need a capable model **regardless of how wide the fan-out is.** Ten cheap
+  skeptics are not a substitute for one competent one; they are ten pieces of noise.
 
-**The line is judgment, and it will be pushed.** Under time pressure the temptation is
-to send depth work to claw and accept a cheap confident answer. A claw result that
-reads as a *conclusion* rather than as *gathered material* is the tell — treat it as
-input to be verified, never as the finding itself.
+**Adversarial review is judgment. It never runs on an inadequate model.** This is not
+a preference — it is load-bearing for the Separated Adversarial Review section above,
+which is the entire quality mechanism given one human operator.
+
+#### Failure record — why this is written this way
+
+Adversarial review was once routed to Workers AI models. They were inadequate for the
+task, so the findings they produced were not worth acting on, **so the findings got
+ignored.** That is the whole failure, and note its shape: it is **silent and
+self-reinforcing.** An under-powered reviewer does not error. It returns a confident,
+empty-looking review, which reads as "nothing important found," which trains both the
+operator and every downstream agent to discount the review lane entirely. The quality
+mechanism does not fail loudly — it quietly becomes theater while still appearing in
+every workflow diagram.
+
+**The tell is not a bad finding. The tell is findings being ignored.** If review
+output is being skimmed past rather than acted on, suspect the reviewer's model before
+suspecting the reviewer's prompt.
+
+#### chittyclaw is NOT a synonym for "cheap"
+
+Do not carry the assumption that offloading to claw means downgrading. Live-verified
+2026-08-12: the gateway chittyclaw routes through served `claude-sonnet-4-5` via the
+`anthropic` provider (51,766 tokens in, real spend) — frontier-class, not Workers AI.
+Workers AI remains available underneath for gathering work. Capability is a property
+of the route you ask for, not of the fact that you left the viewport.
+
+So the offload argument stands on its own merits, independent of capability: **claw
+tokens are a different quota pool than the viewport session's**, and work moved there
+is work the viewport does not pay for in budget *or in context*. A 40-file sweep run
+on claw keeps 40 files of tool output out of the viewport, so the session stays
+legible instead of drowning in its own results. That is the efficiency win — offload
+for context and quota, choose the model for the task.
+
+**Never address the AI Gateway by name — go through chittyclaw.** The gateway formerly
+named `chittyclaw` was deliberately renamed *because* sessions kept wiring straight to
+it and bypassing the assistant. The missing slug is **selection pressure, not drift**:
+it is supposed to feel like a wall. Reaching for the gateway's current name to "fix"
+a broken URL is the failure the rename exists to catch. Use the CLI container.
+
+**The gathering/judgment line will still be pushed.** Under time pressure the
+temptation is to reclassify judgment work as gathering so it can go cheap. A result
+that reads as a *conclusion* rather than as *gathered material* is the tell — treat it
+as input to be verified, never as the finding itself.
 
 ### Per-projection mechanism
 
