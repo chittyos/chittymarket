@@ -144,6 +144,127 @@ Standard dev loop: implement (agent A) → adversarial review (separated agent/m
 reviewer — use it rather than hand-rolling the dispatch, so the review framing stays
 adversarial and consistent across sessions.
 
+## Ultracode-Shaped Execution (BINDING posture)
+
+Separation of concerns between AI is the quality mechanism; **fan-out is how it gets
+applied to execution, not just to review.** The default stance is orchestrate, not
+solo. This is a posture, not a keyword — it holds whether or not the projection has
+an `ultracode` trigger.
+
+### The carve-out (explicit, so it can't be argued away)
+
+Solo is correct for exactly two things: **conversational turns**, and **trivial
+mechanical edits** (a rename, a one-line fix, a config value whose blast radius you
+have already read). Everything else — anything with breadth, anything you would want
+a second opinion on, anything where "what did I miss" is a real question — fans out.
+
+"I can just do this quickly" is the failure mode this section exists to prevent. If
+you are reaching for that sentence about work that is not in the carve-out, that is
+the signal to fan out, not to proceed.
+
+### Route by GATHERING vs JUDGMENT — never by "wide, so make it cheap"
+
+**Fan-out width and model capability are orthogonal axes. Do not couple them.** The
+tempting shortcut — "this is a wide fan-out, so use the cheap model" — is the single
+most expensive mistake available here, and it has already been made once (see the
+failure record below).
+
+The axis that matters is what the output *is*:
+
+- **Gathering** — mechanical, independently verifiable, low-judgment. Where is X.
+  List the files. Does this endpoint return 200. Which workers declare this binding.
+  A wrong answer is *caught by the next step* because it is checkable. Cheap models
+  are fine here, at any width.
+- **Judgment** — anything a human or another agent will **act on** as a finding.
+  Review verdicts, refutations, risk calls, "is this a real bug", classifications
+  that gate downstream work. A wrong answer here is **not caught** — it is absorbed.
+  These need a capable model **regardless of how wide the fan-out is.** Ten cheap
+  skeptics are not a substitute for one competent one; they are ten pieces of noise.
+
+**Adversarial review is judgment. It never runs on an inadequate model.** This is not
+a preference — it is load-bearing for the Separated Adversarial Review section above,
+which is the entire quality mechanism given one human operator.
+
+#### Failure record — why this is written this way
+
+Adversarial review was once routed to Workers AI models. They were inadequate for the
+task, so the findings they produced were not worth acting on, **so the findings got
+ignored.** That is the whole failure, and note its shape: it is **silent and
+self-reinforcing.** An under-powered reviewer does not error. It returns a confident,
+empty-looking review, which reads as "nothing important found," which trains both the
+operator and every downstream agent to discount the review lane entirely. The quality
+mechanism does not fail loudly — it quietly becomes theater while still appearing in
+every workflow diagram.
+
+**The tell is not a bad finding. The tell is findings being ignored.** If review
+output is being skimmed past rather than acted on, suspect the reviewer's model before
+suspecting the reviewer's prompt.
+
+#### chittyclaw is NOT a synonym for "cheap"
+
+Do not carry the assumption that offloading to claw means downgrading. Live-verified
+2026-08-12: the gateway chittyclaw routes through served `claude-sonnet-4-5` via the
+`anthropic` provider (51,766 tokens in, real spend) — frontier-class, not Workers AI.
+Workers AI remains available underneath for gathering work. Capability is a property
+of the route you ask for, not of the fact that you left the viewport.
+
+So the offload argument stands on its own merits, independent of capability: **claw
+tokens are a different quota pool than the viewport session's**, and work moved there
+is work the viewport does not pay for in budget *or in context*. A 40-file sweep run
+on claw keeps 40 files of tool output out of the viewport, so the session stays
+legible instead of drowning in its own results. That is the efficiency win — offload
+for context and quota, choose the model for the task.
+
+**Never address the AI Gateway by name — go through chittyclaw.** The gateway formerly
+named `chittyclaw` was deliberately renamed *because* sessions kept wiring straight to
+it and bypassing the assistant. The missing slug is **selection pressure, not drift**:
+it is supposed to feel like a wall. Reaching for the gateway's current name to "fix"
+a broken URL is the failure the rename exists to catch. Use the CLI container.
+
+**The gathering/judgment line will still be pushed.** Under time pressure the
+temptation is to reclassify judgment work as gathering so it can go cheap. A result
+that reads as a *conclusion* rather than as *gathered material* is the tell — treat it
+as input to be verified, never as the finding itself.
+
+### Per-projection mechanism
+
+The shape is constant; the primitive differs by where the projection runs. Discover
+the local budget and scale fan-out width to it — **never hardcode N**, because the
+native quota differs per projection and a width tuned for one starves or overruns
+another.
+
+- **Claude Code** — the `Workflow` tool, and the `ultracode` keyword for standing
+  opt-in. Concurrency is already capped at `min(16, cores-2)` per workflow; pass the
+  full work-list and let it queue rather than pre-trimming.
+- **Codex / OpenClaw agents / ChatGPT / Notion** — no `Workflow` primitive. The
+  ultracode-like shape is a chittyclaw fan-out: `ssh chittyclaw`, then
+  `docker exec openclaw-prod-openclaw-cli-1 openclaw ...`. Use the **CLI container**,
+  not the gateway HTTP API directly.
+- **Any projection** — the durable board (`chittyagent-tasks` Neon queue) is what
+  makes a fan-out survivable across a crash. Session-local state is not a plan.
+
+### Health-check claw BEFORE fanning out (and check it on the right host)
+
+Local subagents are the fallback, not the default — but a BINDING rule pointing at a
+dead endpoint fails closed on every task, and claw has been dead for 46 days before
+without anyone noticing. So the check is part of the rule:
+
+```
+ssh chittyclaw 'curl -s -o /dev/null -w "%{http_code}\n" http://localhost:18789/health'
+```
+
+**chittyclaw is its own tailnet node (`100.69.69.7`), NOT `chittyserv-vm`.** Running
+`docker ps` on the VM and finding no openclaw containers is the wrong check and
+produces a false "claw is down" — verified failure, made in practice. Two containers
+should be up: `openclaw-prod-openclaw-gateway-1` (healthy) and
+`openclaw-prod-openclaw-cli-1`.
+
+If claw is genuinely unreachable: **say so explicitly**, fall back to local subagents,
+and note that the fan-out spent viewport budget rather than the separate pool. Silent
+fallback is the failure mode — it hides both the outage and the cost. On restart,
+**gateway first, then CLI** — they share a netns, and restarting the gateway alone
+kills the CLI container into a fake "network connection error".
+
 ## ChittyOS Defaults
 
 ### Discovery-first: ask who owns it BEFORE designing (BINDING)
