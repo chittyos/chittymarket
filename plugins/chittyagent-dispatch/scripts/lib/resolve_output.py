@@ -25,6 +25,8 @@ _MAP = {
     ("claude-code", "mcp-server"):  ("plugins/{plugin}/.mcp.json",                   "claude-code-mcp.sh"),
     ("codex", "agent"):             ("plugins/{plugin}/codex-skills/{name}/SKILL.md", "codex-skill.sh"),
     ("codex", "skill"):             ("plugins/{plugin}/codex-skills/{name}/SKILL.md", "codex-skill.sh"),
+    ("gemini", "agent"):           ("plugins/{plugin}/gemini-skills/{name}/SKILL.md", "gemini-skill.sh"),
+    ("gemini", "skill"):           ("plugins/{plugin}/gemini-skills/{name}/SKILL.md", "gemini-skill.sh"),
     ("openclaw", "agent"):          ("plugins/{plugin}/openclaw-agents/{name}.yaml", "openclaw-agent.sh"),
     ("claude-skills", "tool"):      ("plugins/{plugin}/claude-skills/{name}.json",   "claude-skills.sh"),
     ("chatgpt-apps", "tool"):       ("plugins/{plugin}/chatgpt-apps/{name}.json",    "chatgpt-apps.sh"),
