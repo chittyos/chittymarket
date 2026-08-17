@@ -7,6 +7,7 @@ plugin: chittyos-governance
 runtimes:
   - claude-code
   - codex
+  - gemini
 classification:
   - governance
   - compliance

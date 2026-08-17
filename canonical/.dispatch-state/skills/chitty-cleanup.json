@@ -1,7 +1,8 @@
 {
-  "canonical_sha": "44bb4af3a9f1f4e4dcca8307990531be8706d446",
+  "canonical_sha": "fcedb0e38b9fa1c0424e31f83d65d6dcc24c617d",
   "targets": {
     "claude-code": "3651c96751b394efa38233f6787e1a434eff4a40",
-    "codex": "3651c96751b394efa38233f6787e1a434eff4a40"
+    "codex": "3651c96751b394efa38233f6787e1a434eff4a40",
+    "gemini": "3651c96751b394efa38233f6787e1a434eff4a40"
   }
 }

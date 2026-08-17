@@ -11,6 +11,7 @@ classification:
 runtimes:
   - claude-code
   - codex
+  - gemini
 
 plugin: chittyos-core
 overrides: claude-plugins-official:skill-creator

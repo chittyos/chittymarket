@@ -10,6 +10,7 @@ plugin: chittyagent-autobot
 runtimes:
   - claude-code
   - codex
+  - gemini
 classification:
   - governance
   - autonomy

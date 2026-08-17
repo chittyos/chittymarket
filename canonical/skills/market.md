@@ -7,6 +7,7 @@ plugin: chittymarket-manager
 runtimes:
   - claude-code
   - codex
+  - gemini
 classification:
   - marketplace
   - discovery

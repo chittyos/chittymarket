@@ -9,6 +9,7 @@ classification:
 runtimes:
   - claude-code
   - codex
+  - gemini
 plugin: chittyos-core
 ---
 

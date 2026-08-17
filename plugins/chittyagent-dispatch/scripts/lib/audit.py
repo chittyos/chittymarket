@@ -170,7 +170,7 @@ def audit(repo_root):
             if not os.path.isdir(pdir):
                 continue
             # Only audit projection dirs that are exclusively generated outputs.
-            for rel in ("codex-skills", "openclaw-agents", "claude-skills", "chatgpt-apps"):
+            for rel in ("codex-skills", "openclaw-agents", "gemini-skills", "claude-skills", "chatgpt-apps"):
                 proj_root = os.path.join(pdir, rel)
                 if not os.path.isdir(proj_root):
                     continue

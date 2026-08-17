@@ -7,6 +7,7 @@ plugin: chittyos-core
 runtimes:
   - claude-code
   - codex
+  - gemini
 classification:
   - learning
   - governance
