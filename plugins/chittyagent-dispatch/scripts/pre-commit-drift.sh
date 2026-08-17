@@ -37,7 +37,7 @@ for f in "${staged[@]}"; do
       [ "$n" = "README" ] || names["$n"]=1 ;;
     plugins/*/agents/*.md)
       n="${f##*/}"; names["${n%.md}"]=1 ;;
-    plugins/*/codex-skills/*/SKILL.md)
+    plugins/*/codex-skills/*/SKILL.md|plugins/*/gemini-skills/*/SKILL.md)
       tmp="${f%/SKILL.md}"; names["${tmp##*/}"]=1 ;;
     plugins/*/openclaw-agents/*.yaml)
       n="${f##*/}"; names["${n%.yaml}"]=1 ;;
