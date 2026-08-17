@@ -7,6 +7,7 @@ plugin: chittyos-mcp
 runtimes:
   - claude-code
   - codex
+  - gemini
 classification:
   - integration
   - authentication

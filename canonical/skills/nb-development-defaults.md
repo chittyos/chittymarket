@@ -11,6 +11,7 @@ classification:
 runtimes:
   - claude-code
   - codex
+  - gemini
 plugin: chittyos-core
 canonical_capability_ref: "chittycanon://capability/workspace/nb-development-defaults"
 overlay:
