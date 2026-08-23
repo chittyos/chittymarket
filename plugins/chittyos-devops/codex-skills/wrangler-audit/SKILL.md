@@ -80,6 +80,7 @@ Nested-`logs` shape (both shapes occur in the wild — check for BOTH):
 ```jsonc
 "observability": {
   "enabled": false,
+  "head_sampling_rate": 0,
   "logs": {
     "enabled": false,
     "head_sampling_rate": 0,
