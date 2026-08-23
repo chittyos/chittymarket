@@ -42,10 +42,11 @@ For each wrangler config file (`.toml`, `.json`, `.jsonc`), extract and compare:
 | `compatibility_date` | Flag if older than 6 months from today |
 | `compatibility_flags` | Note any non-standard flags |
 | `main` | Verify entry point file exists |
-| `tail_consumers` | MUST NOT name a service with no deployed target. An orphaned tail consumer is a dead binding and fails at deploy time. |
+| `tail_consumers` | MUST be absent. The OFF standard removed tail consumers fleet-wide; #650 stripped them from 18 files. Any surviving entry is a finding — and one naming a service with no deployed target is a dead binding that fails at deploy time, not review time. |
+| `observability` (block itself) | MUST be present. A worker with no `observability` block at all inherits the platform default, which captures — the same "absent is not off" trap one level up. Flag it and add an explicit disabled block. |
 | `observability.enabled` | MUST be `false` (fleet standard is OFF — see Step 3) |
-| `observability.head_sampling_rate` | MUST be present AND `0`. An absent key is NOT off — it inherits a capturing platform default. |
-| `observability.logs.*` | If a nested `logs` block exists, it carries the same rule: `enabled: false`, explicit `head_sampling_rate: 0`, `invocation_logs: false` |
+| `observability.head_sampling_rate` | MUST be present AND `0` wherever `enabled` is set. An absent key is NOT off — it inherits a capturing platform default. |
+| `observability.logs.*` | If a nested `logs` block exists, it carries the same rule: `enabled: false`, explicit `head_sampling_rate: 0`, `invocation_logs: false`. `invocation_logs` is valid ONLY here, never as a sibling of the top-level `enabled`. |
 | `placement.mode` | SHOULD be `"smart"` for workers hitting Hyperdrive/Neon |
 | `vars` | Check for hardcoded secrets (flag anything that looks like a token/key) |
 | `kv_namespaces` | Cross-reference for duplicate binding names |
@@ -67,10 +68,20 @@ Required in every Worker's wrangler config:
 ```jsonc
 "observability": {
   "enabled": false,
-  "head_sampling_rate": 0,
-  "invocation_logs": false
+  "head_sampling_rate": 0
 }
 ```
+
+`invocation_logs` is **not** valid at this level. Verified against wrangler
+4.118.0 — adding it as a sibling of `enabled` produces:
+
+```
+▲ [WARNING] Processing wrangler.jsonc configuration:
+    - Unexpected fields found in observability field: "invocation_logs"
+```
+
+It belongs under `logs`, which is where all 19 of the fleet's configs that set it
+actually put it.
 
 Nested-`logs` shape (both shapes occur in the wild — check for BOTH):
 
@@ -90,6 +101,11 @@ Or TOML equivalent:
 [observability]
 enabled = false
 head_sampling_rate = 0
+
+# only if a nested logs table is used:
+[observability.logs]
+enabled = false
+head_sampling_rate = 0
 invocation_logs = false
 ```
 
@@ -104,9 +120,10 @@ opposite. Audit for the key's *presence*, never only its value.
 **Flag CRITICAL** for any worker that:
 - Has `observability.enabled = true`
 - Declares an `observability` block with `head_sampling_rate` absent at the level where `enabled` is set
+- Has **no** `observability` block at all (inherits the capturing default)
 - Has any non-zero `head_sampling_rate`
-- Has `invocation_logs = true`
-- Names a `tail_consumers` service that has no deployed target (dead binding — fails at deploy, not at review)
+- Has `invocation_logs = true`, or `invocation_logs` placed outside a `logs` block
+- Has any `tail_consumers` entry (the OFF standard removed them fleet-wide)
 
 **Do NOT flag** `observability.enabled = false` or a missing `traces` block. Those
 are the standard, not defects.
