@@ -1,0 +1,19 @@
+{
+  "name": "chittyos-security",
+  "version": "0.1.0",
+  "description": "ChittyOS security review and threat modeling for Cloudflare Workers, MCP boundaries, secrets, data stores, and Workers Builds",
+  "author": {
+    "name": "ChittyOS",
+    "email": "dev@chitty.cc"
+  },
+  "requires": ["chittyos-core"],
+  "keywords": [
+    "security",
+    "threat-model",
+    "cloudflare",
+    "workers",
+    "mcp",
+    "secrets",
+    "compliance"
+  ]
+}
