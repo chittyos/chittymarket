@@ -48,7 +48,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: chore/hydrate-pointers-${{ github.run_number }}
-          base: feat/market-refactor-v2
+          base: main
           title: 'chore(hydrate): refresh pointer-agent content from upstream'
           body: |
             Automated hydration via `plugins/chittyagent-dispatch/scripts/hydrate-pointers.sh`.
