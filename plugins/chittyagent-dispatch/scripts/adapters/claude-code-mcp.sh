@@ -55,7 +55,7 @@ if not mcp or not isinstance(mcp, dict):
     sys.exit("canonical missing mcp: block (command/args/env)")
 
 # Read existing .mcp.json if present, else start fresh.
-if os.path.exists(out_path):
+if os.path.exists(out_path) and os.path.getsize(out_path) > 0:
     with open(out_path, encoding="utf-8") as f:
         existing = json.load(f)
 else:
