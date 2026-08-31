@@ -120,6 +120,16 @@
     }
 ,
     {
+      "name": "chittyos-security",
+      "description": "ChittyOS security review and threat modeling for Cloudflare Workers, MCP boundaries, secrets, data stores, and Workers Builds",
+      "version": "0.1.0",
+      "source": "./plugins/chittyos-security",
+      "strict": false,
+      "category": "security",
+      "keywords": ["security", "threat-model", "cloudflare", "workers", "mcp", "secrets", "compliance"]
+    }
+,
+    {
       "name": "neon-mcp",
       "description": "Neon PostgreSQL MCP server (standalone mode) — branches, migrations, SQL queries, schema management",
       "version": "1.0.0",
