@@ -138,22 +138,14 @@ jobs:
         run: chmod +x scripts/runtime-tests/codex-smoke.sh
 
       - name: Run codex smoke loader
-        id: codex_smoke
-        continue-on-error: true
-        run: |
-          set +e
-          bash scripts/runtime-tests/codex-smoke.sh
-          rc=$?
-          echo "exit_code=$rc" >> "$GITHUB_OUTPUT"
-          exit $rc
+        run: bash scripts/runtime-tests/codex-smoke.sh
 
       - name: Report skip reason if runtime unavailable
-        if: steps.codex_smoke.outcome == 'failure'
+        if: failure()
         run: |
           echo "::warning::codex-smoke reported failures or runtime is unavailable."
           echo "If the schema-mimic loader was used (no real codex skill-load CLI), this job"
           echo "still surfaces parse/shape errors and is treated as a hard failure."
-          exit ${{ steps.codex_smoke.outputs.exit_code }}
 
   # 5. OpenClaw runtime smoke (adversarial review #4): every projected
   #    plugins/<plug>/openclaw-agents/<name>.yaml must load. Real openclaw
@@ -181,19 +173,11 @@ jobs:
         run: chmod +x scripts/runtime-tests/openclaw-smoke.sh
 
       - name: Run openclaw smoke loader
-        id: openclaw_smoke
-        continue-on-error: true
-        run: |
-          set +e
-          bash scripts/runtime-tests/openclaw-smoke.sh
-          rc=$?
-          echo "exit_code=$rc" >> "$GITHUB_OUTPUT"
-          exit $rc
+        run: bash scripts/runtime-tests/openclaw-smoke.sh
 
       - name: Report skip reason if runtime unavailable
-        if: steps.openclaw_smoke.outcome == 'failure'
+        if: failure()
         run: |
           echo "::warning::openclaw-smoke reported failures."
           echo "Real openclaw runtime is not yet on PATH in CI; schema-mimic loader was used."
           echo "Failures indicate adapter or projection drift, not runtime absence."
-          exit ${{ steps.openclaw_smoke.outputs.exit_code }}
