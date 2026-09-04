@@ -1,7 +1,7 @@
 ---
 name: chittyagent-dispatch
 description: |
-  Project canonical agent/skill/hook definitions to every runtime format. The single canonical doc lives at `chittymarket/canonical/<name>.md`; this agent reads it and projects it to every registered runtime as a file inside this repository — Claude Code agents/skills/commands/hooks/MCP configs, Codex SKILL.md, OpenClaw YAML agents, Claude Skills and ChatGPT Apps tool manifests. Use when (1) the canonical was just updated and runtimes need re-sync, (2) a new agent is being added and needs first-time projection, (3) drift is detected between canonical and a projected file, (4) a new runtime target is being onboarded. Companion to `chittyagent-autobot` (feature implementation orchestrator) — autobot does feature work, dispatch handles the definition-projection lifecycle.
+  Project canonical agent/skill/hook definitions to every runtime format. The single canonical doc lives at `chittymarket/canonical/<name>.md`; this agent reads it and projects it to every registered runtime as a file inside this repository — Claude Code agents/skills/commands/hooks/MCP configs, Codex SKILL.md, OpenClaw YAML agents, Claude Skills and ChatGPT Apps tool manifests. Also owns registration of agent/skill definitions into the orchestrator's KV discovery index (`agent:index` / `skill:index`) at agent.chitty.cc — currently a documented manual step with no adapter behind it. Use when (1) the canonical was just updated and runtimes need re-sync, (2) a new agent is being added and needs first-time projection, (3) drift is detected between canonical and a projected file, (4) a new runtime target is being onboarded. Companion to `chittyagent-autobot` (feature implementation orchestrator) — autobot does feature work, dispatch handles the definition-projection lifecycle.
 
   <example>
   Context: User just edited the canonical chittyagent-neon definition
@@ -124,7 +124,7 @@ Procedure:
 1. Author or accept the canonical at `chittymarket/canonical/<name>.md`.
 2. Validate frontmatter; refuse if any required field missing.
 3. Run `sync` mode against just this canonical.
-4. **Register with orchestrator** (verified live 2026-09-04): POST to
+4. **Register with orchestrator**: POST to
    `https://agent.chitty.cc/orchestrator/api/v1/registry/agents` — note the `/orchestrator`
    prefix, which the worker strips itself before handing off to Hono. `skills` and `hooks` are
    the other two valid `:type` values. The body is a single index entry and **must carry `id`**:
@@ -148,6 +148,13 @@ Procedure:
    `Bash, Read, Write, Edit, Glob, Grep` — no MCP — so from here the REST route is the only path.
 
    **No adapter performs this step today.** It is documented, not automated; see *Adapters* below.
+
+   Verification status (2026-09-04), stated precisely because the previous version of this step
+   was confidently wrong: the route's existence and prefix behaviour were confirmed by probe —
+   `GET /orchestrator/api/v1/registry/agents` returns 200 with the live index, the unprefixed
+   `/api/v1/registry/agents` returns 404. The POST contract above was read from the handler
+   source, **not exercised** — issuing it would mutate production KV, which is a state change
+   behind an approval gate. Treat the payload shape as source-derived, not round-tripped.
 
 ## Mode 3: `reconcile` — surface and integrate direct edits to projected files
 
@@ -176,8 +183,10 @@ Procedure:
    takes `{plugin}` and `{name}` and is relative to the repo root. An unknown pair exits 3.
 
    There is **no `.runtimes.json`.** An earlier revision of this document specified one; it was
-   never created, and the resolver supersedes it. `add-target` is still a stub in `dispatch.sh`
-   and its stub message names that file — treat both as historical.
+   never created, and the resolver supersedes it. `add-target` remains a stub in `dispatch.sh`;
+   its message previously instructed the user to register the adapter in that non-existent file,
+   and now points at `_MAP` instead — a stub that misdirects is worse than one that admits it is
+   a stub.
 
 2. Implement the adapter at `plugins/chittyagent-dispatch/scripts/adapters/<runtime>.sh`. It is
    invoked as `<adapter> <canonical-path> <output-path>` — **two positional arguments, and the
