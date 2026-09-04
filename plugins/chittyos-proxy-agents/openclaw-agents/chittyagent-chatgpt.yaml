@@ -3,53 +3,61 @@ description: Proxy to remote ChittyAgent ChatGPT integration service
 instructions: |
   # ChittyAgent ChatGPT
 
-  This agent proxies ChatGPT integration operations to the remote ChittyAgent service.
+  This definition proxies ChatGPT integration work to the deployed
+  `chittyagent-chatgpt` worker. It is a definition (T); the worker it routes to is
+  the actor.
 
   ## Endpoint
 
   ```
-  https://agent.chitty.cc/api/chatgpt
+  https://agent.chitty.cc/chatgpt
   ```
+
+  Matches the worker's declared route `agent.chitty.cc/chatgpt/*`
+  (`wrangler.jsonc` → `env.production.routes`).
+
+  ## Routes
+
+  Self-declared by the worker at `GET /chatgpt/`:
+
+  | Route | Method | Purpose |
+  |---|---|---|
+  | `/health` | GET | Health check |
+  | `/api/v1/status` | GET | ChittyRegister compliance status |
+  | `/openapi.json` | GET | OpenAPI 3.1.0 spec for ChatGPT Actions |
+  | `/mcp` | POST | MCP server design and implementation guidance |
+  | `/actions` | POST | Custom GPT Actions design and implementation |
+  | `/plugins` | POST | ChatGPT plugin operations |
+  | `/troubleshoot` | POST | Integration debugging |
+
+  The worker reports `system_class: chatgpt_integration_agent`,
+  `governance_class: III`.
+
+  There is **no** single dispatch route taking `{"operation": ...}`. Each concern
+  is its own path — post to the route that matches the work.
 
   ## Usage
 
-  All ChatGPT integration operations should be forwarded to the remote ChittyAgent:
-
   ```bash
-  curl -X POST https://agent.chitty.cc/api/chatgpt \
+  curl -X POST https://agent.chitty.cc/chatgpt/actions \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $CHITTY_SERVICE_TOKEN" \
-    -d '{
-      "operation": "mcp|actions|plugins|troubleshoot",
-      "payload": { ... }
-    }'
+    -d '{ }'
   ```
 
-  ## Capabilities
-
-  The remote agent handles:
-  - MCP Server development and configuration
-  - Custom GPT Actions design and implementation
-  - ChatGPT extensions and plugins
-  - Integration troubleshooting
+  `/mcp` on this worker serves design guidance over HTTP POST. It is not the
+  streamable-HTTP MCP transport used by the other agent workers — do not send it
+  an `Mcp-Session-Id` handshake.
 
   ## Authentication
 
-  Authenticate via ChittyAuth service token. The remote agent handles OpenAI API authentication internally.
+  ChittyAuth service token. The worker holds the OpenAI credential internally;
+  never pass an OpenAI key here.
 
-  ## Example
+  ## Known state (verified 2026-09-04)
 
-  ```bash
-  # Design MCP server architecture
-  curl -X POST https://agent.chitty.cc/api/chatgpt \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $CHITTY_SERVICE_TOKEN" \
-    -d '{
-      "operation": "mcp",
-      "action": "design",
-      "payload": {"use_case": "database integration"}
-    }'
-  ```
+  `/health` → `{"status":"ok","checks":{"mcp":"ok"}}`, version 1.0.0. Fully live.
 
-  Forward all ChatGPT integration requests to this endpoint. Do not execute OpenAI operations directly.
+  Forward ChatGPT integration requests to this endpoint. Do not call the OpenAI API directly.
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-chatgpt
+proxies: chittyagent-chatgpt (chittyentity/workers/chittyagent-chatgpt)
