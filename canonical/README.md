@@ -12,10 +12,10 @@ Canonical capability identity and ontology resolve through ChittyCanon / ChittyR
 
 ```
 canonical/
-  <name>.md                    # Market-owned projection definition
-  .runtimes.json               # runtime adapter registry
-  .dispatch-state/<name>.json  # last-projected sentinel per definition
-  .dispatch-log.jsonl          # append-only audit log of dispatch runs
+  <kind>/<name>.md                    # Market-owned projection definition
+                                      # <kind>: agents | skills | commands | mcp | tools
+  .dispatch-state/<kind>/<name>.json  # last-projected sentinel per definition
+  .dispatch-log.jsonl                 # append-only dispatch audit log (gitignored)
 ```
 
 Each projection definition should preserve or resolve the owning canonical capability and, where applicable, entity projection identity. Generated runtime files are delivery projections, not new canonical capabilities.
