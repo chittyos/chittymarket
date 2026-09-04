@@ -1,15 +1,12 @@
 name: Validate ChittyMarket
 
 on:
+  # No `paths:` filter. These three jobs are required status checks on main
+  # (see SECURITY.md), and a path-filtered workflow simply never reports on a
+  # PR that misses the filter — leaving the PR blocked forever waiting for a
+  # check that will not run. A doc-only PR deadlocked exactly this way before
+  # the filter was removed. The repo is public, so the extra runs are free.
   pull_request:
-    paths:
-      - "canonical/**"
-      - "plugins/**"
-      - ".claude-plugin/**"
-      - "marketplace.json"
-      - "profiles.json"
-      - "scripts/**"
-      - ".github/workflows/validate-chittymarket.yml"
   push:
     branches:
       - main
