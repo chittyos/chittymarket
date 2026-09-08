@@ -29,6 +29,11 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from resolve_output import resolve, _MAP  # noqa: E402
 
+# Generated-only projection dirs, derived from _MAP so a new runtime cannot
+# reopen the ORPHAN_PROJ blind spot. claude-code writes to shared dirs
+# (agents/skills/commands/hooks/.mcp.json), so it is excluded.
+_GENERATED_DIRS = sorted({t.split("/")[2] for (rt, _k), (t, _a) in _MAP.items() if rt != "claude-code"})
+
 try:
     import yaml
 except ImportError:
@@ -170,7 +175,7 @@ def audit(repo_root):
             if not os.path.isdir(pdir):
                 continue
             # Only audit projection dirs that are exclusively generated outputs.
-            for rel in ("codex-skills", "openclaw-agents", "gemini-skills", "claude-skills", "chatgpt-apps"):
+            for rel in _GENERATED_DIRS:
                 proj_root = os.path.join(pdir, rel)
                 if not os.path.isdir(proj_root):
                     continue
