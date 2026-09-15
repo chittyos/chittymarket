@@ -72,7 +72,7 @@
     {
       "name": "chittyos-devops",
       "description": "ChittyOS deployment and infrastructure — deploy services, health checks, registry queries, pipelines, wrangler audits, and compliance",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "source": "./plugins/chittyos-devops",
       "strict": false,
       "category": "operations",

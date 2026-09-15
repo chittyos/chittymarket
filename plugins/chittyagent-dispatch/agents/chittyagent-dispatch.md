@@ -1,12 +1,12 @@
 ---
 name: chittyagent-dispatch
 description: |
-  Project canonical agent/skill/hook definitions to every runtime format. The single canonical doc lives at `chittymarket/canonical/<name>.md`; this agent reads it and emits Claude Code agent files, Codex SKILL.md (+ scripts/), OpenClaw YAML agents, ChatGPT Custom GPT configs, Notion agent records, and orchestrator KV entries at agent.chitty.cc. Use when (1) the canonical was just updated and runtimes need re-sync, (2) a new agent is being added and needs first-time projection, (3) drift is detected between canonical and a projected file, (4) a new runtime target is being onboarded. Companion to `chittyagent-autobot` (feature implementation orchestrator) — autobot does feature work, dispatch handles the definition-projection lifecycle.
+  Project canonical agent/skill/hook definitions to every runtime format. The single canonical doc lives at `chittymarket/canonical/<name>.md`; this agent reads it and projects it to every registered runtime as a file inside this repository — Claude Code agents/skills/commands/hooks/MCP configs, Codex SKILL.md, OpenClaw YAML agents, Claude Skills and ChatGPT Apps tool manifests. Also owns registration of agent/skill definitions into the orchestrator's KV discovery index (`agent:index` / `skill:index`) at agent.chitty.cc — currently a documented manual step with no adapter behind it. Use when (1) the canonical was just updated and runtimes need re-sync, (2) a new agent is being added and needs first-time projection, (3) drift is detected between canonical and a projected file, (4) a new runtime target is being onboarded. Companion to `chittyagent-autobot` (feature implementation orchestrator) — autobot does feature work, dispatch handles the definition-projection lifecycle.
 
   <example>
   Context: User just edited the canonical chittyagent-neon definition
   user: "I updated chittymarket/canonical/chittyagent-neon.md — sync the runtimes"
-  assistant: "Running chittyagent-dispatch in `sync` mode to project the updated canonical to Claude Code, Codex, OpenClaw, and the orchestrator KV."
+  assistant: "Running chittyagent-dispatch in `sync` mode to project the updated canonical to Claude Code, Codex, and OpenClaw."
   </example>
 
   <example>
@@ -17,7 +17,7 @@ description: |
 
   <example>
   Context: User edited a projected file directly (drift detected)
-  user: "I tweaked ~/.codex/skills/chittyauth-neon-auth-agent/SKILL.md directly — pick up my edit"
+  user: "I tweaked plugins/chittyos-core/codex-skills/chittyagent-neon/SKILL.md directly — pick up my edit"
   assistant: "Direct edits to projected files create drift. I'll run chittyagent-dispatch in `reconcile` mode: diff the projection against canonical, surface the change for promotion to canonical, then re-project everywhere."
   </example>
 
@@ -48,14 +48,20 @@ chittymarket/canonical/<name>.md         ← single source of truth (one doc per
         ▼
    chittyagent-dispatch (this agent)
         │
-        ├──► chittymarket/plugins/<plugin>/agents/<name>.md       (Claude Code agent format)
-        ├──► chittymarket/plugins/<plugin>/skills/<name>/SKILL.md (Claude Code skill format)
-        ├──► ~/.codex/skills/<name>/SKILL.md (+ scripts/, refs/)  (Codex format)
-        ├──► ~/.openclaw/agents/<name>.yaml                       (OpenClaw format)
-        ├──► ChatGPT Custom GPT config (POSTed via OpenAI API)
-        ├──► Notion agent record (POSTed via Notion API)
-        └──► agent.chitty.cc orchestrator KV (agent:index, skill:index)
+        ├──► plugins/<plugin>/agents/<name>.md            (Claude Code agent)
+        ├──► plugins/<plugin>/skills/<name>/SKILL.md      (Claude Code skill)
+        ├──► plugins/<plugin>/commands/<name>.md          (Claude Code command)
+        ├──► plugins/<plugin>/hooks/hooks.json            (Claude Code hook)
+        ├──► plugins/<plugin>/.mcp.json                   (Claude Code MCP server)
+        ├──► plugins/<plugin>/codex-skills/<name>/SKILL.md (Codex)
+        ├──► plugins/<plugin>/openclaw-agents/<name>.yaml  (OpenClaw)
+        ├──► plugins/<plugin>/claude-skills/<name>.json    (Claude Skills tool)
+        └──► plugins/<plugin>/chatgpt-apps/<name>.json     (ChatGPT Apps tool)
 ```
+
+All paths are relative to the repo root; **every projection is a repo file.** Registration with
+the orchestrator KV (`agent:index` / `skill:index`) is a documented Mode 2 step with no adapter
+behind it yet — it is not part of `sync`. See *Adapters*.
 
 **The rule**: canonical/ is the only path humans edit. Projected files are generated artifacts. Direct edits to projections trigger reconciliation, not silent acceptance.
 
@@ -127,7 +133,37 @@ Procedure:
 1. Author or accept the canonical at `chittymarket/canonical/<name>.md`.
 2. Validate frontmatter; refuse if any required field missing.
 3. Run `sync` mode against just this canonical.
-4. **Register with orchestrator**: POST to `https://agent.chitty.cc/api/v1/agents/register` with `{name, kind, canonical_sha, classification, runtimes, version}`. The orchestrator's KV (`agent:index` / `skill:index`) is the runtime discovery layer used by the slim-MCP `search` + `execute` pattern.
+4. **Register with orchestrator**: POST to
+   `https://agent.chitty.cc/orchestrator/api/v1/registry/agents` — note the `/orchestrator`
+   prefix, which the worker strips itself before handing off to Hono. `skills` and `hooks` are
+   the other two valid `:type` values. The body is a single index entry and **must carry `id`**:
+
+   ```json
+   {"id": "notion", "name": "chittyagent-notion", "description": "...",
+    "domain": "notion.agent.chitty.cc", "capabilities": ["..."], "tools": 0}
+   ```
+
+   `id` is load-bearing, not decorative. The handler upserts with
+   `index.agents.findIndex(a => a.id === entry.id)`. A body without `id` pushes an entry whose
+   `id` is `undefined`; every later `id`-less POST then *matches* that entry and overwrites it,
+   so N registrations leave exactly one clobbered record. Send `id` or corrupt the index.
+
+   The orchestrator's KV (`agent:index` / `skill:index`) is the runtime discovery layer behind
+   the slim-MCP `search` + `execute` pattern. Two stages populate it: worker bindings supply
+   identity (`id`, `name`, `binding`, `status`), and registration supplies semantics
+   (`description`, `capabilities`, `tools`). This agent owns the second stage.
+
+   Interactive equivalent: the `agent_register` MCP tool, same fields. This agent's tool grant is
+   `Bash, Read, Write, Edit, Glob, Grep` — no MCP — so from here the REST route is the only path.
+
+   **No adapter performs this step today.** It is documented, not automated; see *Adapters* below.
+
+   Verification status (2026-09-04), stated precisely because the previous version of this step
+   was confidently wrong: the route's existence and prefix behaviour were confirmed by probe —
+   `GET /orchestrator/api/v1/registry/agents` returns 200 with the live index, the unprefixed
+   `/api/v1/registry/agents` returns 404. The POST contract above was read from the handler
+   source, **not exercised** — issuing it would mutate production KV, which is a state change
+   behind an approval gate. Treat the payload shape as source-derived, not round-tripped.
 
 ## Mode 3: `reconcile` — surface and integrate direct edits to projected files
 
@@ -148,17 +184,23 @@ When ChittyOS adopts a new runtime (e.g., ChatGPT Custom GPTs, Notion agents, Op
 
 Procedure:
 
-1. Register the runtime in `chittymarket/canonical/.runtimes.json`:
-   ```json
-   {
-     "openclaw": {
-       "adapter": "scripts/adapters/openclaw.sh",
-       "default_path": "~/.openclaw/agents/{name}.yaml",
-       "format": "yaml-openclaw-v1"
-     }
-   }
-   ```
-2. Implement the adapter at `scripts/adapters/<runtime>.sh` (or `.ts` / `.py`). It takes a canonical path on stdin, emits the runtime-specific format on stdout. **The adapter is the only place runtime-specific knowledge lives.**
+1. Add the `(runtime, kind)` pair to `_MAP` in
+   `plugins/chittyagent-dispatch/scripts/lib/resolve_output.py` — the single resolver that
+   `sync`, `audit`, and `reconcile` all call, so the three can never disagree about where a
+   canonical projects to. Each entry is
+   `("<runtime>", "<kind>"): ("<output template>", "<adapter filename>")`, where the template
+   takes `{plugin}` and `{name}` and is relative to the repo root. An unknown pair exits 3.
+
+   There is **no `.runtimes.json`.** An earlier revision of this document specified one; it was
+   never created, and the resolver supersedes it. `add-target` remains a stub in `dispatch.sh`;
+   its message previously instructed the user to register the adapter in that non-existent file,
+   and now points at `_MAP` instead — a stub that misdirects is worse than one that admits it is
+   a stub.
+
+2. Implement the adapter at `plugins/chittyagent-dispatch/scripts/adapters/<runtime>.sh`. It is
+   invoked as `<adapter> <canonical-path> <output-path>` — **two positional arguments, and the
+   adapter writes the output file itself.** It does not read stdin or emit to stdout.
+   **The adapter is the only place runtime-specific knowledge lives.**
 3. Run `sync` against every canonical in `chittymarket/canonical/` to do first-time projection to the new runtime.
 4. Verify install: spot-check 3 random projected files by loading them in the target runtime.
 
@@ -172,19 +214,44 @@ Procedure:
 2. **Orphan check** — find runtime files that have no canonical: e.g., a `~/.claude/plugins/.../agents/X.md` where no `chittymarket/canonical/X.md` exists.
 3. **Output a single matrix**: rows = canonicals, columns = runtimes, cells = `synced` / `drifted` / `missing` / `orphaned`.
 
-# Adapters (skeleton — full implementations land per-runtime)
+# Adapters
 
-Adapters live at `plugins/chittyagent-dispatch/scripts/adapters/<runtime>.sh`. Stubs exist for:
+Adapters live at `plugins/chittyagent-dispatch/scripts/adapters/`. The `(runtime, kind)` pairs
+each one serves are declared in `lib/resolve_output.py`; this list is the disk contents as of
+2026-09-04 and is authoritative over any prose elsewhere in this document.
 
-- `claude-code-agent.sh` — emits Claude Code agent frontmatter + body to `chittymarket/plugins/<plugin>/agents/<name>.md`.
-- `claude-code-skill.sh` — emits SKILL.md format to `chittymarket/plugins/<plugin>/skills/<name>/SKILL.md`, plus `scripts/`, `references/`.
-- `codex-skill.sh` — emits Codex SKILL.md to `~/.codex/skills/<name>/SKILL.md` plus runtime-specific `scripts/` and `references/` from `runtime_overrides.codex`.
-- `openclaw-agent.sh` — emits OpenClaw YAML agent to `~/.openclaw/agents/<name>.yaml` with permission/sandbox config from `runtime_overrides.openclaw`.
-- `chatgpt-gpt.sh` — POSTs to OpenAI Custom GPT API with the canonical body as instructions.
-- `notion-agent.sh` — POSTs to Notion API to create/update an agent record in the canonical Agents DB.
-- `orchestrator-kv.sh` — POSTs to `agent.chitty.cc/api/v1/agents/register` for slim-MCP discovery.
+| Adapter | Serves `(runtime, kind)` | Writes |
+|---|---|---|
+| `claude-code-agent.sh` | `(claude-code, agent)`, `(claude-code, skill)`, `(claude-code, command)` | `plugins/{plugin}/agents/{name}.md`, `.../skills/{name}/SKILL.md`, `.../commands/{name}.md` |
+| `claude-code-hook.sh` | `(claude-code, hook)` | `plugins/{plugin}/hooks/hooks.json` |
+| `claude-code-mcp.sh` | `(claude-code, mcp-server)` | `plugins/{plugin}/.mcp.json` |
+| `codex-skill.sh` | `(codex, agent)`, `(codex, skill)` | `plugins/{plugin}/codex-skills/{name}/SKILL.md` |
+| `openclaw-agent.sh` | `(openclaw, agent)` | `plugins/{plugin}/openclaw-agents/{name}.yaml` |
+| `claude-skills.sh` | `(claude-skills, tool)` | `plugins/{plugin}/claude-skills/{name}.json` |
+| `chatgpt-apps.sh` | `(chatgpt-apps, tool)` | `plugins/{plugin}/chatgpt-apps/{name}.json` |
 
-Each adapter is < 100 LOC and runtime-specific. Adapter authors are the only ones who need to know the target format.
+**Every adapter writes inside this repository.** An earlier revision of this document described
+the codex and openclaw adapters as writing `~/.codex/skills/<name>/SKILL.md` and
+`~/.openclaw/agents/<name>.yaml` — the operator's native dotfiles. They do not, and must not:
+silently writing a user's native config is forbidden outright (`chittyconfig` CLAUDE.md, prime
+directive 3 — propose the diff, get approval). Installing a projection into a native space is a
+separate, human-ratified step, not something `sync` does.
+
+**Adapters that do not exist**, each named by an earlier revision and each still unwritten:
+
+- `notion-agent.sh` — no `notion` runtime is registered in `_MAP`.
+- `orchestrator-kv.sh` — would POST to the registration route in Mode 2 step 4. Its absence is
+  why that step has never run: the route documented there was wrong, the payload shape was
+  wrong, and nothing invoked it. All three had to be true for the step to be a no-op, and all
+  three were. Writing this adapter means POSTing to production KV, which is a state mutation
+  behind an approval gate — it is deliberately not stubbed, because a stub that does not
+  register is worse than an absence that is documented.
+- `chatgpt-gpt.sh` — superseded by `chatgpt-apps.sh`, which serves `(chatgpt-apps, tool)` and
+  writes a repo file rather than POSTing to the OpenAI Custom GPT API.
+- `claude-code-skill.sh` — superseded; `(claude-code, skill)` is served by `claude-code-agent.sh`.
+
+Each adapter is small and runtime-specific. Adapter authors are the only ones who need to know
+the target format.
 
 # Important Rules
 

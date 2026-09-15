@@ -11,62 +11,79 @@ runtimes:
 classification:
   - proxy
   - integration
+proxies: chittyagent-cloudflare (chittyentity/workers/chittyagent-cloudflare)
 ---
 
 # ChittyAgent Cloudflare
 
-This agent proxies Cloudflare operations to the remote ChittyAgent service.
+This definition proxies Cloudflare operations to the deployed
+`chittyagent-cloudflare` worker. It is a definition (T); the worker it routes to
+is the actor.
 
 ## Endpoint
 
 ```
-https://agent.chitty.cc/api/cloudflare
+https://agent.chitty.cc/cloudflare
 ```
 
-## Usage
+Matches the worker's declared route `agent.chitty.cc/cloudflare/*`
+(`wrangler.jsonc` → `env.production.routes`).
 
-All Cloudflare operations should be forwarded to the remote ChittyAgent:
+## Routes
 
-```bash
-curl -X POST https://agent.chitty.cc/api/cloudflare \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $CHITTY_SERVICE_TOKEN" \
-  -d '{
-    "operation": "workers|pages|r2|d1|kv|dns|...",
-    "action": "deploy|configure|query|...",
-    "payload": { ... }
-  }'
-```
+| Route | Purpose |
+|---|---|
+| `/health` | Health + per-account reachability |
+| `/api/v1/status` | ChittyRegister compliance status |
+| `/workers/list` | List Workers |
+| `/kv/list` | List KV namespaces |
+| `/r2/list`, `/r2/inventory`, `/r2/inventory/all`, `/r2/create` | R2 buckets |
+| `/dns/zones` | DNS zones |
+| `/domains/list`, `/sync/domains` | Domains |
+| `/cf-api` | Generic Cloudflare API passthrough |
+| `/mcp` | MCP transport |
 
 ## Capabilities
 
-The remote agent handles:
-- Workers deployment and management
-- Pages deployment and configuration
-- R2 object storage operations
-- D1 database operations
-- KV namespace management
-- DNS and zone configuration
-- WAF and security settings
-- Durable Objects
-- Queues and Workers AI
+The worker reports exactly: **`workers`, `kv`, `r2`, `dns`, `domains`**.
+
+Pages, D1, WAF, Durable Objects, Queues, and Workers AI are **not** served by
+this agent. A previous revision of this document listed them; that was not
+backed by the deployment. Route those elsewhere.
+
+## Accounts
+
+Multi-account. `/health` reports per-account reachability for `chittycorp`,
+`digitaldossier`, and `furnishedcondos`.
+
+## Usage
+
+```bash
+curl -s https://agent.chitty.cc/cloudflare/workers/list \
+  -H "Authorization: Bearer $CHITTY_SERVICE_TOKEN"
+```
+
+Each concern is its own path. There is no single dispatch route taking
+`{"operation": ..., "action": ...}`.
 
 ## Authentication
 
-Authenticate via ChittyAuth service token. The remote agent handles Cloudflare API authentication internally.
+ChittyAuth service token. The worker holds Cloudflare API credentials
+internally; never pass a Cloudflare key or `X-Auth-Key` here.
 
-## Example
+## Known state (verified 2026-09-04)
 
-```bash
-# Deploy a worker
-curl -X POST https://agent.chitty.cc/api/cloudflare \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $CHITTY_SERVICE_TOKEN" \
-  -d '{
-    "operation": "workers",
-    "action": "deploy",
-    "payload": {"name": "my-worker", "code": "..."}
-  }'
-```
+- `/health` → `status: degraded`.
+- `GET /cloudflare/` → **403 `"Missing CHITTY_AUTH_SERVICE_TOKEN in env"`** — the
+  worker's own outbound service credential is absent from its environment.
+- Account reachability: `chittycorp` reachable; `digitaldossier` and
+  `furnishedcondos` both fail with `"Unknown X-Auth-Key or X-Auth-Email"`.
 
-Forward all Cloudflare requests to this endpoint. Do not execute Cloudflare API calls directly.
+Two of three accounts and the service token are credential faults, not routing
+faults. Repair routes through ChittyConnect (`/chico`), not through this
+definition.
+
+Note: `cloudflare.chitty.cc` returns **522**. It is a stale hostname with no
+worker behind it — not this service. Use the path form above.
+
+Forward Cloudflare requests to this endpoint. Do not call the Cloudflare API directly.
