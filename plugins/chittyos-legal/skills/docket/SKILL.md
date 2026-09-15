@@ -81,7 +81,36 @@ Pull live docket and update that case's master timeline CSV with new entries.
 2. Resolve against the case registry (chittyrouter `CASE_BY_NUMBER` / `CASE_BY_SLUG` or chittyevidence-db `evidence_cases`).
 3. If not found: stop, report "unknown case" to caller. Do not fall back.
 
-### Step 2: Load Browser Tools
+### Step 2: WAF blocker — read this before choosing a method
+
+Cook County Clerk's F5/Shape WAF is confirmed (2026-08-31, CFDXN-176/CFDXN-178) to reject
+CDP-driven and headless browser automation, and plain HTTP requests, regardless of origin IP:
+Cloudflare Browser Rendering (chittyscrape), Apify datacenter Playwright, Apify residential-IP
+Playwright, and plain `curl` with a realistic browser User-Agent (even against the bare
+homepage) were all blocked identically — from both a cloud datacenter VM and a home-network IP.
+The block fingerprints the automation channel itself (CDP artifacts / TLS handshake), not IP
+reputation. `mcp__claude-in-chrome__*` drives Chrome via the same DevTools Protocol class of
+automation that's confirmed blocked in every other tested form — it has not been directly
+tested against this specific portal, but treat it as likely blocked given the pattern, and
+prefer the method below unless/until it's confirmed otherwise.
+
+**Preferred method — real Safari GUI, verified working:** use
+`chittyentity/actors/chittyactor-cook-county-docket` (rewritten 2026-08-31). This drives a
+genuine, logged-in Safari session via AppleScript (`osascript`/`do JavaScript`) on
+`chittymini-01` — the only method confirmed to load the actual search results instead of an F5
+"Request Rejected" page. It requires one-time, console-only permission grants on that specific
+Mac (see the actor's `CLAUDE.md`) and cannot run in Docker, on Apify's cloud, or on any headless
+Linux node. Invoke it via `python3 main.py <input.json> <output.json>` on `chittymini-01`
+directly, or dispatch the Nomad job (`cook-county-docket.nomad.hcl`, parameterized, node-pinned)
+from a calling `chittyagent-*` worker. Case-number format for this portal has no dashes
+(`20261701287`, not `2024-D-007847`) — confirm the exact format against a case you already know
+the answer for before trusting a new one.
+
+The remaining steps below (claude-in-chrome-based) are kept as a documented fallback only, for
+use if the real-Safari actor is unavailable and you want to attempt the CDP path anyway — expect
+it to likely hit the same WAF block based on the pattern above.
+
+### Step 3: Load Browser Tools (fallback path only — see Step 2)
 ```
 ToolSearch: select:mcp__claude-in-chrome__tabs_context_mcp
 ToolSearch: select:mcp__claude-in-chrome__tabs_create_mcp
@@ -91,22 +120,25 @@ ToolSearch: select:mcp__claude-in-chrome__computer
 ToolSearch: select:mcp__claude-in-chrome__javascript_tool
 ```
 
-### Step 3: Navigate to Case Search
+### Step 4: Navigate to Case Search (fallback path only)
 1. Get tab context: `mcp__claude-in-chrome__tabs_context_mcp` (createIfEmpty: true)
 2. Create new tab: `mcp__claude-in-chrome__tabs_create_mcp`
 3. Navigate to: `https://casesearch.cookcountyclerkofcourt.org/CivilCaseSearchAPI.aspx`
 
-### Step 4: Search for Case
-The site is ASP.NET WebForms. **Do NOT use JavaScript to set form values** — they get cleared on postback. Use direct interaction:
+### Step 5: Search for Case (fallback path only)
+The site is ASP.NET WebForms. **Do NOT use JavaScript to set form values across a postback
+boundary** — they get cleared. (The real-Safari actor works around this by setting every field
+and clicking submit inside a single `do JavaScript` call, which does not cross a postback.) Use
+direct interaction:
 
 1. **Select Division** per the resolved case (e.g. "Domestic Relations / Child Support" = value "4")
 2. **Ensure "Search by Case Number" radio** is selected (first radio button)
 3. **Click into the case number text input** (triple_click to select any existing text)
-4. **Type case number**: Use `computer` type action with `<caseNumber>` from the resolved case (e.g. `2024D007847` for arias-v-bianchi)
+4. **Type case number**: Use `computer` type action with `<caseNumber>` from the resolved case — no dashes (e.g. `20261701287`, not `2024-D-007847`)
 5. **Click "Start New Search"** button (type="submit")
 6. **Wait 3-4 seconds** for page load
 
-### Step 5: Read Docket Results
+### Step 6: Read Docket Results (fallback path only)
 Use `read_page` with:
 - `filter: "all"`
 - `depth: 10`
@@ -125,13 +157,18 @@ Event Desc: [description]
 Comments: [optional comments]
 ```
 
-### Step 6: Parse Results
+(The real-Safari actor extracts the same fields more reliably via structured DOM table queries
+instead of flattened accessibility-tree text — see its `TABLES_JS` — because multi-line cells,
+e.g. a defendant name that wraps across lines, collapse ambiguously in flattened text but stay
+unambiguous per-cell in the DOM.)
+
+### Step 7: Parse Results (fallback path only)
 Extract from the accessibility tree:
 1. **Next court date** from "Future Court Activity" section
 2. **All case activities** with date, event description, and comments
 3. Compare against the case's master timeline CSV to identify NEW entries
 
-### Step 7: Update Master Timeline (if `/docket update`)
+### Step 8: Update Master Timeline (if `/docket update`)
 **CSV Format** (7 columns):
 ```csv
 Date,Event,Entity,Document Title,Description,Evidence Source (file),Link
@@ -150,7 +187,7 @@ Date,Event,Entity,Document Title,Description,Evidence Source (file),Link
 
 **Append** new entries to the CSV in chronological order. Do NOT duplicate existing entries.
 
-### Step 8: Report
+### Step 9: Report
 Output a formatted summary:
 
 ```markdown

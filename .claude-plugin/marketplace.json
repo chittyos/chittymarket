@@ -92,7 +92,7 @@
     {
       "name": "chittyos-legal",
       "description": "Legal case management — evidence fact governance, dispute tracking, court docket monitoring, and evidence collection pipeline",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "source": "./plugins/chittyos-legal",
       "strict": false,
       "category": "legal",

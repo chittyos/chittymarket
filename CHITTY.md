@@ -12,19 +12,19 @@ visibility: PUBLIC
 
 # ChittyMarket
 
-> `chittycanon://core/services/chittymarket` | Tier 3 (Operational) | Local-only
+> `chittycanon://core/services/chittymarket` | Tier 3 (Operational) | Central remote
 
 ## What It Does
 
-Local artifact marketplace and manager for the ChittyOS Claude Code environment. Catalogs **104 capabilities** (MCP servers, skills, plugins, agents, hooks) with enable/disable toggle support and install mode switching (Ch1tty vs standalone). Phase 1 capability overlay generated 2026-05-11 — see `capabilities.generated.json` and `docs/architecture/CHITTYMARKET_CAPABILITY_ROUTER.md`.
+Central capability catalog and registration surface for the ChittyOS ecosystem, consumed by Claude Code and every other channel. Catalogs **106 capabilities** (MCP servers, skills, plugins, agents, hooks) with enable/disable toggle support and install mode switching (Ch1tty vs standalone). Phase 1 capability overlay generated 2026-05-11 — see `capabilities.generated.json` and `docs/architecture/CHITTYMARKET_CAPABILITY_ROUTER.md`.
 
 ## Architecture
 
-Claude Code skill + JSON manifest — no standalone process or HTTP deployment.
+Backend-hosted capability index reached via the ch1tty gateway; the Claude Code skill is a client, not the source of truth.
 
 ### Stack
-- **Runtime**: Claude Code session
-- **Storage**: JSON file on local filesystem (`marketplace.json`)
+- **Runtime**: Backend service (target `market.agent.chitty.cc`, not yet deployed); the Claude Code session is a client
+- **Storage**: Backend capability index (orchestrator `skill:index` / `agent:index`); `marketplace.json` is a generated projection, not the source of truth
 - **Interface**: `/market` slash command skill
 - **Actuator**: `market.sh` shell script for instant toggles
 

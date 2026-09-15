@@ -16,7 +16,8 @@ visibility: PUBLIC
 - **Canonical URI**: `chittycanon://core/services/chittymarket`
 - **Tier**: 3 (Operational)
 - **Organization**: CHITTYOS
-- **Domain**: Local-only (no HTTP deployment)
+- **Domain**: Central remote — `market.agent.chitty.cc` (TARGET; not yet deployed, currently does not resolve).
+  Interim source of truth is the orchestrator capability index reached via the ch1tty gateway.
 - **ChittyID**: `03-1-USA-5222-T-2603-1-36`
 
 ## Mission
@@ -26,16 +27,16 @@ Provide a unified marketplace manifest and management interface for all Claude C
 ## Scope
 
 ### IS Responsible For
-- Maintaining the central artifact manifest (`marketplace.json`)
+- Maintaining the central artifact manifest as backend state, reachable by every channel
+- Serving capability definitions over a network API so no channel depends on local config
 - Toggling artifacts enabled/disabled via type-specific actuators
 - Switching artifact install mode between Ch1tty (orchestrated) and standalone
-- Reconciling manifest state with filesystem state via `/market sync`
+- Reconciling the local projection against backend state via `/market sync` (backend wins)
 - Providing CLI-style management through the `/market` skill
 
 ### IS NOT Responsible For
 - Installing new artifacts or downloading packages
 - Modifying artifact source code or configuration beyond toggle state
-- Exposing a network API or HTTP endpoints
 - Identity generation (ChittyID)
 - Token provisioning (ChittyAuth)
 - Service registration (ChittyRegister)
