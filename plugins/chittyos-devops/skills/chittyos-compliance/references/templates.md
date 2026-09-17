@@ -13,7 +13,7 @@ version: 1.0.0
 status: DRAFT
 registered_with: chittycanon://core/services/canon
 title: "{SERVICE_DISPLAY_NAME} Charter"
-certifier: chittycanon://core/services/chittycertify
+certifier: chittycanon://gov/authority/chittycertify
 visibility: PUBLIC
 ---
 
@@ -88,7 +88,7 @@ version: 1.0.0
 status: DRAFT
 registered_with: chittycanon://core/services/canon
 title: "{SERVICE_DISPLAY_NAME}"
-certifier: chittycanon://core/services/chittycertify
+certifier: chittycanon://gov/authority/chittycertify
 visibility: PUBLIC
 ---
 
@@ -119,7 +119,7 @@ Cloudflare Worker (Hono) deployed at {DOMAIN}.chitty.cc.
 
 ### Certification
 - **Badge**: {BADGE_LEVEL} (ChittyOS Compatible | Chitty Compliant | ChittyCertified | ChittyCanonical)
-- **Certifier**: ChittyFoundation (`chittycanon://core/services/chittycertify`)
+- **Certifier**: ChittyFoundation (`chittycanon://gov/authority/chittycertify`)
 - **Last Certified**: {DATE}
 
 ### ChittyDNA
