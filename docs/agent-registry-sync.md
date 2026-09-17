@@ -107,3 +107,39 @@ Step 1 is a judgement call per agent and should not be automated.
 
 Whether `skill:index` has the same empty-description pattern (only `agent:index` was
 read), and whether any of the 10 live-only agents are intentionally undocumented.
+
+## Correction: the naming question is already governed
+
+`chittycanon://docs/tech/spec/chittyentity-projection-taxonomy`
+(`chittycanon/specs/CHITTYENTITY_PROJECTION_TAXONOMY.md`, v0.2.2, DRAFT) already defines
+ChittyAgent, ChittyActor, **ChittyAnima** and Chitty SDK, and the layout
+`chittyentity/{chittyagents,chittyactors,chittyanimas,chittysdks}/*`.
+
+**ChittyAnima** is defined as "animating intelligence, interpretation, transformation,
+model, algorithm, workflow, lens, or generative process applied within an entity/
+capability context" — with "Agents operationalize intelligence/Anima in context."
+
+This supersedes the naming recommendation implied above, in two ways:
+
+1. **Family is a field, not a prefix.** The spec's own projection relationship keeps
+   `projection_id: chittyagent-connect` while declaring `projection_family: ChittyAgent`.
+   Renaming slugs to carry the family is the opposite of the intended mechanism, and the
+   spec states: "Never derive canonical architecture or ownership backward from a Worker
+   name, directory, hostname, plugin name, MCP route, settings field, or CLI command."
+2. **The terms are PROPOSED, not canonical.** They have not cleared simulation, guardian
+   approval, or promotion to PROVISIONAL. The spec says consumers "MUST NOT persist the
+   proposed labels as new canonical ontology values"; experimental use must stay local and
+   removable. Explicitly listed as out of bounds: "silently overriding the current Agent
+   Slug Convention," "inferring canonical ownership from a prefix, runtime, directory, or
+   deployment name," and mass-moving Market-owned definitions without semantic
+   classification and ownership reconciliation.
+
+**Consequence for this sync:** key on `projection_id` — the stable canonical slug — and
+carry `projection_family` as metadata. No rename is required, which removes the blast
+radius entirely. The identity work that remains is genuine ambiguity (register/registry,
+the off-convention slugs, unpopulated `proxies:`), not a naming migration.
+
+The Path to PROVISIONAL (spec §"Path to PROVISIONAL") requires reconciling the proposed
+terms against the Agent Slug Convention, registry records, ChittyConfig pointers,
+ChittyMarket manifests, ChittyCan routing and live runtime projections — which is where a
+`chittyanima-*` slug decision belongs, not here.
