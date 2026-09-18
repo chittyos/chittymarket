@@ -256,3 +256,124 @@ From the operator's own `nb-development-defaults` Review-and-Audit-Bias section 
 - `chittyos/chittymarket#81` — non-idempotent generator (non-failing-gate exemplar)
 - `chittyos/chittyentity#613` / CFDXN-126 — alchemist blocker
 - CFDXN-127 — skill catalog drift (same audit session)
+
+---
+
+## 2026-09-18 — Five-artifact governance pass, with three overrides of the computed disposition
+
+**Auditor:** capability-governor (skill v1.0.0)
+**Source:** `scripts/batch_audit.py` over five candidate artifacts, then re-derived by hand against `references/decision-matrix.md`
+**Machine-readable logs:** `docs/decisions/logs/dec_20260918_*.json` (all five pass `scripts/validate_decision_log.py`)
+
+### Why three dispositions were overridden
+
+`scripts/audit_artifact.py` assigns `environmental_footprint` by **keyword match** on the
+artifact description (`FOOTPRINT_RULES`), then routes footprint → disposition. For
+`admin-system(5)` the trigger words include `secret`, `auth`, `config`, `token`, `deploy`.
+
+Any description of a secret-**detection** tool therefore scores `admin-system(5)` and routes
+to `local-only`, regardless of what the tool does. The matrix defines footprint 5 as
+*"changes auth, secrets, config, infra, deployment, or policy"* — a scanner changes none of
+them. The script is a lossy implementation of the matrix, and where the two disagree on an
+artifact whose description carries the wrong trigger words, **the matrix controls**.
+
+Two further artifacts were documentation links with no implementing artifact at all. The
+script classified prose, because prose was all it was given. The skill's own core rule covers
+this: *"If source data is insufficient, return `hold` with the missing evidence."*
+
+| artifact | computed | recorded | axis actually in dispute |
+|---|---|---|---|
+| Repo secret-leak gate | `local-only` | **`promote`** | footprint `admin-system(5)` → `network-service(3)` |
+| R2 SQL query execution | `hold` | `hold` *(accepted)* | footprint `write-capable(2)` → `network-service(3)`; disposition unchanged |
+| Evidence preservation catalog | `legal-only` | `legal-only` *(accepted)* | none — axes substantively correct here |
+| Cloudflare Workflows | `gateway` | **`hold`** | no artifact exists to expose |
+| WAF leaked-credentials detection | `local-only` | **`hold`** | footprint 5 upheld; `local-only` still wrong for an edge-evaluated detection |
+
+### Correction to an earlier claim in this session
+
+The evidence preservation catalog was characterized mid-session as an **ownerless empty
+scaffold**. That was wrong, and live verification overturned it before anything was written.
+It is owned and wired end to end:
+
+- `chittyevidence-db` binds `PRESERVATION_STREAM`, `COLLECTION_STREAM`, `SOURCE_CANONICAL_STREAM`
+- pipeline `chittyevidence_preservation` runs `INSERT INTO chittyevidence_preservation_iceberg SELECT * FROM chittyevidence_preservation_stream`
+- R2 Data Catalog `7b59ebb2-…` is `status: active`, `credential_status: present`
+- bucket `chittyevidence-pipeline` holds 1867 objects / ~112 MiB
+- real implementing code with tests (`pre-filter-transform.test.ts`, `pipeline-e2e.test.ts`, `collection-handler.test.ts`)
+
+The initial repo grep missed it because it searched for the Iceberg **table name**, which
+exists only in the sink config; the code refers to the **binding name**.
+
+### Findings — evidence preservation path
+
+#### Block — fail-open on a custody path (latent)
+
+`CHITTYOS/chittyevidence-db/src/index.ts:2507`
+
+```js
+if (result.qualified.length > 0 && env.PRESERVATION_STREAM) {
+  await env.PRESERVATION_STREAM.send(result.qualified);
+}
+```
+
+The batch is then marked processed **unconditionally** at `:2517`. If the binding is absent,
+qualified evidence is silently dropped, the batch is recorded as done, and there is no retry
+and no error. Same fail-open class as `chittyconnect`'s `getCredential` fallback.
+
+**The binding is present in production today, so this is latent, not active.**
+
+#### Block — structured custody payload written to an undrained stream
+
+`src/index.ts:2930` writes a 13-field custody payload (`content_hash`, `r2_key`,
+`ingested_at`, `is_duplicate`) to `SOURCE_CANONICAL_STREAM`. That stream exists and is
+worker-bound, but has **no pipeline and no sink** on the account. Those writes are accepted
+and drained nowhere.
+
+#### Block — schema unfit for a legal-grade table
+
+The preservation stream carries the **Pipelines unstructured default**: a single required
+field `value` of type `json`, `unstructured: true`. Every structured field lands in one opaque
+column, so the table cannot be queried by `content_hash` or timestamp without JSON
+extraction.
+
+In mitigation, `snapshot_expiration: disabled` is the correct posture for a custody table.
+But `compaction: enabled` at a 128 MB target rewrites underlying data files — which is exactly
+why a documented `custody_policy` is a required gate artifact and not paperwork.
+
+### Findings — adjacent, found during verification
+
+#### Block — `canon_publish` pipeline targets a bucket that does not exist
+
+Sink `canon_publish_sink` is configured with `bucket: "chittyos-events"`, path `canon/`.
+That bucket is **not among the account's 28 R2 buckets**. The pipeline also has no
+worker-bound producer.
+
+#### Note — `/accounts/{id}/pipelines` is the legacy endpoint
+
+It returns `[]` while `/accounts/{id}/pipelines/v1/pipelines` returns 4. Reading the legacy
+path produces a false "no pipelines configured" conclusion. This audit initially made that
+error and caught it by checking both.
+
+### Quality gates
+
+- [x] Exactly one primary disposition per artifact — 5/5
+- [x] Exactly one primary job-to-be-done per artifact — 5/5
+- [x] Overrides carry recorded rationale naming the disputed axis — 3/3
+- [x] Existing-first search before `promote` — `capabilities.generated.json` (106 capabilities) has no secret-scanning capability
+- [x] Non-repudiation gate — `legal-only` asserted for the preservation catalog; `source_links` now supplied
+- [ ] **`hash_policy`, `timestamp_policy`, `custody_policy` — still absent.** Capability remains gated, not active.
+- [x] Decision logs include source links — 5/5, validator-enforced
+- [x] Retirement decisions include replacement/rollback — n/a, no retirement recorded
+- [x] Live state pulled, not inferred — all Cloudflare facts re-verified 2026-09-18
+
+### Migration queue
+
+| item | artifact | action | risk | status |
+|---|---|---|---|---|
+| `mig_20260918_secret-leak-gate` | chittyconnect PR #309 | document + propagate | low | active |
+| `mig_20260918_preservation-failopen` | `chittyevidence-db/src/index.ts:2507` | restrict (fail closed) | legal-grade | backlog |
+| `mig_20260918_source-canonical-undrained` | `chittyevidence_source_canonical_stream` | reroute or retire | legal-grade | backlog |
+| `mig_20260918_preservation-schema` | `chittyevidence_preservation_stream` | **operator decision** — re-schema or retire | legal-grade | blocked |
+| `mig_20260918_canon-publish-bucket` | `canon_publish_sink` | reroute or retire | low | backlog |
+
+**Review date:** 2026-10-02

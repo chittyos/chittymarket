@@ -1,0 +1,20 @@
+{
+  "decision_id": "dec_20260918_cf-workflows",
+  "date": "2026-09-18",
+  "capability_name": "Cloudflare Workflows durable execution",
+  "canonical_id": "chittycanon://capability/ship/cloudflare-workflows",
+  "source_links": [
+    "https://developers.cloudflare.com/workflows/"
+  ],
+  "current_state": "Evaluated from a Cloudflare documentation link supplied by the operator. No worker on the account declares a Workflows binding; no repo references one.",
+  "decision": "hold",
+  "job_to_be_done": "route",
+  "environmental_footprint": "network-service",
+  "evidentiary_risk": "none",
+  "rationale": "OVERRIDE of the computed disposition gateway. gateway is defined as 'expose through search-and-execute or MCP gateway', which presupposes an existing artifact to expose. There is none: Cloudflare Workflows is an unadopted platform primitive here, not a capability with a canonical identity. Per the skill's core rule, insufficient source data returns hold. Classifying an unadopted platform feature as gateway would create a canonical capability record for something with no implementation, no owner and no consumer — exactly the 'configured but inert' pattern this audit is trying to stop producing.",
+  "duplicates_found": [],
+  "migration_required": false,
+  "migration_owner": "",
+  "next_action": "Re-audit if a service proposes Workflows for a concrete orchestration need. Missing evidence: an implementing artifact, an owner, a named consumer.",
+  "review_date": "2026-11-18"
+}

@@ -1,0 +1,26 @@
+{
+  "decision_id": "dec_20260918_evidence-preservation-catalog",
+  "date": "2026-09-18",
+  "capability_name": "Evidence preservation catalog (Iceberg)",
+  "canonical_id": "chittycanon://capability/legal/evidence-preservation-catalog",
+  "source_links": [
+    "CHITTYOS/chittyevidence-db/src/index.ts:2507",
+    "CHITTYOS/chittyevidence-db/src/index.ts:2930",
+    "CHITTYOS/chittyevidence-db/wrangler.jsonc:150-158",
+    "cloudflare pipeline chittyevidence_preservation (01513a88f4b44554a32a10459b8161ea)",
+    "cloudflare stream chittyevidence_preservation_stream (60833c9b917741e8a20109690df63970)",
+    "cloudflare sink chittyevidence_preservation_iceberg (2ff396c75f8e414a846b9266dd29158e) -> evidence.preservation_events",
+    "cloudflare r2-catalog 7b59ebb2-1804-11f1-a4cb-7f2c429242a0"
+  ],
+  "current_state": "Owned and wired end to end, contrary to an earlier characterization in this session which called it an ownerless empty scaffold. Live verification 2026-09-18: worker chittyevidence-db binds PRESERVATION_STREAM, COLLECTION_STREAM and SOURCE_CANONICAL_STREAM; pipeline chittyevidence_preservation runs 'INSERT INTO chittyevidence_preservation_iceberg SELECT * FROM chittyevidence_preservation_stream'; the R2 Data Catalog is status active with credential_status present, compaction enabled at 128MB target and snapshot_expiration disabled. Bucket chittyevidence-pipeline holds 1867 objects / ~112MiB, so the bucket is not empty, though the per-prefix split between the collection sink and the Iceberg table was not measured. There is real implementing code with tests (src/__tests__/pre-filter-transform.test.ts, pipeline-e2e.test.ts, collection-handler.test.ts).",
+  "decision": "legal-only",
+  "job_to_be_done": "collect",
+  "environmental_footprint": "forensic-legal-grade",
+  "evidentiary_risk": "legal-grade",
+  "rationale": "ACCEPTS the computed disposition legal-only, and it is the one of five where the computed axes are substantively correct rather than a keyword artifact: this genuinely handles custody, content hashes and evidence intake. Per the non-repudiation gate and the precedent already recorded in this log on 2026-05-23, legal-only capabilities require hash_policy, timestamp_policy, custody_policy and source_links BEFORE activation. source_links are now supplied. The other three remain absent, so this capability is gated, not active. Three defects found during verification, which are the substance of this entry: (1) FAIL-OPEN ON A CUSTODY PATH — src/index.ts:2507 sends qualified events to preservation only 'if (result.qualified.length > 0 && env.PRESERVATION_STREAM)', and the batch is then marked processed unconditionally at :2517, so a missing binding silently drops qualified evidence with no retry and no error. The binding is present in production today, so this is LATENT, not active. It is the same fail-open class as chittyconnect's getCredential fallback. (2) UNDRAINED STREAM — src/index.ts:2930 writes a 13-field structured custody payload (content_hash, r2_key, ingested_at, is_duplicate) to SOURCE_CANONICAL_STREAM, but that stream has no pipeline and no sink on the account, so those writes are accepted and drained nowhere. (3) SCHEMA UNFIT FOR PURPOSE — the preservation stream's schema is the Pipelines unstructured default, a single required field 'value' of type json with unstructured:true, so every structured field lands in one opaque column and the table cannot be queried by content_hash or timestamp without JSON extraction. For a legal-grade custody table this is not a neutral default. Note in mitigation: snapshot_expiration disabled is the correct posture for a custody table, but compaction enabled at 128MB rewrites underlying data files, which is precisely why a documented custody_policy is a required gate artifact and not paperwork.",
+  "duplicates_found": [],
+  "migration_required": true,
+  "migration_owner": "chittyevidence-db owners + legal plugin owners",
+  "next_action": "Operator decision required on scope before any code change: either re-schema the preservation stream to a real evidence schema and populate hash_policy/timestamp_policy/custody_policy, or retire the Iceberg sink deliberately. Independently of that fork, defects 1 and 2 are repairable now: fail closed at src/index.ts:2507 rather than marking the batch processed, and either wire or remove SOURCE_CANONICAL_STREAM. Do not activate as a capability until the three gate policies exist.",
+  "review_date": "2026-10-02"
+}
