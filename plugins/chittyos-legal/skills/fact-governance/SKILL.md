@@ -12,7 +12,7 @@ This skill **requires** an explicit case identifier on every invocation. It MUST
 
 Accept either:
 
-- **`case_id`** — the chittyevidence-db case identifier (e.g. `arias-v-bianchi-2024d007847`)
+- **`case_id`** — the chittyevidence-db case identifier (e.g. `case_2024d007847`)
 - **`case_slug`** — a registered case slug (resolve via `evidence_cases` or the chittyrouter case registry)
 
 If no `case` is specified, stop and ask the caller for one. Do not fall back to any previously-used case.
