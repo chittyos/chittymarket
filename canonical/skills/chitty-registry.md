@@ -61,7 +61,7 @@ curl -s https://registry.chitty.cc/api/v1/tools/{chitty_id} | jq .
 ### Search Services — filter the full list locally
 ```bash
 curl -s https://registry.chitty.cc/api/v1/tools \
-  | jq '[.tools[]? // .[]? | select(.name|test("QUERY";"i"))]'
+  | jq '[.tools[] | select((.name // "") | test("QUERY";"i"))]'
 ```
 
 > **Do NOT use `/api/v1/search`, `/api/v1/categories`, or `/api/v1/stats` for discovery.**
@@ -106,26 +106,50 @@ which the operator's CLAUDE.md places in Tier 1. **Do not reintroduce a services
 table here.** If you need the tier of a service, cite CLAUDE.md or the service's own
 compliance triad — never this file, and never the registry.
 
-## Service Metadata Schema — read from the live API
+## Service Metadata Schema — TWO shapes, read from the live API
 
-**Verified against all 49 live records, 2026-09-18.** Response shape is
-`{"success": true, "tools": [...]}`. Each record carries:
+**Verified 2026-09-18 by pulling all 49 records and taking the field union.** Response shape
+is `{"success": true, "count": N, "tools": [...]}`.
 
-`chitty_id`, `entity_type`, `subtype`, `name`, `description`, `version`, `endpoints`,
-`certificate_ref`, `parent_chitty_id`, `metadata`, `compliance_score`, `trust_score`
+> ⚠️ **A previous revision of this file claimed `endpoints` is always an array and the
+> identifier is always `chitty_id`. That was wrong for the majority of the catalog**, and it
+> carried a verification date, which made it more likely to be trusted. It was written from a
+> sample and reported as if from the whole. Both claims are corrected below.
 
-Two traps, both of which previous revisions of this file got wrong by publishing an invented
-example record:
+**The registry holds two disjoint record shapes.** Neither is "incomplete"; they are
+different, and code that assumes one silently drops the other.
 
-- **There is no `tier`, `domain`, `repo`, or `dependencies` field.** Zero of 49 records carry
-  any of them. Filtering on `.tier` returns nothing and reads as "unregistered".
-- **`endpoints` is an ARRAY of absolute URLs**, not an object of paths. `.endpoints.health`
-  does not exist; the identifier field is `chitty_id`, not `id`.
+| | Shape A — governed | Shape B — health-registered |
+|---|---|---|
+| Count (of 49) | **20** | **29** |
+| Identifier | `chitty_id` | `id` (plus `did`) |
+| `endpoints` | **array** of absolute URLs | **object** |
+| Distinctive fields | `entity_type`, `subtype`, `certificate_ref`, `parent_chitty_id`, `compliance_score`, `trust_score`, `status` | `url`, `hostname`, `health`, `last_health_check`, `last_health_error`, `registration_source`, `category`, `security`, `schema`, `registered_at`, `updated_at` |
 
-Read the shape from the API rather than from any example — including this one. Several
-records are incomplete in production (missing `chitty_id`, `entity_type` and scores), so
-absence of a field on one record is not evidence about the schema.
+Shared by both: `name`, `description`, `version`, `metadata`, `endpoints` (differing type).
 
+**The full field union across the catalog is 26 keys:**
+`category`, `certificate_ref`, `chitty_id`, `compliance_score`, `description`, `did`,
+`endpoints`, `entity_type`, `health`, `hostname`, `id`, `last_health_check`,
+`last_health_error`, `metadata`, `name`, `parent_chitty_id`, `registered_at`,
+`registration_source`, `schema`, `security`, `status`, `subtype`, `trust_score`,
+`updated_at`, `url`, `version`.
+
+**Consequences for the commands above:**
+- `get` by `chitty_id` reaches only the 20 Shape-A records. For Shape B, match on `id`.
+- Never key on `endpoints.health` *or* on `endpoints[0]` without first checking the type.
+- `status`, `compliance_score` and `trust_score` exist on Shape A only; `health` is Shape B's
+  equivalent and is **not** the same field.
+
+**Fields that exist on NO record** (0 of 49), despite appearing in older documentation:
+`tier`, `domain`, `repo`, `dependencies`.
+
+**Duplicates exist** — `chittyagent-npm` appears twice. Local filtering returns both; the
+registry offers no disambiguation.
+
+Read the shape from the API, not from any example — this table included. Take a field union
+across the whole response before assuming a schema; that is the mistake this section exists
+to record.
 
 ## Cross-Reference
 
