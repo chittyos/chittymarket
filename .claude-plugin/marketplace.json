@@ -91,12 +91,12 @@
 ,
     {
       "name": "chittyos-legal",
-      "description": "Legal case management — evidence fact governance, dispute tracking, court docket monitoring, and evidence collection pipeline",
-      "version": "1.0.1",
+      "description": "Legal case management — a paralegal/law-clerk/forensic-analyst support agent for counsel, plus evidence fact governance, dispute tracking, court docket monitoring, and evidence collection pipeline",
+      "version": "1.1.0",
       "source": "./plugins/chittyos-legal",
       "strict": false,
       "category": "legal",
-      "keywords": ["legal", "evidence", "disputes", "docket", "cases", "custody"]
+      "keywords": ["legal", "evidence", "disputes", "docket", "cases", "custody", "agent", "paralegal", "redaction", "deadlines"]
     }
 ,
     {
