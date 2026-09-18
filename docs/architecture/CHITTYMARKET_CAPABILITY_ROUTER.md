@@ -6,7 +6,7 @@ version: 4.0.0
 status: PENDING
 registered_with: chittycanon://core/services/canon
 title: "ChittyMarket Capability Router Architecture"
-certifier: chittycanon://core/services/chittycertify
+certifier: chittycanon://gov/authority/chittycertify
 visibility: PUBLIC
 ---
 
