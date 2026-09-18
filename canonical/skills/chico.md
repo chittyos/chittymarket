@@ -1,6 +1,6 @@
 ---
 name: chico
-description: 'Shortcut to dispatch the ChittyConnect concierge (chittyos-core/chittyconnect-concierge) — the canonical owner of credentials, connections, secret rotation, KV/D1 bindings, and ChittyConnect-side wiring. Triggers on "/chico", "/chico-keys", or when the user wants to invoke the concierge by its nickname. The concierge handles ChittySecrets resolution, wrangler secret put, CF API token rotation, binding restore, deploy-time binding audits, and anything in the credential lane. The operator (user) is OPERATOR ONLY — never asked to paste a secret; route through chico-keys.'
+description: 'Shortcut to dispatch the ChittyConnect concierge (agent: chittyagent-connect) — the canonical owner of credentials, connections, secret rotation, KV/D1 bindings, and ChittyConnect-side wiring. Triggers on "/chico", "/chico-keys", or when the user wants to invoke the concierge by its nickname. The concierge handles ChittySecrets resolution, wrangler secret put, CF API token rotation, binding restore, deploy-time binding audits, and anything in the credential lane. The operator (user) is OPERATOR ONLY — never asked to paste a secret; route through chico-keys.'
 canon_uri: chittycanon://core/services/chittymarket#skills/chico
 kind: skill
 classification:
