@@ -1,6 +1,6 @@
 ---
 name: chitty-registry
-description: Read-only discovery against ChittyRegistry (registry.chitty.cc) via GET /api/v1/tools — the service catalog with per-record trust and compliance scores, certificate refs and endpoints. Discovery before integration. Does not register, update or delete; there is no tier, domain or dependency field to query.
+description: Read-only discovery against ChittyRegistry (registry.chitty.cc) via GET /api/v1/tools — the service catalog; note the trust and compliance score fields exist but are null on every record today. Discovery before integration. Does not register, update or delete; there is no tier, domain or dependency field to query.
 canon_uri: chittycanon://core/services/chittymarket#skills/chitty-registry
 ---
 
@@ -141,6 +141,24 @@ Shared by all 49 (the true intersection, computed — **7 fields**, not five):
 - `status`, `compliance_score`, `trust_score` **and `health`** exist on **Shape A only**.
   Shape B has no health *status* field at all — its liveness locator is the `health` **path
   string** inside its `endpoints` object, which must be fetched, not read.
+
+> ### ⚠️ Key present ≠ value present — check before filtering
+> The shape tables above are generated from key presence. **They say nothing about whether a
+> value is there**, and for the scoring fields it usually is not (Shape A, n=20):
+>
+> | field | key present | **non-null** |
+> |---|---|---|
+> | `compliance_score` | 20/20 | **0** |
+> | `trust_score` | 20/20 | **0** |
+> | `certificate_ref` | 20/20 | **6** |
+> | `parent_chitty_id` | 20/20 | **0** |
+> | `status` | 20/20 | **20** |
+> | `health` | 20/20 | **20** |
+>
+> So `select(.trust_score > 0.8)` returns **empty** and reads as "no trustworthy services".
+> The same trap in a different form is what three earlier revisions of this file got wrong:
+> a schema view that is accurate about structure and misleading about content. Filter on
+> `!= null` before comparing, and treat the scores as unpopulated until proven otherwise.
 
 **Fields that exist on NO record** (0 of 49), despite appearing in older documentation:
 `tier`, `domain`, `repo`, `dependencies`.
