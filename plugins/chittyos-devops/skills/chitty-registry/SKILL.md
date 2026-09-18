@@ -28,34 +28,57 @@ Query and manage the ChittyOS service registry for service discovery and metadat
 
 Base URL: `https://registry.chitty.cc`
 
-### List Services
+> **`/api/services` does not exist and never did — it returns HTTP 404** with the server's
+> own route list. Verified live 2026-09-18. The only KV-backed source of truth is
+> **`/api/v1/tools`**.
+
+### List Services — the only authoritative read
 ```bash
-curl -s https://registry.chitty.cc/api/services | jq .
+curl -s https://registry.chitty.cc/api/v1/tools | jq .
 ```
+
+Each record carries `chitty_id`, `entity_type`, `subtype`, `name`, `description`, `version`,
+`endpoints`, `certificate_ref`, `parent_chitty_id`, `metadata`, `compliance_score`,
+`trust_score`.
 
 ### Get Service Details
 ```bash
-curl -s https://registry.chitty.cc/api/services/{service-id} | jq .
+curl -s https://registry.chitty.cc/api/v1/tools/{chitty_id} | jq .
 ```
 
-### Search Services
+### Search Services — filter the full list locally
 ```bash
-curl -s "https://registry.chitty.cc/api/services?q={query}" | jq .
+curl -s https://registry.chitty.cc/api/v1/tools \
+  | jq '[.tools[]? // .[]? | select(.name|test("QUERY";"i"))]'
 ```
 
-## Local Registry CSV
+> **Do NOT use `/api/v1/search`, `/api/v1/categories`, or `/api/v1/stats` for discovery.**
+> Those three handlers return **hardcoded mock data**
+> (`universal-registry-worker.js` → `searchRegistry()`), not live registry contents:
+> `?q=chittyauth` returns 0 results while the service is registered and live. Filter
+> `/api/v1/tools` yourself instead.
 
-Fallback registry data at:
-`/Volumes/chitty/temp/systems-registry-import-v3.csv`
+The registry is a **directory, not a gatekeeper**. New registrations are submitted to
+`register.chitty.cc/api/v1/register` — this skill has no `register` verb, and registration
+is a sensitive-intent mutation that routes through ChittyConnect.
 
-### Parse Local Registry
-```bash
-# List all services
-cat /Volumes/chitty/temp/systems-registry-import-v3.csv | head -20
+### What the registry does and does not catalog
 
-# Find specific service
-grep -i "chittyid" /Volumes/chitty/temp/systems-registry-import-v3.csv
-```
+It catalogs **deployed services** — things with an endpoint and a health check. Every
+`chittyagent-*` entry present is registered as `subtype: service` because it is a worker,
+not because it is an agent definition.
+
+**Agent/skill definitions are NOT ChittyRegistry artifacts.** A prompt definition projected
+to Claude Code / Codex / OpenClaw has no endpoint to discover; it belongs in the
+orchestrator KV discovery index (`agent:index` / `skill:index` at agent.chitty.cc), which is
+a different registry with a different contract. Do not register one here.
+
+## Local Registry CSV — REMOVED
+
+The former fallback at `/Volumes/chitty/temp/systems-registry-import-v3.csv` **no longer
+exists on any current host** (it was a macOS path) and must not be cited. **ChittyRegistry
+is authoritative over any local snapshot.** If the API is unreachable, say so and treat the
+result as unknown — do not substitute a stale file.
 
 ## Service Tiers
 
