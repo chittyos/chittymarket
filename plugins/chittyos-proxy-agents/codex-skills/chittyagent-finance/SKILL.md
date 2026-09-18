@@ -1,6 +1,5 @@
 ---
 name: chittyagent-finance
-canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-finance
 description: |
   The finance and books domain agent for a multi-entity rental property portfolio — chart-of-accounts authority, transaction classification, tax-line mapping (Form 8825 / Schedule E / Form 1065), and reporting. Fronts the ChittyFinance service and the deployed `chittyagent-finance` worker at `agent.chitty.cc/finance`. Writes `suggested_coa_code` at L1 only; authoritative `coa_code` (L2), reconcile/unreconcile (L3) and chart changes (L4) require a human or an appropriately-tiered actor whose `tenant_users.role` is owner/admin/manager. Gives no tax advice — retrieval is evidence, and a preparer reviews anything that touches a filing.
 
@@ -39,17 +38,7 @@ description: |
   user: "Give me Form 8825 broken out by property."
   assistant: "Not possible from this data today. Form 8825 is reported per property (columns A–D), and `property_id` is populated on 0 of 12,522 rows. Populating it is phase 2 of the books program (chittyfinance#158), not a capability this agent has."
   </example>
-kind: agent
-plugin: chittyos-proxy-agents
-classification:
-  - domain
-  - finance
-  - books
-  - proxy
-runtimes:
-  - claude-code
-  - codex
-  - openclaw
+canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-finance
 proxies: chittyagent-finance (chittyentity/chittyagents/finance)
 capability: chittycanon://core/services/chittyfinance
 projection_family: ChittyAgent
