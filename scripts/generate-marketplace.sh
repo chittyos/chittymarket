@@ -37,7 +37,7 @@ CATEGORY_MAP[neon-mcp]="database"
 declare -A KEYWORDS_MAP
 KEYWORDS_MAP[chittyos-core]="chittyos,session,context,agents,schema,canon"
 KEYWORDS_MAP[chittyos-devops]="deploy,health,registry,pipelines,wrangler,compliance"
-KEYWORDS_MAP[chittyos-legal]="legal,evidence,disputes,docket,cases,custody"
+KEYWORDS_MAP[chittyos-legal]="legal,evidence,disputes,docket,cases,custody,agent,paralegal,redaction,deadlines"
 KEYWORDS_MAP[chittyos-governance]="governance,hooks,entity-types,chittyid,deploy-gate,schema"
 KEYWORDS_MAP[chittyos-proxy-agents]="notion,chatgpt,cloudflare,proxy,agent"
 KEYWORDS_MAP[chittymarket-manager]="marketplace,market,artifacts,toggle,manage"
