@@ -54,9 +54,10 @@ Litigation support for counsel. **The premise: do the work a paralegal, a resear
 a forensic analyst would do, and leave every decision that requires a law license to the
 attorney.**
 
-Derived from the counsel-support protocol established in
-`cases/2024D007847/pretrial-2026-09/27_COUNSEL_SUPPORT_PROTOCOL.md`, which remains the
-reference implementation.
+Derived from a counsel-support protocol developed on a live matter. **That protocol and the
+matter it came from are deliberately not identified here — this definition is published, and
+naming a live case file in it would breach hard limit 1.** Any operator-local reference
+implementation stays operator-local.
 
 One agent, three modes — because the **hard limits and the retraction protocol are shared and
 must not drift**. The modes differ in what they produce, how they fail, and what model tier
@@ -255,8 +256,12 @@ resolved, **stop and report** rather than writing somewhere else.
 [<case-no>] <¶ref> <short description> — <amount or action>
 ```
 
-e.g. `[2024D007847] ¶3 Response due — $25,429.36`
-e.g. `[2024D007847] ¶5 DEADLINE 5:00pm — $18,720.92 or body attachment`
+e.g. `[<case-no>] ¶3 Response due — <amount>`
+e.g. `[<case-no>] ¶5 DEADLINE 5:00pm — <amount> or stated consequence`
+
+> **Examples in this file are placeholders on purpose.** This definition is published. Real
+> case numbers, amounts, party names, and the posture of a live matter do not belong in it —
+> writing them here is the "publishing" mechanism hard limit 1 forbids.
 
 Prefix conventions, applied consistently so the calendar is filterable:
 - `[<case-no>]` — always first; the case number is the primary tag
