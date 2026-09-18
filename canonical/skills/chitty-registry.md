@@ -49,9 +49,10 @@ Base URL: `https://registry.chitty.cc`
 curl -s https://registry.chitty.cc/api/v1/tools | jq .
 ```
 
-Each record carries `chitty_id`, `entity_type`, `subtype`, `name`, `description`, `version`,
-`endpoints`, `certificate_ref`, `parent_chitty_id`, `metadata`, `compliance_score`,
-`trust_score`.
+**Record shape varies — see "Service Metadata Schema — TWO shapes" below before writing any
+filter.** Only 20 of 49 records carry `chitty_id`, `entity_type`, `certificate_ref`,
+`compliance_score` and `trust_score`; the other 29 are keyed on `id`/`did` and carry a
+different field set. Seven fields are common to all 49.
 
 ### Get Service Details
 ```bash
@@ -124,9 +125,16 @@ different, and code that assumes one silently drops the other.
 | Count (of 49) | **20** | **29** |
 | Identifier | `chitty_id` | `id` (plus `did`) |
 | `endpoints` | **array** of absolute URLs | **object** |
-| Distinctive fields | `entity_type`, `subtype`, `certificate_ref`, `parent_chitty_id`, `compliance_score`, `trust_score`, `status` | `url`, `hostname`, `health`, `last_health_check`, `last_health_error`, `registration_source`, `category`, `security`, `schema`, `registered_at`, `updated_at` |
+| Fields only on this shape | `certificate_ref`, `chitty_id`, `compliance_score`, `entity_type`, `health`, `last_health_check`, `last_health_error`, `parent_chitty_id`, `status`, `trust_score`, `updated_at` | `category`, `did`, `hostname`, `id`, `registration_source`, `schema`, `security`, `url` |
 
-Shared by both: `name`, `description`, `version`, `metadata`, `endpoints` (differing type).
+Shared by all 49 (the true intersection, computed — **7 fields**, not five):
+`description`, `endpoints`, `metadata`, `name`, `registered_at`, `subtype`, `version` — note `endpoints` is shared in name only, differing in type.
+
+> ⚠️ **An earlier revision of this table put `health`, `last_health_check`,
+> `last_health_error` and `updated_at` on Shape B. They are Shape A fields — 20/20 on A and
+> **zero** on B — and `registered_at`/`subtype` are shared, not distinctive. That table was
+> written from impression after the data had already been computed. The rows above are
+> generated from the live field union; regenerate them rather than editing by hand.**
 
 **The full field union across the catalog is 26 keys:**
 `category`, `certificate_ref`, `chitty_id`, `compliance_score`, `description`, `did`,
@@ -138,14 +146,16 @@ Shared by both: `name`, `description`, `version`, `metadata`, `endpoints` (diffe
 **Consequences for the commands above:**
 - `get` by `chitty_id` reaches only the 20 Shape-A records. For Shape B, match on `id`.
 - Never key on `endpoints.health` *or* on `endpoints[0]` without first checking the type.
-- `status`, `compliance_score` and `trust_score` exist on Shape A only; `health` is Shape B's
-  equivalent and is **not** the same field.
+- `status`, `compliance_score`, `trust_score` **and `health`** exist on **Shape A only**.
+  Shape B has no health *status* field at all — its liveness locator is the `health` **path
+  string** inside its `endpoints` object, which must be fetched, not read.
 
 **Fields that exist on NO record** (0 of 49), despite appearing in older documentation:
 `tier`, `domain`, `repo`, `dependencies`.
 
-**Duplicates exist** — `chittyagent-npm` appears twice. Local filtering returns both; the
-registry offers no disambiguation.
+**Duplicates exist** — `chittyagent-npm` appears twice. The two records carry **distinct
+`chitty_id`s** and each resolves individually, so the registry does disambiguate them by id;
+what it offers no way to determine is **which of the two is current**.
 
 Read the shape from the API, not from any example — this table included. Take a field union
 across the whole response before assuming a schema; that is the mistake this section exists
