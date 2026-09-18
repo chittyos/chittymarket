@@ -22,7 +22,14 @@ If any gate fails, return to the prior phase.
 1. `git push -u origin <branch>`
 2. Build PR body referencing cert_id, chronicle entries, canonical pipelines used, Pentad status.
 3. `gh pr create` with conventional title.
-4. Registry update for new services: `POST registry.chitty.cc/api/services` with CHARTER URI + tier + domain.
+4. Registration for new services: `POST register.chitty.cc/api/v1/register` with CHARTER URI + tier + domain.
+   **CORRECTED 2026-07-30** — this said `POST registry.chitty.cc/api/services`.
+   ChittyRegistry is a read-only **directory, not a gatekeeper**; ChittyRegister
+   (`register.chitty.cc`, "Compliance Gateway & Onboarding") owns registration.
+   Verified live: `register.chitty.cc/api/v1/register` returns 400 on an empty
+   body (endpoint exists, validating), while `registry.chitty.cc/api/services`
+   404s on GET. Read the ChittyRegister payload contract before shipping —
+   do not guess the schema from the field list above.
 5. Notion sync: Projects DB entry created/updated with PR URL, status, cert ID. Actions DB entry for follow-ups.
 6. Auto-merge if repo allows squash-and-merge AND all checks green AND cert valid: `gh pr merge --auto --squash`.
 7. Emit final ChittyChronicle entry.

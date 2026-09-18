@@ -1,18 +1,21 @@
 ---
 name: chico
-description: Shortcut to dispatch the ChittyConnect concierge (chittyos-core/chittyconnect-concierge) — the canonical owner of credentials, connections, secret rotation, KV/D1 bindings, and ChittyConnect-side wiring. Triggers on "/chico", "/chico-keys", or when the user wants to invoke the concierge by its nickname. The concierge handles ChittySecrets resolution, wrangler secret put, CF API token rotation, binding restore, deploy-time binding audits, and anything in the credential lane. The operator (user) is OPERATOR ONLY — never asked to paste a secret; route through chico-keys.
+description: 'Shortcut to dispatch the ChittyConnect concierge (agent: chittyagent-connect) — the canonical owner of credentials, connections, secret rotation, KV/D1 bindings, and ChittyConnect-side wiring. Triggers on "/chico", "/chico-keys", or when the user wants to invoke the concierge by its nickname. The concierge handles ChittySecrets resolution, wrangler secret put, CF API token rotation, binding restore, deploy-time binding audits, and anything in the credential lane. The operator (user) is OPERATOR ONLY — never asked to paste a secret; route through chico-keys.'
 canon_uri: chittycanon://core/services/chittymarket#skills/chico
 ---
 
 # /chico — ChittyConnect Concierge Alias
 
-The user invoked `/chico` to dispatch the **chittyos-core:chittyconnect-concierge** agent (nickname: "chico-keys"). Treat the rest of the user's message as the task brief for the concierge.
+The user invoked `/chico` to dispatch the **chittyagent-connect** agent (nickname: "chico-keys"). Treat the rest of the user's message as the task brief for the concierge.
 
 ## What to do
 
 1. Read the user's arguments / message body — that's the brief.
 2. Dispatch the concierge via the Task tool with:
-   - `subagent_type: "chittyos-core:chittyconnect-concierge"`
+   - `subagent_type: "chittyagent-connect"` — verified 2026-09-18: this is the `name:` in
+     `plugins/chittyos-core/agents/chittyagent-connect.md`, and **no agent anywhere declares
+     `name: chittyconnect-concierge`**. Naming the concierge alias as a `subagent_type` makes the
+     dispatch fail. `chittyos-core:chittyagent-connect` also resolves.
    - `description`: a 3-5 word summary of the task
    - `prompt`: the user's brief, expanded with the standing constraints below if needed
    - `run_in_background: true` for longer credential/deploy work; foreground for quick lookups
@@ -22,7 +25,9 @@ The user invoked `/chico` to dispatch the **chittyos-core:chittyconnect-concierg
 
 These are binding for every chico-keys invocation:
 
-- **The operator is OPERATOR ONLY** — never asked to paste/provide/rotate any credential value. If a value is needed, it is resolved through **ChittySecrets** (`secrets.chitty.cc`, fronting the Cloudflare Secrets Store) by the concierge. 1Password / `op` is RETIRED — never invoke it.
+- **The operator is OPERATOR ONLY** — never asked to paste/provide/rotate any credential value.
+- **ChittySecrets (`secrets.chitty.cc`) is the cold source of truth.** 1Password is RETIRED as both lane and authority (ratified 2026-08-21, `~/.ops/operator-manifest.json`). `op` v2.30.0 is installed but `op account list` is EMPTY, so every `op read` / `op run` on this host fails. Do not attempt it; do not restore it.
+- **Store credentials where the operator can see them.** Coordination that ends in "over to you to provision" is not done — the value belongs in ChittySecrets as cold source, with Cloudflare Secrets Store for runtime delivery.
 - **Real validation only** — no mocks, no placeholder values, no "would-be" config. Concrete evidence (curl output, deploy version id, audit script result).
 - **Safe deploy only** — bare `wrangler deploy` is the documented anti-pattern (see chittyconnect#217/#221, chittyentity#324/#315). Always `--env production` (or staging), routed through `safe-deploy.sh` if the worker has one.
 - **Operator approval required** for: production deploys of new (not yet shipped) code, secret rotations affecting org-wide auth, anything irreversible without rollback. Surface for go/no-go; do not auto-execute.
@@ -43,6 +48,6 @@ These are binding for every chico-keys invocation:
 
 ## Where the concierge lives
 
-- Plugin id: `chittyos-core:chittyconnect-concierge`
+- Agent type: `chittyagent-connect` — defined at `plugins/chittyos-core/agents/chittyagent-connect.md` (plugin id `chittyos-core:chittyagent-connect`).
 - Lane: credentials, connections, secrets, ChittySecrets, wrangler secrets, CF tokens, KV/D1 bindings, deploy hygiene.
 - Memory alias: "chico-keys" (saved in [[orchestrate-via-systems]]).

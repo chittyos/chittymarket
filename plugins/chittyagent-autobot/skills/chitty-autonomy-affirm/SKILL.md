@@ -38,40 +38,68 @@ chitty_id=$(can chitty whoami --field chitty_id 2>/dev/null \
 
 If `chitty_id` is missing, fail with: "No bound ChittyID — cannot affirm sovereignty. Run `can chitty authenticate-context` first."
 
-### 2. Request cert from ChittyCert
+### 2. Request cert from ChittyCert — VIA THE FRONT DOOR
 
-Do not resolve or inject the ChittyCert token yourself. Dispatch the request through the
-ChittyConnect broker (`/chico`), which holds the binding and performs the authenticated call.
-If the broker is unavailable, fail closed with `POLICY_BLOCKED_CHITTYCONNECT_UNAVAILABLE` —
-never fall back to a local credential read.
+> **⚠ CORRECTED 2026-07-30. The previous instruction here was wrong twice over
+> and would fail every time it ran.**
+>
+> It resolved the token with
+> `op run --env-file=<(echo "CT_TOKEN=op://ChittyOS-Core/ChittyCert API Token/credential")`
+> and then `POST`ed `cert.chitty.cc/api/v1/issue` directly with a Bearer header.
+>
+> 1. **1Password is RETIRED.** Credential resolution belongs to the
+>    ChittySecrets / ChittyConnect broker. Never inject, fetch, or inline a
+>    secret value — delegate to `chittyconnect-concierge` (`/chico`).
+> 2. **ChittyCert refuses direct synthetic-agent access regardless of token:**
+>    *"Direct synthetic agent access prohibited. Route through the front door
+>    (mychitty Phase 0 continuity substrate)."*
+>
+> Run the `chitty-autonomy` preflight before this step
+> (`plugins/chittyagent-autobot/skills/chitty-autonomy/scripts/preflight.sh`, installed as
+> `~/.claude/skills/chitty-autonomy/scripts/preflight.sh`).
 
-Brief the broker with this request (it supplies `Authorization` itself):
+Establish the identity binding through the continuity substrate first:
 
 ```bash
-# POST https://mychitty.com/api/v1/identity/api/v1/issue
-# Content-Type: application/json
-jq -nc \
-  --arg cid "$chitty_id" \
-  --arg ft  "$feature" \
-  --arg br  "$branch" \
-  --arg rp  "$repo" \
-  --arg vu  "$valid_until" \
-  '{
-    type: "TRUST_CHAIN",
-    subject_chitty_id: $cid,
-    subject_type: "P",
-    subject_status: "Operational",
-    purpose: "synthetic-entity-sovereignty-affirmation",
-    scope: { feature: $ft, branch: $br, repo: $rp, valid_until: $vu },
-    constraints: [
-      "Cannot bypass canonical pipelines (POST /collect, /documents, /vault/ingest)",
-      "Must cite chittycanon:// URIs for entity types (P/L/T/E/A — all five)",
-      "Must consult ChittyRegistry before scaffolding new services",
-      "Must require Pentad (CHARTER, CHITTY, CLAUDE, SECURITY, AGENTS) for new services",
-      "Must emit ChittyChronicle audit entry per phase boundary"
-    ],
-    ledger_anchor: "chittycanon://core/services/chittychronicle"
-  }'
+can chitty authenticate-context      # front door; creates the session context
+```
+
+If that reports `ChittyCanon DB unavailable - cannot create context`, the
+substrate is degraded and **no legitimate issuance route exists**. Stop with
+`POLICY_BLOCKED_CHITTYCERT_FRONT_DOOR_UNAVAILABLE`. Do not self-sign, do not
+skip Phase 0, do not fall back to an inline credential — a fabricated
+sovereignty cert defeats the entire purpose of this phase.
+
+With a live context, route issuance through the MCP Orchestrator (the path
+ChittyCert's own refusal message names), passing the payload below. The
+orchestrator holds the broker binding; this skill never sees a token.
+
+<!-- The literal request body. Delivered BY the orchestrator, not by curl. -->
+```bash
+# Front door: POST https://mychitty.com/api/v1/identity/api/v1/issue
+# Content-Type: application/json   (the orchestrator supplies Authorization)
+payload=$(jq -nc \
+      --arg cid "$chitty_id" \
+      --arg ft  "$feature" \
+      --arg br  "$branch" \
+      --arg rp  "$repo" \
+      --arg vu  "$valid_until" \
+      "{
+        type: \"TRUST_CHAIN\",
+        subject_chitty_id: \$cid,
+        subject_type: \"P\",
+        subject_status: \"Operational\",
+        purpose: \"synthetic-entity-sovereignty-affirmation\",
+        scope: { feature: \$ft, branch: \$br, repo: \$rp, valid_until: \$vu },
+        constraints: [
+          \"Cannot bypass canonical pipelines (POST /collect, /documents, /vault/ingest)\",
+          \"Must cite chittycanon:// URIs for entity types (P/L/T/E/A — all five)\",
+          \"Must consult ChittyRegistry before scaffolding new services\",
+          \"Must require Pentad (CHARTER, CHITTY, CLAUDE, SECURITY, AGENTS) for new services\",
+          \"Must emit ChittyChronicle audit entry per phase boundary\"
+        ],
+        ledger_anchor: \"chittycanon://core/services/chittychronicle\"
+      }")
 ```
 
 The response (cert envelope with `cert_id`, `signature`, `issued_at`, `expires_at`, full subject + scope) is persisted:
@@ -84,7 +112,23 @@ chmod 600 chittycontext/structured-autonomy/${feature}/SOVEREIGNTY.cert
 
 ### 3. Emit ChittyChronicle entry
 
+> **⚠ UNVERIFIED ENDPOINT (checked 2026-07-30).** `chronicle.chitty.cc/health`
+> is live (`{"status":"ok","service":"chittychronicle"}`), but
+> **`POST /api/v1/entries` returns 404**, as do `/api/v1`, `/entries`, and
+> `/api/entries`. The real write surface is not externally discoverable and
+> chittychronicle did not appear in the ChittyRegistry `/api/v1/tools` catalog.
+>
+> Discover the actual contract from the service's CHARTER.md before relying on
+> this call — do NOT guess a path. The shape below is retained as the intended
+> payload, not as a verified route.
+>
+> This is non-fatal by design: per the failure table, a chronicle write failure
+> persists the cert anyway and marks state `affirm_pending_chronicle`. That is
+> the correct behavior and should not be "fixed" into a hard gate.
+
 ```bash
+# ENDPOINT UNVERIFIED — see warning above. $CT_TOKEN must come from the broker,
+# never from `op` or an inline value.
 curl -sS -X POST https://chronicle.chitty.cc/api/v1/entries \
   -H "Authorization: Bearer $CT_TOKEN" \
   -d "$(jq -nc \
@@ -113,8 +157,10 @@ jq ".phase = \"affirm\" | .cert_id = \"$(jq -r .cert_id < SOVEREIGNTY.cert)\" | 
 
 | Failure | Action |
 |---|---|
-| ChittyCert returns 401 | Token misconfigured. Stop. Surface to user. |
-| ChittyCert returns 403 (entity not authorized) | Synthetic entity does not have permission to affirm. Stop. |
+| ChittyCert returns 401 | Token misconfigured. Do NOT resolve one inline — delegate to `chittyconnect-concierge` (`/chico`). Stop. |
+| ChittyCert 403 *"Direct synthetic agent access prohibited"* | **WRONG DOOR, not a permission denial.** Do not conclude the entity lacks authority. Establish the binding via `can chitty authenticate-context`, then route issuance through the MCP Orchestrator. Only if the substrate is degraded does this become terminal — then `POLICY_BLOCKED_CHITTYCERT_FRONT_DOOR_UNAVAILABLE`. |
+| ChittyCert 403, any other message | Genuine authorization failure. Stop. Surface to user. |
+| `can chitty authenticate-context` reports `ChittyCanon DB unavailable` | Substrate degraded; no legitimate issuance route exists. Stop with `POLICY_BLOCKED_CHITTYCERT_FRONT_DOOR_UNAVAILABLE`. Never self-sign or skip Phase 0 to get past this. |
 | ChittyCert returns 5xx | Retry once with exponential backoff. Then stop. |
 | Cert payload missing required fields | Treat as invalid; do not persist. Stop. |
 | Cert `expires_at < now + 30min` | Re-request with longer `valid_until`. |
