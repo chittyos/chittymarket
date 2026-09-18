@@ -36,6 +36,7 @@ Find service in repository structure:
 - `/home/ubuntu/projects/github.com/CHITTYOS/{service}/`
 - `/home/ubuntu/projects/github.com/CHITTYAPPS/{service}/`
 - `/home/ubuntu/projects/github.com/CHITTYCORP/{service}/`
+- `/home/ubuntu/projects/workspace/{service}/` (active workspaces)
 
 ### 2. Pre-Deploy Checks
 ```bash
