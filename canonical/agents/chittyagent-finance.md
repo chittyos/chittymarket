@@ -48,6 +48,8 @@ classification:
   - proxy
 runtimes:
   - claude-code
+  - codex
+  - openclaw
 proxies: chittyagent-finance (chittyentity/chittyagents/finance)
 capability: chittycanon://core/services/chittyfinance
 projection_family: ChittyAgent
