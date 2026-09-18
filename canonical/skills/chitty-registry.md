@@ -1,7 +1,7 @@
 ---
 name: chitty-registry
 canon_uri: chittycanon://core/services/chittymarket#skills/chitty-registry
-description: Query ChittyRegistry (registry.chitty.cc) for service catalog, tiers, domains, dependencies, and certification badges. Discovery before integration.
+description: Read-only discovery against ChittyRegistry (registry.chitty.cc) via GET /api/v1/tools — the service catalog with per-record trust and compliance scores, certificate refs and endpoints. Discovery before integration. Does not register, update or delete; there is no tier, domain or dependency field to query.
 kind: skill
 plugin: chittyos-devops
 runtimes:
@@ -15,7 +15,9 @@ classification:
 # ChittyOS Registry Skill
 
 ## Overview
-Query and manage the ChittyOS service registry for service discovery and metadata.
+**Read-only** discovery against the ChittyOS service registry. This skill queries; it does
+not register, update, or delete. Registration is a sensitive-intent mutation submitted to
+`register.chitty.cc` and routed through ChittyConnect — not performed here.
 
 ## Usage
 ```
@@ -26,11 +28,13 @@ Query and manage the ChittyOS service registry for service discovery and metadat
 
 | Command | Description |
 |---------|-------------|
-| `list` | List all registered services |
-| `get [service]` | Get service details |
-| `search [query]` | Search services by name/description |
-| `tiers` | Show services grouped by tier |
-| `status` | Show registration status of all services |
+| `list` | List all registered services — `GET /api/v1/tools` |
+| `get [chitty_id]` | Get one record — `GET /api/v1/tools/{chitty_id}` |
+| `search [query]` | Fetch the full list and filter it **locally**; the server's `/api/v1/search` is unusable (see below) |
+| `status` | Report each record's own `status`/`compliance_score`/`trust_score` fields — **not** `/api/v1/stats`, which is unusable |
+
+**`tiers` has been removed.** There is no `tier` field on any registry record, so there is
+nothing to group by — see "Service Tiers" below.
 
 ## Registry API
 
@@ -88,35 +92,40 @@ exists on any current host** (it was a macOS path) and must not be cited. **Chit
 is authoritative over any local snapshot.** If the API is unreachable, say so and treat the
 result as unknown — do not substitute a stale file.
 
-## Service Tiers
+## Service Tiers — conceptual only, NOT a registry field
 
-| Tier | Purpose | Services |
-|------|---------|----------|
-| 0 | Trust Anchors | ChittyID, ChittyTrust, ChittySchema |
-| 1 | Core Identity | ChittyAuth, ChittyCert, ChittyRegister |
-| 2 | Platform | ChittyConnect, ChittyRouter, ChittyAPI |
-| 3 | Operational | ChittyMonitor, ChittyDiscovery, ChittyBeacon |
-| 4 | Domain | ChittyEvidence, ChittyIntel, ChittyScore |
-| 5 | Application | ChittyCases, ChittyPortal, ChittyDashboard |
+The tier model (0 Trust Anchors → 5 Application) is an architectural convention described in
+the operator's CLAUDE.md. **It is not a field on any registry record and cannot be queried.**
+Verified live 2026-09-18: no record in `/api/v1/tools` carries `tier`.
 
-## Service Metadata Schema
+Earlier revisions of this file printed a tier→services table. It has been removed because it
+was hand-maintained lore presented as catalog: it listed services that are **not registered
+at all** (ChittyTrust, ChittyConnect, ChittyRouter, ChittyMonitor, ChittyScore, ChittyCases,
+ChittyPortal, ChittyDashboard were all absent from the live 49), and it dropped ChittyCertify,
+which the operator's CLAUDE.md places in Tier 1. **Do not reintroduce a services-by-tier
+table here.** If you need the tier of a service, cite CLAUDE.md or the service's own
+compliance triad — never this file, and never the registry.
 
-```json
-{
-  "id": "chittyid",
-  "name": "ChittyID",
-  "tier": 0,
-  "domain": "id.chitty.cc",
-  "repo": "CHITTYFOUNDATION/chittyid",
-  "status": "live",
-  "endpoints": {
-    "health": "/health",
-    "api": "/api/v1",
-    "mcp": "/mcp"
-  },
-  "dependencies": []
-}
-```
+## Service Metadata Schema — read from the live API
+
+**Verified against all 49 live records, 2026-09-18.** Response shape is
+`{"success": true, "tools": [...]}`. Each record carries:
+
+`chitty_id`, `entity_type`, `subtype`, `name`, `description`, `version`, `endpoints`,
+`certificate_ref`, `parent_chitty_id`, `metadata`, `compliance_score`, `trust_score`
+
+Two traps, both of which previous revisions of this file got wrong by publishing an invented
+example record:
+
+- **There is no `tier`, `domain`, `repo`, or `dependencies` field.** Zero of 49 records carry
+  any of them. Filtering on `.tier` returns nothing and reads as "unregistered".
+- **`endpoints` is an ARRAY of absolute URLs**, not an object of paths. `.endpoints.health`
+  does not exist; the identifier field is `chitty_id`, not `id`.
+
+Read the shape from the API rather than from any example — including this one. Several
+records are incomplete in production (missing `chitty_id`, `entity_type` and scores), so
+absence of a field on one record is not evidence about the schema.
+
 
 ## Cross-Reference
 
