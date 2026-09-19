@@ -73,8 +73,12 @@ Use this skill BEFORE moving, deleting, or reorganizing any directory containing
 Verified by `discover.sh --check`:
 - `sha256sum` or `shasum`
 - `rclone` with case-specific remotes (`sd_<case_id>:`)
-- `psql` + `NEON_DATABASE_URL` env (brokered via ChittyConnect / ChittySecrets, configured in `assets/neon-source.sh`)
-- Optional: `chitty_evidence_search` MCP tool as fallback for Neon access
+- A reachable evidence store. **Check which one before assuming** — this differs per deployment:
+  - **Cloudflare D1** `chittyevidence-db` (`f486fed7-cba9-47d2-93fb-ca11d90ca084`, account `0bc21e3a5a9de1a4cc843be9c3e98121`) is the live store for `case_2024d007847` as of 2026-09-19. Query it with the Cloudflare MCP `d1_database_query` tool — `psql`/`NEON_DATABASE_URL` will not reach it.
+  - `psql` + `NEON_DATABASE_URL` (brokered via ChittyConnect / ChittySecrets, `assets/neon-source.sh`) where the store is Neon.
+- Optional: `chitty_evidence_search` MCP tool as a fallback read path.
+
+**If `NEON_DATABASE_URL` is unset, `discover.sh --check` reports "Neon checks will be skipped" and the audit still runs — producing a report where every file reads `in_neon=no`.** That is a false negative across the board, not a finding. Confirm the store is actually reachable before trusting any `ingest_then_delete` count.
 
 ## Configuration
 
@@ -87,6 +91,32 @@ Verified by `discover.sh --check`:
 - `neon_hash_column` — default `content_hash`
 
 Default document extensions: `pdf eml docx doc txt csv zip jpg jpeg png heic tiff mp3 m4a caf wav xlsx xls pptx rtf html htm`
+
+## Reverse Reconciliation — when the store has it but cannot find it
+
+The audit above answers *"is this local file in the store?"*. The opposite failure is more common and more damaging: **the document is in the store, correctly content-addressed, and still unusable** because its metadata was never populated.
+
+Observed on `case_2024d007847` (2026-09-19): file-stamped court orders sat in the store with real bytes at `sha256/<digest>` in R2, and:
+
+- `file_name` = `<first 12 hex of the digest>.bin` — e.g. `d92b6e66e52c.bin`
+- `case_id` = `NULL`
+
+They were therefore invisible to every case-scoped query, while facts that depended on them pointed at zero-byte placeholders instead. 17,282 of 17,999 rows in that store carry `case_id IS NULL`.
+
+**Recovery is a hash join, and only a hash join.** Given a human-organized mirror (a Drive tree with real filenames):
+
+```bash
+# stream the bytes — Drive exposes md5 only, so sha256 requires the content
+for f in $(rclone lsf -R --files-only "sd_<drive>:<case tree>"); do
+  printf '%s  %s\n' "$(rclone cat "sd_<drive>:<case tree>/$f" | sha256sum | cut -d' ' -f1)" "$f"
+done
+```
+
+Then, for each digest matching a row with `case_id IS NULL`: set `case_id`, restore `file_name` from the mirror path, set `mime_type`, and write an `evidence_correction_audit_log` row citing the sha256 match as the basis.
+
+The `.bin` name is self-verifying — it is the digest's own prefix, so a correct match is provable rather than plausible.
+
+**Scope note.** At 1,000+ objects this is `chittystorage-sasquatch`'s job, not something to hand-run. It owns content addressing and entity-document relationships. Hand-run it only to establish the technique on a handful of files first.
 
 ## What This Skill Does NOT Do
 
@@ -101,7 +131,10 @@ Default document extensions: `pdf eml docx doc txt csv zip jpg jpeg png heic tif
 - **Never** combine audit + move + delete in one run. Audit is read-only by design.
 - **Never** delete source based on filename/path match. Hash match only.
 - **Never** assume a Drive mirror is complete. Verify with `rclone size` + sample reads.
-- **Never** skip the in_neon check because "we ingested it last week." Hash is truth.
+- **Never** skip the store check because "we ingested it last week." Hash is truth.
+- **Never create a document row for bytes that are not yet in R2.** A row with `file_size = 0` and a `content_hash` like `sha256:pending-<something>` is a placeholder that reads as a real exhibit to every downstream consumer. Two such rows in `case_2024d007847` were cited by facts for months and were unretrievable the whole time; one underpinned a withdrawn fraud allegation. An un-ingested file is a **finding**, not a row to write.
+- **Never match by size, name, or date — even "just to get a rough count."** A size-only pass over the same corpus produced a materially different picture than the hash pass, in both directions: same-size distinct files collided, and revisions of one document read as unrelated. If you report a size-based number, label it as an estimate in the same sentence.
+- **Never conclude "the document does not exist" from one store.** Evidence for a single case has been found spread across four locations — the D1/R2 store, a per-case Drive remote, a `chittyos-data` VAULT tree, and a separate shared drive holding the most recent filings. Checking one and generalizing produced a confident, wrong "this cannot be sourced."
 
 ## State
 
