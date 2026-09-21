@@ -2556,6 +2556,34 @@
         "governance",
         "adversarial-review"
       ]
+    },
+    {
+      "id": "skill-startup-mode",
+      "name": "Startup Mode",
+      "description": "The operator's standing cost-discipline posture for this self-funded phase, and the single written source for it. Load it before any decision that creates, keeps, or justifies recurring spend \u2014 provisioning or re-provisioning a database, adding a Neon project or branch, adding a metered binding or paid SDK, adding a cron or long-lived poller that touches Postgres, adding CI to a private repo, choosing Postgres vs D1 vs R2 SQL vs KV vs Sheets, or claiming that a change saves money. Also load it when the words \"startup mode\", \"lean\", \"cost\", \"spend\", \"cheaper\", \"scale to zero\", or \"off Neon\" appear. It carries the three levers, the measurement precondition (comptroller cannot measure infra spend \u2014 Neon's consumption API is the source), the non-linear poller problem, and the boundary of what startup mode may never override.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "plugins/chittyos-core/skills/startup-mode",
+        "plugin": "chittyos-core",
+        "canonical": "canonical/skills/startup-mode.md"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/startup-mode",
+      "tags": [
+        "skill",
+        "governance",
+        "defaults",
+        "cost",
+        "infrastructure"
+      ]
     }
   ]
 }
