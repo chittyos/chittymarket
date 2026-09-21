@@ -66,7 +66,7 @@ Use this skill BEFORE moving, deleting, or reorganizing any directory containing
 # 2. Audit one case (produces /tmp/egress-<case>-<run>.csv)
 ~/.claude/skills/evidence-egress/scripts/audit.sh \
   --root ~/Desktop/organized/Legal \
-  --case arias_v_bianchi
+  --case <case_slug>
 
 # 3. Audit all discovered cases under a root
 ~/.claude/skills/evidence-egress/scripts/audit.sh \
@@ -82,7 +82,7 @@ Verified by `discover.sh --check`:
 - `sha256sum` or `shasum`
 - `rclone` with case-specific remotes (`sd_<case_id>:`)
 - A reachable evidence store. **Check which one before assuming** — this differs per deployment:
-  - **Cloudflare D1** `chittyevidence-db` (`f486fed7-cba9-47d2-93fb-ca11d90ca084`, account `0bc21e3a5a9de1a4cc843be9c3e98121`) is the live store for `case_2024d007847` as of 2026-09-19. Query it with the Cloudflare MCP `d1_database_query` tool — `psql`/`NEON_DATABASE_URL` will not reach it.
+  - **Cloudflare D1** `chittyevidence-db` (`f486fed7-cba9-47d2-93fb-ca11d90ca084`, account `0bc21e3a5a9de1a4cc843be9c3e98121`) is the live store for the cases handled by this skill, as of 2026-09-19. Query it with the Cloudflare MCP `d1_database_query` tool — `psql`/`NEON_DATABASE_URL` will not reach it.
   - `psql` + `NEON_DATABASE_URL` (brokered via ChittyConnect / ChittySecrets, `assets/neon-source.sh`) where the store is Neon.
 - Optional: `chitty_evidence_search` MCP tool as a fallback read path.
 
@@ -104,7 +104,7 @@ Default document extensions: `pdf eml docx doc txt csv zip jpg jpeg png heic tif
 
 The audit above answers *"is this local file in the store?"*. The opposite failure is more common and more damaging: **the document is in the store, correctly content-addressed, and still unusable** because its metadata was never populated.
 
-Observed on `case_2024d007847` (2026-09-19): file-stamped court orders sat in the store with real bytes at `sha256/<digest>` in R2, and:
+Observed on one matter (2026-09-19): file-stamped court orders sat in the store with real bytes at `sha256/<digest>` in R2, and:
 
 - `file_name` = `<first 12 hex of the digest>.bin` — e.g. `d92b6e66e52c.bin`
 - `case_id` = `NULL`
@@ -140,7 +140,7 @@ The `.bin` name is self-verifying — it is the digest's own prefix, so a correc
 - **Never** delete source based on filename/path match. Hash match only.
 - **Never** assume a Drive mirror is complete. Verify with `rclone size` + sample reads.
 - **Never** skip the store check because "we ingested it last week." Hash is truth.
-- **Never create a document row for bytes that are not yet in R2.** A row with `file_size = 0` and a `content_hash` like `sha256:pending-<something>` is a placeholder that reads as a real exhibit to every downstream consumer. Two such rows in `case_2024d007847` were cited by facts for months and were unretrievable the whole time; one underpinned a withdrawn fraud allegation. An un-ingested file is a **finding**, not a row to write.
+- **Never create a document row for bytes that are not yet in R2.** A row with `file_size = 0` and a `content_hash` like `sha256:pending-<something>` is a placeholder that reads as a real exhibit to every downstream consumer. Two such rows in one matter were cited by facts for months and were unretrievable the whole time; one underpinned a withdrawn fraud allegation. An un-ingested file is a **finding**, not a row to write.
 - **Never match by size, name, or date — even "just to get a rough count."** A size-only pass over the same corpus produced a materially different picture than the hash pass, in both directions: same-size distinct files collided, and revisions of one document read as unrelated. If you report a size-based number, label it as an estimate in the same sentence.
 - **Never conclude "the document does not exist" from one store.** Evidence for a single case has been found spread across four locations — the D1/R2 store, a per-case Drive remote, a `chittyos-data` VAULT tree, and a separate shared drive holding the most recent filings. Checking one and generalizing produced a confident, wrong "this cannot be sourced."
 
