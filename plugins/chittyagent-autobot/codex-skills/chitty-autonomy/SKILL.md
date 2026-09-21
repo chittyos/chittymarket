@@ -17,9 +17,50 @@ Drive a feature request from one-line prompt to merged PR with full ChittyOS can
 2. **Governance blindness** (no ChittyRegistry discovery, no canon citations, no `chittyagent-canon` review).
 3. **No state machine** (three skills that don't compose; no failure recovery).
 
+## Preflight (before Phase 0 — RUN THIS FIRST)
+
+```bash
+# Repo copy (source of truth):
+#   plugins/chittyagent-autobot/skills/chitty-autonomy/scripts/preflight.sh
+# Installed copy, when this skill is loaded from the runtime skills dir:
+~/.claude/skills/chitty-autonomy/scripts/preflight.sh
+```
+
+Exit 0 = proceed. Non-zero = **stop and report**; do not start the pipeline.
+Checks identity (and that it is entity type **P** — a synthetic agent is a
+Person, never a Thing), continuity-substrate health, ChittyCert reachability,
+and that the front-door contract has not moved.
+
+This exists because on 2026-07-30 a run reached Phase 0 and died on an opaque
+403, with three drifts behind it that no amount of reading the skill text would
+have revealed. Catching it here costs seconds; catching it mid-pipeline wastes a
+run and tempts an agent into routing around a governance gate.
+
 ## Sovereignty Affirmation (Phase 0 — MANDATORY)
 
-Before any other work, the synthetic entity (this Claude context) MUST request a Sovereignty Affirmation certificate from ChittyCert.
+Before any other work, the synthetic entity (this Claude context) MUST obtain a
+Sovereignty Affirmation certificate from ChittyCert.
+
+> **⚠ ChittyCert does NOT accept direct calls from synthetic agents.**
+> `POST https://cert.chitty.cc/api/v1/issue` returns:
+> *"Direct synthetic agent access prohibited. Route through the front door
+> (mychitty Phase 0 continuity substrate). Use the MCP Orchestrator or run
+> `can chitty whoami` / `can chitty authenticate-context` to acquire your
+> identity binding."*
+>
+> **A 403 here means WRONG DOOR, not "this entity lacks authority."** Do not
+> conclude you are unauthorized and stop — establish the identity binding via
+> the front door and route issuance through the orchestrator.
+>
+> **Never resolve a cert token inline.** An earlier revision of
+> `chitty-autonomy-affirm` used `op run` against 1Password. 1Password is
+> **RETIRED**; credential resolution belongs to the ChittySecrets /
+> ChittyConnect broker. Delegate to `chittyconnect-concierge` (`/chico`).
+> Fail closed with `POLICY_BLOCKED_CHITTYCONNECT_UNAVAILABLE` rather than
+> falling back to any inline path.
+
+The cert request payload (issued via the front door, **not** POSTed directly to
+`cert.chitty.cc`). The front door is the mychitty continuity substrate:
 
 ```
 POST https://mychitty.com/api/v1/identity/api/v1/issue

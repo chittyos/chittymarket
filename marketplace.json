@@ -362,6 +362,47 @@
       ]
     },
     {
+      "id": "skill-legal-operating-defaults",
+      "name": "Legal Operating Defaults",
+      "description": "Legal Operating Constitution \u2014 evidence before assertion, primary-source separation, factual lifecycle, provenance, matter isolation, privilege boundaries, and conditional routing to the capability that does the work. Operating method only; carries no matter facts.",
+      "type": "skill",
+      "category": "legal",
+      "access": "read",
+      "enabled": true,
+      "installMode": "standalone",
+      "standalone": {
+        "available": true,
+        "type": "skill",
+        "path": "~/.claude/skills/legal-operating-defaults"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canonical": {
+        "canon_uri": "chittycanon://core/services/chittymarket#skills/legal-operating-defaults",
+        "source": "canonical/skills/legal-operating-defaults.md",
+        "plugin": "chittyos-legal",
+        "projections": [
+          "claude-code",
+          "codex",
+          "openclaw",
+          "universal",
+          "chatgpt-skill",
+          "codex-agents-md",
+          "claude-md",
+          "chittyos-agent-bootstrap"
+        ]
+      },
+      "tags": [
+        "legal",
+        "evidence",
+        "governance",
+        "defaults",
+        "litigation",
+        "custody"
+      ]
+    },
+    {
       "id": "skill-chittycontext",
       "name": "ChittyContext Checkpoints",
       "description": "Persistent conversation state via JSON files \u2014 checkpoint, restore, status",

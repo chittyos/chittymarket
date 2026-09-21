@@ -1,0 +1,56 @@
+{
+  "decision_log": {
+    "canonical_id": "chittycanon://capability/legal/legal-operating-defaults",
+    "capability_name": "legal-operating-defaults",
+    "current_state": "authored",
+    "date": "2026-09-21",
+    "decision": "promote",
+    "decision_id": "dec_20260921_legal-operating-defaults",
+    "duplicates_found": [],
+    "environmental_footprint": "admin-system",
+    "environmental_footprint_score": 5,
+    "evidentiary_risk": "legal-grade",
+    "evidentiary_risk_score": 4,
+    "job_to_be_done": "govern",
+    "migration_owner": "chittymarket",
+    "migration_required": true,
+    "next_action": "create canonical registry entry after approval",
+    "rationale": "Disposition 'promote' selected because the artifact's primary job is 'govern', its environmental footprint is 'admin-system', and its evidentiary risk is 'legal-grade'.",
+    "review_date": "2026-10-21",
+    "source_links": [
+      "local://canonical/skills/legal-operating-defaults.md",
+      "local://plugins/chittyos-legal/skills/legal-operating-defaults/SKILL.md"
+    ]
+  },
+  "migration_queue_item": {
+    "action": "document",
+    "blocking_dependencies": [],
+    "completion_evidence": [],
+    "from_artifact": "legal-operating-defaults",
+    "migration_item": "mig_20260921_legal-operating-defaults",
+    "owner": "chittymarket",
+    "risk_level": "legal-grade",
+    "status": "backlog",
+    "to_canonical_capability": "chittycanon://capability/legal/legal-operating-defaults"
+  },
+  "missing_evidence": [],
+  "taxonomy_entry": {
+    "allowed_projections": [
+      "claude-code",
+      "codex",
+      "openclaw",
+      "universal"
+    ],
+    "canonical_id": "chittycanon://capability/legal/legal-operating-defaults",
+    "display_name": "legal-operating-defaults",
+    "entity_anchors": [
+      "record"
+    ],
+    "job_to_be_done": "govern",
+    "owner": "chittymarket",
+    "restricted_projections": [],
+    "source_of_truth": "local://canonical/skills/legal-operating-defaults.md",
+    "status": "active"
+  },
+  "_note": "audit_artifact.py wraps `current_runtime` in a single-element list, so a multi-runtime value is emitted as one comma-joined string. `taxonomy_entry.allowed_projections` has been split into real list elements so membership tests work; no other field was altered. Raw script output was [\"claude-code,codex,openclaw,universal\"]. This is a capability-governor script limitation, reported as a governance gap."
+}
