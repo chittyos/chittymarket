@@ -17,7 +17,7 @@
     },
     "chittycanon://capability/legal/legal-arsenal": {
       "evidence_gate": "legal-space-only",
-      "rationale": "Aggregate over the full Arias v. Bianchi legal corpus. Too broad an attack surface to expose outside the Legal space runtime, where workspace-level authority is already established."
+      "rationale": "Aggregate over a full matter corpus. Too broad an attack surface to expose outside the Legal space runtime, where workspace-level authority is already established. Which matter is deliberately not named here — this file is published, and the capability is matter-agnostic."
     },
     "chittycanon://capability/legal/chittymcp-claude-ai": {
       "evidence_gate": "pre-execute-middleware",
