@@ -185,7 +185,7 @@ Private repos mean **Actions minutes are metered** — recurring spend, in scope
 - No browser/toolchain downloads in CI (a Chromium install per PR is the expensive part).
 - Tests needing an absent browser must **skip loudly**, with a message saying how to run
   them locally. A skip may never be reported as a pass.
-- Many workflows are gated on `vars.CI_ENABLED`, which is unset (26 of 27 chittyentity
+- Many workflows are gated on `vars.CI_ENABLED`, which is unset (as of 2026-09-21, nearly every chittyentity
   workflows reference it). The gate's mechanism is in the workflow files; **no file records
   why**, so treat any explanation of its origin as unsourced. **Verify before flipping it:**
   enabling the variable can light up 20+ workflows across every open PR at once. Prefer one
