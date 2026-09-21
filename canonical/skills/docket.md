@@ -23,6 +23,22 @@ This skill **requires** an explicit case identifier on every invocation. It MUST
 
 If the invocation does not specify a case, stop and ask the caller for one. Do not guess.
 
+### Case-number formats by division
+
+The division letter in a case number determines both the number's shape and which Court Type
+the portal's search form needs. Both columns are format tokens — substitute the resolved case.
+
+| Division | Number shape | Portal Court Type |
+|----------|--------------|-------------------|
+| Domestic Relations | `YYYY D NNNNNN` | Domestic Relations / Child Support |
+| Law | `YYYY L NNNNNN` | Civil / Law |
+| Chancery | `YYYY CH NNNNNN` | Civil / Chancery |
+| Municipal | `YYYY M<n> NNNNNN` | Municipal District `<n>` |
+| Criminal | `YYYY CR NNNNNN` | Criminal |
+
+Spacing is not significant to the clerk's system but is to the search form: if a spaced number
+returns nothing, retry it unspaced before concluding the case does not exist.
+
 ## Case Configuration Schema
 
 For each case, expect the following configuration shape (populate from the case registry, not from skill defaults):
@@ -178,6 +194,19 @@ Extract from the accessibility tree:
 2. **All case activities** with date, event description, and comments
 3. Compare against the case's master timeline CSV to identify NEW entries
 
+### Step 7b: Capture the docket as a filed artifact
+
+Parsing gives you entries; it does not give you something citable. Capture the rendered docket
+before leaving the page, whichever path reached it:
+
+1. Print to PDF with background graphics enabled — the clerk's status styling is meaningful and
+   is lost without it.
+2. Name it `CookCounty_<caseNumber>_Docket_<YYYY-MM-DD>.pdf`, dated for the day of retrieval,
+   not the day of the last entry.
+3. Hand it to the canonical ingestion path — `evidence-collect` for a specified case — rather
+   than writing to R2, D1 or Notion from here. This skill reads a docket; it does not own
+   evidence storage, and a second ingestion path is how chain of custody diverges.
+
 ### Step 8: Update Master Timeline (if `/docket update`)
 **CSV Format** (7 columns):
 ```csv
@@ -215,6 +244,19 @@ Output a formatted summary:
 - New since last pull: [N]
 - Master timeline updated: [yes/no]
 ```
+
+## Stop Conditions
+
+Each of these ends the run. Report what was hit; do not work around it, and do not substitute a
+different case or a cached result.
+
+| Condition | Action |
+|-----------|--------|
+| CAPTCHA presented | Stop. Screenshot and report — solving it is not in scope |
+| Login or paywall required | Stop. Report the auth barrier |
+| Case not found | Retry the alternate number spacing once, then stop and report |
+| Portal or API error | Stop. Report the status and the response body |
+| Returned caption does not match the resolved case | Stop. Report the mismatch — never reconcile it silently |
 
 ## Validation Rules
 
