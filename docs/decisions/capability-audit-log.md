@@ -256,3 +256,75 @@ From the operator's own `nb-development-defaults` Review-and-Audit-Bias section 
 - `chittyos/chittymarket#81` — non-idempotent generator (non-failing-gate exemplar)
 - `chittyos/chittyentity#613` / CFDXN-126 — alchemist blocker
 - CFDXN-127 — skill catalog drift (same audit session)
+
+---
+
+## 2026-09-21 — `chittycounsel`: unmanaged matter-bound clone (out-of-tree)
+
+**Auditor:** capability-governor, invoked during the `legal-operating-defaults` existing-first search (PR #115)
+**Scope:** one artifact, out-of-tree. Not a sweep.
+**Disposition:** `merge` (into governed capabilities) + `retire` (the out-of-tree bundle). **Blocking finding attached.**
+
+### What it is
+
+`chittycounsel` — a 330-line "Virtual General Counsel" orchestrator with three embedded
+sub-skills (1,087 lines total), found during existing-first discovery. It does not exist in
+`canonical/`, has no `canon_uri`, no dispatch state, and no `.dispatch-state` sentinel. It is
+distributed as part of a Claude Desktop remote plugin bundle, entirely outside the ChittyMarket
+canonical → dispatch lane. **34 copies exist on this host.**
+
+### Blocking finding — matter-isolation defect (HIGH)
+
+The bundle's embedded `subskills/fact-governance.md` **hardcodes a live matter into its
+fact-mint and fact-query SQL** (`:12`, `:75`, `:112` — a literal `case_id` string in the INSERT
+and in a bare `WHERE case_id = '<literal>'`).
+
+The governed `canonical/skills/fact-governance.md` states the opposite, twice:
+
+> `:4` — "REQUIRES an explicit `case` parameter — refuses to run without one."
+> `:19` — "This skill **requires** an explicit case identifier on every invocation. It MUST NOT
+> default to any particular case."
+
+And `canonical/skills/evidence-collect.md:36` records why that rule exists:
+
+> "The #2 failure mode — historically observed — is attributing a document from case A to case
+> B because the pipeline was run with a stale or hardcoded case default."
+
+The out-of-tree clone is that failure mode, shipped. It is a divergent second definition of a
+governed capability (153 lines vs the canonical's 199) whose divergence is precisely the safety
+property the canonical was written to enforce. This is not a documentation-tidiness finding.
+
+### Secondary findings
+
+- **Matter data in a distributed definition.** The parent `SKILL.md` names a live matter and
+  legal entity in 5 places, including the `description` frontmatter — which means the caption
+  is loaded into the trigger surface of every session that has the bundle installed.
+- **Unmanaged duplication.** Two further sub-skills (`9-step-legal-audit`,
+  `cook-county-casesearch`) exist only here. `legal-operating-defaults` names both as routing
+  targets and correctly caveats them as Desktop-bundle-only, not marketplace-resolvable.
+- **No provenance.** No `canon_uri`, no §16 overlay record, no content hash, no dispatch sentinel.
+  Drift against it is undetectable by `dispatch.sh reconcile` because nothing points at it.
+
+### Decision
+
+1. **Immediate:** the hardcoded `case_id` literals are a matter-isolation defect and should be
+   removed from the bundle regardless of what happens to the rest of the disposition. Nothing
+   downstream should mint or query facts against a defaulted case.
+2. **Merge:** `9-step-legal-audit` and `cook-county-casesearch` are genuine capabilities with no
+   canonical home. Promote to `canonical/skills/` under `chittyos-legal`, matter-agnostic, and
+   dispatch them. `legal-operating-defaults` already routes to both by name.
+3. **Retire:** the embedded `fact-governance` duplicate. The canonical one is authoritative and
+   strictly safer.
+4. **Reshape:** whatever remains of the orchestrator is matter-bound by construction. A governed
+   successor must take the matter as a parameter. `chittyagent-paralegal` (PR pending) already
+   occupies most of this job for counsel-support work and is matter-agnostic by design.
+
+### Standard applied
+
+`legal-operating-defaults` §8 (matter isolation — "a capability that requires a matter
+identifier must refuse to run without one; no defaulting to the active case") and §14
+(matter facts stay out of reusable capability packages).
+
+**Not done in this entry:** nothing was edited. The bundle is outside this repo and 34 copies
+are installed on this host; deciding how to retract a distributed definition is the bundle
+owner's call, not a unilateral one.
