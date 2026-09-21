@@ -35,6 +35,13 @@ jobs:
       - name: scripts/lint-plugins.sh
         run: bash scripts/lint-plugins.sh
 
+      # 1b. Matter-leak gate: no concrete legal matter may appear in a governed,
+      #     published definition (legal-operating-defaults §14). Shape-matching only —
+      #     the gate never learns which matters are real, because a denylist of real
+      #     matters would itself be matter data in a public repo.
+      - name: scripts/check-matter-leak.py
+        run: python3 scripts/check-matter-leak.py
+
       # 2. Plugin tests: SKILL.md headers, agent file shapes, MCP configs,
       #    plugins/ tree matches .claude-plugin/marketplace.json.
       - name: scripts/test-plugins.sh
