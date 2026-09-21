@@ -271,7 +271,15 @@ Never published, in any projection or marketplace record:
 
 ## Provenance
 
-Runtime projections of this capability are **thin pointers**, not policy authorities. Each
-projection carries this capability's name, `canon_uri`, and the canonical content sha it was
-generated from. Where a projection and this document disagree, **this document wins**, and the
-divergence is drift to be reconciled — never promoted.
+Runtime projections of this capability are **delivery artifacts, not policy authorities.**
+
+- **Dispatch projections** (claude-code, codex, openclaw, universal) carry the full body plus
+  `name` and `canon_uri`. The canonical content sha they were generated from is tracked in
+  `canonical/.dispatch-state/skills/legal-operating-defaults.json`, not in the projected file.
+- **Bootstrap pointers** (ChatGPT skill, Codex `AGENTS.md`, Claude `CLAUDE.md`, ChittyOS agent
+  bootstrap) carry `name`, `canon_uri`, and the canonical sha inline, and no rule text at all.
+
+The dispatch sha is the version anchor: there is no independent version number to drift.
+
+Where a projection and this document disagree, **this document wins**, and the divergence is
+drift to be reconciled — never promoted.

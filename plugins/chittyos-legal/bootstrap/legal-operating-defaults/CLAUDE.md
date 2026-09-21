@@ -2,7 +2,7 @@
 
 **Capability:** `legal-operating-defaults` (ChittyMarket, plugin `chittyos-legal`)
 **Canonical:** `chittycanon://core/services/chittymarket#skills/legal-operating-defaults`
-**Canonical source:** `canonical/skills/legal-operating-defaults.md` @ `394083c00f70c5306f4aeef39962af6743532e93`
+**Canonical source:** `canonical/skills/legal-operating-defaults.md` @ `2acf282b28989d6ece53f8733db9530a62f7dce6`
 
 Legal, litigation, evidentiary, dispute, court-record, or legal-governance work — including
 requests that sound administrative — loads `legal-operating-defaults` BEFORE acting on the request. It governs
