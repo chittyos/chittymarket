@@ -162,7 +162,7 @@ Niche to multi-entity LLC structures (RE investors, family offices, holding comp
 Lead with the L0→L4 trust path + Benford + immutable ChittyLedger substrate. Target: regulated industries, family offices with litigation exposure, accountants doing forensic work. No real competitor in this slot.
 
 **Option C — "Legal-finance integrated stack"**
-Combine ChittyFinance + ChittyEvidence + ChittyCases for clients who need finance + legal in one platform (Arias v. Bianchi pattern). No competitor builds the legal+finance ledger combo. Niche but defensible.
+Combine ChittyFinance + ChittyEvidence + ChittyCases for clients who need finance + legal in one platform (the litigation-plus-finance pattern seen in our own matters). No competitor builds the legal+finance ledger combo. Niche but defensible.
 
 Recommend **A + B as primary positioning** (entity-aware AI bookkeeping with forensic-grade audit trail), **C as Legalink-space specialty** sold to legal-finance overlap clients.
 

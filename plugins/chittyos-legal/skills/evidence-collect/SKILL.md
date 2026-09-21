@@ -12,8 +12,8 @@ This skill **requires** an explicit case identifier on every invocation. It MUST
 
 Accept either:
 
-- **`case_id`** — the chittyevidence-db case identifier (e.g. `case_2024d007847`)
-- **`case_slug`** — a registered case slug (e.g. `arias-v-bianchi`, `clarendon-1610`, `fox-hoa`); resolve via `evidence_cases` or the chittyrouter case registry
+- **`case_id`** — the chittyevidence-db case identifier, shape `case_<...>`
+- **`case_slug`** — a registered case slug, shape `<case_slug>`; resolve via `evidence_cases` or the chittyrouter case registry
 
 If no `case` is specified, stop and ask the caller for one. Do not fall back to "the last case we worked on" or any hardcoded default.
 
@@ -122,7 +122,7 @@ If found → **STOP**. The fact is already in the system. Do not re-extract.
 
 ## Step 3: Ingest New Documents (If Genuinely New)
 
-Pipelines pass the case slug/id into each script. Example paths below use `<case_slug>` and `<drive_remote>` placeholders — each case has its own drive remote name (e.g. `arias_v_bianchi:`, `clarendon_1610:`, `fox_hoa:`).
+Pipelines pass the case slug/id into each script. Example paths below use `<case_slug>` and `<drive_remote>` placeholders — each case has its own drive remote name, shape `<case_slug>:`.
 
 ### Option A: From Drive → 00_inbox → intake.py
 
@@ -211,7 +211,7 @@ Never co-mingle files across case directories. If you discover a document appare
 
 Evidence data (verified property details, dates, amounts, party names, per-case aggregations) belongs in the case's evidence DB, NOT in this skill doc. Query `evidence_statement_of_facts` scoped to `case_id = ?` to retrieve verified facts for the resolved case.
 
-Historical note: an earlier version of this skill embedded concrete Arias v. Bianchi property data and marriage date directly in the doc. That content has been removed — it lives in the `evidence_statement_of_facts` table, correctly scoped to `case_id = 'case_2024d007847'`, and should be queried per invocation.
+Historical note: an earlier version of this skill embedded one matter's concrete property data and marriage date directly in the doc. That content has been removed — it lives in the `evidence_statement_of_facts` table, correctly scoped by `case_id`, and should be queried per invocation. (The note itself carried that matter's id until 2026-09-21 — which is why this is now a CI gate and not a habit.)
 
 ## Invocation Rejection
 

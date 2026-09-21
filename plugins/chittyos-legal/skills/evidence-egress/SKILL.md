@@ -58,7 +58,7 @@ Use this skill BEFORE moving, deleting, or reorganizing any directory containing
 # 2. Audit one case (produces /tmp/egress-<case>-<run>.csv)
 ~/.claude/skills/evidence-egress/scripts/audit.sh \
   --root ~/Desktop/organized/Legal \
-  --case arias_v_bianchi
+  --case <case_slug>
 
 # 3. Audit all discovered cases under a root
 ~/.claude/skills/evidence-egress/scripts/audit.sh \

@@ -352,3 +352,82 @@ third party. But there is no local source for the upload — every on-host copy 
 lands in this repo as its durable home, and the one step that cannot be automated is the
 operator re-uploading it (or removing `chittycounsel` from their skills). Until that step runs,
 the defective definition remains live in every session with the bundle installed.
+
+---
+
+## 2026-09-21 — matter leakage in governed definitions: scrub + CI gate
+
+**Auditor:** capability-governor, continuing from the `chittycounsel` audit (#117) and its
+promotion PR (#118)
+**Scope:** `canonical/`, `plugins/`, `docs/` — in-tree, governed definitions
+**Disposition:** `fix` + `enforce`. 13 source hits scrubbed; a gate added so the class cannot
+recur silently.
+
+### The finding
+
+#117 filed an out-of-tree bundle for hardcoding a live matter. The same class was already
+in-tree, in the governed skills themselves: a concrete matter appeared as a caveated "worked
+example" in four canonical skills and one research doc, and propagated to every projection.
+
+The caveats were real and well-intentioned — *"Only as an illustration of the shape — do NOT
+use this as a default"*. They satisfy `legal-operating-defaults` §8, which prohibits defaulting
+to a case. They do not satisfy §14, which keeps matter facts out of reusable capability
+packages at all. A capability package is published; a caption in it is published with it,
+regardless of how it is labelled.
+
+### Why a gate and not another sweep
+
+This is the **third** recorded removal of the same class:
+
+1. `evidence-collect.md:222` carries a historical note saying one matter's property data and
+   marriage date were removed from the doc — and, until this entry, that note ended by quoting
+   the matter's `case_id` literal. The note about removing matter data contained matter data.
+2. `fact-governance.md` was rewritten with `<case_id>` placeholder discipline in every SQL
+   block, and still carried a concrete `case_id` beside the field description at `:23`.
+3. `#116` removed a live case caption from a published override rationale.
+
+Each fix was correct and each time the class came back, because the recurring idiom is not
+carelessness — it is an author wanting a concrete-looking value next to a `case_*` field so the
+reader has something to look at. A sweep does not survive the next author. A gate does.
+
+### The gate — `scripts/check-matter-leak.py`
+
+Wired into `Validate ChittyMarket` between lint and test. Fails the build on any hit.
+
+**It never learns which matters are real.** A denylist naming real matters would itself be
+matter data, published in a public repo — the defect it is meant to prevent. Instead:
+
+| Rule | Catches |
+|------|---------|
+| case-number shape | `YYYY<div><digits>`, case-insensitive, any separator, with or without a `case_` prefix |
+| party-slug shape | `x-v-y` / `x_v_y` |
+| caption shape | `<Surname> v. <Surname>`, unless the line also carries a reporter citation (published case law, not a live matter) |
+| concrete example beside a case field | any value offered *after* an example marker (`e.g.`, `default`, `--case`) on a line naming a `case_*` field, unless drawn from the synthetic placeholder vocabulary |
+
+The fourth rule is what catches matters whose slug shape is indistinguishable from an ordinary
+one — a property address, an HOA name. It does not ask whether the value is real; it requires
+that examples beside a case field be placeholders. The placeholder vocabulary contains only
+format tokens and bracketed names, so it is safe to publish.
+
+Positioning matters: only tokens *after* the example marker are considered, so the field being
+described is not mistaken for the example. Report mode (`--report`) and ref scanning
+(`--ref origin/main`) exist so the rules can be tuned against real history before they gate.
+
+### Evidence
+
+- Gate on `origin/main`: **37 hits** (13 source + 24 propagated into projections).
+- Gate on this branch: **clean**.
+
+### Deliberately deferred
+
+A registry-backed check — resolving committed text against the live case registry — would catch
+matters of *any* shape. It needs database credentials in CI, which is sensitive-intent routing
+and the operator's call, not a unilateral one. Every recurrence observed so far is caught by
+shape + context, so it is a follow-up, not a gap in this one.
+
+### Related
+
+- `chittyos/chittymarket#116` — live case caption in a published override rationale (same class)
+- `chittyos/chittymarket#117` — the out-of-tree bundle that surfaced this
+- `chittyos/chittymarket#118` — `9-step-legal-audit` promoted, scrubbed and guarded
+
