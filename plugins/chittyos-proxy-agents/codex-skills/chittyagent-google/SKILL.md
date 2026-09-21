@@ -1,0 +1,182 @@
+---
+name: chittyagent-google
+description: Proxy to the deployed ChittyAgent Google service — Google Workspace (Gmail, Drive, Calendar, Docs, Sheets, Tasks) via a multi-tenant, per-ChittyID OAuth2 MCP surface
+canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-google
+proxies: chittyagent-google (chittyentity/chittyagents/google)
+capability: chittycanon://core/services/chittymarket#agents/chittyagent-google
+projection_family: ChittyAgent
+projection_id: chittyagent-google
+runtime: cloudflare-worker
+---
+
+# ChittyAgent Google
+
+This definition proxies Google Workspace operations to the deployed
+`chittyagent-google` worker. It is a definition (T); the worker it routes to
+is the actor.
+
+Compliance triad (dev commands, endpoint table, gotchas — not duplicated
+here): `chittyentity/chittyagents/google/{CHARTER,CHITTY,CLAUDE}.md`.
+
+## Endpoint
+
+```
+https://agent.chitty.cc/google
+https://google.chitty.cc
+https://google.agent.chitty.cc
+```
+
+Route bindings (`chittyagents/google/wrangler.jsonc`, cross-checked against
+`chittyagents/bindings/src/seed-registry.ts`): `agent.chitty.cc/google`,
+`agent.chitty.cc/google/*`, plus a same-worker alias at `agent.chitty.cc/gws`,
+`agent.chitty.cc/gws/*`. **`gws` and `google` are the same deployed worker,
+not two services** — the `chittygws` skill (`canonical/skills/chittygws.md`,
+plugin `chittyos-mcp`) documents Cloudflare Access / MCP-portal
+troubleshooting for this same worker's `/mcp` surface. That skill and this
+agent definition are two different artifact kinds describing one service;
+this doc is the endpoint/tool inventory, the skill is operational
+troubleshooting knowledge. Read both; neither supersedes the other.
+
+MCP is served via a Durable Object (`GoogleAgent`) at `/mcp`.
+
+## MCP tool inventory (verified against source 2026-09-21, `origin/main`)
+
+Do not cite this agent's own worker `CLAUDE.md` as it stood before PR #709
+(`a1bc5cb9`) — it listed 13 `google_*`-prefixed tools, including
+`google_chat_*` and `google_people_*`, that never matched a registered tool
+name in source. PR #709 regenerated that section from the live
+`server.tool()` registrations and added `tests/tool-naming.test.ts`, which
+asserts both directions (every registered tool is documented; nothing
+documented is unregistered) — a guard `src/manifest.ts` still lacks (below).
+
+The worker registers tools from **four** places:
+
+- `src/index.ts` registers 2 directly: `list_services`, `mcp_proxy`.
+- `src/gap-fillers.ts` registers 13 (`gmail_*` send/search/attachment/label
+  operations).
+- `src/custom-wrappers.ts` registers 21 (`docs_*`, `sheets_*`, `tasks_*`,
+  `drive_*`, `calendar_*`).
+- `src/link-tools.ts` registers 3 identity tools — `account_status`,
+  `account_link`, `account_confirm_link` — via `registerIdentityTools`,
+  called alongside the other two registration functions at
+  `src/index.ts:538-540`.
+
+**39 tools total, all live and callable over MCP.** (`account_link` and
+`account_confirm_link` were named `google_link_account`/equivalent before
+PR #709 renamed them to the `account_*` scheme; the tools themselves
+predate the rename.)
+
+`src/manifest.ts` (served at `/mcp/manifest`, a discovery/documentation
+endpoint, not the tool registry) declares a **separate, drifted** list of
+25 — it includes `contacts_list`/`contacts_get`/`contacts_search`, which
+are not registered as live tools anywhere in source, and it omits
+`docs_*`, `sheets_*`, `tasks_*`, and all three `account_*` tools, which
+are live. `people_search`/`people_me` likewise appear only in prompt text
+and a resource id, never as registered tools. Treat `/mcp/manifest`'s tool
+list as unreliable; the 39 above, read from the four registration sites,
+are the actually-callable set. Unlike the worker `CLAUDE.md`,
+`src/manifest.ts` has no test asserting it matches the registrations —
+that gap is real and worth a companion fix to PR #709's, but it is
+worker-side, not something this definition can close.
+
+## Account linking (two flows, not one)
+
+There are two distinct account-scoped flows, easy to conflate:
+
+1. **First connect** — the `/authorize` + `/callback` OAuth2 exchange
+   (`src/oauth.ts`). `/authorize` parks the request under an opaque nonce
+   in KV with a 10-minute TTL and redirects to Google's consent screen;
+   `/callback` completes it and establishes the caller's own identity/first
+   Google account.
+2. **Adding a second (or further) account to an already-established
+   identity** — the `account_link` / `account_confirm_link` MCP tools
+   (`src/link-tools.ts`), built on top of (1), not a replacement for it.
+   `account_link` mints a single-use, 10-minute HMAC link URL
+   (`LINK_TTL_SECONDS`, `mintLinkToken`) and returns it to the caller
+   together with the accounts already linked to their identity. Opening
+   that URL runs Google consent for the *new* account and writes a
+   **PENDING** membership row — consent alone does not grant access.
+   `account_confirm_link`, callable only from inside the identity the
+   account is joining, promotes that PENDING row to active.
+
+The pending/confirm split exists because a grant carrying a chittyId **is**
+access to every account in that partition: `findMember()`
+(`src/connections.ts`) checks the *selected* account's membership, not the
+caller's, so a session confirming an account it does not actually control
+would hand that account's owner standing access to every other mailbox in
+the identity on their next sign-in. `account_confirm_link`'s own tool
+description states this as the trust boundary in the call itself.
+
+`account_status` is the read path — `{identity, signed_in_as, connected[],
+pending[], next}` — safe to call first in any session, including before
+anything is connected. A caller otherwise lists their own linked accounts
+via `GET /accounts` (`src/index.ts`, "canonical connected-accounts API").
+
+## Multi-tenancy and disclosure policy
+
+Credentials are keyed per (ChittyID partition × Google account); every
+account selector is gated through `findMember()` (`src/connections.ts`)
+against the caller's own partition — a caller cannot address another
+partition's linked account.
+
+Each linked Google account carries a disclosure `policy` of `metadata_only`
+or `full` (`src/accounts.ts`, type `AccountPolicy`). A small, named set of
+known accounts is pinned to `metadata_only` for cause (F-L10: content sent
+to those addresses is treated as privileged); every other admitted account
+defaults `full` for consumer (`gmail.com`) addresses and `metadata_only` for
+unrecognized workspace domains. **Do not name the pinned addresses or the
+matter behind the pin in this or any published definition** — the pin exists
+because specific mailboxes carry privileged legal mail; the mechanism
+(a policy field with two values, checked before Gmail content is returned)
+is the reusable fact, the addresses are not. Under `metadata_only`, Gmail
+message bodies and raw/attachment formats are downgraded or stripped before
+return (`src/accounts.ts` content-stripping logic, enforced again in
+`src/gap-fillers.ts` at each format-sensitive call site).
+
+Admission itself is **not** gated by this worker. The Google OAuth client is
+registered in external testing mode; only accounts on that app's Google
+Cloud Console test-user allowlist can complete consent at all. `accounts.ts`
+assigns disclosure policy to whoever gets through, it does not decide who
+gets through.
+
+## Authentication
+
+Two accepted paths, tried in order at each protected route
+(`src/index.ts`): a Cloudflare Access JWT (`verifyAccessJwt`, validated
+against `TEAM_DOMAIN`'s JWKS and `POLICY_AUD` — this is the path the
+`chittygws` skill documents) **or** a ChittyAuth service token
+(`verifyServiceToken`). The worker itself holds no long-lived Google
+credential beyond per-account OAuth refresh tokens cached in
+`CREDENTIAL_CACHE` (KV); it never accepts a caller-supplied Google
+credential.
+
+## Known state
+
+Registered in ChittyRegistry (`/api/v1/tools`) with 4 endpoints, deployed at
+all three hostnames above. Not present in `chittymarket/marketplace.json` or
+`capabilities.generated.json` as of 2026-09-21 — see *Registration* below.
+
+## Registration
+
+**This definition is not registered in the live orchestrator index
+(`agent:index`), and this file does not register it.** Registry mutation is
+sensitive intent and routes through ChittyConnect as an operator-approved
+step (Mode 2 of `chittyagent-dispatch`).
+
+This definition also has **no entry in `marketplace.json` or
+`capabilities.generated.json`**, and authoring this file does not create
+one — see `chittyagent-dispatch`'s canonical doc, "Adapters that do not
+exist" (`orchestrator-kv.sh`), for the parallel gap on the orchestrator side.
+On the ChittyMarket inventory side: `scripts/check-overlay-coverage.sh`
+enforces set-equality between `marketplace.json` and
+`capabilities.generated.json` with each other, not between either of them
+and `canonical/` — so this file's presence alone does not fail, or satisfy,
+that gate. A `scripts/market-reconcile.py audit|sync` exists to close that
+gap but has not merged to `main` as of this writing (branch
+`feat/market-canonical-reconcile`); until it merges, adding an inventory
+entry for this agent means hand-authoring a paired `marketplace.json`
+artifact record and a `capabilities.generated.json` §16 record (matching
+the shape of `agent-chittyagent-notion` / `chittycanon://capability/connect/notion-proxy-agent`
+in that file) and then running `scripts/overlay-provenance.py stamp` to
+compute its `content_hash`. That is a separate, reviewable change from this
+one and is not performed here.
