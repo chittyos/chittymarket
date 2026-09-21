@@ -14,7 +14,7 @@ Detailed pass/fail criteria for each compliance check.
   - `status` — one of: DRAFT, PENDING, CERTIFIED, CANONICAL, DEPRECATED, ARCHIVED
   - `registered_with` — `chittycanon://core/services/canon`
   - `title` — non-empty string
-  - `certifier` — `chittycanon://core/services/chittycertify` (if CERTIFIED+)
+  - `certifier` — `chittycanon://gov/authority/chittycertify` (if CERTIFIED+)
   - `visibility` — one of: PUBLIC, INTERNAL, CONFIDENTIAL, RESTRICTED
 - [ ] Contains Classification section with canonical URI, tier, domain
 - [ ] Contains Mission section

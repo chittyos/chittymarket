@@ -66,7 +66,7 @@ version: semver
 status: DRAFT|PENDING|CERTIFIED|CANONICAL|DEPRECATED|ARCHIVED
 registered_with: chittycanon://core/services/canon
 title: string
-certifier: chittycanon://core/services/chittycertify
+certifier: chittycanon://gov/authority/chittycertify
 visibility: PUBLIC|INTERNAL|CONFIDENTIAL|RESTRICTED
 ---
 ```

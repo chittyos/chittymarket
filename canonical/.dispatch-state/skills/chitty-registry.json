@@ -1,7 +1,7 @@
 {
-  "canonical_sha": "f2be51e6c0bc152dbcf0ed98b200beee82082c6a",
+  "canonical_sha": "e2ca059e5eab13914ff5eecc6f86f0cb3f3bce85",
   "targets": {
-    "claude-code": "5a9a2785eac3328ce8d58d9b08c1b65e1eba466c",
-    "codex": "5a9a2785eac3328ce8d58d9b08c1b65e1eba466c"
+    "claude-code": "35d80ea382d7e821dc867ecc9650142a59c61d82",
+    "codex": "35d80ea382d7e821dc867ecc9650142a59c61d82"
   }
 }

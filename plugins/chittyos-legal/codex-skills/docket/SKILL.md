@@ -10,8 +10,8 @@ canon_uri: chittycanon://core/services/chittymarket#skills/docket
 
 This skill **requires** an explicit case identifier on every invocation. It MUST NOT default to any particular case. Accept either:
 
-- **`case_number`** — the Cook County case number (e.g. `2024D007847`)
-- **`case_slug`** — a registered case slug (e.g. `arias-v-bianchi`); resolve through the chittyrouter case registry or chittyevidence-db `evidence_cases` table
+- **`case_number`** — the Cook County case number, shape `YYYY D NNNNNN` (division letter varies)
+- **`case_slug`** — a registered case slug, shape `<case_slug>`; resolve through the chittyrouter case registry or chittyevidence-db `evidence_cases` table. Do not hardcode one here.
 
 If the invocation does not specify a case, stop and ask the caller for one. Do not guess.
 
@@ -30,18 +30,20 @@ For each case, expect the following configuration shape (populate from the case 
 | `plaintiff` / `defendant` | no | case registry |
 | `url` | constant | `https://casesearch.cookcountyclerkofcourt.org/CivilCaseSearchAPI.aspx` |
 
-### Worked Example: Arias v. Bianchi
+### Shape of a resolved case
 
-Only as an illustration of the shape — do NOT use this as a default:
+Token-only. Every value below is supplied by the case registry at invocation time; none of it
+belongs in this document. A concrete matter here would be a §14 violation even when captioned
+as an illustration — see `scripts/check-matter-leak.py`.
 
-| Field | Value |
+| Field | Shape |
 |-------|-------|
-| `caseNumber` | `2024D007847` |
-| `division` | Domestic Relations (value=4) |
-| `calendar` | DRCAL23 |
+| `caseNumber` | `YYYY D NNNNNN` |
+| `division` | division name + its portal value, e.g. a two-digit code |
+| `calendar` | `<calendar_code>` |
 | `court` | Circuit Court of Cook County, Illinois |
-| `room` | 2108, Richard J Daley Center |
-| `judge` | Johnson, Robert W. |
+| `room` | `<room>`, `<courthouse>` |
+| `judge` | `<judge>` |
 
 ## Data Stores (per case)
 
@@ -103,7 +105,7 @@ Mac (see the actor's `CLAUDE.md`) and cannot run in Docker, on Apify's cloud, or
 Linux node. Invoke it via `python3 main.py <input.json> <output.json>` on `chittymini-01`
 directly, or dispatch the Nomad job (`cook-county-docket.nomad.hcl`, parameterized, node-pinned)
 from a calling `chittyagent-*` worker. Case-number format for this portal has no dashes
-(`20261701287`, not `2024-D-007847`) — confirm the exact format against a case you already know
+(digits only, no dashes or division letter) — confirm the exact format against a case you already know
 the answer for before trusting a new one.
 
 The remaining steps below (claude-in-chrome-based) are kept as a documented fallback only, for
@@ -134,7 +136,7 @@ direct interaction:
 1. **Select Division** per the resolved case (e.g. "Domestic Relations / Child Support" = value "4")
 2. **Ensure "Search by Case Number" radio** is selected (first radio button)
 3. **Click into the case number text input** (triple_click to select any existing text)
-4. **Type case number**: Use `computer` type action with `<caseNumber>` from the resolved case — no dashes (e.g. `20261701287`, not `2024-D-007847`)
+4. **Type case number**: Use `computer` type action with `<caseNumber>` from the resolved case — digits only, no dashes and no division letter
 5. **Click "Start New Search"** button (type="submit")
 6. **Wait 3-4 seconds** for page load
 

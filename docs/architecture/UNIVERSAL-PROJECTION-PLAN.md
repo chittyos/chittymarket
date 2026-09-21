@@ -5,7 +5,7 @@ type: policy
 version: 1.0.0
 status: PENDING
 registered_with: chittycanon://core/services/canon
-certifier: chittycanon://core/services/chittycertify
+certifier: chittycanon://gov/authority/chittycertify
 title: "ChittyMarket Universal Projection — Migration Plan"
 visibility: PUBLIC
 ---

@@ -253,7 +253,7 @@ for f in d['findings']:
   add-target)
     runtime="${1:-}"
     [ -n "$runtime" ] || { echo "add-target requires <runtime>" >&2; exit 2; }
-    echo "[dispatch] add-target $runtime — STUB. Will register adapter in .runtimes.json + bootstrap all canonicals."
+    echo "[dispatch] add-target $runtime — STUB. Add the (runtime, kind) pair to _MAP in lib/resolve_output.py, implement scripts/adapters/<runtime>.sh, then run: dispatch.sh sync"
     ;;
 esac
 

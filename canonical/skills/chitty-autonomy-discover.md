@@ -25,28 +25,51 @@ This phase is **MANDATORY**. The parent orchestrator refuses to advance to Plan 
 
 ### 1. Verify Sovereignty cert is valid
 
+> **⚠ CORRECTED 2026-07-30.** This step previously resolved the token with
+> `op run --env-file=<(echo "CT_TOKEN=op://ChittyOS-Core/...")`. **1Password is
+> RETIRED** — credential resolution belongs to the ChittySecrets /
+> ChittyConnect broker and must never be inlined. Delegate to
+> `chittyconnect-concierge` (`/chico`). Note also that ChittyCert refuses
+> direct synthetic-agent calls; verification routes through the same front door
+> as issuance (see `chitty-autonomy-affirm` §2).
+
 ```bash
 cert_id=$(jq -r .cert_id < chittycontext/structured-autonomy/${feature}/SOVEREIGNTY.cert)
+# Route via the MCP Orchestrator, which holds the broker binding.
+# This skill never sees a token. Fail closed on broker unavailability with
+# POLICY_BLOCKED_CHITTYCONNECT_UNAVAILABLE — never fall back to an inline value.
+#   orchestrator → POST https://mychitty.com/api/v1/identity/api/v1/verify
+#                  {"cert_id": "<cert_id>"}
+#   The cert is valid when the response has .valid == true.
+#   Verification uses the SAME front door as issuance — cert.chitty.cc refuses
+#   direct synthetic-agent calls (see chitty-autonomy-affirm §2).
 ```
-
-Dispatch the verify call through the ChittyConnect broker (`/chico`) — it holds the ChittyCert
-binding and supplies `Authorization` itself. Never resolve or inject the token locally. If the
-broker is unavailable, fail closed with `POLICY_BLOCKED_CHITTYCONNECT_UNAVAILABLE`.
-
-```
-POST https://mychitty.com/api/v1/identity/api/v1/verify
-{"cert_id": "<cert_id>"}
-```
-
-The cert is valid when the response has `.valid == true`.
 
 If invalid, return to Phase 0 (re-affirm).
 
 ### 2. Query ChittyRegistry
 
+> **⚠ CORRECTED 2026-07-30.** This used `/api/services`, which **404s and never
+> existed** on the deployed worker — a Discover phase built on it captured an
+> empty snapshot and reported "no existing services," which is the exact
+> governance blindness this pipeline was created to prevent. The KV-backed
+> catalog is `/api/v1/tools`. Verified live: `/api/services` → 404,
+> `/api/v1/tools` → 200.
+>
+> Do **not** substitute `/api/v1/search`, `/api/v1/categories`, or
+> `/api/v1/stats` — those three handlers return hardcoded mock data, not live
+> registry contents (`?q=chittyauth` returns 0 results while chittyauth is
+> registered and live). `/api/v1/tools` is the only source of truth.
+
 ```bash
-curl -s https://registry.chitty.cc/api/services | jq '.[] | {name,tier,domain,status,canonicalUri}' \
+curl -s https://registry.chitty.cc/api/v1/tools \
   > chittycontext/structured-autonomy/${feature}/registry-snapshot.json
+
+# Sanity-gate the snapshot: an empty catalog means the query failed, not that
+# the ecosystem is empty. Do not advance to Plan on an empty discovery.
+test "$(jq '[.. | objects | select(has("chitty_id"))] | length' \
+        chittycontext/structured-autonomy/${feature}/registry-snapshot.json)" -gt 0 \
+  || { echo "REGISTRY SNAPSHOT EMPTY — discovery failed, not an empty ecosystem"; exit 1; }
 ```
 
 Then narrow to services likely relevant to the feature request:

@@ -109,7 +109,7 @@ RESULT: {AWARDED / NOT AWARDED}
   Badge: {badge name or "none - {N} checks failed"}
 
 HIGHEST BADGE EARNED: {badge name}
-  Certifier: chittycanon://core/services/chittycertify
+  Certifier: chittycanon://gov/authority/chittycertify
   Date: {YYYY-MM-DD}
 
 NEXT LEVEL: {badge name}
