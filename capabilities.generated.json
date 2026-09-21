@@ -4,7 +4,7 @@
   "phase": "Phase 1 — capability overlay (view-only, no behavior change)",
   "source": "marketplace.json + docs/audits/chittymarket-{artifact,plugin-package}-audit.json + docs/overrides/capability-group-overrides.json",
   "naming": "Bare JTBD group ids (no chitty- prefix). Namespace chittycanon://capability/ already encodes 'chitty'.",
-  "total": 106,
+  "total": 107,
   "group_assignment_sources": {
     "name-rule": 45,
     "category": 34,
@@ -1301,6 +1301,87 @@
       "visibility": "recommended",
       "provenance": {
         "content_hash": "sha256:e7e931250820b08ae4f6e00c325a90974ca0e4c8c56b2371a9e1154ef7819304",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/legal/legal-operating-defaults",
+      "legacy_id": "skill-legal-operating-defaults",
+      "name": "Legal Operating Defaults",
+      "description": "Legal Operating Constitution — evidence before assertion, primary-source separation, factual lifecycle, provenance, matter isolation, privilege boundaries, conditional dependency routing. Operating method only; carries no matter facts.",
+      "capability_group": "legal",
+      "group_assignment_source": "override",
+      "execution_class": "@chitty/reasoning",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "A"
+        ],
+        "secondary": [
+          "P",
+          "E",
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": false,
+        "requires_governance_authority": true,
+        "non_repudiation_required": false,
+        "evidence_gate": "projection-internal"
+      },
+      "execution": {
+        "default_surface": "local",
+        "local_allowed": true,
+        "context_cost": "medium",
+        "mutation_risk": "low"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "visible",
+        "ambient_by_intent": true,
+        "verbs": [
+          "govern",
+          "route",
+          "validate",
+          "enforce"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "local-only",
+        "stores_credentials_in": "none",
+        "fail_closed_if_unavailable": false
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "claude_ai",
+        "claude_desktop",
+        "chatgpt",
+        "codex",
+        "openclaw"
+      ],
+      "source_links": [
+        "local://canonical/skills/legal-operating-defaults.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "govern",
+        "environmental_footprint": "low",
+        "evidentiary_risk": "legal-grade",
+        "advisory_disposition": "legal-only"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "legal",
+      "deprecated_aliases": [],
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:9af8e665d61e33f1b69f23ecd9e42fa779e7ddd3cbc1185fbb01c6b38c58261c",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8616,8 +8697,8 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:2900388120eb02aba9d0c1216120d98631d0faa624237a72b03aac155be7f76b",
-    "record_count": 106,
+    "aggregate_hash": "sha256:73ef56d6534899bef08dab9c1c147723da8c6918e84a76033512005625cec66e",
+    "record_count": 107,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
     "anchored_in_ledger": null
