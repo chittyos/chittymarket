@@ -2,7 +2,7 @@
 
 **Capability:** `legal-operating-defaults` (ChittyMarket, plugin `chittyos-legal`)
 **Canonical:** `chittycanon://core/services/chittymarket#skills/legal-operating-defaults`
-**Canonical source:** `canonical/skills/legal-operating-defaults.md` @ `2acf282b28989d6ece53f8733db9530a62f7dce6`
+**Canonical source:** `canonical/skills/legal-operating-defaults.md` @ `38a00c195a1ae08d04f47f79c3e60cda3d8739c8`
 
 Legal, litigation, evidentiary, dispute, court-record, or legal-governance work — including
 requests that sound administrative — loads `legal-operating-defaults` BEFORE acting on the request. It governs
@@ -11,13 +11,5 @@ evidence handling, the factual lifecycle, provenance, matter isolation, and priv
 This file is a pointer. It states no rules of its own. Where it and the canonical document
 appear to differ, the canonical document governs and this file is drift.
 
-Dependency routing is defined in the canonical document; resolve dependencies when their
-trigger fires, not in advance. For any code, infrastructure, or system-design work, also load
-`nb-development-defaults` and apply startup-mode.
-
-Matter facts, evidence, privileged material, strategy, work product, credentials, and
-custody-sensitive hashes are never carried in this file or any other projection.
-
-Applies to every ChittyOS agent, skill, and channel whose work touches a legal matter.
-Registration and projection changes route through `capability-governor`; ChittyOS
-artifact/registration/deployment changes route through `chittyos-compliance`.
+Dependency routing, the distribution boundary, and every operating rule are defined in the
+canonical document. This file restates none of them — read the canonical document.

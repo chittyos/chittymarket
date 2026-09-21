@@ -1,7 +1,10 @@
 # Bootstrap projections — `legal-operating-defaults`
 
-Thin runtime pointers for surfaces the dispatch adapters do not cover for `kind: skill`
-(`resolve_output.py` maps skills to claude-code and codex only).
+Thin runtime pointers for bootstrap surfaces that have no dispatch adapter — a `CLAUDE.md`,
+an `AGENTS.md`, and a ChatGPT skill entry are load-order hints, not skill packages, so
+`resolve_output.py` has no `(runtime, kind)` row for them. The four runtimes that DO have
+rows (`claude-code`, `codex`, `openclaw`, `universal`) receive full generated `SKILL.md`
+projections instead, under `plugins/{plugin}/{skills,codex-skills,openclaw-skills,universal-skills}/`.
 
 | File | Surface |
 |---|---|
@@ -11,7 +14,18 @@ Thin runtime pointers for surfaces the dispatch adapters do not cover for `kind:
 | `chittyos-agent-bootstrap.md` | ChittyOS agent/bootstrap policy |
 
 **Generated — do not edit.** Run `scripts/generate-legal-bootstrap.sh` after changing the
-canonical document. Generated from `canonical/skills/legal-operating-defaults.md` @ `2acf282b28989d6ece53f8733db9530a62f7dce6`.
+canonical document. Generated from `canonical/skills/legal-operating-defaults.md` @ `38a00c195a1ae08d04f47f79c3e60cda3d8739c8`.
+
+## Why openclaw and universal reuse the claude-code adapter
+
+Both lanes consume a skill as a directory containing `SKILL.md` with `name` /
+`description` / `canon_uri` frontmatter followed by the full body — verified on this host
+against `~/.openclaw/skills/capability-governor/SKILL.md` and
+`~/.agents/skills/capability-governor/SKILL.md`, which carry exactly that shape. That is
+what `claude-code-agent.sh` emits, so it is reused rather than cloned. The existing
+`openclaw-agents/*.yaml` lane is a different kind (`agent`) with a different mold; the two
+formats coexisting inside one plugin is expected, not drift. **This rests on host inspection,
+not on a repo fixture — there is no runtime test asserting either lane's format.**
 
 ## Known delivery gap
 

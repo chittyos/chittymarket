@@ -33,29 +33,25 @@ evidence handling, the factual lifecycle, provenance, matter isolation, and priv
 This file is a pointer. It states no rules of its own. Where it and the canonical document
 appear to differ, the canonical document governs and this file is drift.
 
-Dependency routing is defined in the canonical document; resolve dependencies when their
-trigger fires, not in advance. For any code, infrastructure, or system-design work, also load
-\`nb-development-defaults\` and apply startup-mode.
-
-Matter facts, evidence, privileged material, strategy, work product, credentials, and
-custody-sensitive hashes are never carried in this file or any other projection.
+Dependency routing, the distribution boundary, and every operating rule are defined in the
+canonical document. This file restates none of them — read the canonical document.
 EOF
 }
 
 { echo "# Legal Operating Defaults — ChatGPT skill entry"; echo; body; } > "$out/chatgpt-skill.md"
 { echo "# AGENTS.md — Legal Operating Defaults (Codex bootstrap)"; echo; body; } > "$out/AGENTS.md"
 { echo "# CLAUDE.md — Legal Operating Defaults (Claude bootstrap)"; echo; body; } > "$out/CLAUDE.md"
-{ echo "# ChittyOS agent bootstrap policy — Legal Operating Defaults"; echo; body; echo
-  echo "Applies to every ChittyOS agent, skill, and channel whose work touches a legal matter."
-  echo "Registration and projection changes route through \`capability-governor\`; ChittyOS"
-  echo "artifact/registration/deployment changes route through \`chittyos-compliance\`."
-} > "$out/chittyos-agent-bootstrap.md"
+{ echo "# ChittyOS agent bootstrap policy — Legal Operating Defaults"; echo; body; } \
+  > "$out/chittyos-agent-bootstrap.md"
 
 cat > "$out/README.md" <<EOF
 # Bootstrap projections — \`$name\`
 
-Thin runtime pointers for surfaces the dispatch adapters do not cover for \`kind: skill\`
-(\`resolve_output.py\` maps skills to claude-code and codex only).
+Thin runtime pointers for bootstrap surfaces that have no dispatch adapter — a \`CLAUDE.md\`,
+an \`AGENTS.md\`, and a ChatGPT skill entry are load-order hints, not skill packages, so
+\`resolve_output.py\` has no \`(runtime, kind)\` row for them. The four runtimes that DO have
+rows (\`claude-code\`, \`codex\`, \`openclaw\`, \`universal\`) receive full generated \`SKILL.md\`
+projections instead, under \`plugins/{plugin}/{skills,codex-skills,openclaw-skills,universal-skills}/\`.
 
 | File | Surface |
 |---|---|
@@ -66,6 +62,17 @@ Thin runtime pointers for surfaces the dispatch adapters do not cover for \`kind
 
 **Generated — do not edit.** Run \`scripts/generate-legal-bootstrap.sh\` after changing the
 canonical document. Generated from \`canonical/skills/$name.md\` @ \`$sha\`.
+
+## Why openclaw and universal reuse the claude-code adapter
+
+Both lanes consume a skill as a directory containing \`SKILL.md\` with \`name\` /
+\`description\` / \`canon_uri\` frontmatter followed by the full body — verified on this host
+against \`~/.openclaw/skills/capability-governor/SKILL.md\` and
+\`~/.agents/skills/capability-governor/SKILL.md\`, which carry exactly that shape. That is
+what \`claude-code-agent.sh\` emits, so it is reused rather than cloned. The existing
+\`openclaw-agents/*.yaml\` lane is a different kind (\`agent\`) with a different mold; the two
+formats coexisting inside one plugin is expected, not drift. **This rests on host inspection,
+not on a repo fixture — there is no runtime test asserting either lane's format.**
 
 ## Known delivery gap
 

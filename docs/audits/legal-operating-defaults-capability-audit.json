@@ -36,7 +36,10 @@
   "missing_evidence": [],
   "taxonomy_entry": {
     "allowed_projections": [
-      "claude-code,codex,openclaw,universal"
+      "claude-code",
+      "codex",
+      "openclaw",
+      "universal"
     ],
     "canonical_id": "chittycanon://capability/legal/legal-operating-defaults",
     "display_name": "legal-operating-defaults",
@@ -48,5 +51,6 @@
     "restricted_projections": [],
     "source_of_truth": "local://canonical/skills/legal-operating-defaults.md",
     "status": "active"
-  }
+  },
+  "_note": "audit_artifact.py wraps `current_runtime` in a single-element list, so a multi-runtime value is emitted as one comma-joined string. `taxonomy_entry.allowed_projections` has been split into real list elements so membership tests work; no other field was altered. Raw script output was [\"claude-code,codex,openclaw,universal\"]. This is a capability-governor script limitation, reported as a governance gap."
 }

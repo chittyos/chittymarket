@@ -61,10 +61,21 @@ Every factual assertion about a matter carries a state. The canonical states are
 | `archived` | Superseded by a later version | No |
 | `rejected` | Failed verification | No |
 
-Mapping for runtimes that speak a different vocabulary: `VERIFIED` → `verified`;
-`UNVERIFIED` → `draft`; `CORRECTED` → a **new version** with `supersedes_id` set, the prior
-version `archived` (never an in-place edit); `EXCLUDED` → `rejected` (failed verification) or
-`archived` (superseded) — these are different outcomes and must not be collapsed.
+Mapping for runtimes that speak a different vocabulary:
+
+- `VERIFIED` → `verified`
+- `UNVERIFIED` → `draft`
+- `CORRECTED` → a **new version** with `supersedes_id` set, the prior version `archived`.
+  Never an in-place edit. Note that `locked` is terminal in `fact-governance` and has no
+  correction transition: a locked fact that turns out to be wrong is a governance escalation,
+  not a state change, and must be raised rather than quietly re-versioned.
+- `EXCLUDED` → **no canonical target; the mapping is lossy and must not be faked.**
+  `rejected` means *failed verification* and `archived` means *superseded by a later version*.
+  An evidentiary exclusion — inadmissible, struck, withdrawn, excluded by order — is neither:
+  it may have passed verification and have no successor. Until `fact-governance` carries an
+  `excluded` state, record the exclusion in the dispute/notes channel against the fact and say
+  explicitly that the lifecycle state does not encode it. Do not collapse it into `rejected`
+  or `archived` to make the vocabulary line up.
 
 **Corrections are versions, not overwrites.** A superseded assertion stays visible and
 carries the correction. Silent deletion of a wrong fact destroys the record of how it was
@@ -82,7 +93,9 @@ A verified fact carries, at minimum, whatever of the following exists:
 - **Document date** — the date on the instrument, distinct from the date it was filed,
   received, ingested, or last modified on disk
 - **Source quote** — the language relied on, verbatim, with a pin cite
-- **Hash** — content hash when the store provides one
+- **Hash** — content hash when the store provides one. Note that in `chittyevidence-db`
+  hashes live in `evidence_chain_of_custody`, not on the fact row itself; a fact
+  references custody, it does not carry the hash
 
 A fact that cannot be traced back to a readable source is `draft`, regardless of how
 confident anyone is.
