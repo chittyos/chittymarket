@@ -210,14 +210,22 @@ Private repos mean **Actions minutes are metered** — recurring spend, in scope
 
 ## Spend ceiling
 
-The ceiling is **operator state, not prose.** Read it live from
-`~/.ops/operator-manifest.json` → `policy.startup_mode.monthly_ceiling_usd`.
+**$20/month, fleet-wide, ratified by the operator 2026-09-21.** Read it live from
+`~/.ops/operator-manifest.json` → `policy.startup_mode.monthly_ceiling_usd`; the manifest
+is authoritative if this line and it ever disagree. Its origin is
+`chittyreception/MASTERBOARD.md:43` (*"Keep monthly spend <$20"*, blank in the chittyentity
+twin), promoted from one app's limit to the whole fleet's on ratification.
 
-There is one written number and it is **unratified**: `chittyreception/MASTERBOARD.md:43`
-records *"Keep monthly spend <$20"*, while `chittyentity/workers/MASTERBOARD.md:44` has the
-same line with the figure **blank**. The manifest therefore carries `monthly_ceiling_usd:
-null` with `candidate_ceiling_usd: 20` and `candidate_ratified: false`. Confirm the $20
-with the operator before treating it as the ceiling — and do not silently drop it either.
+**Act as though the fleet is already over it, because it is.** ChittyOS-Core's idle Neon
+compute alone measured **$25–30/month** on 2026-09-17 (see *Pollers*) — more than the
+entire ceiling, for a database doing no work. Two consequences, both binding:
+
+- The poller work is not an optimisation, it is the ceiling. Treat `chittyops#121/#122/#125`,
+  `chittyverify#60`, `chittystorage#84` as the path back under $20, and re-measure after the
+  last one lands.
+- Any **new** recurring line item needs the ceiling cited and the headroom stated. There is
+  currently no headroom, so "it's only a few dollars" is not an argument — it is the whole
+  remaining budget several times over.
 
 Sibling, not duplicate: per-session LLM/subagent spend is governed by **Orchestration
 Budget Discipline** in `~/.claude/CLAUDE.md`. Read it there.
