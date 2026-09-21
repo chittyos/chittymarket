@@ -271,13 +271,31 @@ From the operator's own `nb-development-defaults` Review-and-Audit-Bias section 
 sub-skills (1,087 lines total), found during existing-first discovery. It does not exist in
 `canonical/`, has no `canon_uri`, no dispatch state, and no `.dispatch-state` sentinel. It is
 distributed as part of a Claude Desktop remote plugin bundle, entirely outside the ChittyMarket
-canonical → dispatch lane. **34 copies exist on this host.**
+canonical → dispatch lane.
+
+**Distribution, stated precisely (corrected 2026-09-21):** this is **one uploaded artifact, not 34
+installs.** `~/.claude/remote/plugins/*/skills/chittycounsel` holds 32 directories whose `SKILL.md`
+and `subskills/fact-governance.md` are byte-identical (single MD5 across all 32) — per-session
+remote-plugin sync caches of one upload generation. The two other paths a naive `find` returns are
+not skills: a git worktree of the unrelated `chittycounsel` **Worker** repo, and an entity
+checkpoint directory. The earlier "34 copies on this host" was a true file count and a misleading
+distribution claim; the blast radius is one uploaded skill, re-synced, not 34 independent installs.
+
+The upload sits alongside `chittybiz`, `chittyxl`, and `nb-development-defaults` in the same
+bundle — i.e. **the bundle owner is the operator**, not a third party.
 
 ### Blocking finding — matter-isolation defect (HIGH)
 
 The bundle's embedded `subskills/fact-governance.md` **hardcodes a live matter into its
 fact-mint and fact-query SQL** (`:12`, `:75`, `:112` — a literal `case_id` string in the INSERT
 and in a bare `WHERE case_id = '<literal>'`).
+
+The INSERT is the worse half, and worse than first described. Its `fact_number` subquery *is*
+parameterized — `(SELECT COALESCE(MAX(fact_number),0)+1 FROM evidence_statement_of_facts WHERE
+case_id = ?)` — while the `case_id` column it writes is the hardcoded literal. So a fact minted
+with an explicitly-supplied case receives a fact number correctly scoped to *that* case and is
+then stored under the hardcoded one. The result is not an obvious failure: it is a
+plausibly-numbered fact filed to the wrong matter, which survives a glance at the row.
 
 The governed `canonical/skills/fact-governance.md` states the opposite, twice:
 
@@ -325,6 +343,12 @@ property the canonical was written to enforce. This is not a documentation-tidin
 identifier must refuse to run without one; no defaulting to the active case") and §14
 (matter facts stay out of reusable capability packages).
 
-**Not done in this entry:** nothing was edited. The bundle is outside this repo and 34 copies
-are installed on this host; deciding how to retract a distributed definition is the bundle
-owner's call, not a unilateral one.
+**Not done in this entry:** nothing was edited, and no cache copy should be — they re-sync from
+the upload, and editing local client config is forbidden by the centralized-registration rule.
+
+**Who can act, corrected:** the bundle owner is the operator, so nothing here is blocked on a
+third party. But there is no local source for the upload — every on-host copy is a cache, and
+`CHITTYOS/chittycounsel` is the Worker service, not the skill. The corrected bundle therefore
+lands in this repo as its durable home, and the one step that cannot be automated is the
+operator re-uploading it (or removing `chittycounsel` from their skills). Until that step runs,
+the defective definition remains live in every session with the bundle installed.
