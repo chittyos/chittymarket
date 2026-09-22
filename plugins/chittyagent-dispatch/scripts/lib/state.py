@@ -170,6 +170,17 @@ def record_projection_verification(
     scope_findings = [f for f in all_findings if selected_finding(f, selected)]
     global_findings = [f for f in all_findings if f.get("canonical") == "-"]
 
+    global_path = state_dir / "_verification.json"
+    existing_global = load_json(global_path) if global_path.exists() else {}
+    existing_runtime = existing_global.get("runtime")
+    if not isinstance(existing_runtime, dict):
+        existing_runtime = {
+            "status": "not_run",
+            "verified_at": None,
+            "method": None,
+            "targets": {},
+        }
+
     global_state = {
         "scope": sorted(selected) if selected else ["all"],
         "projection": {
@@ -179,14 +190,10 @@ def record_projection_verification(
             "summary": report.get("summary", {}),
             "findings": [compact_finding(f) for f in scope_findings],
         },
-        "runtime": {
-            "status": "not_run",
-            "verified_at": None,
-            "method": None,
-            "targets": {},
-        },
+        # A projection audit must not erase or manufacture native runtime proof.
+        "runtime": existing_runtime,
     }
-    write_json(state_dir / "_verification.json", global_state)
+    write_json(global_path, global_state)
 
     by_canonical: dict[str, list[dict]] = {}
     for finding in all_findings:
