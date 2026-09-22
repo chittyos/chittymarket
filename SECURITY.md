@@ -16,7 +16,7 @@ visibility: INTERNAL
 
 ## Threat Model
 
-ChittyMarket is primarily a **software supply-chain and authority-control system**.
+ChittyMarket is primarily the security boundary for the private **capability supply chain and projection control plane**.
 
 It does not currently require a standalone HTTP runtime. Its attack surface is the path by which capability definitions become installable or executable packages:
 
