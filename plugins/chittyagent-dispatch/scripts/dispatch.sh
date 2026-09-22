@@ -5,8 +5,9 @@
 #   dispatch.sh sync [<canonical-name>...]      # default mode; projects updated canonicals
 #   dispatch.sh bootstrap <canonical-name>      # first-time projection
 #   dispatch.sh reconcile [<canonical-name>...] # detect + integrate direct edits
+#   dispatch.sh audit                           # drift + orphan matrix (read-only)
+#   dispatch.sh verify [<canonical-name>...]     # persist projection verification; NOT live runtime proof
 #   dispatch.sh add-target <runtime>            # onboard a new runtime
-#   dispatch.sh audit                           # drift + orphan matrix
 #
 # This is a v0.1 skeleton. Adapter implementations stubbed; see ./adapters/.
 set -euo pipefail
@@ -290,6 +291,40 @@ report = json.loads(findings_raw)
 selected = set(selected)
 failures = 0
 updated = 0
+
+all_findings = report.get("findings", [])
+global_findings = [f for f in all_findings if f.get("canonical") == "-"]
+global_status = "failed" if ((not selected and all_findings) or global_findings) else "passed"
+global_state = {
+    "scope": sorted(selected) if selected else ["all"],
+    "projection": {
+        "status": global_status,
+        "verified_at": ts,
+        "method": "dispatch-audit",
+        "summary": report.get("summary", {}),
+        "global_findings": [
+            {
+                "class": f.get("cls"),
+                "runtime": f.get("runtime"),
+                "detail": f.get("detail", ""),
+            }
+            for f in global_findings
+        ],
+    },
+    "runtime": {
+        "status": "not_run",
+        "verified_at": None,
+        "method": None,
+        "targets": {},
+    },
+}
+with open(os.path.join(state_dir, "_verification.json"), "w", encoding="utf-8") as fh:
+    json.dump(global_state, fh, indent=2, sort_keys=True)
+    fh.write("\n")
+
+if global_findings:
+    print(f"[dispatch] verify: {len(global_findings)} global orphan finding(s)", file=sys.stderr)
+    failures += len(global_findings)
 
 by_canonical = {}
 for finding in report.get("findings", []):
