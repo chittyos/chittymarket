@@ -48,14 +48,14 @@ cat > "$out/README.md" <<EOF
 # Bootstrap projections — \`$name\`
 
 Thin runtime pointers for bootstrap surfaces that have no dispatch adapter — a \`CLAUDE.md\`,
-an \`AGENTS.md\`, and a ChatGPT skill entry are load-order hints, not skill packages, so
-\`resolve_output.py\` has no \`(runtime, kind)\` row for them. The four runtimes that DO have
-rows (\`claude-code\`, \`codex\`, \`openclaw\`, \`universal\`) receive full generated \`SKILL.md\`
-projections instead, under \`plugins/{plugin}/{skills,codex-skills,openclaw-skills,universal-skills}/\`.
+an \`AGENTS.md\` and a ChatGPT bootstrap pointer are load-order hints, not native packages.
+Native ChatGPT Skill packaging is owned by dispatch and lands under
+\`plugins/{plugin}/chatgpt-skills/{name}/\`. Claude Code, Codex, OpenClaw, and universal
+projections remain under their existing runtime directories.
 
 | File | Surface |
 |---|---|
-| \`chatgpt-skill.md\` | ChatGPT skill entry |
+| \`chatgpt-skill.md\` | ChatGPT bootstrap pointer (not the native Skill package) |
 | \`AGENTS.md\` | Codex bootstrap |
 | \`CLAUDE.md\` | Claude bootstrap |
 | \`chittyos-agent-bootstrap.md\` | ChittyOS agent/bootstrap policy |
@@ -84,19 +84,4 @@ Those directories are populated today by an out-of-repo fan-out that
 managed and reproducible; last-mile delivery is not, and is not solved by this capability.
 EOF
 
-skill_out="$root/plugins/chittyos-legal/skills/$name"
-mkdir -p "$skill_out/agents"
-cat > "$skill_out/agents/openai.yaml" <<EOF
-interface:
-  display_name: Legal Operating Defaults
-  short_description: Evidence-governed operating defaults for legal, litigation, court-record, privilege, and legal-analysis work.
-policy:
-  products:
-  - chatgpt
-  - codex
-  - api
-  - atlas
-  allow_implicit_invocation: true
-EOF
-
-echo "[legal-bootstrap] regenerated $out and ChatGPT Skill metadata from $canonical @ $sha"
+echo "[legal-bootstrap] regenerated $out from $canonical @ $sha; native ChatGPT package is dispatch-managed"
