@@ -77,6 +77,12 @@ jobs:
       - name: Market reconcile regression tests
         run: bash scripts/tests/test-market-reconcile.sh
 
+      - name: Dispatch state regression tests
+        run: |
+          bash -n plugins/chittyagent-dispatch/scripts/dispatch.sh
+          python3 -m py_compile plugins/chittyagent-dispatch/scripts/lib/state.py
+          python3 scripts/tests/test_dispatch_state.py
+
       # 2g. Identity-first Market reconciliation. Published projections must
       #     preserve an established chittycanon://capability binding. New
       #     unresolved canonical definitions remain HOLD and cannot be synced.
