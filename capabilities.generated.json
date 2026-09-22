@@ -8599,7 +8599,7 @@
         "openclaw"
       ],
       "source_links": [
-        "local://~/.claude/skills/chittyxl"
+        "local://canonical/skills/nb-development-defaults.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "verify",
@@ -8612,7 +8612,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:35fc8d9de96459ea941d1e07f394d8501286b5ab809dad11eed1c0daa48c54c0",
+        "content_hash": "sha256:b15f311d93ed6acf7c3dfd5858bf8cc70209574d931b757e353bd7a92f186d42",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8772,7 +8772,7 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:f54715812f6e8d2760b91b46ec984951d5297731f18d1ed51cd7490f657436ac",
+    "aggregate_hash": "sha256:8dd0d049288569a9f74ba8b5127d0a4170f53c5b8137c85f1962e114d28e19c0",
     "record_count": 108,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",

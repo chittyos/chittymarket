@@ -187,10 +187,26 @@ toggle_skill() {
   local skill_path="$1" state="$2"
   local skill_dir
   skill_dir=$(echo "$skill_path" | sed "s|~|$HOME|")
+
+  [[ -d "$skill_dir" ]] || {
+    echo "Skill actuator path does not exist: $skill_dir" >&2
+    return 1
+  }
+
   if [[ "$state" == "True" ]]; then
-    [[ -f "$skill_dir/SKILL.md.disabled" ]] && mv "$skill_dir/SKILL.md.disabled" "$skill_dir/SKILL.md"
+    if [[ -f "$skill_dir/SKILL.md.disabled" ]]; then
+      mv "$skill_dir/SKILL.md.disabled" "$skill_dir/SKILL.md"
+    elif [[ ! -f "$skill_dir/SKILL.md" ]]; then
+      echo "Skill package has neither SKILL.md nor SKILL.md.disabled: $skill_dir" >&2
+      return 1
+    fi
   else
-    [[ -f "$skill_dir/SKILL.md" ]] && mv "$skill_dir/SKILL.md" "$skill_dir/SKILL.md.disabled"
+    if [[ -f "$skill_dir/SKILL.md" ]]; then
+      mv "$skill_dir/SKILL.md" "$skill_dir/SKILL.md.disabled"
+    elif [[ ! -f "$skill_dir/SKILL.md.disabled" ]]; then
+      echo "Skill package has neither SKILL.md nor SKILL.md.disabled: $skill_dir" >&2
+      return 1
+    fi
   fi
 }
 
@@ -309,7 +325,8 @@ cmd_toggle() {
     skill)
       local skill_path
       skill_path=$(echo "$art_json" | python3 -c "import json,sys; print(json.load(sys.stdin).get('standalone',{}).get('path',''))")
-      [[ -n "$skill_path" ]] && toggle_skill "$skill_path" "$state"
+      [[ -n "$skill_path" ]] || die "Skill '$artifact_id' has no standalone.path; refusing to change manifest state."
+      toggle_skill "$skill_path" "$state"
       ;;
     plugin)
       local ref

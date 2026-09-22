@@ -312,6 +312,7 @@ while IFS= read -r f; do projection_paths+=("$f"); done < <(
        -o -path "*/skills/*/SKILL.md" \
        -o -path "*/commands/*.md" \
        -o -path "*/codex-skills/*/SKILL.md" \
+       -o -path "*/chatgpt-skills/*/SKILL.md" \
        -o -path "*/openclaw-agents/*.yaml" \
        -o -path "*/claude-skills/*.json" \
        -o -path "*/chatgpt-apps/*.json" \) 2>/dev/null
@@ -330,6 +331,9 @@ for proj in "${projection_paths[@]}"; do
   elif [[ "$proj" == */codex-skills/*/SKILL.md ]]; then
     name=$(basename "$(dirname "$proj")")
     expected_kind="agents|skills"   # codex-skills accepts either
+  elif [[ "$proj" == */chatgpt-skills/*/SKILL.md ]]; then
+    name=$(basename "$(dirname "$proj")")
+    expected_kind="skills"
   elif [[ "$proj" == */openclaw-agents/*.yaml ]]; then
     name=$(basename "$proj" .yaml)
     expected_kind="agents"

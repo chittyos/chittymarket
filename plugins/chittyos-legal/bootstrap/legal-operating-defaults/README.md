@@ -1,14 +1,14 @@
 # Bootstrap projections — `legal-operating-defaults`
 
 Thin runtime pointers for bootstrap surfaces that have no dispatch adapter — a `CLAUDE.md`,
-an `AGENTS.md`, and a ChatGPT skill entry are load-order hints, not skill packages, so
-`resolve_output.py` has no `(runtime, kind)` row for them. The four runtimes that DO have
-rows (`claude-code`, `codex`, `openclaw`, `universal`) receive full generated `SKILL.md`
-projections instead, under `plugins/{plugin}/{skills,codex-skills,openclaw-skills,universal-skills}/`.
+an `AGENTS.md`, and a ChatGPT bootstrap pointer are load-order hints, not native packages.
+Native ChatGPT Skill packaging is owned by dispatch and lands under
+`plugins/{plugin}/chatgpt-skills/{name}/`. Claude Code, Codex, OpenClaw, and universal
+projections remain under their existing runtime directories.
 
 | File | Surface |
 |---|---|
-| `chatgpt-skill.md` | ChatGPT skill entry |
+| `chatgpt-skill.md` | ChatGPT bootstrap pointer (not the native Skill package) |
 | `AGENTS.md` | Codex bootstrap |
 | `CLAUDE.md` | Claude bootstrap |
 | `chittyos-agent-bootstrap.md` | ChittyOS agent/bootstrap policy |

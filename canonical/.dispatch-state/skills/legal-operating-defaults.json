@@ -1,34 +1,36 @@
 {
-  "canonical_sha": "606b6cc8669703233d2460a2fba2cb7df37130ad",
-  "dispatch": {
-    "canonical_sha": "606b6cc8669703233d2460a2fba2cb7df37130ad",
-    "projected_at": "2026-09-22T19:37:13Z",
-    "status": "projected",
-    "targets": {
-      "claude-code": "faf93d9d915bd676363d314f57632559a2d91e80",
-      "codex": "faf93d9d915bd676363d314f57632559a2d91e80",
-      "openclaw": "faf93d9d915bd676363d314f57632559a2d91e80",
-      "universal": "faf93d9d915bd676363d314f57632559a2d91e80"
-    }
-  },
+  "canonical_sha": "8df136c6f3e86d5e64fc0dc297101e67932c623c",
   "targets": {
     "claude-code": "faf93d9d915bd676363d314f57632559a2d91e80",
     "codex": "faf93d9d915bd676363d314f57632559a2d91e80",
     "openclaw": "faf93d9d915bd676363d314f57632559a2d91e80",
-    "universal": "faf93d9d915bd676363d314f57632559a2d91e80"
+    "universal": "faf93d9d915bd676363d314f57632559a2d91e80",
+    "chatgpt": "80f9c774b879c3d01a69d26111a2a76dda9ab8ee"
+  },
+  "dispatch": {
+    "status": "projected",
+    "projected_at": "2026-09-22T19:37:13Z",
+    "canonical_sha": "8df136c6f3e86d5e64fc0dc297101e67932c623c",
+    "targets": {
+      "claude-code": "faf93d9d915bd676363d314f57632559a2d91e80",
+      "codex": "faf93d9d915bd676363d314f57632559a2d91e80",
+      "openclaw": "faf93d9d915bd676363d314f57632559a2d91e80",
+      "universal": "faf93d9d915bd676363d314f57632559a2d91e80",
+      "chatgpt": "80f9c774b879c3d01a69d26111a2a76dda9ab8ee"
+    }
   },
   "verification": {
     "projection": {
-      "findings": [],
-      "method": "dispatch-audit",
       "status": "pending",
-      "verified_at": null
+      "verified_at": null,
+      "method": "dispatch-audit",
+      "findings": []
     },
     "runtime": {
-      "method": null,
       "status": "not_run",
-      "targets": {},
-      "verified_at": null
+      "verified_at": null,
+      "method": null,
+      "targets": {}
     }
   }
 }
