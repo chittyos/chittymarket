@@ -11,6 +11,50 @@ runtimes:
   - claude-code
   - codex
 plugin: chittyos-core
+canonical_capability_ref: "chittycanon://capability/workspace/repo-hygiene"
+overlay:
+  title: "Repository Hygiene"
+  capability_group: "workspace"
+  group_assignment_source: "override"
+  execution_class: "@chitty/workspace"
+  canonical_version: "1.0.0"
+  projection_version_policy: "inherit-canonical"
+  ontology:
+    primary:
+      - "P"
+    secondary:
+      - "E"
+      - "T"
+  authority:
+    requires_chittyid: true
+  execution:
+    default_surface: "local"
+    local_allowed: true
+    context_cost: "low"
+    mutation_risk: "medium"
+  discovery:
+    indexable: true
+    session_index: "hidden"
+    ambient_by_intent: false
+    verbs:
+      - "capture"
+      - "audit"
+      - "archive"
+    fallback_search: true
+  auth_flow:
+    mode: "local-only"
+    stores_credentials_in: "n/a"
+    fail_closed_if_unavailable: false
+  runtime_exclusions: {}
+  phase0_audit:
+    job_to_be_done: "generate"
+    environmental_footprint: "write-capable"
+    evidentiary_risk: "none"
+    advisory_disposition: "skill"
+  legacy_category: "ecosystem"
+  deprecated_aliases: []
+  visibility: "recommended"
+  access: "readwrite"
 ---
 
 # Repository hygiene
