@@ -83,6 +83,7 @@ NEW_OVERLAY_REQUIRED = {
     "phase0_audit",
     "visibility",
     "legacy_category",
+    "access",
 }
 
 
@@ -193,7 +194,7 @@ def validate_existing_binding(rec: dict, explicit: str | None, invalid: str | No
     return errors
 
 
-def validate_new_overlay(explicit: str, block, fm: dict) -> list[str]:
+def validate_new_overlay(explicit: str, block) -> list[str]:
     if not isinstance(block, dict):
         return ["new projection requires an explicit overlay governance block"]
     missing = sorted(k for k in NEW_OVERLAY_REQUIRED if k not in block)
@@ -205,11 +206,10 @@ def validate_new_overlay(explicit: str, block, fm: dict) -> list[str]:
         errors.append(
             f"overlay.capability_group {block.get('capability_group')!r} conflicts with canonical identity group {match.group('group')!r}"
         )
-    access = fm.get("access")
+    access = block.get("access")
     if access not in {"read", "write", "readwrite"}:
         errors.append(
-            "new projection requires explicit frontmatter access: read|write|readwrite; "
-            "access is not inferred from mutation_risk"
+            "overlay.access must be read|write|readwrite; access is not inferred from mutation_risk"
         )
     return errors
 
@@ -278,7 +278,7 @@ def build_new_manifest(item: dict, rec: dict) -> dict:
         "description": rec["description"],
         "type": item["kind"],
         "category": rec["legacy_category"],
-        "access": fm["access"],
+        "access": fm["overlay"]["access"],
         "enabled": False,
         "installMode": "standalone",
         "source": "canonical",
@@ -358,7 +358,7 @@ def reconcile(mode: str, selected_name: str | None) -> int:
             holds.append((item["name"], "unpublished definition has no explicit canonical capability identity"))
             continue
 
-        new_errors = validate_new_overlay(explicit, item["fm"].get("overlay"), item["fm"])
+        new_errors = validate_new_overlay(explicit, item["fm"].get("overlay"))
         if new_errors:
             for msg in new_errors:
                 holds.append((item["name"], msg))
