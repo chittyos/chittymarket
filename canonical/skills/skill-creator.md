@@ -14,6 +14,51 @@ runtimes:
 
 plugin: chittyos-core
 overrides: claude-plugins-official:skill-creator
+canonical_capability_ref: "chittycanon://capability/build/skill-creator"
+overlay:
+  title: "Skill Creator (ChittyMarket-routed)"
+  capability_group: "build"
+  group_assignment_source: "name-rule"
+  execution_class: "@chitty/ambient"
+  canonical_version: "1.0.0"
+  projection_version_policy: "inherit-canonical"
+  ontology:
+    primary:
+      - "T"
+    secondary:
+      - "E"
+      - "A"
+  authority:
+    requires_chittyid: true
+  execution:
+    default_surface: "ch1tty"
+    local_allowed: true
+    context_cost: "medium"
+    mutation_risk: "high"
+  discovery:
+    indexable: true
+    session_index: "summary"
+    ambient_by_intent: true
+    verbs:
+      - "create skill"
+      - "author skill"
+      - "skill-creator"
+    fallback_search: true
+  auth_flow:
+    mode: "local-only"
+    stores_credentials_in: "n/a"
+    fail_closed_if_unavailable: false
+  runtime_exclusions: {}
+  phase0_audit:
+    job_to_be_done: "create"
+    environmental_footprint: "write-capable"
+    evidentiary_risk: "none"
+    advisory_disposition: "skill"
+  legacy_category: "ecosystem"
+  deprecated_aliases:
+    - "skill-skill-creator"
+  visibility: "recommended"
+  access: "readwrite"
 ---
 
 # Skill Creator (ChittyMarket-routed)
