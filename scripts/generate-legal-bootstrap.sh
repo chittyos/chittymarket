@@ -84,4 +84,19 @@ Those directories are populated today by an out-of-repo fan-out that
 managed and reproducible; last-mile delivery is not, and is not solved by this capability.
 EOF
 
-echo "[legal-bootstrap] regenerated $out from $canonical @ $sha"
+skill_out="$root/plugins/chittyos-legal/skills/$name"
+mkdir -p "$skill_out/agents"
+cat > "$skill_out/agents/openai.yaml" <<EOF
+interface:
+  display_name: Legal Operating Defaults
+  short_description: Evidence-governed operating defaults for legal, litigation, court-record, privilege, and legal-analysis work.
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
+EOF
+
+echo "[legal-bootstrap] regenerated $out and ChatGPT Skill metadata from $canonical @ $sha"
