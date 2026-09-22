@@ -1,31 +1,32 @@
 {
-  "canonical_sha": "27e83888c5cf2d2c3a180d1b705b6429206bce97",
+  "canonical_sha": "b201662ca158b1f670ed550fc0cd40fbf19d8161",
+  "targets": {
+    "claude-code": "d5626bd2b04ca47a8359487318b3f4f2831110e0",
+    "codex": "d5626bd2b04ca47a8359487318b3f4f2831110e0",
+    "chatgpt": "0165d252623f5f1dd5c6130532076cd243e0a719"
+  },
   "dispatch": {
-    "canonical_sha": "b201662ca158b1f670ed550fc0cd40fbf19d8161",
-    "projected_at": "2026-09-22T19:37:15Z",
     "status": "projected",
+    "projected_at": "2026-09-22T19:37:15Z",
+    "canonical_sha": "b201662ca158b1f670ed550fc0cd40fbf19d8161",
     "targets": {
       "claude-code": "d5626bd2b04ca47a8359487318b3f4f2831110e0",
       "codex": "d5626bd2b04ca47a8359487318b3f4f2831110e0",
       "chatgpt": "0165d252623f5f1dd5c6130532076cd243e0a719"
     }
   },
-  "targets": {
-    "claude-code": "d5626bd2b04ca47a8359487318b3f4f2831110e0",
-    "codex": "d5626bd2b04ca47a8359487318b3f4f2831110e0"
-  },
   "verification": {
     "projection": {
-      "findings": [],
-      "method": "dispatch-audit",
       "status": "pending",
-      "verified_at": null
+      "verified_at": null,
+      "method": "dispatch-audit",
+      "findings": []
     },
     "runtime": {
-      "method": null,
       "status": "not_run",
-      "targets": {},
-      "verified_at": null
+      "verified_at": null,
+      "method": null,
+      "targets": {}
     }
   }
 }
