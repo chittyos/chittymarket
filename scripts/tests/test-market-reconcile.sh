@@ -23,6 +23,25 @@ canon_uri: chittycanon://core/services/chittymarket#skills/foo
 description: updated foo
 kind: skill
 runtimes: [codex]
+canonical_capability_ref: chittycanon://capability/workspace/foo
+overlay:
+  title: Foo
+  capability_group: workspace
+  group_assignment_source: override
+  execution_class: "@chitty/connectors"
+  canonical_version: 1.0.0
+  projection_version_policy: inherit-canonical
+  ontology: {primary: [T], secondary: []}
+  authority: {requires_chittyid: true}
+  execution: {default_surface: local, local_allowed: true, context_cost: low, mutation_risk: low}
+  discovery: {indexable: true, session_index: hidden, ambient_by_intent: false, verbs: [foo], fallback_search: true}
+  auth_flow: {mode: local-only, stores_credentials_in: n/a, fail_closed_if_unavailable: false}
+  runtime_exclusions: {}
+  phase0_audit: {job_to_be_done: route, environmental_footprint: local, evidentiary_risk: none, advisory_disposition: skill}
+  legacy_category: ecosystem
+  deprecated_aliases: [skill-foo]
+  visibility: advanced
+  access: read
 ---
 # Foo
 MD
