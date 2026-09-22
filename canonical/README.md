@@ -64,7 +64,7 @@ Identity rules:
 - During migration, an already-published `capabilities.generated.json` record may preserve the established binding for that same legacy artifact until the reference is backfilled into canonical frontmatter.
 - A conflicting explicit reference is a hard error.
 - An unpublished unresolved definition is `HOLD`: it may remain authored, but the reconciler refuses to create marketplace/overlay records for it.
-- New projections also require explicit governance metadata and an explicit `access: read|write|readwrite` declaration; the compiler does not infer access from mutation risk or guess authority, auth, or placement policy.
+- New projections also require explicit governance metadata, including `overlay.access: read|write|readwrite`; the compiler does not infer access from mutation risk or guess authority, auth, or placement policy.
 - New compiled artifacts are disabled by default. Compilation is not publication or runtime verification.
 
 Use:
