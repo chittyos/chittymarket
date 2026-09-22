@@ -2,6 +2,17 @@
 
 ChittyMarket is the private capability supply-chain and projection control plane for ChittyOS.
 
+## Service identity
+
+- **Canonical service URI:** `chittycanon://core/services/chittymarket`
+- **Tier:** 3 (Operational / control plane)
+- **Deployment form:** private repository + deterministic build/release workflows
+- **Standalone HTTP domain:** none
+- **Network projections:** ChittyRegistry, Ch1tty/MCP, Apps/connectors, and runtime-native package surfaces
+- **Certification:** pending re-certification after the 2026 architecture migration
+
+Do not provision a `market.agent.chitty.cc` worker merely because legacy documents referenced one.
+
 ## Authority boundaries
 
 - **ChittyCanon / ChittyRegister / ChittyRegistry** own canonical identity, registration, and discoverability.
