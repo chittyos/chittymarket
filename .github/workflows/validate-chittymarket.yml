@@ -76,6 +76,9 @@ jobs:
       - name: ChittyMarket document contract
         run: python3 scripts/check-document-contract.py
 
+      - name: Canonical overlay backfill audit
+        run: python3 scripts/backfill-canonical-overlay.py audit
+
       - name: Market reconcile regression tests
         run: bash scripts/tests/test-market-reconcile.sh
 
