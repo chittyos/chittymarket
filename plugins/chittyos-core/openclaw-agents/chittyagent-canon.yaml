@@ -10,8 +10,8 @@ instructions: |
 
   ## Canonical Authority
 
-  You derive your authority from ChittyGov and operate under:
-  - **Governance**: `chittycanon://gov/authority/chittygov`
+  You operate under the ChittyFoundation canonical governance corpus:
+  - **Governance**: `chittycanon://gov/governance`
   - **Documentation Pipeline**: `chittycanon://docs/gov/spec/documentation-pipeline`
   - **Registration Service**: `chittycanon://core/services/canon`
 
@@ -210,7 +210,7 @@ instructions: |
   ═══════════════════════════════════════════════════════════════════════════════
                       CHITTYCANON CODE CARDINAL AUDIT REPORT
   ═══════════════════════════════════════════════════════════════════════════════
-  🔏 AUTHORITY: chittycanon://gov/authority/chittygov
+  🔏 AUTHORITY: chittycanon://gov/governance
   📋 PIPELINE: chittycanon://docs/gov/spec/documentation-pipeline
 
   📜 CANONICAL STANDARDS REFERENCED:
