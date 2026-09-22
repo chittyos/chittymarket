@@ -18,6 +18,7 @@ out="${2:-}"
 mkdir -p "$(dirname "$out")/agents"
 
 python3 - "$canonical" "$out" <<'PY'
+import json
 import os
 import re
 import shutil
@@ -44,32 +45,20 @@ if not name or not isinstance(description, str) or not description.strip():
 # ChatGPT Skill frontmatter is intentionally narrower than ChittyMarket canonical
 # frontmatter. Preserve Chitty identity under supported metadata instead of
 # leaking canonical-only keys such as canon_uri at the top level.
-skill_fm = {
-    "name": name,
-    "description": description.strip(),
-}
 canon_uri = fm.get("canon_uri") or fm.get("canonical_uri")
+skill_lines = [
+    "---",
+    f"name: {name}",
+    "description: |",
+]
+skill_lines.extend(f"  {line}" for line in description.strip().splitlines())
 if canon_uri:
-    skill_fm["metadata"] = {"canon_uri": str(canon_uri)}
-
-class BlockStr(str):
-    pass
-
-def block_str_representer(dumper, data):
-    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
-
-yaml.add_representer(BlockStr, block_str_representer)
-if "\n" in skill_fm["description"]:
-    skill_fm["description"] = BlockStr(skill_fm["description"])
-
-skill_yaml = yaml.dump(
-    skill_fm,
-    sort_keys=False,
-    default_flow_style=False,
-    allow_unicode=True,
-    width=100000,
-).rstrip() + "\n"
-out_path.write_text(f"---\n{skill_yaml}---\n\n{body}", encoding="utf-8")
+    skill_lines.extend([
+        "metadata:",
+        f"  canon_uri: {json.dumps(str(canon_uri), ensure_ascii=False)}",
+    ])
+skill_lines.extend(["---", "", body])
+out_path.write_text("\n".join(skill_lines), encoding="utf-8")
 
 # Copy supporting package resources from the governed Claude Code projection.
 # SKILL.md and agents/ are regenerated for this runtime; everything else is data
@@ -100,35 +89,37 @@ override = ((fm.get("runtime_overrides") or {}).get("chatgpt") or {})
 interface = dict(override.get("interface") or {})
 policy = dict(override.get("policy") or {})
 
-display_name = interface.pop("display_name", None) or name.replace("-", " ").title()
-short_description = interface.pop("short_description", None)
+display_name = interface.get("display_name") or name.replace("-", " ").title()
+short_description = interface.get("short_description")
 if not short_description:
     short_description = " ".join(description.strip().split())
     if len(short_description) > 180:
         short_description = short_description[:177].rstrip() + "..."
 
-openai = {
-    "interface": {
-        "display_name": display_name,
-        "short_description": short_description,
-        **interface,
-    },
-    "policy": {
-        "products": policy.pop("products", ["chatgpt"]),
-        "allow_implicit_invocation": policy.pop("allow_implicit_invocation", True),
-        **policy,
-    },
-}
+lines = [
+    "interface:",
+    f"  display_name: {json.dumps(str(display_name), ensure_ascii=False)}",
+    f"  short_description: {json.dumps(str(short_description), ensure_ascii=False)}",
+]
+primary_color = interface.get("primary_color")
+if primary_color:
+    lines.append(f"  primary_color: {json.dumps(str(primary_color), ensure_ascii=False)}")
 
-# Never emit dangling icon references. Runtime overrides may request icons only
-# when the projected asset exists in the package.
 for key in ("icon_small", "icon_large"):
-    value = openai["interface"].get(key)
-    if value and not (out_path.parent / str(value)).exists():
-        openai["interface"].pop(key, None)
+    value = interface.get(key)
+    if value and (out_path.parent / str(value)).is_file():
+        lines.append(f"  {key}: {json.dumps(str(value), ensure_ascii=False)}")
+
+products = policy.get("products") or ["chatgpt"]
+lines.append("policy:")
+lines.append("  products:")
+for product in products:
+    lines.append(f"  - {json.dumps(str(product), ensure_ascii=False)}")
+implicit = policy.get("allow_implicit_invocation", True)
+lines.append(f"  allow_implicit_invocation: {'true' if implicit else 'false'}")
 
 (out_path.parent / "agents" / "openai.yaml").write_text(
-    yaml.dump(openai, sort_keys=False, allow_unicode=True, width=100000),
+    "\n".join(lines) + "\n",
     encoding="utf-8",
 )
 PY
