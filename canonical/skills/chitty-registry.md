@@ -10,6 +10,54 @@ runtimes:
 classification:
   - operations
   - deployment
+canonical_capability_ref: "chittycanon://capability/ship/query-service-registry"
+overlay:
+  title: "Query Service Registry"
+  capability_group: "ship"
+  group_assignment_source: "override"
+  execution_class: "@chitty/connectors"
+  canonical_version: "1.0.0"
+  projection_version_policy: "inherit-canonical"
+  ontology:
+    primary:
+      - "L"
+      - "E"
+    secondary:
+      - "A"
+      - "T"
+  authority:
+    requires_chittyid: true
+    requires_deploy_authority: true
+  execution:
+    default_surface: "ch1tty"
+    local_allowed: false
+    context_cost: "medium"
+    mutation_risk: "low"
+  discovery:
+    indexable: true
+    session_index: "hidden"
+    ambient_by_intent: false
+    verbs:
+      - "deploy"
+      - "ship"
+      - "release"
+      - "wrangler"
+    fallback_search: true
+  auth_flow:
+    mode: "service-token"
+    stores_credentials_in: "ChittyConnect"
+    fail_closed_if_unavailable: true
+  runtime_exclusions: {}
+  phase0_audit:
+    job_to_be_done: "route"
+    environmental_footprint: "network-service"
+    evidentiary_risk: "none"
+    advisory_disposition: "gateway"
+  legacy_category: "ecosystem"
+  deprecated_aliases:
+    - "skill-chitty-registry"
+  visibility: "recommended"
+  access: "read"
 ---
 
 # ChittyOS Registry Skill
