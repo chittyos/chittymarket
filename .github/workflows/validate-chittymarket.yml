@@ -74,6 +74,12 @@ jobs:
       - name: scripts/overlay-provenance.py verify
         run: python3 scripts/overlay-provenance.py verify
 
+      # 2g. Identity-first Market reconciliation. Published projections must
+      #     preserve an established chittycanon://capability binding. New
+      #     unresolved canonical definitions remain HOLD and cannot be synced.
+      - name: Identity-first Market reconciliation
+        run: python3 scripts/market-reconcile.py audit
+
       # 3a. Dispatch idempotency (adversarial review #3): re-running
       #     dispatch.sh sync must not change any projection file. Catches
       #     direct edits to plugins/<plug>/{agents,skills,...}/ that
