@@ -30,6 +30,7 @@ _MAP = {
     ("universal", "skill"):         ("plugins/{plugin}/universal-skills/{name}/SKILL.md", "claude-code-agent.sh"),
     ("claude-skills", "tool"):      ("plugins/{plugin}/claude-skills/{name}.json",   "claude-skills.sh"),
     ("chatgpt-apps", "tool"):       ("plugins/{plugin}/chatgpt-apps/{name}.json",    "chatgpt-apps.sh"),
+    ("chatgpt", "skill"):            ("plugins/{plugin}/chatgpt-skills/{name}/SKILL.md", "chatgpt-skill.sh"),
 }
 
 KNOWN_RUNTIMES = sorted({rt for rt, _ in _MAP})
