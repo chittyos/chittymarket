@@ -70,6 +70,23 @@ def record_dispatch(path: Path, canonical_sha: str, targets_raw: str, projected_
         print("[dispatch-state] targets JSON must be an object", file=sys.stderr)
         return 2
 
+    # Idempotency is load-bearing. An unchanged projection must not rewrite
+    # timestamps, migrate legacy state opportunistically, or erase verification
+    # receipts merely because sync was re-run.
+    if path.exists():
+        current = load_json(path)
+        current_dispatch = current.get("dispatch")
+        if isinstance(current_dispatch, dict):
+            current_sha = current_dispatch.get("canonical_sha")
+            current_targets = current_dispatch.get("targets", {})
+        else:
+            current_sha = current.get("canonical_sha")
+            current_targets = current.get("targets", {})
+        if current_sha == canonical_sha and current_targets == targets:
+            return 0
+
+    # A materially changed projection invalidates prior verification. Record the
+    # new dispatch and reset projection/runtime verification to pending/not_run.
     write_json(path, dispatch_state(canonical_sha, targets, projected_at))
     return 0
 
