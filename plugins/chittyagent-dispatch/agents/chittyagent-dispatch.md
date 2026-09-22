@@ -120,7 +120,7 @@ Procedure:
    - For each runtime listed in `runtimes`:
      - Run that runtime's projection adapter (see "Adapters" below).
      - Write projected file to runtime path.
-     - Update sentinel: `chittymarket/canonical/.dispatch-state/<name>.json` with `{canonical_sha, projected_at, targets: {<runtime>: <sha>}}`.
+     - Update `canonical/.dispatch-state/<kind>/<name>.json` with distinct dispatch and verification state. A successful render records `dispatch.status: projected`, resets `verification.projection.status: pending`, and leaves `verification.runtime.status: not_run`. Legacy top-level `canonical_sha` and `targets` remain temporarily for backward compatibility.
 3. **Emit projection report**: which canonicals updated which targets, with diff stats.
 4. **Push updated projection files** as a single commit on a `dispatch/sync-<timestamp>` branch, OR write them in place if invoked with `--in-place`.
 
@@ -214,6 +214,26 @@ Procedure:
 2. **Orphan check** — find runtime files that have no canonical: e.g., a `~/.claude/plugins/.../agents/X.md` where no `chittymarket/canonical/X.md` exists.
 3. **Output a single matrix**: rows = canonicals, columns = runtimes, cells = `synced` / `drifted` / `missing` / `orphaned`.
 
+## Mode 6: `verify` — persist projection verification without claiming runtime proof
+
+Use after `sync` or when a durable verification receipt is required.
+
+Procedure:
+
+1. Run the existing read-only canonical × runtime `audit.py`.
+2. Persist its result through `scripts/lib/state.py` into:
+   - each selected `.dispatch-state/<kind>/<name>.json`; and
+   - `.dispatch-state/_verification.json` for the scoped/global verification receipt.
+3. Record projection verification separately from dispatch:
+   - `dispatch.status: projected` means an adapter rendered/wrote the projection;
+   - `verification.projection.status: passed|failed|pending` means repository projection audit state;
+   - `verification.runtime.status: not_run|passed|failed` is reserved for an actual native runtime/client check.
+4. **Never** change runtime verification merely because the repository projection audit passed.
+
+A failed verification therefore cannot leave the only durable state reporting an unqualified success. A projection may be successfully dispatched and still be explicitly failed or unverified.
+
+`verify` is not an MCP/ChatGPT/Codex/OpenClaw liveness test. Native runtime proof is a later release stage.
+
 # Adapters
 
 Adapters live at `plugins/chittyagent-dispatch/scripts/adapters/`. The `(runtime, kind)` pairs
@@ -257,7 +277,7 @@ the target format.
 
 - **Canonical is THE source.** Never silently accept direct edits to projected files — always reconcile.
 - **Adapters are pure functions** — canonical in, runtime format out. No side effects beyond writing the projection file.
-- **Sentinels are authoritative** — `chittymarket/canonical/.dispatch-state/<name>.json` records what was projected when. Anything not matching the sentinel is drift.
+- **Dispatch state is explicit** — `canonical/.dispatch-state/<kind>/<name>.json` records dispatch truth separately from projection verification and native runtime verification. Projection success must never imply runtime success.
 - **Idempotent**: re-running `sync` on an unchanged canonical is a no-op.
 - **No partial syncs** — if any adapter fails, the run aborts and reports. Half-projected state is worse than no projection.
 - **Audit log** — every run appends to `chittymarket/canonical/.dispatch-log.jsonl` with `{ts, mode, canonicals, targets, results, actor}`.
