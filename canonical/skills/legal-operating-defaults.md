@@ -15,6 +15,55 @@ classification:
   - governance
   - evidence
   - defaults
+canonical_capability_ref: "chittycanon://capability/legal/legal-operating-defaults"
+overlay:
+  title: "Legal Operating Defaults"
+  capability_group: "legal"
+  group_assignment_source: "category"
+  execution_class: "@chitty/reasoning"
+  canonical_version: "1.0.0"
+  projection_version_policy: "inherit-canonical"
+  ontology:
+    primary:
+      - "A"
+    secondary:
+      - "P"
+      - "E"
+      - "T"
+  authority:
+    requires_chittyid: false
+    requires_governance_authority: true
+    non_repudiation_required: false
+    evidence_gate: null
+  execution:
+    default_surface: "local"
+    local_allowed: true
+    context_cost: "medium"
+    mutation_risk: "low"
+  discovery:
+    indexable: true
+    session_index: "visible"
+    ambient_by_intent: true
+    verbs:
+      - "govern"
+      - "route"
+      - "validate"
+      - "enforce"
+    fallback_search: true
+  auth_flow:
+    mode: "local-only"
+    stores_credentials_in: "none"
+    fail_closed_if_unavailable: false
+  runtime_exclusions: {}
+  phase0_audit:
+    job_to_be_done: "govern"
+    environmental_footprint: "low"
+    evidentiary_risk: "legal-grade"
+    advisory_disposition: "legal-only"
+  legacy_category: "legal"
+  deprecated_aliases: []
+  visibility: "recommended"
+  access: "read"
 ---
 
 # Legal Operating Defaults
