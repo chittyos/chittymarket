@@ -2,106 +2,184 @@
 uri: chittycanon://docs/ops/policy/chittymarket-charter
 namespace: chittycanon://docs/ops
 type: policy
-version: 1.0.0
+version: 1.1.0
 status: DRAFT
 registered_with: chittycanon://core/services/canon
 title: "ChittyMarket Charter"
-certifier: chittycanon://core/foundation/mychitty-vault
-visibility: PUBLIC
+certifier: chittycanon://core/services/chittycertify
+visibility: INTERNAL
 ---
 
 # ChittyMarket Charter
 
 ## Classification
-- **Canonical URI**: `chittycanon://core/services/chittymarket`
-- **Tier**: 3 (Operational)
+
+- **Canonical service URI**: `chittycanon://core/services/chittymarket`
+- **Tier**: 3 (Operational / control plane)
 - **Organization**: CHITTYOS
-- **Domain**: Central remote — `market.agent.chitty.cc` (TARGET; not yet deployed, currently does not resolve).
-  Interim source of truth is the orchestrator capability index reached via the ch1tty gateway.
-- **ChittyID**: `03-1-USA-5222-T-2603-1-36`
+- **Deployment form**: private repository + deterministic build/release workflows
+- **Standalone HTTP domain**: none
+- **Network projections**: existing ChittyRegistry, Ch1tty/MCP, Apps/connectors, and runtime-specific package surfaces as appropriate
+
+ChittyMarket is not an application-data service and is not a second canonical registry. A standalone `market.agent.chitty.cc` service is not part of the current architecture and must not be provisioned merely to satisfy an old document.
 
 ## Mission
 
-Provide a unified marketplace manifest and management interface for all Claude Code artifacts (MCP servers, skills, plugins, agents, hooks) in the ChittyOS ecosystem, enabling enable/disable toggling and install mode switching through a single `/market` skill.
+Operate the private capability supply chain and projection control plane for ChittyOS.
+
+ChittyMarket takes an already-governed capability identity and produces trusted, policy-constrained runtime packages and discovery projections for supported platforms. It manages how a capability is packaged, validated, released, deprecated, and projected. It does not own canonical identity, credentials, application data, execution state, or evidence truth.
+
+## Authority Boundary
+
+```text
+ChittyCanon / ChittyRegister / ChittyRegistry
+  identity + registration + discoverability
+        |
+        v
+ChittyMarket
+  projection definition + package policy + validation + release
+        |
+        v
+Skills / Plugins / Apps / MCP / Agent Cards / local projections
+        |
+        v
+Ch1tty / domain Apps / MCP servers / agents / local runtimes
+```
+
+Supporting boundaries:
+
+- **ChittyConnect / ChittyAuth** — delegated authentication and credential brokering.
+- **Ch1tty / MCP / Apps / agents** — execution surfaces; they do not define canonical capability identity.
+- **Legal / evidence systems** — evidence-grade truth, custody, filings, disputes, ownership, and matter-specific records.
 
 ## Scope
 
-### IS Responsible For
-- Maintaining the central artifact manifest as backend state, reachable by every channel
-- Serving capability definitions over a network API so no channel depends on local config
-- Toggling artifacts enabled/disabled via type-specific actuators
-- Switching artifact install mode between Ch1tty (orchestrated) and standalone
-- Reconciling the local projection against backend state via `/market sync` (backend wins)
-- Providing CLI-style management through the `/market` skill
+### Responsible For
 
-### IS NOT Responsible For
-- Installing new artifacts or downloading packages
-- Modifying artifact source code or configuration beyond toggle state
-- Identity generation (ChittyID)
-- Token provisioning (ChittyAuth)
-- Service registration (ChittyRegister)
+- Market-owned projection definitions under `canonical/`.
+- Deterministic generation or reconciliation of runtime/distribution artifacts.
+- Native package projections for supported platforms.
+- Capability placement policy: skill vs app/connector vs MCP vs tool vs agent vs local-only vs legal-only.
+- Admission controls for identity, authority, risk, publication, and provenance.
+- Drift detection between projection definitions, generated artifacts, and runtime/discovery surfaces.
+- Release-state truth: authored, identity-resolved, projected, validated, runtime-verified, signed, published, indexed.
+- Private-to-public publication gating when a deliberately public package is approved.
+- Deprecation, migration, alias, and compatibility policy for Market projections.
+
+### Not Responsible For
+
+- Minting ChittyID or canonical capability identity.
+- Replacing ChittyRegister or ChittyRegistry.
+- Storing application business data.
+- Holding long-lived credentials or secrets.
+- Acting as the legal/evidence source of truth.
+- Owning runtime execution state for domain agents.
+- Creating a new database, schema, registry, or always-on service merely for marketplace metadata.
+- Treating a successful file projection as proof that a target runtime loaded or executed it.
+
+## Product Invariants
+
+1. **One canonical capability, many controlled projections.**
+2. **Identity first.** Never derive a canonical capability ID from display title, group, slug, package name, file path, or runtime artifact.
+3. **Generated artifacts are outputs.** `marketplace.json`, `capabilities.generated.json`, native plugin manifests, skills, and agent cards are not canonical identity authorities.
+4. **Projection is not verification.** Dispatch, static validation, projection audit, native runtime verification, publication, and indexing are separate facts.
+5. **Fail closed on unresolved identity or authority.** An authored definition may remain HOLD; it may not be silently published.
+6. **Private authoring, explicit publication.** Public distribution must be generated through an allowlisted publication policy; the private repository is never made public by scrub-and-hope.
+7. **Lowest-power safe projection.** Do not create an MCP server because a skill exists, or an agent because a workflow has multiple steps.
+8. **Startup mode applies.** Prefer included/serverless/event-driven infrastructure and avoid new always-on compute or stores without measured need.
+
+## Authoritative Sources
+
+For any capability decision, use the highest available source:
+
+1. ChittyCanon / ChittyRegister / ChittyRegistry for identity and ownership.
+2. Live platform/runtime surfaces for deployed state.
+3. ChittyMarket `canonical/` for Market-owned projection definitions.
+4. Generated Market manifests for delivery state only.
+5. Git history, issues, and audit artifacts for provenance and migration evidence.
+
+During the current migration, an already-published overlay binding may preserve an established capability reference until that reference is backfilled into the Market-owned projection definition. New projections must carry explicit upstream identity.
+
+## Release Lifecycle
+
+```text
+AUTHORED
+  -> IDENTITY_RESOLVED
+  -> PROJECTED
+  -> VALIDATED
+  -> RUNTIME_VERIFIED
+  -> SIGNED
+  -> PUBLISHED
+  -> INDEXED
+```
+
+No earlier state implies a later state.
+
+## Interfaces
+
+ChittyMarket currently exposes repository/build interfaces rather than a standalone HTTP API:
+
+| Interface | Purpose |
+|---|---|
+| `canonical/` | Market-owned projection definitions |
+| `scripts/market-reconcile.py` | Identity-first inventory reconciliation/compiler |
+| `chittyagent-dispatch` | Runtime projection + projection drift/verification state |
+| `/market` skill | Operator-facing discovery/management workflow |
+| GitHub PR + CI | Admission, validation, review, and release evidence |
+| ChittyRegistry / Ch1tty / platform directories | Downstream discovery/execution projections |
+
+Any future network API is a separate product/deployment decision and must reuse existing identity/auth/runtime infrastructure rather than create a parallel Market backend by default.
 
 ## Dependencies
 
-| Type | Service | Purpose |
-|------|---------|---------|
-| Upstream | Ch1tty | MCP server management — `enabled` field in servers.json |
-| Upstream | Claude Code | Plugin toggles via settings.json `enabledPlugins` |
-| Upstream | Hookify | Hook rule frontmatter for enable/disable |
-| Storage | Local filesystem | marketplace.json, skill dirs, agent .md files |
+| Type | Service / Surface | Purpose |
+|---|---|---|
+| Identity | ChittyCanon | Canonical URI/ontology authority |
+| Registration | ChittyRegister | Registration authority / admission boundary |
+| Discovery | ChittyRegistry | Discoverable ecosystem catalog |
+| Auth | ChittyConnect / ChittyAuth | Delegated credentials and auth integration |
+| Gateway | Ch1tty | Slim search/execute routing and controlled MCP access |
+| Source control | GitHub | Code source of truth, PRs, CI, release receipts |
+| Runtime | Native platform/plugin/app formats | Delivery surfaces generated from Market definitions |
+| Legal | Legal/evidence systems | Matter-specific truth and non-repudiable records |
 
-## API Contract
+## Security / Publication Boundary
 
-**Interface**: Local `/market` skill (no HTTP endpoints)
+The working repository is private. Historical public exposure must be treated as a security fact.
 
-### Commands
-| Command | Purpose |
-|---------|---------|
-| `/market list` | List all artifacts grouped by type |
-| `/market list --type=X` | Filter by artifact type |
-| `/market list --category=X` | Filter by category |
-| `/market enable <id>` | Enable an artifact |
-| `/market disable <id>` | Disable an artifact |
-| `/market info <id>` | Show artifact details |
-| `/market mode <id> ch1tty\|standalone` | Switch install mode |
-| `/market sync` | Reconcile manifest with filesystem |
+Approved publication shape:
 
-### Manifest Schema
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | string | Unique identifier |
-| `name` | string | Display name |
-| `description` | string | One-liner |
-| `type` | enum | mcp-server, skill, plugin, agent, hook |
-| `category` | enum | ecosystem, code, search, reasoning, desktop, documents, communication, legal, automation |
-| `access` | enum | read, write, readwrite |
-| `enabled` | boolean | Current state |
-| `installMode` | enum | ch1tty, standalone, both |
-| `standalone` | object | Standalone install metadata |
-| `ch1tty` | object | Ch1tty-managed install metadata |
-| `tags` | string[] | Searchable tags |
+```text
+PRIVATE AUTHORING
+  -> publication policy / allowlist
+  -> generated sanitized package
+  -> public distribution
+```
+
+Matter-specific legal content, private operator configuration, internal network details, secrets, and account identifiers must never cross that boundary.
 
 ## Ownership
 
 | Role | Owner |
-|------|-------|
-| Service Owner | ChittyOS |
-| Technical Lead | @chittyos-infrastructure |
-| Contact | chittymarket@chitty.cc |
+|---|---|
+| Product / service owner | ChittyOS |
+| Canonical identity authority | ChittyCanon / ChittyRegister / ChittyRegistry |
+| Projection/release authority | ChittyMarket |
+| Credential authority | ChittyConnect / ChittyAuth |
+| Legal/evidence authority | Legal space / evidence systems |
 
-## Consumers
+## Compliance Status
 
-- Human operator via `/market` skill
-- Future: ChittyConnect for remote artifact management
-- Future: ChittyDashboard for visual marketplace UI
-
-## Compliance
-
-- [x] Service registered in ChittyRegister
-- [ ] CLAUDE.md development guide present
 - [x] CHARTER.md present
 - [x] CHITTY.md present
-- [x] marketplace.json manifest validated (86 artifacts)
+- [x] AGENTS.md present
+- [x] SECURITY.md present
+- [x] Identity-first reconciliation path exists
+- [x] Dispatch and verification state are modeled separately
+- [ ] Governance metadata fully backfilled from legacy generated overlay
+- [ ] Native runtime verification receipts implemented for every supported target
+- [ ] Supply-chain signing/provenance release gate implemented
+- [ ] Re-certification after migration completion
 
 ---
-*Charter Version: 1.0.0 | Last Updated: 2026-03-08*
+*Charter Version: 1.1.0 | Updated: 2026-09-22*
