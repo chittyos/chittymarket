@@ -2,137 +2,237 @@
 uri: chittycanon://docs/ops/policy/chittymarket-security
 namespace: chittycanon://docs/ops
 type: policy
-version: 1.0.0
+version: 1.1.0
 status: DRAFT
 registered_with: chittycanon://core/services/canon
 title: "ChittyMarket Security Policy"
-certifier: chittycanon://core/foundation/mychitty-vault
-visibility: PUBLIC
+certifier: chittycanon://core/services/chittycertify
+visibility: INTERNAL
 ---
 
 # ChittyMarket Security Policy
 
-> `chittycanon://core/services/chittymarket` | Tier 3 (Operational) | Local-only
+> `chittycanon://core/services/chittymarket` | Tier 3 (Operational / control plane)
 
-## Threat model
+## Security Model
 
-ChittyMarket has **no runtime attack surface**. It exposes no HTTP endpoint,
-holds no secret, issues no token, and runs no process — per `CHARTER.md`, it is
-explicitly not responsible for network APIs, identity generation, or token
-provisioning. Reasoning about it as a service is a category error, and a
-security policy that describes an auth provider or JWT verification here is
-describing something that does not exist.
+ChittyMarket is a private repository/build/release control plane. It does not currently expose a standalone HTTP service and should not be given one merely to satisfy legacy architecture text.
 
-The real exposure is **supply chain**. This repo is the manifest that Claude
-Code reads via `/plugin add`. Every artifact it lists — skill, agent, hook, MCP
-server — is installed into an operator session and executes with that
-operator's full tool access. A change here is a change to what runs on
-developer machines, with no sandbox between the manifest and the shell.
+That does **not** mean it has no attack surface. Its primary attack surface is the capability supply chain:
 
-That inverts the usual severity ordering. A merge to `main` is closer to a
-production deploy than to a docs change.
+- source definitions determine what gets packaged;
+- generated skills/agents/hooks/MCP/App manifests can execute with significant operator authority;
+- external package references can change what is installed;
+- publication mistakes can expose private operator, infrastructure, or legal information;
+- identity or authority drift can turn a benign projection into a confused-deputy path.
 
-## Trust boundaries
+A merge or release from this repository can therefore be materially equivalent to a deployment.
 
-| Boundary | What crosses it | Control |
+## Trust Boundaries
+
+| Boundary | Risk | Required control |
 |---|---|---|
-| PR → `main` | Every artifact definition | Code review + CI validation |
-| `main` → operator session | `/plugin add`, `/market enable` | Operator action |
-| `marketplace.json` → `~/.claude/marketplace.json` | Live session config | Symlink — writes land immediately |
-| `canonical/<name>.md` → projections | Runtime agent/skill behavior | `chittyagent-dispatch`, drift audit |
-| External GitHub sources | Plugin code not in this repo | **Unpinned — see below** |
+| Canon/Register/Registry -> Market | false or unresolved identity | resolve upstream identity; fail closed |
+| Market canonical -> generated projection | drift / transformation error | deterministic adapters + idempotency audit |
+| Projection -> target runtime | schema/runtime incompatibility | native validation + actual runtime verification |
+| Market -> Ch1tty/MCP/App execution | privilege blending | downstream auth/approval enforcement |
+| Private source -> public package | data leakage | explicit allowlist + generated sanitized projection |
+| External source -> package install | upstream compromise / unreviewed change | pin/attest where possible; admission review |
+| PR -> main/release | malicious or accidental change | code review + required CI + release evidence |
+| Legal/evidence source -> generic Market artifact | matter leakage / custody contamination | legal-only boundary; no matter-specific publication |
 
-### Canonical is the only source of truth
+## Canonical Identity Boundary
 
-`canonical/<name>.md` is authoritative; the files under `plugins/*/skills/`,
-`plugins/*/codex-skills/`, and `plugins/*/openclaw-agents/` are **generated
-projections**. Reviewing a projection is not reviewing the artifact — a
-projection can drift from the canonical it claims to represent, and a reviewer
-who reads only the projection has approved something other than what runs.
+ChittyMarket does not mint canonical capability identity.
 
-Edit canonical, re-project, and treat any hand-edit of a projected file as
-drift to be reconciled through `chittyagent-dispatch` (`reconcile` mode), never
-as the change itself.
+A Market projection may be emitted only when it can preserve or resolve the existing upstream capability reference. A display name, package name, group, slug, filename, runtime path, or local manifest ID is not evidence of canonical identity.
 
-`.claude-plugin/marketplace.json` is likewise generated. Per `CLAUDE.md`, never
-edit it by hand — edit `plugin.json` and regenerate. The
-`manifest idempotency` CI job exists to catch exactly this and fails the build
-when the committed manifest does not match a fresh regeneration.
+`scripts/market-reconcile.py` enforces the migration rule:
 
-### External plugin sources are unpinned
+- already-published bindings may be preserved while they are backfilled;
+- a new/unpublished projection without explicit `chittycanon://capability/...` identity remains HOLD;
+- explicit identity conflict is an error;
+- new projections also require explicit governance metadata;
+- new compiled marketplace entries default disabled.
 
-Four entries in `.claude-plugin/marketplace.json` resolve outside this repo:
+Generated manifests remain outputs, not identity authorities.
 
-- `chittyhelper` → `CHITTYOS/chittyhelper`
-- `chittyagent` → `CHITTYOS/chittyagent`
-- `chittycommand` → `CHITTYOS/chittycommand`
-- `legal-arsenal` → `CHITTYOS/legal-cases`
+## Dispatch and Verification Truth
 
-None declares a ref, tag, or commit, so each resolves to whatever that
-repository's default branch holds at install time. Review of this repo does not
-cover their contents, and a commit pushed to any of those four changes what
-`/plugin add` installs without a change here. They are trusted because they are
-org-owned, not because they are verified.
+Projection success and verification success are separate security facts.
 
-Treat the org boundary as the actual control. Anything that widens who can push
-to those four repos widens this one.
+New dispatch-state records distinguish:
 
-### Hooks execute, but the enforcement is not in this repo
+- `dispatch.status: projected` — an adapter rendered/wrote the projection;
+- `verification.projection.status: pending|passed|failed` — repository projection audit result;
+- `verification.runtime.status: not_run|passed|failed` — native runtime/client result.
 
-`plugins/chittyos-governance/hooks/hooks.json` registers a `PreToolUse` hook
-with matcher `.*` and `"type": "command"` — a shell command that runs on
-**every tool call** in the operator's session. A hook change is a privileged
-change regardless of how small the diff reads.
+`dispatch.sh verify` can update only projection verification. It must not claim runtime verification.
 
-The shipped command is only a pointer. The rules that actually gate —
-`validate-entity-types`, `block-chittyid-generation`, `block-direct-deploy`,
-`require-pr-workflow`, `block-governance-edits`, and five others — are named in
-`hooks.json` but live in operator-local config at
-`~/.claude/hooks/hookify.*.local.md`. They are referenced by filename, not
-shipped or version-pinned here.
+This prevents the failure mode where a successful write leaves the only durable state saying “success” even though a later audit failed.
 
-So reviewing this repo does not review the enforcement, and the plugin cannot
-guarantee a rule it names is installed, current, or unmodified. Whether a given
-governance rule is actually in force is a property of the operator's machine,
-not of this manifest — verify it there before relying on it.
+## Publication Boundary
 
-## Secrets
+The working repository is private. Historical public exposure must be assumed.
 
-There are none in this repo, and none should ever be added. ChittyMarket
-consumes no credential at runtime because it has no runtime.
+Future public distribution uses:
 
-For artifacts that *do* need credentials once installed, the canonical path is
-ChittySecrets (`secrets.chitty.cc`, cold source of truth) fronting Cloudflare
-Secrets Store, resolved at the call site. 1Password is retired and non-functional.
-Route credential intent through ChittyConnect (`/chico`); never commit a secret
-value, and never ask an operator to paste one into a session.
+```text
+private authoring
+  -> explicit publication policy / allowlist
+  -> generated sanitized artifact
+  -> provenance/signature
+  -> public distribution
+```
 
-## CI as a control
+Do not republish the private repository after repeated regex scrubbing. Publication is a generated projection problem.
 
-`.github/workflows/validate-chittymarket.yml` gates:
+Public artifacts must exclude, at minimum:
 
-- `lint + test + manifest idempotency` — schema validation, plugin lint, and
-  proof that the committed native manifest matches a regeneration
-- `codex runtime smoke` — every projected `codex-skills/*/SKILL.md` loads
-- `openclaw runtime smoke` — every projected `openclaw-agents/*.yaml` loads
+- operator-private identity/contact/account details not intended for publication;
+- property/residence/network/camera topology;
+- credentials, secret-binding values, tokens, or recovery material;
+- private banking/payment identifiers;
+- local filesystem paths that disclose operator environment;
+- matter-specific legal facts, parties, case data, evidence, custody data, or privileged communication;
+- internal deployment/admin details not required by the public package.
 
-Both smoke jobs fall back to a schema-mimic loader when the real runtime is not
-on PATH, and report the mode they ran in. A schema-only pass is weaker evidence
-than a real-runtime pass; read the reported mode before treating a green check
-as proof the artifact loads.
+## Legal / Evidence Boundary
 
-**A CI job only gates if branch protection requires it.** Job-level
-configuration is not enforcement — verify required checks are configured on
-`main`, not merely that the workflow exists and passes.
+Generic Market artifacts may describe reusable legal/evidence **methods**, but matter-specific facts and evidence remain in Legal/evidence systems.
+
+Any capability involving filings, disputes, evidence custody, ownership, valuation, sworn facts, or non-repudiable legal records must route through the approved legal/evidence boundary. Market publication must never become an alternate evidence store.
+
+## Auth and Credentials
+
+ChittyMarket should not contain long-lived secrets.
+
+Installed capabilities that need credentials must use the existing delegated auth/credential infrastructure. ChittyMarket may declare auth requirements, but enforcement belongs at ChittyConnect/ChittyAuth, the App/MCP server, gateway middleware, or the target platform.
+
+A manifest field, skill instruction, prompt, or tool annotation is not an authorization boundary.
+
+Do not:
+
+- hardcode secrets in Market files;
+- create a parallel Market credential store;
+- treat a broad service token as a substitute for workload/user delegation;
+- let Ch1tty generic execution bypass the downstream capability's authority/approval requirements.
+
+## Ch1tty / Gateway Risk
+
+Ch1tty's intentionally small search/execute surface is useful only if execution preserves downstream identity and authority.
+
+Every routed execution should retain or resolve:
+
+- canonical capability identity;
+- origin/runtime target;
+- user/workload identity;
+- requested permission scope;
+- read/write/destructive semantics;
+- data/evidence classification;
+- approval requirement;
+- runtime/provenance receipt where policy requires it.
+
+A generic execute tool that collapses those controls becomes a confused-deputy privilege blender.
+
+## Hooks and Policy-in-Prose
+
+Hooks, skills, manifests, and agent prompts can communicate policy, but they are not sufficient enforcement for high-risk actions.
+
+Required controls belong in:
+
+- authorization services;
+- gateway/server middleware;
+- CI/release gates;
+- legal/evidence systems;
+- runtime approval mechanisms;
+- durable audit/provenance systems.
+
+If a local hook is part of defense in depth, verify that it is installed and current before relying on it.
+
+## External Dependencies
+
+External package sources are outside the review boundary of this repository unless their exact content is pinned or attested.
+
+Prefer:
+
+- immutable refs or release versions where supported;
+- dependency/BOM visibility;
+- provenance attestations;
+- verified publishers;
+- least-privilege installation scopes.
+
+Org ownership alone is not equivalent to content verification.
+
+## Supply-Chain Provenance
+
+Current content hashes are a substrate, not a complete trust chain.
+
+Target release evidence:
+
+```text
+content hash
+  -> deterministic build
+  -> build/source provenance
+  -> approved signature/attestation
+  -> release bundle
+  -> optional internal audit anchor
+```
+
+Do not treat an internal ledger anchor as a substitute for software supply-chain provenance, and do not publish private operator identities into public transparency systems without an explicit privacy decision.
+
+## CI as a Security Control
+
+The validation workflow should gate:
+
+- plugin/package lint;
+- legal/matter leakage checks;
+- inventory/overlay coverage;
+- overlay schema and hash provenance;
+- identity-first Market reconciliation;
+- Market reconciliation regression tests;
+- dispatch-state separation regression tests;
+- dispatch idempotency and drift audit;
+- native manifest idempotency;
+- runtime smoke tests.
+
+A schema-mimic smoke test is weaker than native runtime evidence. Record the mode that actually ran.
+
+A CI workflow only enforces policy when the protected branch/release path actually requires it.
+
+## Default Enablement
+
+Compilation or discovery must not imply activation.
+
+For new projections the safe default is disabled. Over time, broad legacy `enabled:true` state should be migrated toward explicit availability/recommendation/installation/connection/elevation semantics rather than a single ambiguous boolean.
+
+## Startup-Mode Security
+
+Security controls should not require wasteful always-on infrastructure when deterministic/event-driven controls suffice.
+
+Prefer:
+
+- CI/release-time checks;
+- event-driven validation;
+- serverless auth/gateway enforcement;
+- queues/sinks for deferred write processing where needed;
+- existing registries and stores.
+
+Do not weaken identity, legal/evidence, credential, or destructive-action controls in the name of cost reduction.
 
 ## Reporting
 
-Security issues in this repo — a malicious or compromised artifact, an
-unexpected projection drift, an unreviewed external source — go to
-`chittymarket@chitty.cc` or a private advisory on `CHITTYOS/chittymarket`.
+Security issues include:
 
-Because a merge here reaches operator machines directly, report before the
-artifact is enabled anywhere, not after.
+- malicious or compromised capability packages;
+- unexpected projection drift;
+- identity or authority mismatches;
+- publication leaks;
+- unreviewed external dependencies;
+- incorrect runtime-verification claims;
+- bypass of legal/evidence boundaries.
+
+Record the issue privately in the canonical work chain before enabling or publishing the affected artifact.
 
 ---
-*Policy Version: 1.0.0 | Last Updated: 2026-09-03*
+*Policy Version: 1.1.0 | Updated: 2026-09-22*
