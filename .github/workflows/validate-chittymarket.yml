@@ -46,6 +46,11 @@ jobs:
       - name: scripts/test-plugins.sh
         run: bash scripts/test-plugins.sh
 
+      # 2a. Native ChatGPT Skill package validation: frontmatter allowlist,
+      #     required agents/openai.yaml, and no dangling asset references.
+      - name: Native ChatGPT Skill packages
+        run: python3 scripts/validate-chatgpt-skills.py
+
       # 2b. Overlay coverage: capabilities.generated.json must project EVERY
       #     real (non-_comment) artifact in marketplace.json, with no orphan
       #     records and a consistent .total. Prevents the overlay from silently
