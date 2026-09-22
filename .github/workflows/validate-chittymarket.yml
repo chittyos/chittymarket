@@ -73,6 +73,9 @@ jobs:
       - name: scripts/overlay-provenance.py verify
         run: python3 scripts/overlay-provenance.py verify
 
+      - name: ChittyMarket document contract
+        run: python3 scripts/check-document-contract.py
+
       - name: Market reconcile regression tests
         run: bash scripts/tests/test-market-reconcile.sh
 
