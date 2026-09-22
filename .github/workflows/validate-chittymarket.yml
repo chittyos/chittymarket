@@ -74,6 +74,9 @@ jobs:
       - name: scripts/overlay-provenance.py verify
         run: python3 scripts/overlay-provenance.py verify
 
+      - name: Market reconcile regression tests
+        run: bash scripts/tests/test-market-reconcile.sh
+
       # 2g. Identity-first Market reconciliation. Published projections must
       #     preserve an established chittycanon://capability binding. New
       #     unresolved canonical definitions remain HOLD and cannot be synced.
