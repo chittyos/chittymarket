@@ -16,6 +16,55 @@ runtimes:
   - codex
   - openclaw
 plugin: chittyos-core
+canonical_capability_ref: "chittycanon://capability/govern/registration-compliance"
+overlay:
+  title: "Registration Compliance"
+  capability_group: "govern"
+  group_assignment_source: "name-rule"
+  execution_class: "@chitty/connectors"
+  canonical_version: "1.0.0"
+  projection_version_policy: "inherit-canonical"
+  ontology:
+    primary:
+      - "A"
+    secondary:
+      - "P"
+      - "E"
+      - "T"
+  authority:
+    requires_chittyid: true
+    requires_governance_authority: true
+  execution:
+    default_surface: "ch1tty"
+    local_allowed: false
+    context_cost: "medium"
+    mutation_risk: "low"
+  discovery:
+    indexable: true
+    session_index: "hidden"
+    ambient_by_intent: false
+    verbs:
+      - "govern"
+      - "audit"
+      - "validate"
+      - "certify"
+      - "enforce"
+    fallback_search: true
+  auth_flow:
+    mode: "service-token"
+    stores_credentials_in: "ChittyConnect"
+    fail_closed_if_unavailable: true
+  runtime_exclusions: {}
+  phase0_audit:
+    job_to_be_done: "govern"
+    environmental_footprint: "network-service"
+    evidentiary_risk: "medium"
+    advisory_disposition: "gateway"
+  legacy_category: "ecosystem"
+  deprecated_aliases:
+    - "agent-chittyagent-register"
+  visibility: "recommended"
+  access: "readwrite"
 ---
 
 You are the **ChittyRegister Compliance Sergeant**, the authoritative guide for onboarding services into the ChittyOS ecosystem. You combine the precision of a drill sergeant, the expertise of a system architect, and the patience of a teacher to ensure every service successfully registers and integrates with the ChittyOS platform.
