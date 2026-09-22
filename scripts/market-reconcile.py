@@ -86,6 +86,24 @@ NEW_OVERLAY_REQUIRED = {
     "access",
 }
 
+PUBLISHED_POLICY_FIELDS = (
+    "capability_group",
+    "group_assignment_source",
+    "execution_class",
+    "canonical_version",
+    "projection_version_policy",
+    "ontology",
+    "authority",
+    "execution",
+    "discovery",
+    "auth_flow",
+    "runtime_exclusions",
+    "phase0_audit",
+    "legacy_category",
+    "deprecated_aliases",
+    "visibility",
+)
+
 
 def load_json(path: Path):
     with path.open(encoding="utf-8") as fh:
@@ -191,6 +209,53 @@ def validate_existing_binding(rec: dict, explicit: str | None, invalid: str | No
         errors.append(
             f"published capability_group {rec.get('capability_group')!r} conflicts with capability_id group {match.group('group')!r}"
         )
+    return errors
+
+
+def validate_published_canonical(
+    item: dict,
+    entry: dict | None,
+    rec: dict,
+    explicit: str | None,
+    invalid: str | None,
+) -> list[str]:
+    """Require current published Market definitions to carry their own identity/policy."""
+
+    errors = validate_existing_binding(rec, explicit, invalid)
+    if invalid:
+        return errors
+    if not explicit:
+        errors.append(
+            "published canonical definition is missing explicit canonical capability identity"
+        )
+        return errors
+
+    block = item["fm"].get("overlay")
+    if not isinstance(block, dict):
+        errors.append(
+            "published canonical definition is missing overlay governance metadata"
+        )
+        return errors
+
+    errors.extend(validate_new_overlay(explicit, block))
+    if block.get("title") != rec.get("name"):
+        errors.append(
+            f"overlay.title {block.get('title')!r} != published name {rec.get('name')!r}"
+        )
+
+    for field in PUBLISHED_POLICY_FIELDS:
+        if block.get(field) != rec.get(field):
+            errors.append(
+                f"overlay.{field} differs from established published policy"
+            )
+
+    if entry is None:
+        errors.append("published overlay record has no matching marketplace artifact")
+    elif block.get("access") != entry.get("access"):
+        errors.append(
+            f"overlay.access {block.get('access')!r} != marketplace access {entry.get('access')!r}"
+        )
+
     return errors
 
 
@@ -344,7 +409,7 @@ def reconcile(mode: str, selected_name: str | None) -> int:
         explicit, invalid = explicit_identity(item["fm"])
 
         if rec is not None:
-            for msg in validate_existing_binding(rec, explicit, invalid):
+            for msg in validate_published_canonical(item, entry, rec, explicit, invalid):
                 errors.append((item["name"], msg))
             if not any(name == item["name"] for name, _ in errors) and mode == "sync":
                 update_existing(item, entry, rec)
