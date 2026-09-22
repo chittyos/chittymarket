@@ -193,18 +193,25 @@ def validate_existing_binding(rec: dict, explicit: str | None, invalid: str | No
     return errors
 
 
-def validate_new_overlay(explicit: str, block) -> list[str]:
+def validate_new_overlay(explicit: str, block, fm: dict) -> list[str]:
     if not isinstance(block, dict):
         return ["new projection requires an explicit overlay governance block"]
     missing = sorted(k for k in NEW_OVERLAY_REQUIRED if k not in block)
     if missing:
         return ["overlay block missing: " + ", ".join(missing)]
     match = CAP_RE.match(explicit)
+    errors = []
     if block.get("capability_group") != match.group("group"):
-        return [
+        errors.append(
             f"overlay.capability_group {block.get('capability_group')!r} conflicts with canonical identity group {match.group('group')!r}"
-        ]
-    return []
+        )
+    access = fm.get("access")
+    if access not in {"read", "write", "readwrite"}:
+        errors.append(
+            "new projection requires explicit frontmatter access: read|write|readwrite; "
+            "access is not inferred from mutation_risk"
+        )
+    return errors
 
 
 def channels(fm: dict) -> list[str]:
@@ -265,14 +272,13 @@ def build_new_overlay(item: dict, explicit: str) -> dict:
 
 def build_new_manifest(item: dict, rec: dict) -> dict:
     fm = item["fm"]
-    risk = (rec.get("execution") or {}).get("mutation_risk", "medium")
     entry = {
         "id": legacy_id(item),
         "name": rec["name"],
         "description": rec["description"],
         "type": item["kind"],
         "category": rec["legacy_category"],
-        "access": "read" if risk == "low" else "readwrite",
+        "access": fm["access"],
         "enabled": False,
         "installMode": "standalone",
         "source": "canonical",
@@ -352,7 +358,7 @@ def reconcile(mode: str, selected_name: str | None) -> int:
             holds.append((item["name"], "unpublished definition has no explicit canonical capability identity"))
             continue
 
-        new_errors = validate_new_overlay(explicit, item["fm"].get("overlay"))
+        new_errors = validate_new_overlay(explicit, item["fm"].get("overlay"), item["fm"])
         if new_errors:
             for msg in new_errors:
                 holds.append((item["name"], msg))
