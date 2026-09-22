@@ -120,38 +120,8 @@ PY
       (
         flock -w 10 9 || { echo "[dispatch] $name: could not acquire lock $LOCK_FILE within 10s" >&2; exit 1; }
         projected_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-        python3 -c "
-import json, sys
-path, canonical_sha, targets_raw, projected_at = sys.argv[1:5]
-targets = json.loads(targets_raw)
-state = {
-    # Legacy compatibility for audit/reconcile readers during migration.
-    'canonical_sha': canonical_sha,
-    'targets': targets,
-    # Durable truth: projection success is not verification success.
-    'dispatch': {
-        'status': 'projected',
-        'projected_at': projected_at,
-        'canonical_sha': canonical_sha,
-        'targets': targets,
-    },
-    'verification': {
-        'projection': {
-            'status': 'pending',
-            'verified_at': None,
-            'method': 'dispatch-audit',
-            'findings': [],
-        },
-        'runtime': {
-            'status': 'not_run',
-            'verified_at': None,
-            'method': None,
-            'targets': {},
-        },
-    },
-}
-open(path, 'w').write(json.dumps(state, indent=2, sort_keys=True) + '\n')
-" "$STATE_DIR/$sub/${name}.json" "$can_sha" "$targets_json" "$projected_at"
+        python3 "$(dirname "$0")/lib/state.py" record-dispatch \
+          "$STATE_DIR/$sub/${name}.json" "$can_sha" "$targets_json" "$projected_at"
       ) 9>"$LOCK_FILE"
       echo "[dispatch] sync $name: canonical=$can_sha targets=$targets_json"
     done
@@ -283,135 +253,8 @@ for f in d['findings']:
     # until a native client/runtime check records it through a later verifier.
     findings_json="$(python3 "$(dirname "$0")/lib/audit.py" --json || true)"
     ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-    python3 - "$STATE_DIR" "$CANONICAL_DIR" "$findings_json" "$ts" "$@" <<'PY'
-import json, os, sys
-
-state_dir, canonical_dir, findings_raw, ts, *selected = sys.argv[1:]
-report = json.loads(findings_raw)
-selected = set(selected)
-failures = 0
-updated = 0
-
-all_findings = report.get("findings", [])
-global_findings = [f for f in all_findings if f.get("canonical") == "-"]
-global_status = "failed" if ((not selected and all_findings) or global_findings) else "passed"
-global_state = {
-    "scope": sorted(selected) if selected else ["all"],
-    "projection": {
-        "status": global_status,
-        "verified_at": ts,
-        "method": "dispatch-audit",
-        "summary": report.get("summary", {}),
-        "global_findings": [
-            {
-                "class": f.get("cls"),
-                "runtime": f.get("runtime"),
-                "detail": f.get("detail", ""),
-            }
-            for f in global_findings
-        ],
-    },
-    "runtime": {
-        "status": "not_run",
-        "verified_at": None,
-        "method": None,
-        "targets": {},
-    },
-}
-with open(os.path.join(state_dir, "_verification.json"), "w", encoding="utf-8") as fh:
-    json.dump(global_state, fh, indent=2, sort_keys=True)
-    fh.write("\n")
-
-if global_findings:
-    print(f"[dispatch] verify: {len(global_findings)} global orphan finding(s)", file=sys.stderr)
-    failures += len(global_findings)
-
-by_canonical = {}
-for finding in report.get("findings", []):
-    canonical = finding.get("canonical")
-    if canonical and canonical != "-":
-        by_canonical.setdefault(canonical, []).append(finding)
-
-for sub in sorted(os.listdir(state_dir)):
-    subdir = os.path.join(state_dir, sub)
-    if not os.path.isdir(subdir):
-        continue
-    for filename in sorted(os.listdir(subdir)):
-        if not filename.endswith(".json"):
-            continue
-        name = filename[:-5]
-        if selected and name not in selected:
-            continue
-        canonical_key = f"{sub}/{name}"
-        path = os.path.join(subdir, filename)
-        with open(path, encoding="utf-8") as fh:
-            state = json.load(fh)
-
-        dispatch = state.get("dispatch")
-        if not isinstance(dispatch, dict):
-            dispatch = {
-                "status": "projected",
-                "projected_at": None,
-                "canonical_sha": state.get("canonical_sha"),
-                "targets": state.get("targets", {}),
-            }
-            state["dispatch"] = dispatch
-
-        verification = state.get("verification")
-        if not isinstance(verification, dict):
-            verification = {}
-            state["verification"] = verification
-
-        findings = by_canonical.get(canonical_key, [])
-        projection = {
-            "status": "failed" if findings else "passed",
-            "verified_at": ts,
-            "method": "dispatch-audit",
-            "findings": [
-                {
-                    "class": f.get("cls"),
-                    "runtime": f.get("runtime"),
-                    "detail": f.get("detail", ""),
-                }
-                for f in findings
-            ],
-        }
-        verification["projection"] = projection
-        verification.setdefault(
-            "runtime",
-            {
-                "status": "not_run",
-                "verified_at": None,
-                "method": None,
-                "targets": {},
-            },
-        )
-
-        with open(path, "w", encoding="utf-8") as fh:
-            json.dump(state, fh, indent=2, sort_keys=True)
-            fh.write("\n")
-
-        updated += 1
-        if findings:
-            failures += 1
-            print(f"[dispatch] verify {canonical_key}: FAILED ({len(findings)} finding(s))", file=sys.stderr)
-        else:
-            print(f"[dispatch] verify {canonical_key}: projection audit passed; runtime verification remains not_run")
-
-if selected and updated != len(selected):
-    missing = sorted(selected - {
-        os.path.splitext(fn)[0]
-        for sub in os.listdir(state_dir)
-        if os.path.isdir(os.path.join(state_dir, sub))
-        for fn in os.listdir(os.path.join(state_dir, sub))
-        if fn.endswith(".json")
-    })
-    if missing:
-        print("[dispatch] verify: no dispatch state for " + ", ".join(missing), file=sys.stderr)
-        failures += len(missing)
-
-sys.exit(1 if failures else 0)
-PY
+    python3 "$(dirname "$0")/lib/state.py" record-projection-verification \
+      "$STATE_DIR" "$findings_json" "$ts" "$@"
     ;;
   add-target)
     runtime="${1:-}"
