@@ -23,6 +23,34 @@ class DispatchStateTests(unittest.TestCase):
         self.assertEqual(payload["verification"]["projection"]["status"], "pending")
         self.assertEqual(payload["verification"]["runtime"]["status"], "not_run")
 
+    def test_unchanged_dispatch_is_true_noop_and_preserves_verification(self):
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "skills" / "foo.json"
+            payload = state.dispatch_state(
+                "abc123",
+                {"codex": "deadbeef"},
+                "2026-09-22T12:00:00Z",
+            )
+            payload["verification"]["projection"] = {
+                "status": "passed",
+                "verified_at": "2026-09-22T12:01:00Z",
+                "method": "dispatch-audit",
+                "findings": [],
+            }
+            state.write_json(path, payload)
+            before = path.read_text()
+            rc = state.record_dispatch(
+                path,
+                "abc123",
+                '{"codex":"deadbeef"}',
+                "2026-09-22T13:00:00Z",
+            )
+            self.assertEqual(rc, 0)
+            self.assertEqual(path.read_text(), before)
+            saved = json.loads(path.read_text())
+            self.assertEqual(saved["dispatch"]["projected_at"], "2026-09-22T12:00:00Z")
+            self.assertEqual(saved["verification"]["projection"]["status"], "passed")
+
     def test_projection_pass_keeps_runtime_not_run(self):
         with tempfile.TemporaryDirectory() as td:
             state_dir = Path(td)
