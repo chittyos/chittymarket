@@ -11,6 +11,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 PACKAGES = sorted(ROOT.glob("plugins/*/chatgpt-skills/*"))
+CANONICAL_SKILLS = ROOT / "canonical" / "skills"
 ALLOWED = {"name", "description", "license", "allowed-tools", "metadata"}
 NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
@@ -33,7 +34,31 @@ def fail(errors: list[str], path: Path, message: str) -> None:
 def main() -> int:
     errors: list[str] = []
 
-    for package in PACKAGES:
+    expected: dict[Path, str] = {}
+    for canonical in sorted(CANONICAL_SKILLS.glob("*.md")):
+        try:
+            fm = load_frontmatter(canonical)
+        except Exception as exc:
+            fail(errors, canonical, str(exc))
+            continue
+        runtimes = fm.get("runtimes") or []
+        if "chatgpt" not in runtimes:
+            continue
+        plugin = fm.get("plugin")
+        name = fm.get("name")
+        if not isinstance(plugin, str) or not isinstance(name, str):
+            fail(errors, canonical, "chatgpt runtime requires plugin and name")
+            continue
+        expected[ROOT / "plugins" / plugin / "chatgpt-skills" / name] = canonical.as_posix()
+
+    actual = {p for p in PACKAGES if p.is_dir()}
+    for package, source in expected.items():
+        if package not in actual:
+            fail(errors, package, f"missing declared ChatGPT projection for {source}")
+    for package in actual - set(expected):
+        fail(errors, package, "orphan ChatGPT package; canonical skill does not declare runtime chatgpt")
+
+    for package in sorted(actual):
         if not package.is_dir():
             continue
         skill = package / "SKILL.md"
@@ -104,7 +129,7 @@ def main() -> int:
             print(f"ERROR: {error}")
         return 1
 
-    print(f"ChatGPT Skill validation passed: {sum(p.is_dir() for p in PACKAGES)} package(s)")
+    print(f"ChatGPT Skill validation passed: {len(actual)} package(s)")
     return 0
 
 
