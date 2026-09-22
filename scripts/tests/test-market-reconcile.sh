@@ -45,6 +45,7 @@ canon_uri: chittycanon://core/services/chittymarket#skills/baz
 description: new baz
 kind: skill
 runtimes: [codex]
+access: readwrite
 overlay:
   capability_group: build
   execution_class: "@chitty/connectors"
