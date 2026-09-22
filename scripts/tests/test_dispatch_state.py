@@ -51,6 +51,82 @@ class DispatchStateTests(unittest.TestCase):
             self.assertEqual(saved["dispatch"]["projected_at"], "2026-09-22T12:00:00Z")
             self.assertEqual(saved["verification"]["projection"]["status"], "passed")
 
+    def test_changed_dispatch_invalidates_global_runtime_receipt_in_scope(self):
+        with tempfile.TemporaryDirectory() as td:
+            state_dir = Path(td)
+            path = state_dir / "skills" / "foo.json"
+            state.write_json(
+                path,
+                state.dispatch_state(
+                    "abc123",
+                    {"codex": "deadbeef"},
+                    "2026-09-22T12:00:00Z",
+                ),
+            )
+            state.write_json(
+                state_dir / "_verification.json",
+                {
+                    "scope": ["all"],
+                    "projection": {
+                        "status": "passed",
+                        "verified_at": "2026-09-22T12:01:00Z",
+                    },
+                    "runtime": {
+                        "status": "passed",
+                        "verified_at": "2026-09-22T12:02:00Z",
+                        "method": "native-codex",
+                        "targets": {"codex": "deadbeef"},
+                    },
+                },
+            )
+            rc = state.record_dispatch(
+                path,
+                "def456",
+                '{"codex":"feedface"}',
+                "2026-09-22T13:00:00Z",
+            )
+            self.assertEqual(rc, 0)
+            global_state = json.loads((state_dir / "_verification.json").read_text())
+            self.assertEqual(global_state["projection"]["status"], "pending")
+            self.assertEqual(global_state["runtime"]["status"], "not_run")
+            self.assertEqual(global_state["runtime"]["invalidated_by"], "foo")
+
+    def test_changed_dispatch_preserves_unrelated_scoped_global_receipt(self):
+        with tempfile.TemporaryDirectory() as td:
+            state_dir = Path(td)
+            path = state_dir / "skills" / "foo.json"
+            state.write_json(
+                path,
+                state.dispatch_state(
+                    "abc123",
+                    {"codex": "deadbeef"},
+                    "2026-09-22T12:00:00Z",
+                ),
+            )
+            receipt = {
+                "scope": ["bar"],
+                "projection": {
+                    "status": "passed",
+                    "verified_at": "2026-09-22T12:01:00Z",
+                },
+                "runtime": {
+                    "status": "passed",
+                    "verified_at": "2026-09-22T12:02:00Z",
+                    "method": "native-codex",
+                    "targets": {"codex": "cafebabe"},
+                },
+            }
+            state.write_json(state_dir / "_verification.json", receipt)
+            before = (state_dir / "_verification.json").read_text()
+            rc = state.record_dispatch(
+                path,
+                "def456",
+                '{"codex":"feedface"}',
+                "2026-09-22T13:00:00Z",
+            )
+            self.assertEqual(rc, 0)
+            self.assertEqual((state_dir / "_verification.json").read_text(), before)
+
     def test_projection_pass_keeps_runtime_not_run(self):
         with tempfile.TemporaryDirectory() as td:
             state_dir = Path(td)
