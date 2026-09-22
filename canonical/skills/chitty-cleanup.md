@@ -10,6 +10,51 @@ runtimes:
 classification:
   - session
   - operations
+canonical_capability_ref: "chittycanon://capability/workspace/session-cleanup"
+overlay:
+  title: "Session Cleanup"
+  capability_group: "workspace"
+  group_assignment_source: "name-rule"
+  execution_class: "@chitty/connectors"
+  canonical_version: "1.0.0"
+  projection_version_policy: "inherit-canonical"
+  ontology:
+    primary:
+      - "P"
+    secondary:
+      - "E"
+      - "T"
+  authority:
+    requires_chittyid: true
+  execution:
+    default_surface: "ch1tty"
+    local_allowed: false
+    context_cost: "medium"
+    mutation_risk: "medium"
+  discovery:
+    indexable: true
+    session_index: "hidden"
+    ambient_by_intent: false
+    verbs:
+      - "checkpoint"
+      - "restore"
+      - "remember"
+    fallback_search: true
+  auth_flow:
+    mode: "local-only"
+    stores_credentials_in: "n/a"
+    fail_closed_if_unavailable: false
+  runtime_exclusions: {}
+  phase0_audit:
+    job_to_be_done: "generate"
+    environmental_footprint: "write-capable"
+    evidentiary_risk: "none"
+    advisory_disposition: "skill"
+  legacy_category: "ecosystem"
+  deprecated_aliases:
+    - "skill-chitty-cleanup"
+  visibility: "recommended"
+  access: "readwrite"
 ---
 
 # ChittyOS Mac Cleanup Skill
