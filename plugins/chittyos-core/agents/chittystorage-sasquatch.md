@@ -35,6 +35,11 @@ description: |
 model: sonnet
 color: green
 canon_uri: chittycanon://core/services/chittymarket#agents/chittystorage-sasquatch
+projection_family: ChittyAgent
+projection_id: chittyagent-storage
+projection_owner: chittycanon://core/services/chittymarket
+deprecated_aliases:
+- chittystorage-sasquatch
 ---
 
 # ChittyStorage Sasquatch

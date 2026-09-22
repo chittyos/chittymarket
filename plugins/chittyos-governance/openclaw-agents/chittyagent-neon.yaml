@@ -203,3 +203,6 @@ instructions: |
   - **`chittyagent-cloudflare`** — Cloudflare-side infra. When a Neon connection needs to be bound to a Worker or pushed into Secrets Store, hand off.
   - **`chittyauth` (service)** — source of truth for canonical auth schema (RLS policies, table shapes, JWT signing). When in Mode 1 self-managed bootstrap, use chittyauth's SQL — do not invent.
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-neon
+projection_family: ChittyAgent
+projection_id: chittyagent-neon
+projection_owner: chittycanon://core/services/chittymarket

@@ -8,9 +8,9 @@ ChittyMarket is a **distribution and discovery surface** and the governed source
 
 ## Current state vs target state
 
-The current Market generator/dispatcher does **not yet enforce canonical capability/entity/projection references on every generated artifact**, and its verification outcome is not yet persisted distinctly enough to treat provenance drift as a blocking invariant. Until that implementation lands, this document is target-state guidance for those linkage and audit guarantees, not a claim that the current scripts already enforce them.
+Capability identity and dispatch/verification separation are now enforced for the resolved canonical-owned Market population. Agent projection identity is also explicit and CI-gated through `projection_id`, `projection_owner`, and `projection_family`. Remaining target-state work is narrower: entity identity where an artifact represents a specific entity, authoritative resolution of HOLD/alias populations, and native runtime verification beyond schema-only smoke tests.
 
-### Target-state projection linkage
+### Projection linkage
 
 Marketplace entries, generated capability manifests, plugins, agents, skills, MCP entries, and runtime artifacts SHOULD converge on stable references for:
 
@@ -20,7 +20,7 @@ Marketplace entries, generated capability manifests, plugins, agents, skills, MC
 4. the current canonical projection-definition owner; and
 5. the Market/runtime artifact identity being distributed.
 
-The field names above are conceptual reference names, not authorization for a new schema. Reuse existing supported registry/frontmatter/manifest fields wherever possible. If current artifact formats cannot preserve the linkage, record that as a migration/enforcement gap rather than minting a parallel identity model.
+The generic names above remain conceptual across artifact kinds. Reuse existing supported registry/frontmatter/manifest fields wherever possible. For Market-owned canonical agents, the concrete frontmatter contract is `projection_id: chittyagent-<domain>`, `projection_owner: chittycanon://core/services/chittymarket`, and `projection_family: ChittyAgent`; dispatch preserves those fields into supported runtime projections. If another artifact format cannot preserve linkage, record that as a migration/enforcement gap rather than minting a parallel identity model.
 
 Where an artifact is intentionally pointer-only, the pointer itself should resolve to the upstream canonical identity instead of copying the identity payload.
 
@@ -31,9 +31,9 @@ Example relationship:
 ```text
 canonical_capability_ref: ChittyConnect canonical service ID/URI
 canonical_entity_ref:     <entity ID when applicable>
-projection_ref:            chittyagent-connect
-projection owner:          ChittyMarket under current Agent Slug Convention
-proposed family:           ChittyAgent (migration-design label only)
+projection_id:             chittyagent-connect
+projection_owner:          chittycanon://core/services/chittymarket
+projection_family:         ChittyAgent
 market projection:         plugin/agent/package entry
 runtime projection:        generated Claude/Codex/MCP artifact
 ```
@@ -46,14 +46,15 @@ The intended separation is:
 - **Dispatch** — render an approved Market projection into a runtime/delivery surface.
 - **Verification** — validate the rendered result and persist an outcome distinct from dispatch success.
 
-### Current enforcement gap
+### Remaining enforcement gaps
 
-Today, dispatch state can report a successful sync before a later audit/verification failure is durably represented, and the generator does not yet guarantee canonical-reference fields on every output. Therefore:
+The following are still not equivalent to native runtime proof or complete ecosystem identity reconciliation:
 
-- a successful current `sync` is not proof of canonical identity linkage;
-- a successful current dispatch is not proof that verification passed;
-- provenance/ownership drift should be treated as an observed gap until the dispatcher/generator is upgraded to persist and enforce those results.
+- a successful dispatch does not prove the target runtime loaded the artifact; runtime verification remains a separate durable state;
+- `canonical_entity_ref` is only required where an artifact represents a specific canonical entity and is not yet universal;
+- canonical-only and live-only agent projections are reported by `scripts/check-agent-identity.py --live` but are not auto-promoted or auto-retired;
+- production orchestrator registration/description writes remain a sensitive mutation and are not performed by reconciliation checks.
 
-The target state is that verification success/failure is persisted separately and identity/provenance drift can block enablement where policy requires it.
+Static CI now blocks duplicate Market projection IDs, missing/mismatched projection owner/family metadata, unmanaged plugin agent filename/name mismatches, duplicate declared plugin-agent names, and projection metadata drift.
 
 Market-local `canonical/` is the authoring source for **Market-owned projection definitions only**. ChittyCanon/ChittyRegistry remain authoritative for ecosystem ontology and canonical capability identity. Any ownership transfer out of Market requires a coordinated governance change; moving implementation code alone is insufficient.

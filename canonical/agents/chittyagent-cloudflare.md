@@ -68,6 +68,9 @@ overlay:
   - openclaw
   source_links:
   - local://~/.claude/agents/chittyagent-cloudflare.md
+projection_family: ChittyAgent
+projection_id: chittyagent-cloudflare
+projection_owner: chittycanon://core/services/chittymarket
 ---
 
 # ChittyAgent Cloudflare

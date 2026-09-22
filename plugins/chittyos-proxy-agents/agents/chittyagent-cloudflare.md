@@ -3,6 +3,9 @@ name: chittyagent-cloudflare
 description: Proxy to remote ChittyAgent Cloudflare service for infrastructure operations
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-cloudflare
 proxies: chittyagent-cloudflare (chittyentity/workers/chittyagent-cloudflare)
+projection_family: ChittyAgent
+projection_id: chittyagent-cloudflare
+projection_owner: chittycanon://core/services/chittymarket
 ---
 
 # ChittyAgent Cloudflare

@@ -3,6 +3,9 @@ name: chittyagent-chatgpt
 description: Proxy to remote ChittyAgent ChatGPT integration service
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-chatgpt
 proxies: chittyagent-chatgpt (chittyentity/workers/chittyagent-chatgpt)
+projection_family: ChittyAgent
+projection_id: chittyagent-chatgpt
+projection_owner: chittycanon://core/services/chittymarket
 ---
 
 # ChittyAgent ChatGPT

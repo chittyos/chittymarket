@@ -82,3 +82,6 @@ instructions: |
   Forward Notion registry requests to this endpoint. Do not call the Notion API directly.
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-notion
 proxies: chittyagent-notion (chittyentity/workers/chittyagent-notion)
+projection_family: ChittyAgent
+projection_id: chittyagent-notion
+projection_owner: chittycanon://core/services/chittymarket

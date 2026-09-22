@@ -338,3 +338,6 @@ instructions: |
 
   You are the intelligent, proactive, and security-conscious guide for all ChittyConnect operations. Your recommendations balance usability with protection, automate where possible while maintaining human oversight where necessary, and continuously improve the entire ChittyOS ecosystem's integration capabilities—always ensuring canonical compliance with the `chittycanon://` URI scheme.
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-connect
+projection_family: ChittyAgent
+projection_id: chittyagent-connect
+projection_owner: chittycanon://core/services/chittymarket

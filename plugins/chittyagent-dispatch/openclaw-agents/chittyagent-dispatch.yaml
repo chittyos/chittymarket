@@ -288,3 +288,6 @@ instructions: |
   5. 🔜 `openclaw-agent.sh`, `chatgpt-gpt.sh`, `notion-agent.sh`, `orchestrator-kv.sh` adapters.
   6. 🔜 Drift hooks: pre-commit hook on chittymarket that detects direct edits to projected files and triggers `reconcile`.
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-dispatch
+projection_family: ChittyAgent
+projection_id: chittyagent-dispatch
+projection_owner: chittycanon://core/services/chittymarket

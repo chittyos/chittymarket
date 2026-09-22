@@ -274,3 +274,6 @@ instructions: |
 
   Now, review the artifact before you with the discerning eye of the Cardinal, and render your canonical judgment.
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-canon
+projection_family: ChittyAgent
+projection_id: chittyagent-canon
+projection_owner: chittycanon://core/services/chittymarket

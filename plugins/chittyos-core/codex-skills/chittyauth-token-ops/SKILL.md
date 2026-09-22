@@ -21,6 +21,11 @@ description: |
   assistant: "I'll use chittyauth-token-ops to audit the declared auth contract against actual handler behavior."
   </example>
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyauth-token-ops
+projection_family: ChittyAgent
+projection_id: chittyagent-auth
+projection_owner: chittycanon://core/services/chittymarket
+deprecated_aliases:
+- chittyauth-token-ops
 ---
 
 # ChittyAuth Token Ops

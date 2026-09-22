@@ -33,6 +33,11 @@ runtimes:
   - claude-code
   - codex
 plugin: chittyos-core
+projection_family: ChittyAgent
+projection_id: chittyagent-auth
+projection_owner: chittycanon://core/services/chittymarket
+deprecated_aliases:
+  - chittyauth-token-ops
 ---
 
 # ChittyAuth Token Ops
