@@ -23,6 +23,9 @@ description: |
 canonical_uri: chittycanon://core/agents/chittyagent-autobot
 sovereignty_cert_required: true
 sovereignty_cert_issuer: chittycanon://core/services/chitty-cert
+projection_family: ChittyAgent
+projection_id: chittyagent-autobot
+projection_owner: chittycanon://core/services/chittymarket
 ---
 
 # ChittyAgent Autobot

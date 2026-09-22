@@ -67,6 +67,9 @@ overlay:
   - openclaw
   source_links:
   - local://~/.claude/agents/chittyagent-chatgpt.md
+projection_family: ChittyAgent
+projection_id: chittyagent-chatgpt
+projection_owner: chittycanon://core/services/chittymarket
 ---
 
 # ChittyAgent ChatGPT

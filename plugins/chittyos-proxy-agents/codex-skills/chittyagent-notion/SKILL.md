@@ -3,6 +3,9 @@ name: chittyagent-notion
 description: Proxy to remote ChittyAgent Notion service for registry database operations
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-notion
 proxies: chittyagent-notion (chittyentity/workers/chittyagent-notion)
+projection_family: ChittyAgent
+projection_id: chittyagent-notion
+projection_owner: chittycanon://core/services/chittymarket
 ---
 
 # ChittyAgent Notion

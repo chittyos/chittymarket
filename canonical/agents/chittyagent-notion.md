@@ -67,6 +67,9 @@ overlay:
   - openclaw
   source_links:
   - local://~/.claude/agents/chittyagent-notion.md
+projection_family: ChittyAgent
+projection_id: chittyagent-notion
+projection_owner: chittycanon://core/services/chittymarket
 ---
 
 # ChittyAgent Notion

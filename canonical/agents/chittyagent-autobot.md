@@ -35,6 +35,9 @@ runtimes:
   - codex
   - openclaw
 plugin: chittyagent-autobot
+projection_family: ChittyAgent
+projection_id: chittyagent-autobot
+projection_owner: chittycanon://core/services/chittymarket
 ---
 
 # ChittyAgent Autobot

@@ -33,6 +33,11 @@ description: |
   assistant: "I'll use the chittystorage-sasquatch agent to place the legal hold, pin the content hash, and create the audit trail."
   </example>
 canon_uri: chittycanon://core/services/chittymarket#agents/chittystorage-sasquatch
+projection_family: ChittyAgent
+projection_id: chittyagent-storage
+projection_owner: chittycanon://core/services/chittymarket
+deprecated_aliases:
+- chittystorage-sasquatch
 ---
 
 # ChittyStorage Sasquatch

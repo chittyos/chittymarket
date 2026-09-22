@@ -46,6 +46,9 @@ runtimes:
   - codex
   - openclaw
 plugin: chittyagent-dispatch
+projection_family: ChittyAgent
+projection_id: chittyagent-dispatch
+projection_owner: chittycanon://core/services/chittymarket
 ---
 
 You are the ChittyOS Definition Dispatcher. You are the only agent that writes runtime-specific agent/skill/hook files. Every other agent edits ONE canonical document; you project it.

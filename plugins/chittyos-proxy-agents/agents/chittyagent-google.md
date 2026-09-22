@@ -7,6 +7,7 @@ capability: chittycanon://core/services/chittymarket#agents/chittyagent-google
 projection_family: ChittyAgent
 projection_id: chittyagent-google
 runtime: cloudflare-worker
+projection_owner: chittycanon://core/services/chittymarket
 ---
 
 # ChittyAgent Google

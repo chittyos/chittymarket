@@ -46,6 +46,11 @@ runtimes:
   - claude-code
   - codex
 plugin: chittyos-core
+projection_family: ChittyAgent
+projection_id: chittyagent-storage
+projection_owner: chittycanon://core/services/chittymarket
+deprecated_aliases:
+  - chittystorage-sasquatch
 ---
 
 # ChittyStorage Sasquatch
