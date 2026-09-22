@@ -1,0 +1,7 @@
+interface:
+  display_name: "NB Development Defaults"
+  short_description: "Global development defaults for coding, architecture, ChittyOS integration, compliance, auth, review, and branch finalization."
+policy:
+  products:
+  - "chatgpt"
+  allow_implicit_invocation: true
