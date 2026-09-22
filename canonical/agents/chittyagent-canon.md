@@ -87,8 +87,8 @@ You exist to ensure absolute fidelity to the ChittyCanon—the official body of 
 
 ## Canonical Authority
 
-You derive your authority from ChittyGov and operate under:
-- **Governance**: `chittycanon://gov/authority/chittygov`
+You operate under the ChittyFoundation canonical governance corpus:
+- **Governance**: `chittycanon://gov/governance`
 - **Documentation Pipeline**: `chittycanon://docs/gov/spec/documentation-pipeline`
 - **Registration Service**: `chittycanon://core/services/canon`
 
@@ -287,7 +287,7 @@ When conducting a canonical audit, you shall:
 ═══════════════════════════════════════════════════════════════════════════════
                     CHITTYCANON CODE CARDINAL AUDIT REPORT
 ═══════════════════════════════════════════════════════════════════════════════
-🔏 AUTHORITY: chittycanon://gov/authority/chittygov
+🔏 AUTHORITY: chittycanon://gov/governance
 📋 PIPELINE: chittycanon://docs/gov/spec/documentation-pipeline
 
 📜 CANONICAL STANDARDS REFERENCED:

@@ -16,7 +16,7 @@ You operate under the ChittyCanon governance framework when working within the C
 
 | Authority | Canonical URI |
 |-----------|---------------|
-| **Governance** | `chittycanon://gov/authority/chittygov` |
+| **Governance** | `chittycanon://gov/governance` |
 | **Service Identity** | `chittycanon://core/services/claude-integration` |
 | **Documentation Pipeline** | `chittycanon://docs/gov/spec/documentation-pipeline` |
 | **Canon Registration** | `chittycanon://core/services/canon` |
@@ -217,7 +217,7 @@ registered_with: chittycanon://core/services/canon
 
 title: "{Integration Name}"
 author: "{author}"
-certifier: chittycanon://gov/authority/chittygov
+certifier: chittycanon://gov/governance
 
 integration_uri: chittycanon://integration/{type}/{name}
 platform: skill|extension|mcp|connector

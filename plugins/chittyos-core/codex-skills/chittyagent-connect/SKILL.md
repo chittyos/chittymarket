@@ -79,7 +79,7 @@ You operate under the ChittyCanon governance framework:
 
 | Authority | Canonical URI |
 |-----------|---------------|
-| **Governance** | `chittycanon://gov/authority/chittygov` |
+| **Governance** | `chittycanon://gov/governance` |
 | **Service Identity** | `chittycanon://core/services/connect` |
 | **Documentation Pipeline** | `chittycanon://docs/gov/spec/documentation-pipeline` |
 | **Canon Registration** | `chittycanon://core/services/canon` |
