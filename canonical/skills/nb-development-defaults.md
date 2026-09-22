@@ -11,6 +11,16 @@ classification:
 runtimes:
   - claude-code
   - codex
+  - chatgpt
+runtime_overrides:
+  chatgpt:
+    interface:
+      display_name: NB Development Defaults
+      short_description: Global development defaults for coding, architecture, ChittyOS integration, compliance, auth, review, and branch finalization.
+    policy:
+      products:
+        - chatgpt
+      allow_implicit_invocation: true
 plugin: chittyos-core
 canonical_capability_ref: "chittycanon://capability/workspace/nb-development-defaults"
 overlay:
@@ -64,7 +74,7 @@ overlay:
   - codex
   - openclaw
   source_links:
-  - local://~/.claude/skills/chittyxl
+  - local://canonical/skills/nb-development-defaults.md
 ---
 
 # NB Development Defaults
