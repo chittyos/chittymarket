@@ -15,7 +15,7 @@ visibility: INTERNAL
 ## Classification
 
 - **Canonical service URI**: `chittycanon://core/services/chittymarket`
-- **Tier**: 3 (Operational / control plane)
+- **Tier**: 3 (Operational / control plane)\n- **Architecture tier:** Tier 3
 - **Organization**: CHITTYOS
 - **Deployment form**: private repository + deterministic build/release workflows
 - **Standalone HTTP domain**: none
