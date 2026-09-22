@@ -55,6 +55,12 @@ overlay:
   deprecated_aliases: []
   visibility: "recommended"
   access: "readwrite"
+  compatible_channels:
+  - claude_code
+  - codex
+  source_links:
+  - local://canonical/skills/hygiene.md
+  - local://plugins/chittyos-core/skills/hygiene/SKILL.md
 ---
 
 # Repository hygiene

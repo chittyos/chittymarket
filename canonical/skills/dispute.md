@@ -72,6 +72,14 @@ overlay:
     - "skill-dispute"
   visibility: "recommended"
   access: "readwrite"
+  compatible_channels:
+  - claude_code
+  - claude_ai
+  - claude_desktop
+  - chatgpt
+  - codex
+  source_links:
+  - local://~/.claude/skills/dispute
 ---
 
 # Dispute — Issue/Dispute Management

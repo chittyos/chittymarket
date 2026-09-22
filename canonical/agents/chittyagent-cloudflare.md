@@ -61,6 +61,13 @@ overlay:
     - "agent-chittyagent-cloudflare"
   visibility: "recommended"
   access: "readwrite"
+  compatible_channels:
+  - claude_code
+  - claude_desktop
+  - codex
+  - openclaw
+  source_links:
+  - local://~/.claude/agents/chittyagent-cloudflare.md
 ---
 
 # ChittyAgent Cloudflare

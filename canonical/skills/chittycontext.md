@@ -55,6 +55,15 @@ overlay:
     - "skill-chittycontext"
   visibility: "recommended"
   access: "readwrite"
+  compatible_channels:
+  - claude_code
+  - claude_ai
+  - claude_desktop
+  - chatgpt
+  - codex
+  - openclaw
+  source_links:
+  - local://~/.claude/skills/chittycontext
 ---
 
 # ChittyContext Skill - Persistent State Management v2.1

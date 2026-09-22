@@ -1,14 +1,13 @@
 {
-  "version": "1.1.0",
-  "generated_at": "2026-06-12",
-  "phase": "Phase 1 — capability overlay (view-only, no behavior change)",
-  "source": "marketplace.json + docs/audits/chittymarket-{artifact,plugin-package}-audit.json + docs/overrides/capability-group-overrides.json",
+  "version": "1.2.0",
+  "phase": "Materialized capability overlay — canonical-owned records generated; external/legacy records preserved",
+  "source": "canonical/ Market projection definitions + marketplace.json distribution state; non-canonical external/legacy capability records preserved verbatim",
   "naming": "Bare JTBD group ids (no chitty- prefix). Namespace chittycanon://capability/ already encodes 'chitty'.",
   "total": 108,
   "group_assignment_sources": {
-    "name-rule": 45,
-    "category": 34,
-    "override": 23
+    "category": 35,
+    "name-rule": 49,
+    "override": 24
   },
   "capabilities": [
     {
@@ -1313,7 +1312,7 @@
       "capability_id": "chittycanon://capability/legal/legal-operating-defaults",
       "legacy_id": "skill-legal-operating-defaults",
       "name": "Legal Operating Defaults",
-      "description": "Legal Operating Constitution — evidence before assertion, primary-source separation, factual lifecycle, provenance, matter isolation, privilege boundaries, conditional dependency routing. Operating method only; carries no matter facts.",
+      "description": "Legal Operating Constitution — evidence before assertion, primary-source separation, factual lifecycle, provenance, matter isolation, privilege boundaries, and conditional routing to the capability that does the work. Operating method only; carries no matter facts.",
       "capability_group": "legal",
       "group_assignment_source": "category",
       "execution_class": "@chitty/reasoning",
@@ -1381,7 +1380,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:2b2444ba3ed5bded90f63234feec12d6b8b2b7fe9bab2385778141cf6aeb100f",
+        "content_hash": "sha256:f4222febe8f743927f39f40fba849fad5ca30bd5270dc198ea955c488d92a9be",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8394,7 +8393,7 @@
       "capability_id": "chittycanon://capability/workspace/goal-creator",
       "legacy_id": "skill-goal-creator",
       "name": "Goal Creator",
-      "description": "Three-block (goal · conditions · not-met-until) pipeline driver: discover→elicit→architect→adversarial→SoT→build→persist→handoff. Pairs with the Claude Code built-in /goal stop-gate.",
+      "description": "Three-block (goal · conditions · not-met-until) pipeline driver: discover→elicit→architect→adversarial→SoT→build→persist→handoff. Pairs WITH the Claude Code built-in `/goal` (built-in enforces stop-gate; this skill runs the pipeline). Invoke via `/goal-creator` or planning-intent phrases.",
       "capability_group": "workspace",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/ambient",
@@ -8459,7 +8458,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:f40a9539e831c83306139f0147549e63d4848a6ce0e2d960f7014b1fa3890919",
+        "content_hash": "sha256:d64f7f7b5c70b2b8174f3bb46d15afc898b88bd86dbd5c58cd5983bf0df4ef47",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8472,7 +8471,7 @@
       "capability_id": "chittycanon://capability/build/skill-creator",
       "legacy_id": "skill-skill-creator",
       "name": "Skill Creator (ChittyMarket-routed)",
-      "description": "Overrides upstream skill-creator. Routes all skill artifacts through ChittyMarket — no local ~/.claude/skills/ writes; updates marketplace.json + regenerates the native manifest.",
+      "description": "Overrides upstream skill-creator. Routes all skill artifacts through ChittyMarket — no local ~/.claude/skills/ writes; updates marketplace.json + regenerates native manifest.",
       "capability_group": "build",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/ambient",
@@ -8537,7 +8536,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:85242024f14771a6259012b383550f57d32af5975bc2b1cdcbdb476b7b37d668",
+        "content_hash": "sha256:a637263e6df74c5ce50b10ee4467921248119f46bfc2bfe4634f6a9029ccd280",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8550,7 +8549,7 @@
       "capability_id": "chittycanon://capability/workspace/nb-development-defaults",
       "legacy_id": "skill-nb-development-defaults",
       "name": "NB Development Defaults",
-      "description": "Global development defaults for this operator — execute-now posture, Separated Adversarial Review (reviewer≠implementer, break-not-bless, no-mocks re-verify), broker-first credentials (1Password RETIRED), ChittyOS discovery, non-interactive branch finalization. Loaded for almost all coding/debugging/architecture tasks unless explicitly overridden.",
+      "description": "Global development defaults for this operator. Use for almost all coding, debugging, ChittyOS integration, architecture, compliance, auth/token, branch-finalization, and workflow-automation tasks unless the operator explicitly overrides these defaults. Covers conditional execute-now posture, discovery-first (service + capability), separated adversarial review, worktree isolation, broker-first credentials (1Password RETIRED), and non-interactive branch finalization.",
       "capability_group": "workspace",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/ambient",
@@ -8613,7 +8612,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:7ffa887ae20b324843ca8c14e32b6bb73b5f1075e2d5b2d772eacb1a65d7c42c",
+        "content_hash": "sha256:35fc8d9de96459ea941d1e07f394d8501286b5ab809dad11eed1c0daa48c54c0",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8702,7 +8701,7 @@
       "capability_id": "chittycanon://capability/workspace/repo-hygiene",
       "legacy_id": "skill-hygiene",
       "name": "Repository Hygiene",
-      "description": "Repo hygiene audit and crash-safe capture of uncommitted work. Wraps `can hygiene` (tracked build artifacts, unignored output dirs, non-failing CI gates, deployed-without-source) and `can wip` (capture / list / branches) so a synth can run them against a target repo and read the output correctly.",
+      "description": "Repository hygiene and crash-safe work capture for any repo. Wraps the merged `can hygiene` and `can wip` surfaces so a synth can run them against a target repo — config auditing, uncommitted-work capture to refs/wip, orphan recovery, and mergeability-based branch lifecycle with archive-before-delete.",
       "capability_group": "workspace",
       "group_assignment_source": "override",
       "execution_class": "@chitty/workspace",
@@ -8762,7 +8761,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:ef0fc9bd1d1446eef0ff1ca28a923e109902ec1a65f9f6a88e2912741210b83a",
+        "content_hash": "sha256:b5637a4260854b77eecefbc53e304fb44dbef3ecf32906b50715826dfdd65c7f",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8773,7 +8772,7 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:21332f3869d91eb10479fb2db64a9958c8c314544cc1014c10be058e7770ab8d",
+    "aggregate_hash": "sha256:f54715812f6e8d2760b91b46ec984951d5297731f18d1ed51cd7490f657436ac",
     "record_count": 108,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",

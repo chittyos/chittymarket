@@ -64,6 +64,15 @@ overlay:
   deprecated_aliases: []
   visibility: "recommended"
   access: "read"
+  compatible_channels:
+  - claude_code
+  - claude_ai
+  - claude_desktop
+  - chatgpt
+  - codex
+  - openclaw
+  source_links:
+  - local://canonical/skills/legal-operating-defaults.md
 ---
 
 # Legal Operating Defaults

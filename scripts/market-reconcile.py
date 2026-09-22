@@ -29,7 +29,6 @@ import json
 import os
 import re
 import sys
-from datetime import date
 from pathlib import Path
 
 try:
@@ -86,23 +85,6 @@ NEW_OVERLAY_REQUIRED = {
     "access",
 }
 
-PUBLISHED_POLICY_FIELDS = (
-    "capability_group",
-    "group_assignment_source",
-    "execution_class",
-    "canonical_version",
-    "projection_version_policy",
-    "ontology",
-    "authority",
-    "execution",
-    "discovery",
-    "auth_flow",
-    "runtime_exclusions",
-    "phase0_audit",
-    "legacy_category",
-    "deprecated_aliases",
-    "visibility",
-)
 
 
 def load_json(path: Path):
@@ -225,43 +207,29 @@ def validate_existing_binding(rec: dict, explicit: str | None, invalid: str | No
     return errors
 
 
-def validate_published_canonical(
+def validate_published_source(
     item: dict,
     entry: dict | None,
     rec: dict,
     explicit: str | None,
     invalid: str | None,
 ) -> list[str]:
-    """Require current published Market definitions to carry their own identity/policy."""
+    """Validate authoritative source inputs without trusting generated record content."""
 
-    errors = validate_existing_binding(rec, explicit, invalid)
+    errors = []
     if invalid:
+        errors.append(invalid)
         return errors
     if not explicit:
-        errors.append(
-            "published canonical definition is missing explicit canonical capability identity"
-        )
+        errors.append("published canonical definition is missing explicit canonical capability identity")
         return errors
 
     block = item["fm"].get("overlay")
     if not isinstance(block, dict):
-        errors.append(
-            "published canonical definition is missing overlay governance metadata"
-        )
+        errors.append("published canonical definition is missing overlay governance metadata")
         return errors
 
     errors.extend(validate_new_overlay(explicit, block))
-    if block.get("title") != rec.get("name"):
-        errors.append(
-            f"overlay.title {block.get('title')!r} != published name {rec.get('name')!r}"
-        )
-
-    for field in PUBLISHED_POLICY_FIELDS:
-        if block.get(field) != rec.get(field):
-            errors.append(
-                f"overlay.{field} differs from established published policy"
-            )
-
     if entry is None:
         errors.append("published overlay record has no matching marketplace artifact")
     elif block.get("access") != entry.get("access"):
@@ -269,8 +237,21 @@ def validate_published_canonical(
             f"overlay.access {block.get('access')!r} != marketplace access {entry.get('access')!r}"
         )
 
+    provenance = rec.get("provenance") or {}
+    if any(provenance.get(k) is not None for k in ("signature", "signer_chittyid", "anchored_in_ledger")):
+        errors.append(
+            "published generated record carries signed/anchored provenance; "
+            "materializer refuses to overwrite release provenance"
+        )
     return errors
 
+
+def materialized_drift(current: dict, desired: dict) -> list[str]:
+    """Return top-level fields whose generated values differ."""
+    return [
+        key for key in sorted(set(current) | set(desired))
+        if current.get(key) != desired.get(key)
+    ]
 
 def validate_new_overlay(explicit: str, block) -> list[str]:
     if not isinstance(block, dict):
@@ -307,15 +288,18 @@ def provenance_hash(rec: dict) -> str:
     return "sha256:" + hashlib.sha256(raw).hexdigest()
 
 
-def build_new_overlay(item: dict, explicit: str) -> dict:
+def build_new_overlay(item: dict, explicit: str, entry: dict | None = None) -> dict:
     fm = item["fm"]
     block = copy.deepcopy(fm["overlay"])
     title = block.pop("title", None) or item["name"]
+    description = (entry or {}).get("description") or first_line(fm.get("description")) or item["name"]
+    compatible_channels = block.pop("compatible_channels", None)
+    source_links = block.pop("source_links", None)
     rec = {
         "capability_id": explicit,
         "legacy_id": legacy_id(item),
         "name": title,
-        "description": first_line(fm.get("description")) or item["name"],
+        "description": description,
         "capability_group": block["capability_group"],
         "group_assignment_source": block.pop("group_assignment_source", "override"),
         "execution_class": block["execution_class"],
@@ -327,8 +311,8 @@ def build_new_overlay(item: dict, explicit: str) -> dict:
         "discovery": block["discovery"],
         "auth_flow": block["auth_flow"],
         "runtime_exclusions": block.pop("runtime_exclusions", {}),
-        "compatible_channels": channels(fm),
-        "source_links": [f"local://{item['path']}"],
+        "compatible_channels": list(compatible_channels) if compatible_channels is not None else channels(fm),
+        "source_links": list(source_links) if source_links is not None else [f"local://{item['path']}"],
         "phase0_audit": block["phase0_audit"],
         "legacy_type": item["kind"],
         "legacy_category": block["legacy_category"],
@@ -369,41 +353,19 @@ def build_new_manifest(item: dict, rec: dict) -> dict:
     return {k: v for k, v in entry.items() if v is not None}
 
 
-def update_existing(item: dict, entry: dict | None, rec: dict) -> None:
-    fm = item["fm"]
-    desc = first_line(fm.get("description"))
-    if entry is not None:
-        if desc:
-            entry["description"] = desc
-        entry["type"] = item["kind"]
-        entry["source"] = "canonical"
-        entry["capability"] = rec["capability_id"]
-        canon_uri = fm.get("canon_uri") or fm.get("canonical_uri")
-        if canon_uri:
-            entry["canon_uri"] = canon_uri
-        if fm.get("classification"):
-            entry["tags"] = list(fm["classification"])
-
-    block = fm.get("overlay")
-    if isinstance(block, dict):
-        rebuilt = build_new_overlay(item, rec["capability_id"])
-        old_prov = rec.get("provenance") or {}
-        rebuilt["provenance"]["signature"] = old_prov.get("signature")
-        rebuilt["provenance"]["signer_chittyid"] = old_prov.get("signer_chittyid")
-        rebuilt["provenance"]["anchored_in_ledger"] = old_prov.get("anchored_in_ledger")
-        rebuilt["provenance"]["content_hash"] = provenance_hash(rebuilt)
-        rec.clear()
-        rec.update(rebuilt)
-    elif desc:
-        rec["description"] = desc
-        rec["source_links"] = [f"local://{item['path']}"]
-        if rec.get("provenance"):
-            rec["provenance"]["content_hash"] = provenance_hash(rec)
+def update_existing(item: dict, entry: dict | None, rec: dict, explicit: str) -> None:
+    # Canonical-owned records are materialized from canonical + marketplace only.
+    # The previous generated record is an output slot, never an input authority.
+    rebuilt = build_new_overlay(item, explicit, entry)
+    rec.clear()
+    rec.update(rebuilt)
 
 
 def reconcile(mode: str, selected_name: str | None) -> int:
     manifest = load_json(MANIFEST)
     overlay = load_json(OVERLAY)
+    original_manifest = copy.deepcopy(manifest)
+    original_overlay = copy.deepcopy(overlay)
     artifacts = artifact_index(manifest)
     caps = capability_index(overlay)
 
@@ -422,11 +384,20 @@ def reconcile(mode: str, selected_name: str | None) -> int:
         explicit, invalid = explicit_identity(item["fm"])
 
         if rec is not None:
-            for msg in validate_published_canonical(item, entry, rec, explicit, invalid):
+            source_errors = validate_published_source(item, entry, rec, explicit, invalid)
+            for msg in source_errors:
                 errors.append((item["name"], msg))
-            if not any(name == item["name"] for name, _ in errors) and mode == "sync":
-                update_existing(item, entry, rec)
-                changes.append((item["name"], "updated existing projection"))
+            if not source_errors:
+                desired = build_new_overlay(item, explicit, entry)
+                drift = materialized_drift(rec, desired)
+                if mode == "audit" and drift:
+                    errors.append(
+                        (item["name"], "materialized overlay drift: " + ", ".join(drift))
+                    )
+                elif mode == "sync":
+                    if drift:
+                        update_existing(item, entry, rec, explicit)
+                        changes.append((item["name"], "regenerated canonical-owned overlay record"))
             continue
 
         if invalid:
@@ -443,7 +414,7 @@ def reconcile(mode: str, selected_name: str | None) -> int:
             continue
 
         if mode == "sync":
-            rec = build_new_overlay(item, explicit)
+            rec = build_new_overlay(item, explicit, None)
             entry = build_new_manifest(item, rec)
             manifest.setdefault("artifacts", []).append(entry)
             overlay.setdefault("capabilities", []).append(rec)
@@ -476,16 +447,26 @@ def reconcile(mode: str, selected_name: str | None) -> int:
             print("Unpublished unresolved definitions remain HOLD and cannot be synced.")
         return 0
 
-    if errors or holds:
-        print("\nREFUSED: sync is fail-closed until selected identity/policy holds are resolved.")
+    if errors or (selected_name and holds):
+        print("\nREFUSED: sync is fail-closed for source errors or a selected unresolved HOLD.")
         return 1
 
-    overlay["total"] = len(overlay.get("capabilities", []))
-    overlay["generated_at"] = date.today().isoformat()
-    overlay["source"] = (
-        "canonical Market projection definitions + marketplace distribution state; "
-        "existing governance retained during migration until backfilled into canonical"
+    overlay["version"] = "1.2.0"
+    overlay.pop("generated_at", None)
+    overlay["phase"] = (
+        "Materialized capability overlay — canonical-owned records generated; "
+        "external/legacy records preserved"
     )
+    overlay["source"] = (
+        "canonical/ Market projection definitions + marketplace.json distribution state; "
+        "non-canonical external/legacy capability records preserved verbatim"
+    )
+    overlay["total"] = len(overlay.get("capabilities", []))
+    assignment_counts = {}
+    for rec in overlay.get("capabilities", []):
+        source = rec.get("group_assignment_source", "unknown")
+        assignment_counts[source] = assignment_counts.get(source, 0) + 1
+    overlay["group_assignment_sources"] = dict(sorted(assignment_counts.items()))
     hashes = sorted(
         rec.get("provenance", {}).get("content_hash", "")
         for rec in overlay.get("capabilities", [])
@@ -499,8 +480,10 @@ def reconcile(mode: str, selected_name: str | None) -> int:
         "hash_alg": "sha256",
     }
 
-    write_json(MANIFEST, manifest)
-    write_json(OVERLAY, overlay)
+    if manifest != original_manifest:
+        write_json(MANIFEST, manifest)
+    if overlay != original_overlay:
+        write_json(OVERLAY, overlay)
 
     print(f"\nWROTE: {len(changes)} projection change(s)")
     for name, msg in changes:

@@ -60,6 +60,15 @@ overlay:
     - "skill-evidence-collect"
   visibility: "recommended"
   access: "readwrite"
+  compatible_channels:
+  - claude_code
+  - claude_ai
+  - claude_desktop
+  - chatgpt
+  - codex
+  - openclaw
+  source_links:
+  - local://~/.claude/skills/evidence-collect
 ---
 
 # Evidence Collection — Canonical Pipeline

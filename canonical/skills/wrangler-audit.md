@@ -62,6 +62,13 @@ overlay:
     - "skill-wrangler-audit"
   visibility: "recommended"
   access: "read"
+  compatible_channels:
+  - claude_code
+  - claude_desktop
+  - codex
+  - openclaw
+  source_links:
+  - local://~/.claude/skills/wrangler-audit
 ---
 
 # Wrangler Audit

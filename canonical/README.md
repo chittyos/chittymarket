@@ -61,7 +61,8 @@ Identity rules:
 
 - Never derive a capability identity from an artifact name, display title, group, slug, package, or runtime path.
 - A new/unpublished definition must carry an explicit `chittycanon://capability/...` reference in an existing supported frontmatter identity field before it can be projected.
-- During migration, an already-published `capabilities.generated.json` record may preserve the established binding for that same legacy artifact until the reference is backfilled into canonical frontmatter.
+- For canonical-owned published records, `capabilities.generated.json` is a materialized output only. Identity, governance, compatible-channel policy, and source-link policy come from canonical frontmatter; distribution description/access come from `marketplace.json`. The prior generated record is not an authority.
+- Non-canonical external/legacy overlay records are preserved verbatim until they are separately promoted, migrated, or retired; their preservation does not make them canonical-owned.
 - A conflicting explicit reference is a hard error.
 - An unpublished unresolved definition is `HOLD`: it may remain authored, but the reconciler refuses to create marketplace/overlay records for it.
 - New projections also require explicit governance metadata, including `overlay.access: read|write|readwrite`; the compiler does not infer access from mutation risk or guess authority, auth, or placement policy.
@@ -74,4 +75,4 @@ python3 scripts/market-reconcile.py audit
 python3 scripts/market-reconcile.py sync --name <canonical-name>
 ```
 
-The audit is CI-safe: published identity conflicts fail; unpublished unresolved definitions are reported as holds. The sync path is fail-closed.
+The audit is CI-safe: source errors or materialized drift fail; unpublished unresolved definitions are reported as HOLDs. Full `sync` regenerates resolved canonical-owned records while leaving HOLDs untouched; `sync --name <hold>` remains fail-closed. CI then reruns `sync` and requires a zero diff, proving reproducibility.

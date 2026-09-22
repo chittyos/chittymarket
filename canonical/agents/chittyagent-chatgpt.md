@@ -58,6 +58,15 @@ overlay:
     - "agent-chittyagent-chatgpt"
   visibility: "advanced"
   access: "readwrite"
+  compatible_channels:
+  - claude_code
+  - claude_ai
+  - claude_desktop
+  - chatgpt
+  - codex
+  - openclaw
+  source_links:
+  - local://~/.claude/agents/chittyagent-chatgpt.md
 ---
 
 # ChittyAgent ChatGPT
