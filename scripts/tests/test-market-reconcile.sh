@@ -49,7 +49,7 @@ MD
 cat > "$TMP/canonical/skills/bar.md" <<'MD'
 ---
 name: bar
-capability: chittycanon://core/services/chittymarket#skills/bar
+canonical_capability_ref: chittycanon://core/services/chittymarket#skills/bar
 description: bad identity
 kind: skill
 ---
