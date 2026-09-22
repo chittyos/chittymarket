@@ -78,6 +78,43 @@ class DispatchStateTests(unittest.TestCase):
             self.assertEqual(saved["verification"]["projection"]["status"], "passed")
             self.assertEqual(saved["verification"]["runtime"]["status"], "not_run")
 
+    def test_projection_verification_preserves_global_runtime_receipt(self):
+        with tempfile.TemporaryDirectory() as td:
+            state_dir = Path(td)
+            path = state_dir / "skills" / "foo.json"
+            state.write_json(
+                path,
+                state.dispatch_state(
+                    "abc123",
+                    {"codex": "deadbeef"},
+                    "2026-09-22T12:00:00Z",
+                ),
+            )
+            state.write_json(
+                state_dir / "_verification.json",
+                {
+                    "scope": ["all"],
+                    "projection": {"status": "passed"},
+                    "runtime": {
+                        "status": "passed",
+                        "verified_at": "2026-09-22T12:02:00Z",
+                        "method": "native-codex",
+                        "targets": {"codex": "deadbeef"},
+                    },
+                },
+            )
+            rc = state.record_projection_verification(
+                state_dir,
+                {"summary": {"total_findings": 0}, "findings": []},
+                "2026-09-22T12:03:00Z",
+                ["foo"],
+            )
+            self.assertEqual(rc, 0)
+            global_state = json.loads((state_dir / "_verification.json").read_text())
+            self.assertEqual(global_state["projection"]["status"], "passed")
+            self.assertEqual(global_state["runtime"]["status"], "passed")
+            self.assertEqual(global_state["runtime"]["method"], "native-codex")
+
     def test_failed_projection_is_persisted(self):
         with tempfile.TemporaryDirectory() as td:
             state_dir = Path(td)
