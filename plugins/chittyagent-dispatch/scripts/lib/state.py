@@ -88,6 +88,34 @@ def record_dispatch(path: Path, canonical_sha: str, targets_raw: str, projected_
     # A materially changed projection invalidates prior verification. Record the
     # new dispatch and reset projection/runtime verification to pending/not_run.
     write_json(path, dispatch_state(canonical_sha, targets, projected_at))
+
+    # Invalidate any global verification receipt whose scope includes this
+    # capability. Otherwise a previous repo/runtime PASS could outlive changed
+    # projection bytes and be mistaken for current proof.
+    state_dir = path.parent.parent
+    global_path = state_dir / "_verification.json"
+    if global_path.exists():
+        global_state = load_json(global_path)
+        scope = global_state.get("scope", ["all"])
+        name = path.stem
+        in_scope = scope == ["all"] or name in set(scope)
+        if in_scope:
+            global_state["projection"] = {
+                "status": "pending",
+                "verified_at": None,
+                "method": "dispatch-audit",
+                "summary": {},
+                "findings": [],
+                "invalidated_by": name,
+            }
+            global_state["runtime"] = {
+                "status": "not_run",
+                "verified_at": None,
+                "method": None,
+                "targets": {},
+                "invalidated_by": name,
+            }
+            write_json(global_path, global_state)
     return 0
 
 
