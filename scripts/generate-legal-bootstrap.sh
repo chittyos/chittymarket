@@ -22,12 +22,12 @@ mkdir -p "$out"
 
 body() {
   cat <<EOF
-**Capability:** `$name` (ChittyMarket, plugin `chittyos-legal`)
-**Canonical:** `$uri`
-**Canonical source:** `canonical/skills/$name.md` @ `$sha`
+**Capability:** \`$name\` (ChittyMarket, plugin \`chittyos-legal\`)
+**Canonical:** \`$uri\`
+**Canonical source:** \`canonical/skills/$name.md\` @ \`$sha\`
 
 Legal, litigation, evidentiary, dispute, court-record, or legal-governance work — including
-requests that sound administrative — loads `$name` BEFORE acting on the request. It governs
+requests that sound administrative — loads \`$name\` BEFORE acting on the request. It governs
 evidence handling, the factual lifecycle, provenance, matter isolation, and privilege.
 
 This file is a pointer. It states no rules of its own. Where it and the canonical document
@@ -45,44 +45,42 @@ EOF
   > "$out/chittyos-agent-bootstrap.md"
 
 cat > "$out/README.md" <<EOF
-# Bootstrap projections — `$name`
+# Bootstrap projections — \`$name\`
 
-Thin runtime pointers for bootstrap surfaces that have no dispatch adapter — a `CLAUDE.md`,
-an `AGENTS.md`, and a ChatGPT skill entry are load-order hints. ChatGPT's actual native
-Skill package is the generated `plugins/chittyos-legal/skills/$name/` directory, consisting
-of `SKILL.md` plus `agents/openai.yaml`. The four runtimes that have dispatch rows
-(`claude-code`, `codex`, `openclaw`, `universal`) receive generated `SKILL.md`
-projections under `plugins/{plugin}/{skills,codex-skills,openclaw-skills,universal-skills}/`.
+Thin runtime pointers for bootstrap surfaces that have no dispatch adapter — a \`CLAUDE.md\`,
+an \`AGENTS.md\`, and a ChatGPT skill entry are load-order hints, not skill packages, so
+\`resolve_output.py\` has no \`(runtime, kind)\` row for them. The four runtimes that DO have
+rows (\`claude-code\`, \`codex\`, \`openclaw\`, \`universal\`) receive full generated \`SKILL.md\`
+projections instead, under \`plugins/{plugin}/{skills,codex-skills,openclaw-skills,universal-skills}/\`.
 
 | File | Surface |
 |---|---|
-| `chatgpt-skill.md` | ChatGPT bootstrap pointer |
-| `AGENTS.md` | Codex bootstrap |
-| `CLAUDE.md` | Claude bootstrap |
-| `chittyos-agent-bootstrap.md` | ChittyOS agent/bootstrap policy |
-| `../skills/$name/agents/openai.yaml` | ChatGPT/Codex/API/Atlas native Skill metadata |
+| \`chatgpt-skill.md\` | ChatGPT skill entry |
+| \`AGENTS.md\` | Codex bootstrap |
+| \`CLAUDE.md\` | Claude bootstrap |
+| \`chittyos-agent-bootstrap.md\` | ChittyOS agent/bootstrap policy |
 
-**Generated — do not edit.** Run `scripts/generate-legal-bootstrap.sh` after changing the
-canonical document. Generated from `canonical/skills/$name.md` @ `$sha`.
+**Generated — do not edit.** Run \`scripts/generate-legal-bootstrap.sh\` after changing the
+canonical document. Generated from \`canonical/skills/$name.md\` @ \`$sha\`.
 
 ## Why openclaw and universal reuse the claude-code adapter
 
-Both lanes consume a skill as a directory containing `SKILL.md` with `name` /
-`description` / `canon_uri` frontmatter followed by the full body — verified on this host
-against `~/.openclaw/skills/capability-governor/SKILL.md` and
-`~/.agents/skills/capability-governor/SKILL.md`, which carry exactly that shape. That is
-what `claude-code-agent.sh` emits, so it is reused rather than cloned. The existing
-`openclaw-agents/*.yaml` lane is a different kind (`agent`) with a different mold; the two
+Both lanes consume a skill as a directory containing \`SKILL.md\` with \`name\` /
+\`description\` / \`canon_uri\` frontmatter followed by the full body — verified on this host
+against \`~/.openclaw/skills/capability-governor/SKILL.md\` and
+\`~/.agents/skills/capability-governor/SKILL.md\`, which carry exactly that shape. That is
+what \`claude-code-agent.sh\` emits, so it is reused rather than cloned. The existing
+\`openclaw-agents/*.yaml\` lane is a different kind (\`agent\`) with a different mold; the two
 formats coexisting inside one plugin is expected, not drift. **This rests on host inspection,
 not on a repo fixture — there is no runtime test asserting either lane's format.**
 
 ## Known delivery gap
 
-The dispatch projections for the `openclaw` and `universal` lanes are written to
-`plugins/{plugin}/openclaw-skills/` and `plugins/{plugin}/universal-skills/`. **This repo has
-no installer that copies them onto a machine** (`~/.openclaw/skills/`, `~/.agents/skills/`).
+The dispatch projections for the \`openclaw\` and \`universal\` lanes are written to
+\`plugins/{plugin}/openclaw-skills/\` and \`plugins/{plugin}/universal-skills/\`. **This repo has
+no installer that copies them onto a machine** (\`~/.openclaw/skills/\`, \`~/.agents/skills/\`).
 Those directories are populated today by an out-of-repo fan-out that
-`canonical/skills/drift-report.md` already records as uncontrolled drift. Projection here is
+\`canonical/skills/drift-report.md\` already records as uncontrolled drift. Projection here is
 managed and reproducible; last-mile delivery is not, and is not solved by this capability.
 EOF
 
