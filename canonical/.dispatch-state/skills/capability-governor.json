@@ -4,5 +4,29 @@
     "claude-code": "f1857329abe5a0b616204e24949c84cc9cdb8526",
     "codex": "f1857329abe5a0b616204e24949c84cc9cdb8526",
     "chatgpt": "e56caa402d2c00d3c749aa0950b035eb588a01eb"
+  },
+  "dispatch": {
+    "status": "projected",
+    "projected_at": "2026-09-22T19:56:00Z",
+    "canonical_sha": "9aa9125e5b7afb7be2cb3e8f0487644567825e97",
+    "targets": {
+      "claude-code": "f1857329abe5a0b616204e24949c84cc9cdb8526",
+      "codex": "f1857329abe5a0b616204e24949c84cc9cdb8526",
+      "chatgpt": "e56caa402d2c00d3c749aa0950b035eb588a01eb"
+    }
+  },
+  "verification": {
+    "projection": {
+      "status": "pending",
+      "verified_at": null,
+      "method": "dispatch-audit",
+      "findings": []
+    },
+    "runtime": {
+      "status": "not_run",
+      "verified_at": null,
+      "method": null,
+      "targets": {}
+    }
   }
 }
