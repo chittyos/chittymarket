@@ -12,6 +12,55 @@ classification:
   - proxy
   - integration
 proxies: chittyagent-cloudflare (chittyentity/workers/chittyagent-cloudflare)
+canonical_capability_ref: "chittycanon://capability/agent-runtime/cloudflare-proxy-agent"
+overlay:
+  title: "Cloudflare Proxy Agent"
+  capability_group: "agent-runtime"
+  group_assignment_source: "name-rule"
+  execution_class: "@chitty/connectors"
+  canonical_version: "1.0.0"
+  projection_version_policy: "inherit-canonical"
+  ontology:
+    primary:
+      - "P"
+    secondary:
+      - "T"
+      - "E"
+      - "A"
+  authority:
+    requires_chittyid: true
+  execution:
+    default_surface: "ch1tty"
+    local_allowed: false
+    context_cost: "medium"
+    mutation_risk: "low"
+  discovery:
+    indexable: true
+    session_index: "hidden"
+    ambient_by_intent: false
+    verbs:
+      - "dispatch"
+      - "project"
+    fallback_search: true
+  auth_flow:
+    mode: "service-token"
+    stores_credentials_in: "ChittyConnect"
+    fail_closed_if_unavailable: true
+  runtime_exclusions:
+    claude_ai:
+      - "advanced_mode_only"
+    chatgpt:
+      - "advanced_mode_only"
+  phase0_audit:
+    job_to_be_done: "generate"
+    environmental_footprint: "network-service"
+    evidentiary_risk: "none"
+    advisory_disposition: "gateway"
+  legacy_category: "ecosystem"
+  deprecated_aliases:
+    - "agent-chittyagent-cloudflare"
+  visibility: "recommended"
+  access: "readwrite"
 ---
 
 # ChittyAgent Cloudflare
