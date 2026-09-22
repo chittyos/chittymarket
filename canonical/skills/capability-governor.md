@@ -7,6 +7,17 @@ plugin: chittyos-governance
 runtimes:
   - claude-code
   - codex
+  - chatgpt
+runtime_overrides:
+  chatgpt:
+    interface:
+      display_name: Capability Governor
+      short_description: Audit, route, merge, retire, or package ChittyOS capabilities through an identity-first governance loop.
+      primary_color: "#111827"
+    policy:
+      products:
+        - chatgpt
+      allow_implicit_invocation: true
 classification:
   - governance
   - compliance
