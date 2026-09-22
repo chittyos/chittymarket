@@ -51,3 +51,27 @@ Direct edits to generated runtime files are forbidden by convention. If a runtim
 ## Status
 
 The Market canonical/dispatch layer is a projection-authoring system. Migration of existing agents/skills into this directory remains incremental as dispatch adapters and canonical identity links are verified.
+
+
+## Identity-first reconciliation
+
+`scripts/market-reconcile.py` is the migration-safe inventory compiler.
+
+Identity rules:
+
+- Never derive a capability identity from an artifact name, display title, group, slug, package, or runtime path.
+- A new/unpublished definition must carry an explicit `chittycanon://capability/...` reference in an existing supported frontmatter identity field before it can be projected.
+- During migration, an already-published `capabilities.generated.json` record may preserve the established binding for that same legacy artifact until the reference is backfilled into canonical frontmatter.
+- A conflicting explicit reference is a hard error.
+- An unpublished unresolved definition is `HOLD`: it may remain authored, but the reconciler refuses to create marketplace/overlay records for it.
+- New projections also require explicit governance metadata; the compiler does not guess risk, authority, auth, or placement policy.
+- New compiled artifacts are disabled by default. Compilation is not publication or runtime verification.
+
+Use:
+
+```bash
+python3 scripts/market-reconcile.py audit
+python3 scripts/market-reconcile.py sync --name <canonical-name>
+```
+
+The audit is CI-safe: published identity conflicts fail; unpublished unresolved definitions are reported as holds. The sync path is fail-closed.
