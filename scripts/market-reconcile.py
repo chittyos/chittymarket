@@ -161,7 +161,10 @@ def legacy_id(item: dict) -> str:
 def explicit_identity(fm: dict) -> tuple[str | None, str | None]:
     claims = []
     invalid = []
-    for key in ("canonical_capability_ref", "capability_id", "capability"):
+
+    # These fields are unambiguously identity-bearing. Invalid values are hard
+    # errors because they claim canonical capability identity.
+    for key in ("canonical_capability_ref", "capability_id"):
         value = fm.get(key)
         if value is None:
             continue
@@ -170,6 +173,16 @@ def explicit_identity(fm: dict) -> tuple[str | None, str | None]:
             claims.append((key, value))
         else:
             invalid.append((key, value))
+
+    # Legacy definitions may use `capability:` as runtime/projection metadata.
+    # Treat it as canonical identity only when it already contains a valid
+    # chittycanon://capability/... URI; otherwise leave it outside identity
+    # resolution instead of rewriting or rejecting unrelated legacy metadata.
+    legacy = fm.get("capability")
+    if legacy is not None:
+        legacy = str(legacy).strip()
+        if CAP_RE.match(legacy):
+            claims.append(("capability", legacy))
 
     unique = {value for _, value in claims}
     if len(unique) > 1:
