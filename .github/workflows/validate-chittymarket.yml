@@ -1,16 +1,15 @@
 name: Validate ChittyMarket
 
 on:
-  # No `paths:` filter. These three jobs are required status checks on main
-  # (see SECURITY.md), and a path-filtered workflow simply never reports on a
-  # PR that misses the filter — leaving the PR blocked forever waiting for a
-  # check that will not run. A doc-only PR deadlocked exactly this way before
-  # the filter was removed. The repo is public, so the extra runs are free.
+  # No `paths:` filter. These jobs are required status checks on main
+  # (see SECURITY.md), and a path-filtered workflow can leave a PR waiting for
+  # a required check that never reports. Validate every PR, then validate main
+  # after merge. Do not also run on feat/** pushes: that duplicates PR CI and
+  # consumes private-repo Actions minutes without adding a distinct release gate.
   pull_request:
   push:
     branches:
       - main
-      - "feat/**"
 
 # Cancel in-progress runs when a new commit lands on the same PR/branch.
 concurrency:
