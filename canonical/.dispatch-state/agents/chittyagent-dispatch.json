@@ -2,7 +2,7 @@
   "canonical_sha": "5a7a422f54cb2c85a0bdf941f5caa93b68468eff",
   "dispatch": {
     "canonical_sha": "5a7a422f54cb2c85a0bdf941f5caa93b68468eff",
-    "projected_at": "2026-09-22T17:58:00Z",
+    "projected_at": null,
     "status": "projected",
     "targets": {
       "claude-code": "364415aab4b51da9b0eaf9ff42678a6f4fa46446",
