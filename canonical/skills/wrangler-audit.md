@@ -10,6 +10,58 @@ runtimes:
 classification:
   - operations
   - deployment
+canonical_capability_ref: "chittycanon://capability/ship/wrangler-audit"
+overlay:
+  title: "Wrangler Audit"
+  capability_group: "ship"
+  group_assignment_source: "name-rule"
+  execution_class: "@chitty/workspace"
+  canonical_version: "1.0.0"
+  projection_version_policy: "inherit-canonical"
+  ontology:
+    primary:
+      - "L"
+      - "E"
+    secondary:
+      - "A"
+      - "T"
+  authority:
+    requires_chittyid: true
+    requires_deploy_authority: true
+  execution:
+    default_surface: "local"
+    local_allowed: true
+    context_cost: "medium"
+    mutation_risk: "low"
+  discovery:
+    indexable: true
+    session_index: "hidden"
+    ambient_by_intent: false
+    verbs:
+      - "deploy"
+      - "ship"
+      - "release"
+      - "wrangler"
+    fallback_search: true
+  auth_flow:
+    mode: "service-token"
+    stores_credentials_in: "ChittyConnect"
+    fail_closed_if_unavailable: true
+  runtime_exclusions:
+    claude_ai:
+      - "requires_local_filesystem"
+    chatgpt:
+      - "requires_local_filesystem"
+  phase0_audit:
+    job_to_be_done: "verify"
+    environmental_footprint: "admin-system"
+    evidentiary_risk: "none"
+    advisory_disposition: "local-only"
+  legacy_category: "ecosystem"
+  deprecated_aliases:
+    - "skill-wrangler-audit"
+  visibility: "recommended"
+  access: "read"
 ---
 
 # Wrangler Audit
