@@ -12,7 +12,7 @@ visibility: INTERNAL
 
 # ChittyMarket
 
-> `chittycanon://core/services/chittymarket` | Tier 3 (Operational / control plane)
+> `chittycanon://core/services/chittymarket` | Tier 3 (Operational / control plane)\n\n- **Standalone HTTP domain:** none
 
 ## Product
 
