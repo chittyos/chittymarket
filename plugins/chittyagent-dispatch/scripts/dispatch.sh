@@ -5,8 +5,9 @@
 #   dispatch.sh sync [<canonical-name>...]      # default mode; projects updated canonicals
 #   dispatch.sh bootstrap <canonical-name>      # first-time projection
 #   dispatch.sh reconcile [<canonical-name>...] # detect + integrate direct edits
+#   dispatch.sh audit                           # drift + orphan matrix (read-only)
+#   dispatch.sh verify [<canonical-name>...]     # persist projection verification; NOT live runtime proof
 #   dispatch.sh add-target <runtime>            # onboard a new runtime
-#   dispatch.sh audit                           # drift + orphan matrix
 #
 # This is a v0.1 skeleton. Adapter implementations stubbed; see ./adapters/.
 set -euo pipefail
@@ -28,7 +29,7 @@ mode="${1:-sync}"
 shift || true
 
 case "$mode" in
-  sync|bootstrap|reconcile|audit|add-target)
+  sync|bootstrap|reconcile|audit|verify|add-target)
     # Banner to stderr so `audit --json` stdout stays machine-parseable.
     echo "[dispatch] mode=$mode args=$*" >&2
     ;;
@@ -118,13 +119,9 @@ PY
       # Fail fast after 10s.
       (
         flock -w 10 9 || { echo "[dispatch] $name: could not acquire lock $LOCK_FILE within 10s" >&2; exit 1; }
-        python3 -c "
-import json, sys
-open(sys.argv[1], 'w').write(json.dumps({
-    'canonical_sha': sys.argv[2],
-    'targets': json.loads(sys.argv[3]),
-}, indent=2, sort_keys=True))
-" "$STATE_DIR/$sub/${name}.json" "$can_sha" "$targets_json"
+        projected_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+        python3 "$(dirname "$0")/lib/state.py" record-dispatch \
+          "$STATE_DIR/$sub/${name}.json" "$can_sha" "$targets_json" "$projected_at"
       ) 9>"$LOCK_FILE"
       echo "[dispatch] sync $name: canonical=$can_sha targets=$targets_json"
     done
@@ -250,6 +247,15 @@ for f in d['findings']:
     # Read-only canonical×runtime drift + orphan matrix. Exit 1 if any drift.
     exec python3 "$(dirname "$0")/lib/audit.py" "$@"
     ;;
+  verify)
+    # Persist projection-audit truth separately from dispatch truth.
+    # This is NOT live runtime verification. Runtime proof remains not_run
+    # until a native client/runtime check records it through a later verifier.
+    findings_json="$(python3 "$(dirname "$0")/lib/audit.py" --json || true)"
+    ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    python3 "$(dirname "$0")/lib/state.py" record-projection-verification \
+      "$STATE_DIR" "$findings_json" "$ts" "$@"
+    ;;
   add-target)
     runtime="${1:-}"
     [ -n "$runtime" ] || { echo "add-target requires <runtime>" >&2; exit 2; }
@@ -261,7 +267,7 @@ esac
 ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 status="ok"
 case "$mode" in
-  sync|reconcile|audit) status="ok" ;;
+  sync|reconcile|audit|verify) status="ok" ;;
   *) status="stub" ;;
 esac
 printf '{"ts":"%s","mode":"%s","args":"%s","status":"%s"}\n' "$ts" "$mode" "$*" "$status" >> "$LOG"
