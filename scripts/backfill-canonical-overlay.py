@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""One-time exact backfill of published Market policy into canonical frontmatter.
+"""HISTORICAL MIGRATION ONLY: exact backfill of published Market policy.
+
+This script is retained as a migration receipt and recovery aid. It is not part
+of steady-state generation or CI authority. `scripts/market-reconcile.py` owns
+ongoing materialization from canonical + marketplace sources.
 
 This migration removes a circular dependency: published Market-owned canonical
 definitions currently rely on capabilities.generated.json for their established
@@ -73,6 +77,8 @@ OVERLAY_FIELDS = (
     "legacy_category",
     "deprecated_aliases",
     "visibility",
+    "compatible_channels",
+    "source_links",
 )
 
 
@@ -177,6 +183,7 @@ def main() -> int:
     }
 
     exact = []
+    additive = []
     holds = []
     errors = []
     already = []
@@ -220,9 +227,23 @@ def main() -> int:
                     )
                 )
                 continue
-            if existing_overlay is not None and existing_overlay != wanted["overlay"]:
-                errors.append((item["name"], "existing overlay block differs from established record"))
-                continue
+            if existing_overlay is not None:
+                unexpected = {
+                    key: (value, wanted["overlay"].get(key))
+                    for key, value in existing_overlay.items()
+                    if key not in wanted["overlay"] or value != wanted["overlay"].get(key)
+                }
+                if unexpected:
+                    errors.append((item["name"], f"existing overlay values differ from established record: {unexpected}"))
+                    continue
+                missing = [key for key in wanted["overlay"] if key not in existing_overlay]
+                permitted = {"compatible_channels", "source_links"}
+                if set(missing) - permitted:
+                    errors.append((item["name"], f"existing overlay missing non-additive established fields: {missing}"))
+                    continue
+                if missing:
+                    additive.append((item, wanted, missing))
+                    continue
             already.append((item["name"], lid))
             continue
 
@@ -230,6 +251,7 @@ def main() -> int:
 
     print("=== canonical overlay backfill ===")
     print(f"exact candidates: {len(exact)}")
+    print(f"additive candidates: {len(additive)}")
     print(f"already backfilled: {len(already)}")
     print(f"holds (unmatched/alias/unpublished): {len(holds)}")
     print(f"errors: {len(errors)}")
@@ -248,6 +270,8 @@ def main() -> int:
                 f"BACKFILL {item['path'].relative_to(ROOT)} -> "
                 f"{wanted['canonical_capability_ref']}"
             )
+        for item, wanted, missing in additive:
+            print(f"BACKFILL_FIELDS {item['path'].relative_to(ROOT)} -> {', '.join(missing)}")
         return 0
 
     for item, wanted in exact:
@@ -260,7 +284,24 @@ def main() -> int:
         )
         print(f"WROTE {item['path'].relative_to(ROOT)}")
 
-    print(f"wrote {len(exact)} canonical definition(s); HOLDs unchanged")
+    for item, wanted, missing in additive:
+        open_delim, fm_text, close_delim, body = item["parts"]
+        addition = yaml.safe_dump(
+            {key: wanted["overlay"][key] for key in missing},
+            sort_keys=False,
+            default_flow_style=False,
+            allow_unicode=True,
+            width=100000,
+        ).rstrip()
+        indented = "\n".join("  " + line for line in addition.splitlines())
+        new_fm = fm_text.rstrip() + "\n" + indented
+        item["path"].write_text(
+            open_delim + new_fm + close_delim + body,
+            encoding="utf-8",
+        )
+        print(f"WROTE_FIELDS {item['path'].relative_to(ROOT)}: {', '.join(missing)}")
+
+    print(f"wrote {len(exact)} full definition(s) + {len(additive)} additive definition(s); HOLDs unchanged")
     return 0
 
 

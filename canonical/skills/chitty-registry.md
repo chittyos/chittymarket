@@ -58,6 +58,15 @@ overlay:
     - "skill-chitty-registry"
   visibility: "recommended"
   access: "read"
+  compatible_channels:
+  - claude_code
+  - claude_ai
+  - claude_desktop
+  - chatgpt
+  - codex
+  - openclaw
+  source_links:
+  - local://~/.claude/skills/chitty-registry
 ---
 
 # ChittyOS Registry Skill

@@ -76,9 +76,6 @@ jobs:
       - name: ChittyMarket document contract
         run: python3 scripts/check-document-contract.py
 
-      - name: Canonical overlay backfill audit
-        run: python3 scripts/backfill-canonical-overlay.py audit
-
       - name: Market reconcile regression tests
         run: bash scripts/tests/test-market-reconcile.sh
 
@@ -93,6 +90,18 @@ jobs:
       #     unresolved canonical definitions remain HOLD and cannot be synced.
       - name: Identity-first Market reconciliation
         run: python3 scripts/market-reconcile.py audit
+
+      - name: Materialized overlay idempotency
+        run: |
+          python3 scripts/market-reconcile.py sync > /tmp/market-reconcile-sync.txt
+          if ! git diff --quiet -- capabilities.generated.json marketplace.json; then
+            echo "::error::Materialized Market inventories are out of date."
+            cat /tmp/market-reconcile-sync.txt
+            git diff --stat -- capabilities.generated.json marketplace.json
+            git diff -- capabilities.generated.json marketplace.json | head -140
+            exit 1
+          fi
+          echo "✓ Materialized Market inventories are reproducible"
 
       # 3a. Dispatch idempotency (adversarial review #3): re-running
       #     dispatch.sh sync must not change any projection file. Catches

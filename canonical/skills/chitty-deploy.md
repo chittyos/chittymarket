@@ -62,6 +62,13 @@ overlay:
     - "skill-chitty-deploy"
   visibility: "recommended"
   access: "readwrite"
+  compatible_channels:
+  - claude_code
+  - claude_desktop
+  - codex
+  - openclaw
+  source_links:
+  - local://~/.claude/skills/chitty-deploy
 ---
 
 # ChittyOS Deploy Skill

@@ -59,6 +59,15 @@ overlay:
     - "skill-goal-creator"
   visibility: "recommended"
   access: "readwrite"
+  compatible_channels:
+  - claude_code
+  - claude_ai
+  - claude_desktop
+  - chatgpt
+  - codex
+  - openclaw
+  source_links:
+  - local://plugins/chittyos-core/skills/goal-creator
 ---
 
 # Goal Creator — Three-Block Pipeline

@@ -67,6 +67,14 @@ overlay:
     - "skill-docket"
   visibility: "recommended"
   access: "readwrite"
+  compatible_channels:
+  - claude_code
+  - claude_ai
+  - claude_desktop
+  - chatgpt
+  - codex
+  source_links:
+  - local://~/.claude/skills/docket
 ---
 
 # Docket — Cook County Case Tracker
