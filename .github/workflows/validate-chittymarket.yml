@@ -139,15 +139,15 @@ jobs:
       - name: Manifest idempotency (generate-marketplace.sh → no diff)
         run: |
           bash scripts/generate-marketplace.sh
-          if ! git diff --quiet -- .claude-plugin/marketplace.json; then
-            echo "::error::.claude-plugin/marketplace.json is out of sync with plugins/."
-            echo "Run 'bash scripts/generate-marketplace.sh' locally and commit the result."
+          if ! git diff --quiet -- .claude-plugin/marketplace.json .agents/plugins/marketplace.json; then
+            echo "::error::Marketplace projections are out of sync with plugins/."
+            echo "Run 'bash scripts/generate-marketplace.sh' locally and commit both manifests."
             echo ""
             echo "--- drift ---"
-            git diff -- .claude-plugin/marketplace.json
+            git diff -- .claude-plugin/marketplace.json .agents/plugins/marketplace.json
             exit 1
           fi
-          echo "✓ Manifest is idempotent with respect to plugins/"
+          echo "✓ Claude and OpenAI marketplace projections are idempotent"
 
   # 4. Codex runtime smoke (adversarial review #4): every projected
   #    plugins/<plug>/codex-skills/<name>/SKILL.md must load. Uses real
