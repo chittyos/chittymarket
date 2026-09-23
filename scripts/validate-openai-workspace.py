@@ -31,6 +31,43 @@ def load_json(path: pathlib.Path) -> dict:
     raise AssertionError("unreachable")
 
 
+def parse_yaml_mapping_block(lines: list[str], key: str) -> dict[str, str]:
+    try:
+        start = next(i for i, line in enumerate(lines) if line == f"{key}:")
+    except StopIteration:
+        return {}
+
+    values: dict[str, str] = {}
+    for line in lines[start + 1 :]:
+        if line and not line.startswith((" ", "\t")):
+            break
+        match = re.match(r"^  ([A-Za-z_][A-Za-z0-9_-]*):(?:\s*(.*))?$", line)
+        if match:
+            values[match.group(1)] = (match.group(2) or "").strip().strip("'\"")
+    return values
+
+
+def validate_skill_interface(path: pathlib.Path) -> None:
+    lines = path.read_text().splitlines()
+    interface = parse_yaml_mapping_block(lines, "interface")
+    skill_dir = path.parent.parent
+
+    for key in ("icon_small", "icon_large"):
+        raw = interface.get(key)
+        if not raw:
+            continue
+        asset = pathlib.PurePosixPath(raw)
+        if asset.is_absolute() or ".." in asset.parts:
+            fail(f"{path.relative_to(ROOT)} {key} must stay inside the skill directory")
+        normalized = raw[2:] if raw.startswith("./") else raw
+        target = skill_dir / normalized
+        if not target.is_file():
+            fail(
+                f"{path.relative_to(ROOT)} {key} references missing file "
+                f"{target.relative_to(ROOT)}"
+            )
+
+
 def validate_skill_policy(path: pathlib.Path) -> None:
     lines = path.read_text().splitlines()
     try:
@@ -110,6 +147,7 @@ def main() -> int:
             fail(f"{name}: author must be an object when provided")
 
         for openai_yaml in plugin_dir.rglob("agents/openai.yaml"):
+            validate_skill_interface(openai_yaml)
             validate_skill_policy(openai_yaml)
 
     held = [
