@@ -91,11 +91,6 @@ interface:
   display_name: Legal Operating Defaults
   short_description: Evidence-governed operating defaults for legal, litigation, court-record, privilege, and legal-analysis work.
 policy:
-  products:
-  - chatgpt
-  - codex
-  - api
-  - atlas
   allow_implicit_invocation: true
 EOF
 
