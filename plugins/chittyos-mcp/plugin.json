@@ -1,0 +1,12 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "chittyos-mcp",
+  "version": "1.1.0",
+  "description": "ChittyOS MCP gateway (standalone mode) — MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness via mcp.chitty.cc",
+  "keywords": [
+    "mcp",
+    "chittyos",
+    "gateway",
+    "standalone"
+  ]
+}

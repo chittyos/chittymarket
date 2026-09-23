@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "neon-mcp",
+  "version": "1.0.0",
+  "description": "Neon PostgreSQL MCP server (standalone mode) — branches, migrations, SQL queries, schema management",
+  "keywords": [
+    "neon",
+    "postgres",
+    "database",
+    "sql",
+    "standalone"
+  ]
+}

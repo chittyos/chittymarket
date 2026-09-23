@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "chittymarket-manager",
+  "version": "1.0.0",
+  "description": "Artifact marketplace manager — list, enable, disable, sync, and toggle install modes for all ChittyOS Claude Code artifacts",
+  "keywords": [
+    "marketplace",
+    "market",
+    "artifacts",
+    "toggle",
+    "manage"
+  ]
+}

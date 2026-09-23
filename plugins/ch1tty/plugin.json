@@ -1,0 +1,7 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "ch1tty",
+  "version": "0.1.0",
+  "description": "Ch1tty surface — natural-language intent resolver and tool gateway. Public-API tools projected to Claude Skills app SDK and (future) ChatGPT Apps SDK via canonical/tools/.",
+  "keywords": []
+}
