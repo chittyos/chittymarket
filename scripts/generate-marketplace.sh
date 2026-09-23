@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# generate-marketplace.sh v2 — Generate .claude-plugin/marketplace.json from plugins/ + external repos
-# Includes categories, keywords, dependencies, and GitHub-sourced plugins.
-# Run after adding/removing plugins to keep the native manifest in sync.
+# generate-marketplace.sh v2 — Generate Claude and OpenAI marketplace projections.
+# Claude keeps the broader catalog, including external legacy sources.
+# OpenAI receives a repo-local projection via .agents/plugins/marketplace.json.
 
 set -euo pipefail
 
@@ -150,3 +150,5 @@ echo "Generated: $OUTPUT"
 echo "  Inline plugins: $inline_count"
 echo "  GitHub plugins: $github_count"
 echo "  Total: $total entries"
+
+python3 "$SCRIPT_DIR/generate-openai-marketplace.py"
