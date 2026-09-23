@@ -150,6 +150,315 @@ print(','.join(missing) if missing else '')
 done
 echo ""
 
+# --- 4a. OpenAI workspace-import compatibility ---
+echo "Checking OpenAI workspace import compatibility..."
+for plugin_dir in "$PLUGINS_DIR"/*/; do
+  plugin_name=$(basename "$plugin_dir")
+  pj="$plugin_dir/.claude-plugin/plugin.json"
+  [ -f "$pj" ] || continue
+
+  author_type=$(python3 -c "
+import json
+d=json.load(open('$pj'))
+a=d.get('author')
+print('none' if a is None else type(a).__name__)
+")
+  if [ "$author_type" != "none" ] && [ "$author_type" != "dict" ]; then
+    red "  ERROR: $plugin_name/plugin.json author must be an object for OpenAI import"
+    ERRORS=$((ERRORS + 1))
+  fi
+
+  while IFS= read -r openai_yaml; do
+    [ -f "$openai_yaml" ] || continue
+    if grep -qE '^[[:space:]]+products:' "$openai_yaml"; then
+      red "  ERROR: $openai_yaml policy.products is not workspace-sync compatible"
+      ERRORS=$((ERRORS + 1))
+    fi
+    if grep -qE '^policy:' "$openai_yaml" && ! grep -qE '^[[:space:]]+allow_implicit_invocation:[[:space:]]+(true|false)
+echo "Checking plugin.json location..."
+for plugin_dir in "$PLUGINS_DIR"/*/; do
+  plugin_name=$(basename "$plugin_dir")
+  if [ -f "$plugin_dir/plugin.json" ]; then
+    red "  ERROR: $plugin_name has plugin.json at top-level — canonical location is .claude-plugin/plugin.json"
+    ERRORS=$((ERRORS + 1))
+  fi
+done
+echo ""
+
+# --- 5. Check dependency resolution ---
+echo "Checking dependencies..."
+declare -A AVAILABLE_PLUGINS
+for plugin_dir in "$PLUGINS_DIR"/*/; do
+  pj="$plugin_dir/.claude-plugin/plugin.json"
+  [ -f "$pj" ] || continue
+  name=$(python3 -c "import json; print(json.load(open('$pj'))['name'])")
+  AVAILABLE_PLUGINS[$name]=1
+done
+
+for plugin_dir in "$PLUGINS_DIR"/*/; do
+  pj="$plugin_dir/.claude-plugin/plugin.json"
+  [ -f "$pj" ] || continue
+  plugin_name=$(python3 -c "import json; print(json.load(open('$pj'))['name'])")
+  deps=$(python3 -c "import json; r=json.load(open('$pj')).get('requires',[]); print(' '.join(r))")
+  for dep in $deps; do
+    if [ -z "${AVAILABLE_PLUGINS[$dep]+x}" ]; then
+      red "  ERROR: $plugin_name requires '$dep' but it's not in plugins/"
+      ERRORS=$((ERRORS + 1))
+    else
+      dim "  ok: $plugin_name -> $dep"
+    fi
+  done
+done
+echo ""
+
+# --- 6. Check hooks.json validity ---
+echo "Checking hooks files..."
+for plugin_dir in "$PLUGINS_DIR"/*/; do
+  plugin_name=$(basename "$plugin_dir")
+  hooks_file="$plugin_dir/hooks/hooks.json"
+  if [ -f "$hooks_file" ]; then
+    if ! python3 -c "import json; json.load(open('$hooks_file'))" 2>/dev/null; then
+      red "  ERROR: $plugin_name/hooks/hooks.json is invalid JSON"
+      ERRORS=$((ERRORS + 1))
+    else
+      dim "  ok: $plugin_name/hooks/hooks.json"
+    fi
+  fi
+done
+echo ""
+
+# --- 7. Check MCP configs ---
+echo "Checking MCP configs..."
+for plugin_dir in "$PLUGINS_DIR"/*/; do
+  plugin_name=$(basename "$plugin_dir")
+  mcp_file="$plugin_dir/.mcp.json"
+  if [ -f "$mcp_file" ]; then
+    if ! python3 -c "import json; json.load(open('$mcp_file'))" 2>/dev/null; then
+      red "  ERROR: $plugin_name/.mcp.json is invalid JSON"
+      ERRORS=$((ERRORS + 1))
+    else
+      servers=$(python3 -c "import json; print(len(json.load(open('$mcp_file')).get('mcpServers',{})))")
+      dim "  ok: $plugin_name/.mcp.json ($servers servers)"
+    fi
+  fi
+done
+echo ""
+
+# --- 8. Check profiles reference valid plugins ---
+if [ -f "$PROFILES" ]; then
+  echo "Checking profiles.json..."
+  # Collect all known plugin names (inline + github)
+  all_plugins=$(python3 -c "
+import json, os, glob
+names = set()
+for pj in glob.glob('$PLUGINS_DIR/*/.claude-plugin/plugin.json'):
+    names.add(json.load(open(pj))['name'])
+# GitHub plugins from marketplace
+mp = '$REPO_DIR/.claude-plugin/marketplace.json'
+if os.path.exists(mp):
+    for p in json.load(open(mp))['plugins']:
+        names.add(p['name'])
+print(' '.join(sorted(names)))
+")
+
+  profiles=$(python3 -c "
+import json
+data = json.load(open('$PROFILES'))
+for name, profile in data.get('profiles', {}).items():
+    for p in profile.get('plugins', []) + profile.get('mcp', []):
+        print(f'{name}|{p}')
+")
+
+  for line in $profiles; do
+    IFS='|' read -r profile_name plugin_ref <<< "$line"
+    if ! echo "$all_plugins" | tr ' ' '\n' | grep -qx "$plugin_ref"; then
+      yellow "  WARN: Profile '$profile_name' references unknown plugin '$plugin_ref'"
+      WARNINGS=$((WARNINGS + 1))
+    fi
+  done
+  dim "  ok: profiles.json validated"
+fi
+echo ""
+
+# --- 8b. Cross-kind name collision check (adversarial review #1) ---
+# A canonical name must be unique across all kind-subdirs. Without this check,
+# `canonical/agents/foo.md` and `canonical/skills/foo.md` would collide silently
+# (dispatch.sh's first-match-wins lookup would project the agent and orphan the skill).
+echo "Checking canonical name uniqueness across kind-subdirs..."
+collisions=$(python3 -c "
+import pathlib
+from collections import defaultdict
+seen = defaultdict(list)
+for p in pathlib.Path('$REPO_DIR/canonical').rglob('*.md'):
+    if p.name == 'README.md': continue
+    seen[p.stem].append(str(p.relative_to('$REPO_DIR')))
+for name, paths in seen.items():
+    if len(paths) > 1:
+        print(name + ': ' + ' '.join(paths))
+")
+if [ -n "$collisions" ]; then
+  echo "$collisions" | while IFS= read -r line; do
+    red "  ERROR: canonical name collision: $line"
+    ERRORS=$((ERRORS + 1))
+  done
+fi
+echo ""
+
+# --- 9. Projection-must-have-canonical (Phase E lock) ---
+# Every projection file (agent/skill/command/mcp in plugins/) MUST derive
+# from a canonical/<kind>/<name>.md or canonical/<name>.md source.
+# Exception: pointer agents declaring owner_repo + prompt_url in frontmatter
+# (per-service-owned, source elsewhere).
+#
+# ORPHAN-PROJECTION DETECTION (adversarial review #6b):
+#   This section also serves as the orphan-projection check. Because the loop
+#   enumerates EVERY projection file under plugins/ and resolves its canonical
+#   fresh on each run, deleting canonical/<kind>/<name>.md without also removing
+#   the projection will cause this section to error on the orphan projection(s)
+#   — the canonical lookup fails and the projection is not a pointer file.
+#   No separate section 9b is needed; the error path is the same.
+#   Tested: `rm canonical/agents/chittyagent-canon.md && bash scripts/lint-plugins.sh`
+#   surfaces ERROR for plugins/chittyos-core/{agents/chittyagent-canon.md,
+#   codex-skills/chittyagent-canon/SKILL.md, openclaw-agents/chittyagent-canon.yaml}.
+#
+# DELIBERATELY EXCLUDED — plugins/<plug>/hooks/hooks.json:
+#   The existing hooks.json in chittyos-governance is a manifest of EXTERNAL
+#   hookify rule references, not a projection of inline hook bodies. Per-hook
+#   canonicalization (canonical/hooks/<name>.md) was planned in Phase C but
+#   not yet implemented because the value is low while hooks are external.
+#   When hooks move inline, add the check here.
+echo "Checking projection ↔ canonical alignment..."
+projection_paths=()
+while IFS= read -r f; do projection_paths+=("$f"); done < <(
+  find "$PLUGINS_DIR" \
+    -type f \
+    \( -path "*/agents/*.md" \
+       -o -path "*/skills/*/SKILL.md" \
+       -o -path "*/commands/*.md" \
+       -o -path "*/codex-skills/*/SKILL.md" \
+       -o -path "*/openclaw-agents/*.yaml" \
+       -o -path "*/claude-skills/*.json" \
+       -o -path "*/chatgpt-apps/*.json" \) 2>/dev/null
+)
+for proj in "${projection_paths[@]}"; do
+  # Derive canonical name + expected canonical kind-subdir from the projection path.
+  if [[ "$proj" == */agents/*.md ]]; then
+    name=$(basename "$proj" .md)
+    expected_kind="agents"
+  elif [[ "$proj" == */skills/*/SKILL.md ]]; then
+    name=$(basename "$(dirname "$proj")")
+    expected_kind="skills"
+  elif [[ "$proj" == */commands/*.md ]]; then
+    name=$(basename "$proj" .md)
+    expected_kind="commands"
+  elif [[ "$proj" == */codex-skills/*/SKILL.md ]]; then
+    name=$(basename "$(dirname "$proj")")
+    expected_kind="agents|skills"   # codex-skills accepts either
+  elif [[ "$proj" == */openclaw-agents/*.yaml ]]; then
+    name=$(basename "$proj" .yaml)
+    expected_kind="agents"
+  elif [[ "$proj" == */claude-skills/*.json ]]; then
+    name=$(basename "$proj" .json)
+    expected_kind="tools"
+  elif [[ "$proj" == */chatgpt-apps/*.json ]]; then
+    name=$(basename "$proj" .json)
+    expected_kind="tools"
+  else
+    continue
+  fi
+  # Resolve canonical from kind-subdirs first, then flat-layout fallback.
+  found_canonical=""
+  for sub in agents skills commands mcp hooks tools; do
+    if [ -f "$REPO_DIR/canonical/$sub/${name}.md" ]; then
+      found_canonical="$REPO_DIR/canonical/$sub/${name}.md"
+      break
+    fi
+  done
+  if [ -n "$found_canonical" ]; then
+    continue   # has a canonical source (from kind-subdir)
+  fi
+  # Pointer-file exception: owner_repo + prompt_url frontmatter
+  if grep -qE "^prompt_url:" "$proj" 2>/dev/null && grep -qE "^owner_repo:" "$proj" 2>/dev/null; then
+    dim "  ok: $(basename "$(dirname "$(dirname "$proj")")")/$name (pointer; canonical/ not required)"
+    continue
+  fi
+  red "  ERROR: orphan projection $proj — missing canonical/${expected_kind}/${name}.md (not a pointer either)"
+  ERRORS=$((ERRORS + 1))
+done
+echo ""
+
+
+# Also enforce: every mcpServers entry in plugins/<plug>/.mcp.json must have a canonical source.
+for mcp_json in $(find "$PLUGINS_DIR" -maxdepth 3 -name ".mcp.json" 2>/dev/null); do
+  while IFS= read -r srv; do
+    [ -n "$srv" ] || continue
+    canonical=""
+    for sub in mcp agents; do  # check mcp/ then fallback to agents/ for old-naming
+      if [ -f "$REPO_DIR/canonical/$sub/${srv}.md" ]; then canonical="found"; break; fi
+    done
+    [ -z "$canonical" ] && [ -f "$REPO_DIR/canonical/${srv}.md" ] && canonical="found"
+    if [ -z "$canonical" ]; then
+      red "  ERROR: $mcp_json declares mcpServers.${srv} but no canonical/mcp/${srv}.md exists"
+      ERRORS=$((ERRORS + 1))
+    fi
+  done < <(python3 -c "import json,sys; d=json.load(open(sys.argv[1])); print('\n'.join((d.get('mcpServers') or {}).keys()))" "$mcp_json" 2>/dev/null)
+done
+
+# --- Summary ---
+echo "=== Lint Summary ==="
+if [ $ERRORS -eq 0 ] && [ $WARNINGS -eq 0 ]; then
+  green "All clear — no conflicts or issues found."
+else
+  [ $ERRORS -gt 0 ] && red "Errors: $ERRORS"
+  [ $WARNINGS -gt 0 ] && yellow "Warnings: $WARNINGS"
+fi
+
+exit $ERRORS
+ "$openai_yaml"; then
+      red "  ERROR: $openai_yaml policy must declare boolean allow_implicit_invocation"
+      ERRORS=$((ERRORS + 1))
+    fi
+  done < <(find "$plugin_dir" -path '*/agents/openai.yaml' -type f 2>/dev/null)
+done
+
+OPENAI_MP="$REPO_DIR/.agents/plugins/marketplace.json"
+if [ ! -f "$OPENAI_MP" ]; then
+  red "  ERROR: missing .agents/plugins/marketplace.json"
+  ERRORS=$((ERRORS + 1))
+else
+  if ! python3 - "$OPENAI_MP" "$REPO_DIR" <<'PY'
+import json
+import pathlib
+import sys
+
+mp = pathlib.Path(sys.argv[1])
+root = pathlib.Path(sys.argv[2])
+data = json.loads(mp.read_text())
+for entry in data.get("plugins", []):
+    source = entry.get("source")
+    if not isinstance(source, dict) or source.get("source") != "local":
+        raise SystemExit(f"{entry.get('name')}: OpenAI projection must use local source")
+    path = source.get("path")
+    if not isinstance(path, str) or not path.startswith("./plugins/"):
+        raise SystemExit(f"{entry.get('name')}: invalid local source path")
+    target = root / path[2:]
+    if not target.is_dir():
+        raise SystemExit(f"{entry.get('name')}: source path does not exist")
+    policy = entry.get("policy") or {}
+    if policy.get("installation") not in {"AVAILABLE", "INSTALLED_BY_DEFAULT", "NOT_AVAILABLE"}:
+        raise SystemExit(f"{entry.get('name')}: invalid policy.installation")
+    if "authentication" not in policy:
+        raise SystemExit(f"{entry.get('name')}: missing policy.authentication")
+PY
+  then
+    red "  ERROR: OpenAI marketplace projection is invalid"
+    ERRORS=$((ERRORS + 1))
+  else
+    dim "  ok: OpenAI marketplace projection"
+  fi
+fi
+echo ""
+
 # --- 4b. Check for non-canonical plugin.json at plugin top-level ---
 echo "Checking plugin.json location..."
 for plugin_dir in "$PLUGINS_DIR"/*/; do
