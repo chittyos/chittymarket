@@ -34,6 +34,12 @@ jobs:
       - name: scripts/lint-plugins.sh
         run: bash scripts/lint-plugins.sh
 
+      - name: OpenAI marketplace regression tests
+        run: python3 scripts/tests/test_openai_marketplace.py
+
+      - name: OpenAI marketplace read-only drift check
+        run: python3 scripts/generate-openai-marketplace.py --check
+
       - name: OpenAI workspace marketplace validation
         run: python3 scripts/validate-openai-workspace.py
 

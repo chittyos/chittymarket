@@ -1,7 +1,0 @@
-{
-  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "chittymarket-canonical",
-  "version": "0.1.0",
-  "description": "Canonical marketplace definitions and sync source. Holds the canonical/ artifact files projected by chittyagent-dispatch into runtime-native formats (Claude Code agents, Codex skills, OpenClaw agents). Edit canonicals here; projections are generated.",
-  "keywords": []
-}
