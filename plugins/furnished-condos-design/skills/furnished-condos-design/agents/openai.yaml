@@ -1,0 +1,8 @@
+interface:
+  display_name: Furnished-Condos.com Design
+  short_description: Canonical brand system for Furnished-Condos.com visual and print work.
+  icon_small: ./assets/brand/f-canonical-mark.svg
+  icon_large: ./assets/brand/f-canonical-mark.svg
+  brand_color: "#FAF6F0"
+policy:
+  allow_implicit_invocation: true
