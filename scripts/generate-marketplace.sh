@@ -31,6 +31,7 @@ CATEGORY_MAP[chittyos-governance]="security"
 CATEGORY_MAP[chittyos-proxy-agents]="integrations"
 CATEGORY_MAP[chittymarket-manager]="ecosystem"
 CATEGORY_MAP[chittyos-mcp]="ecosystem"
+CATEGORY_MAP[furnished-condos-design]="design"
 CATEGORY_MAP[neon-mcp]="database"
 
 # Keywords map
@@ -47,6 +48,7 @@ KEYWORDS_MAP[chittymarket-manager]="marketplace,market,artifacts,toggle,manage"
 # regardless of contents — issue #81.
 KEYWORDS_MAP[nowebmaster]="webmaster,capability-lifecycle,hot-loading"
 KEYWORDS_MAP[chittyos-mcp]="mcp,chittyos,gateway,standalone"
+KEYWORDS_MAP[furnished-condos-design]="furnished-condos,brand,design,svg,print,signage"
 KEYWORDS_MAP[neon-mcp]="neon,postgres,database,sql,standalone"
 
 # Start building the JSON
