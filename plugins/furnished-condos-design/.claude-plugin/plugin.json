@@ -1,0 +1,10 @@
+{
+  "name": "furnished-condos-design",
+  "version": "1.0.0",
+  "description": "Canonical Furnished-Condos.com brand and design-system skill for visual, print, document, signage, and interface production.",
+  "author": {
+    "name": "ChittyOS / Furnished-Condos.com",
+    "url": "https://github.com/CHITTYOS"
+  },
+  "requires": []
+}
