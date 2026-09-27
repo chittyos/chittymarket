@@ -70,8 +70,7 @@ overlay:
     - codex
     - openclaw
   source_links:
-    - "chittycanon://core/services/concierge-properties"
-    - "https://github.com/FURNISHED-CONDOS/chico"
+    - "local://plugins/furnished-housing-operator/skills/furnished-housing-operator/SKILL.md"
 ---
 
 # Furnished Housing Operator
