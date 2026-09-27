@@ -89,6 +89,18 @@
       "category": "Operations"
     },
     {
+      "name": "furnished-housing-operator",
+      "source": {
+        "source": "local",
+        "path": "./plugins/furnished-housing-operator"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Operations"
+    },
+    {
       "name": "chittyos-governance",
       "source": {
         "source": "local",
