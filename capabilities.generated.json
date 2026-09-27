@@ -234,8 +234,7 @@
         "openclaw"
       ],
       "source_links": [
-        "chittycanon://core/services/concierge-properties",
-        "https://github.com/FURNISHED-CONDOS/chico"
+        "local://plugins/furnished-housing-operator/skills/furnished-housing-operator/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "operate",
@@ -248,7 +247,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:7781ca0b4e0453ac6ec78b789eebba1bbeb5a8ccaeca856bbf04345a73101491",
+        "content_hash": "sha256:899b5fc74d082cb9c35d319552fe299e3801228fc0db83bf268160e91fec16be",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -315,7 +314,7 @@
         "openclaw"
       ],
       "source_links": [
-        "chittycanon://core/services/concierge-properties"
+        "local://plugins/furnished-housing-operator/skills/prioritize-property-leads/SKILL.md"
       ],
       "phase0_audit": {
         "job_to_be_done": "decide",
@@ -328,7 +327,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:91cc54d1aeb61dd62f044959b67b52552ff0103f4adf60fd9f592ede4aa1c708",
+        "content_hash": "sha256:b43c8067e8f1a916a88a17041d4e2f1ee05d81c7ae7412d9ace0abf3b85f9f0c",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
