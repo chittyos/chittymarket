@@ -1,0 +1,14 @@
+{
+  "name": "furnished-housing-operator",
+  "version": "0.2.0",
+  "description": "Role-focused furnished and mid-term housing operations: lead-to-lease, occupancy readiness, property issue routing, and portfolio review over existing ChittyOS capabilities.",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/CHITTYOS"
+  },
+  "requires": [
+    "chittyos-core",
+    "chittyos-legal",
+    "chittyos-mcp"
+  ]
+}

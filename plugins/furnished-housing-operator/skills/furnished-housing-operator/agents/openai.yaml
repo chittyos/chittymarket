@@ -1,0 +1,5 @@
+interface:
+  display_name: Furnished Housing Operator
+  short_description: Run furnished and mid-term housing operations across canonical systems.
+policy:
+  allow_implicit_invocation: true

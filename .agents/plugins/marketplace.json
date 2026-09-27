@@ -137,6 +137,18 @@
       "category": "Integrations"
     },
     {
+      "name": "furnished-housing-operator",
+      "source": {
+        "source": "local",
+        "path": "./plugins/furnished-housing-operator"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Operations"
+    },
+    {
       "name": "neon-mcp",
       "source": {
         "source": "local",
