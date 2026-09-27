@@ -93,21 +93,6 @@
       ]
     },
     {
-      "name": "furnished-housing-operator",
-      "description": "Role-focused furnished and mid-term housing operations: lead-to-lease, occupancy readiness, property issue routing, and portfolio review over existing ChittyOS capabilities.",
-      "version": "0.2.0",
-      "source": "./plugins/furnished-housing-operator",
-      "strict": false,
-      "category": "operations",
-      "keywords": [
-        "furnished-housing",
-        "mid-term-rentals",
-        "leasing",
-        "property-operations",
-        "lead-to-lease"
-      ]
-    },
-    {
       "name": "chittyos-governance",
       "description": "Canonical governance hooks — entity type validation, ChittyID accountability, deploy gates, PR workflow enforcement, and unified Neon integration governance (schema drift, Neon Auth, OAuth/OIDC, branch ops, project/role/connection management, migration governance, canonical token lifecycle)",
       "version": "1.0.0",
@@ -166,6 +151,21 @@
         "cloudflare",
         "proxy",
         "agent"
+      ]
+    },
+    {
+      "name": "furnished-housing-operator",
+      "description": "Role-focused furnished and mid-term housing operations: lead-to-lease, occupancy readiness, property issue routing, and portfolio review over existing ChittyOS capabilities.",
+      "version": "0.2.0",
+      "source": "./plugins/furnished-housing-operator",
+      "strict": false,
+      "category": "operations",
+      "keywords": [
+        "furnished-housing",
+        "mid-term-rentals",
+        "leasing",
+        "property-operations",
+        "lead-to-lease"
       ]
     },
     {
