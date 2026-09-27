@@ -68,7 +68,7 @@ overlay:
     - codex
     - openclaw
   source_links:
-    - "chittycanon://core/services/concierge-properties"
+    - "local://plugins/furnished-housing-operator/skills/prioritize-property-leads/SKILL.md"
 ---
 
 # Prioritize Property Leads
