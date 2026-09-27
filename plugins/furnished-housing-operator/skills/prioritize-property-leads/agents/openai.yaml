@@ -1,0 +1,5 @@
+interface:
+  display_name: Prioritize Property Leads
+  short_description: Compare rental leads on conversion and economic/operational axes.
+policy:
+  allow_implicit_invocation: true
