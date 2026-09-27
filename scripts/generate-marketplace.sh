@@ -32,6 +32,7 @@ CATEGORY_MAP[chittyos-proxy-agents]="integrations"
 CATEGORY_MAP[chittymarket-manager]="ecosystem"
 CATEGORY_MAP[chittyos-mcp]="ecosystem"
 CATEGORY_MAP[neon-mcp]="database"
+CATEGORY_MAP[furnished-housing-operator]="operations"
 
 # Keywords map
 declare -A KEYWORDS_MAP
@@ -48,6 +49,7 @@ KEYWORDS_MAP[chittymarket-manager]="marketplace,market,artifacts,toggle,manage"
 KEYWORDS_MAP[nowebmaster]="webmaster,capability-lifecycle,hot-loading"
 KEYWORDS_MAP[chittyos-mcp]="mcp,chittyos,gateway,standalone"
 KEYWORDS_MAP[neon-mcp]="neon,postgres,database,sql,standalone"
+KEYWORDS_MAP[furnished-housing-operator]="furnished-housing,mid-term-rentals,leasing,property-operations,lead-to-lease"
 
 # Start building the JSON
 cat > "$OUTPUT" <<'HEADER'
