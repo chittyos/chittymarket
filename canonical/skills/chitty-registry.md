@@ -169,9 +169,14 @@ which the operator's CLAUDE.md places in Tier 1. **Do not reintroduce a services
 table here.** If you need the tier of a service, cite CLAUDE.md or the service's own
 compliance triad — never this file, and never the registry.
 
+Do not treat the record's own `compliance_score` / `trust_score` / `certificate_ref` as
+that fallback either: the first two are **non-null on 0 of 50** records and
+`certificate_ref` is null on most, so they are as absent in practice as `tier` is. The
+triad that carries real information is the service's own CHARTER/CHITTY/CLAUDE files.
+
 ## Service Metadata Schema — TWO shapes, read from the live API
 
-**Verified 2026-09-18 by pulling all 49 records and taking the field union.** Response shape
+**Verified 2026-09-28 by pulling all 50 records and taking the field union.** Response shape
 is `{"success": true, "count": N, "tools": [...]}`.
 
 > ⚠️ **A previous revision of this file claimed `endpoints` is always an array and the
@@ -184,12 +189,12 @@ different, and code that assumes one silently drops the other.
 
 | | Shape A — governed | Shape B — health-registered |
 |---|---|---|
-| Count (of 49) | **20** | **29** |
+| Count (of 50) | **21** | **29** |
 | Identifier | `chitty_id` | `id` (plus `did`) |
 | `endpoints` | **array** of absolute URLs | **object** |
 | Fields only on this shape | `certificate_ref`, `chitty_id`, `compliance_score`, `entity_type`, `health`, `last_health_check`, `last_health_error`, `parent_chitty_id`, `status`, `trust_score`, `updated_at` | `category`, `did`, `hostname`, `id`, `registration_source`, `schema`, `security`, `url` |
 
-Shared by all 49 (the true intersection, computed — **7 fields**, not five):
+Shared by all 50 (the true intersection, computed — **7 fields**, not five):
 `description`, `endpoints`, `metadata`, `name`, `registered_at`, `subtype`, `version` — note `endpoints` is shared in name only, differing in type.
 
 > ⚠️ **An earlier revision of this table put `health`, `last_health_check`,
@@ -230,10 +235,16 @@ Shared by all 49 (the true intersection, computed — **7 fields**, not five):
 > a schema view that is accurate about structure and misleading about content. Filter on
 > `!= null` before comparing, and treat the scores as unpopulated until proven otherwise.
 
-**Fields that exist on NO record** (0 of 49), despite appearing in older documentation:
+**Fields that exist on NO record** (0 of 50), despite appearing in older documentation:
 `tier`, `domain`, `repo`, `dependencies`.
 
-**Duplicates exist** — `chittyagent-npm` appears twice. The two records carry **distinct
+**Duplicates exist, and the registry cannot tell you which is current.** When two records
+describe one service, do not guess from `version` and do not re-register to "fix" it.
+Resolve it out-of-band: hit each record's own `endpoints` and see which answers, or read the
+owning repo's CHARTER. Report the ambiguity rather than silently picking one — a wrong pick
+here routes callers at a dead deployment.
+
+`chittyagent-npm` appears twice. The two records carry **distinct
 `chitty_id`s** and each resolves individually, so the registry does disambiguate them by id;
 what it offers no way to determine is **which of the two is current**.
 
