@@ -96,7 +96,7 @@
       "source": "./plugins/chittyos-legal",
       "strict": false,
       "category": "legal",
-      "keywords": ["legal", "evidence", "disputes", "docket", "cases", "custody", "agent", "paralegal", "redaction", "deadlines"]
+      "keywords": ["legal", "evidence", "disputes", "docket", "cases", "custody", "agent", "paralegal", "protected-identifiers", "deadlines"]
     }
 ,
     {

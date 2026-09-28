@@ -1,6 +1,6 @@
 ---
 name: chitty-registry
-description: Query ChittyRegistry (registry.chitty.cc) for service catalog, tiers, domains, dependencies, and certification badges. Discovery before integration.
+description: Read-only discovery against ChittyRegistry (registry.chitty.cc) via GET /api/v1/tools — the service catalog; note the trust and compliance score fields exist but are null on every record today. Discovery before integration. Does not register, update or delete; there is no tier, domain or dependency field to query.
 canon_uri: chittycanon://core/services/chittymarket#skills/chitty-registry
 ---
 
@@ -31,6 +31,10 @@ Base URL: `https://registry.chitty.cc`
 ChittyRegistry is a **read-only directory** (tier 2). Registration is a separate
 service: submit to `https://register.chitty.cc/api/v1/register`.
 *register (verb, gatekeeper) ≠ registry (noun, directory).*
+
+> **`/api/services` does not exist and never did — it returns HTTP 404** with the server's
+> own route list. Re-verified live 2026-09-28. The only KV-backed source of truth is
+> **`/api/v1/tools`**.
 
 ### List Services
 ```bash
@@ -124,6 +128,17 @@ Canonical self-registration shape (e.g. `openclaw`) — note `endpoints` is an
 Known data-quality gaps (verified 2026-07-25): 48 entries total; `entity_type` is
 absent on 29 of them; `chittyagent-npm` appears twice — `POST /api/v1/tools` is not
 idempotent, so never re-register to "fix" an entry.
+
+## What the registry does and does not catalog
+
+It catalogs **deployed services** — things with an endpoint and a health check. Every
+`chittyagent-*` entry present is registered as `subtype: service` because it is a worker,
+not because it is an agent definition.
+
+**Agent/skill definitions are NOT ChittyRegistry artifacts.** A prompt definition projected
+to Claude Code / Codex / OpenClaw has no endpoint to discover; it belongs in the
+orchestrator KV discovery index (`agent:index` / `skill:index` at agent.chitty.cc), which is
+a different registry with a different contract. Do not register one here.
 
 ## Cross-Reference
 
