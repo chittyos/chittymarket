@@ -40,7 +40,7 @@ KEYWORDS_MAP[chittyos-devops]="deploy,health,registry,pipelines,wrangler,complia
 KEYWORDS_MAP[chittyos-legal]="legal,evidence,disputes,docket,cases,custody"
 KEYWORDS_MAP[chittyos-governance]="governance,hooks,entity-types,chittyid,deploy-gate,schema"
 KEYWORDS_MAP[chittyos-proxy-agents]="notion,chatgpt,cloudflare,proxy,agent"
-KEYWORDS_MAP[chittymarket-manager]="marketplace,market,artifacts,toggle,manage"
+KEYWORDS_MAP[chittymarket-manager]="marketplace,capabilities,configurations,skills,plugins,apps,agents,mcp,connectors,connections,publish,audit,manage"
 # nowebmaster was absent from this map, so regeneration emitted keywords: []
 # while the committed manifest carried three. That single mismatch made the
 # "manifest idempotency" gate fail on EVERY pull request in this repo,
