@@ -149,6 +149,19 @@ jobs:
           fi
           echo "✓ Manifest is idempotent with respect to plugins/"
 
+      - name: Agent Plugins projection idempotency
+        run: |
+          python3 scripts/generate-agent-plugins.py write > /tmp/agent-plugins-generate.txt
+          if ! git diff --quiet -- .agents/plugins/marketplace.json plugins/*/plugin.json; then
+            echo "::error::Portable Agent Plugins projections are out of sync."
+            cat /tmp/agent-plugins-generate.txt
+            git diff --stat -- .agents/plugins/marketplace.json plugins/*/plugin.json
+            git diff -- .agents/plugins/marketplace.json plugins/*/plugin.json | head -160
+            exit 1
+          fi
+          python3 scripts/generate-agent-plugins.py audit
+          echo "✓ Agent Plugins marketplace and root manifests are idempotent"
+
   # 4. Codex runtime smoke (adversarial review #4): every projected
   #    plugins/<plug>/codex-skills/<name>/SKILL.md must load. Uses real
   #    codex CLI if it ships a load subcommand; otherwise falls back to a
@@ -217,3 +230,20 @@ jobs:
           echo "::warning::openclaw-smoke reported failures."
           echo "Real openclaw runtime is not yet on PATH in CI; schema-mimic loader was used."
           echo "Failures indicate adapter or projection drift, not runtime absence."
+
+  agent-plugins-smoke:
+    name: portable Agent Plugins smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: validate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Run Agent Plugins marketplace smoke
+        run: bash scripts/runtime-tests/agent-plugins-smoke.sh

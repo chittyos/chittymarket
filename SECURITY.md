@@ -196,6 +196,8 @@ Requirements:
 
 Organization ownership alone is not sufficient proof of immutable contents.
 
+Package dependency metadata must also be interpreted by its enforcement boundary. Current Claude validation warns that the repo's legacy `requires` field is ignored by Claude Code; ChittyMarket may use it for internal dependency linting, but it is not a runtime authorization or installation guarantee.
+
 ## Hooks and Local Controls
 
 Operator-local hooks may add useful defense in depth, but Market must not claim they are active unless verified on the target environment.

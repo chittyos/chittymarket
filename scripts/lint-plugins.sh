@@ -150,13 +150,36 @@ print(','.join(missing) if missing else '')
 done
 echo ""
 
-# --- 4b. Check for non-canonical plugin.json at plugin top-level ---
-echo "Checking plugin.json location..."
+# --- 4b. Validate portable Agent Plugins root manifest when present ---
+echo "Checking portable plugin.json location..."
 for plugin_dir in "$PLUGINS_DIR"/*/; do
   plugin_name=$(basename "$plugin_dir")
-  if [ -f "$plugin_dir/plugin.json" ]; then
-    red "  ERROR: $plugin_name has plugin.json at top-level — canonical location is .claude-plugin/plugin.json"
+  portable="$plugin_dir/plugin.json"
+  [ -f "$portable" ] || continue
+  if ! python3 - "$portable" "$plugin_name" <<'PY'
+import json, sys
+path, expected_name = sys.argv[1:]
+try:
+    data = json.load(open(path))
+except Exception as exc:
+    print(f"invalid JSON: {exc}")
+    raise SystemExit(1)
+if data.get("$schema") != "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json":
+    print("root plugin.json is reserved for the portable Agent Plugins 1.0 manifest")
+    raise SystemExit(1)
+if data.get("name") != expected_name:
+    print(f"name {data.get('name')!r} != directory {expected_name!r}")
+    raise SystemExit(1)
+for field in ("version", "description"):
+    if not data.get(field):
+        print(f"missing {field}")
+        raise SystemExit(1)
+PY
+  then
+    red "  ERROR: $plugin_name/plugin.json is not a valid portable Agent Plugins root manifest"
     ERRORS=$((ERRORS + 1))
+  else
+    dim "  ok: $plugin_name/plugin.json (portable Agent Plugins)"
   fi
 done
 echo ""

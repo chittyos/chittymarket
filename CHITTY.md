@@ -165,7 +165,9 @@ ChittyMarket is intentionally repository/build-centric:
 Prefer native standards at the boundary and Chitty-specific governance inside:
 
 - portable Agent Skills for reusable method;
-- native plugin/package manifests for installable capability packs;
+- portable Agent Plugins use root `plugin.json` with the Agent Plugins 1.0 schema; the repo-scoped OpenAI/Codex marketplace is `.agents/plugins/marketplace.json`;
+- the first native package set contains only behavior-complete local skill packages; MCP-dependent and agent-only packages remain HOLD until their native component format is complete;
+- legacy `.claude-plugin/plugin.json` remains the Claude compatibility surface; its current `requires` field is ChittyMarket dependency metadata only because the upstream Claude validator explicitly ignores it; dependency enforcement therefore remains in ChittyMarket lint/policy rather than the Claude host;
 - Apps/MCP for service integration;
 - A2A Agent Cards only for true delegated actors;
 - Ch1tty remains intentionally slim for search/execute routing.

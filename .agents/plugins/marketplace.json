@@ -1,0 +1,92 @@
+{
+  "name": "chittymarket",
+  "interface": {
+    "displayName": "ChittyMarket"
+  },
+  "plugins": [
+    {
+      "name": "chittyagent-autobot",
+      "source": {
+        "source": "local",
+        "path": "./plugins/chittyagent-autobot"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "chittymarket-manager",
+      "source": {
+        "source": "local",
+        "path": "./plugins/chittymarket-manager"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "chittyos-core",
+      "source": {
+        "source": "local",
+        "path": "./plugins/chittyos-core"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "chittyos-devops",
+      "source": {
+        "source": "local",
+        "path": "./plugins/chittyos-devops"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "chittyos-governance",
+      "source": {
+        "source": "local",
+        "path": "./plugins/chittyos-governance"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "chittyos-legal",
+      "source": {
+        "source": "local",
+        "path": "./plugins/chittyos-legal"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "nowebmaster",
+      "source": {
+        "source": "local",
+        "path": "./plugins/nowebmaster"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
