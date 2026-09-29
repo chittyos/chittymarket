@@ -21,7 +21,7 @@ overlay:
   capability_group: "legal"
   group_assignment_source: "category"
   execution_class: "@chitty/reasoning"
-  canonical_version: "1.0.0"
+  canonical_version: "1.1.0"
   projection_version_policy: "inherit-canonical"
   ontology:
     primary:
@@ -274,7 +274,33 @@ Every substantive legal output explicitly identifies:
 
 A clean-looking output that hides its gaps is worse than a messy one that names them.
 
-## 14. This package carries no matter facts
+## 14. A calendared date is a derived fact
+
+Dates are facts, and they inherit every obligation in §§1–6. A date on a calendar is a
+**projection of the governed record, never the authority.** Where a calendar entry and the
+source instrument disagree, the instrument governs and the entry is corrected.
+
+- **Carry the source.** A calendared obligation states the instrument it comes from
+  (order and paragraph, rule, statute, notice, service date), and its confidence. An entry
+  whose origin cannot be named is `draft`, not a deadline.
+- **A computed deadline is an inference, not a documentary fact** (§6). When a date is
+  derived rather than stated, record: the triggering event and its date, the rule relied on,
+  the counting convention (**calendar days vs business days — never assume**), and any
+  roll-forward rule applied. Label it for confirmation against local and standing orders.
+  A stated date and a computed date are different classes and are never displayed alike.
+- **The forum's timezone governs.** Store and render in the court's zone, not UTC and not
+  the operator's. A wrong offset silently misstates the hour, and across midnight the day.
+  A deadline with an hour attached is wrong unless the zone is explicit.
+- **Distinguish self-executing consequences** from those requiring a further motion. Whether
+  anyone must act for the consequence to attach changes what the date means.
+- **A passed date with no recorded disposition is a gap under §13, not a closed item.**
+  Silence is not compliance and not a disposition. Surface it as unresolved until the record
+  says what happened.
+- **Reconcile, do not overwrite.** Correcting an entry follows §10: the prior value and the
+  reason are preserved. Moving a deadline *later* is the one direction that can cause default,
+  so it requires the source instrument, not an inference.
+
+## 15. This package carries no matter facts
 
 `legal-operating-defaults` is reusable operating method. **Matter-specific legal facts,
 parties, case numbers, evidence, strategy, and work product stay out of it** and out of every
