@@ -57,7 +57,7 @@ if [ "${#names[@]}" -gt 0 ]; then
   for name in "${!names[@]}"; do
     # Search canonical/<kind>/<name>.md first, then flat canonical/<name>.md.
     can=""
-    for sub in agents skills commands mcp hooks tools; do
+    for sub in agents skills commands mcp hooks tools output-styles; do
       if [ -f "$REPO_ROOT/canonical/$sub/${name}.md" ]; then
         can="$REPO_ROOT/canonical/$sub/${name}.md"
         break
@@ -76,7 +76,7 @@ if [ "${#names[@]}" -gt 0 ]; then
       if [ "$name" = "SKILL" ] || [ "$name" = "README" ]; then
         continue
       fi
-      echo "[pre-commit-drift] $name: projection staged but canonical missing (searched canonical/{agents,skills,commands,mcp,hooks,tools}/${name}.md and canonical/${name}.md)" >&2
+      echo "[pre-commit-drift] $name: projection staged but canonical missing (searched canonical/{agents,skills,commands,mcp,hooks,tools,output-styles}/${name}.md and canonical/${name}.md)" >&2
       failed=1
       continue
     fi

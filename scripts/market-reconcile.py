@@ -52,6 +52,7 @@ DIR_KIND = {
     "mcp": "mcp-server",
     "tools": "tool",
     "hooks": "hook",
+    "output-styles": "output-style",
 }
 PREFIX = {
     "agent": "agent-",
@@ -60,6 +61,7 @@ PREFIX = {
     "mcp-server": "",
     "tool": "tool-",
     "hook": "hook-",
+    "output-style": "output-style-",
 }
 RUNTIME_CHANNEL = {
     "claude-code": "claude_code",

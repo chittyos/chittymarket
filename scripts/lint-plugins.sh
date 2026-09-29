@@ -311,6 +311,7 @@ while IFS= read -r f; do projection_paths+=("$f"); done < <(
     \( -path "*/agents/*.md" \
        -o -path "*/skills/*/SKILL.md" \
        -o -path "*/commands/*.md" \
+       -o -path "*/output-styles/*.md" \
        -o -path "*/codex-skills/*/SKILL.md" \
        -o -path "*/openclaw-agents/*.yaml" \
        -o -path "*/claude-skills/*.json" \
@@ -324,6 +325,9 @@ for proj in "${projection_paths[@]}"; do
   elif [[ "$proj" == */skills/*/SKILL.md ]]; then
     name=$(basename "$(dirname "$proj")")
     expected_kind="skills"
+  elif [[ "$proj" == */output-styles/*.md ]]; then
+    name=$(basename "$proj" .md)
+    expected_kind="output-styles"
   elif [[ "$proj" == */commands/*.md ]]; then
     name=$(basename "$proj" .md)
     expected_kind="commands"
@@ -344,7 +348,7 @@ for proj in "${projection_paths[@]}"; do
   fi
   # Resolve canonical from kind-subdirs first, then flat-layout fallback.
   found_canonical=""
-  for sub in agents skills commands mcp hooks tools; do
+  for sub in agents skills commands mcp hooks tools output-styles; do
     if [ -f "$REPO_DIR/canonical/$sub/${name}.md" ]; then
       found_canonical="$REPO_DIR/canonical/$sub/${name}.md"
       break
