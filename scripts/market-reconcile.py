@@ -336,6 +336,13 @@ def build_new_overlay(item: dict, explicit: str, entry: dict | None = None) -> d
 
 def build_new_manifest(item: dict, rec: dict) -> dict:
     fm = item["fm"]
+    standalone = {"available": True, "type": item["kind"]}
+    if item["kind"] == "output-style" and fm.get("plugin"):
+        # market.sh's output-style toggle reads standalone.path (repo-relative)
+        # to find the plugin-projected file it symlinks into
+        # ~/.claude/output-styles/ — without this, enable/disable has nothing
+        # to act on and the artifact can never be turned on.
+        standalone["path"] = f"plugins/{fm['plugin']}/output-styles/{item['name']}.md"
     entry = {
         "id": legacy_id(item),
         "name": rec["name"],
@@ -346,7 +353,7 @@ def build_new_manifest(item: dict, rec: dict) -> dict:
         "enabled": False,
         "installMode": "standalone",
         "source": "canonical",
-        "standalone": {"available": True, "type": item["kind"]},
+        "standalone": standalone,
         "ch1tty": {"available": False},
         "canon_uri": fm.get("canon_uri") or fm.get("canonical_uri"),
         "capability": rec["capability_id"],

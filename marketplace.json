@@ -2597,7 +2597,8 @@
       "source": "canonical",
       "standalone": {
         "available": true,
-        "type": "output-style"
+        "type": "output-style",
+        "path": "plugins/chittyos-core/output-styles/collaborative-decisioning.md"
       },
       "ch1tty": {
         "available": false

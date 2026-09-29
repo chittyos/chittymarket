@@ -19,6 +19,10 @@ else
   OVERLAY="$(dirname "$_mreal")/capabilities.generated.json"
   [ -f "$OVERLAY" ] || OVERLAY="$HOME/.claude/capabilities.generated.json"
 fi
+# Repo root for artifacts whose standalone.path is repo-relative (e.g.
+# plugin-projected output-styles), resolved the same way as OVERLAY above.
+_mreal="${_mreal:-$(readlink -f "$MANIFEST" 2>/dev/null || echo "$MANIFEST")}"
+MARKET_ROOT="$(dirname "$_mreal")"
 # Allow env override; fall back to known workstation/legacy paths.
 # Workstations (Mac /Users/nb/Workspace) use the first hit; Linux dev VMs use the last.
 CH1TTY_SERVERS="${CH1TTY_SERVERS:-}"
@@ -249,6 +253,47 @@ toggle_agent() {
   fi
 }
 
+toggle_output_style() {
+  # standalone.path is repo-relative, pointing at the plugin's projected
+  # output-styles/<name>.md (e.g. plugins/chittyos-core/output-styles/foo.md).
+  # Claude Code auto-loads that file once its plugin is enabled; this toggle
+  # is for the standalone install path — a symlink into ~/.claude/output-styles/
+  # so the style loads even without the owning plugin enabled.
+  local plugin_path="$1" state="$2"
+  local source target
+  source="$MARKET_ROOT/$plugin_path"
+  target="$HOME/.claude/output-styles/$(basename "$plugin_path")"
+  if [[ "$state" == "True" ]]; then
+    [[ -f "$source" ]] || die "output-style source not found: $source"
+    mkdir -p "$(dirname "$target")"
+    if [[ -L "$target" ]]; then
+      rm -f "$target"
+    elif [[ -e "$target" ]]; then
+      # Non-symlink file already at the live path (e.g. a hand-maintained
+      # copy) — never clobber it. Back it up once, refuse if a backup from
+      # a prior run is already sitting there.
+      local backup="${target}.bak-pre-market-enable"
+      [[ -e "$backup" ]] && die "Refusing to enable '$plugin_path': $target exists and $backup already exists too — resolve manually before retrying."
+      mv "$target" "$backup"
+      echo "  backed up existing $target -> $backup"
+    fi
+    ln -s "$source" "$target"
+  else
+    if [[ -L "$target" ]]; then
+      local link_target resolved_source
+      link_target=$(readlink -f "$target" 2>/dev/null || true)
+      resolved_source=$(readlink -f "$source" 2>/dev/null || echo "$source")
+      if [[ "$link_target" == "$resolved_source" ]]; then
+        rm -f "$target"
+      else
+        echo "  WARNING: $target is a symlink not owned by market — leaving in place" >&2
+      fi
+    elif [[ -e "$target" ]]; then
+      echo "  WARNING: $target exists and is not market-managed (no symlink) — leaving in place" >&2
+    fi
+  fi
+}
+
 update_manifest() {
   local artifact_id="$1" state="$2"
   python3 -c "
@@ -329,6 +374,11 @@ cmd_toggle() {
       ;;
     hook)
       echo "Hook toggle requires YAML frontmatter edit — use Claude to modify"
+      ;;
+    output-style)
+      local os_path
+      os_path=$(echo "$art_json" | python3 -c "import json,sys; print(json.load(sys.stdin).get('standalone',{}).get('path',''))")
+      [[ -n "$os_path" ]] && toggle_output_style "$os_path" "$state"
       ;;
     *)
       die "Unknown artifact type: $art_type"
