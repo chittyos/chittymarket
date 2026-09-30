@@ -170,7 +170,12 @@ re-encode, re-OCR in place, move, or delete source evidence.
   itself be probative.
 - Quarantine rather than delete.
 
-## 11. Use the canonical evidence pipeline
+## 11. Use the canonical stores
+
+A matter produces two classes of artifact and they have **two different canonical stores.**
+Neither is a compute node.
+
+### 11.1 Evidence — the canonical evidence pipeline
 
 Evidence acquisition, staging, ingestion, extraction, and dedup go through the canonical
 ChittyEvidence pipeline — **not** ad-hoc copying, ad-hoc OCR, ad-hoc staging directories, or
@@ -182,6 +187,52 @@ one-off duplicate extraction.
 
 Mechanics, buckets, and scripts: load `evidence-collect` (acquisition/ingestion) or
 `evidence-egress` (migration out of scattered local sources).
+
+### 11.2 Work product and deliverables — the matter's shared store
+
+The evidence registry is the canonical store for **evidence**. It is **not** the canonical
+store for work product. Memoranda, schedules, chronologies, research, drafts, transmittals,
+and anything prepared for a human to read live in the matter's designated shared store — the
+operator-accessible document store the engagement uses for that matter — and that store is
+always the **single** store for them.
+
+The distinction is accessibility, not importance. A content-addressed registry is addressed
+by hash and reached through tooling; the people who need work product — the operator,
+counsel, anyone the engagement covers — cannot open it, browse it, or be handed a link to it.
+Work product that only exists where humans cannot reach it has not been delivered.
+
+- Artifacts land in the matter's shared store **as they are written**, not at the end of a
+  session when someone notices. A session that ends early must lose nothing.
+- Arrival is confirmed by **listing the destination**, never by a copy command's exit code.
+  An exit code is the transfer tool's own account of itself, and a transfer can report
+  success while silently moving nothing. The read-after is the evidence; the exit code is
+  not a source anyone read (§1).
+- Each matter's store address is a matter fact and is recorded in the matter's own governed
+  context, never in this document (§15).
+
+### 11.3 A compute node is a working surface, not a store and not a state
+
+A VM, laptop, container, or runner is where work is *performed*. For matter files and
+deliverables it is **never** a store and **never** where state lives. Anything that must
+survive the session lands in the matter's shared store as it is written (§11.2) — not at
+the end of a session, not "once it is finished", not after someone notices.
+
+The reason is the one in §11.2: a compute node is not readily reachable by the operator or
+by anyone else the engagement covers. A file that exists only on a runner cannot be opened,
+browsed, linked, or handed over, and it disappears with the node. Treating the node as a
+store is therefore not a durability shortcut — it is a delivery failure that has not
+announced itself yet.
+
+Two corollaries:
+
+- **A node-resident copy is transient, and is reconciled against the store, never the
+  reverse.** If the two differ, the store is what the matter has.
+- **Never call a node-resident path "local."** "Local" names a vantage point, not a node:
+  it hides which machine holds the bytes, so the copy has no address, cannot be listed or
+  reconciled, and cannot be handed to another agent or session. Name the node and the path.
+  One document identity, many **named** locations (§5) — and "local" is not a name. The
+  vocabulary is how the habit survives: work described as "local" stops being work anyone
+  can find.
 
 ## 12. Retrieval is not verification
 
