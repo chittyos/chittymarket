@@ -4,7 +4,9 @@
       "command": "/bin/sh",
       "args": [
         "-lc",
-        "exec npx -y @neondatabase/mcp-server-neon start \"$NEON_API_KEY\""
+        {
+          "case \"$NEON_API_KEY\" in \"\"|*://*) echo \"POLICY_BLOCKED_CREDENTIAL_UNRESOLVED": "neon-mcp NEON_API_KEY is an unresolved broker reference, not a token. Route through ChittyConnect (/chico). Refusing to start.\" >&2; exit 78;; esac; exec npx -y @neondatabase/mcp-server-neon start \"$NEON_API_KEY\""
+        }
       ],
       "env": {
         "NEON_API_KEY": "chittysecrets://NEON_API_KEY"

@@ -12,6 +12,7 @@ plugin: chittyos-legal
 runtimes:
   - claude-code
   - codex
+  - gemini
 classification:
   - legal
   - evidence

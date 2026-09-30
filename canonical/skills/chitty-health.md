@@ -7,6 +7,7 @@ plugin: chittyos-devops
 runtimes:
   - claude-code
   - codex
+  - gemini
 classification:
   - operations
   - deployment

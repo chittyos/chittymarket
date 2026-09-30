@@ -8,6 +8,7 @@ plugin: nowebmaster
 runtimes:
   - claude-code
   - codex
+  - gemini
 classification:
   - cli
   - runbook
