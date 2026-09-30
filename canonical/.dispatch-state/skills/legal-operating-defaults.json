@@ -1,21 +1,21 @@
 {
-  "canonical_sha": "483f62034f7eeb251d2671abbc80eec95c267242",
+  "canonical_sha": "cdf7dd882976cd475d2ea11d37949f2920506426",
   "dispatch": {
-    "canonical_sha": "483f62034f7eeb251d2671abbc80eec95c267242",
-    "projected_at": "2026-09-29T13:45:51Z",
+    "canonical_sha": "cdf7dd882976cd475d2ea11d37949f2920506426",
+    "projected_at": "2026-09-30T16:22:20Z",
     "status": "projected",
     "targets": {
-      "claude-code": "a859a448a28a057a83d625011ad512aa8d315cd7",
-      "codex": "a859a448a28a057a83d625011ad512aa8d315cd7",
-      "openclaw": "a859a448a28a057a83d625011ad512aa8d315cd7",
-      "universal": "a859a448a28a057a83d625011ad512aa8d315cd7"
+      "claude-code": "31fd5f336e20388e9318cb1f85c2f3d87bffbf6a",
+      "codex": "31fd5f336e20388e9318cb1f85c2f3d87bffbf6a",
+      "openclaw": "31fd5f336e20388e9318cb1f85c2f3d87bffbf6a",
+      "universal": "31fd5f336e20388e9318cb1f85c2f3d87bffbf6a"
     }
   },
   "targets": {
-    "claude-code": "a859a448a28a057a83d625011ad512aa8d315cd7",
-    "codex": "a859a448a28a057a83d625011ad512aa8d315cd7",
-    "openclaw": "a859a448a28a057a83d625011ad512aa8d315cd7",
-    "universal": "a859a448a28a057a83d625011ad512aa8d315cd7"
+    "claude-code": "31fd5f336e20388e9318cb1f85c2f3d87bffbf6a",
+    "codex": "31fd5f336e20388e9318cb1f85c2f3d87bffbf6a",
+    "openclaw": "31fd5f336e20388e9318cb1f85c2f3d87bffbf6a",
+    "universal": "31fd5f336e20388e9318cb1f85c2f3d87bffbf6a"
   },
   "verification": {
     "projection": {

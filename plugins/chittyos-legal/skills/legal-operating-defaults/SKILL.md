@@ -210,25 +210,36 @@ Dates are facts, and they inherit every obligation in §§1–6. A date on a cal
 **projection of the governed record, never the authority.** Where a calendar entry and the
 source instrument disagree, the instrument governs and the entry is corrected.
 
-- **Carry the source.** A calendared obligation states the instrument it comes from
-  (order and paragraph, rule, statute, notice, service date), and its confidence. An entry
-  whose origin cannot be named is `draft`, not a deadline.
-- **A computed deadline is an inference, not a documentary fact** (§6). When a date is
-  derived rather than stated, record: the triggering event and its date, the rule relied on,
-  the counting convention (**calendar days vs business days — never assume**), and any
-  roll-forward rule applied. Label it for confirmation against local and standing orders.
-  A stated date and a computed date are different classes and are never displayed alike.
-- **The forum's timezone governs.** Store and render in the court's zone, not UTC and not
-  the operator's. A wrong offset silently misstates the hour, and across midnight the day.
-  A deadline with an hour attached is wrong unless the zone is explicit.
-- **Distinguish self-executing consequences** from those requiring a further motion. Whether
-  anyone must act for the consequence to attach changes what the date means.
-- **A passed date with no recorded disposition is a gap under §13, not a closed item.**
-  Silence is not compliance and not a disposition. Surface it as unresolved until the record
-  says what happened.
-- **Reconcile, do not overwrite.** Correcting an entry follows §10: the prior value and the
-  reason are preserved. Moving a deadline *later* is the one direction that can cause default,
-  so it requires the source instrument, not an inference.
+- **Carry the source.** A calendared obligation names the instrument it comes from
+  (order and paragraph, rule, statute, notice, service date) and carries a lifecycle state
+  from §3. An entry whose origin cannot be named is `draft` — it is not a deadline yet.
+- **A computed deadline is an inference, not a documentary fact** (§6). A date **stated** in
+  an instrument and a date **computed** from one are different classes and are never
+  displayed alike. A computed date records: the triggering event and its date, the rule
+  relied on, the counting convention, and any roll-forward applied. It stays `draft` until
+  confirmed against the governing local and standing orders.
+- **Record the counting convention; do not infer it.** State whether the source says
+  calendar days or business days, and quote it. **If the source does not say, that silence
+  is itself a §13 gap** and is recorded as one — not resolved by picking the likelier
+  reading. Both candidate dates are carried until an instrument settles it.
+- **The forum's timezone is part of the date.** A wall-clock time is recorded with the
+  zone it was stated in, and that zone is stored explicitly rather than implied by the
+  storage format. A time held without its zone is `draft`, because a wrong offset
+  misstates the hour and, across midnight, the day.
+- **Record whether the consequence is self-executing** — whether it attaches on the date
+  without any further application by a party. Where the instrument does not make this
+  plain, that uncertainty is recorded as a §13 gap rather than assumed either way; the two
+  readings change what the date means and what must happen before it.
+- **Every change to a calendared date requires the source instrument** (§10): the prior
+  value and the reason are preserved, and no entry is silently overwritten. Both directions
+  carry risk and neither may be moved on inference alone — a date moved **later** can cause
+  default, and a date moved **earlier** can prompt premature action or a false belief that
+  an obligation has already run.
+- **A passed date with no recorded disposition is a gap under §13**, for as long as the
+  matter is open. Silence is not compliance and not a disposition. Dispositions recorded
+  elsewhere in the governed record satisfy this; the obligation is that the record
+  resolves the date, not that a particular field is filled. Dates in a closed matter
+  archive with the matter and stop generating gaps.
 
 ## 15. This package carries no matter facts
 

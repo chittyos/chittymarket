@@ -38,7 +38,7 @@ jobs:
         run: python3 scripts/validate-openai-workspace.py
 
       # 1b. Matter-leak gate: no concrete legal matter may appear in a governed,
-      #     published definition (legal-operating-defaults §14). Shape-matching only —
+      #     published definition (legal-operating-defaults §15). Shape-matching only —
       #     the gate never learns which matters are real, because a denylist of real
       #     matters would itself be matter data in a public repo.
       - name: scripts/check-matter-leak.py
