@@ -458,7 +458,7 @@ property the canonical was written to enforce. This is not a documentation-tidin
 ### Standard applied
 
 `legal-operating-defaults` §8 (matter isolation — "a capability that requires a matter
-identifier must refuse to run without one; no defaulting to the active case") and §14
+identifier must refuse to run without one; no defaulting to the active case") and §15
 (matter facts stay out of reusable capability packages).
 
 **Not done in this entry:** nothing was edited, and no cache copy should be — they re-sync from
@@ -489,7 +489,7 @@ example" in four canonical skills and one research doc, and propagated to every 
 
 The caveats were real and well-intentioned — *"Only as an illustration of the shape — do NOT
 use this as a default"*. They satisfy `legal-operating-defaults` §8, which prohibits defaulting
-to a case. They do not satisfy §14, which keeps matter facts out of reusable capability
+to a case. They do not satisfy §15, which keeps matter facts out of reusable capability
 packages at all. A capability package is published; a caption in it is published with it,
 regardless of how it is labelled.
 

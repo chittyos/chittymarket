@@ -34,7 +34,7 @@ resolve a slug through the case registry, never through a skill-local default.
 > default. Every output of this skill is stamped with the case it was invoked for; a defaulted
 > case produces a plausibly-formed audit filed against the wrong matter.
 
-Standard: `legal-operating-defaults` §8 (matter isolation), §14 (matter facts stay out of
+Standard: `legal-operating-defaults` §8 (matter isolation), §15 (matter facts stay out of
 reusable capability packages).
 
 ## Input Schema

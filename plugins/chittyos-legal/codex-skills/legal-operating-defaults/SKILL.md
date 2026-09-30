@@ -204,7 +204,44 @@ Every substantive legal output explicitly identifies:
 
 A clean-looking output that hides its gaps is worse than a messy one that names them.
 
-## 14. This package carries no matter facts
+## 14. A calendared date is a derived fact
+
+Dates are facts, and they inherit every obligation in §§1–6. A date on a calendar is a
+**projection of the governed record, never the authority.** Where a calendar entry and the
+source instrument disagree, the instrument governs and the entry is corrected.
+
+- **Carry the source.** A calendared obligation names the instrument it comes from
+  (order and paragraph, rule, statute, notice, service date) and carries a lifecycle state
+  from §3. An entry whose origin cannot be named is `draft` — it is not a deadline yet.
+- **A computed deadline is an inference, not a documentary fact** (§6). A date **stated** in
+  an instrument and a date **computed** from one are different classes and are never
+  displayed alike. A computed date records: the triggering event and its date, the rule
+  relied on, the counting convention, and any roll-forward applied. It stays `draft` until
+  confirmed against the governing local and standing orders.
+- **Record the counting convention; do not infer it.** State whether the source says
+  calendar days or business days, and quote it. **If the source does not say, that silence
+  is itself a §13 gap** and is recorded as one — not resolved by picking the likelier
+  reading. Both candidate dates are carried until an instrument settles it.
+- **The forum's timezone is part of the date.** A wall-clock time is recorded with the
+  zone it was stated in, and that zone is stored explicitly rather than implied by the
+  storage format. A time held without its zone is `draft`, because a wrong offset
+  misstates the hour and, across midnight, the day.
+- **Record whether the consequence is self-executing** — whether it attaches on the date
+  without any further application by a party. Where the instrument does not make this
+  plain, that uncertainty is recorded as a §13 gap rather than assumed either way; the two
+  readings change what the date means and what must happen before it.
+- **Every change to a calendared date requires the source instrument** (§10): the prior
+  value and the reason are preserved, and no entry is silently overwritten. Both directions
+  carry risk and neither may be moved on inference alone — a date moved **later** can cause
+  default, and a date moved **earlier** can prompt premature action or a false belief that
+  an obligation has already run.
+- **A passed date with no recorded disposition is a gap under §13**, for as long as the
+  matter is open. Silence is not compliance and not a disposition. Dispositions recorded
+  elsewhere in the governed record satisfy this; the obligation is that the record
+  resolves the date, not that a particular field is filled. Dates in a closed matter
+  archive with the matter and stop generating gaps.
+
+## 15. This package carries no matter facts
 
 `legal-operating-defaults` is reusable operating method. **Matter-specific legal facts,
 parties, case numbers, evidence, strategy, and work product stay out of it** and out of every

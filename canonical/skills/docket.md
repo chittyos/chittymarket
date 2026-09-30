@@ -122,7 +122,7 @@ For each case, expect the following configuration shape (populate from the case 
 ### Shape of a resolved case
 
 Token-only. Every value below is supplied by the case registry at invocation time; none of it
-belongs in this document. A concrete matter here would be a §14 violation even when captioned
+belongs in this document. A concrete matter here would be a §15 violation even when captioned
 as an illustration — see `scripts/check-matter-leak.py`.
 
 | Field | Shape |
