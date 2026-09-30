@@ -19,7 +19,7 @@ concurrency:
 jobs:
   validate:
     name: lint + test + manifest idempotency
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     timeout-minutes: 5
 
     steps:
@@ -158,7 +158,7 @@ jobs:
   #    schema-mimic loader and logs the reason.
   codex-smoke:
     name: codex runtime smoke
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     timeout-minutes: 5
     needs: validate
     steps:
@@ -193,7 +193,7 @@ jobs:
   #    contract.
   openclaw-smoke:
     name: openclaw runtime smoke
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     timeout-minutes: 5
     needs: validate
     steps:
