@@ -15,9 +15,14 @@
 # Exit codes:
 #   0 — pointers were already current (nothing fetched-and-changed)
 #   1 — pointers were refreshed; review `git diff` and commit
-#   2 — fetch failure or SHA mismatch
+#   2 — fetch failure (prompt_url unreachable / oversize / curl error)
 #   3 — disallowed source host
 #   4 — pointer missing required prompt_sha
+#   5 — content-integrity failure: upstream hash != pinned prompt_sha
+#
+# 2 and 5 were previously conflated, which made an integrity failure report
+# itself as "could not reach prompt_url" — a reachability claim for a hash
+# mismatch. They are now distinct so the caller can act on the right cause.
 
 set -euo pipefail
 
@@ -45,6 +50,7 @@ host_allowed() {
 
 CHANGED=0
 FETCH_FAIL=0
+SHA_MISMATCH=0
 DISALLOWED=0
 NO_SHA=0
 
@@ -104,8 +110,10 @@ for f in "${POINTERS[@]}"; do
   if [ "$actual_sha" != "$prompt_sha" ]; then
     red "    SHA MISMATCH: expected $prompt_sha, got $actual_sha"
     red "                  If upstream changed intentionally, update prompt_sha in frontmatter."
+    red "                  Do NOT re-pin without reading the upstream diff: the pin exists"
+    red "                  to stop an upstream regression overwriting a reviewed local fix."
     rm -f "$tmp"
-    FETCH_FAIL=$((FETCH_FAIL + 1))
+    SHA_MISMATCH=$((SHA_MISMATCH + 1))
     continue
   fi
 
@@ -150,13 +158,15 @@ echo ""
 echo "=== Summary ==="
 [ "$DISALLOWED" -gt 0 ] && red "Disallowed hosts: $DISALLOWED"
 [ "$NO_SHA" -gt 0 ] && red "Missing prompt_sha: $NO_SHA"
-[ "$FETCH_FAIL" -gt 0 ] && red "Fetch/SHA failures: $FETCH_FAIL"
+[ "$SHA_MISMATCH" -gt 0 ] && red "Content-integrity (SHA) mismatches: $SHA_MISMATCH"
+[ "$FETCH_FAIL" -gt 0 ] && red "Fetch failures: $FETCH_FAIL"
 if [ "$CHANGED" -gt 0 ]; then
   yellow "Hydrated: $CHANGED file(s). Review with 'git diff' and commit."
-elif [ "$FETCH_FAIL" -eq 0 ] && [ "$DISALLOWED" -eq 0 ] && [ "$NO_SHA" -eq 0 ]; then
+elif [ "$FETCH_FAIL" -eq 0 ] && [ "$SHA_MISMATCH" -eq 0 ] && [ "$DISALLOWED" -eq 0 ] && [ "$NO_SHA" -eq 0 ]; then
   green "All pointer agents are current."
 fi
 
+[ "$SHA_MISMATCH" -gt 0 ] && exit 5
 [ "$NO_SHA" -gt 0 ] && exit 4
 [ "$DISALLOWED" -gt 0 ] && exit 3
 [ "$FETCH_FAIL" -gt 0 ] && exit 2
