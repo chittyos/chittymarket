@@ -66,7 +66,7 @@ A canonical doc at `chittymarket/canonical/<name>.md` has runtime-agnostic front
 ```markdown
 ---
 name: chittyagent-neon
-kind: agent              # agent | skill | hook
+kind: agent              # agent | skill | command | hook | mcp-server | tool | output-style
 classification:
   - neon
   - platform

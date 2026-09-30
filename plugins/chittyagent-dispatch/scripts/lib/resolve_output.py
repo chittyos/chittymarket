@@ -23,6 +23,7 @@ _MAP = {
     ("claude-code", "command"):     ("plugins/{plugin}/commands/{name}.md",          "claude-code-agent.sh"),
     ("claude-code", "hook"):        ("plugins/{plugin}/hooks/hooks.json",            "claude-code-hook.sh"),
     ("claude-code", "mcp-server"):  ("plugins/{plugin}/.mcp.json",                   "claude-code-mcp.sh"),
+    ("claude-code", "output-style"): ("plugins/{plugin}/output-styles/{name}.md",    "claude-code-output-style.sh"),
     ("codex", "agent"):             ("plugins/{plugin}/codex-skills/{name}/SKILL.md", "codex-skill.sh"),
     ("codex", "skill"):             ("plugins/{plugin}/codex-skills/{name}/SKILL.md", "codex-skill.sh"),
     ("openclaw", "agent"):          ("plugins/{plugin}/openclaw-agents/{name}.yaml", "openclaw-agent.sh"),
