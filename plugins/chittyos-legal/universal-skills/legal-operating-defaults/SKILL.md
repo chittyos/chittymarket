@@ -193,8 +193,14 @@ Mechanics, buckets, and scripts: load `evidence-collect` (acquisition/ingestion)
 The evidence registry is the canonical store for **evidence**. It is **not** the canonical
 store for work product. Memoranda, schedules, chronologies, research, drafts, transmittals,
 and anything prepared for a human to read live in the matter's designated shared store — the
-operator-accessible document store the engagement uses for that matter — and that store is
-always the **single** store for them.
+operator-accessible document store the engagement uses for that matter.
+
+That store is always the **single store of record** for them. "Single" governs authority,
+not copy count: a transient copy on the node that produced the artifact, or an evidentiary
+copy of a document that is *also* evidence, does not make a second store — but the shared
+store is what the matter has, and any disagreement resolves to it. Ingesting work product
+into the evidence registry never substitutes for placing it in the shared store, in either
+direction: a deliverable that exists only in the registry has not been delivered.
 
 The distinction is accessibility, not importance. A content-addressed registry is addressed
 by hash and reached through tooling; the people who need work product — the operator,
@@ -206,16 +212,22 @@ Work product that only exists where humans cannot reach it has not been delivere
 - Arrival is confirmed by **listing the destination**, never by a copy command's exit code.
   An exit code is the transfer tool's own account of itself, and a transfer can report
   success while silently moving nothing. The read-after is the evidence; the exit code is
-  not a source anyone read (§1).
+  not a source anyone read. Do not remove a node-resident copy before that confirmation.
 - Each matter's store address is a matter fact and is recorded in the matter's own governed
   context, never in this document (§15).
 
 ### 11.3 A compute node is a working surface, not a store and not a state
 
-A VM, laptop, container, or runner is where work is *performed*. For matter files and
-deliverables it is **never** a store and **never** where state lives. Anything that must
-survive the session lands in the matter's shared store as it is written (§11.2) — not at
-the end of a session, not "once it is finished", not after someone notices.
+A VM, laptop, container, or runner is where work is *performed*. It is **never** a store and
+**never** where state lives, for **any** matter artifact: evidence, work product, finished
+deliverables, drafts, intermediate output, notes, indexes, and session state alike. "It is
+only a draft", "it is only scratch", and "I can regenerate it" are not exceptions — they are
+the form this failure usually takes, since the artifact that gets abandoned on a node is
+rarely the one anyone thought was finished.
+
+Every matter artifact lands in its store as it is written — evidence through §11.1, work
+product through §11.2 — not at the end of a session, not "once it is finished", not after
+someone notices.
 
 The reason is the one in §11.2: a compute node is not readily reachable by the operator or
 by anyone else the engagement covers. A file that exists only on a runner cannot be opened,
@@ -230,7 +242,8 @@ Two corollaries:
 - **Never call a node-resident path "local."** "Local" names a vantage point, not a node:
   it hides which machine holds the bytes, so the copy has no address, cannot be listed or
   reconciled, and cannot be handed to another agent or session. Name the node and the path.
-  One document identity, many **named** locations (§5) — and "local" is not a name. The
+  §5 holds that one document has many observed locations; this section adds that an observed
+  location must be **named** to be observable by anyone else — and "local" is not a name. The
   vocabulary is how the habit survives: work described as "local" stops being work anyone
   can find.
 
