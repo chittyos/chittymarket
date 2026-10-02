@@ -6,8 +6,8 @@
 > - **Tier 1 (shipped):** a Claude Code plugin workflow. The canonical is
 >   `canonical/workflows/gauntlet.md`, projected to `plugins/chittyos-core/workflows/gauntlet.js`,
 >   and any Claude Code session invokes it as `Workflow({name: "chittyos-core:gauntlet", args})`
->   (`dryRun: true` validates without dispatching). The runner persona is
->   `canonical/agents/chittyagent-gauntlet.md`. Capability: `chittycanon://capability/build/gauntlet`.
+>   (`dryRun: true` validates without dispatching). The gauntlet is one function of the separated
+>   reviewer agent `canonical/agents/chittyagent-olmec.md`. Capability: `chittycanon://capability/build/gauntlet`.
 > - **Tier 2 (this document, not built):** a remote Cloudflare Agent Workflow reachable from every
 >   channel (ChatGPT, Notion, mobile, API), with durable steps and approval gates.
 >
@@ -164,7 +164,8 @@ acceptable for a gate.
 
 ## Open questions — decide before building
 
-1. **New worker or existing?** A `chittyagent-gauntlet`, or a workflow on `chittyagent-command`
+1. **New worker or existing?** A `chittyagent-olmec` remote worker (the reviewer agent, of which
+   the gauntlet is one function), or a workflow on `chittyagent-command`
    (which is the Tier-2 command layer and already the orchestration surface)? Adding it to command
    keeps the fleet smaller; splitting it keeps command's charter clean.
 2. **Does the local script stay?** Two implementations of one pattern will drift. Either the local

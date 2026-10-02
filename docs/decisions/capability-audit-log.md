@@ -605,3 +605,26 @@ it is a ChittyCanon decision and is not taken here.
 The chittyentity copies (`.claude/workflows/gauntlet.js`, `.claude/agents/gauntlet-runner.md`)
 are retired once this lands (design doc open question 2). Removing them is a chittyentity PR and
 is not part of this change.
+
+### Amendment (2026-10-02, same PR): companion agent renamed to `chittyagent-olmec`
+
+**Operator decision.** The companion agent above is renamed `chittyagent-gauntlet` →
+`chittyagent-olmec` (after Olmec, who runs the temple trials in *Legends of the Hidden Temple*) and
+reshaped. Olmec is the **separated reviewer** role from nb-development-defaults ("reviewer ≠
+implementer"); the gauntlet is one of its functions, not its identity. The entry above is left as
+written; this amendment supersedes its agent name.
+
+| Field | Value |
+|-------|-------|
+| agent | `canonical/agents/chittyagent-olmec.md`, projected to claude-code, codex, openclaw |
+| v1 functions | diff review (`plugins/chittyos-core/skills/nb-development-defaults/scripts/adversarial-review.sh`, referenced in place) and the gauntlet (`Workflow({name: "chittyos-core:gauntlet"})`) |
+| not yet built | CI-gate audit (no code; not offered) |
+| hard boundaries | never ships fixes; canon audits → `chittyagent-canon`; schema drift → `chittyschema-overlord`; auth audits → `chittyauth-token-ops`; security scanning → `claude-security` plugin |
+| status | **HOLD**, unchanged: still no capability identity of its own, no `marketplace.json` or overlay record |
+| deprecated aliases | `gauntlet-runner` only. The intermediate name was never merged or released, so no alias is owed for it |
+
+The three intermediate projections and their dispatch state were removed (dispatch has no removal
+mode; deleted by hand, then `dispatch.sh audit` confirmed 0 orphans). The tier-2 design doc now
+names `chittyagent-olmec` as the candidate remote worker. Diff review currently falls back to a
+fresh-context Opus subagent, because both chittyclaw routes (`dynamic/three-wise-men`,
+`adversarial-reviewer`) return `400 code 2005`; the agent is required to say so whenever it does.

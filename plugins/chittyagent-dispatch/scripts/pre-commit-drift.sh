@@ -54,6 +54,30 @@ done
 snapshot_before=$(git status --porcelain)
 
 failed=0
+
+# Syntax-check every staged workflow projection in the Workflow host's shape (top-level `return`
+# is legal there, so the body is wrapped in an async function and `export const meta` becomes
+# `const meta`). The adapter already checks at projection time; this catches a hand-edited .js.
+for f in "${staged[@]}"; do
+  case "$f" in
+    plugins/*/workflows/*.js)
+      if ! command -v node >/dev/null 2>&1; then
+        echo "[pre-commit-drift] $f: node not found — cannot syntax-check workflow projections" >&2
+        failed=1
+        continue
+      fi
+      chk="$(mktemp --suffix=.mjs)"
+      { printf 'export default async function (args, agent, parallel, phase, log) {\n'
+        git show ":$f" | sed '1s/^export const meta/const meta/'
+        printf '\n}\n'; } > "$chk"
+      if ! node --check "$chk" >/dev/null 2>&1; then
+        echo "[pre-commit-drift] $f: staged workflow fails node --check" >&2
+        failed=1
+      fi
+      rm -f "$chk" ;;
+  esac
+done
+
 # Skip drift sync when no canonical/projection paths are touched, but still fall
 # through to the always-on evidence-gate check below.
 if [ "${#names[@]}" -gt 0 ]; then

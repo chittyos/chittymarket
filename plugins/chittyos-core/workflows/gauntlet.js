@@ -57,7 +57,7 @@ export const meta = {
  *
  * ARGS (all optional except target and runner):
  * {
- *   target:     "/abs/path/to/thing"            // required — what is under test
+ *   target:     "/abs/path/to/thing"            // required, absolute — what is under test
  *   runner:     "cd <dir> && npx tsx sim.ts"    // required — must exit non-zero on failure
  *   typecheck:  "cd <dir> && npx tsc --noEmit"  // optional
  *   what:       "one paragraph: what this is and what it guarantees"
@@ -68,8 +68,8 @@ export const meta = {
  *   rules:      ["binding project rules: no mocks, canonical formats, etc"]
  *   knownFailures: ["domain-specific failures that have ACTUALLY happened — extends the defaults"]
  *   sameAuthor: true                            // did one context write both code and tests?
- *   maxRounds:  6
- *   dryRounds:  2                               // consecutive empty rounds before stopping
+ *   maxRounds:  6                               // integer 1..12 (hard ceiling)
+ *   dryRounds:  2                               // consecutive empty rounds before stopping; 1..maxRounds
  *   dryRun:     true                            // validate + return the resolved config; dispatch NO agents
  *   models:     { generator: "opus" }           // per-role model override; roles below
  * }
@@ -98,8 +98,10 @@ if (args === undefined || args === null || (typeof args === 'string' && args.tri
 } else if (typeof args === 'string') {
   try {
     a = JSON.parse(args)
-  } catch (err) {
-    throw new Error(`gauntlet: args arrived as a string but is not valid JSON (${err.message}); ${args.length} bytes`)
+  } catch {
+    // The V8 message echoes a prefix of the input ("Unexpected token 'T', "TOKEN=sk-l"..."), and
+    // `runner` may carry a token, so only the length is reported.
+    throw new Error(`gauntlet: args arrived as a string but is not valid JSON; ${args.length} bytes (content not echoed)`)
   }
 } else {
   a = args
@@ -132,8 +134,40 @@ if (typeof RUNNER !== 'string' || !RUNNER.trim()) {
   return {
     started: false,
     reason: 'missing-runner',
-    next: `args.runner must be a shell command that exits non-zero on failure. If none exists, build the corpus and runner first (see the chittyagent-gauntlet agent). Nothing ran. Re-invoke as ${USAGE}.`,
+    next: `args.runner must be a shell command that exits non-zero on failure. If none exists, build the corpus and runner first (see the chittyagent-olmec agent). Nothing ran. Re-invoke as ${USAGE}.`,
   }
+}
+// Absolute only: agents run with their own working directories, so a relative target resolves
+// against whatever cwd each agent happens to have, and different roles can test different files.
+if (!TARGET.startsWith('/')) {
+  log('gauntlet: args.target is not an absolute path — no agent was dispatched')
+  return { started: false, reason: 'relative-target', next: 'args.target must be an absolute path (starting with /). Nothing ran.' }
+}
+
+// Unknown keys are rejected: a misspelled `dryRun` ("dryrun", "dry_run") would otherwise be ignored
+// and launch the full fleet.
+const KNOWN_KEYS = ['target', 'runner', 'typecheck', 'what', 'files', 'corpus', 'invariants', 'probes', 'rules', 'knownFailures', 'sameAuthor', 'maxRounds', 'dryRounds', 'dryRun', 'models']
+const unknownKeys = Object.keys(a).filter((k) => !KNOWN_KEYS.includes(k))
+if (unknownKeys.length) {
+  log(`gauntlet: ${unknownKeys.length} unknown arg key(s) — no agent was dispatched`)
+  return { started: false, reason: 'unknown-args', next: `Unknown args: ${unknownKeys.join(', ')}. Known: ${KNOWN_KEYS.join(', ')}. Nothing ran.` }
+}
+
+// Every value interpolated into a prompt is type-checked here. A string where an array belongs would
+// otherwise be iterated character by character, or `.map` would throw mid-run after agents were
+// already paid for. null/undefined mean "not supplied".
+const isStrArray = (v) => Array.isArray(v) && v.every((x) => typeof x === 'string')
+const badTypes = []
+for (const k of ['files', 'invariants', 'probes', 'rules', 'knownFailures']) {
+  if (a[k] != null && !isStrArray(a[k])) badTypes.push(`${k} (must be an array of strings)`)
+}
+for (const k of ['corpus', 'what', 'typecheck']) {
+  if (a[k] != null && typeof a[k] !== 'string') badTypes.push(`${k} (must be a string)`)
+}
+if (a.sameAuthor != null && typeof a.sameAuthor !== 'boolean') badTypes.push('sameAuthor (must be a boolean)')
+if (badTypes.length) {
+  log(`gauntlet: ${badTypes.length} arg(s) have the wrong type — no agent was dispatched`)
+  return { started: false, reason: 'bad-args', next: `Wrong-typed args: ${badTypes.join('; ')}. Nothing ran.` }
 }
 
 // Per-role models. Override with args.models = { role: model }; unknown roles and non-string
@@ -159,14 +193,24 @@ if (badModelKeys.length) {
 }
 const MODELS = { ...DEFAULT_MODELS, ...modelOverrides }
 
+// Hard ceiling on rounds: the budget is 4 + 2*maxRounds + 1 mostly-Opus agents, so an unbounded
+// maxRounds is an unbounded spend. 12 rounds = 29 agents.
+const MAX_ROUNDS_CEILING = 12
 const MAX_ROUNDS = a.maxRounds ?? 6
-const DRY_ROUNDS = a.dryRounds ?? 2
-if (!Number.isInteger(MAX_ROUNDS) || MAX_ROUNDS < 1 || !Number.isInteger(DRY_ROUNDS) || DRY_ROUNDS < 1) {
-  log('gauntlet: maxRounds/dryRounds must be positive integers — no agent was dispatched')
-  return { started: false, reason: 'bad-rounds', next: 'args.maxRounds and args.dryRounds must be positive integers (defaults 6 and 2).' }
+if (!Number.isInteger(MAX_ROUNDS) || MAX_ROUNDS < 1 || MAX_ROUNDS > MAX_ROUNDS_CEILING) {
+  log(`gauntlet: maxRounds must be an integer in 1..${MAX_ROUNDS_CEILING} — no agent was dispatched`)
+  return { started: false, reason: 'bad-rounds', next: `args.maxRounds must be an integer from 1 to ${MAX_ROUNDS_CEILING} (default 6). Nothing ran.` }
 }
-const TYPECHECK = a.typecheck ?? null
-const CORPUS = a.corpus ?? null
+// The default never exceeds maxRounds (maxRounds: 1 alone is valid); an explicit value is checked.
+const DRY_ROUNDS = a.dryRounds ?? Math.min(2, MAX_ROUNDS)
+// dryRounds > maxRounds can never be satisfied, so the loop could never report convergence.
+if (!Number.isInteger(DRY_ROUNDS) || DRY_ROUNDS < 1 || DRY_ROUNDS > MAX_ROUNDS) {
+  log('gauntlet: dryRounds must be an integer in 1..maxRounds — no agent was dispatched')
+  return { started: false, reason: 'bad-dry-rounds', next: `args.dryRounds must be an integer from 1 to maxRounds (${MAX_ROUNDS}); default 2. Nothing ran.` }
+}
+const TYPECHECK = typeof a.typecheck === 'string' && a.typecheck.trim() ? a.typecheck : null  // '' = not configured
+const CORPUS = typeof a.corpus === 'string' && a.corpus.trim() ? a.corpus : null
+// ── Everything above is validated. Nothing below dispatches until the dryRun return has been passed.
 
 /**
  * KNOWN FAILURE MODES — things that have ACTUALLY GONE WRONG, not hypotheticals.
@@ -204,7 +248,7 @@ RUNNER: ${RUNNER}
 ${TYPECHECK ? `TYPECHECK: ${TYPECHECK}` : ''}
 
 WHAT THIS IS:
-${a.what ?? '(not described — read the code and the charter/README before judging anything)'}
+${typeof a.what === 'string' && a.what.trim() ? a.what : '(not described — read the code and the charter/README before judging anything)'}
 
 ${a.invariants?.length ? `INVARIANTS — must hold no matter what:\n${a.invariants.map((i) => `  - ${i}`).join('\n')}` : ''}
 
@@ -350,7 +394,8 @@ const ROUND_SCHEMA = {
   },
 }
 
-// ── Dry run: the cheap callability proof. Everything above is validated; nothing below runs.
+// ── Dry run: the cheap callability proof. Every arg was validated above, so a dry run can never
+//    call an out-of-bounds or wrong-typed config valid. Nothing below this return runs under dryRun.
 const AGENT_BUDGET = 4 + 2 * MAX_ROUNDS + 1
 if (a.dryRun) {  // truthy on purpose: a mistyped dryRun ("true", 1) must fail safe, not launch the fleet
   log(`gauntlet dry run — config valid; a real run dispatches at most ${AGENT_BUDGET} agents; none dispatched`)
@@ -373,6 +418,18 @@ if (a.dryRun) {  // truthy on purpose: a mistyped dryRun ("true", 1) must fail s
     next: 'Config is valid. Re-invoke with the same args minus dryRun to run the gauntlet.',
   }
 }
+
+// ── Dead roles. agent() returns null/undefined when a role dies. That is a FAILURE, not an empty
+//    result: rendering it as [] would tell every later role "the contester found nothing", which is
+//    a clean bill of health nobody issued. Deaths are recorded, rendered as NOT RUN, and block any
+//    convergence claim.
+const deadRoles = []
+const alive = (x, role) => {
+  if (x === null || x === undefined) { deadRoles.push(role); return false }
+  return true
+}
+const NOT_RUN = (role) => `NOT RUN — the ${role} agent returned nothing. Its output is MISSING, not empty; do not read this as "no findings".`
+const render = (x, key, role) => (x === null || x === undefined ? NOT_RUN(role) : JSON.stringify(x[key] ?? [], null, 1))
 
 // ── Phase 1 — two independent attacks, run together. One argues the corpus is
 //    WRONG; the other argues it is INCOMPLETE. Different failure modes, so they
@@ -500,6 +557,8 @@ committed to.`,
     { label: 'mandates', phase: 'Challenge', schema: MANDATE_SCHEMA, model: MODELS.mandate }),
 ])
 
+alive(contested, 'contester'); alive(generated, 'generator'); alive(traced, 'tracer'); alive(mandated, 'mandate')
+if (deadRoles.length) log(`challenge phase: ${deadRoles.length} role(s) died (${deadRoles.join(', ')}) — their output is passed on as NOT RUN`)
 const silentTrace = (traced?.findings ?? []).filter((f) => f.outcome_still_correct)
 const unenforced = (mandated?.mandates ?? []).filter((m) => m.enforced !== 'yes')
 log(`${contested?.contested?.length ?? 0} expectations contested · ${generated?.cases?.length ?? 0} new cases · ${traced?.findings?.length ?? 0} execution findings (${silentTrace.length} invisible to outcome tests) · ${unenforced.length} standing mandates not fully enforced`)
@@ -546,7 +605,7 @@ Name that assumption and attack it.` : ''}
 
 INITIAL POOL from the cold-start generator — treat as raw material, not a queue to drain. Re-select,
 reshape, or discard:
-${JSON.stringify(generated?.cases ?? [], null, 1)}
+${render(generated, 'cases', 'generator')}
 
 KNOWN FAILURE MODES are listed above. "Regression against known failures" is itself a legitimate
 strategy for one round — take the catalogue and ask, for each entry, whether THIS artifact has the
@@ -574,10 +633,11 @@ Set expected_yield honestly. Reporting 'low' when the surface is genuinely close
 useful signal and will not be held against you — inflating it wastes a whole round.`,
     { label: `feed-${round}`, phase: 'Fix', schema: FEED_SCHEMA, model: MODELS.feeder })
 
-  if (feed) {
-    feeds.push(feed)
-    log(`round ${round} feeder: ${feed.strategy} → ${feed.cases.length} cases (yield ${feed.expected_yield}) targeting: ${feed.gap_targeted}`)
-  }
+  // A dead feeder stops the loop. It must NOT fall through to the implementer with an empty feed,
+  // and must NOT count as a low-yield signal: silence is not evidence the surface is exhausted.
+  if (!alive(feed, `feeder (round ${round})`)) { log(`round ${round}: feeder died — stopping`); break }
+  feeds.push(feed)
+  log(`round ${round} feeder: ${feed.strategy} → ${feed.cases.length} cases (yield ${feed.expected_yield}) targeting: ${feed.gap_targeted}`)
 
   const result = await agent(`${CTX}
 
@@ -585,21 +645,21 @@ You are the IMPLEMENTER for round ${round}. Different agents wrote this code and
 job is to make it correct, then PROVE it with the runner.
 
 CONTESTED EXPECTATIONS (weigh, do not obey — if you disagree, say so in changes_made and leave it):
-${JSON.stringify(contested?.contested ?? [], null, 1)}
+${render(contested, 'contested', 'contester')}
 
-THIS ROUND'S FEED — selected by the feeder using the strategy "${feed?.strategy ?? 'n/a'}", aimed at:
-${feed?.gap_targeted ?? 'n/a'}
+THIS ROUND'S FEED — selected by the feeder using the strategy "${feed.strategy}", aimed at:
+${feed.gap_targeted}
 Each case carries kills_if — what must be broken for it to fail. If a case's kills_if is not actually
 true of the code, say so rather than adding a case that tests nothing:
-${JSON.stringify(feed?.cases ?? [], null, 1)}
+${JSON.stringify(feed.cases ?? [], null, 1)}
 
 STANDING MANDATES this artifact was already required to satisfy (from the mandate auditor). A rule
 this project already committed to and never encoded outranks anything invented in this run — treat an
 unenforced mandate as a defect, not a suggestion:
-${JSON.stringify(mandated?.mandates ?? [], null, 1)}
+${render(mandated, 'mandates', 'mandate auditor')}
 
 EXECUTION FINDINGS — tools / logic / order / measures / surface (from the tracer):
-${JSON.stringify(traced?.findings ?? [], null, 1)}
+${render(traced, 'findings', 'tracer')}
 
 ${silentTrace.length ? `${silentTrace.length} of those have outcome_still_correct=true — the answer is RIGHT and the execution is
 WRONG. The corpus cannot catch these by asserting outcomes, so fixing them without adding an
@@ -623,24 +683,26 @@ Do not commit; the orchestrator handles that. Set anything_new=false ONLY if thi
 found nothing — no fix, no case, no insight.`,
     { label: `fix-${round}`, phase: 'Fix', schema: ROUND_SCHEMA, model: MODELS.implementer })
 
-  if (!result) { log(`round ${round}: agent died — stopping`); break }
+  if (!alive(result, `implementer (round ${round})`)) { log(`round ${round}: implementer died — stopping`); break }
   history.push(result)
   log(`round ${round}: ${result.changes_made.length} changes · ${result.cases_added.length} cases · ${result.still_failing.length} failing`)
 
   // A round is dry when the implementer found nothing AND nothing is failing AND the feeder itself
   // expects little from the surface. Without the feeder's signal the loop can look converged simply
   // because the last strategy was a poor fit, rather than because the surface is exhausted.
-  const exhausted = !result.anything_new && result.still_failing.length === 0 && (feed?.expected_yield ?? 'low') === 'low'
+  const exhausted = !result.anything_new && result.still_failing.length === 0 && feed.expected_yield === 'low'
   if (exhausted) dry++
   else dry = 0
 }
 
-// ── Phase 3 — the implementer does not get to certify itself.
+// ── Phase 3 — the implementer does not get to certify itself. The verifier runs even after a role
+//    died: it checks the real state of the target, which is exactly what is needed when the loop's
+//    own record is incomplete.
 phase('Converge')
 const verification = await agent(`${CTX}
 
 An implementation fleet ran ${round} round(s). Do NOT trust its report — verify it.
-
+${deadRoles.length ? `\nROLES THAT DIED (returned nothing — their output is missing, not empty): ${deadRoles.join(', ')}.\nThe run is INCOMPLETE. Do not describe it as converged; say what the dead roles would have covered.\n` : ''}
 ITS CLAIMS:
 ${JSON.stringify(history, null, 1)}
 
@@ -668,26 +730,35 @@ ${JSON.stringify(feeds.map((f) => ({ strategy: f.strategy, gap_targeted: f.gap_t
 
 MANDATE AUDITOR'S FINDINGS — verify each 'no'/'partially' was actually closed, or explicitly and
 defensibly declined. A mandate quietly left unenforced is the failure mode this role exists to catch:
-${JSON.stringify(mandated?.mandates ?? [], null, 1)}
+${render(mandated, 'mandates', 'mandate auditor')}
 
 TRACER'S ORIGINAL FINDINGS, to check against:
-${JSON.stringify(traced?.findings ?? [], null, 1)}
+${render(traced, 'findings', 'tracer')}
 
 Report the true state, the vacuous assertions, the unaddressed execution findings, and the remaining
 gaps. Do not congratulate.`,
   { label: 'verify', phase: 'Converge', model: MODELS.verifier })
+alive(verification, 'verifier')
 
+// Death outranks everything: a run with a dead role never reports convergence, even if the loop
+// happened to come back dry, because the dry signal was produced without that role's input.
+const converged = deadRoles.length === 0 && dry >= DRY_ROUNDS
 return {
   target: TARGET,
   rounds: round,
-  stopped_because: dry >= DRY_ROUNDS ? 'converged (dry rounds)' : round >= MAX_ROUNDS ? 'hit maxRounds — NOT converged' : 'agent died',
-  contested_expectations: contested?.contested ?? [],
-  proposed_cases: generated?.cases ?? [],
-  standing_mandates: mandated?.mandates ?? [],
-  unenforced_mandates: unenforced,
-  execution_findings: traced?.findings ?? [],
-  right_answer_wrong_execution: silentTrace,
+  converged,
+  stopped_because: deadRoles.length
+    ? `incomplete — roles died: ${deadRoles.join(', ')}`
+    : converged ? 'converged (dry rounds)' : 'hit maxRounds — NOT converged',
+  dead_roles: deadRoles,
+  // null = the role died (missing); [] = the role ran and found nothing.
+  contested_expectations: contested ? contested.contested ?? [] : null,
+  proposed_cases: generated ? generated.cases ?? [] : null,
+  standing_mandates: mandated ? mandated.mandates ?? [] : null,
+  unenforced_mandates: mandated ? unenforced : null,
+  execution_findings: traced ? traced.findings ?? [] : null,
+  right_answer_wrong_execution: traced ? silentTrace : null,
   history,
   strategies: feeds.map((f) => ({ strategy: f.strategy, gap_targeted: f.gap_targeted, expected_yield: f.expected_yield, cases: f.cases.length })),
-  independent_verification: verification,
+  independent_verification: verification ?? null,
 }

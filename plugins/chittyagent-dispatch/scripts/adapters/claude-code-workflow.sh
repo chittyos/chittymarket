@@ -29,12 +29,25 @@
 # metadata parser in each of them.
 #
 # Contract:
-#   - Exactly ONE fenced block whose info string is `js` or `javascript`. The fence
-#     may be ``` or longer (use ```` because workflow scripts contain backticks);
-#     it closes on a line of the SAME fence. Zero or several blocks is an error.
+#   - Exactly ONE opening fence line whose info string is `js` or `javascript`
+#     (```js, ````js, ...). Zero or several is an error. Use ```` because workflow
+#     scripts contain backticks.
+#   - The block closes on the LAST line in the body that equals the opening fence.
+#     A fence-looking line inside a template literal therefore cannot truncate the
+#     script. The price is that a later fenced block of the SAME fence length would
+#     be swallowed; that case cannot pass the syntax check below, so it fails loudly
+#     instead of projecting a wrong script.
 #   - The block is written verbatim, nothing prepended: the Workflow host expects the
 #     file to begin with `export const meta`, so the adapter enforces that too.
+#   - The extracted script must pass `node --check` in the host's shape (top-level
+#     `return` is legal there, so the body is wrapped in `export default async
+#     function(){}` and `export const meta` becomes `const meta`). Any truncation
+#     inside a template literal leaves an unterminated backtick and fails here.
+#   - Nothing is created on failure: the output directory is made only after every
+#     check passes, and the file is written to a temp sibling then renamed, so a
+#     failed run never leaves a partial or stale-overwritten projection.
 #   - Output always ends with exactly one newline — byte-stable for audit re-projection.
+#   - Any failure exits non-zero.
 set -euo pipefail
 
 canonical="${1:-}"
@@ -42,10 +55,9 @@ out="${2:-}"
 [ -n "$canonical" ] && [ -n "$out" ] || { echo "usage: $0 <canonical-path> <output-path>" >&2; exit 2; }
 [ -f "$canonical" ] || { echo "canonical not found: $canonical" >&2; exit 2; }
 
-mkdir -p "$(dirname "$out")"
-
 python3 - "$canonical" "$out" <<'PY'
-import sys, re, yaml
+import os, re, shutil, subprocess, sys, tempfile
+import yaml
 
 canonical_path, out_path = sys.argv[1], sys.argv[2]
 src = open(canonical_path, encoding="utf-8").read()
@@ -65,29 +77,17 @@ for req in ("name", "description"):
 if str(fm.get("kind", "")).strip() != "workflow":
     sys.exit(f"{canonical_path}: kind must be 'workflow' for this adapter, got {fm.get('kind')!r}")
 
-body = m.group(2)
-blocks = []
-lines = body.split("\n")
-i = 0
-while i < len(lines):
-    open_m = re.match(r"^(`{3,})\s*([A-Za-z0-9_-]*)\s*$", lines[i])
-    if open_m:
-        fence, info = open_m.group(1), open_m.group(2).lower()
-        j = i + 1
-        while j < len(lines) and lines[j].rstrip() != fence:
-            j += 1
-        if j >= len(lines):
-            sys.exit(f"{canonical_path}: unterminated {fence} fence opened at body line {i + 1}")
-        if info in ("js", "javascript"):
-            blocks.append("\n".join(lines[i + 1:j]))
-        i = j + 1
-        continue
-    i += 1
+lines = m.group(2).split("\n")
+opens = [(i, mo.group(1)) for i, l in enumerate(lines)
+         for mo in [re.match(r"^(`{3,})\s*(js|javascript)\s*$", l, re.IGNORECASE)] if mo]
+if len(opens) != 1:
+    sys.exit(f"{canonical_path}: expected exactly one ```js fenced block, found {len(opens)}")
+start, fence = opens[0]
+closes = [j for j in range(start + 1, len(lines)) if lines[j].rstrip() == fence]
+if not closes:
+    sys.exit(f"{canonical_path}: unterminated {fence} fence opened at body line {start + 1}")
+script = "\n".join(lines[start + 1:closes[-1]]).strip("\n") + "\n"
 
-if len(blocks) != 1:
-    sys.exit(f"{canonical_path}: expected exactly one ```js fenced block, found {len(blocks)}")
-
-script = blocks[0].strip("\n") + "\n"
 if not script.startswith("export const meta"):
     sys.exit(f"{canonical_path}: workflow script must begin with `export const meta` (the Workflow host requires it)")
 
@@ -95,8 +95,31 @@ meta_name = re.search(r"^export const meta\s*=\s*\{\s*name:\s*['\"]([^'\"]+)['\"
 if not meta_name or meta_name.group(1) != fm["name"]:
     sys.exit(f"{canonical_path}: meta.name {meta_name.group(1) if meta_name else None!r} != frontmatter name {fm['name']!r}")
 
-with open(out_path, "w", encoding="utf-8") as f:
-    f.write(script)
+node = shutil.which("node")
+if not node:
+    sys.exit(f"{canonical_path}: node is required to syntax-check the workflow script; refusing to project unchecked")
+wrapped = ("export default async function (args, agent, parallel, phase, log) {\n"
+           + "const meta" + script[len("export const meta"):] + "\n}\n")
+with tempfile.TemporaryDirectory() as td:
+    chk = os.path.join(td, "check.mjs")
+    with open(chk, "w", encoding="utf-8") as f:
+        f.write(wrapped)
+    p = subprocess.run([node, "--check", chk], capture_output=True, text=True)
+    if p.returncode != 0:
+        detail = "\n".join(l for l in p.stderr.splitlines() if l.strip())[-600:]
+        sys.exit(f"{canonical_path}: extracted script fails node --check (truncated or overran its fence?):\n{detail}")
+
+out_dir = os.path.dirname(os.path.abspath(out_path))
+os.makedirs(out_dir, exist_ok=True)
+fd, tmp = tempfile.mkstemp(dir=out_dir, prefix=".wf-", suffix=".tmp")
+try:
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
+        f.write(script)
+    os.replace(tmp, out_path)
+except BaseException:
+    if os.path.exists(tmp):
+        os.unlink(tmp)
+    raise
 PY
 
 echo "[claude-code-workflow] projected $canonical -> $out"
