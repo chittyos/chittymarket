@@ -450,7 +450,7 @@ const ROUND_SCHEMA = {
 
 // ── Dry run: the cheap callability proof. Everything above is validated; nothing below runs.
 const AGENT_BUDGET = 4 + 2 * MAX_ROUNDS + 1
-if (a.dryRun === true) {
+if (a.dryRun) {  // truthy on purpose: a mistyped dryRun ("true", 1) must fail safe, not launch the fleet
   log(`gauntlet dry run — config valid; a real run dispatches at most ${AGENT_BUDGET} agents; none dispatched`)
   return {
     started: false,

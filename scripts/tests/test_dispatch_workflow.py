@@ -198,6 +198,13 @@ class GauntletArgsAndDryRun(unittest.TestCase):
         self.assertEqual(roles["tracer"], "opus")
         self.assertEqual(r["out"]["config"]["agent_budget"]["max"], 9)
 
+    def test_truthy_dry_run_fails_safe(self):
+        for v in ("true", 1):
+            r = self.run_cases([{"args": self.base(dryRun=v)}])[0]
+            self.assertTrue(r["ok"], r)
+            self.assertEqual(r["agentCalls"], 0)
+            self.assertEqual(r["out"]["reason"], "dry-run")
+
     def test_default_generator_is_sonnet(self):
         r = self.run_cases([{"args": self.base()}])[0]
         roles = {x["role"]: x["model"] for x in r["out"]["config"]["roles"]}
