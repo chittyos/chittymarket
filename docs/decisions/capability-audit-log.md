@@ -549,3 +549,59 @@ shape + context, so it is a follow-up, not a gap in this one.
 - `chittyos/chittymarket#117` — the out-of-tree bundle that surfaced this
 - `chittyos/chittymarket#118` — `9-step-legal-audit` promoted, scrubbed and guarded
 
+
+---
+
+## 2026-10-02 — `gauntlet` workflow promoted from chittyentity
+
+**Auditor:** capability-registry-audit (runbook v0.2), run by the session that opened this PR
+**Source:** `CHITTYOS/chittyentity` origin/main `.claude/workflows/gauntlet.js` (586 lines),
+`.claude/agents/gauntlet-runner.md`, `docs/design/gauntlet-as-agent-workflow.md`; string-args
+fix from chittyentity PR #736 (`fix/gauntlet-string-args-loud`).
+
+### Disposition: **promote**
+
+| Field | Value |
+|-------|-------|
+| canonical_id | `chittycanon://capability/build/gauntlet` |
+| artifact | `workflow-gauntlet` (new `workflow` kind), canonical `canonical/workflows/gauntlet.md` |
+| projection | `plugins/chittyos-core/workflows/gauntlet.js` → `Workflow({name: "chittyos-core:gauntlet"})` |
+| entity mapping | **E** primary (a verification run is an occurrence in time), **T** secondary (the artifact under test) |
+| environmental footprint | write-capable (the implementer role edits the target and its corpus) |
+| evidentiary risk | low |
+| owner | chittymarket / `chittyos-core` |
+| access | write |
+| visibility | advanced, `enabled: false` (new compiled artifacts are disabled by default) |
+
+### Overlap check
+
+No existing capability overlaps. `adversarial-review.sh` is a single-pass review of one diff.
+The gauntlet is a multi-role loop (contest, generate, trace, mandate audit, then feeder against a
+separated implementer until dry, then an independent verifier) against a runner and a fixture
+corpus. Different job, different shape.
+
+### Changes made at promotion
+
+- #736 folded in: string `args` are parsed, objects pass through, malformed JSON and non-object
+  shapes throw without echoing input. Empty args or a missing target/runner return
+  `{started: false, reason, next}`.
+- Every `agent()` call carries an explicit `model` (binding rule: an omitted model is a bug).
+  Six judgment roles default to `opus`; the generator defaults to `sonnet` because its output is
+  checked downstream. `args.models` overrides per role.
+- `args.dryRun: true` returns the validated config and agent budget (`4 + 2*maxRounds + 1`, 17 at
+  defaults) without dispatching. That makes the capability cheap to prove callable.
+
+### Companion agent: `chittyagent-gauntlet` (HOLD)
+
+`gauntlet-runner` is renamed to `chittyagent-gauntlet` (canonical agents are `chittyagent-*`; the
+tier-2 design reserves the same name for a future remote worker). It projects to claude-code,
+codex, and openclaw. It carries **no** capability identity, because the one capability id is
+bound to the workflow and ids are unique. It therefore stays **HOLD** in market-reconcile: it
+ships in the plugin, but it has no `marketplace.json` or overlay record. Minting a separate id for
+it is a ChittyCanon decision and is not taken here.
+
+### Retirement
+
+The chittyentity copies (`.claude/workflows/gauntlet.js`, `.claude/agents/gauntlet-runner.md`)
+are retired once this lands (design doc open question 2). Removing them is a chittyentity PR and
+is not part of this change.

@@ -6,7 +6,8 @@
 #        - canonical/<name>.md staged
 #        - any projection path staged: plugins/<plugin>/agents/<name>.md,
 #          plugins/<plugin>/codex-skills/<name>/SKILL.md,
-#          plugins/<plugin>/openclaw-agents/<name>.yaml
+#          plugins/<plugin>/openclaw-agents/<name>.yaml,
+#          plugins/<plugin>/workflows/<name>.js
 #   2. Re-run `dispatch.sh sync <name>` for each touched canonical.
 #   3. If sync produced any changes (modified projection, modified state, or new
 #      untracked artifacts), the commit is incomplete or has direct-edit drift.
@@ -45,6 +46,8 @@ for f in "${staged[@]}"; do
       n="${f##*/}"; names["${n%.json}"]=1 ;;
     plugins/*/chatgpt-apps/*.json)
       n="${f##*/}"; names["${n%.json}"]=1 ;;
+    plugins/*/workflows/*.js)
+      n="${f##*/}"; names["${n%.js}"]=1 ;;
   esac
 done
 
@@ -57,7 +60,7 @@ if [ "${#names[@]}" -gt 0 ]; then
   for name in "${!names[@]}"; do
     # Search canonical/<kind>/<name>.md first, then flat canonical/<name>.md.
     can=""
-    for sub in agents skills commands mcp hooks tools; do
+    for sub in agents skills commands mcp hooks tools workflows; do
       if [ -f "$REPO_ROOT/canonical/$sub/${name}.md" ]; then
         can="$REPO_ROOT/canonical/$sub/${name}.md"
         break
@@ -76,7 +79,7 @@ if [ "${#names[@]}" -gt 0 ]; then
       if [ "$name" = "SKILL" ] || [ "$name" = "README" ]; then
         continue
       fi
-      echo "[pre-commit-drift] $name: projection staged but canonical missing (searched canonical/{agents,skills,commands,mcp,hooks,tools}/${name}.md and canonical/${name}.md)" >&2
+      echo "[pre-commit-drift] $name: projection staged but canonical missing (searched canonical/{agents,skills,commands,mcp,hooks,tools,workflows}/${name}.md and canonical/${name}.md)" >&2
       failed=1
       continue
     fi

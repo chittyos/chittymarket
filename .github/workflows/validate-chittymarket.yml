@@ -87,6 +87,7 @@ jobs:
           bash -n plugins/chittyagent-dispatch/scripts/dispatch.sh
           python3 -m py_compile plugins/chittyagent-dispatch/scripts/lib/state.py
           python3 scripts/tests/test_dispatch_state.py
+          python3 scripts/tests/test_dispatch_workflow.py
 
       - name: Agent projection identity
         run: python3 scripts/check-agent-identity.py
