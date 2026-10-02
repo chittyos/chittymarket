@@ -52,10 +52,18 @@ Do not describe the `[attest]` set as automated coverage.
 
 - `[mechanical]` Every exhibit ID cited resolves in the exhibit index. No dangling IDs.
 - `[mechanical]` Citations match the required form: `[EXHIBIT ID | document name | date | page/¶]`.
-- `[mechanical]` Entity names appear in full, never shortened or bare. Quoted source text is
-  exempt and must not be rewritten to satisfy this.
+  On a corpus written before the standard was adopted this fires on everything; decide once
+  whether the standard is retroactive and record the decision, rather than reporting the whole
+  package as defective on every run.
+- `[attest]` Entity names appear in full in assertive prose, never shortened or bare. Quoted
+  source text, trade names, document titles and filenames are exempt and must not be rewritten
+  to satisfy this. This was tried as a mechanical check and withdrawn: on a real corpus every
+  hit was a legitimate exemption, because a pattern match cannot tell a party reference from a
+  brand, a caption, or the other side's own words.
 - `[mechanical]` Pages actually read equals the document's page count. A partial read cannot
-  support a negative finding.
+  support a negative finding. Decidable only if the extraction manifest records per-document
+  read coverage, not just page count. Where it records only page count, the honest result is
+  `UNKNOWN` — do not report it as a pass.
 - `[attest]` Before reporting that something is absent, the whole document was read to the end,
   and it was the right document. Report the negative as a negative — "no X was located in Y" —
   rather than converting it into an affirmative claim about the world.
@@ -68,6 +76,10 @@ Do not describe the `[attest]` set as automated coverage.
 
 - `[mechanical]` Filename or document text containing `DRAFT`, `UNSIGNED`, `UNEXECUTED`, or
   `never recorded` sets status to draft. A draft is not evidence of a conveyance.
+  Scope the check to the *assertion*, not to proximity: a draft marker appearing alongside
+  conveyance language is correct usage when the sentence denies the conveyance ("unexecuted
+  quitclaim — title remains in the grantor"). Flag only where the instrument is relied on
+  affirmatively. Proximity alone was tried and produced only false positives.
 - `[mechanical]` A recorder's document number is present and transcribed digit-by-digit from the
   stamp. Two readings that differ by one digit are a discrepancy to resolve, not a typo to pick
   between.
@@ -146,6 +158,24 @@ Do not describe the `[attest]` set as automated coverage.
 - `[attest]` Where a provision governs removal, forfeiture, or expulsion: quote the provision,
   quote the notice or act said to invoke it, and enumerate which elements are met and which are
   not. Reach no conclusion the enumeration does not support, in either direction.
+
+## Exercised against a real corpus
+
+The mechanical subset was run against a 76-document package on 2026-10-02. Results, which are
+the reason four of the checks above now read differently:
+
+| check | outcome |
+|---|---|
+| exhibit IDs resolve | **true positive** — 4 cited IDs with no index entry, one carrying a pin-cited substantive proposition |
+| recorder doc numbers | **true positive** — two readings of one number differing by a single digit, both in circulation |
+| citation format | fired on all 251 citations; a standard-adoption question, not 251 defects |
+| pages read vs count | undecidable — manifest records page count, not read coverage |
+| draft markers | **all false positives** — rule rewritten |
+| entity names in full | **all false positives** — reclassified to `[attest]` |
+
+Two of six mechanical checks produced findings. A check that cannot distinguish a party
+reference from a brand name, or correct usage from misuse, is worse than no check: it trains
+the reader to skim the output.
 
 ## Status
 
