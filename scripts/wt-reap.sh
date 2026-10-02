@@ -92,7 +92,14 @@ repo_slug() { # $1=worktree path -> sets REPO_SLUG ("" if undeterminable)
   esac
 }
 
-reclaimed=0
+# Candidate node_modules paths accumulate here so the total can be measured
+# with ONE du invocation at the end. Summing per-directory du double-counts:
+# pnpm/npm hardlink shared files between worktrees, and `du` counts a given
+# inode once per invocation. Measured 2026-10-02: summing per directory gave
+# 28636MB across 23 worktrees, while a single du over the same 668 directories
+# gave 9779MB — the per-directory sum exceeded the 17G the entire worktree
+# root occupies, which is how the error was caught.
+REAP_DIRS=()
 eligible=0
 skipped=0
 
@@ -150,8 +157,11 @@ for wt in "$WTROOT"/*/; do
   if [ "${#nm[@]}" -eq 0 ]; then continue; fi
   kb="$(du -s --total "${nm[@]}" 2>/dev/null | tail -1 | cut -f1)"
   eligible=$((eligible+1))
-  reclaimed=$((reclaimed + ${kb:-0}))
-  printf 'REAP  %-58s %6sMB  PR %s (%s)\n' "$name" "$(( ${kb:-0} / 1024 ))" "$state" "$branch"
+  REAP_DIRS+=("${nm[@]}")
+  # "apparent" because content hardlinked to another worktree is counted here
+  # but will not free until the last link to it is gone. The footer total is
+  # the figure to trust.
+  printf 'REAP  %-58s %6sMB apparent  PR %s (%s)\n' "$name" "$(( ${kb:-0} / 1024 ))" "$state" "$branch"
   if [ "$APPLY" -eq 1 ]; then
     for d in "${nm[@]}"; do rm -rf "$d" || echo "      FAILED: $d"; done
     echo "      deleted ${#nm[@]} node_modules dir(s) — regenerate with your package manager"
@@ -159,5 +169,16 @@ for wt in "$WTROOT"/*/; do
 done
 
 echo
-printf 'eligible: %d   skipped: %d   reclaimable: %sMB\n' "$eligible" "$skipped" "$(( reclaimed / 1024 ))"
+if [ "${#REAP_DIRS[@]}" -gt 0 ]; then
+  # One invocation, so each inode is counted once no matter how many
+  # worktrees link to it.
+  true_kb="$(du -s --total "${REAP_DIRS[@]}" 2>/dev/null | tail -1 | cut -f1)"
+else
+  true_kb=0
+fi
+printf 'eligible: %d worktrees, %d node_modules dirs   skipped: %d\n' \
+  "$eligible" "${#REAP_DIRS[@]}" "$skipped"
+printf 'on-disk size of those dirs: %sMB (hardlinks counted once)\n' "$(( ${true_kb:-0} / 1024 ))"
+echo "that is an upper bound on space freed: content still hardlinked from a"
+echo "skipped worktree does not free until its last link is removed."
 [ "$APPLY" -eq 1 ] || echo "re-run with --apply to delete"
