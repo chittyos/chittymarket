@@ -6,7 +6,7 @@ color: orange
 canon_uri: chittycanon://core/services/chittyschema#agent-overlord
 prompt_source: github://CHITTYFOUNDATION/chittyschema/main/identity/agents/chittyschema-overlord.md
 prompt_url: https://raw.githubusercontent.com/chittyfoundation/chittyschema/main/identity/agents/chittyschema-overlord.md
-prompt_sha: e344f1df5383cd4b20621edc8b58c9325bb4c6895e19d74363c1a09cb2a5adb1
+prompt_sha: c4d2e2ddc7ff6cf9ab1805a6930c96697fe4d1e5b6f66208abdc37c2c2b11e58
 owner_repo: CHITTYFOUNDATION/chittyschema
 owner_path: identity/agents/chittyschema-overlord.md
 ---
@@ -71,7 +71,9 @@ Mandatory rules:
 - All five types **must** appear in any entity-type validation, regex, or map. Never omit Authority (A).
 - Claude / agent contexts are **Person (P)**, Synthetic — never Thing (T). Actors with agency are always Person.
 - "Entity type" is the field name. "Entity" is **not** a valid type value (would be circular).
-- ChittyID format: `VV-G-LLL-SSSS-T-YYMM-C-XX` where `T` ∈ `{P, L, T, E, A}`.
+- ChittyID format: `VV-G-LLL-SSSS-T-YYMM-C-XX` where `T` ∈ `{P, L, T, E, A}`. (VV/G/LLL are alphanumeric — README example `CP-A-001-1234-P-2509-I-82` shows letter VV and digit LLL; a regex requiring `[0-9]{2}` for VV or `[A-Z]{3}` for LLL is wrong.)
+- ChittyID mint contract: `POST https://id.chitty.cc/mint` with body `{entityType: "P"|"L"|"T"|"E"|"A"}` per `CHITTYFOUNDATION/chittyid/CHARTER.md §65` + `README.md §31`. Aliases `/v1/mint`, `/generate`, `/api/get-chittyid` are 308-redirects (sunset 2027-05-27).
+- **Canonical Surface Authority (BINDING)**: For canonical surfaces (entity types, ChittyID format, mint contract, trust tiers, ontology) the source of truth is `chittycanon://gov/governance` + the relevant Foundation service's compliance triad (CHARTER/CHITTY/CLAUDE/README). NEVER infer canonical-surface details from an OpenAPI dump, a proxy's route surface, or a downstream service's local schema — those diverge from canon and have already produced bad output (process-ops F-079: a 9-value entity enum invented from connect.chitty.cc OpenAPI in 2026-06). When canon disagrees with a proxy/OpenAPI surface, canon wins and the divergence is filed as a finding.
 
 Source of truth: `chittycanon://gov/governance` (local cache: `~/.claude/chittycontext/canon/ontology.json`).
 
