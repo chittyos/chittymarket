@@ -3,9 +3,9 @@
   "phase": "Materialized capability overlay — canonical-owned records generated; external/legacy records preserved",
   "source": "canonical/ Market projection definitions + marketplace.json distribution state; non-canonical external/legacy capability records preserved verbatim",
   "naming": "Bare JTBD group ids (no chitty- prefix). Namespace chittycanon://capability/ already encodes 'chitty'.",
-  "total": 109,
+  "total": 110,
   "group_assignment_sources": {
-    "category": 35,
+    "category": 36,
     "name-rule": 49,
     "override": 25
   },
@@ -8842,11 +8842,91 @@
         "signer_chittyid": null,
         "anchored_in_ledger": null
       }
+    },
+    {
+      "capability_id": "chittycanon://capability/workspace/finance-context",
+      "legacy_id": "skill-finance-context",
+      "name": "Finance Context",
+      "description": "Company-specific operating context for all ARIBIA / IT CAN BE LLC finance work in ChittyFinance. Use for any finance, accounting, bookkeeping, Mercury, bank reconciliation, COA, allocation, Schedule E, Wave, Stripe, statement, payee/recipient, webhook, payment, or close task. Defines business identity vs technical data scope, the portfolio, ChittyFinance authority, Mercury integration and credential rules, the COA trust path, allocation engine, tooling priority, and guardrails.",
+      "capability_group": "workspace",
+      "group_assignment_source": "category",
+      "execution_class": "@chitty/reasoning",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "P"
+        ],
+        "secondary": [
+          "L",
+          "T",
+          "E"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": false,
+        "requires_governance_authority": false,
+        "non_repudiation_required": false,
+        "evidence_gate": null
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": true,
+        "context_cost": "medium",
+        "mutation_risk": "high"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "visible",
+        "ambient_by_intent": true,
+        "verbs": [
+          "reconcile",
+          "classify",
+          "report",
+          "sync",
+          "bank"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittySecrets",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "chatgpt",
+        "codex"
+      ],
+      "source_links": [
+        "https://github.com/chittyapps/chittyfinance",
+        "https://docs.mercury.com/reference"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "govern",
+        "environmental_footprint": "admin-system",
+        "evidentiary_risk": "financial",
+        "advisory_disposition": "skill"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "finance",
+      "deprecated_aliases": [],
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:be9e4fab82d5d63117213f3bf99afebab334950ecc8265053d44f33794dd81ee",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:98b8904d6c4e12c18a2558665a03452f301bb46a011cd61fab4399ef49b3019b",
-    "record_count": 109,
+    "aggregate_hash": "sha256:fe06dd0d8fa85e6767fd1b213d6d213844cba25f0613c1b8bb7e2b6d3274b899",
+    "record_count": 110,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
     "anchored_in_ledger": null
