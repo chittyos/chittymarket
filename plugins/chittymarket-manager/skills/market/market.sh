@@ -6,6 +6,12 @@
 #   disable <id>
 #   info <id>
 #   sync
+#   inventory [id|--all]
+#   deps <id>
+#   preflight [id|path]
+#   audit [id|--all]
+#   publish <id|path>
+#   retire <id>
 
 set -euo pipefail
 
@@ -487,6 +493,126 @@ print(f'Last sync: {manifest[\"lastSync\"]}')
 "
 }
 
+
+# CAPABILITY OFFICE
+
+repo_root() {
+  local mreal
+  mreal="$(readlink -f "$MANIFEST" 2>/dev/null || echo "$MANIFEST")"
+  dirname "$mreal"
+}
+
+cmd_inventory() {
+  local target="${1:---all}"
+  [[ -f "$OVERLAY" ]] || die "overlay not found at $OVERLAY"
+  TARGET="$target" OVERLAY_FILE="$OVERLAY" MANIFEST_FILE="$MANIFEST" python3 - <<'PY'
+import json, os, sys
+target=os.environ["TARGET"]
+with open(os.environ["OVERLAY_FILE"]) as f: caps=json.load(f).get("capabilities",[])
+with open(os.environ["MANIFEST_FILE"]) as f: arts=json.load(f).get("artifacts",[])
+by_legacy={c.get("legacy_id"):c for c in caps}
+rows=[]
+for a in arts:
+    aid=a.get("id")
+    if not aid: continue
+    if target not in ("--all","") and target not in (aid,a.get("name")): continue
+    c=by_legacy.get(aid,{})
+    rows.append((aid,a.get("type","?"),a.get("enabled"),a.get("installMode","?"),c.get("capability_id","UNRESOLVED"),c.get("canonical_version","?")))
+if not rows:
+    print("HOLD: no canonical/projected artifact matched "+target)
+    sys.exit(2)
+print("ID\tTYPE\tENABLED\tMODE\tCANONICAL\tVERSION")
+for row in rows: print("\t".join(map(str,row)))
+PY
+}
+
+cmd_deps() {
+  local artifact_id="$1"
+  local root; root="$(repo_root)"
+  ROOT="$root" ARTIFACT_ID="$artifact_id" MANIFEST_FILE="$MANIFEST" python3 - <<'PY'
+import json, os, pathlib, sys
+root=pathlib.Path(os.environ["ROOT"]); aid=os.environ["ARTIFACT_ID"]
+with open(os.environ["MANIFEST_FILE"]) as f: manifest=json.load(f)
+art=next((a for a in manifest.get("artifacts",[]) if a.get("id")==aid),None)
+plugin_name=aid.removeprefix("plugin-") if art and art.get("type")=="plugin" else aid
+p=root/"plugins"/plugin_name/".claude-plugin"/"plugin.json"
+if not p.exists():
+    print("HOLD: plugin manifest not found: "+str(p)); sys.exit(2)
+data=json.loads(p.read_text()); req=data.get("requires",[])
+print("plugin: "+data.get("name",plugin_name)); print("requires:")
+if not req: print("  (none)")
+bad=False
+for dep in req:
+    exists=(root/"plugins"/dep/".claude-plugin"/"plugin.json").exists()
+    print("  "+("OK" if exists else "HOLD")+" "+dep); bad |= not exists
+if bad: sys.exit(2)
+PY
+}
+
+cmd_preflight() {
+  local target="${1:-}"
+  local root; root="$(repo_root)"
+  [[ -d "$root/scripts" ]] || die "canonical ChittyMarket repo not resolved from manifest: $root"
+  echo "Preflight target: ${target:-repository}"
+  echo "Repository: $root"
+  (
+    cd "$root"
+    bash scripts/lint-plugins.sh
+    python3 scripts/validate-openai-workspace.py
+    python3 scripts/check-matter-leak.py
+    bash scripts/test-plugins.sh
+    bash scripts/check-overlay-coverage.sh
+    python3 scripts/validate-overlay-schema.py
+    bash scripts/check-source-freshness.sh
+    python3 scripts/overlay-provenance.py verify
+    python3 scripts/check-document-contract.py
+    bash scripts/tests/test-market-reconcile.sh
+    bash -n plugins/chittyagent-dispatch/scripts/dispatch.sh
+    python3 -m py_compile plugins/chittyagent-dispatch/scripts/lib/state.py
+    python3 scripts/tests/test_dispatch_state.py
+    python3 scripts/check-agent-identity.py
+    python3 scripts/market-reconcile.py audit
+    before="$(git status --porcelain)"
+    python3 scripts/market-reconcile.py sync >/tmp/chittymarket-preflight-reconcile.txt
+    bash plugins/chittyagent-dispatch/scripts/dispatch.sh sync >/tmp/chittymarket-preflight-dispatch.txt
+    bash plugins/chittyagent-dispatch/scripts/dispatch.sh audit
+    bash scripts/generate-marketplace.sh >/tmp/chittymarket-preflight-marketplace.txt
+    after="$(git status --porcelain)"
+    if [[ "$before" != "$after" ]]; then
+      echo "HOLD: generation is not idempotent; canonical/generated state drifted." >&2
+      git diff --stat >&2 || true
+      exit 2
+    fi
+  )
+  echo "PREFLIGHT PASS"
+}
+
+cmd_audit() {
+  local target="${1:---all}" rc=0
+  echo "== inventory =="; cmd_inventory "$target" || rc=$?
+  echo "== provenance =="
+  if [[ "$target" == "--all" ]]; then cmd_verify --all || rc=$?; else cmd_verify "$target" || rc=$?; fi
+  echo "== repository reconciliation =="
+  local root; root="$(repo_root)"
+  (cd "$root" && python3 scripts/market-reconcile.py audit) || rc=$?
+  return "$rc"
+}
+
+cmd_publish() {
+  local target="$1"
+  cmd_preflight "$target"
+  echo "READY: preflight passed for $target"
+  echo "HOLD: publication mutation is delegated to the canonical PR/merge/register/index surface; no approval or receipt is fabricated."
+  return 2
+}
+
+cmd_retire() {
+  local artifact_id="$1"
+  cmd_deps "$artifact_id" || true
+  echo "HOLD: retirement requires reverse-consumer reconciliation and an explicit canonical deprecation/removal change. No destructive mutation performed for $artifact_id."
+  return 2
+}
+
 # ─── Main ────────────────────────────────────────────────────────────────────
 
 require_manifest
@@ -497,6 +623,12 @@ case "${1:-list}" in
   disable) [[ -n "${2:-}" ]] || die "Usage: market.sh disable <id>"; cmd_toggle "$2" "disable" ;;
   info)    [[ -n "${2:-}" ]] || die "Usage: market.sh info <id>"; cmd_info "$2" ;;
   verify)  cmd_verify "${2:-}" ;;
-  sync)    cmd_sync ;;
-  *)       die "Unknown command: $1" ;;
+  sync)      cmd_sync ;;
+  inventory) cmd_inventory "${2:---all}" ;;
+  deps)      [[ -n "${2:-}" ]] || die "Usage: market.sh deps <id>"; cmd_deps "$2" ;;
+  preflight) cmd_preflight "${2:-}" ;;
+  audit)     cmd_audit "${2:---all}" ;;
+  publish)   [[ -n "${2:-}" ]] || die "Usage: market.sh publish <id|path>"; cmd_publish "$2" ;;
+  retire)    [[ -n "${2:-}" ]] || die "Usage: market.sh retire <id>"; cmd_retire "$2" ;;
+  *)         die "Unknown command: $1" ;;
 esac
