@@ -26,7 +26,7 @@ Load for LLM-routing, model-selection, OpenClaw gateway, or cross-client AI-conf
 ## Models & routing
 
 - Providers: **`chittyclaw`** (CF AI Gateway `/compat`) → Workers AI (`@cf/meta/llama-3.3-70b-instruct-fp8-fast`, `@cf/meta/llama-3.1-8b-instruct`, `@cf/qwen/qwen2.5-coder-32b-instruct`); **`ollama`** (local `127.0.0.1:11434`, `glm-5.1:cloud`) = on-box/offline fallback.
-- **In transition:** default `primary` moving from the fixed Workers-AI model to CF AI Gateway **Dynamic Route `chittyclaw/dynamic/three-wise-men`** (server-side model selection/fallback). Live VM template still shows the fixed model; persona worktree + Mac launchd instance have moved. **The route's member-model/fallback definition is server-side in CF, not in these repos** — look it up in the AI Gateway dashboard/API before relying on its behavior.
+- **Default route:** CF AI Gateway **Dynamic Route `dynamic/three-wise-men`** on gateway `central` (account ChittyCorp `0bc21e3a5a9de1a4cc843be9c3e98121`): claude-opus-4-8 primary, claude-sonnet-4-5 fallback, 300s timeout, 1 retry each. Routes live server-side in CF, so the definition is now codified at `scripts/ai-gateway-routes/three-wise-men.json` and applied/drift-checked with `scripts/apply-gateway-route.sh <json> [--check]` (needs `CLOUDFLARE_API_TOKEN` from the ChittySecrets/ChittyConnect broker; exit 1 = drift). On 2026-10-02 zero dynamic routes existed on any gateway, which is why calls returned 400 code 2005; the route was recreated and codified.
 - **Auth is NOT off** (doc was stale). The gateway **hard-requires `CLOUDFLARE_ISSUED_CHITTYCLAW_AI_GATEWAY_TOKEN` at startup and fails closed** — `SecretRefResolutionError` → `Startup failed: required secrets are unavailable`. Placing that value is broker/`chico` work; never resolve it yourself.
 - **CLI invocation gotcha:** `--model` needs `<provider>/<catalog-id>`, and the catalog id itself contains a slash. `openclaw infer model list` shows `dynamic/three-wise-men`, but the working argument is `cloudflare-ai-gateway/dynamic/three-wise-men`. Passing the bare id fails `Unknown model`.
 - **Use the wrapper, do not hand-roll the invocation.**
@@ -39,7 +39,7 @@ Load for LLM-routing, model-selection, OpenClaw gateway, or cross-client AI-conf
   misread as "no findings"), strips the CLI's config/doctor chrome, and exits **3** on a model/route
   failure. Never report a change as reviewed on a non-zero exit.
 
-- **`dynamic/adversarial-reviewer` is BROKEN** (verified 2026-07-30): the catalog advertises it as configured+available ("ChittyClaw Cost-Conscious Adversarial Reviewer"), but calls return `400 {"code":2005,"message":"Failed to get response from provider"}`. The route definition is server-side in CF AI Gateway. Until fixed, the separated-review workflow silently degrades — fall back to `cloudflare-ai-gateway/dynamic/three-wise-men` and say so in the review output.
+- **`dynamic/adversarial-reviewer` no longer exists** on any gateway (was missing alongside `three-wise-men`, 400 code 2005) and must not be used or recreated: it was a $0.00 / 32k-context route, the inadequate-reviewer failure mode. On wrapper exit 2 or 3 the review was NOT performed; report it that way.
 
 ## OpenClaw & ai-parity
 
