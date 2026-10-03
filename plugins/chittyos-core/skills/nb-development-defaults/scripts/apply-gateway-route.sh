@@ -29,21 +29,38 @@ set +x
 ACCOUNT="0bc21e3a5a9de1a4cc843be9c3e98121"
 GATEWAY=""
 CHECK=0
+SMOKE=0
 FILE=""
 
 die() { echo "$*" >&2; exit 2; }
+
+finish() {
+  # --smoke: in-sync JSON is not proof the route answers. Call it for real through
+  # the sibling reviewer script (chittyclaw path) with a tiny diff; non-zero = broken.
+  if [[ $SMOKE -eq 1 ]]; then
+    local review; review="$(dirname "$0")/adversarial-review.sh"
+    [[ -r "$review" ]] || die "--smoke needs $review"
+    printf -- '--- a/x.js\n+++ b/x.js\n@@ -1 +1 @@\n-return t > 0\n+return t >= 0 || t\n' \
+      | REVIEW_MODEL="cloudflare-ai-gateway/dynamic/$NAME" bash "$review" - >/dev/null 2>&1 \
+      || { echo "SMOKE FAILED: dynamic/$NAME did not return a review" >&2; exit 3; }
+    echo "smoke ok: dynamic/$NAME returned a review"
+  fi
+  exit 0
+}
+
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --gateway) GATEWAY="${2:-}"; [[ -n "$GATEWAY" ]] || die "--gateway needs a value"; shift 2 ;;
     --check)   CHECK=1; shift ;;
+    --smoke)   SMOKE=1; shift ;;
     -h|--help) sed -n '2,24p' "$0"; exit 0 ;;
     -*)        die "unknown arg: $1" ;;
     *)         [[ -z "$FILE" ]] || die "unexpected extra arg: $1"; FILE="$1"; shift ;;
   esac
 done
 
-[[ -n "$FILE" && -r "$FILE" ]] || die "usage: $(basename "$0") <route-json> [--gateway central] [--check]"
+[[ -n "$FILE" && -r "$FILE" ]] || die "usage: $(basename "$0") <route-json> [--gateway central] [--check] [--smoke]"
 command -v jq >/dev/null   || die "jq is required"
 command -v curl >/dev/null || die "curl is required"
 
@@ -94,7 +111,7 @@ if [[ -z "$ROUTE_ID" ]]; then
   printf '%s' "$CREATED" | jq -e '.result.deployment.version_id' >/dev/null \
     || die "route created but no deployment reported; run --check and inspect"
   echo "applied: route '$NAME' ($ROUTE_ID) created and deployed on '$GATEWAY'"
-  exit 0
+  finish
 else
   DETAIL="$(api GET "$BASE/$ROUTE_ID")"
   # Active version's elements; shape probed in order. Unknown shape => exit 2, never "in sync".
@@ -112,7 +129,7 @@ else
   fi
   if [[ "$LIVE" == "$DESIRED" ]]; then
     echo "in sync: route '$NAME' ($ROUTE_ID) on '$GATEWAY'"
-    exit 0
+    finish
   fi
   if [[ $CHECK -eq 1 ]]; then
     echo "DRIFT: live active version of '$NAME' ($ROUTE_ID) differs from $FILE" >&2
@@ -123,8 +140,22 @@ else
 fi
 
 if [[ "${NEED_VERSION:-0}" -eq 1 ]]; then
-  VER="$(api POST "$BASE/$ROUTE_ID/versions" "$(jq -c '{elements: .elements}' "$FILE")")"
-  VERSION_ID="$(printf '%s' "$VER" | jq -er '.result.id // .result.version_id')" || die "version create returned no id"
+  api POST "$BASE/$ROUTE_ID/versions" "$(jq -c '{elements: .elements}' "$FILE")" >/dev/null
+  # The create response does not reliably carry the version id (its .result.id is
+  # the route's). Find the version by CONTENT instead: verified live 2026-10-02,
+  # GET .../versions returns .data.versions[] {version_id, data, created_at}.
+  # NOTE: CF reports is_valid:false on a working active version; do not gate on it.
+  VERSIONS="$(api GET "$BASE/$ROUTE_ID/versions")"
+  VERSION_ID="$(printf '%s' "$VERSIONS" | jq -r --argjson want "$DESIRED" '
+    [(.data.versions // .result.versions // [])[]
+     | select((.data | tojson | fromjson) as $d | ($d | walk(if type=="object" then to_entries|sort_by(.key)|from_entries else . end)) == ($want | walk(if type=="object" then to_entries|sort_by(.key)|from_entries else . end)))]
+    | sort_by(.created_at) | last | .version_id // empty')"
+  [[ -n "$VERSION_ID" ]] || die "created a version but cannot find one whose elements match $FILE; nothing deployed"
   api POST "$BASE/$ROUTE_ID/deployments" "$(jq -c -n --arg v "$VERSION_ID" '{version_id:$v}')" >/dev/null
-  echo "applied: route '$NAME' ($ROUTE_ID) version $VERSION_ID deployed on '$GATEWAY'"
+  # Read back: the deployed version must now carry exactly the desired elements.
+  AFTER="$(api GET "$BASE/$ROUTE_ID" | jq -S -c 'if (.result.version.version_id == .result.deployment.version_id) then .result.version.data else empty end')"
+  [[ "$AFTER" == "$DESIRED" ]] || die "deploy of $VERSION_ID did not take: live deployed elements differ from $FILE"
+  echo "applied: route '$NAME' ($ROUTE_ID) version $VERSION_ID deployed and read back on '$GATEWAY'"
 fi
+
+finish
