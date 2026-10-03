@@ -34,14 +34,16 @@ FILE=""
 
 die() { echo "$*" >&2; exit 2; }
 
+# Resolve symlinks so lib/ is found even when the script is linked into PATH.
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 # shellcheck source=lib/gateway-route-lookup.sh
-. "$(dirname "$0")/lib/gateway-route-lookup.sh" || { echo "missing lib/gateway-route-lookup.sh" >&2; exit 2; }
+. "$SCRIPT_DIR/lib/gateway-route-lookup.sh" || die "missing $SCRIPT_DIR/lib/gateway-route-lookup.sh"
 
 finish() {
   # --smoke: in-sync JSON is not proof the route answers. Call it for real through
   # the sibling reviewer script (chittyclaw path) with a tiny diff; non-zero = broken.
   if [[ $SMOKE -eq 1 ]]; then
-    local review; review="$(dirname "$0")/adversarial-review.sh"
+    local review; review="$SCRIPT_DIR/adversarial-review.sh"
     [[ -r "$review" ]] || die "--smoke needs $review"
     printf -- '--- a/x.js\n+++ b/x.js\n@@ -1 +1 @@\n-return t > 0\n+return t >= 0 || t\n' \
       | REVIEW_MODEL="cloudflare-ai-gateway/dynamic/$NAME" bash "$review" - >/dev/null 2>&1 \

@@ -78,7 +78,8 @@ fi
 command -v jq >/dev/null || { echo "jq is required (parses the openclaw --json result)" >&2; exit 1; }
 command -v timeout >/dev/null || { echo "timeout(1) is required (bounds the remote call)" >&2; exit 1; }
 REVIEW_TIMEOUT="${REVIEW_TIMEOUT:-600}"
-[[ "$REVIEW_TIMEOUT" =~ ^[1-9][0-9]*$ ]] || { echo "invalid REVIEW_TIMEOUT: positive integer seconds" >&2; exit 1; }
+[[ "$REVIEW_TIMEOUT" =~ ^[1-9][0-9]*$ ]] && (( REVIEW_TIMEOUT <= 3600 )) \
+  || { echo "invalid REVIEW_TIMEOUT: integer seconds in 1..3600" >&2; exit 1; }
 
 TMP="$(mktemp)"
 trap 'rm -f "$TMP"' EXIT
@@ -161,7 +162,7 @@ REMOTE_CMD="$(printf '%q ' docker exec -i "$CLI_CONTAINER" sh -c "$REMOTE_PROG" 
   adv-review "$MODEL" "$EXPECT_BYTES" "$EXPECT_SHA")"
 
 set +e
-timeout "$REVIEW_TIMEOUT" ssh -o BatchMode=yes -o ServerAliveInterval=15 \
+timeout -k 10 "$REVIEW_TIMEOUT" ssh -o BatchMode=yes -o ServerAliveInterval=15 \
   "$NODE" "$REMOTE_CMD" < "$PROMPT" > "$RESP" 2> "$ERRF"
 RC=$?
 set -e
@@ -182,8 +183,10 @@ delivery_fail() {
   exit 3
 }
 
-# A timeout is a failed review whatever else arrived (exit 124 from timeout(1)).
-(( RC != 124 )) || fail "timed out after ${REVIEW_TIMEOUT}s"
+# A timeout is a failed review whatever else arrived: 124 = TERM after the deadline,
+# 137 = KILL 10s later (-k) when TERM was ignored. Any other non-zero RC still fails
+# below at "remote exit status" — success requires RC 0.
+(( RC != 124 && RC != 137 )) || fail "timed out after ${REVIEW_TIMEOUT}s (rc $RC)"
 
 # Delivery is verified BEFORE anything else is believed. No handshake line means
 # the container program never got as far as reading the prompt.

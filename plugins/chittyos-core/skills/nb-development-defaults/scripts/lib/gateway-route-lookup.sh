@@ -12,13 +12,21 @@
 # .data.routes (there is no .result). .result.routes is kept only as a fallback.
 # An unknown shape must never read as "absent": absent drives the create path,
 # which would make a duplicate route.
+#
+# Key selection is STRICT, not `a // b`: if .data carries a `routes` key, that key
+# is the list and must be an array (null/object => exit 2); .result.routes is
+# consulted only when .data has no `routes` key at all. So a null or broken
+# .data.routes can never fall through to some other field.
+_ROUTE_LIST_SEL='if ((.data | type) == "object" and (.data | has("routes"))) then .data.routes
+  elif ((.result | type) == "object" and (.result | has("routes"))) then .result.routes
+  else null end'
 route_id_from_list() {
   local list="$1" name="$2"
-  if ! printf '%s' "$list" | jq -e '(.data.routes // .result.routes) | type == "array"' >/dev/null 2>&1; then
+  if ! printf '%s' "$list" | jq -e "($_ROUTE_LIST_SEL) | type == \"array\"" >/dev/null 2>&1; then
     echo "unrecognised route-list response shape; top-level keys:" >&2
     printf '%s' "$list" | jq -c 'keys?' >&2 2>/dev/null || echo "(not JSON)" >&2
     return 2
   fi
   printf '%s' "$list" | jq -r --arg n "$name" \
-    '[(.data.routes // .result.routes)[] | select(.name == $n) | .id][0] // empty'
+    "[($_ROUTE_LIST_SEL)[] | select(.name == \$n) | .id][0] // empty"
 }

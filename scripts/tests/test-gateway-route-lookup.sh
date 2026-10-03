@@ -40,6 +40,9 @@ check "no list key at all: unknown shape, exit 2"   2 ""  '{"success":true}' "$R
 check "bare .result array: unknown shape, exit 2"   2 ""  '{"success":true,"result":[]}' "$R"
 check "detail object is not a list: exit 2"         2 ""  "$DETAIL" "$R"
 check "non-JSON body: exit 2"                       2 ""  'not json' "$R"
+check ".data.routes null: exit 2 (no fall-through)"  2 ""  '{"success":true,"data":{"routes":null},"result":{"routes":[{"id":"r-1","name":"x"}]}}' "x"
+check ".data.routes object: exit 2"                  2 ""  '{"success":true,"data":{"routes":{}}}' "$R"
+check ".data without routes, legacy list: found"     0 "r-1" '{"success":true,"data":{"page":1},"result":{"routes":[{"id":"r-1","name":"x"}]}}' "x"
 
 if (( FAILS > 0 )); then echo "$FAILS gateway-route lookup test(s) failed"; exit 1; fi
 echo "all gateway-route lookup tests passed"
