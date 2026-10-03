@@ -94,6 +94,18 @@ jobs:
           python3 scripts/tests/test_dispatch_state.py
           python3 scripts/tests/test_dispatch_workflow.py
 
+      # Gauntlet core (canonical/workflows/gauntlet.core.js) — the single source tier 1 inlines
+      # and tier 2 vendors. The runner asserts every golden case and fails on a coverage gap;
+      # the derive check proves the committed fixtures are still exactly what the PRE-refactor
+      # script produced (so no expectation was hand-edited to fit). The pinned commit is fetched
+      # by SHA because the checkout is shallow.
+      - name: Gauntlet core golden fixtures
+        run: |
+          node scripts/tests/run_gauntlet_fixtures.mjs
+          python3 scripts/tests/test_gauntlet_core.py
+          git fetch --no-tags --depth=1 origin 81902136ed7c27e99f73517ff43cda8454594185
+          python3 scripts/tests/derive_gauntlet_fixtures.py --check
+
       - name: Agent projection identity
         run: python3 scripts/check-agent-identity.py
 

@@ -8,6 +8,10 @@
 #          plugins/<plugin>/codex-skills/<name>/SKILL.md,
 #          plugins/<plugin>/openclaw-agents/<name>.yaml,
 #          plugins/<plugin>/workflows/<name>.js
+#        - an inlined include staged (canonical/<kind>/<file>.js): every canonical in
+#          that kind-dir whose script carries the marker `// @inline <file>.js`
+#          (grammar: lib/inline_includes.py) is re-synced, so a core edit committed
+#          without its re-projection is blocked like any other drift
 #   2. Re-run `dispatch.sh sync <name>` for each touched canonical.
 #   3. If sync produced any changes (modified projection, modified state, or new
 #      untracked artifacts), the commit is incomplete or has direct-edit drift.
@@ -36,6 +40,13 @@ for f in "${staged[@]}"; do
       n="${n##*/}"     # strip subdir(s) → basename
       n="${n%.md}"
       [ "$n" = "README" ] || names["$n"]=1 ;;
+    canonical/*/*.js)
+      # An inlined include: re-sync every sibling canonical that inlines it.
+      inc="${f##*/}"; kdir="${f%/*}"
+      while IFS= read -r c; do
+        [ -n "$c" ] || continue
+        n="${c##*/}"; names["${n%.md}"]=1
+      done < <(grep -lE "^// @inline ${inc//./\\.}[[:space:]]*\$" "$REPO_ROOT/$kdir"/*.md 2>/dev/null || true) ;;
     plugins/*/agents/*.md)
       n="${f##*/}"; names["${n%.md}"]=1 ;;
     plugins/*/codex-skills/*/SKILL.md)
