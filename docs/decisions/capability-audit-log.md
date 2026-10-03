@@ -858,3 +858,66 @@ duplicates_found: []
 migration_required: yes
 migration_owner: chittyos-finance
 ```
+
+### Amendment 1 (2026-10-03, same PR): duplicate search re-run against `origin/main`; Step 1.5 completed
+
+Two gaps in the entry above, both found on self-review before the report was written.
+
+**1. The Step 1 inventory was read from the wrong branch.** The shared chittymarket checkout sits on
+`feat/chittyagent-serv-fleet-caretaker` (109 → 108 records); this PR's worktree is cut from
+`origin/main`, which carries **109**. The entry's "110 records" is the post-change count, not the
+count searched. Re-run against `origin/main:capabilities.generated.json`:
+
+- The one record present on `main` and absent from the branch originally searched is
+  `chittycanon://capability/build/gauntlet` — a review-workflow capability, not finance.
+  **The `promote` disposition is unaffected.**
+- The first keyword pass was also noisier than it looked: every record carries
+  `provenance.anchored_in_ledger`, so a bare `ledger` substring matches all 109. Re-run with
+  `provenance` stripped, the substantive hits are four, and each is cleared:
+
+| Record | Why it is not a duplicate |
+|---|---|
+| `connect/mercury-banking-claude-ai` | A **connector**. Composed with, never redefined — already recorded |
+| `legal/chittymcp-claude-ai` | *"identity, cases, evidence, facts, ledger, finance, memory, credentials"* — a **gateway tool surface**, not a books method. No job-to-be-done overlap with a governing constitution. Added to the capability's connection table so the relationship is explicit: its finance tools are **governed by** these principles, not excused from them |
+| `legal/dispute-manager` | *"property, insurance, legal, and financial matters"* — dispute intake, not bookkeeping |
+| `govern/chittyid-accountability` | "account" as in accountability. Unrelated |
+
+**2. Step 1.5 (Ch1tty `servers.json` + ChittyMCP registrations) was not run in the original pass.**
+Completed now, and it changes what "connections" resolves to:
+
+- `CHITTYOS/ch1tty/servers.json` — **no `chittyfinance` entry.** The service is not registered with
+  the gateway, so no channel reaches its MCP surface through ch1tty today.
+- `chittymarket/ch1tty-servers-additions.json` — a ChittyFinance entry exists, but that file is an
+  **unmerged proposal** ("Proposed additions … Merge into the `servers` array"), and its endpoint
+  note — *"MCP endpoint pending — add /mcp when ChittyFinance ships native MCP"* — is **stale**.
+- Probed directly: `/mcp` → **401** while an unknown path → **404**, and `/api/v1/status` → 200.
+  A blanket auth middleware would 401 the unknown path too. **The MCP route is real and
+  auth-gated**; the proposal file's "pending" note no longer describes reality.
+
+So the precise answer: the ChittyFinance MCP surface **exists and is live, but is unregistered**.
+Registering it in `servers.json` is a backend change under Centralized Registration and routes
+through `/chico`; it is explicitly **not** done here and must never be worked around by adding the
+server to a local `.mcp.json`. The capability's connection table now states the unregistered status
+rather than implying reachability it does not have — a routing table that overstates what resolves
+is the failure §10 exists to prevent.
+
+```yaml
+migration_item:  register-chittyfinance-mcp-with-ch1tty-gateway
+from_artifact:   chittymarket/ch1tty-servers-additions.json (unmerged proposal, stale endpoint note)
+to_canonical_capability: chittycanon://capability/finance/finance-operating-defaults
+action:          document
+blocking_dependencies: ["backend registration is /chico-routed", "servers.json lives in CHITTYOS/ch1tty"]
+risk_level:      low
+owner:           chittyconnect-concierge
+status:          backlog
+completion_evidence: null
+```
+
+**Scope note.** This audit covers the **capability**, not the plugin. `chittyos-finance` is a
+distribution container holding exactly one capability; the container inherits the capability's
+disposition. Same shape as `chittyos-legal`.
+
+**Known doc debt, not gated by CI:** `CHITTYMARKET_CAPABILITY_ROUTER.md` now lists `finance` in the
+slug line but has no `### finance` section and its group-count table still totals the ten old
+groups. `views/by-channel.json` was not regenerated — there is no generator for it in `scripts/`
+and no CI gate reads it; it is stale with respect to this change.

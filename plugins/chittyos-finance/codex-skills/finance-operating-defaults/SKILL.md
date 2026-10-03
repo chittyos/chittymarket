@@ -207,7 +207,8 @@ re-declare, or wrap them.
 |---|---|---|
 | Mercury banking | `chittycanon://capability/connect/mercury-banking-claude-ai` | Read-side bank activity; the source records a reconciliation ties out against |
 | Neon database | `chittycanon://capability/connect/read-and-write-neon-database` | The books datastore. §4 applies to every write through it |
-| ChittyFinance service MCP | `https://finance.chitty.cc/mcp` — registered in ChittyRegistry as `chittyfinance` (`did:chitty:foundation:chittyfinance`); `/health` returns `ok`, `/mcp` is auth-gated | The service's own tool surface. Auth routes through `/chico`; never resolve a token inline |
+| ChittyMCP gateway | `chittycanon://capability/legal/chittymcp-claude-ai` | Already exposes ledger and finance tools over Claude.ai. A **tool surface**, not a books method — the tools it offers are governed by the principles above, not excused from them |
+| ChittyFinance service MCP | `https://finance.chitty.cc/mcp` — a real auth-gated route (401, where an unknown path 404s), on a service registered in ChittyRegistry as `chittyfinance` (`did:chitty:foundation:chittyfinance`, `/health` → ok). **Not yet registered in Ch1tty `servers.json`**, so no channel reaches it through the gateway today | The service's own tool surface. Auth routes through `/chico`; never resolve a token inline. Gateway registration is a backend change and is likewise `/chico`-routed — do not add it to a local MCP config |
 
 **Credentials are never handled here.** Every credential, secret, token, or binding intent
 routes to `chittyconnect-concierge`. This capability neither resolves nor displays a secret
