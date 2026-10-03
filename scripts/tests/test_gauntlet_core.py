@@ -97,6 +97,19 @@ class InlineIncludeAdapter(unittest.TestCase):
                 self.assertIn(needle, p.stderr)
                 self.assertIsNone(out)
 
+    def test_column0_export_inside_a_string_or_comment_is_rejected_not_rewritten(self):
+        # The export strip is line-based; node's own export list is the independent oracle, so a
+        # template-literal or comment line that starts with `export const` can never be silently edited.
+        for label, text in {
+            "template literal": "export const help = `\nexport const usage = 1\n`\n",
+            "block comment": "/*\nexport function old() {}\n*/\nexport const a = 1\n",
+        }.items():
+            with self.subTest(label), tempfile.TemporaryDirectory() as td:
+                p, out = adapt(self.block(SCRIPT.replace("f(internal)", "1")), {"probe.core.js": text}, td)
+                self.assertNotEqual(p.returncode, 0)
+                self.assertIn("do not match the module's real exports", p.stderr)
+                self.assertIsNone(out)
+
     def test_marker_names_are_bare_sibling_files(self):
         for bad in ("../probe.core.js", "sub/probe.core.js", ".hidden.js", "probe.core.ts"):
             with self.subTest(bad), tempfile.TemporaryDirectory() as td:

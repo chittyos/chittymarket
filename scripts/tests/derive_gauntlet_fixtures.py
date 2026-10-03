@@ -202,9 +202,19 @@ def instrument(src):
             sys.exit(f"instrument: anchor matched {n} times: {anchor[:70]!r}")
         return text.replace(anchor, anchor + insert if after else insert + anchor)
 
-    snap = ("\nglobalThis.__gx = { state: JSON.parse(JSON.stringify({ RUNNER, SMOKE_REASON, DRY_ROUNDS, round, dry, dryStreak, "
+    # The snapshot is JSON round-tripped into the fixture, so it must be JSON-LOSSLESS: any undefined
+    # (outside the three top-level role outputs, where undefined and null are the same "returned
+    # nothing" to every check), NaN, Infinity, -0, function, or non-plain object aborts derivation
+    # rather than becoming a silently different fixture input.
+    snap = ("\nconst __lossless = (v, at) => { if (v === undefined || typeof v === 'function' || typeof v === 'symbol' || typeof v === 'bigint') throw new Error('lossy capture at ' + at);"
+            " if (typeof v === 'number' && (!Number.isFinite(v) || Object.is(v, -0))) throw new Error('lossy number at ' + at);"
+            " if (v && typeof v === 'object') { if (!Array.isArray(v) && Object.getPrototypeOf(v) !== Object.prototype) throw new Error('non-plain object at ' + at);"
+            " for (const [k, x] of Object.entries(v)) __lossless(x, at + '.' + k) } }\n"
+            "const __state = { RUNNER, SMOKE_REASON, DRY_ROUNDS, round, dry, dryStreak, "
             "deadRoles, malformedRoles, blindOracle, claimMismatch, witnessFaults, originalFindings, "
-            "finalWitness: finalWitness ?? null, retraced: retraced ?? null, verification: verification ?? null })) }\n")
+            "finalWitness: finalWitness ?? null, retraced: retraced ?? null, verification: verification ?? null }\n"
+            "__lossless(__state, 'state')\n"
+            "globalThis.__gx = { state: JSON.parse(JSON.stringify(__state)) }\n")
     src = once(src, "alive(verification, 'verifier')\n", snap)
     src = once(src, "if (unclosedOriginal.length) blockers.push(`${unclosedOriginal.length} original execution finding(s) still open`)\n",
                "globalThis.__gx.blockers = JSON.parse(JSON.stringify(blockers))\n")

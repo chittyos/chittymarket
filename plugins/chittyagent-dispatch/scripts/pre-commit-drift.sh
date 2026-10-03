@@ -42,11 +42,20 @@ for f in "${staged[@]}"; do
       [ "$n" = "README" ] || names["$n"]=1 ;;
     canonical/*/*.js)
       # An inlined include: re-sync every sibling canonical that inlines it.
+      # grep exit 1 = no canonical inlines it (nothing to re-sync); exit >1 is an error and fails closed.
       inc="${f##*/}"; kdir="${f%/*}"
+      mds=( "$REPO_ROOT/$kdir"/*.md )
+      [ -e "${mds[0]}" ] || continue
+      rc=0; hits="$(grep -lE "^// @inline ${inc//./\\.}[[:space:]]*\$" "${mds[@]}")" || rc=$?
+      if [ "$rc" -gt 1 ]; then
+        echo "[pre-commit-drift] $f: could not scan $kdir for canonicals that inline it (grep exit $rc)" >&2
+        failed=1
+        continue
+      fi
       while IFS= read -r c; do
         [ -n "$c" ] || continue
         n="${c##*/}"; names["${n%.md}"]=1
-      done < <(grep -lE "^// @inline ${inc//./\\.}[[:space:]]*\$" "$REPO_ROOT/$kdir"/*.md 2>/dev/null || true) ;;
+      done <<< "$hits" ;;
     plugins/*/agents/*.md)
       n="${f##*/}"; names["${n%.md}"]=1 ;;
     plugins/*/codex-skills/*/SKILL.md)

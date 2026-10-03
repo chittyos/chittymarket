@@ -21,16 +21,41 @@ Include contract (any violation is a ValueError, and the adapter exits non-zero)
     `export default`, `export {...}`, `export * from`, and any column-0 `import` are rejected,
     because none of them can survive being inlined into a function body
   - the included file contains no inline markers of its own (no nesting)
+  - the column-0 `export` lines are exactly the module's exports as node loads it, so the
+    context-blind strip can never touch a line inside a template literal or comment
 """
+import base64
 import hashlib
+import json
 import os
 import re
+import shutil
+import subprocess
 
 INLINE_RE = re.compile(r"^// @inline (\S+)[ \t]*$", re.MULTILINE)
 _NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*\.js$")
 _EXPORT_OK_RE = re.compile(r"^export (?=(?:const|let|function|async function)\b)", re.MULTILINE)
 _EXPORT_ANY_RE = re.compile(r"^export\b", re.MULTILINE)
 _IMPORT_RE = re.compile(r"^import\b", re.MULTILINE)
+_EXPORT_DECL_RE = re.compile(r"^export (?:const|let|function|async function)\s+([A-Za-z_$][\w$]*)", re.MULTILINE)
+
+
+def _node_exports(name, text):
+    """The export names node itself sees when it loads `text` as a module. This is the
+    independent check on the column-0 regex: a line inside a template literal or comment that
+    merely starts with `export const ...` would be counted by the regex but not by node, and is
+    rejected instead of being silently rewritten."""
+    node = shutil.which("node")
+    if not node:
+        raise ValueError(f"inline include {name!r}: node is required to verify its exports")
+    url = "data:text/javascript;base64," + base64.b64encode(text.encode("utf-8")).decode()
+    p = subprocess.run([node, "--input-type=module", "-e",
+                        f"const m = await import({json.dumps(url)}); console.log(JSON.stringify(Object.keys(m).sort()))"],
+                       capture_output=True, text=True)
+    if p.returncode != 0:
+        tail = (p.stderr.strip().splitlines() or ["(no stderr)"])[-1]
+        raise ValueError(f"inline include {name!r} does not load as a module: {tail[:200]}")
+    return json.loads(p.stdout)
 
 
 def inline_names(text):
@@ -68,6 +93,12 @@ def _load(name, canonical_dir):
         line = stripped[bad.start():].split("\n", 1)[0]
         raise ValueError(f"inline include {name!r}: unsupported export form {line[:60]!r} "
                          f"(only export const|let|function|async function)")
+    declared = sorted(_EXPORT_DECL_RE.findall(text))
+    actual = _node_exports(name, text)
+    if declared != actual:
+        raise ValueError(f"inline include {name!r}: column-0 export lines {declared} do not match the module's real "
+                         f"exports {actual}; an `export ...` line inside a string or comment would be rewritten "
+                         f"by inlining. Indent it or reword it.")
     return raw, stripped
 
 

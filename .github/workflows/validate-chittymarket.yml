@@ -101,10 +101,13 @@ jobs:
       # by SHA because the checkout is shallow.
       - name: Gauntlet core golden fixtures
         run: |
+          # Provenance first: the fixtures must be a fresh derivation from the pinned commit (on
+          # main's history, #157) before they are trusted to judge the core.
+          git fetch --no-tags --depth=1 origin 81902136ed7c27e99f73517ff43cda8454594185 \
+            || { echo "::error::cannot fetch pinned gauntlet ref 81902136 (fixture provenance) — this is a fetch failure, not fixture drift"; exit 1; }
+          python3 scripts/tests/derive_gauntlet_fixtures.py --check
           node scripts/tests/run_gauntlet_fixtures.mjs
           python3 scripts/tests/test_gauntlet_core.py
-          git fetch --no-tags --depth=1 origin 81902136ed7c27e99f73517ff43cda8454594185
-          python3 scripts/tests/derive_gauntlet_fixtures.py --check
 
       - name: Agent projection identity
         run: python3 scripts/check-agent-identity.py
