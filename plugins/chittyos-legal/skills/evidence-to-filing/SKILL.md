@@ -1,7 +1,6 @@
 ---
 name: evidence-to-filing
-description: >-
-  Convert an explicitly identified legal matter's already-governed evidence and verified facts into an attorney-reviewable filing package. Use when asked to turn a contradiction matrix, verified chronology, citation map, exhibit set, or evidence audit into litigation work product; build exhibit/Bates architecture; prepare a statement of facts, memorandum, motion shell, proposed order, service shell, or e-filing checklist; or make an evidence package filing-ready. Requires a named matter and preserves source-to-fact-to-exhibit traceability. It does not collect evidence, verify new facts, choose disputed legal relief, or silently label a package court-ready.
+description: Convert an explicitly identified legal matter's already-governed evidence and verified facts into an attorney-reviewable filing package. Use when asked to turn a contradiction matrix, verified chronology, citation map, exhibit set, or evidence audit into litigation work product; build exhibit/Bates architecture; prepare a statement of facts, memorandum, motion shell, proposed order, service shell, or e-filing checklist; or make an evidence package filing-ready. Requires a named matter and preserves source-to-fact-to-exhibit traceability. It does not collect evidence, verify new facts, choose disputed legal relief, or silently label a package court-ready.
 canon_uri: chittycanon://core/services/chittymarket#skills/evidence-to-filing
 ---
 
