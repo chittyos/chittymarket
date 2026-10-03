@@ -5,8 +5,8 @@
 #   apply-gateway-route.sh <route-json> [--gateway central] [--check]
 #
 # Route JSON: {"name": "...", "gateway": "central", "elements": [...]}
-# See ai-gateway-routes/README.md (three-wise-men = the separated adversarial
-# reviewer route; judgment work, never downgrade to a cheap model).
+# See ai-gateway-routes/README.md. No routes are currently defined there; a route
+# file is added only through a deliberate, per-job design.
 #
 # Behaviour (idempotent):
 #   route absent            -> create route, create version {elements}, deploy it
@@ -34,11 +34,16 @@ FILE=""
 
 die() { echo "$*" >&2; exit 2; }
 
+# Resolve symlinks so lib/ is found even when the script is linked into PATH.
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+# shellcheck source=lib/gateway-route-lookup.sh
+. "$SCRIPT_DIR/lib/gateway-route-lookup.sh" || die "missing $SCRIPT_DIR/lib/gateway-route-lookup.sh"
+
 finish() {
   # --smoke: in-sync JSON is not proof the route answers. Call it for real through
   # the sibling reviewer script (chittyclaw path) with a tiny diff; non-zero = broken.
   if [[ $SMOKE -eq 1 ]]; then
-    local review; review="$(dirname "$0")/adversarial-review.sh"
+    local review; review="$SCRIPT_DIR/adversarial-review.sh"
     [[ -r "$review" ]] || die "--smoke needs $review"
     printf -- '--- a/x.js\n+++ b/x.js\n@@ -1 +1 @@\n-return t > 0\n+return t >= 0 || t\n' \
       | REVIEW_MODEL="cloudflare-ai-gateway/dynamic/$NAME" bash "$review" - >/dev/null 2>&1 \
@@ -95,8 +100,11 @@ api() {
 }
 
 LIST="$(api GET "$BASE")"
-ROUTE_ID="$(printf '%s' "$LIST" | jq -r --arg n "$NAME" \
-  '[(.result.routes? // .result? // [])[]? | select(.name == $n) | .id][0] // empty')"
+# List is at .data.routes (verified live 2026-10-03), NOT .result. The lookup lives
+# in lib/ so its offline test runs the same filter. Unknown shape => exit 2 here,
+# before the absent/DRIFT branch, so garbage can never read as "absent" (which
+# would create a duplicate route, or report false drift under --check).
+ROUTE_ID="$(route_id_from_list "$LIST" "$NAME")" || exit 2
 
 if [[ -z "$ROUTE_ID" ]]; then
   if [[ $CHECK -eq 1 ]]; then

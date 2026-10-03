@@ -11,8 +11,10 @@
 #   git diff main...HEAD -- src/ | adversarial-review.sh - -p "focus on auth bypass"
 #
 # Env:
-#   REVIEW_MODEL   override the model (default: the three-wise-men route; it is codified in
-#                  ai-gateway-routes/ and applied with apply-gateway-route.sh)
+#   REVIEW_MODEL   override the model (default: DEFAULT_MODEL below, a directly-named
+#                  large-context BYOK frontier model via the `central` gateway)
+#   REVIEW_TIMEOUT seconds before the remote call is abandoned (default 600). A hung
+#                  ssh must end as a FAILED review, never block forever.
 #
 # Exit codes: 0 review returned | 1 usage/input | 2 chittyclaw unreachable
 #             3 model call failed (route broken / provider error)
@@ -23,17 +25,30 @@ set -euo pipefail
 NODE="chittyclaw"
 CLI_CONTAINER="openclaw-prod-openclaw-cli-1"
 
-# NOTE: --model wants <provider>/<catalog-id>, and the catalog id ITSELF contains
-# a slash. `openclaw infer model list` prints `dynamic/three-wise-men`, but the
-# bare id fails "Unknown model". Verified 2026-07-30.
-DEFAULT_MODEL="cloudflare-ai-gateway/dynamic/three-wise-men"
+# NOTE: --model wants <provider>/<catalog-id>. `openclaw infer model list` prints
+# the catalog id (e.g. `anthropic/claude-opus-4-8`); the working argument is
+# `cloudflare-ai-gateway/<catalog-id>`. A bare id fails "Unknown model". Verified 2026-07-30.
+#
+# The review lane is a CAPABLE DIRECT MODEL, not a dynamic route. Verified live
+# 2026-10-03 by the operator: this default returns a review (exit 0, ✓).
+DEFAULT_MODEL="cloudflare-ai-gateway/anthropic/claude-opus-4-8"
 
-# three-wise-men is codified in ai-gateway-routes/three-wise-men.json and applied /
-# drift-checked with apply-gateway-route.sh (routes live only server-side in CF AI
-# Gateway and vanished once, causing 400 code 2005 on every review).
+# The `dynamic/three-wise-men` route (a catch-all "curated trio of frontier models"
+# from the old chittyclaw gateway) was RETIRED DELIBERATELY by the operator on
+# 2026-10-03 and must NOT be recreated — not under that name, not as the reviewer.
+# Dynamic routes, when they come, are designed strategically: one purpose-built
+# route per job, codified under ai-gateway-routes/, drift-checked with
+# apply-gateway-route.sh --check. Until such a route is deliberately designed for
+# review, keep this lane on a direct model.
 # `dynamic/adversarial-reviewer` no longer exists on any gateway and must not be
 # used: it was a $0.00 / 32k-context route — the inadequate-reviewer failure mode
 # (confident empty findings that get ignored).
+#
+# Large-context BYOK models ON PURPOSE: Workers AI models return HTTP 413 on this
+# agent's own baseline payload (tool defs from several MCP servers + skills) before
+# any diff is added — llama-3.3-70b is 24k context, qwen2.5-coder 32k. Context window
+# is a correctness requirement here, not a preference. (The gateway is `central`;
+# there is no `chittyclaw` gateway — see references/llm-routing.md.)
 MODEL="${REVIEW_MODEL:-$DEFAULT_MODEL}"
 
 # MODEL is the ONLY caller-controlled value that reaches the remote command line,
@@ -61,6 +76,10 @@ if [[ -z "$DIFF_FILE" ]]; then
 fi
 
 command -v jq >/dev/null || { echo "jq is required (parses the openclaw --json result)" >&2; exit 1; }
+command -v timeout >/dev/null || { echo "timeout(1) is required (bounds the remote call)" >&2; exit 1; }
+REVIEW_TIMEOUT="${REVIEW_TIMEOUT:-600}"
+[[ "$REVIEW_TIMEOUT" =~ ^[1-9][0-9]*$ ]] && (( REVIEW_TIMEOUT <= 3600 )) \
+  || { echo "invalid REVIEW_TIMEOUT: integer seconds in 1..3600" >&2; exit 1; }
 
 TMP="$(mktemp)"
 trap 'rm -f "$TMP"' EXIT
@@ -143,7 +162,8 @@ REMOTE_CMD="$(printf '%q ' docker exec -i "$CLI_CONTAINER" sh -c "$REMOTE_PROG" 
   adv-review "$MODEL" "$EXPECT_BYTES" "$EXPECT_SHA")"
 
 set +e
-ssh -o BatchMode=yes "$NODE" "$REMOTE_CMD" < "$PROMPT" > "$RESP" 2> "$ERRF"
+timeout -k 10 "$REVIEW_TIMEOUT" ssh -o BatchMode=yes -o ServerAliveInterval=15 \
+  "$NODE" "$REMOTE_CMD" < "$PROMPT" > "$RESP" 2> "$ERRF"
 RC=$?
 set -e
 
@@ -162,6 +182,11 @@ delivery_fail() {
   if [[ -s "$ERRF" ]]; then echo "--- remote stderr (tail) ---" >&2; tail -n 20 "$ERRF" >&2; fi
   exit 3
 }
+
+# A timeout is a failed review whatever else arrived: 124 = TERM after the deadline,
+# 137 = KILL 10s later (-k) when TERM was ignored. Any other non-zero RC still fails
+# below at "remote exit status" — success requires RC 0.
+(( RC != 124 && RC != 137 )) || fail "timed out after ${REVIEW_TIMEOUT}s (rc $RC)"
 
 # Delivery is verified BEFORE anything else is believed. No handshake line means
 # the container program never got as far as reading the prompt.

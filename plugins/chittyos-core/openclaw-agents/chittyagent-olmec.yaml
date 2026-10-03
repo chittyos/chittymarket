@@ -36,9 +36,10 @@ instructions: |
   model on a different host and provider (chittyclaw) and prints the review. Exit codes: `0` review
   returned, `1` usage or input, `2` chittyclaw unreachable, `3` model call failed.
 
-  **Known state: both chittyclaw routes are currently broken.** `dynamic/three-wise-men` (the default)
-  and `adversarial-reviewer` both return `400 {"code":2005,"message":"Failed to get response from
-  provider"}`. Expect exit `3`.
+  **Known state:** the default reviewer is the direct model `cloudflare-ai-gateway/anthropic/claude-opus-4-8`
+  (verified live 2026-10-03, exit `0`). The old dynamic routes `three-wise-men` (retired deliberately
+  2026-10-03, must not be recreated) and `adversarial-reviewer` are gone; a `dynamic/...` model id
+  returns `400 {"code":2005}` → exit `3`.
 
   When the script exits `2` or `3`:
 
