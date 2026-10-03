@@ -136,16 +136,40 @@ class WorkflowAdapter(unittest.TestCase):
         self.assertEqual(p.returncode, 0, p.stderr)
         self.assertEqual(out.decode(), self.FENCE_IN_TEMPLATE)
 
-    def test_misextraction_fails_loudly_and_writes_nothing(self):
-        # A later ```` block of the same fence length makes the last-close rule overrun into prose.
-        # That must fail node --check: non-zero exit, no output file, no output dir created.
+    def test_later_same_fence_block_with_info_string_rejected(self):
+        # A later ```` block would be swallowed by the last-close rule; with an info string it is
+        # detectable, so it is rejected structurally before any syntax check.
         text = FM + "````js\n" + SCRIPT + "````\n\nsome prose.\n\n````text\nnot code\n````\n"
+        info = {}
+        p, out = run_adapter(text, info=info)
+        self.assertNotEqual(p.returncode, 0)
+        self.assertIn("would be swallowed", p.stderr)
+        self.assertIsNone(out)
+        self.assertFalse(info["out_dir_exists"], "output dir must not be created before validation")
+
+    def test_misextraction_fails_loudly_and_writes_nothing(self):
+        # A later BARE ```` block is not structurally detectable; overrunning into the prose must
+        # fail node --check: non-zero exit, no output file, no output dir created.
+        text = FM + "````js\n" + SCRIPT + "````\n\nsome prose.\n\n````\nnot code\n````\n"
         info = {}
         p, out = run_adapter(text, info=info)
         self.assertNotEqual(p.returncode, 0)
         self.assertIn("node --check", p.stderr)
         self.assertIsNone(out)
         self.assertFalse(info["out_dir_exists"], "output dir must not be created before validation")
+
+    def test_meta_name_need_not_be_first_key(self):
+        script = "export const meta = {\n  description: 'has name: inside a string',\n  phases: [{ name: 'nested' }],\n  name: 'probe',\n}\nreturn 1\n"
+        p, out = run_adapter(FM + "````js\n" + script + "````\n")
+        self.assertEqual(p.returncode, 0, p.stderr)
+        self.assertEqual(out.decode(), script)
+
+    def test_nested_or_quoted_name_is_not_meta_name(self):
+        script = "export const meta = {\n  description: \"name: 'probe'\",\n  phases: [{ name: 'probe' }],\n}\nreturn 1\n"
+        p, out = run_adapter(FM + "````js\n" + script + "````\n")
+        self.assertNotEqual(p.returncode, 0)
+        self.assertIn("meta.name None", p.stderr)
+        self.assertIsNone(out)
 
     def test_failed_projection_leaves_existing_output_untouched(self):
         prior = b"// previous good projection\n"
@@ -213,13 +237,17 @@ HARNESS = r"""
 import wf from './wf.mjs'
 const cases = JSON.parse(process.argv[2])
 const results = []
+const GOOD_VERDICT = { verdict: 'converged', runner_exit_code: 0, runner_output_tail: '42 passed, 0 failed', vacuous_assertions: [], unaddressed_trace_findings: [], remaining_gaps: [], report: 'checked' }
 for (const c of cases) {
   const calls = []
   const logs = []
   // Without c.fake, agent() throws: any path that would dispatch fails the case instead of spending.
   // With c.fake, agent() plays every role with canned, schema-shaped results so the loop runs for real.
-  // A label listed in fake.dead returns null (a dead role). Every call records label, model and prompt.
+  // Knobs: dead (labels returning null), yield, anythingNew, stillFailing (implementer claim),
+  // witnessExit (number, or {label: exit}), witnessCommand, strategies ([per round]), verify (raw
+  // value returned by the verifier), retrace (findings array). Every call records label/model/prompt.
   const f = c.fake
+  const runner = typeof c.args === 'object' && c.args ? c.args.runner : ''
   const agent = async (prompt, opts) => {
     calls.push({ label: opts?.label ?? null, model: opts?.model ?? null, prompt })
     if (!f) throw new Error('agent() dispatched in a test')
@@ -227,11 +255,19 @@ for (const c of cases) {
     if ((f.dead ?? []).includes(L)) return null
     if (L === 'contest') return { contested: [] }
     if (L === 'generate') return { cases: [] }
-    if (L === 'trace') return { findings: [] }
+    if (L === 'trace') return { findings: f.trace ?? [] }
     if (L === 'mandates') return { mandates: [] }
-    if (L.startsWith('feed-')) return { strategy: 'strategy ' + L, why_this_strategy: 'w', gap_targeted: 'g', expected_yield: f.yield ?? 'low', cases: [] }
-    if (L.startsWith('fix-')) return { runner_output: 'ok', changes_made: [], cases_added: [], still_failing: [], anything_new: !!f.anythingNew }
-    if (L === 'verify') return 'verified'
+    if (L.startsWith('feed-')) {
+      const n = Number(L.slice(5))
+      return { strategy: (f.strategies ?? [])[n - 1] ?? 'strategy ' + L, why_this_strategy: 'w', gap_targeted: 'g', expected_yield: f.yield ?? 'low', cases: [] }
+    }
+    if (L.startsWith('fix-')) return { runner_output: 'all cases passed', changes_made: [], cases_added: [], still_failing: f.stillFailing ?? [], anything_new: !!f.anythingNew }
+    if (L.startsWith('witness-')) {
+      const exit = typeof f.witnessExit === 'object' && f.witnessExit ? (f.witnessExit[L] ?? 0) : (f.witnessExit ?? 0)
+      return { exit_code: exit, output_tail: exit === 0 ? '42 passed, 0 failed' : '41 passed, 1 failed', command: f.witnessCommand ?? runner }
+    }
+    if (L === 'retrace') return { findings: f.retrace ?? [] }
+    if (L === 'verify') return 'verify' in f ? f.verify : GOOD_VERDICT
     throw new Error('unexpected label ' + L)
   }
   const parallel = async (thunks) => Promise.all(thunks.map((t) => t()))
@@ -248,12 +284,14 @@ for (const c of cases) {
 console.log(JSON.stringify(results))
 """
 
-ALLOWED_MODELS = {"opus", "sonnet", "haiku"}
+ALLOWED_MODELS = {"opus", "sonnet", "fable"}
 CHALLENGE = ["contest", "generate", "trace", "mandates"]
+ROLES = {"contester", "generator", "tracer", "mandate", "feeder", "implementer", "witness", "retrace", "verifier"}
 
 
 def budget(rounds):
-    return 4 + 2 * rounds + 1
+    # 4 challenge + (feeder + implementer + witness) per round + (final witness + retrace + verifier)
+    return 4 + 3 * rounds + 3
 
 
 class GauntletHarness(unittest.TestCase):
@@ -284,6 +322,19 @@ class GauntletHarness(unittest.TestCase):
         self.assertTrue(calls, "expected dispatched calls")
         for c in calls:
             self.assertIn(c["model"], ALLOWED_MODELS, f"{c['label']} dispatched with model {c['model']!r}")
+            if c["label"] == "generate" or str(c["label"]).startswith("witness-"):
+                continue
+            self.assertIn(c["model"], {"opus", "fable"}, f"judgment role {c['label']} on {c['model']!r}")
+
+    def check_early_returns(self, pairs):
+        res = self.run_cases([{"args": a, **({"raw": True} if raw else {})} for a, _, raw in pairs])
+        for (a, reason, _), r in zip(pairs, res):
+            with self.subTest(args=a, want=reason):
+                self.assertTrue(r["ok"], r)
+                self.assertEqual(r["calls"], [], "an early return must dispatch nothing")
+                self.assertIs(r["out"]["started"], False)
+                self.assertEqual(r["out"]["reason"], reason)
+                self.assertTrue(r["out"]["next"])
 
 
 class GauntletArgsAndDryRun(GauntletHarness):
@@ -297,16 +348,21 @@ class GauntletArgsAndDryRun(GauntletHarness):
             self.assertEqual(out["reason"], "dry-run")
             self.assertEqual(out["config"]["target"], self.TARGET)
             self.assertEqual(out["config"]["agent_budget"]["max"], budget(6))
+            self.assertEqual(out["config"]["agent_budget"]["transitive_spawning"], "forbidden")
+            self.assertIs(out["config"]["can_converge"], True)
+            self.assertIsNone(out["config"]["smoke_run"])
             self.assertNotIn(self.TOKEN, json.dumps(out))
         self.assertEqual(r[0]["out"], r[1]["out"])
 
     def test_dry_run_reports_explicit_model_for_every_role(self):
-        r = self.run_cases([{"args": self.base(maxRounds=2, models={"generator": "opus"})}])[0]
+        r = self.run_cases([{"args": self.base(maxRounds=3, models={"generator": "opus", "verifier": "fable"})}])[0]
         roles = {x["role"]: x["model"] for x in r["out"]["config"]["roles"]}
-        self.assertEqual(set(roles), {"contester", "generator", "tracer", "mandate", "feeder", "implementer", "verifier"})
+        self.assertEqual(set(roles), ROLES)
         self.assertEqual(roles["generator"], "opus")
-        self.assertEqual(roles["tracer"], "opus")
-        self.assertEqual(r["out"]["config"]["agent_budget"]["max"], 9)
+        self.assertEqual(roles["verifier"], "fable")
+        self.assertEqual(roles["witness"], "sonnet")
+        self.assertEqual(roles["retrace"], "opus")
+        self.assertEqual(r["out"]["config"]["agent_budget"]["max"], budget(3))
 
     def test_truthy_dry_run_fails_safe(self):
         for v in ("true", 1):
@@ -330,22 +386,25 @@ class GauntletArgsAndDryRun(GauntletHarness):
         r = self.run_cases([
             {"args": self.base(maxRounds=12)},
             {"args": self.base(maxRounds=1)},             # default dryRounds clamps to maxRounds
-            {"args": self.base(maxRounds=3, dryRounds=3)},
+            {"args": self.base(maxRounds=3, dryRounds=2)},
         ])
         for res in r:
             self.assertEqual(res["out"]["reason"], "dry-run", res)
         self.assertEqual(r[0]["out"]["config"]["agent_budget"]["max"], budget(12))
         self.assertEqual(r[1]["out"]["config"]["dryRounds"], 1)
+        self.assertIs(r[2]["out"]["config"]["can_converge"], True)
 
-    def check_early_returns(self, pairs):
-        res = self.run_cases([{"args": a, **({"raw": True} if raw else {})} for a, _, raw in pairs])
-        for (a, reason, _), r in zip(pairs, res):
-            with self.subTest(args=a, want=reason):
-                self.assertTrue(r["ok"], r)
-                self.assertEqual(r["calls"], [], "an early return must dispatch nothing")
-                self.assertIs(r["out"]["started"], False)
-                self.assertEqual(r["out"]["reason"], reason)
-                self.assertTrue(r["out"]["next"])
+    def test_smoke_runs_are_labelled_non_converging_in_dry_run(self):
+        r = self.run_cases([
+            {"args": self.base(maxRounds=1)},
+            {"args": self.base(maxRounds=6, dryRounds=1)},
+            {"args": self.base(maxRounds=2)},              # 2 rounds cannot hold baseline + streak of 2
+        ])
+        for res in r:
+            self.assertEqual(res["out"]["reason"], "dry-run", res)
+            self.assertIs(res["out"]["config"]["can_converge"], False)
+            self.assertIn("smoke run", res["out"]["config"]["smoke_run"])
+            self.assertIn("SMOKE", res["out"]["next"])
 
     def test_early_returns_do_not_dispatch(self):
         self.check_early_returns([
@@ -357,6 +416,17 @@ class GauntletArgsAndDryRun(GauntletHarness):
             (self.base(models={"nonsense": "opus"}), "bad-models", False),
             (self.base(models={"tracer": ""}), "bad-models", False),
         ])
+
+    def test_model_allow_list_rejects_downgrades(self):
+        cases = [(self.base(models={r: m}), "bad-models", False)
+                 for r in ("contester", "tracer", "mandate", "feeder", "implementer", "verifier", "retrace")
+                 for m in ("sonnet", "haiku", "some-cheap-model")]
+        cases += [(self.base(models={r: m}), "bad-models", False)
+                  for r in ("generator", "witness") for m in ("haiku", "fable", "x")]
+        cases += [(self.real(models={"verifier": "haiku"}), "bad-models", False)]
+        self.check_early_returns(cases)
+        ok = self.run_cases([{"args": self.base(models={"witness": "opus", "generator": "sonnet", "verifier": "fable"})}])[0]
+        self.assertEqual(ok["out"]["reason"], "dry-run")
 
     def test_round_bounds_rejected_even_under_dry_run(self):
         self.check_early_returns([
@@ -386,6 +456,17 @@ class GauntletArgsAndDryRun(GauntletHarness):
         # and the same wrong types without dryRun must not dispatch either
         self.check_early_returns([(self.real(files="src/a.ts"), "bad-args", False),
                                   (self.real(maxRounds=100), "bad-rounds", False)])
+
+    def test_oracle_author_validated(self):
+        self.check_early_returns([
+            (self.base(oracleAuthor="Olmec"), "bad-args", False),
+            (self.base(oracleAuthor="implementer"), "bad-args", False),
+            (self.base(oracleAuthor=True), "bad-args", False),
+            (self.real(oracleAuthor="me"), "bad-args", False),
+        ])
+        r = self.run_cases([{"args": self.base(oracleAuthor="olmec")}, {"args": self.base(oracleAuthor="independent")}])
+        self.assertEqual(r[0]["out"]["config"]["oracleAuthor"], "olmec")
+        self.assertEqual(r[1]["out"]["config"]["oracleAuthor"], "independent")
 
     def test_relative_target_rejected(self):
         self.check_early_returns([
@@ -429,6 +510,12 @@ class GauntletArgsAndDryRun(GauntletHarness):
         self.assertEqual(sorted(c["label"] for c in r["calls"]), sorted(CHALLENGE))
         self.assert_models(r["calls"])
 
+    def test_every_prompt_forbids_subagent_spawning(self):
+        r = self.run_cases([{"args": self.real(), "fake": {}}])[0]
+        self.assertTrue(r["ok"], r)
+        for c in r["calls"]:
+            self.assertIn("Do NOT spawn subagents and do NOT use the Agent or Workflow tools", c["prompt"], c["label"])
+
 
 class GauntletLoop(GauntletHarness):
     """Drives the real fix loop with canned role results and checks the outcome and exact spend."""
@@ -442,28 +529,140 @@ class GauntletLoop(GauntletHarness):
     def labels(self, calls):
         return [c["label"] for c in calls]
 
+    def assert_not_converged(self, out, needle=None):
+        self.assertIs(out["converged"], False)
+        self.assertNotIn("converged (", out["stopped_because"])
+        self.assertTrue(out["not_converged_reasons"])
+        if needle:
+            self.assertTrue(any(needle in x for x in out["not_converged_reasons"]), out["not_converged_reasons"])
+
     def test_converged_path(self):
-        out, calls = self.run_one({"yield": "low", "anythingNew": False})
-        self.assertEqual(out["stopped_because"], "converged (dry rounds)")
+        out, calls = self.run_one({})
+        self.assertEqual(out["stopped_because"], "converged (dry rounds, witnessed, verified)")
         self.assertIs(out["converged"], True)
+        self.assertEqual(out["not_converged_reasons"], [])
         self.assertEqual(out["dead_roles"], [])
-        self.assertEqual(out["rounds"], 2)
-        self.assertEqual(len(calls), budget(2))
-        self.assertEqual(self.labels(calls)[4:], ["feed-1", "fix-1", "feed-2", "fix-2", "verify"])
+        self.assertEqual(out["claim_mismatch"], [])
+        self.assertEqual(out["rounds"], 3)                   # round 1 is the baseline, then 2 dry
+        self.assertEqual(len(calls), budget(3))
+        self.assertEqual(self.labels(calls)[4:], [
+            "feed-1", "fix-1", "witness-1", "feed-2", "fix-2", "witness-2", "feed-3", "fix-3", "witness-3",
+            "witness-final", "retrace", "verify"])
         self.assertEqual(out["contested_expectations"], [])     # ran and found nothing, not null
+        self.assertEqual([w["exit_code"] for w in out["runner_witness"]], [0, 0, 0])
+
+    def test_witness_prompt_is_gathering_only(self):
+        _, calls = self.run_one({})
+        p = next(c["prompt"] for c in calls if c["label"] == "witness-1")
+        self.assertIn("FORBIDDEN: editing", p)
+        self.assertIn("Run exactly this command, byte for byte", p)
+        self.assertEqual(next(c["model"] for c in calls if c["label"] == "witness-1"), "sonnet")
+
+    def test_fabricated_implementer_pass_contradicted_by_witness(self):
+        out, calls = self.run_one({"witnessExit": 1})          # implementer says nothing failing
+        self.assert_not_converged(out, "claim_mismatch")
+        self.assertEqual([m["round"] for m in out["claim_mismatch"]], list(range(1, 7)))
+        self.assertEqual(out["claim_mismatch"][0]["witness_exit_code"], 1)
+        self.assertEqual(out["stopped_because"], "hit maxRounds — NOT converged")
+        self.assertEqual(len(calls), budget(6))
+
+    def test_single_late_mismatch_still_blocks(self):
+        out, _ = self.run_one({"witnessExit": {"witness-2": 1}})
+        self.assert_not_converged(out, "claim_mismatch in round(s) 2")
+
+    def test_implementer_still_failing_but_runner_green_is_a_mismatch(self):
+        out, _ = self.run_one({"stillFailing": ["case-7"]}, maxRounds=3)
+        self.assertEqual([m["round"] for m in out["claim_mismatch"]], [1, 2, 3])
+        self.assert_not_converged(out)
+
+    def test_final_witness_failure_blocks(self):
+        out, _ = self.run_one({"witnessExit": {"witness-final": 2}})
+        self.assert_not_converged(out, "final runner witness exit 2")
+
+    def test_witness_running_a_different_command_blocks(self):
+        out, _ = self.run_one({"witnessCommand": "true"})
+        self.assert_not_converged(out, "different command")
+
+    def test_verifier_free_text_is_not_a_verification(self):
+        for v in ("ok", {"verdict": "converged"}, {"verdict": "converged", "runner_exit_code": "0", "runner_output_tail": "",
+                                                    "vacuous_assertions": [], "unaddressed_trace_findings": []}):
+            with self.subTest(verify=v):
+                out, _ = self.run_one({"verify": v})
+                self.assert_not_converged(out, "verifier output missing required fields")
+
+    def test_verifier_verdict_and_own_exit_gate_convergence(self):
+        base = {"verdict": "converged", "runner_exit_code": 0, "runner_output_tail": "x", "vacuous_assertions": [],
+                "unaddressed_trace_findings": [], "remaining_gaps": [], "report": "r"}
+        for patch, needle in (({"verdict": "not_converged"}, "verifier verdict not_converged"),
+                              ({"verdict": "cannot_verify"}, "verifier verdict cannot_verify"),
+                              ({"runner_exit_code": 1}, "verifier's own runner exit 1"),
+                              ({"vacuous_assertions": ["case-3 passes with check deleted"]}, "vacuous")):
+            with self.subTest(patch=patch):
+                out, _ = self.run_one({"verify": {**base, **patch}})
+                self.assert_not_converged(out, needle)
+
+    def test_max_rounds_one_never_converges(self):
+        out, calls = self.run_one({}, maxRounds=1)
+        self.assert_not_converged(out, "smoke run")
+        self.assertEqual(len(calls), budget(1))
+
+    def test_dry_rounds_one_never_converges(self):
+        out, calls = self.run_one({}, dryRounds=1)
+        self.assertEqual(out["rounds"], 2)                   # stops after one counted dry round
+        self.assert_not_converged(out, "smoke run")
+        self.assertTrue(out["stopped_because"].startswith("NOT converged"), out["stopped_because"])
+
+    def test_round_one_never_counts_toward_dry(self):
+        out, _ = self.run_one({}, maxRounds=2)              # rounds 1 (baseline) + 2 (dry 1)
+        self.assert_not_converged(out)
+        self.assertEqual(out["stopped_because"], "hit maxRounds — NOT converged")
+
+    def test_repeated_strategy_does_not_count_toward_dry(self):
+        out, calls = self.run_one({"strategies": ["boundary", "metamorphic", "Metamorphic ", "metamorphic", "adversarial", "differential"]})
+        self.assertEqual([r["round"] for r in out["repeated_strategies"]], [3, 4])
+        # rounds 3 and 4 reset the streak; 5 and 6 are the first two distinct dry rounds after them
+        self.assertEqual(out["rounds"], 6)
+        self.assertIs(out["converged"], True)
+        self.assertEqual(len(calls), budget(6))
+
+    def test_all_strategies_repeated_never_converges(self):
+        out, _ = self.run_one({"strategies": ["boundary"] * 6})
+        self.assertEqual(len(out["repeated_strategies"]), 5)
+        self.assert_not_converged(out, "dry streak 0")
 
     def test_high_yield_feeder_blocks_convergence_until_max_rounds(self):
-        out, calls = self.run_one({"yield": "high", "anythingNew": False}, maxRounds=3)
+        out, calls = self.run_one({"yield": "high"}, maxRounds=3)
         self.assertEqual(out["stopped_because"], "hit maxRounds — NOT converged")
         self.assertIs(out["converged"], False)
         self.assertEqual(out["dead_roles"], [])
         self.assertEqual(len(calls), budget(3))
 
     def test_max_rounds_exhausted(self):
-        out, calls = self.run_one({"yield": "low", "anythingNew": True}, maxRounds=3)
+        out, calls = self.run_one({"anythingNew": True}, maxRounds=3)
         self.assertEqual(out["stopped_because"], "hit maxRounds — NOT converged")
         self.assertEqual(out["rounds"], 3)
         self.assertEqual(len(calls), budget(3))
+
+    def test_retrace_new_silent_finding_blocks(self):
+        f = {"axis": "logic", "title": "short-circuit", "file": "src/gate.ts", "line": 40, "observed": "o",
+             "should_be": "s", "outcome_still_correct": True, "original_index": -1}
+        out, calls = self.run_one({"retrace": [f]})
+        self.assert_not_converged(out, "new right-answer-wrong-execution")
+        self.assertEqual(len(out["retrace"]["new_right_answer_wrong_execution"]), 1)
+        p = next(c["prompt"] for c in calls if c["label"] == "retrace")
+        self.assertIn("You are the TRACER", p)
+        self.assertIn("THIS IS A RE-TRACE", p)
+
+    def test_retrace_unclosed_original_blocks(self):
+        orig = {"axis": "order", "title": "guard after use", "file": "src/gate.ts", "line": 12, "observed": "o",
+                "should_be": "s", "outcome_still_correct": True}
+        out, _ = self.run_one({"trace": [orig], "retrace": [{**orig, "original_index": 0}]})
+        self.assert_not_converged(out, "original right-answer-wrong-execution finding(s) still open")
+
+    def test_retrace_death_blocks(self):
+        out, _ = self.run_one({"dead": ["retrace"]})
+        self.assertIn("retrace", out["dead_roles"])
+        self.assert_not_converged(out)
 
     def test_implementer_death_stops_loop_and_is_reported(self):
         out, calls = self.run_one({"yield": "high", "dead": ["fix-2"]})
@@ -471,26 +670,32 @@ class GauntletLoop(GauntletHarness):
         self.assertTrue(out["stopped_because"].startswith("incomplete"), out["stopped_because"])
         self.assertIn("implementer (round 2)", out["stopped_because"])
         self.assertIs(out["converged"], False)
-        self.assertEqual(len(calls), budget(2))              # 4 + feed/fix x2 + verify
+        self.assertEqual(len(calls), 4 + 3 + 2 + 3)          # round 1 full, feed-2 + dead fix-2, converge
         self.assertEqual(self.labels(calls)[-1], "verify")
 
+    def test_witness_death_stops_loop(self):
+        out, calls = self.run_one({"dead": ["witness-1"]})
+        self.assertEqual(out["dead_roles"], ["witness (round 1)"])
+        self.assertEqual(len(calls), 4 + 3 + 3)
+        self.assert_not_converged(out)
+
     def test_feeder_death_stops_loop_without_counting_as_low_yield(self):
-        # dryRounds=1 + yield low: had the dead feeder counted as low-yield, round 1 would 'converge'.
-        out, calls = self.run_one({"yield": "low", "dead": ["feed-1"]}, dryRounds=1)
+        # dryRounds=1 + yield low: had the dead feeder counted as low-yield, the loop would stop 'dry'.
+        out, calls = self.run_one({"dead": ["feed-1"]}, dryRounds=1)
         self.assertEqual(out["dead_roles"], ["feeder (round 1)"])
         self.assertTrue(out["stopped_because"].startswith("incomplete"), out["stopped_because"])
         self.assertIs(out["converged"], False)
         self.assertNotIn("fix-1", self.labels(calls), "implementer must not run on a dead feed")
-        self.assertEqual(len(calls), 4 + 1 + 1)              # challenge + dead feeder + verify
+        self.assertEqual(len(calls), 4 + 1 + 3)              # challenge + dead feeder + converge
         self.assertEqual(out["strategies"], [])
 
     def test_feeder_death_mid_run(self):
         out, calls = self.run_one({"yield": "high", "dead": ["feed-3"]})
         self.assertEqual(out["dead_roles"], ["feeder (round 3)"])
-        self.assertEqual(len(calls), 4 + 2 * 2 + 1 + 1)
+        self.assertEqual(len(calls), 4 + 3 * 2 + 1 + 3)
 
     def test_challenge_death_is_not_run_not_empty(self):
-        out, calls = self.run_one({"yield": "low", "dead": ["contest", "mandates"]})
+        out, calls = self.run_one({"dead": ["contest", "mandates"]})
         self.assertEqual(out["dead_roles"], ["contester", "mandate"])
         # The loop itself came back dry, and that must still not read as converged.
         self.assertTrue(out["stopped_because"].startswith("incomplete"), out["stopped_because"])
@@ -499,7 +704,7 @@ class GauntletLoop(GauntletHarness):
         self.assertIsNone(out["standing_mandates"])
         self.assertIsNone(out["unenforced_mandates"])
         self.assertEqual(out["execution_findings"], [])     # tracer ran
-        self.assertEqual(len(calls), budget(2))
+        self.assertEqual(len(calls), budget(3))
         by = {c["label"]: c["prompt"] for c in calls}
         for label in ("fix-1", "verify"):
             p = by[label]
@@ -509,26 +714,38 @@ class GauntletLoop(GauntletHarness):
         self.assertIn("ROLES THAT DIED", by["verify"])
 
     def test_generator_death_reaches_feeder_as_not_run(self):
-        out, calls = self.run_one({"yield": "low", "dead": ["generate"]})
+        out, calls = self.run_one({"dead": ["generate"]})
         by = {c["label"]: c["prompt"] for c in calls}
         self.assertIn("NOT RUN — the generator agent returned nothing", by["feed-1"])
         self.assertIsNone(out["proposed_cases"])
         self.assertEqual(out["dead_roles"], ["generator"])
 
     def test_verifier_death_blocks_convergence_claim(self):
-        out, calls = self.run_one({"yield": "low", "dead": ["verify"]})
+        out, calls = self.run_one({"dead": ["verify"]})
         self.assertEqual(out["dead_roles"], ["verifier"])
         self.assertTrue(out["stopped_because"].startswith("incomplete"), out["stopped_because"])
         self.assertIs(out["converged"], False)
         self.assertIsNone(out["independent_verification"])
-        self.assertEqual(len(calls), budget(2))
+        self.assertEqual(len(calls), budget(3))
 
     def test_model_overrides_reach_dispatch(self):
-        out, calls = self.run_one({"yield": "low"}, models={"generator": "haiku", "verifier": "sonnet"})
+        out, calls = self.run_one({}, models={"generator": "opus", "verifier": "fable", "witness": "opus"})
         m = {c["label"]: c["model"] for c in calls}
-        self.assertEqual(m["generate"], "haiku")
-        self.assertEqual(m["verify"], "sonnet")
+        self.assertEqual(m["generate"], "opus")
+        self.assertEqual(m["verify"], "fable")
+        self.assertEqual(m["witness-1"], "opus")
         self.assertEqual(m["trace"], "opus")
+
+    def test_oracle_author_olmec_points_contester_and_witness_at_the_oracle(self):
+        _, calls = self.run_one({}, oracleAuthor="olmec")
+        by = {c["label"]: c["prompt"] for c in calls}
+        self.assertIn("ORACLE PROVENANCE WARNING", by["contest"])
+        self.assertIn("written by the reviewing agent itself", by["contest"])
+        self.assertIn("zero cases executed", by["witness-1"])
+        _, calls = self.run_one({})
+        by = {c["label"]: c["prompt"] for c in calls}
+        self.assertNotIn("ORACLE PROVENANCE WARNING", by["contest"])
+        self.assertIn("contest the ORACLE itself", by["contest"])   # always contested, louder when olmec
 
 
 if __name__ == "__main__":

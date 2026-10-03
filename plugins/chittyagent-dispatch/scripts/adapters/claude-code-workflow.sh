@@ -35,13 +35,18 @@
 #   - The block closes on the LAST line in the body that equals the opening fence.
 #     A fence-looking line inside a template literal therefore cannot truncate the
 #     script. The price is that a later fenced block of the SAME fence length would
-#     be swallowed; that case cannot pass the syntax check below, so it fails loudly
-#     instead of projecting a wrong script.
+#     be swallowed, so any later line that opens a same-length fence WITH an info
+#     string (````text, ````bash, ...) is rejected outright. A later same-length
+#     block with NO info string is not detectable structurally; the syntax check
+#     below makes swallowing it LIKELY to fail, not guaranteed. Use a shorter fence
+#     (```) for any prose code block after the script.
 #   - The block is written verbatim, nothing prepended: the Workflow host expects the
 #     file to begin with `export const meta`, so the adapter enforces that too.
+#   - `meta.name` must equal the frontmatter name. `name` may appear anywhere among
+#     meta's top-level keys (it does not have to be first).
 #   - The extracted script must pass `node --check` in the host's shape (top-level
 #     `return` is legal there, so the body is wrapped in `export default async
-#     function(){}` and `export const meta` becomes `const meta`). Any truncation
+#     function(){}` and `export const meta` becomes `const meta`). A truncation
 #     inside a template literal leaves an unterminated backtick and fails here.
 #   - Nothing is created on failure: the output directory is made only after every
 #     check passes, and the file is written to a temp sibling then renamed, so a
@@ -86,14 +91,51 @@ start, fence = opens[0]
 closes = [j for j in range(start + 1, len(lines)) if lines[j].rstrip() == fence]
 if not closes:
     sys.exit(f"{canonical_path}: unterminated {fence} fence opened at body line {start + 1}")
+later = [j for j in range(start + 1, len(lines))
+         if re.match(r"^" + re.escape(fence) + r"(?!`)\s*\S", lines[j])]
+if later:
+    sys.exit(f"{canonical_path}: another {fence} fenced block opens at body line {later[0] + 1} after the js block; "
+             f"it would be swallowed into the script. Use a shorter fence for prose code blocks.")
 script = "\n".join(lines[start + 1:closes[-1]]).strip("\n") + "\n"
 
 if not script.startswith("export const meta"):
     sys.exit(f"{canonical_path}: workflow script must begin with `export const meta` (the Workflow host requires it)")
 
-meta_name = re.search(r"^export const meta\s*=\s*\{\s*name:\s*['\"]([^'\"]+)['\"]", script, re.M)
-if not meta_name or meta_name.group(1) != fm["name"]:
-    sys.exit(f"{canonical_path}: meta.name {meta_name.group(1) if meta_name else None!r} != frontmatter name {fm['name']!r}")
+def meta_top_level_name(text):
+    """Return the string value of `name` among meta's TOP-LEVEL keys, in any position.
+    A small scanner: tracks bracket depth and skips string/template literals and comments, so a
+    nested `name:` (e.g. inside phases) or one inside a string is never mistaken for meta.name."""
+    m = re.match(r"export const meta\s*=\s*\{", text)
+    if not m:
+        return None
+    i, depth, n = m.end(), 0, len(text)
+    while i < n:
+        c = text[i]
+        if c in "'\"`":
+            q = c; i += 1
+            while i < n and text[i] != q:
+                i += 2 if text[i] == "\\" else 1
+            i += 1; continue
+        if text.startswith("//", i):
+            i = text.find("\n", i); i = n if i < 0 else i; continue
+        if text.startswith("/*", i):
+            i = text.find("*/", i); i = n if i < 0 else i + 2; continue
+        if c in "{[(":
+            depth += 1
+        elif c in "}])":
+            if depth == 0:
+                return None          # end of meta, no top-level name
+            depth -= 1
+        elif depth == 0:
+            km = re.compile(r"(?<![\w$])name\s*:\s*(['\"])([^'\"]*)\1").match(text, i)
+            if km and (i == 0 or not (text[i - 1].isalnum() or text[i - 1] in "_$")):
+                return km.group(2)
+        i += 1
+    return None
+
+meta_name = meta_top_level_name(script)
+if meta_name != fm["name"]:
+    sys.exit(f"{canonical_path}: meta.name {meta_name!r} != frontmatter name {fm['name']!r}")
 
 node = shutil.which("node")
 if not node:

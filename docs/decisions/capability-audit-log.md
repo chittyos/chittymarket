@@ -628,3 +628,15 @@ mode; deleted by hand, then `dispatch.sh audit` confirmed 0 orphans). The tier-2
 names `chittyagent-olmec` as the candidate remote worker. Diff review currently falls back to a
 fresh-context Opus subagent, because both chittyclaw routes (`dynamic/three-wise-men`,
 `adversarial-reviewer`) return `400 code 2005`; the agent is required to say so whenever it does.
+
+### Amendment 2 (2026-10-03, same PR): separated review of `4fad0a3`
+
+A separated review (chittyclaw `dynamic/three-wise-men`) found that every convergence anchor was an
+agent's self-report. Closed in the workflow, not in prose: a gathering-only runner witness observes
+the runner's exit code each round and in Converge; implementer claims that contradict it are recorded
+as `claim_mismatch` and block convergence; the verifier returns a schema checked in code; a retrace
+re-runs the tracer against the post-fix code; round 1 never counts as dry, the dry streak needs at
+least 2 rounds with distinct strategies, and repeated strategies are recorded; judgment-role models
+are allow-listed (`opus`/`fable`). The agent budget changes from `4 + 2*maxRounds + 1` (17 at
+defaults, stated in the entry above) to `4 + 3*maxRounds + 3` (25 at defaults, 43 at the ceiling of
+12). `oracleAuthor: 'olmec'` is required when the reviewing agent builds the runner or corpus.

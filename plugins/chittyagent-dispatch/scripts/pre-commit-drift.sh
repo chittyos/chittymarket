@@ -66,7 +66,10 @@ for f in "${staged[@]}"; do
         failed=1
         continue
       fi
-      chk="$(mktemp --suffix=.mjs)"
+      # Portable: BSD/macOS mktemp has no --suffix, so create then rename to .mjs.
+      base="$(mktemp "${TMPDIR:-/tmp}/wfcheck.XXXXXX")" || { echo "[pre-commit-drift] mktemp failed" >&2; failed=1; continue; }
+      chk="$base.mjs"
+      mv "$base" "$chk"
       { printf 'export default async function (args, agent, parallel, phase, log) {\n'
         git show ":$f" | sed '1s/^export const meta/const meta/'
         printf '\n}\n'; } > "$chk"

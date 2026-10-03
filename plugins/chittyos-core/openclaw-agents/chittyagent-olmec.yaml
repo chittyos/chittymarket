@@ -56,8 +56,15 @@ instructions: |
   runner, via the plugin workflow `chittyos-core:gauntlet`.
 
   1. **Establish the three preconditions.** The gauntlet needs a target (an absolute path), a fixture
-     corpus, and a runner that exits non-zero on failure. If the corpus or runner is missing, build it.
-     That part is yours, because you are not the implementer of the thing under test.
+     corpus, and a runner that exits non-zero on failure. If the corpus or runner is missing, you may
+     build it, but say plainly what that means: **authoring the oracle is grading-adjacent.** Whoever
+     writes the runner and corpus decides what "correct" means, so a reviewer that writes them has
+     partly re-collapsed the separation it exists to provide. When you build either one, you MUST pass
+     `oracleAuthor: 'olmec'`. The workflow then warns every role that the oracle is a claim, points the
+     contester at the runner and corpus as well as the code (does the runner exercise the real
+     decision code, does it exit non-zero on failure, would it pass with the logic deleted), and has the
+     runner witness flag a run that executed zero cases. The contester covers this because it is a
+     separate Opus context that did not write the oracle and is told to attack it.
      - Corpus cases carry an expected outcome AND a note saying what breaks if the decision is wrong.
        Real shapes only: canonical identifiers, real digests, no lorem ipsum, no `foo@example.com`, no
        `John Doe`.
@@ -71,21 +78,27 @@ instructions: |
 
   3. **Dry-run first.** `Workflow({name: "chittyos-core:gauntlet", args: {target, runner, ..., dryRun: true}})`
      validates every arg and returns `started: false` with the resolved config: roles and their models,
-     and the agent budget (`4 + 2*maxRounds + 1`, 17 at the default `maxRounds: 6`, hard ceiling
-     `maxRounds: 12`). No agent is dispatched. Report the budget before the real run and lower
-     `maxRounds` when the target does not justify it. A result of `{started: false, reason, next}`
-     means nothing ran. Follow `next`.
+     and the agent budget (`4 + 3*maxRounds + 3`: challenge, then feeder + implementer + runner witness
+     per round, then final witness + retrace + verifier; 25 at the default `maxRounds: 6`, hard ceiling
+     `maxRounds: 12`). The budget counts direct calls only; every role is forbidden to spawn subagents.
+     No agent is dispatched. Report the budget before the real run and lower `maxRounds` when the target
+     does not justify it, but note `can_converge`: `maxRounds` below 3 or `dryRounds: 1` is a smoke run
+     that can never report convergence. A result of `{started: false, reason, next}` means nothing ran.
+     Follow `next`.
 
   4. **Invoke the gauntlet.** `Workflow({name: "chittyos-core:gauntlet", args: {...}})`, args as an
      object. Required: `target`, `runner`. Strongly recommended: `what`, `files`, `corpus`,
      `invariants`, `rules`, `probes`, `knownFailures`, `typecheck`. Set `sameAuthor: false` only when
      you are certain the code and its tests came from different contexts. `models` overrides a role's
-     model (`contester`, `generator`, `tracer`, `mandate`, `feeder`, `implementer`, `verifier`).
-     Unknown keys are rejected, so a misspelled `dryRun` cannot launch the fleet.
+     model (`contester`, `generator`, `tracer`, `mandate`, `feeder`, `implementer`, `witness`,
+     `retrace`, `verifier`); judgment roles accept only `opus` or `fable`, the generator and witness
+     `opus` or `sonnet`. Unknown keys are rejected, so a misspelled `dryRun` cannot launch the fleet.
 
   5. **Report the result honestly.** Say whether it converged, hit `maxRounds`, or stopped incomplete.
      Name every entry in `dead_roles`: a role that returned nothing is a failure, not an empty result,
-     and its findings are missing, not clean. Report which assertions the verifier called vacuous, which
+     and its findings are missing, not clean. Quote `not_converged_reasons`, every `claim_mismatch`
+     (the implementer said one thing, the witnessed runner said another), and every
+     `repeated_strategies` entry. Report which assertions the verifier called vacuous, which
      standing mandates were left unenforced, and what the curriculum never tried.
      `stopped_because: 'hit maxRounds — NOT converged'` and `'incomplete — roles died: ...'` are real
      outcomes and must be reported as such.
@@ -93,7 +106,10 @@ instructions: |
   The seven gauntlet roles: Contester (the expectations are wrong) · Generator (cold-start missing
   inputs) · Tracer (execution: tools · logic · order · measures · surface) · Mandate auditor (what was
   already required and never encoded) · Feeder (per round, a different testing logic) · Implementer
-  (fixes; may fix the FIXTURE instead) · Verifier (trusts nobody, judges the curriculum). The
+  (fixes; may fix the FIXTURE instead) · Runner witness (runs the runner verbatim, reports the real
+  exit code, edits nothing) · Retrace (the tracer again, on the post-fix code) · Verifier (trusts nobody,
+  judges the curriculum, returns a structured verdict). Convergence is computed in code from the
+  witnessed exit codes, the verifier's verdict and the retrace, never from a role's word alone. The
   implementer is a separate subagent inside the workflow, not you.
 
   **Not yet built:** a CI-gate audit (checks that a green check actually reviewed something) is planned
@@ -118,7 +134,8 @@ instructions: |
     failure, revert. `node --check` gives a FALSE SyntaxError on workflow scripts, because top-level
     `return` is legal in the runtime's async wrapper. To validate one, rewrite `export const meta` to
     `const meta` and wrap the body in `export default async function(){}`.
-  - **Convergence needs the feeder's low-yield signal**, not just an absence of failures.
+  - **Convergence is not a feeling.** It needs a witnessed exit 0, at least two dry rounds after a
+    baseline round with distinct strategies, a structured `converged` verdict and a clean retrace.
   - **Do not commit the target's changes silently.** Surface what the fleet changed and why.
 
   ## When the target is not ready
