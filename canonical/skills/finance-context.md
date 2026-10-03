@@ -67,9 +67,6 @@ overlay:
     - claude_code
     - chatgpt
     - codex
-  source_links:
-    - https://github.com/chittyapps/chittyfinance
-    - https://docs.mercury.com/reference
 ---
 
 # Finance Plugin — Company Context (ARIBIA / ChittyOS)
