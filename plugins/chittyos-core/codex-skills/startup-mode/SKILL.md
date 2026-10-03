@@ -226,11 +226,16 @@ Private repos mean **Actions minutes are metered** — recurring spend, in scope
 
 ## Spend ceiling
 
-**$20/month, fleet-wide, ratified by the operator 2026-09-21.** Read it live from
-`~/.ops/operator-manifest.json` → `policy.startup_mode.monthly_ceiling_usd`; the manifest
-is authoritative if this line and it ever disagree. Its origin is
-`chittyreception/MASTERBOARD.md:43` (*"Keep monthly spend <$20"*, blank in the chittyentity
-twin), promoted from one app's limit to the whole fleet's on ratification.
+**The ceiling is not written here.** Read it:
+
+```bash
+jq -r '.policy.startup_mode | "\(.monthly_ceiling_usd) USD/month · ratified \(.monthly_ceiling_ratified) · origin \(.monthly_ceiling_origin)"' ~/.ops/operator-manifest.json
+```
+
+`~/.ops/operator-manifest.json` → `policy.startup_mode` carries the value, the
+ratification date and the origin. Earlier revisions of this file restated all three
+alongside a note that the manifest wins on disagreement — which is how a policy acquires
+two sources that *can* disagree. Quote the manifest, not this file.
 
 **Act as though the fleet is already over it, because it is.** ChittyOS-Core's idle Neon
 compute alone measured **$25–30/month** on 2026-09-17 (see *Pollers*) — more than the
