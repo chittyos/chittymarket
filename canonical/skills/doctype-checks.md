@@ -45,6 +45,8 @@ Each check is tagged:
 - **`[mechanical]`** — scriptable without reading the document. A validator can decide it.
 - **`[attest]`** — requires reading the document. No validator can decide it; the enforcement
   is that an explicit result is *required*, not that it is automated.
+- **`[blocked]`** — would be mechanical, but the input it needs does not exist yet. Excluded
+  from the runnable subset and named here so it is not mistaken for coverage.
 
 Do not describe the `[attest]` set as automated coverage.
 
@@ -52,18 +54,23 @@ Do not describe the `[attest]` set as automated coverage.
 
 - `[mechanical]` Every exhibit ID cited resolves in the exhibit index. No dangling IDs.
 - `[mechanical]` Citations match the required form: `[EXHIBIT ID | document name | date | page/¶]`.
-  On a corpus written before the standard was adopted this fires on everything; decide once
-  whether the standard is retroactive and record the decision, rather than reporting the whole
-  package as defective on every run.
+  The matter's exhibit index carries a `citation_standard_adopted:` date in its front matter;
+  that date is the authority. A citation in a document written **before** it emits
+  `PASS (pre-adoption)` — a real, visible result, never a suppressed line. A citation written
+  **after** it emits `PASS` or `FAIL` normally. If the index carries no such date, emit
+  `UNKNOWN` on every citation and say the date is missing: that is the finding, and it is
+  resolved once by writing the date, not re-litigated on every run.
 - `[attest]` Entity names appear in full in assertive prose, never shortened or bare. Quoted
   source text, trade names, document titles and filenames are exempt and must not be rewritten
   to satisfy this. This was tried as a mechanical check and withdrawn: on a real corpus every
   hit was a legitimate exemption, because a pattern match cannot tell a party reference from a
   brand, a caption, or the other side's own words.
-- `[mechanical]` Pages actually read equals the document's page count. A partial read cannot
-  support a negative finding. Decidable only if the extraction manifest records per-document
-  read coverage, not just page count. Where it records only page count, the honest result is
-  `UNKNOWN` — do not report it as a pass.
+- `[blocked]` Pages actually read equals the document's page count. A partial read cannot
+  support a negative finding. **Not currently runnable and excluded from the mechanical
+  subset:** "pages read" is a property of the reader, not of the document, and no manifest in
+  use records per-document read coverage — only page count. A check that returns `UNKNOWN` on
+  every document cannot pass and cannot fail, so leaving it in the runnable set is noise in a
+  slot. It becomes `[mechanical]` the day a manifest records coverage.
 - `[attest]` Before reporting that something is absent, the whole document was read to the end,
   and it was the right document. Report the negative as a negative — "no X was located in Y" —
   rather than converting it into an affirmative claim about the world.
@@ -74,15 +81,24 @@ Do not describe the `[attest]` set as automated coverage.
 
 ## Recorded instrument — deed, quitclaim, mortgage, release
 
-- `[mechanical]` Filename or document text containing `DRAFT`, `UNSIGNED`, `UNEXECUTED`, or
-  `never recorded` sets status to draft. A draft is not evidence of a conveyance.
-  Scope the check to the *assertion*, not to proximity: a draft marker appearing alongside
-  conveyance language is correct usage when the sentence denies the conveyance ("unexecuted
-  quitclaim — title remains in the grantor"). Flag only where the instrument is relied on
-  affirmatively. Proximity alone was tried and produced only false positives.
-- `[mechanical]` A recorder's document number is present and transcribed digit-by-digit from the
-  stamp. Two readings that differ by one digit are a discrepancy to resolve, not a typo to pick
-  between.
+- `[mechanical]` Filename or document text contains `DRAFT`, `UNSIGNED`, `UNEXECUTED`, or
+  `never recorded` → the instrument's status is **draft**. This half is a fact about the
+  document: the marker is present or it is not, and a script decides it.
+- `[attest]` A draft instrument is not relied on as evidence of a conveyance. Proximity is not
+  the test — a draft marker sitting beside conveyance language is *correct* usage when the
+  sentence denies the conveyance ("unexecuted quitclaim — title remains in the grantor").
+  The question is whether the instrument is relied on **affirmatively**, which is semantic
+  polarity over prose and cannot be pattern-matched. Proximity was tried as a mechanical check
+  and produced only false positives; the answer was to move the judgment here, not to reword
+  the pattern.
+- `[mechanical]` Document numbers are internally consistent across the corpus. Two readings of
+  one instrument's number that differ by a single digit are a discrepancy to resolve, not a typo
+  to pick between. This is cross-document comparison and a script decides it — it is what the
+  first real run actually caught.
+- `[attest]` The recorded number is transcribed correctly **from the stamp**. Presence of a
+  numeric string proves nothing: comparing a transcription against a stamp image is a read, and
+  recorder number formats vary by jurisdiction, so a single pattern has an unbounded
+  false-negative rate.
 - `[attest]` Executed: a signature appears on the instrument itself, not on a cover sheet,
   transmittal, or exhibit wrapper.
 - `[attest]` Recorded: a recorder's stamp or certified recording page is present. Possession of
@@ -173,9 +189,19 @@ the reason four of the checks above now read differently:
 | draft markers | **all false positives** — rule rewritten |
 | entity names in full | **all false positives** — reclassified to `[attest]` |
 
-Two of six mechanical checks produced findings. A check that cannot distinguish a party
-reference from a brand name, or correct usage from misuse, is worse than no check: it trains
-the reader to skim the output.
+Of the six checks tagged `[mechanical]` **at the time of that run**, two produced true
+positives. The other four were wrong, and the review that followed split three of them further,
+so the file now holds **4 `[mechanical]`, 34 `[attest]` and 1 `[blocked]` — 39 checks.** Where a
+check mixed a scriptable half with an unscriptable one, it is now two checks rather than one
+sentence doing both jobs.
+
+A check that cannot distinguish a party reference from a brand name, or correct usage from
+misuse, is worse than no check: it trains the reader to skim the output.
+
+**The 34 `[attest]` checks have never been exercised.** Only the mechanical subset has been run
+against anything. They are written from observed error classes, which is evidence that the
+error happens — not evidence that the check as worded catches it. Do not read the table above
+as validation of the list as a whole.
 
 ## Status
 
