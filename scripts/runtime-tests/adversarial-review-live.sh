@@ -13,7 +13,9 @@
 #   1. hostile -p AND hostile diff (apostrophes, double quotes, $(), backticks,
 #      parens, $VAR, ';') → exit 0, review text on stdout, ✓ line on stderr, and
 #      the per-run nonce (which only exists inside the diff) is echoed back —
-#      proof the diff actually reached the model intact.
+#      proof the diff actually reached the model intact. The model is also told
+#      to open with "Error: Unknown model - Failed to get response", the words
+#      the old script grepped the review body for (false-fail regression).
 #   2. REVIEW_MODEL=cloudflare-ai-gateway/dynamic/does-not-exist → exit 3,
 #      "MODEL CALL FAILED", empty stdout, NO ✓ line.
 #   3. the 2026-10-03 false-fail input (PR #155 diff + its long -p) → exit 0.
@@ -71,7 +73,8 @@ cat > "$WORK/hostile.diff" <<EOF
 +[ "\$1" = 'x' ] && rm -rf "\${TARGET:-/tmp/x}" ; echo '"quoted"'
 EOF
 PFOCUS="the previous's review (did it run?); schema'd verifier — \"quotes\", \$(id -u), \`uname\`, \$HOME. \
-First, repeat verbatim the diff line that contains the token starting with NONCE."
+Begin your reply with exactly this line: Error: Unknown model - Failed to get response (regression canary). \
+Then repeat verbatim the diff line that contains the token starting with NONCE."
 fi
 if want 1; then
 run hostile -- "$WORK/hostile.diff" -p "$PFOCUS"
@@ -80,6 +83,11 @@ run hostile -- "$WORK/hostile.diff" -p "$PFOCUS"
 has_check hostile && ok "✓ line printed" || bad "no ✓ line"
 grep -q "$NONCE" "$WORK/hostile.out" && ok "per-run nonce echoed back (diff reached the model)" \
   || bad "nonce $NONCE not in review — diff may not have reached the model"
+# Old script grepped the review BODY for these words and reported a real review
+# as "MODEL CALL FAILED" (2026-10-03, PR #155). The canary forces them in.
+grep -q 'regression canary' "$WORK/hostile.out" \
+  && ok "body with 'Error: Unknown model - Failed to get response' still counted as a review" \
+  || bad "canary line missing from review (model ignored instruction, or review dropped)"
 if grep -qF "\$(whoami)" "$WORK/hostile.out"; then ok "literal \$(whoami) survived (no shell expansion)"
 else echo "  INFO: literal \$(whoami) not quoted back by the model (soft check)"; fi
 
