@@ -409,7 +409,9 @@ Every dispatched subagent should default to `ch1tty/cast` for orchestration and 
 
 ## Workers Builds (CF CI/CD)
 
-All ChittyOS workers deploy via Cloudflare Workers Builds (git-triggered). Config is managed via API, not dashboard.
+Cloudflare Workers Builds is the normal build and deployment path for ChittyOS workers.
+GitHub remains the source-control and review surface; it is not a second deployment
+system. Configure Workers Builds through the API, not the dashboard.
 
 - **API base**: `https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/builds/`
 - **Auth**: `Authorization: Bearer {cfut_ account token}` — needs "Workers Builds Configuration:Edit" permission
@@ -419,6 +421,28 @@ All ChittyOS workers deploy via Cloudflare Workers Builds (git-triggered). Confi
 - **Pattern**: Workers with `env.production` blocks deploy via `npx wrangler deploy --env production`
 - **Shared deps**: Workers importing from `../shared/` use build command `cd ../shared && npm ci`
 - **Watch paths**: Shared importers watch both `/workers/{name}/*` and `/workers/shared/*`
+- **Normal path**: a push to the configured branch triggers the Cloudflare Workers Build
+  and deployment.
+- **Wrangler**: use `npx wrangler deploy --env production` for local development,
+  `--dry-run` validation, or an explicitly approved emergency/manual deployment only.
+  Do not run Wrangler deployment in parallel with the Workers Build for the same commit.
+
+### GitHub free-tier operating model
+
+Keep GitHub Actions lightweight and non-duplicative. Repository workflows should do
+only inexpensive validation such as lint, typecheck, unit tests, and configuration
+checks. Full builds and deployments belong to Cloudflare Workers Builds unless a
+repository has an explicitly documented exception.
+
+- Do not duplicate a Cloudflare deployment in GitHub Actions.
+- Do not assume paid GitHub features, unlimited minutes, required reviewers, or
+  auto-merge are available.
+- Prefer one small repository workflow template over large, frequently changing
+  workflow copies.
+- Treat the Cloudflare build result as the deployment gate and record the build URL
+  or ID in the release/incident note when operational evidence is needed.
+- Use path filters and branch filters so unrelated repository changes do not trigger
+  Worker builds.
 
 ## Review and Audit Bias
 
