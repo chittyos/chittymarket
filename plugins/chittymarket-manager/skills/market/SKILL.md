@@ -1,159 +1,89 @@
 ---
 name: market
-description: ChittyMarket artifact manager — list, enable, disable, sync, and configure install mode for skills, agents, MCP servers, plugins, and hooks via the /market command.
+description: ChittyMarket capability office — end-to-end inventory, canonical resolution, composition, configuration, validation, publication, synchronization, drift detection, and retirement for configurations, skills, plugins, apps, agents, MCP routes, connectors/connections, hooks, and runtime projections.
 canon_uri: chittycanon://core/services/chittymarket#skills/market
 ---
 
-# /market — ChittyMarket Artifact Manager
+# /market — ChittyMarket Capability Office
 
-Manage all Claude Code artifacts (MCP servers, skills, plugins, agents, hooks) from a single interface.
+Operate the lifecycle of ChittyOS capabilities from one governed interface. Treat a capability as the canonical job-to-be-done; configurations, skills, plugins, apps, agents, MCP routes, connectors, connections, hooks, and runtime artifacts are controlled projections or dependencies.
 
-## Triggers
+## Non-negotiable rules
 
-- User types `/market`
-- User mentions "marketplace", "market list", "market enable", "market disable"
+1. Search for an existing canonical capability before creating or promoting anything.
+2. ChittyRegistry owns identity; ChittyMarket owns distribution; Ch1tty/ChittyMCP owns integration routing; ChittyConnect/ChittyAuth owns connection and credential state.
+3. Skills own method, apps/connectors own integrations, agents own delegated execution, and projects/workspaces own context.
+4. Never clone a shared MCP, skill, connector, registry, auth flow, database, or schema into a vertical plugin merely to make it self-contained.
+5. Generated manifests, provenance records, and runtime projections are compiler outputs. Do not hand-author them when a canonical generator exists.
+6. Validate the live repository acceptance contract before publication. CI confirms preflight; CI must not be the first place contract violations are discovered.
+7. Separate dependency identity from provenance/source location.
+8. All external writes require an owner, approval boundary, rollback path when applicable, and returned receipt.
+9. If canonical identity, authority, dependency resolution, or required connection state is uncertain, return HOLD instead of inventing it.
 
-## Arguments
+## Lifecycle
 
-- `/market` or `/market list` — List all artifacts grouped by type
-- `/market list --type=<type>` — Filter by type (mcp-server, skill, plugin, agent, hook)
-- `/market list --category=<cat>` — Filter by category (ecosystem, code, search, legal, etc.)
-- `/market list --enabled` — Show only enabled artifacts
-- `/market list --disabled` — Show only disabled artifacts
-- `/market enable <id>` — Enable an artifact
-- `/market disable <id>` — Disable an artifact
-- `/market info <id>` — Show artifact details (incl. provenance status)
-- `/market verify [<id>|--all]` — Verify capability-record provenance (content_hash)
-- `/market mode <id> ch1tty|standalone` — Switch install mode
-- `/market sync` — Scan filesystem and reconcile manifest with actual state
+For create, update, install, publish, migrate, or retire requests:
 
-## Provenance (verify-on-enable)
+1. **Inventory** — inspect canonical definitions, ChittyRegistry, ChittyMarket, Ch1tty/ChittyMCP, runtime projections, and relevant platform/plugin state.
+2. **Resolve** — identify canonical capability ID, owner, job-to-be-done, and existing projections. Classify duplicates as merge/project/retire rather than creating another source.
+3. **Compose** — declare required skills, apps, MCP routes, connectors, connections, and platform capabilities. Bundle only implementation owned by this capability.
+4. **Configure** — resolve auth mode, connection requirements, permissions, supported runtimes/channels, mutation risk, and install policy.
+5. **Preflight** — read current validators/generators and derive accepted source-link schemes, schema fields, provenance rules, projection rules, and distribution constraints.
+6. **Compile** — generate derived manifests, capability records, hashes, and runtime projections from canonical source.
+7. **Validate** — run the same lint/schema/source-freshness/provenance/reconciliation/idempotency/runtime checks used by CI.
+8. **Publish** — open/update the canonical PR; merge only after required checks pass; register/index through existing ChittyMarket/Ch1tty mechanisms.
+9. **Verify** — confirm installed/indexed state and required connections. Never report completion without receipts.
+10. **Operate** — sync versions, enable/disable, diagnose broken dependencies/connections, and detect projection drift.
+11. **Retire** — deprecate superseded projections and remove dangling dependencies only after consumers are reconciled.
 
-Every capability has a content-addressed record in `capabilities.generated.json`
-(SHA-256 `content_hash`; see `docs/architecture/CAPABILITY_PROVENANCE.md`).
-`enable` is **fail-closed**: if an artifact's record fails its `content_hash`
-(tampered/stale), activation is blocked unless `MARKET_SKIP_VERIFY=1`. `verify`
-audits one or all records; `info` shows provenance status. Signatures
-(`signer_chittyid`) are surfaced when present — pending Layer 2 they read
-"unsigned — signature pending".
+## Commands
 
-## Manifest Location
+Existing commands remain valid:
 
-The single source of truth is: `~/.claude/marketplace.json`
-(Symlinked from `/Users/nb/Desktop/Projects/github.com/CHITTYOS/chittymarket/marketplace.json`)
+- `/market list [filters]`
+- `/market info <id>`
+- `/market enable|disable <id>`
+- `/market verify [<id>|--all]`
+- `/market mode <id> ch1tty|standalone`
+- `/market sync`
 
-## Shell Actuator
+Capability-office commands:
 
-A shell script at `~/.claude/skills/market/market.sh` handles all commands. **Use this script for all operations** instead of manually reading/editing JSON files.
+- `/market inventory [<id>|--all]` — canonical + projection + dependency + connection inventory.
+- `/market resolve <intent|artifact>` — locate canonical owner and recommend keep/project/merge/gateway/retire/hold.
+- `/market deps <id>` — show required skills/apps/MCPs/connectors/connections and their live resolution state.
+- `/market preflight <id|path>` — derive the current publication contract and run pre-publication gates.
+- `/market publish <id|path>` — preflight, compile, validate, PR, gate, publish/register, verify.
+- `/market audit [<id>|--all]` — find duplicates, broken dependencies/connections, stale projections, invalid provenance, and orphaned artifacts.
+- `/market retire <id>` — dependency-aware deprecation/removal workflow.
 
-```bash
-~/.claude/skills/market/market.sh list                    # List all
-~/.claude/skills/market/market.sh list --type=skill       # Filter by type
-~/.claude/skills/market/market.sh list --category=code    # Filter by category
-~/.claude/skills/market/market.sh list --enabled          # Only enabled
-~/.claude/skills/market/market.sh list --disabled         # Only disabled
-~/.claude/skills/market/market.sh enable <id>             # Enable artifact
-~/.claude/skills/market/market.sh disable <id>            # Disable artifact
-~/.claude/skills/market/market.sh info <id>               # Show details + provenance
-~/.claude/skills/market/market.sh verify [<id>|--all]     # Verify content_hash provenance
-~/.claude/skills/market/market.sh sync                    # Reconcile with filesystem
-```
+## Existing actuator
 
-When this skill is triggered, run the appropriate `market.sh` command via Bash. Display the output to the user. For `/market mode`, fall back to the manual instructions below since `market.sh` doesn't implement mode switching yet.
+Use `~/.claude/skills/market/market.sh` for list/enable/disable/info/verify/sync where supported. Do not pretend the shell actuator implements the new office commands until it does. For office commands, use canonical ChittyMarket repository tooling and connected ChittyRegistry/Ch1tty/ChittyMCP/platform surfaces directly.
 
-## Manual Instructions (fallback)
+## Preflight contract
 
-If `market.sh` is unavailable, read `~/.claude/marketplace.json` and execute the requested command manually.
+Before any publish:
 
-### `/market list`
+- inspect the current generator and validation scripts rather than relying on remembered schemas;
+- require accepted source-link schemes;
+- verify every dependency identity independently from source/provenance;
+- ensure bundled implementation is not also emitted as an unmanaged standalone projection unless explicitly governed;
+- regenerate hashes/projections through canonical tooling;
+- require idempotent second generation with no diff;
+- stop on unresolved auth/connection requirements;
+- stop on validation failure.
 
-1. Read `~/.claude/marketplace.json`
-2. Filter out `_comment` entries
-3. Group artifacts by `type`
-4. For each artifact, display:
-   ```
-   [ON]  serena          Read and Write Source Code       mcp-server  code      ch1tty+standalone
-   [OFF] plugin-github   GitHub                           plugin      code      standalone
-   ```
-5. If `--type=X` is provided, only show that type
-6. If `--category=X` is provided, only show that category
-7. Show summary counts at the bottom
+## Output contract
 
-### `/market enable <id>`
+Return:
+- **Canonical capability**
+- **Owned projections**
+- **Dependencies/connections**
+- **Validation state**
+- **Writes/receipts**
+- **Drift/duplicates**
+- **Holds**
+- **Next action**
 
-1. Read marketplace.json, find artifact by `id`
-2. If already enabled, inform user
-3. Apply the toggle based on artifact type:
-
-| Type | How to Enable |
-|------|--------------|
-| `mcp-server` | Read Ch1tty's `servers.json` at `/Users/nb/Desktop/Projects/github.com/CHITTYOS/ch1tty/servers.json`. Find the server entry matching the artifact's `ch1tty.serverId`. Set `"enabled": true`. |
-| `skill` | Check if `SKILL.md.disabled` exists at the skill path. If so, rename it to `SKILL.md` using: `mv <path>/SKILL.md.disabled <path>/SKILL.md` |
-| `plugin` (official) | Read `~/.claude/settings.json`. In the `enabledPlugins` map, set the plugin ref to `true`. |
-| `plugin` (local) | Read `~/.claude/plugins/blocklist.json`. Remove the entry matching this plugin from the `plugins` array. |
-| `agent` | Check if `<name>.md.disabled` exists. If so, rename to `<name>.md` |
-| `hook` (hookify) | Read the hookify rule `.md` file. In the YAML frontmatter, set `enabled: true` |
-
-4. Update `"enabled": true` in marketplace.json
-5. Confirm to user
-
-### `/market disable <id>`
-
-1. Read marketplace.json, find artifact by `id`
-2. If already disabled, inform user
-3. Apply the toggle based on artifact type:
-
-| Type | How to Disable |
-|------|---------------|
-| `mcp-server` | In Ch1tty's `servers.json`, set `"enabled": false` for the matching server entry |
-| `skill` | Rename `SKILL.md` to `SKILL.md.disabled` at the skill path |
-| `plugin` (official) | In `~/.claude/settings.json` `enabledPlugins`, set the ref to `false` |
-| `plugin` (local) | Add entry to `~/.claude/plugins/blocklist.json` with reason "disabled-via-market" |
-| `agent` | Rename `<name>.md` to `<name>.md.disabled` |
-| `hook` (hookify) | In the hookify rule, set `enabled: false` in YAML frontmatter |
-
-4. Update `"enabled": false` in marketplace.json
-5. Confirm to user
-
-### `/market info <id>`
-
-1. Find the artifact in marketplace.json
-2. Display all fields in a readable format:
-   - Name, description, type, category, access
-   - Enabled status
-   - Install mode (ch1tty / standalone / both)
-   - Tags
-   - Standalone details (ref or path)
-   - Ch1tty details (serverId if applicable)
-
-### `/market mode <id> ch1tty|standalone`
-
-1. Find the artifact in marketplace.json
-2. Verify the requested mode is available (check `standalone.available` or `ch1tty.available`)
-3. If switching to ch1tty: disable standalone install, enable in Ch1tty servers.json
-4. If switching to standalone: disable in Ch1tty servers.json, enable standalone install
-5. Update `installMode` in marketplace.json
-6. Confirm to user
-
-### `/market sync`
-
-Reconcile marketplace.json with actual filesystem state:
-
-1. **MCP Servers**: Read Ch1tty servers.json, compare `enabled` field
-2. **Skills**: Check each skill path — if `SKILL.md` exists it's enabled, if `SKILL.md.disabled` exists it's disabled
-3. **Official Plugins**: Read `~/.claude/settings.json` `enabledPlugins` map
-4. **Local Plugins**: Check `~/.claude/plugins/blocklist.json`
-5. **Agents**: Check if `.md` or `.md.disabled` exists
-6. **Hooks**: Check hookify rule frontmatter for `enabled` field
-
-For any discrepancies, update marketplace.json to match actual state. Report what changed.
-
-## Key File Paths
-
-- Marketplace manifest: `~/.claude/marketplace.json`
-- Ch1tty servers: `/Users/nb/Desktop/Projects/github.com/CHITTYOS/ch1tty/servers.json`
-- Settings: `~/.claude/settings.json`
-- Plugin blocklist: `~/.claude/plugins/blocklist.json`
-- Skills: `~/.claude/skills/<id>/SKILL.md`
-- Agents: `~/.claude/agents/<name>.md`
-- Hooks: `~/.claude/hooks/hookify.<name>.local.md`
+Do not claim published, installed, connected, synchronized, or retired without direct evidence.
