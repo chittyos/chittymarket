@@ -7,7 +7,7 @@ plugin: chittyfinance
 runtimes:
   - claude-code
   - codex
-  - chatgpt
+  - chatgpt-apps
 classification:
   - finance
   - banking
