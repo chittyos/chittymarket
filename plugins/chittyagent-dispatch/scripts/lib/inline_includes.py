@@ -17,7 +17,9 @@ Include contract (any violation is a ValueError, and the adapter exits non-zero)
   - the name is a bare file name ending in .js: no path separator, no `..`, no leading dot
   - the file exists next to the canonical and is valid UTF-8
   - each file is included at most once per script
-  - top-level exports are only `export const|let|function|async function` at column 0;
+  - top-level exports are only `export const|let|function|async function` at column 0, ONE
+    name per export line (no `export const {a, b} = ...`, no `export const a = 1, b = 2`;
+    the export cross-check below rejects them loudly rather than guessing);
     `export default`, `export {...}`, `export * from`, and any column-0 `import` are rejected,
     because none of them can survive being inlined into a function body
   - the included file contains no inline markers of its own (no nesting)
