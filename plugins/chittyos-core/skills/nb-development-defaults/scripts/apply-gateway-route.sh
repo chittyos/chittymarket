@@ -87,18 +87,24 @@ if [[ -z "$ROUTE_ID" ]]; then
     exit 1
   fi
   echo "route '$NAME' absent on '$GATEWAY' — creating" >&2
-  CREATED="$(api POST "$BASE" "$(jq -c -n --arg n "$NAME" '{name:$n}')")"
+  # Create takes {name, elements} and deploys that first version itself
+  # (verified live 2026-10-02: response carries .result.version and .result.deployment).
+  CREATED="$(api POST "$BASE" "$(jq -c '{name: .name, elements: .elements}' "$FILE")")"
   ROUTE_ID="$(printf '%s' "$CREATED" | jq -er '.result.id')" || die "create returned no route id"
-  NEED_VERSION=1
+  printf '%s' "$CREATED" | jq -e '.result.deployment.version_id' >/dev/null \
+    || die "route created but no deployment reported; run --check and inspect"
+  echo "applied: route '$NAME' ($ROUTE_ID) created and deployed on '$GATEWAY'"
+  exit 0
 else
   DETAIL="$(api GET "$BASE/$ROUTE_ID")"
   # Active version's elements; shape probed in order. Unknown shape => exit 2, never "in sync".
   LIVE="$(printf '%s' "$DETAIL" | jq -S -c '
-    (.result.deployment.version.elements
-     // .result.active_version.elements
-     // .result.version.elements
-     // .result.elements
-     // empty)')"
+    # Verified live 2026-10-02: GET returns .result.version {version_id,data,active}
+    # and .result.deployment {version_id}. Only trust .version.data when it IS the
+    # deployed version; anything else is an unknown shape => exit 2.
+    if (.result.version.version_id != null
+        and .result.version.version_id == .result.deployment.version_id)
+    then .result.version.data else empty end')"
   if [[ -z "$LIVE" ]]; then
     echo "cannot locate active version elements in route response; top-level result keys:" >&2
     printf '%s' "$DETAIL" | jq -c '.result | keys?' >&2 || true
