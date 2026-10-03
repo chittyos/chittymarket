@@ -13,12 +13,23 @@ Canonical capability identity and ontology resolve through ChittyCanon / ChittyR
 ```
 canonical/
   <kind>/<name>.md                    # Market-owned projection definition
-                                      # <kind>: agents | skills | commands | mcp | tools
+                                      # <kind>: agents | skills | commands | mcp | tools | workflows
   .dispatch-state/<kind>/<name>.json  # last-projected sentinel per definition
   .dispatch-log.jsonl                 # append-only dispatch audit log (gitignored)
 ```
 
 Each projection definition should preserve or resolve the owning canonical capability and, where applicable, entity projection identity. Generated runtime files are delivery projections, not new canonical capabilities.
+
+### Workflows
+
+`canonical/workflows/<name>.md` (`kind: workflow`) holds frontmatter plus exactly one fenced
+```` ```js ```` block (use a four-backtick fence; workflow scripts contain backticks). The
+`claude-code-workflow.sh` adapter writes that block verbatim to
+`plugins/<plugin>/workflows/<name>.js`, which Claude Code resolves as
+`Workflow({name: "<plugin>:<name>"})`. The script must begin with `export const meta` and its
+`meta.name` must equal the frontmatter `name`. Prose outside the fence is documentation only and
+is not projected. The canonical stays markdown so every existing discoverer (dispatch, audit,
+market-reconcile, agent-identity) reads it without a second metadata parser.
 
 ## Frontmatter schema
 

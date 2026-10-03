@@ -549,3 +549,102 @@ shape + context, so it is a follow-up, not a gap in this one.
 - `chittyos/chittymarket#117` — the out-of-tree bundle that surfaced this
 - `chittyos/chittymarket#118` — `9-step-legal-audit` promoted, scrubbed and guarded
 
+
+---
+
+## 2026-10-02 — `gauntlet` workflow promoted from chittyentity
+
+**Auditor:** capability-registry-audit (runbook v0.2), run by the session that opened this PR
+**Source:** `CHITTYOS/chittyentity` origin/main `.claude/workflows/gauntlet.js` (586 lines),
+`.claude/agents/gauntlet-runner.md`, `docs/design/gauntlet-as-agent-workflow.md`; string-args
+fix from chittyentity PR #736 (`fix/gauntlet-string-args-loud`).
+
+### Disposition: **promote**
+
+| Field | Value |
+|-------|-------|
+| canonical_id | `chittycanon://capability/build/gauntlet` |
+| artifact | `workflow-gauntlet` (new `workflow` kind), canonical `canonical/workflows/gauntlet.md` |
+| projection | `plugins/chittyos-core/workflows/gauntlet.js` → `Workflow({name: "chittyos-core:gauntlet"})` |
+| entity mapping | **E** primary (a verification run is an occurrence in time), **T** secondary (the artifact under test) |
+| environmental footprint | write-capable (the implementer role edits the target and its corpus) |
+| evidentiary risk | low |
+| owner | chittymarket / `chittyos-core` |
+| access | write |
+| visibility | advanced, `enabled: false` (new compiled artifacts are disabled by default) |
+
+### Overlap check
+
+No existing capability overlaps. `adversarial-review.sh` is a single-pass review of one diff.
+The gauntlet is a multi-role loop (contest, generate, trace, mandate audit, then feeder against a
+separated implementer until dry, then an independent verifier) against a runner and a fixture
+corpus. Different job, different shape.
+
+### Changes made at promotion
+
+- #736 folded in: string `args` are parsed, objects pass through, malformed JSON and non-object
+  shapes throw without echoing input. Empty args or a missing target/runner return
+  `{started: false, reason, next}`.
+- Every `agent()` call carries an explicit `model` (binding rule: an omitted model is a bug).
+  Six judgment roles default to `opus`; the generator defaults to `sonnet` because its output is
+  checked downstream. `args.models` overrides per role.
+- `args.dryRun: true` returns the validated config and agent budget (`4 + 2*maxRounds + 1`, 17 at
+  defaults) without dispatching. That makes the capability cheap to prove callable.
+
+### Companion agent: `chittyagent-gauntlet` (HOLD)
+
+`gauntlet-runner` is renamed to `chittyagent-gauntlet` (canonical agents are `chittyagent-*`; the
+tier-2 design reserves the same name for a future remote worker). It projects to claude-code,
+codex, and openclaw. It carries **no** capability identity, because the one capability id is
+bound to the workflow and ids are unique. It therefore stays **HOLD** in market-reconcile: it
+ships in the plugin, but it has no `marketplace.json` or overlay record. Minting a separate id for
+it is a ChittyCanon decision and is not taken here.
+
+### Retirement
+
+The chittyentity copies (`.claude/workflows/gauntlet.js`, `.claude/agents/gauntlet-runner.md`)
+are retired once this lands (design doc open question 2). Removing them is a chittyentity PR and
+is not part of this change.
+
+### Amendment (2026-10-02, same PR): companion agent renamed to `chittyagent-olmec`
+
+**Operator decision.** The companion agent above is renamed `chittyagent-gauntlet` →
+`chittyagent-olmec` (after Olmec, who runs the temple trials in *Legends of the Hidden Temple*) and
+reshaped. Olmec is the **separated reviewer** role from nb-development-defaults ("reviewer ≠
+implementer"); the gauntlet is one of its functions, not its identity. The entry above is left as
+written; this amendment supersedes its agent name.
+
+| Field | Value |
+|-------|-------|
+| agent | `canonical/agents/chittyagent-olmec.md`, projected to claude-code, codex, openclaw |
+| v1 functions | diff review (`plugins/chittyos-core/skills/nb-development-defaults/scripts/adversarial-review.sh`, referenced in place) and the gauntlet (`Workflow({name: "chittyos-core:gauntlet"})`) |
+| not yet built | CI-gate audit (no code; not offered) |
+| hard boundaries | never ships fixes; canon audits → `chittyagent-canon`; schema drift → `chittyschema-overlord`; auth audits → `chittyauth-token-ops`; security scanning → `claude-security` plugin |
+| status | **HOLD**, unchanged: still no capability identity of its own, no `marketplace.json` or overlay record |
+| deprecated aliases | `gauntlet-runner` only. The intermediate name was never merged or released, so no alias is owed for it |
+
+The three intermediate projections and their dispatch state were removed (dispatch has no removal
+mode; deleted by hand, then `dispatch.sh audit` confirmed 0 orphans). The tier-2 design doc now
+names `chittyagent-olmec` as the candidate remote worker. Diff review currently falls back to a
+fresh-context Opus subagent, because both chittyclaw routes (`dynamic/three-wise-men`,
+`adversarial-reviewer`) return `400 code 2005`; the agent is required to say so whenever it does.
+
+### Amendment 2 (2026-10-03, same PR): separated review of `4fad0a3`
+
+A separated review (chittyclaw `dynamic/three-wise-men`) found that every convergence anchor was an
+agent's self-report. Closed in the workflow, not in prose: a gathering-only runner witness observes
+the runner's exit code each round and in Converge; implementer claims that contradict it are recorded
+as `claim_mismatch` and block convergence; the verifier returns a schema checked in code; a retrace
+re-runs the tracer against the post-fix code; round 1 never counts as dry, the dry streak needs at
+least 2 rounds with distinct strategies, and repeated strategies are recorded; judgment-role models
+are allow-listed (`opus`/`fable`). The agent budget changes from `4 + 2*maxRounds + 1` (17 at
+defaults, stated in the entry above) to `4 + 3*maxRounds + 3` (25 at defaults, 43 at the ceiling of
+12). `oracleAuthor: 'olmec'` is required when the reviewing agent builds the runner or corpus.
+
+### Amendment 3 (2026-10-03, same PR): separated review of `03a86ae`
+
+The second separated review confirmed the witness, verifier schema and allow-list closures, and found
+that a blind oracle (a runner that exits 0 having executed zero cases) still converged when the
+implementer agreed with it. Closed with a required `cases_executed` count from both the runner witness
+and the verifier, gated in code (`blind_oracle`). Null Converge roles are now explicit blockers, and
+malformed role output (non-array list fields) is recorded as a death and a blocker instead of throwing.

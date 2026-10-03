@@ -1,0 +1,32 @@
+{
+  "canonical_sha": "d36c080bf54019014e85df2dc67887b22818f3ee",
+  "dispatch": {
+    "canonical_sha": "d36c080bf54019014e85df2dc67887b22818f3ee",
+    "projected_at": "2026-10-03T00:17:07Z",
+    "status": "projected",
+    "targets": {
+      "claude-code": "e851d0755836b34968692d591d952f227264c569",
+      "codex": "e5d10440ecb914db5d1b241ea385a062f5f2b208",
+      "openclaw": "3aa1b846eaeb7dfec04089a4b077776ea6ec5a9c"
+    }
+  },
+  "targets": {
+    "claude-code": "e851d0755836b34968692d591d952f227264c569",
+    "codex": "e5d10440ecb914db5d1b241ea385a062f5f2b208",
+    "openclaw": "3aa1b846eaeb7dfec04089a4b077776ea6ec5a9c"
+  },
+  "verification": {
+    "projection": {
+      "findings": [],
+      "method": "dispatch-audit",
+      "status": "pending",
+      "verified_at": null
+    },
+    "runtime": {
+      "method": null,
+      "status": "not_run",
+      "targets": {},
+      "verified_at": null
+    }
+  }
+}

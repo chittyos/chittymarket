@@ -49,6 +49,7 @@ DIR_KIND = {
     "mcp": "mcp-server",
     "tools": "tool",
     "hooks": "hook",
+    "workflows": "workflow",
 }
 PREFIX = {
     "agent": "agent-",
@@ -57,6 +58,7 @@ PREFIX = {
     "mcp-server": "",
     "tool": "tool-",
     "hook": "hook-",
+    "workflow": "workflow-",
 }
 CAP_RE = re.compile(r"^chittycanon://capability/[a-z][a-z0-9-]*/[a-z0-9][a-z0-9-]*$")
 
