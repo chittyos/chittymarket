@@ -30,7 +30,7 @@ EXECUTION_CLASSES = {
     "@chitty/ambient", "@chitty/connectors", "@chitty/reasoning", "@chitty/workspace",
 }
 GROUPS = {
-    "agent-runtime", "build", "connect", "govern", "internal",
+    "agent-runtime", "build", "connect", "finance", "govern", "internal",
     "legal", "local-lab", "market", "ship", "workspace",
 }
 VISIBILITY = {"advanced", "recommended"}

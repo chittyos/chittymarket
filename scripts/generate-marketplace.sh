@@ -27,6 +27,7 @@ declare -A CATEGORY_MAP
 CATEGORY_MAP[chittyos-core]="ecosystem"
 CATEGORY_MAP[chittyos-devops]="operations"
 CATEGORY_MAP[chittyos-legal]="legal"
+CATEGORY_MAP[chittyos-finance]="finance"
 CATEGORY_MAP[chittyos-governance]="security"
 CATEGORY_MAP[chittyos-proxy-agents]="integrations"
 CATEGORY_MAP[chittymarket-manager]="ecosystem"
@@ -38,6 +39,9 @@ declare -A KEYWORDS_MAP
 KEYWORDS_MAP[chittyos-core]="chittyos,session,context,agents,schema,canon"
 KEYWORDS_MAP[chittyos-devops]="deploy,health,registry,pipelines,wrangler,compliance"
 KEYWORDS_MAP[chittyos-legal]="legal,evidence,disputes,docket,cases,custody,agent,paralegal,protected-identifiers,deadlines"
+# A plugin missing from this map regenerates with keywords: [] and fails the
+# manifest idempotency gate on every PR (issue #81). Add every new plugin here.
+KEYWORDS_MAP[chittyos-finance]="finance,books,accounting,chart-of-accounts,classification,reconciliation,defaults"
 KEYWORDS_MAP[chittyos-governance]="governance,hooks,entity-types,chittyid,deploy-gate,schema"
 KEYWORDS_MAP[chittyos-proxy-agents]="notion,chatgpt,cloudflare,proxy,agent"
 KEYWORDS_MAP[chittymarket-manager]="marketplace,market,artifacts,toggle,manage"

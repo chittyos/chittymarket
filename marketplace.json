@@ -2609,6 +2609,32 @@
         "adversarial-review",
         "testing"
       ]
+    },
+    {
+      "id": "skill-finance-operating-defaults",
+      "name": "Finance Operating Defaults",
+      "description": "Finance Operating Constitution — books only. The default operating posture for bookkeeping, chart-of-accounts, classification, reconciliation, and financial-write work, across every runtime (Claude, ChatGPT, Codex, ChittyOS agents). Load it whenever the work touches a chart of accounts, a ledger, a classification, a reconciliation, a tax-form derivation, or any write to a financial datastore — including when the request sounds trivial (\"just fix that one account\", \"reseed the chart\", \"mark it deductible\"). It governs HOW books work is conducted: the document is authoritative over the projection, a plan is not a write, never hand-write apply SQL, partial state is the default failure, reconcile by digest, tax semantics are separable from structure, production writes are operator-gated, trust path L0–L4, rollups hold no transactions, state the gaps, mutation-test every guard. It carries no entity facts and never will — no ownership percentages, no account numbers, no balances. The moment a financial figure is filed or asserted in a matter, it hands off to `legal-operating-defaults`.",
+      "type": "skill",
+      "category": "finance",
+      "access": "read",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/finance-operating-defaults",
+      "capability": "chittycanon://capability/finance/finance-operating-defaults",
+      "tags": [
+        "finance",
+        "governance",
+        "books",
+        "defaults"
+      ]
     }
   ]
 }
