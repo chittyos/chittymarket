@@ -1,10 +1,14 @@
 {
   "name": "chittymarket-manager",
-  "version": "1.0.0",
-  "description": "Artifact marketplace manager — list, enable, disable, sync, and toggle install modes for all ChittyOS Claude Code artifacts",
+  "version": "1.1.0",
+  "description": "ChittyMarket Capability Office — end-to-end management of configurations, skills, plugins, apps, agents, MCP routes, connectors/connections, projections, validation, publication, drift, and retirement",
   "author": {
     "name": "ChittyOS",
     "url": "https://github.com/CHITTYOS"
   },
-  "requires": []
+  "requires": [
+    "chittyos-core",
+    "chittyos-mcp",
+    "chittyos-governance"
+  ]
 }
