@@ -30,28 +30,81 @@ Webhooks:
 - VERIFY webhook: https://docs.mercury.com/reference/verifywebhook
 - DELETE webhook: https://docs.mercury.com/reference/deletewebhook
 
-Statements:
+Organization/accounts:
+- organization / legal business name / DBAs: https://docs.mercury.com/reference/getorganization
+- all accounts: https://docs.mercury.com/reference/getaccounts
+- cards for an account: https://docs.mercury.com/reference/getaccountcards
+
+Transactions and events:
+- all transactions: https://docs.mercury.com/reference/listtransactions
+- account transactions: https://docs.mercury.com/reference/listaccounttransactions
+- transaction detail: https://docs.mercury.com/reference/gettransactionbyid
+- Events API: https://docs.mercury.com/reference/events
+- list events: https://docs.mercury.com/reference/getevents
+- event detail: https://docs.mercury.com/reference/getevent
+- upload transaction attachment: https://docs.mercury.com/reference/uploadtransactionattachment
+
+Statements / treasury:
 - account statements: https://docs.mercury.com/reference/getaccountstatements
+- statement PDF download: https://docs.mercury.com/reference/getstatementpdf
+- treasury accounts: https://docs.mercury.com/reference/gettreasury
+- treasury transactions: https://docs.mercury.com/reference/gettreasurytransactions
 - treasury statements: https://docs.mercury.com/reference/gettreasurystatements
 
 Recipients/payees:
 - list recipients: https://docs.mercury.com/reference/getrecipients
+- recipient detail: https://docs.mercury.com/reference/getrecipient
 - create recipient: https://docs.mercury.com/reference/createrecipient
+- update recipient: https://docs.mercury.com/reference/updaterecipient
+- delete recipient: https://docs.mercury.com/reference/deleterecipient
 - create recipient invite: https://docs.mercury.com/reference/createrecipientinvite
 - list recipient invites: https://docs.mercury.com/reference/listrecipientinvites
+- delete recipient invite: https://docs.mercury.com/reference/deleterecipientinvite
 - recipient attachments: https://docs.mercury.com/reference/listrecipientsattachments
+- upload recipient attachment: https://docs.mercury.com/reference/uploadrecipientattachment
 
-Payments:
+Payments / transfers:
 - direct send money: https://docs.mercury.com/reference/createtransaction
+- internal transfer: https://docs.mercury.com/reference/createinternaltransfer
 - request-to-send-money (approval queue): https://docs.mercury.com/reference/requestsendmoney
+- request transfer money (approval queue): https://docs.mercury.com/reference/requesttransfermoney
+- list send-money approval requests: https://docs.mercury.com/reference/listsendmoneyapprovalrequests
+- approval request detail: https://docs.mercury.com/reference/getsendmoneyapprovalrequest
 
 Transaction metadata/categories:
 - update transaction metadata: https://docs.mercury.com/reference/updatetransaction
+- list categories: https://docs.mercury.com/reference/listcategories
+- create category: https://docs.mercury.com/reference/createcategory
 - edit custom category: https://docs.mercury.com/reference/editcategory
+- delete category: https://docs.mercury.com/reference/deletecategory
+- list merchants: https://docs.mercury.com/reference/listmerchants
 
 Accounts receivable:
 - list customers: https://docs.mercury.com/reference/listcustomers
+- create customer: https://docs.mercury.com/reference/createcustomer
+- update customer: https://docs.mercury.com/reference/updatecustomer
+- delete customer: https://docs.mercury.com/reference/deletecustomer
+- list invoices: https://docs.mercury.com/reference/listinvoices
+- invoice detail: https://docs.mercury.com/reference/getinvoice
 - create invoice: https://docs.mercury.com/reference/createinvoice
+- update invoice: https://docs.mercury.com/reference/updateinvoice
+- cancel invoice: https://docs.mercury.com/reference/cancelinvoice
+- invoice attachments: https://docs.mercury.com/reference/listinvoiceattachments
+- invoice PDF: https://docs.mercury.com/reference/getinvoicepdf
+- attachment detail/download URL: https://docs.mercury.com/reference/getattachment
+
+Cards:
+- list cards: https://docs.mercury.com/reference/listcards
+- card detail: https://docs.mercury.com/reference/getcard
+- create card: https://docs.mercury.com/reference/createcard
+- update card: https://docs.mercury.com/reference/updatecard
+- freeze card: https://docs.mercury.com/reference/freezecard
+- unfreeze card: https://docs.mercury.com/reference/unfreezecard
+- cancel card: https://docs.mercury.com/reference/cancelcard
+
+Users:
+- list users: https://docs.mercury.com/reference/getusers
+- user detail: https://docs.mercury.com/reference/getuser
 
 Before implementing an endpoint not listed here, consult Mercury `llms.txt` / current OpenAPI instead of guessing request fields or scopes.
 
@@ -129,8 +182,10 @@ Use the Mercury connector or ChittyConnect read path without asking for a write 
 
 - organization metadata
 - accounts and balances
+- organization metadata and legal-business/DBA metadata
 - account/card lists
 - transaction lists/details
+- Mercury Events API reads for auditable reconciliation/backfill
 - merchant/category lists
 - monthly account statements
 - treasury accounts, transactions, and statements
@@ -151,9 +206,11 @@ These do not move money directly but still mutate Mercury state:
 - create/update/delete/verify webhook
 - create/edit/delete custom category
 - update transaction note/category
-- create/update recipient/payee or recipient invite
-- create/update customer
+- create/update/delete recipient/payee or recipient invite
+- upload recipient/transaction attachments
+- create/update/delete customer
 - create/cancel/update invoice
+- create/update/freeze/unfreeze/cancel card
 
 Requirements:
 - resolve business identity first;
@@ -167,7 +224,7 @@ Requirements:
 
 Examples:
 - direct send-money transaction
-- transfer money
+- internal transfer
 - other immediate payment mutations
 
 Requirements:
@@ -179,7 +236,7 @@ Requirements:
 
 ### D. Approval-queued operations
 
-Mercury `request-send-money` can create an approval request without the same static-IP requirement as direct send-money, per current Mercury docs. Treat it as a financial action requiring the applicable user approval/policy, but prefer it over direct send-money when the operating model requires a separate human approver.
+Mercury `request-send-money` can create a payment approval request, and `request-transfer-money` can create an approval-based internal transfer. Current Mercury token policy documents that request-send-money is available without the static-IP requirement that applies to full read/write tokens. Treat both as financial actions requiring the applicable user approval/policy; prefer approval-queued operations when the operating model requires a separate human approver.
 
 ## 7. Webhook lifecycle
 
@@ -256,7 +313,7 @@ Maintain one canonical flow:
 2. verify credential authentication health;
 3. enumerate accounts and balances;
 4. verify webhook registration/status and repair when governed write capability is available;
-5. compare recent Mercury transactions/events against ChittyFinance;
+5. compare recent Mercury transactions and the Mercury Events API against ChittyFinance;
 6. backfill only genuinely missing records through the existing ingestion path;
 7. preserve `tenant_id` as data scope, separate legal/business binding, account external ID, connector provenance, and idempotency;
 8. report only actionable auth/webhook/identity/material reconciliation failures.
