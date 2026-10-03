@@ -25,6 +25,7 @@ GITHUB_PLUGINS=(
 # Category map for inline plugins (read from marketplace.json native manifest)
 declare -A CATEGORY_MAP
 CATEGORY_MAP[chittyos-core]="ecosystem"
+CATEGORY_MAP[chittyfinance]="finance"
 CATEGORY_MAP[chittyos-devops]="operations"
 CATEGORY_MAP[chittyos-legal]="legal"
 CATEGORY_MAP[chittyos-governance]="security"
@@ -36,6 +37,7 @@ CATEGORY_MAP[neon-mcp]="database"
 # Keywords map
 declare -A KEYWORDS_MAP
 KEYWORDS_MAP[chittyos-core]="chittyos,session,context,agents,schema,canon"
+KEYWORDS_MAP[chittyfinance]="finance,banking,mercury,reconciliation,accounting"
 KEYWORDS_MAP[chittyos-devops]="deploy,health,registry,pipelines,wrangler,compliance"
 KEYWORDS_MAP[chittyos-legal]="legal,evidence,disputes,docket,cases,custody,agent,paralegal,protected-identifiers,deadlines"
 KEYWORDS_MAP[chittyos-governance]="governance,hooks,entity-types,chittyid,deploy-gate,schema"
