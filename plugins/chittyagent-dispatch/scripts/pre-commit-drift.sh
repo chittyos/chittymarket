@@ -6,7 +6,12 @@
 #        - canonical/<name>.md staged
 #        - any projection path staged: plugins/<plugin>/agents/<name>.md,
 #          plugins/<plugin>/codex-skills/<name>/SKILL.md,
-#          plugins/<plugin>/openclaw-agents/<name>.yaml
+#          plugins/<plugin>/openclaw-agents/<name>.yaml,
+#          plugins/<plugin>/workflows/<name>.js
+#        - an inlined include staged (canonical/<kind>/<file>.js): every canonical in
+#          that kind-dir whose script carries the marker `// @inline <file>.js`
+#          (grammar: lib/inline_includes.py) is re-synced, so a core edit committed
+#          without its re-projection is blocked like any other drift
 #   2. Re-run `dispatch.sh sync <name>` for each touched canonical.
 #   3. If sync produced any changes (modified projection, modified state, or new
 #      untracked artifacts), the commit is incomplete or has direct-edit drift.
@@ -35,6 +40,22 @@ for f in "${staged[@]}"; do
       n="${n##*/}"     # strip subdir(s) → basename
       n="${n%.md}"
       [ "$n" = "README" ] || names["$n"]=1 ;;
+    canonical/*/*.js)
+      # An inlined include: re-sync every sibling canonical that inlines it.
+      # grep exit 1 = no canonical inlines it (nothing to re-sync); exit >1 is an error and fails closed.
+      inc="${f##*/}"; kdir="${f%/*}"
+      mds=( "$REPO_ROOT/$kdir"/*.md )
+      [ -e "${mds[0]}" ] || continue
+      rc=0; hits="$(grep -lE "^// @inline ${inc//./\\.}[[:space:]]*\$" "${mds[@]}")" || rc=$?
+      if [ "$rc" -gt 1 ]; then
+        echo "[pre-commit-drift] $f: could not scan $kdir for canonicals that inline it (grep exit $rc)" >&2
+        failed=1
+        continue
+      fi
+      while IFS= read -r c; do
+        [ -n "$c" ] || continue
+        n="${c##*/}"; names["${n%.md}"]=1
+      done <<< "$hits" ;;
     plugins/*/agents/*.md)
       n="${f##*/}"; names["${n%.md}"]=1 ;;
     plugins/*/codex-skills/*/SKILL.md)
@@ -45,19 +66,48 @@ for f in "${staged[@]}"; do
       n="${f##*/}"; names["${n%.json}"]=1 ;;
     plugins/*/chatgpt-apps/*.json)
       n="${f##*/}"; names["${n%.json}"]=1 ;;
+    plugins/*/workflows/*.js)
+      n="${f##*/}"; names["${n%.js}"]=1 ;;
   esac
 done
 
 snapshot_before=$(git status --porcelain)
 
 failed=0
+
+# Syntax-check every staged workflow projection in the Workflow host's shape (top-level `return`
+# is legal there, so the body is wrapped in an async function and `export const meta` becomes
+# `const meta`). The adapter already checks at projection time; this catches a hand-edited .js.
+for f in "${staged[@]}"; do
+  case "$f" in
+    plugins/*/workflows/*.js)
+      if ! command -v node >/dev/null 2>&1; then
+        echo "[pre-commit-drift] $f: node not found — cannot syntax-check workflow projections" >&2
+        failed=1
+        continue
+      fi
+      # Portable: BSD/macOS mktemp has no --suffix, so create then rename to .mjs.
+      base="$(mktemp "${TMPDIR:-/tmp}/wfcheck.XXXXXX")" || { echo "[pre-commit-drift] mktemp failed" >&2; failed=1; continue; }
+      chk="$base.mjs"
+      mv "$base" "$chk"
+      { printf 'export default async function (args, agent, parallel, phase, log) {\n'
+        git show ":$f" | sed '1s/^export const meta/const meta/'
+        printf '\n}\n'; } > "$chk"
+      if ! node --check "$chk" >/dev/null 2>&1; then
+        echo "[pre-commit-drift] $f: staged workflow fails node --check" >&2
+        failed=1
+      fi
+      rm -f "$chk" ;;
+  esac
+done
+
 # Skip drift sync when no canonical/projection paths are touched, but still fall
 # through to the always-on evidence-gate check below.
 if [ "${#names[@]}" -gt 0 ]; then
   for name in "${!names[@]}"; do
     # Search canonical/<kind>/<name>.md first, then flat canonical/<name>.md.
     can=""
-    for sub in agents skills commands mcp hooks tools; do
+    for sub in agents skills commands mcp hooks tools workflows; do
       if [ -f "$REPO_ROOT/canonical/$sub/${name}.md" ]; then
         can="$REPO_ROOT/canonical/$sub/${name}.md"
         break
@@ -76,7 +126,7 @@ if [ "${#names[@]}" -gt 0 ]; then
       if [ "$name" = "SKILL" ] || [ "$name" = "README" ]; then
         continue
       fi
-      echo "[pre-commit-drift] $name: projection staged but canonical missing (searched canonical/{agents,skills,commands,mcp,hooks,tools}/${name}.md and canonical/${name}.md)" >&2
+      echo "[pre-commit-drift] $name: projection staged but canonical missing (searched canonical/{agents,skills,commands,mcp,hooks,tools,workflows}/${name}.md and canonical/${name}.md)" >&2
       failed=1
       continue
     fi

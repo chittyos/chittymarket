@@ -2,9 +2,9 @@
 """check-matter-leak — fail the build when a concrete legal matter appears in a
 governed, published definition.
 
-Standard enforced: legal-operating-defaults §14 — matter facts stay out of reusable
+Standard enforced: legal-operating-defaults §15 — matter facts stay out of reusable
 capability packages. §8 (no defaulting to a case) is enforced by each skill's own text;
-this gate enforces §14, which a caveated "worked example" does not satisfy.
+this gate enforces §15, which a caveated "worked example" does not satisfy.
 
 WHY A SHAPE MATCHER AND NOT A LIST OF MATTERS
 A denylist naming real matters would itself be matter data, published in a public repo.
@@ -118,7 +118,7 @@ def main():
     print("""
 A governed definition must not carry a concrete legal matter — not even as a caveated
 "worked example". Caveats satisfy legal-operating-defaults §8 (do not default to a case);
-they do not satisfy §14 (matter facts stay out of reusable capability packages).
+they do not satisfy §15 (matter facts stay out of reusable capability packages).
 
 Fix by replacing the value with a placeholder token, not by loosening this gate:
   case number  ->  YYYY D NNNNNN

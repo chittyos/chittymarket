@@ -1,0 +1,21 @@
+{
+  "decision_id": "dec_20260918_r2-sql-query",
+  "date": "2026-09-18",
+  "capability_name": "R2 SQL query execution",
+  "canonical_id": "chittycanon://capability/ship/r2-sql-query",
+  "source_links": [
+    "https://developers.cloudflare.com/r2-sql/",
+    "cloudflare r2-catalog 7b59ebb2-1804-11f1-a4cb-7f2c429242a0 (bucket chittyevidence-pipeline, status active)"
+  ],
+  "current_state": "Evaluated from a Cloudflare documentation link supplied by the operator. No ChittyOS artifact implements or calls R2 SQL. The one live Iceberg catalog on the account is active with credential_status present, but no query path exists in any repo.",
+  "decision": "hold",
+  "job_to_be_done": "generate",
+  "environmental_footprint": "network-service",
+  "evidentiary_risk": "none",
+  "rationale": "ACCEPTS the computed disposition hold, over my own earlier reasoned disposition of project. The skill's core rule is explicit: if source data is insufficient, return hold with the missing evidence. A documentation URL is not an artifact inventory — there is nothing in the ecosystem to project. Axis note: the script computed environmental_footprint write-capable(2); R2 SQL as evaluated is a read-only query surface over Iceberg, so network-service(3) is the honest value. That axis correction does not change the disposition, and for a hold the axes are provisional by definition.",
+  "duplicates_found": [],
+  "migration_required": false,
+  "migration_owner": "",
+  "next_action": "Re-audit only if a ChittyOS artifact proposes an R2 SQL read path. Missing evidence: source_links to an implementing artifact, an owner, and a named consumer.",
+  "review_date": "2026-11-18"
+}

@@ -61,8 +61,8 @@
 ,
     {
       "name": "chittyos-core",
-      "description": "Core ChittyOS ecosystem — session persistence, context checkpoints, cleanup, and ecosystem agents for schema, registration, connection, integration, and canonical governance",
-      "version": "1.1.0",
+      "description": "Core ChittyOS ecosystem — session persistence, context checkpoints, cleanup, the gauntlet adversarial-verification workflow, and ecosystem agents for schema, registration, connection, integration, and canonical governance",
+      "version": "1.2.3",
       "source": "./plugins/chittyos-core",
       "strict": false,
       "category": "ecosystem",
@@ -91,12 +91,12 @@
 ,
     {
       "name": "chittyos-legal",
-      "description": "Legal case management — the Legal Operating Defaults constitution, plus evidence fact governance, dispute tracking, court docket monitoring, and evidence collection pipeline",
-      "version": "1.1.1",
+      "description": "Legal case management — the Legal Operating Defaults constitution and a paralegal/law-clerk/forensic-analyst support agent for counsel, plus evidence fact governance, dispute tracking, court docket monitoring, and evidence collection pipeline",
+      "version": "1.3.0",
       "source": "./plugins/chittyos-legal",
       "strict": false,
       "category": "legal",
-      "keywords": ["legal", "evidence", "disputes", "docket", "cases", "custody"]
+      "keywords": ["legal", "evidence", "disputes", "docket", "cases", "custody", "agent", "paralegal", "protected-identifiers", "deadlines"]
     }
 ,
     {

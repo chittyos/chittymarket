@@ -1,0 +1,20 @@
+{
+  "decision_id": "dec_20260918_waf-leaked-creds",
+  "date": "2026-09-18",
+  "capability_name": "WAF leaked-credentials detection",
+  "canonical_id": "chittycanon://capability/govern/waf-leaked-credentials",
+  "source_links": [
+    "https://developers.cloudflare.com/waf/detections/leaked-credentials/"
+  ],
+  "current_state": "Evaluated from a Cloudflare documentation link supplied by the operator. Not enabled on any zone. No ChittyOS artifact consumes the cf.waf.credential_check.* fields.",
+  "decision": "hold",
+  "job_to_be_done": "verify",
+  "environmental_footprint": "admin-system",
+  "evidentiary_risk": "low",
+  "rationale": "OVERRIDE of the computed disposition local-only, but NOT of its footprint. Unlike the secret-leak gate, admin-system(5) is honest here: enabling this detection is a zone-level configuration change, which the matrix's footprint 5 explicitly covers. The disposition is still wrong. local-only means the capability must execute locally — 'local filesystem, device state, metadata preservation'. An edge-evaluated WAF detection is the opposite of local: it runs in Cloudflare's network, not on a machine. The script reached local-only purely because footprint 5 routes there. Separately, and decisively, this is a documentation link with no artifact, no owner and no consumer, so the skill's insufficient-evidence rule gives hold regardless of footprint.",
+  "duplicates_found": [],
+  "migration_required": false,
+  "migration_owner": "",
+  "next_action": "Re-audit as part of a deliberate zone-security decision. Relevant to the current credential-exposure incident, so worth surfacing to the operator, but enabling it is a privileged infra change requiring explicit authorization. Missing evidence: owner, target zones, consumer of the detection fields.",
+  "review_date": "2026-10-18"
+}

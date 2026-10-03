@@ -1,63 +1,89 @@
 ---
 name: market
-description: ChittyMarket capability office for end-to-end inventory, canonical resolution, composition, configuration, validation, publication, synchronization, drift detection, and retirement across configurations, skills, plugins, apps, agents, MCP routes, connectors/connections, hooks, and runtime projections. Use for /market operations and capability lifecycle management.
+description: ChittyMarket capability office — end-to-end inventory, canonical resolution, composition, configuration, validation, publication, synchronization, drift detection, and retirement for configurations, skills, plugins, apps, agents, MCP routes, connectors/connections, hooks, and runtime projections.
+canon_uri: chittycanon://core/services/chittymarket#skills/market
 ---
 
-# ChittyMarket Capability Office
+# /market — ChittyMarket Capability Office
 
-Manage the capability estate, not just marketplace toggles.
+Operate the lifecycle of ChittyOS capabilities from one governed interface. Treat a capability as the canonical job-to-be-done; configurations, skills, plugins, apps, agents, MCP routes, connectors, connections, hooks, and runtime artifacts are controlled projections or dependencies.
 
-## Authority
+## Non-negotiable rules
 
-- ChittyRegistry: canonical identity and ownership.
-- ChittyMarket: distribution and lifecycle policy.
-- Ch1tty/ChittyMCP: governed integration routing.
-- ChittyConnect/ChittyAuth: connections, auth, and credential custody.
-- Skills: method. Apps/connectors: integration. Agents: delegated execution. Projects/workspaces: context.
+1. Search for an existing canonical capability before creating or promoting anything.
+2. ChittyRegistry owns identity; ChittyMarket owns distribution; Ch1tty/ChittyMCP owns integration routing; ChittyConnect/ChittyAuth owns connection and credential state.
+3. Skills own method, apps/connectors own integrations, agents own delegated execution, and projects/workspaces own context.
+4. Never clone a shared MCP, skill, connector, registry, auth flow, database, or schema into a vertical plugin merely to make it self-contained.
+5. Generated manifests, provenance records, and runtime projections are compiler outputs. Do not hand-author them when a canonical generator exists.
+6. Validate the live repository acceptance contract before publication. CI confirms preflight; CI must not be the first place contract violations are discovered.
+7. Separate dependency identity from provenance/source location.
+8. All external writes require an owner, approval boundary, rollback path when applicable, and returned receipt.
+9. If canonical identity, authority, dependency resolution, or required connection state is uncertain, return HOLD instead of inventing it.
 
-Never create a parallel registry, auth flow, MCP gateway, schema, database, or unmanaged clone.
+## Lifecycle
 
-## Workflow
+For create, update, install, publish, migrate, or retire requests:
 
-For create/update/install/publish/migrate/retire:
-
-1. Inventory existing canonical and live projected state.
-2. Resolve the canonical capability before creating anything.
-3. Compose required skills, apps, MCP routes, connectors and connections; bundle only owned implementation.
-4. Resolve auth, permissions, runtimes, mutation risk and install policy.
-5. Read the repository's current generators and validators to derive the acceptance contract.
-6. Compile generated manifests, provenance and projections from canonical source.
-7. Run the same validation gates as CI, including source freshness, provenance, reconciliation and idempotency.
-8. Publish through the canonical PR/merge/register/index path.
-9. Verify installed/indexed/connected state with receipts.
-10. Audit drift and retire superseded projections dependency-first.
+1. **Inventory** — inspect canonical definitions, ChittyRegistry, ChittyMarket, Ch1tty/ChittyMCP, runtime projections, and relevant platform/plugin state.
+2. **Resolve** — identify canonical capability ID, owner, job-to-be-done, and existing projections. Classify duplicates as merge/project/retire rather than creating another source.
+3. **Compose** — declare required skills, apps, MCP routes, connectors, connections, and platform capabilities. Bundle only implementation owned by this capability.
+4. **Configure** — resolve auth mode, connection requirements, permissions, supported runtimes/channels, mutation risk, and install policy.
+5. **Preflight** — read current validators/generators and derive accepted source-link schemes, schema fields, provenance rules, projection rules, and distribution constraints.
+6. **Compile** — generate derived manifests, capability records, hashes, and runtime projections from canonical source.
+7. **Validate** — run the same lint/schema/source-freshness/provenance/reconciliation/idempotency/runtime checks used by CI.
+8. **Publish** — open/update the canonical PR; merge only after required checks pass; register/index through existing ChittyMarket/Ch1tty mechanisms.
+9. **Verify** — confirm installed/indexed state and required connections. Never report completion without receipts.
+10. **Operate** — sync versions, enable/disable, diagnose broken dependencies/connections, and detect projection drift.
+11. **Retire** — deprecate superseded projections and remove dangling dependencies only after consumers are reconciled.
 
 ## Commands
 
-Keep existing `list`, `info`, `enable`, `disable`, `verify`, `mode`, and `sync`.
+Existing commands remain valid:
 
-Add lifecycle intents:
-- `inventory` — canonical/projection/dependency/connection inventory.
-- `resolve` — identify canonical owner and disposition.
-- `deps` — dependency and connection resolution.
-- `preflight` — derive and execute current publication gates.
-- `publish` — preflight -> compile -> validate -> PR -> gate -> publish/register -> verify.
-- `audit` — duplicates, stale projections, broken connections/dependencies, provenance drift.
-- `retire` — dependency-aware deprecation/removal.
+- `/market list [filters]`
+- `/market info <id>`
+- `/market enable|disable <id>`
+- `/market verify [<id>|--all]`
+- `/market mode <id> ch1tty|standalone`
+- `/market sync`
 
-Use `~/.claude/skills/market/market.sh` only for commands it actually implements. For lifecycle commands, use canonical repository tooling and connected ChittyRegistry/Ch1tty/ChittyMCP/platform surfaces. Never fabricate actuator support.
+Capability-office commands:
 
-## Publication safeguards
+- `/market inventory [<id>|--all]` — canonical + projection + dependency + connection inventory.
+- `/market resolve <intent|artifact>` — locate canonical owner and recommend keep/project/merge/gateway/retire/hold.
+- `/market deps <id>` — show required skills/apps/MCPs/connectors/connections and their live resolution state.
+- `/market preflight <id|path>` — derive the current publication contract and run pre-publication gates.
+- `/market publish <id|path>` — preflight, compile, validate, PR, gate, publish/register, verify.
+- `/market audit [<id>|--all]` — find duplicates, broken dependencies/connections, stale projections, invalid provenance, and orphaned artifacts.
+- `/market retire <id>` — dependency-aware deprecation/removal workflow.
 
-- Existing capability search is mandatory.
-- Generated artifacts are not hand-authored when a generator exists.
-- Dependency identity and provenance/source location are separate concepts.
-- Accepted source-link schemes come from current validators, not memory.
-- Bundled implementation must not accidentally become an independent standalone artifact.
-- Generation must be idempotent.
-- CI confirms local/preflight validation rather than discovering basic contract violations.
-- Unresolved identity, authority, connection, auth, or validation state => HOLD.
+## Existing actuator
 
-## Result
+Use `~/.claude/skills/market/market.sh` for list/enable/disable/info/verify/sync where supported. Do not pretend the shell actuator implements the new office commands until it does. For office commands, use canonical ChittyMarket repository tooling and connected ChittyRegistry/Ch1tty/ChittyMCP/platform surfaces directly.
 
-Report canonical capability, projections, dependencies/connections, validation state, writes/receipts, drift/duplicates, holds, and next action. Never claim completion without evidence.
+## Preflight contract
+
+Before any publish:
+
+- inspect the current generator and validation scripts rather than relying on remembered schemas;
+- require accepted source-link schemes;
+- verify every dependency identity independently from source/provenance;
+- ensure bundled implementation is not also emitted as an unmanaged standalone projection unless explicitly governed;
+- regenerate hashes/projections through canonical tooling;
+- require idempotent second generation with no diff;
+- stop on unresolved auth/connection requirements;
+- stop on validation failure.
+
+## Output contract
+
+Return:
+- **Canonical capability**
+- **Owned projections**
+- **Dependencies/connections**
+- **Validation state**
+- **Writes/receipts**
+- **Drift/duplicates**
+- **Holds**
+- **Next action**
+
+Do not claim published, installed, connected, synchronized, or retired without direct evidence.

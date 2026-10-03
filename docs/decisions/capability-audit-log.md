@@ -259,6 +259,124 @@ From the operator's own `nb-development-defaults` Review-and-Audit-Bias section 
 
 ---
 
+## 2026-09-18 — Five-artifact governance pass, with three overrides of the computed disposition
+
+**Auditor:** capability-governor (skill v1.0.0)
+**Source:** `scripts/batch_audit.py` over five candidate artifacts, then re-derived by hand against `references/decision-matrix.md`
+**Machine-readable logs:** `docs/decisions/logs/dec_20260918_*.json` (all five pass `scripts/validate_decision_log.py`)
+
+### Why three dispositions were overridden
+
+`scripts/audit_artifact.py` assigns `environmental_footprint` by **keyword match** on the
+artifact description (`FOOTPRINT_RULES`), then routes footprint → disposition. For
+`admin-system(5)` the trigger words include `secret`, `auth`, `config`, `token`, `deploy`.
+
+Any description of a secret-**detection** tool therefore scores `admin-system(5)` and routes
+to `local-only`, regardless of what the tool does. The matrix defines footprint 5 as
+*"changes auth, secrets, config, infra, deployment, or policy"* — a scanner changes none of
+them. The script is a lossy implementation of the matrix, and where the two disagree on an
+artifact whose description carries the wrong trigger words, **the matrix controls**.
+
+Two further artifacts were documentation links with no implementing artifact at all. The
+script classified prose, because prose was all it was given. The skill's own core rule covers
+this: *"If source data is insufficient, return `hold` with the missing evidence."*
+
+| artifact | computed | recorded | axis actually in dispute |
+|---|---|---|---|
+| Repo secret-leak gate | `local-only` | **`promote`** | footprint `admin-system(5)` → `network-service(3)` |
+| R2 SQL query execution | `hold` | `hold` *(accepted)* | footprint `write-capable(2)` → `network-service(3)`; disposition unchanged |
+| Evidence preservation catalog | `legal-only` | `legal-only` *(accepted)* | none — axes substantively correct here |
+| Cloudflare Workflows | `gateway` | **`hold`** | no artifact exists to expose |
+| WAF leaked-credentials detection | `local-only` | **`hold`** | footprint 5 upheld; `local-only` still wrong for an edge-evaluated detection |
+
+### Correction to an earlier claim in this session
+
+The evidence preservation catalog was characterized mid-session as an **ownerless empty
+scaffold**. That was wrong, and live verification overturned it before anything was written.
+It is owned and wired end to end:
+
+- `chittyevidence-db` binds `PRESERVATION_STREAM`, `COLLECTION_STREAM`, `SOURCE_CANONICAL_STREAM`
+- pipeline `chittyevidence_preservation` runs `INSERT INTO chittyevidence_preservation_iceberg SELECT * FROM chittyevidence_preservation_stream`
+- R2 Data Catalog `7b59ebb2-…` is `status: active`, `credential_status: present`
+- bucket `chittyevidence-pipeline` holds 1867 objects / ~112 MiB
+- real implementing code with tests (`pre-filter-transform.test.ts`, `pipeline-e2e.test.ts`, `collection-handler.test.ts`)
+
+The initial repo grep missed it because it searched for the Iceberg **table name**, which
+exists only in the sink config; the code refers to the **binding name**.
+
+### Findings — evidence preservation path
+
+#### Block — fail-open on a custody path (latent)
+
+`CHITTYOS/chittyevidence-db/src/index.ts:2507`
+
+```js
+if (result.qualified.length > 0 && env.PRESERVATION_STREAM) {
+  await env.PRESERVATION_STREAM.send(result.qualified);
+}
+```
+
+The batch is then marked processed **unconditionally** at `:2517`. If the binding is absent,
+qualified evidence is silently dropped, the batch is recorded as done, and there is no retry
+and no error. Same fail-open class as `chittyconnect`'s `getCredential` fallback.
+
+**The binding is present in production today, so this is latent, not active.**
+
+#### Block — structured custody payload written to an undrained stream
+
+`src/index.ts:2930` writes a 13-field custody payload (`content_hash`, `r2_key`,
+`ingested_at`, `is_duplicate`) to `SOURCE_CANONICAL_STREAM`. That stream exists and is
+worker-bound, but has **no pipeline and no sink** on the account. Those writes are accepted
+and drained nowhere.
+
+#### Block — schema unfit for a legal-grade table
+
+The preservation stream carries the **Pipelines unstructured default**: a single required
+field `value` of type `json`, `unstructured: true`. Every structured field lands in one opaque
+column, so the table cannot be queried by `content_hash` or timestamp without JSON
+extraction.
+
+In mitigation, `snapshot_expiration: disabled` is the correct posture for a custody table.
+But `compaction: enabled` at a 128 MB target rewrites underlying data files — which is exactly
+why a documented `custody_policy` is a required gate artifact and not paperwork.
+
+### Findings — adjacent, found during verification
+
+#### Block — `canon_publish` pipeline targets a bucket that does not exist
+
+Sink `canon_publish_sink` is configured with `bucket: "chittyos-events"`, path `canon/`.
+That bucket is **not among the account's 28 R2 buckets**. The pipeline also has no
+worker-bound producer.
+
+#### Note — `/accounts/{id}/pipelines` is the legacy endpoint
+
+It returns `[]` while `/accounts/{id}/pipelines/v1/pipelines` returns 4. Reading the legacy
+path produces a false "no pipelines configured" conclusion. This audit initially made that
+error and caught it by checking both.
+
+### Quality gates
+
+- [x] Exactly one primary disposition per artifact — 5/5
+- [x] Exactly one primary job-to-be-done per artifact — 5/5
+- [x] Overrides carry recorded rationale naming the disputed axis — 3/3
+- [x] Existing-first search before `promote` — `capabilities.generated.json` (106 capabilities) has no secret-scanning capability
+- [x] Non-repudiation gate — `legal-only` asserted for the preservation catalog; `source_links` now supplied
+- [ ] **`hash_policy`, `timestamp_policy`, `custody_policy` — still absent.** Capability remains gated, not active.
+- [x] Decision logs include source links — 5/5, validator-enforced
+- [x] Retirement decisions include replacement/rollback — n/a, no retirement recorded
+- [x] Live state pulled, not inferred — all Cloudflare facts re-verified 2026-09-18
+
+### Migration queue
+
+| item | artifact | action | risk | status |
+|---|---|---|---|---|
+| `mig_20260918_secret-leak-gate` | chittyconnect PR #309 | document + propagate | low | active |
+| `mig_20260918_preservation-failopen` | `chittyevidence-db/src/index.ts:2507` | restrict (fail closed) | legal-grade | backlog |
+| `mig_20260918_source-canonical-undrained` | `chittyevidence_source_canonical_stream` | reroute or retire | legal-grade | backlog |
+| `mig_20260918_preservation-schema` | `chittyevidence_preservation_stream` | **operator decision** — re-schema or retire | legal-grade | blocked |
+| `mig_20260918_canon-publish-bucket` | `canon_publish_sink` | reroute or retire | low | backlog |
+
+**Review date:** 2026-10-02
 ## 2026-09-21 — `chittycounsel`: unmanaged matter-bound clone (out-of-tree)
 
 **Auditor:** capability-governor, invoked during the `legal-operating-defaults` existing-first search (PR #115)
@@ -340,7 +458,7 @@ property the canonical was written to enforce. This is not a documentation-tidin
 ### Standard applied
 
 `legal-operating-defaults` §8 (matter isolation — "a capability that requires a matter
-identifier must refuse to run without one; no defaulting to the active case") and §14
+identifier must refuse to run without one; no defaulting to the active case") and §15
 (matter facts stay out of reusable capability packages).
 
 **Not done in this entry:** nothing was edited, and no cache copy should be — they re-sync from
@@ -371,7 +489,7 @@ example" in four canonical skills and one research doc, and propagated to every 
 
 The caveats were real and well-intentioned — *"Only as an illustration of the shape — do NOT
 use this as a default"*. They satisfy `legal-operating-defaults` §8, which prohibits defaulting
-to a case. They do not satisfy §14, which keeps matter facts out of reusable capability
+to a case. They do not satisfy §15, which keeps matter facts out of reusable capability
 packages at all. A capability package is published; a caption in it is published with it,
 regardless of how it is labelled.
 
@@ -431,3 +549,102 @@ shape + context, so it is a follow-up, not a gap in this one.
 - `chittyos/chittymarket#117` — the out-of-tree bundle that surfaced this
 - `chittyos/chittymarket#118` — `9-step-legal-audit` promoted, scrubbed and guarded
 
+
+---
+
+## 2026-10-02 — `gauntlet` workflow promoted from chittyentity
+
+**Auditor:** capability-registry-audit (runbook v0.2), run by the session that opened this PR
+**Source:** `CHITTYOS/chittyentity` origin/main `.claude/workflows/gauntlet.js` (586 lines),
+`.claude/agents/gauntlet-runner.md`, `docs/design/gauntlet-as-agent-workflow.md`; string-args
+fix from chittyentity PR #736 (`fix/gauntlet-string-args-loud`).
+
+### Disposition: **promote**
+
+| Field | Value |
+|-------|-------|
+| canonical_id | `chittycanon://capability/build/gauntlet` |
+| artifact | `workflow-gauntlet` (new `workflow` kind), canonical `canonical/workflows/gauntlet.md` |
+| projection | `plugins/chittyos-core/workflows/gauntlet.js` → `Workflow({name: "chittyos-core:gauntlet"})` |
+| entity mapping | **E** primary (a verification run is an occurrence in time), **T** secondary (the artifact under test) |
+| environmental footprint | write-capable (the implementer role edits the target and its corpus) |
+| evidentiary risk | low |
+| owner | chittymarket / `chittyos-core` |
+| access | write |
+| visibility | advanced, `enabled: false` (new compiled artifacts are disabled by default) |
+
+### Overlap check
+
+No existing capability overlaps. `adversarial-review.sh` is a single-pass review of one diff.
+The gauntlet is a multi-role loop (contest, generate, trace, mandate audit, then feeder against a
+separated implementer until dry, then an independent verifier) against a runner and a fixture
+corpus. Different job, different shape.
+
+### Changes made at promotion
+
+- #736 folded in: string `args` are parsed, objects pass through, malformed JSON and non-object
+  shapes throw without echoing input. Empty args or a missing target/runner return
+  `{started: false, reason, next}`.
+- Every `agent()` call carries an explicit `model` (binding rule: an omitted model is a bug).
+  Six judgment roles default to `opus`; the generator defaults to `sonnet` because its output is
+  checked downstream. `args.models` overrides per role.
+- `args.dryRun: true` returns the validated config and agent budget (`4 + 2*maxRounds + 1`, 17 at
+  defaults) without dispatching. That makes the capability cheap to prove callable.
+
+### Companion agent: `chittyagent-gauntlet` (HOLD)
+
+`gauntlet-runner` is renamed to `chittyagent-gauntlet` (canonical agents are `chittyagent-*`; the
+tier-2 design reserves the same name for a future remote worker). It projects to claude-code,
+codex, and openclaw. It carries **no** capability identity, because the one capability id is
+bound to the workflow and ids are unique. It therefore stays **HOLD** in market-reconcile: it
+ships in the plugin, but it has no `marketplace.json` or overlay record. Minting a separate id for
+it is a ChittyCanon decision and is not taken here.
+
+### Retirement
+
+The chittyentity copies (`.claude/workflows/gauntlet.js`, `.claude/agents/gauntlet-runner.md`)
+are retired once this lands (design doc open question 2). Removing them is a chittyentity PR and
+is not part of this change.
+
+### Amendment (2026-10-02, same PR): companion agent renamed to `chittyagent-olmec`
+
+**Operator decision.** The companion agent above is renamed `chittyagent-gauntlet` →
+`chittyagent-olmec` (after Olmec, who runs the temple trials in *Legends of the Hidden Temple*) and
+reshaped. Olmec is the **separated reviewer** role from nb-development-defaults ("reviewer ≠
+implementer"); the gauntlet is one of its functions, not its identity. The entry above is left as
+written; this amendment supersedes its agent name.
+
+| Field | Value |
+|-------|-------|
+| agent | `canonical/agents/chittyagent-olmec.md`, projected to claude-code, codex, openclaw |
+| v1 functions | diff review (`plugins/chittyos-core/skills/nb-development-defaults/scripts/adversarial-review.sh`, referenced in place) and the gauntlet (`Workflow({name: "chittyos-core:gauntlet"})`) |
+| not yet built | CI-gate audit (no code; not offered) |
+| hard boundaries | never ships fixes; canon audits → `chittyagent-canon`; schema drift → `chittyschema-overlord`; auth audits → `chittyauth-token-ops`; security scanning → `claude-security` plugin |
+| status | **HOLD**, unchanged: still no capability identity of its own, no `marketplace.json` or overlay record |
+| deprecated aliases | `gauntlet-runner` only. The intermediate name was never merged or released, so no alias is owed for it |
+
+The three intermediate projections and their dispatch state were removed (dispatch has no removal
+mode; deleted by hand, then `dispatch.sh audit` confirmed 0 orphans). The tier-2 design doc now
+names `chittyagent-olmec` as the candidate remote worker. Diff review currently falls back to a
+fresh-context Opus subagent, because both chittyclaw routes (`dynamic/three-wise-men`,
+`adversarial-reviewer`) return `400 code 2005`; the agent is required to say so whenever it does.
+
+### Amendment 2 (2026-10-03, same PR): separated review of `4fad0a3`
+
+A separated review (chittyclaw `dynamic/three-wise-men`) found that every convergence anchor was an
+agent's self-report. Closed in the workflow, not in prose: a gathering-only runner witness observes
+the runner's exit code each round and in Converge; implementer claims that contradict it are recorded
+as `claim_mismatch` and block convergence; the verifier returns a schema checked in code; a retrace
+re-runs the tracer against the post-fix code; round 1 never counts as dry, the dry streak needs at
+least 2 rounds with distinct strategies, and repeated strategies are recorded; judgment-role models
+are allow-listed (`opus`/`fable`). The agent budget changes from `4 + 2*maxRounds + 1` (17 at
+defaults, stated in the entry above) to `4 + 3*maxRounds + 3` (25 at defaults, 43 at the ceiling of
+12). `oracleAuthor: 'olmec'` is required when the reviewing agent builds the runner or corpus.
+
+### Amendment 3 (2026-10-03, same PR): separated review of `03a86ae`
+
+The second separated review confirmed the witness, verifier schema and allow-list closures, and found
+that a blind oracle (a runner that exits 0 having executed zero cases) still converged when the
+implementer agreed with it. Closed with a required `cases_executed` count from both the runner witness
+and the verifier, gated in code (`blind_oracle`). Null Converge roles are now explicit blockers, and
+malformed role output (non-array list fields) is recorded as a death and a blocker instead of throwing.

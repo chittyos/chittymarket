@@ -3,11 +3,11 @@
   "phase": "Materialized capability overlay — canonical-owned records generated; external/legacy records preserved",
   "source": "canonical/ Market projection definitions + marketplace.json distribution state; non-canonical external/legacy capability records preserved verbatim",
   "naming": "Bare JTBD group ids (no chitty- prefix). Namespace chittycanon://capability/ already encodes 'chitty'.",
-  "total": 108,
+  "total": 109,
   "group_assignment_sources": {
     "category": 35,
     "name-rule": 49,
-    "override": 24
+    "override": 25
   },
   "capabilities": [
     {
@@ -1316,7 +1316,7 @@
       "capability_group": "legal",
       "group_assignment_source": "category",
       "execution_class": "@chitty/reasoning",
-      "canonical_version": "1.0.0",
+      "canonical_version": "1.1.0",
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
@@ -1380,7 +1380,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:f4222febe8f743927f39f40fba849fad5ca30bd5270dc198ea955c488d92a9be",
+        "content_hash": "sha256:2679348f326506be61b8c61510ec11baf3e5f78cf8a60cdee56e8f5e31f72aa8",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8775,11 +8775,84 @@
         "signer_chittyid": null,
         "anchored_in_ledger": null
       }
+    },
+    {
+      "capability_id": "chittycanon://capability/build/gauntlet",
+      "legacy_id": "workflow-gauntlet",
+      "name": "Gauntlet",
+      "description": "Recursive adversarial convergence for any decision surface with code, a fixture corpus, and a runner (validators, gates, parsers, routers, policy engines, schedulers). Contests the expectations, hunts missing cases, traces execution, audits standing mandates, then loops an adaptive feeder against a separated implementer until dry, verified by an agent told not to trust either. Invoke from any Claude Code session as `Workflow({name: \"chittyos-core:gauntlet\", args: {target, runner, ...}})`; pass `dryRun: true` first to validate args and see the agent budget without dispatching anything.",
+      "capability_group": "build",
+      "group_assignment_source": "override",
+      "execution_class": "@chitty/reasoning",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "E"
+        ],
+        "secondary": [
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": false
+      },
+      "execution": {
+        "default_surface": "local",
+        "local_allowed": true,
+        "context_cost": "high",
+        "mutation_risk": "medium"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "summary",
+        "ambient_by_intent": false,
+        "verbs": [
+          "gauntlet",
+          "harden",
+          "adversarial-test",
+          "verify"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "local-only",
+        "stores_credentials_in": "n/a",
+        "fail_closed_if_unavailable": false
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code"
+      ],
+      "source_links": [
+        "local://plugins/chittyos-core/workflows/gauntlet.js"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "verify",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "low",
+        "advisory_disposition": "local-only"
+      },
+      "legacy_type": "workflow",
+      "legacy_category": "code",
+      "deprecated_aliases": [
+        "workflow-gauntlet"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:9b7aa97172221ad25dbf171fe4afc686acc40506c4b6bce19fe4371bd0b2f3df",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:445cc3342eae5ed555b3b5e913bbf4d384fa32662f1c6a7369bd93f1b006a181",
-    "record_count": 108,
+    "aggregate_hash": "sha256:003cf2e1db94161b848cb66c9372a24d72aa95202a2eb58e3b7840a35ee0a4a7",
+    "record_count": 109,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
     "anchored_in_ledger": null

@@ -51,13 +51,13 @@ case "$mode" in
     for name in "${targets[@]}"; do
       # Resolve canonical: search kind-subdirs (canonical/<kind-plural>/<name>.md)
       can=""
-      for sub in agents skills commands mcp hooks tools; do
+      for sub in agents skills commands mcp hooks tools workflows; do
         if [ -f "$CANONICAL_DIR/$sub/${name}.md" ]; then
           can="$CANONICAL_DIR/$sub/${name}.md"
           break
         fi
       done
-      [ -n "$can" ] || { echo "[dispatch] canonical not found for $name (searched canonical/{agents,skills,commands,mcp,hooks,tools}/${name}.md). Flat layout removed; place canonicals in their kind-subdir." >&2; exit 1; }
+      [ -n "$can" ] || { echo "[dispatch] canonical not found for $name (searched canonical/{agents,skills,commands,mcp,hooks,tools,workflows}/${name}.md). Flat layout removed; place canonicals in their kind-subdir." >&2; exit 1; }
       # Parse frontmatter via yaml.safe_load (handles both block and flow style).
       # Errors hard if `runtimes:` is present but not a list.
       eval "$(python3 - "$can" <<'PY'

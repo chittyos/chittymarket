@@ -314,7 +314,8 @@ while IFS= read -r f; do projection_paths+=("$f"); done < <(
        -o -path "*/codex-skills/*/SKILL.md" \
        -o -path "*/openclaw-agents/*.yaml" \
        -o -path "*/claude-skills/*.json" \
-       -o -path "*/chatgpt-apps/*.json" \) 2>/dev/null
+       -o -path "*/chatgpt-apps/*.json" \
+       -o -path "*/workflows/*.js" \) 2>/dev/null
 )
 for proj in "${projection_paths[@]}"; do
   # Derive canonical name + expected canonical kind-subdir from the projection path.
@@ -339,12 +340,15 @@ for proj in "${projection_paths[@]}"; do
   elif [[ "$proj" == */chatgpt-apps/*.json ]]; then
     name=$(basename "$proj" .json)
     expected_kind="tools"
+  elif [[ "$proj" == */workflows/*.js ]]; then
+    name=$(basename "$proj" .js)
+    expected_kind="workflows"
   else
     continue
   fi
   # Resolve canonical from kind-subdirs first, then flat-layout fallback.
   found_canonical=""
-  for sub in agents skills commands mcp hooks tools; do
+  for sub in agents skills commands mcp hooks tools workflows; do
     if [ -f "$REPO_DIR/canonical/$sub/${name}.md" ]; then
       found_canonical="$REPO_DIR/canonical/$sub/${name}.md"
       break
@@ -379,6 +383,27 @@ for mcp_json in $(find "$PLUGINS_DIR" -maxdepth 3 -name ".mcp.json" 2>/dev/null)
     fi
   done < <(python3 -c "import json,sys; d=json.load(open(sys.argv[1])); print('\n'.join((d.get('mcpServers') or {}).keys()))" "$mcp_json" 2>/dev/null)
 done
+
+# --- Canonical name unique across kinds ---
+# dispatch.sh, pre-commit-drift.sh and this script resolve a name by searching the kind-subdirs in a
+# fixed order and taking the FIRST hit. The same basename under two kinds therefore silently shadows
+# one of them: `dispatch.sh sync <name>` projects only the first, and the other is never projected
+# or drift-checked. LINT_CANONICAL_DIR overrides the root (tests only).
+echo "Checking canonical names are unique across kinds..."
+CANONICAL_ROOT="${LINT_CANONICAL_DIR:-$REPO_DIR/canonical}"
+declare -A CANON_KIND=()
+while IFS= read -r f; do
+  rel="${f#"$CANONICAL_ROOT"/}"
+  kind="${rel%%/*}"
+  cname="$(basename "$f" .md)"
+  if [ -n "${CANON_KIND[$cname]+x}" ]; then
+    red "  ERROR: canonical name '$cname' exists under two kinds: ${CANON_KIND[$cname]}/ and $kind/ (dispatch resolves only the first)"
+    ERRORS=$((ERRORS + 1))
+  else
+    CANON_KIND[$cname]="$kind"
+  fi
+done < <(find "$CANONICAL_ROOT" -mindepth 2 -maxdepth 2 -name "*.md" -not -name "README.md" -not -path "*/.dispatch-state/*" 2>/dev/null | sort)
+echo ""
 
 # --- Summary ---
 echo "=== Lint Summary ==="

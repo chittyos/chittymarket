@@ -4,6 +4,16 @@ name: Hydrate Pointer Agents
 # owned pointer agent content on a schedule, opening a PR if upstream has
 # drifted. Currently only chittyagent-schema (CHITTYFOUNDATION/chittyschema)
 # is a pointer agent; the workflow scales to whichever pointers exist.
+#
+# STANDING DIVERGENCE (2026-09-30): chittyagent-schema's cached body is
+# deliberately AHEAD of upstream. chittymarket PRs #77 (ChittyID format
+# YM/X -> YYMM/XX) and #82 (retire 1Password) corrected the cache; upstream
+# chittyschema@2be2ea93 still carries the bad format at two of three sites
+# and still names 1Password as a credential lane. So this job is EXPECTED to
+# fail with exit 5 (content-integrity mismatch) until chittyschema lands
+# those two corrections upstream. The failure is the pin doing its job: a
+# successful hydration today would silently revert #77 and #82.
+# Do not "fix" this by bumping prompt_sha. Fix it upstream, then re-pin.
 
 on:
   schedule:
@@ -20,7 +30,7 @@ permissions:
 
 jobs:
   hydrate:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
@@ -36,11 +46,20 @@ jobs:
           exit_code=$?
           echo "exit_code=$exit_code" >> "$GITHUB_OUTPUT"
           set -e
-          # Exit codes: 0 current, 1 hydrated-something, 2 fetch-failed
-          if [ "$exit_code" -eq 2 ]; then
-            echo "::error::Hydrator could not reach one or more prompt_url sources"
-            exit 1
-          fi
+          # Exit codes (plugins/chittyagent-dispatch/scripts/hydrate-pointers.sh):
+          #   0 all pointers current | 1 hydrated, open a PR
+          #   2 fetch failure | 3 disallowed host | 4 missing prompt_sha
+          #   5 content-integrity failure (upstream hash != pinned prompt_sha)
+          # 3 and 4 are security rejections and previously fell through as a
+          # PASS, because only `-eq 2` was checked. Anything >= 2 now fails.
+          case "$exit_code" in
+            0|1) ;;
+            2) echo "::error::Hydrator could not reach one or more prompt_url sources"; exit 1 ;;
+            3) echo "::error::Pointer prompt_url host is not on the allowlist — refusing to hydrate"; exit 1 ;;
+            4) echo "::error::Pointer is missing the required prompt_sha content-integrity pin"; exit 1 ;;
+            5) echo "::error::Upstream content does not match the pinned prompt_sha. Read the upstream diff before re-pinning — the pin exists to stop an upstream regression silently overwriting a reviewed local correction."; exit 1 ;;
+            *) echo "::error::Hydrator exited with unexpected code $exit_code"; exit 1 ;;
+          esac
 
       - name: Open PR on drift
         if: steps.hydrate.outputs.exit_code == '1'
@@ -48,7 +67,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: chore/hydrate-pointers-${{ github.run_number }}
-          base: feat/market-refactor-v2
+          base: main
           title: 'chore(hydrate): refresh pointer-agent content from upstream'
           body: |
             Automated hydration via `plugins/chittyagent-dispatch/scripts/hydrate-pointers.sh`.

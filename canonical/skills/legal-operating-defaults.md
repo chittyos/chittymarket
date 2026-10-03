@@ -21,7 +21,7 @@ overlay:
   capability_group: "legal"
   group_assignment_source: "category"
   execution_class: "@chitty/reasoning"
-  canonical_version: "1.0.0"
+  canonical_version: "1.1.0"
   projection_version_policy: "inherit-canonical"
   ontology:
     primary:
@@ -240,7 +240,12 @@ re-encode, re-OCR in place, move, or delete source evidence.
   itself be probative.
 - Quarantine rather than delete.
 
-## 11. Use the canonical evidence pipeline
+## 11. Use the canonical stores
+
+A matter produces two classes of artifact and they have **two different canonical stores.**
+Neither is a compute node.
+
+### 11.1 Evidence — the canonical evidence pipeline
 
 Evidence acquisition, staging, ingestion, extraction, and dedup go through the canonical
 ChittyEvidence pipeline — **not** ad-hoc copying, ad-hoc OCR, ad-hoc staging directories, or
@@ -252,6 +257,65 @@ one-off duplicate extraction.
 
 Mechanics, buckets, and scripts: load `evidence-collect` (acquisition/ingestion) or
 `evidence-egress` (migration out of scattered local sources).
+
+### 11.2 Work product and deliverables — the matter's shared store
+
+The evidence registry is the canonical store for **evidence**. It is **not** the canonical
+store for work product. Memoranda, schedules, chronologies, research, drafts, transmittals,
+and anything prepared for a human to read live in the matter's designated shared store — the
+operator-accessible document store the engagement uses for that matter.
+
+That store is always the **single store of record** for them. "Single" governs authority,
+not copy count: a transient copy on the node that produced the artifact, or an evidentiary
+copy of a document that is *also* evidence, does not make a second store — but the shared
+store is what the matter has, and any disagreement resolves to it. Ingesting work product
+into the evidence registry never substitutes for placing it in the shared store, in either
+direction: a deliverable that exists only in the registry has not been delivered.
+
+The distinction is accessibility, not importance. A content-addressed registry is addressed
+by hash and reached through tooling; the people who need work product — the operator,
+counsel, anyone the engagement covers — cannot open it, browse it, or be handed a link to it.
+Work product that only exists where humans cannot reach it has not been delivered.
+
+- Artifacts land in the matter's shared store **as they are written**, not at the end of a
+  session when someone notices. A session that ends early must lose nothing.
+- Arrival is confirmed by **listing the destination**, never by a copy command's exit code.
+  An exit code is the transfer tool's own account of itself, and a transfer can report
+  success while silently moving nothing. The read-after is the evidence; the exit code is
+  not a source anyone read. Do not remove a node-resident copy before that confirmation.
+- Each matter's store address is a matter fact and is recorded in the matter's own governed
+  context, never in this document (§15).
+
+### 11.3 A compute node is a working surface, not a store and not a state
+
+A VM, laptop, container, or runner is where work is *performed*. It is **never** a store and
+**never** where state lives, for **any** matter artifact: evidence, work product, finished
+deliverables, drafts, intermediate output, notes, indexes, and session state alike. "It is
+only a draft", "it is only scratch", and "I can regenerate it" are not exceptions — they are
+the form this failure usually takes, since the artifact that gets abandoned on a node is
+rarely the one anyone thought was finished.
+
+Every matter artifact lands in its store as it is written — evidence through §11.1, work
+product through §11.2 — not at the end of a session, not "once it is finished", not after
+someone notices.
+
+The reason is the one in §11.2: a compute node is not readily reachable by the operator or
+by anyone else the engagement covers. A file that exists only on a runner cannot be opened,
+browsed, linked, or handed over, and it disappears with the node. Treating the node as a
+store is therefore not a durability shortcut — it is a delivery failure that has not
+announced itself yet.
+
+Two corollaries:
+
+- **A node-resident copy is transient, and is reconciled against the store, never the
+  reverse.** If the two differ, the store is what the matter has.
+- **Never call a node-resident path "local."** "Local" names a vantage point, not a node:
+  it hides which machine holds the bytes, so the copy has no address, cannot be listed or
+  reconciled, and cannot be handed to another agent or session. Name the node and the path.
+  §5 holds that one document has many observed locations; this section adds that an observed
+  location must be **named** to be observable by anyone else — and "local" is not a name. The
+  vocabulary is how the habit survives: work described as "local" stops being work anyone
+  can find.
 
 ## 12. Retrieval is not verification
 
@@ -274,7 +338,44 @@ Every substantive legal output explicitly identifies:
 
 A clean-looking output that hides its gaps is worse than a messy one that names them.
 
-## 14. This package carries no matter facts
+## 14. A calendared date is a derived fact
+
+Dates are facts, and they inherit every obligation in §§1–6. A date on a calendar is a
+**projection of the governed record, never the authority.** Where a calendar entry and the
+source instrument disagree, the instrument governs and the entry is corrected.
+
+- **Carry the source.** A calendared obligation names the instrument it comes from
+  (order and paragraph, rule, statute, notice, service date) and carries a lifecycle state
+  from §3. An entry whose origin cannot be named is `draft` — it is not a deadline yet.
+- **A computed deadline is an inference, not a documentary fact** (§6). A date **stated** in
+  an instrument and a date **computed** from one are different classes and are never
+  displayed alike. A computed date records: the triggering event and its date, the rule
+  relied on, the counting convention, and any roll-forward applied. It stays `draft` until
+  confirmed against the governing local and standing orders.
+- **Record the counting convention; do not infer it.** State whether the source says
+  calendar days or business days, and quote it. **If the source does not say, that silence
+  is itself a §13 gap** and is recorded as one — not resolved by picking the likelier
+  reading. Both candidate dates are carried until an instrument settles it.
+- **The forum's timezone is part of the date.** A wall-clock time is recorded with the
+  zone it was stated in, and that zone is stored explicitly rather than implied by the
+  storage format. A time held without its zone is `draft`, because a wrong offset
+  misstates the hour and, across midnight, the day.
+- **Record whether the consequence is self-executing** — whether it attaches on the date
+  without any further application by a party. Where the instrument does not make this
+  plain, that uncertainty is recorded as a §13 gap rather than assumed either way; the two
+  readings change what the date means and what must happen before it.
+- **Every change to a calendared date requires the source instrument** (§10): the prior
+  value and the reason are preserved, and no entry is silently overwritten. Both directions
+  carry risk and neither may be moved on inference alone — a date moved **later** can cause
+  default, and a date moved **earlier** can prompt premature action or a false belief that
+  an obligation has already run.
+- **A passed date with no recorded disposition is a gap under §13**, for as long as the
+  matter is open. Silence is not compliance and not a disposition. Dispositions recorded
+  elsewhere in the governed record satisfy this; the obligation is that the record
+  resolves the date, not that a particular field is filled. Dates in a closed matter
+  archive with the matter and stop generating gaps.
+
+## 15. This package carries no matter facts
 
 `legal-operating-defaults` is reusable operating method. **Matter-specific legal facts,
 parties, case numbers, evidence, strategy, and work product stay out of it** and out of every

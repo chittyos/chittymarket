@@ -14,6 +14,12 @@ Drift classes (per cell = one canonical x one declared runtime):
   MISSING_PROJ    declared runtime has no projected file on disk                -> never projected / deleted
   NEVER_SYNCED    canonical has no .dispatch-state entry at all                 -> bootstrap needed
 
+A canonical whose script inlines a sibling file (`// @inline <file>.js`, see
+lib/inline_includes.py) depends on bytes its own sha does not cover. For those, a cell whose
+canonical and projection shas both match the record is still re-projected; if the result differs
+from the on-disk projection, an inlined file was edited without a re-sync and the cell is
+CANON_AHEAD. A re-projection that fails (a broken include) is CANON_AHEAD too, with the error.
+
 Orphan classes (not tied to a declared cell):
   ORPHAN_TARGET   .dispatch-state records a runtime the canonical no longer declares
   ORPHAN_PROJ     a file exists in a projection location with no canonical backing
@@ -28,6 +34,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from resolve_output import resolve, _MAP  # noqa: E402
+from inline_includes import has_inline  # noqa: E402
 
 try:
     import yaml
@@ -139,6 +146,19 @@ def audit(repo_root):
                                   runtime=rt, detail="declared runtime never recorded in state"))
                 continue
             if cur_sha == sentinel and can_sha == recorded_can:
+                if has_inline(can):
+                    # The recorded shas cannot see an inlined include; re-project to compare.
+                    try:
+                        would = reproject_sha(repo_root, adapter, can, out)
+                    except subprocess.CalledProcessError as e:
+                        tail = (e.stderr or b"").decode("utf-8", "replace").strip().splitlines()[-1:] or ["(no stderr)"]
+                        cells.append(dict(cls="CANON_AHEAD", canonical=f"{sub}/{name}", runtime=rt,
+                                          detail=f"re-projection with inlined includes failed: {tail[0][:200]}"))
+                        continue
+                    if would != cur_sha:
+                        cells.append(dict(cls="CANON_AHEAD", canonical=f"{sub}/{name}", runtime=rt,
+                                          detail="an inlined include was edited since last sync; re-sync to project"))
+                        continue
                 cells.append(dict(cls="IN_SYNC", canonical=f"{sub}/{name}", runtime=rt, detail=""))
                 continue
             # Something diverged. Re-project to classify.
@@ -170,7 +190,7 @@ def audit(repo_root):
             if not os.path.isdir(pdir):
                 continue
             # Only audit projection dirs that are exclusively generated outputs.
-            for rel in ("codex-skills", "openclaw-agents", "claude-skills", "chatgpt-apps"):
+            for rel in ("codex-skills", "openclaw-agents", "claude-skills", "chatgpt-apps", "workflows"):
                 proj_root = os.path.join(pdir, rel)
                 if not os.path.isdir(proj_root):
                     continue
