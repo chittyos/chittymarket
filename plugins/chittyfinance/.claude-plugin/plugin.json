@@ -1,0 +1,12 @@
+{
+  "name": "chittyfinance",
+  "version": "1.0.0",
+  "description": "ChittyFinance operating context and Mercury banking workflows for the ARIBIA / IT CAN BE LLC portfolio.",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/CHITTYOS"
+  },
+  "requires": [
+    "chittyos-core"
+  ]
+}

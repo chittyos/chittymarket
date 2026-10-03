@@ -2609,6 +2609,32 @@
         "adversarial-review",
         "testing"
       ]
+    },
+    {
+      "id": "skill-finance-context",
+      "name": "Finance Context",
+      "description": "Company-specific operating context for all ARIBIA / IT CAN BE LLC finance work in ChittyFinance. Use for any finance, accounting, bookkeeping, Mercury, bank reconciliation, COA, allocation, Schedule E, Wave, Stripe, statement, payee/recipient, webhook, payment, or close task. Defines business identity vs technical data scope, the portfolio, ChittyFinance authority, Mercury integration and credential rules, the COA trust path, allocation engine, tooling priority, and guardrails.",
+      "type": "skill",
+      "category": "finance",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/finance-context",
+      "capability": "chittycanon://capability/workspace/finance-context",
+      "tags": [
+        "finance",
+        "banking",
+        "accounting",
+        "defaults"
+      ]
     }
   ]
 }
