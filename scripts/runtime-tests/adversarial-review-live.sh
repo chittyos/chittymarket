@@ -3,7 +3,7 @@
 # plugins/chittyos-core/skills/nb-development-defaults/scripts/adversarial-review.sh
 #
 # Runs the REAL script against the REAL chittyclaw → openclaw → CF AI Gateway
-# route. Nothing under test is mocked. Not wired into CI: GitHub runners cannot
+# path, using the script's DEFAULT_MODEL (a direct model; no dynamic route). Nothing under test is mocked. Not wired into CI: GitHub runners cannot
 # reach chittyclaw. Run it locally before changing the reviewer script.
 #
 # Cost: 2 paid model calls (cases 1 and 3) (~$0.05 each). The nonexistent-model case is rejected

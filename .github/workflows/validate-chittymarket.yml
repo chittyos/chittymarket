@@ -82,6 +82,11 @@ jobs:
       - name: Market reconcile regression tests
         run: bash scripts/tests/test-market-reconcile.sh
 
+      # Offline: AI Gateway route-list lookup (apply-gateway-route.sh) against
+      # real CF response shapes; unknown shape must exit 2, never "absent".
+      - name: Gateway route lookup tests
+        run: bash scripts/tests/test-gateway-route-lookup.sh
+
       - name: Dispatch state regression tests
         run: |
           bash -n plugins/chittyagent-dispatch/scripts/dispatch.sh

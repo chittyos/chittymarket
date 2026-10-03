@@ -434,6 +434,6 @@ Detailed operational knowledge lives in `references/`; load the relevant file wh
 - **`references/environment.md`** — host duality (VM vs local), node roles, conflict precedence, Consciousness Coordinates + lanes, P/L/T/E/A ontology, capability centralization, workspace map, service topology.
 - **`references/network.md`** — tailnet topology (`cockatoo-dominant.ts.net`), Homebrew-only Tailscale on -00, split-DNS dependency, the iPhone-tether internet-sharing chain, the two home networks, DHCP gotchas.
 - **`references/secrets.md`** — the full credential/secret model, broker-first rules, tiering, canonical error codes, wrangler gotchas, the in-progress migration, canonical paths.
-- **`references/llm-routing.md`** — Cloudflare AI Gateway as the model router, chittyclaw/OpenClaw, the `three-wise-men` dynamic route, ai-parity config distribution, deploy/verify.
+- **`references/llm-routing.md`** — Cloudflare AI Gateway as the model router, chittyclaw/OpenClaw, the direct-model review lane (no dynamic routes deployed; `three-wise-men` retired), ai-parity config distribution, deploy/verify.
 
 Cross-agent packaging lives in `agents/openai.yaml` (ChatGPT/Codex/API/Atlas, implicit invocation).

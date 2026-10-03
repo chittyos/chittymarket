@@ -5,8 +5,8 @@
 #   apply-gateway-route.sh <route-json> [--gateway central] [--check]
 #
 # Route JSON: {"name": "...", "gateway": "central", "elements": [...]}
-# See ai-gateway-routes/README.md (three-wise-men = the separated adversarial
-# reviewer route; judgment work, never downgrade to a cheap model).
+# See ai-gateway-routes/README.md. No routes are currently defined there; a route
+# file is added only through a deliberate, per-job design.
 #
 # Behaviour (idempotent):
 #   route absent            -> create route, create version {elements}, deploy it
@@ -33,6 +33,9 @@ SMOKE=0
 FILE=""
 
 die() { echo "$*" >&2; exit 2; }
+
+# shellcheck source=lib/gateway-route-lookup.sh
+. "$(dirname "$0")/lib/gateway-route-lookup.sh" || { echo "missing lib/gateway-route-lookup.sh" >&2; exit 2; }
 
 finish() {
   # --smoke: in-sync JSON is not proof the route answers. Call it for real through
@@ -95,8 +98,11 @@ api() {
 }
 
 LIST="$(api GET "$BASE")"
-ROUTE_ID="$(printf '%s' "$LIST" | jq -r --arg n "$NAME" \
-  '[(.result.routes? // .result? // [])[]? | select(.name == $n) | .id][0] // empty')"
+# List is at .data.routes (verified live 2026-10-03), NOT .result. The lookup lives
+# in lib/ so its offline test runs the same filter. Unknown shape => exit 2 here,
+# before the absent/DRIFT branch, so garbage can never read as "absent" (which
+# would create a duplicate route, or report false drift under --check).
+ROUTE_ID="$(route_id_from_list "$LIST" "$NAME")" || exit 2
 
 if [[ -z "$ROUTE_ID" ]]; then
   if [[ $CHECK -eq 1 ]]; then
