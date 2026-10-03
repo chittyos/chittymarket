@@ -97,7 +97,8 @@ If you believe it is safe, state what would have to be true for that to hold. ${
 # an apostrophe, quote, $(), backtick or paren in -p or in the diff used to break
 # the remote quoting, the model was never called, and the old pattern-based check
 # still printed "✓ reviewed". (`openclaw infer model run` has no stdin/file prompt
-# flag, so the container-side sh reads stdin into a single quoted argv element.)
+# flag, so the container-side sh lands stdin in a file and passes it as ONE argv
+# element.)
 PROMPT="$(mktemp)"; RESP="$(mktemp)"; ERRF="$(mktemp)"
 trap 'rm -f "$TMP" "$PROMPT" "$RESP" "$ERRF"' EXIT
 { printf '%s\n\n' "$PROMPT_HEAD"; cat "$TMP"; } > "$PROMPT"
@@ -110,12 +111,39 @@ if (( PROMPT_BYTES > 131000 )); then
   exit 1
 fi
 
-# Remote command: constants + the charset-validated MODEL only. Inside the
-# container, sh receives the program in single quotes and MODEL as $1.
+# Delivery handshake: what the container must report having received before it
+# is allowed to call the model. Byte-exact (the container hashes the file it
+# wrote from stdin, before any $(...) newline stripping), so a stream cut short
+# by a network blip cannot be reviewed as if it were the whole diff.
+EXPECT_BYTES="$PROMPT_BYTES"
+EXPECT_SHA="$(sha256sum < "$PROMPT" | cut -d' ' -f1)"
+
+# Runs under the container's /bin/sh (dash). $1=model $2=expected bytes
+# $3=expected sha256. Prints "ADV_REVIEW_RECEIVED <bytes> <sha256>" to stderr and
+# exits 97 WITHOUT calling the model if either differs from what was sent.
+# shellcheck disable=SC2016  # expanded by the remote sh, not here
+REMOTE_PROG='
+f=$(mktemp) || exit 97
+cat > "$f" || { rm -f "$f"; exit 97; }
+n=$(wc -c < "$f"); n=$((n + 0))
+h=$(sha256sum < "$f" | cut -d " " -f1)
+printf "ADV_REVIEW_RECEIVED %s %s\n" "$n" "$h" >&2
+if [ "$n" != "$2" ] || [ "$h" != "$3" ]; then rm -f "$f"; exit 97; fi
+p=$(cat "$f"); rm -f "$f"
+exec openclaw infer model run --json --model "$1" --prompt "$p"'
+
+# INJECTION SINK. Two independent layers keep caller data out of shell syntax:
+#   1. MODEL_RE (above) restricts MODEL to [A-Za-z0-9._-] path segments;
+#   2. every word of the remote command — including MODEL — is quoted with
+#      printf %q for the remote login shell (bash on chittyclaw), and the
+#      container sh receives MODEL as positional $1, never as program text.
+# Loosening MODEL_RE alone therefore cannot reintroduce injection. The prompt
+# and diff never appear in the command at all (stdin only).
+REMOTE_CMD="$(printf '%q ' docker exec -i "$CLI_CONTAINER" sh -c "$REMOTE_PROG" \
+  adv-review "$MODEL" "$EXPECT_BYTES" "$EXPECT_SHA")"
+
 set +e
-ssh -o BatchMode=yes "$NODE" \
-  "docker exec -i $CLI_CONTAINER sh -c 'exec openclaw infer model run --json --model \"\$1\" --prompt \"\$(cat)\"' adv-review $MODEL" \
-  < "$PROMPT" > "$RESP" 2> "$ERRF"
+ssh -o BatchMode=yes "$NODE" "$REMOTE_CMD" < "$PROMPT" > "$RESP" 2> "$ERRF"
 RC=$?
 set -e
 
@@ -127,11 +155,31 @@ fail() {
   exit 3
 }
 
+delivery_fail() {
+  echo "prompt delivery incomplete — review NOT performed: $1" >&2
+  echo "  sent ${EXPECT_BYTES} bytes sha256 ${EXPECT_SHA}" >&2
+  echo "  Do not report this change as reviewed." >&2
+  if [[ -s "$ERRF" ]]; then echo "--- remote stderr (tail) ---" >&2; tail -n 20 "$ERRF" >&2; fi
+  exit 3
+}
+
+# Delivery is verified BEFORE anything else is believed. No handshake line means
+# the container program never got as far as reading the prompt.
+RECV="$(grep -m1 '^ADV_REVIEW_RECEIVED ' "$ERRF" || true)"
+[[ -n "$RECV" ]] || fail "remote exit status $RC; container never confirmed prompt receipt"
+read -r _ RECV_BYTES RECV_SHA <<<"$RECV"
+if [[ "$RECV_BYTES" != "$EXPECT_BYTES" || "$RECV_SHA" != "$EXPECT_SHA" ]]; then
+  delivery_fail "container received ${RECV_BYTES} bytes sha256 ${RECV_SHA}"
+fi
+(( RC != 97 )) || delivery_fail "container refused (exit 97)"
+echo "→ prompt delivery verified: ${RECV_BYTES} bytes, sha256 ${RECV_SHA}" >&2
+
 # Success is decided POSITIVELY, never by grepping the review text for error
 # words (a review that discussed an "unknown model" used to be reported as a
 # failed call, and lines mentioning e.g. "plugin" were silently deleted):
-#   1. remote exit status 0, 2. a JSON result with ok=true, 3. answered by the
-#   requested provider/model, 4. non-blank output text.
+#   0. prompt delivery verified (handshake above), 1. remote exit status 0,
+#   2. a JSON result with ok=true, 3. answered by the requested provider/model,
+#   4. non-blank output text.
 (( RC == 0 )) || fail "remote exit status $RC"
 # Tolerate CLI chrome before the JSON object; the object itself must parse.
 JSON="$(sed -n '/^{/,$p' "$RESP")"

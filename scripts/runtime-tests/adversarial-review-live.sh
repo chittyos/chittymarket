@@ -6,7 +6,7 @@
 # route. Nothing under test is mocked. Not wired into CI: GitHub runners cannot
 # reach chittyclaw. Run it locally before changing the reviewer script.
 #
-# Cost: 2 paid model calls (~$0.05 each). The nonexistent-model case is rejected
+# Cost: 2 paid model calls (cases 1 and 3) (~$0.05 each). The nonexistent-model case is rejected
 # by the gateway (400 code 2005) and is not billed.
 #
 # Cases:
@@ -16,21 +16,26 @@
 #      proof the diff actually reached the model intact. The model is also told
 #      to open with "Error: Unknown model - Failed to get response", the words
 #      the old script grepped the review body for (false-fail regression).
+#      The delivery handshake must report the container received the prompt
+#      byte-exact ("→ prompt delivery verified: N bytes, sha256 H").
 #   2. REVIEW_MODEL=cloudflare-ai-gateway/dynamic/does-not-exist → exit 3,
 #      "MODEL CALL FAILED", empty stdout, NO ✓ line.
 #   3. the 2026-10-03 false-fail input (PR #155 diff + its long -p) → exit 0.
 #      Override the diff with FALSE_FAIL_DIFF=<path>; default is the merged
 #      commit bee6d63 restricted to *.sh/*.json (the reviewed file set).
+#   4. mutation of the delivery handshake: a copy of the script whose local
+#      expected byte count is off by one → the container refuses BEFORE calling
+#      the model (unbilled), exit 3, "prompt delivery incomplete", NO ✓ line.
 #
 # Usage: scripts/runtime-tests/adversarial-review-live.sh
 # Env:   REVIEW_SCRIPT  path to the script under test (default: repo copy)
-#        CASES          space-separated subset of "1 2 3" to run (default: all)
+#        CASES          space-separated subset of "1 2 3 4" to run (default: all)
 # ok() always returns 0, so `A && ok || bad` is a safe if/else here.
 # shellcheck disable=SC2015
 set -uo pipefail
 
 REPO_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
-CASES=" ${CASES:-1 2 3} "
+CASES=" ${CASES:-1 2 3 4} "
 want() { [[ "$CASES" == *" $1 "* ]]; }
 REVIEW_SCRIPT="${REVIEW_SCRIPT:-$REPO_DIR/plugins/chittyos-core/skills/nb-development-defaults/scripts/adversarial-review.sh}"
 WORK="$(mktemp -d)"
@@ -60,7 +65,7 @@ rc()  { cat "$WORK/$1.rc"; }
 has_check() { grep -q '✓ reviewed' "$WORK/$1.err"; }
 
 # ---------------------------------------------------------------- case 1
-if want 1 || want 2; then
+if want 1 || want 2 || want 4; then
 echo "== case 1: shell metacharacters in -p and in the diff"
 NONCE="NONCE$(od -An -N6 -tx1 /dev/urandom | tr -d ' \n')"
 cat > "$WORK/hostile.diff" <<EOF
@@ -81,6 +86,13 @@ run hostile -- "$WORK/hostile.diff" -p "$PFOCUS"
 [[ "$(rc hostile)" == 0 ]] && ok "exit 0" || bad "exit $(rc hostile), expected 0"
 [[ -s "$WORK/hostile.out" ]] && ok "review text on stdout ($(wc -l < "$WORK/hostile.out") lines)" || bad "stdout empty"
 has_check hostile && ok "✓ line printed" || bad "no ✓ line"
+DELIV="$(grep -m1 '^→ prompt delivery verified: ' "$WORK/hostile.err" || true)"
+DBYTES="$(sed -nE 's/^→ prompt delivery verified: ([0-9]+) bytes, sha256 ([0-9a-f]{64})$/\1/p' <<<"$DELIV")"
+if [[ -n "$DBYTES" ]] && (( DBYTES > $(wc -c < "$WORK/hostile.diff") )); then
+  ok "delivery handshake matched: $DBYTES bytes (> diff size) with sha256"
+else
+  bad "no/invalid delivery handshake line: '${DELIV:-<none>}'"
+fi
 grep -q "$NONCE" "$WORK/hostile.out" && ok "per-run nonce echoed back (diff reached the model)" \
   || bad "nonce $NONCE not in review — diff may not have reached the model"
 # Old script grepped the review BODY for these words and reported a real review
@@ -120,10 +132,32 @@ if grep -qiE 'Error:|Unknown model|Failed to get response' "$WORK/pr155.out"; th
 fi
 fi
 
+# ---------------------------------------------------------------- case 4
+if want 4; then
+echo "== case 4: corrupted expected byte count must fail closed before the model call"
+MUT="$WORK/adversarial-review.mutant.sh"
+# shellcheck disable=SC2016  # literal sed pattern; nothing should expand here
+sed 's/^EXPECT_BYTES="\$PROMPT_BYTES"$/EXPECT_BYTES="$((PROMPT_BYTES - 1))"/' "$REVIEW_SCRIPT" > "$MUT"
+if cmp -s "$REVIEW_SCRIPT" "$MUT"; then
+  bad "mutation anchor EXPECT_BYTES=\"\$PROMPT_BYTES\" not found — cannot test the mismatch path"
+else
+  REVIEW_SCRIPT_SAVED="$REVIEW_SCRIPT"; REVIEW_SCRIPT="$MUT"
+  run mismatch -- "$WORK/hostile.diff" -p "it's (still) hostile"
+  REVIEW_SCRIPT="$REVIEW_SCRIPT_SAVED"
+  [[ "$(rc mismatch)" == 3 ]] && ok "exit 3" || bad "exit $(rc mismatch), expected 3"
+  grep -q 'prompt delivery incomplete — review NOT performed' "$WORK/mismatch.err" \
+    && ok "prompt delivery incomplete reported" || bad "no delivery-incomplete message"
+  has_check mismatch && bad "✓ line printed on a mismatched delivery" || ok "no ✓ line"
+  [[ ! -s "$WORK/mismatch.out" ]] && ok "stdout empty" || bad "stdout not empty"
+  grep -q '^Error: No text output\|outputs' "$WORK/mismatch.err" \
+    && bad "model appears to have been called" || ok "model not called (container refused first)"
+fi
+fi
+
 echo
 echo "== $PASS passed, $FAIL failed"
 if (( FAIL > 0 )); then
-  for n in hostile badmodel pr155; do
+  for n in hostile badmodel pr155 mismatch; do
     [[ -f "$WORK/$n.err" ]] || continue
     echo "--- $n stderr (tail)"; tail -n 15 "$WORK/$n.err"
   done
