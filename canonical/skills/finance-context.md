@@ -141,7 +141,7 @@ These codes identify a Mercury credential/connection boundary. They are **not on
 
 ## 3. Mercury banking integration
 
-For **any Mercury task**, read `references/mercury.md` before acting. It contains the current operation matrix, canonical docs links, webhook lifecycle, statements/attachments, recipients/payees, invoices, transactions/categories, credential health, and read-vs-write routing.
+For **any Mercury task**, read the [Mercury integration reference](../../skills/finance-context/references/mercury.md) before acting. It contains the current operation matrix, canonical docs links, webhook lifecycle, statements/attachments, recipients/payees, invoices, transactions/categories, credential health, and read-vs-write routing.
 
 Core rules:
 
