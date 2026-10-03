@@ -24,11 +24,32 @@ Concretely, `execute now` is authorized when all of the following hold. These ar
 1. **A separated reviewer is dispatchable now** — different agent, fresh context,
    ideally a different model. If you cannot dispatch one for this change, you do not
    have the license. See *Separated Adversarial Review* below.
-2. **The CI gates on this repo can actually fail.** Verify, do not assume: read the
-   workflow files for `continue-on-error: true` on a job that has never passed, a
-   required-check list that is empty, a test step that exits 0 when no tests are
-   found, and a suite whose module never loaded (`ERR_MODULE_NOT_FOUND` greps as zero
-   failures). A gate you did not read is a gate you cannot count.
+2. **The CI gates on this repo can actually fail.** Verify, do not assume. A gate you
+   did not read is a gate you cannot count, and every pattern below was found in
+   production, not imagined:
+   - `continue-on-error: true` on a job that has never passed.
+   - A required-check list that is empty.
+   - A test step that exits 0 when no tests are found.
+   - A suite whose module never loaded (`ERR_MODULE_NOT_FOUND` greps as zero failures).
+   - **A job gated off by an unset variable.** `if: vars.CI_ENABLED == 'true'` with that
+     variable set nowhere makes the job SKIP; a skipped job reports a **neutral**
+     conclusion; neutral **renders as a pass** in the PR checks summary. Measured on
+     chittyentity 2026-10-03: 26 workflows disabled this way, including ~20 binding-drift
+     audits, invisible for ten weeks. Check the variable exists, not just that the
+     condition looks sane: `gh api repos/{o}/{r}/actions/variables` and the org endpoint —
+     an unset key 404s rather than reading false.
+   - **A suite that exists but no gate's glob matches it.** Root `vitest` with
+     `include: ["tests/**","packages/*/tests/**"]` matches nothing under `chittyagents/*`;
+     a worker can carry a full suite that no gate has ever executed. Having tests is not
+     having coverage. Confirm the runner's include/exclude actually reaches the files.
+   - **A reviewer that reports pass without reviewing.** CodeRabbit returning
+     `pass` with detail *"Review rate limited"* is the review-lane twin of the skipped
+     job — see *Separated Adversarial Review*.
+   **Pin check results to the head SHA.** `gh pr checks` will happily show the previous
+   push's conclusions; query
+   `gh api repos/{o}/{r}/commits/$(git rev-parse HEAD)/check-runs` and read
+   `status`/`conclusion` per run. Treat `skipped` and `neutral` as *did not run*, and say
+   so rather than counting them toward green.
 3. **The action is reversible**, or is covered by an explicit approval gate below.
 
 If a condition fails, say which one and propose instead — do not act and note the gap
@@ -420,12 +441,53 @@ All ChittyOS workers deploy via Cloudflare Workers Builds (git-triggered). Confi
 - **Shared deps**: Workers importing from `../shared/` use build command `cd ../shared && npm ci`
 - **Watch paths**: Shared importers watch both `/workers/{name}/*` and `/workers/shared/*`
 
+### GitHub Actions on a billing-frozen org (self-hosted runners)
+
+GitHub-hosted Actions is **billing-frozen org-wide**. Hosted runs do not merely cost
+money — they fail before executing a step, stamping meaningless red checks. That is why
+chittyentity's workflows were switched off behind `vars.CI_ENABLED`, and why removing
+such a gate without a runner replaces a silent false-green with loud false-red. Runner
+first, then un-gate.
+
+The working pattern (chittymarket, copied to chittyentity 2026-10-03):
+
+```yaml
+runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}   # with CI_RUNNER=self-hosted
+```
+
+The job **always runs**; only its location varies. Prefer it over any enable-flag gate,
+which skips and therefore reads as a pass.
+
+- **Set `CI_RUNNER` BEFORE swapping `runs-on`.** While workflows still hardcode
+  `ubuntu-latest` the variable is inert, so there is no window where the pattern is live
+  with nowhere to land.
+- **Org-level runners do not appear in a repo's runner list.** `repos/{o}/{r}/actions/runners`
+  returning `total_count: 0` does not mean there is no runner — check
+  `orgs/{org}/actions/runners` and the runner group's `visibility`. chittyentity appeared
+  to have none while an online org runner already covered it; nothing needed registering
+  and no credential was required.
+- **A `uses:` reusable-workflow caller cannot be redirected.** The callee declares its own
+  `runs-on` upstream. Leave those gated, or add a runner input to the reusable workflow.
+- **One runner executes one job at a time.** Scale cron cadence to that, not to what
+  hosted parallelism allowed. 16 audits on `*/15` were 1,537 scheduled runs/day — fine
+  nowhere, and actively harmful aimed at a single ARM VM.
+- **A persistent HOME breaks tooling that assumes a fresh one.** Two real failures:
+  `pnpm/action-setup` installs into `~/setup-pnpm`, and pnpm 10 then walks up to a stray
+  `/home/<user>/pnpm-workspace.yaml` lacking a `packages` field →
+  `ERR_PNPM_INVALID_WORKSPACE_CONFIGURATION` before any repo code runs (`dest:` does not
+  help if it is still under that HOME); and `corepack enable` symlinks into `/usr/bin`,
+  which the runner user cannot write → `EACCES`. Prefer the runner's preinstalled
+  toolchain, with a writable-dir fallback, and end the step with an explicit
+  `command -v <tool>` so an absent toolchain fails loudly.
+
 ## Review and Audit Bias
 
 - For review requests, findings come first.
 - For audits, prioritize behavioral regressions, missing validation, auth/compliance gaps, and ecosystem drift.
 - For debugging, prove the failure mode with direct evidence before declaring root cause.
 - Silent failures live in CI config too. `continue-on-error: true` on a job that has never passed reports the workflow green forever — a check you pay for and never receive. When a job shows `fail` while its workflow shows `success`, treat the mask as the finding: fix the job and drop the flag, or delete the job. Same reflex for a required-check list that is empty, a test step that exits 0 on no tests found, and a green suite whose module never loaded (`ERR_MODULE_NOT_FOUND` greps as zero failures).
+- **The strongest mask is a job that never runs.** Skipped and neutral render as pass. A feature-flagged CI (`if: vars.X == 'true'`, variable unset), a path filter that matches nothing, a suite outside every glob — each produces a green PR that verified nothing. When a check reports `skipped`, establish WHY before counting it: a legitimate event condition (`github.actor == 'dependabot[bot]'`, `event_name == 'release'`) is fine; a disabled gate is the finding. Enumerate per head SHA and classify each skip.
+- **Re-enabling a dormant gate is a measurement, and it will be loud.** Expect first-run failures that are real and pre-existing, not regressions you caused — distinguish the two explicitly before reporting. Measured on chittyentity: re-enabling the drift audits surfaced 13 workers with live binding drift, corroborated by issues filed months earlier. Say plainly which failures the change caused and which it merely revealed.
 
 ## References (load on demand — progressive disclosure)
 
