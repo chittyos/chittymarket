@@ -42,6 +42,15 @@
 #     (```) for any prose code block after the script.
 #   - The block is written verbatim, nothing prepended: the Workflow host expects the
 #     file to begin with `export const meta`, so the adapter enforces that too.
+#   - Inline includes. Workflow scripts cannot import, so a column-0 marker line
+#     `// @inline <file>.js` inside the block is replaced by that sibling file
+#     (canonical/<kind>/<file>.js) with line-leading `export ` keywords removed, between
+#     deterministic BEGIN/END banners carrying its sha256. The grammar and every rule
+#     (bare sibling name, no imports, only export const|let|function, no nesting, no
+#     duplicates) live in lib/inline_includes.py, shared with lib/audit.py so audit
+#     re-projects exactly the canonicals the adapter expands. No marker: output is the
+#     block verbatim. The node --check below runs on the EXPANDED script, so a name the
+#     include and the script both declare fails the projection.
 #   - `meta.name` must equal the frontmatter name. `name` may appear anywhere among
 #     meta's top-level keys (it does not have to be first).
 #   - The extracted script must pass `node --check` in the host's shape (top-level
@@ -60,11 +69,15 @@ out="${2:-}"
 [ -n "$canonical" ] && [ -n "$out" ] || { echo "usage: $0 <canonical-path> <output-path>" >&2; exit 2; }
 [ -f "$canonical" ] || { echo "canonical not found: $canonical" >&2; exit 2; }
 
-python3 - "$canonical" "$out" <<'PY'
+lib_dir="$(cd "$(dirname "$0")/../lib" && pwd)"
+
+python3 - "$canonical" "$out" "$lib_dir" <<'PY'
 import os, re, shutil, subprocess, sys, tempfile
 import yaml
 
-canonical_path, out_path = sys.argv[1], sys.argv[2]
+canonical_path, out_path, lib_dir = sys.argv[1], sys.argv[2], sys.argv[3]
+sys.path.insert(0, lib_dir)
+from inline_includes import expand  # noqa: E402
 src = open(canonical_path, encoding="utf-8").read()
 
 m = re.match(r"^---\n(.*?\n)---\n(.*)$", src, re.DOTALL)
@@ -136,6 +149,11 @@ def meta_top_level_name(text):
 meta_name = meta_top_level_name(script)
 if meta_name != fm["name"]:
     sys.exit(f"{canonical_path}: meta.name {meta_name!r} != frontmatter name {fm['name']!r}")
+
+try:
+    script = expand(script, os.path.dirname(os.path.abspath(canonical_path)))
+except ValueError as e:
+    sys.exit(f"{canonical_path}: {e}")
 
 node = shutil.which("node")
 if not node:

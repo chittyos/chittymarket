@@ -1,6 +1,6 @@
 {
   "name": "chittyos-core",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Core ChittyOS ecosystem — session persistence, context checkpoints, cleanup, the gauntlet adversarial-verification workflow, and ecosystem agents for schema, registration, connection, integration, and canonical governance",
   "author": {
     "name": "ChittyOS",
