@@ -1,0 +1,44 @@
+{
+  "name": "three-wise-men",
+  "gateway": "central",
+  "elements": [
+    {
+      "id": "start",
+      "type": "start",
+      "outputs": { "next": { "elementId": "primary" } }
+    },
+    {
+      "id": "primary",
+      "type": "model",
+      "properties": {
+        "provider": "anthropic",
+        "model": "claude-opus-4-8",
+        "timeout": 300000,
+        "retries": 1
+      },
+      "outputs": {
+        "success": { "elementId": "end" },
+        "fallback": { "elementId": "fallback" }
+      }
+    },
+    {
+      "id": "fallback",
+      "type": "model",
+      "properties": {
+        "provider": "anthropic",
+        "model": "claude-sonnet-4-5",
+        "timeout": 300000,
+        "retries": 1
+      },
+      "outputs": {
+        "success": { "elementId": "end" },
+        "fallback": { "elementId": "end" }
+      }
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "outputs": {}
+    }
+  ]
+}

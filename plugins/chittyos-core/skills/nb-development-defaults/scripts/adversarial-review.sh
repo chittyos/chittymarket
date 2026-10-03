@@ -11,10 +11,13 @@
 #   git diff main...HEAD -- src/ | adversarial-review.sh - -p "focus on auth bypass"
 #
 # Env:
-#   REVIEW_MODEL   override the model (default: the working three-wise-men route)
+#   REVIEW_MODEL   override the model (default: the three-wise-men route; it is codified in
+#                  ai-gateway-routes/ and applied with apply-gateway-route.sh)
 #
 # Exit codes: 0 review returned | 1 usage/input | 2 chittyclaw unreachable
 #             3 model call failed (route broken / provider error)
+# On exit 2 or 3 the caller MUST report the review as NOT performed — never as
+# "reviewed" or "no findings".
 set -euo pipefail
 
 NODE="chittyclaw"
@@ -25,11 +28,12 @@ CLI_CONTAINER="openclaw-prod-openclaw-cli-1"
 # bare id fails "Unknown model". Verified 2026-07-30.
 DEFAULT_MODEL="cloudflare-ai-gateway/dynamic/three-wise-men"
 
-# `adversarial-reviewer/dynamic/adversarial-reviewer` is the purpose-built route.
-# It advertises itself as configured+available but returns
-# 400 {"code":2005,"message":"Failed to get response from provider"} — the route
-# definition is server-side in CF AI Gateway. Do NOT make it the default until
-# that is fixed; a silently-degraded reviewer is worse than an explicit one.
+# three-wise-men is codified in ai-gateway-routes/three-wise-men.json and applied /
+# drift-checked with apply-gateway-route.sh (routes live only server-side in CF AI
+# Gateway and vanished once, causing 400 code 2005 on every review).
+# `dynamic/adversarial-reviewer` no longer exists on any gateway and must not be
+# used: it was a $0.00 / 32k-context route — the inadequate-reviewer failure mode
+# (confident empty findings that get ignored).
 MODEL="${REVIEW_MODEL:-$DEFAULT_MODEL}"
 
 DIFF_FILE="${1:-}"
