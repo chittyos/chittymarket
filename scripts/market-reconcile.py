@@ -16,8 +16,13 @@ Resolution:
 5. A new record also requires an explicit overlay governance block; this
    compiler does not guess risk/auth/policy metadata.
 
-Audit is read-only. Unpublished unresolved definitions are reported as HOLD
-but do not fail CI because they are not distributed. Sync is fail-closed.
+Audit is read-only. Unpublished unresolved definitions are reported as HOLD.
+By default a HOLD does not fail audit, because an authored-but-unprojected
+definition is not distributed. That default is a *migration concession*, not
+the target state: an audit that prints HOLDs and still says PASS reports two
+contradictory verdicts at once. Pass --fail-on-hold to make HOLD fatal, which
+is the intended end state once the HOLD backlog is cleared or every remaining
+HOLD is explicitly acknowledged. Sync is always fail-closed.
 """
 
 from __future__ import annotations
@@ -363,7 +368,7 @@ def update_existing(item: dict, entry: dict | None, rec: dict, explicit: str) ->
     rec.update(rebuilt)
 
 
-def reconcile(mode: str, selected_name: str | None) -> int:
+def reconcile(mode: str, selected_name: str | None, fail_on_hold: bool = False) -> int:
     manifest = load_json(MANIFEST)
     overlay = load_json(OVERLAY)
     original_manifest = copy.deepcopy(manifest)
@@ -444,9 +449,22 @@ def reconcile(mode: str, selected_name: str | None) -> int:
         if errors:
             print("\nFAIL: published identity/linkage errors detected.")
             return 1
+        if holds and fail_on_hold:
+            # Strict mode: a HOLD is a finding, so the gate reports one verdict.
+            # Do NOT weaken the HOLD condition to reach green — resolve the
+            # definition's canonical identity, or acknowledge the hold upstream.
+            print(
+                f"\nFAIL: {len(holds)} unresolved canonical definition(s) remain HOLD "
+                "and --fail-on-hold is set."
+            )
+            return 1
         print("\nPASS: published projections preserve an established capability binding.")
         if holds:
             print("Unpublished unresolved definitions remain HOLD and cannot be synced.")
+            print(
+                "NOTE: HOLDs are non-fatal because --fail-on-hold was not passed. "
+                "This is a migration concession, not a clean bill of health."
+            )
         return 0
 
     if errors or (selected_name and holds):
@@ -497,8 +515,16 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("mode", choices=("audit", "sync"))
     parser.add_argument("--name", help="limit reconciliation to one canonical definition")
+    parser.add_argument(
+        "--fail-on-hold",
+        action="store_true",
+        help=(
+            "audit mode: exit 1 if any canonical definition is HOLD. Default is "
+            "non-fatal for the migration backlog; this flag is the target state."
+        ),
+    )
     args = parser.parse_args()
-    return reconcile(args.mode, args.name)
+    return reconcile(args.mode, args.name, args.fail_on_hold)
 
 
 if __name__ == "__main__":

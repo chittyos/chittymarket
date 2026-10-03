@@ -115,8 +115,25 @@ jobs:
       # 2g. Identity-first Market reconciliation. Published projections must
       #     preserve an established chittycanon://capability binding. New
       #     unresolved canonical definitions remain HOLD and cannot be synced.
+      #
+      #     Strictness is operator-controlled via the repo variable
+      #     MARKET_AUDIT_STRICT (same mechanism as CI_RUNNER), so flipping it
+      #     needs no PR. While it is unset/false, HOLDs are reported but
+      #     non-fatal — the migration concession for the authored-but-
+      #     unprojected backlog. Set it to 'true' to make HOLD fatal, which is
+      #     the target state.
+      #
+      #     Before flipping: 36 definitions are HOLD on main (8 agents,
+      #     28 skills/commands/mcp/tools). One of them — chittyagent-olmec —
+      #     is a DELIBERATE hold: per docs/decisions/capability-audit-log.md
+      #     (2026-10-02) minting it a capability id is a ChittyCanon decision
+      #     that was explicitly not taken. Flipping therefore requires either
+      #     minting that id or adding an acknowledged-holds mechanism; it must
+      #     NOT be resolved by weakening the HOLD condition.
       - name: Identity-first Market reconciliation
-        run: python3 scripts/market-reconcile.py audit
+        run: >-
+          python3 scripts/market-reconcile.py audit
+          ${{ vars.MARKET_AUDIT_STRICT == 'true' && '--fail-on-hold' || '' }}
 
       - name: Materialized overlay idempotency
         run: |

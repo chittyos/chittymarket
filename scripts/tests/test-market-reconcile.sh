@@ -134,3 +134,54 @@ assert any(
 )
 print("market-reconcile regression tests: PASS")
 PY
+
+# --- HOLD strictness (--fail-on-hold) -------------------------------------
+# A separate, minimal fixture: the fixture above never reaches audit exit 0
+# (foo drift + bar invalid identity are ERRORs, not HOLDs), so it cannot
+# distinguish lax from strict. This one holds exactly one definition and
+# nothing else, so the only variable is the flag.
+HOLDTMP="$(mktemp -d)"
+trap 'rm -rf "$TMP" "$HOLDTMP"' EXIT
+mkdir -p "$HOLDTMP/scripts" "$HOLDTMP/canonical/skills"
+cp "$ROOT/scripts/market-reconcile.py" "$HOLDTMP/scripts/market-reconcile.py"
+echo '{"version":"1.0.0","artifacts":[]}' > "$HOLDTMP/marketplace.json"
+echo '{"version":"1.1.0","total":0,"capabilities":[]}' > "$HOLDTMP/capabilities.generated.json"
+
+cat > "$HOLDTMP/canonical/skills/held.md" <<'MD'
+---
+name: held
+canon_uri: chittycanon://core/services/chittymarket#skills/held
+description: no canonical capability identity, so this definition is HOLD
+kind: skill
+runtimes: [codex]
+---
+# Held
+MD
+
+# Default: HOLD is reported but non-fatal (migration concession).
+CHITTYMARKET_ROOT="$HOLDTMP" python3 "$HOLDTMP/scripts/market-reconcile.py" audit \
+  > "$HOLDTMP/lax.out" 2>&1
+grep -q "HOLDS (1)" "$HOLDTMP/lax.out"
+grep -q "^PASS:" "$HOLDTMP/lax.out"
+grep -q "migration concession" "$HOLDTMP/lax.out"
+
+# Strict: the same HOLD is fatal, and the gate stops claiming PASS.
+if CHITTYMARKET_ROOT="$HOLDTMP" python3 "$HOLDTMP/scripts/market-reconcile.py" audit \
+     --fail-on-hold > "$HOLDTMP/strict.out" 2>&1; then
+  echo "expected --fail-on-hold to exit non-zero while a HOLD is present"
+  exit 1
+fi
+grep -q "HOLDS (1)" "$HOLDTMP/strict.out"
+grep -q "remain HOLD and --fail-on-hold is set" "$HOLDTMP/strict.out"
+if grep -q "^PASS:" "$HOLDTMP/strict.out"; then
+  echo "strict audit must not also report PASS"
+  exit 1
+fi
+
+# No HOLDs at all: strict mode must still pass.
+rm "$HOLDTMP/canonical/skills/held.md"
+CHITTYMARKET_ROOT="$HOLDTMP" python3 "$HOLDTMP/scripts/market-reconcile.py" audit \
+  --fail-on-hold > "$HOLDTMP/clean.out" 2>&1
+grep -q "^PASS:" "$HOLDTMP/clean.out"
+
+echo "market-reconcile HOLD strictness tests: PASS"
