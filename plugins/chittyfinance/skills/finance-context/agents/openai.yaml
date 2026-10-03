@@ -2,9 +2,4 @@ interface:
   display_name: Finance Context
   short_description: Canonical operating context for ChittyFinance, Mercury, ARIBIA portfolio accounting, identity, COA, reconciliation, statements, webhooks, recipients/payees, payments, and controlled Mercury writes.
 policy:
-  products:
-    - chatgpt
-    - codex
-    - api
-    - atlas
   allow_implicit_invocation: true
