@@ -72,9 +72,14 @@ runner, via the plugin workflow `chittyos-core:gauntlet`.
    partly re-collapsed the separation it exists to provide. When you build either one, you MUST pass
    `oracleAuthor: 'olmec'`. The workflow then warns every role that the oracle is a claim, points the
    contester at the runner and corpus as well as the code (does the runner exercise the real
-   decision code, does it exit non-zero on failure, would it pass with the logic deleted), and has the
-   runner witness flag a run that executed zero cases. The contester covers this because it is a
-   separate Opus context that did not write the oracle and is told to attack it.
+   decision code, does it exit non-zero on failure, would it pass with the logic deleted). The
+   contester covers this because it is a separate Opus context that did not write the oracle and is
+   told to attack it. Independently of who wrote the oracle, the zero-case guard is a **code gate**:
+   the runner witness and the verifier must each report `cases_executed`, counted from the runner's
+   output (`-1` if it cannot be determined). Any round witness reporting `0` or `-1` is recorded in
+   `blind_oracle` and that round is not clean; a final witness or verifier reporting `0` or `-1`, or
+   the two disagreeing on the count, blocks convergence. An exit 0 from a runner that tested nothing
+   is a blind oracle, not a pass.
    - Corpus cases carry an expected outcome AND a note saying what breaks if the decision is wrong.
      Real shapes only: canonical identifiers, real digests, no lorem ipsum, no `foo@example.com`, no
      `John Doe`.
@@ -108,7 +113,8 @@ runner, via the plugin workflow `chittyos-core:gauntlet`.
    Name every entry in `dead_roles`: a role that returned nothing is a failure, not an empty result,
    and its findings are missing, not clean. Quote `not_converged_reasons`, every `claim_mismatch`
    (the implementer said one thing, the witnessed runner said another), and every
-   `repeated_strategies` entry. Report which assertions the verifier called vacuous, which
+   `repeated_strategies` and `blind_oracle` entry. A role whose output had the wrong shape appears in
+   `dead_roles` as `malformed`; treat it exactly like a death. Report which assertions the verifier called vacuous, which
    standing mandates were left unenforced, and what the curriculum never tried.
    `stopped_because: 'hit maxRounds — NOT converged'` and `'incomplete — roles died: ...'` are real
    outcomes and must be reported as such.

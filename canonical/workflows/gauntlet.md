@@ -123,6 +123,13 @@ Changes from the chittyentity copy:
   verifier) accept only `opus` or `fable`; generator and witness accept `opus` or `sonnet`.
 - **No transitive spawning.** Every prompt forbids subagents and the Agent/Workflow tools. The budget
   `4 + 3*maxRounds + 3` counts direct agent() calls only.
+- **Blind-oracle gate (third review).** The witness and the verifier report a required integer
+  `cases_executed` counted from the runner output (`-1` = undeterminable). A round whose witness
+  reports `0` or `-1` is recorded in `blind_oracle` and is never clean; `0`/`-1` from the final
+  witness or the verifier, or the two disagreeing, blocks convergence. A null final witness, retrace
+  or verifier is an explicit blocker (not only a `dead_roles` side effect), and any role output whose
+  list fields are not arrays is `malformed`: recorded in `dead_roles`, listed as a blocker, treated as
+  missing, never allowed to throw.
 - **`oracleAuthor: 'olmec'`** marks a runner and corpus written by the reviewing agent; the contester
   and the witness are then pointed at the oracle explicitly. The contester always contests the oracle.
 
@@ -561,11 +568,12 @@ const ROUND_SCHEMA = {
 }
 
 const WITNESS_SCHEMA = {
-  type: 'object', additionalProperties: false, required: ['exit_code', 'output_tail', 'command'],
+  type: 'object', additionalProperties: false, required: ['exit_code', 'output_tail', 'command', 'cases_executed'],
   properties: {
     exit_code: { type: 'integer', description: 'the real exit status of the runner, as the shell reported it' },
     output_tail: { type: 'string', description: 'verbatim last ~60 lines of combined stdout+stderr' },
     command: { type: 'string', description: 'the exact command executed, byte for byte' },
+    cases_executed: { type: 'integer', description: 'number of test cases the runner actually executed, COUNTED from its output; -1 if the output does not let you determine it. Never guess.' },
   },
 }
 
@@ -589,11 +597,12 @@ const RETRACE_SCHEMA = {
 const VERDICTS = ['converged', 'not_converged', 'cannot_verify']
 const VERIFY_SCHEMA = {
   type: 'object', additionalProperties: false,
-  required: ['verdict', 'runner_exit_code', 'runner_output_tail', 'vacuous_assertions', 'unaddressed_trace_findings', 'remaining_gaps', 'report'],
+  required: ['verdict', 'runner_exit_code', 'runner_output_tail', 'cases_executed', 'vacuous_assertions', 'unaddressed_trace_findings', 'remaining_gaps', 'report'],
   properties: {
     verdict: { type: 'string', enum: VERDICTS },
     runner_exit_code: { type: 'integer', description: 'exit status of YOUR OWN run of the runner' },
     runner_output_tail: { type: 'string', description: 'verbatim tail of YOUR OWN runner output' },
+    cases_executed: { type: 'integer', description: 'cases YOUR OWN run actually executed, counted from its output; -1 if undeterminable' },
     vacuous_assertions: { type: 'array', items: { type: 'string' } },
     unaddressed_trace_findings: { type: 'array', items: { type: 'string' } },
     remaining_gaps: { type: 'array', items: { type: 'string' } },
@@ -641,6 +650,14 @@ const alive = (x, role) => {
   if (x === null || x === undefined) { deadRoles.push(role); return false }
   return true
 }
+// A role that returns an object whose list fields are not arrays is MALFORMED: its output cannot be
+// read without throwing or misreading, so it is recorded like a death (dead_roles) and as an explicit
+// blocker, and its output is treated as missing. Never let a bad shape throw mid-run.
+const malformedRoles = []
+const malformed = (role, why) => { deadRoles.push(`${role}: malformed (${why})`); malformedRoles.push(`${role}: ${why}`) }
+const isObjArray = (v) => Array.isArray(v) && v.every((x) => x !== null && typeof x === 'object' && !Array.isArray(x))
+// Returns the names of fields that are not arrays (of objects if objs, of anything otherwise).
+const badArrays = (x, fields, objs = false) => fields.filter((k) => !(objs ? isObjArray(x?.[k]) : Array.isArray(x?.[k])))
 const NOT_RUN = (role) => `NOT RUN — the ${role} agent returned nothing. Its output is MISSING, not empty; do not read this as "no findings".`
 const render = (x, key, role) => (x === null || x === undefined ? NOT_RUN(role) : JSON.stringify(x[key] ?? [], null, 1))
 
@@ -705,7 +722,7 @@ phase. Cite file and line. Report nothing you have not traced in the real source
 //    WRONG; the other argues it is INCOMPLETE. Different failure modes, so they
 //    must not be the same agent.
 phase('Challenge')
-const [contested, generated, traced, mandated] = await parallel([
+let [contested, generated, traced, mandated] = await parallel([
   () => agent(`${CTX}
 
 You are the CONTESTER. Read the code and the fixture corpus. Argue that the EXPECTATIONS are wrong.
@@ -782,6 +799,11 @@ committed to.`,
 ])
 
 alive(contested, 'contester'); alive(generated, 'generator'); alive(traced, 'tracer'); alive(mandated, 'mandate')
+// Shape-check every list a later step reads. A malformed role is nulled so it renders as NOT RUN.
+if (contested && badArrays(contested, ['contested'], true).length) { malformed('contester', 'contested is not an array of objects'); contested = null }
+if (generated && badArrays(generated, ['cases'], true).length) { malformed('generator', 'cases is not an array of objects'); generated = null }
+if (traced && badArrays(traced, ['findings'], true).length) { malformed('tracer', 'findings is not an array of objects'); traced = null }
+if (mandated && badArrays(mandated, ['mandates'], true).length) { malformed('mandate', 'mandates is not an array of objects'); mandated = null }
 if (deadRoles.length) log(`challenge phase: ${deadRoles.length} role(s) died (${deadRoles.join(', ')}) — their output is passed on as NOT RUN`)
 const silentTrace = (traced?.findings ?? []).filter((f) => f.outcome_still_correct)
 const unenforced = (mandated?.mandates ?? []).filter((m) => m.enforced !== 'yes')
@@ -816,6 +838,10 @@ You are the RUNNER WITNESS (${when}). You are a GATHERING role: you observe, you
 3. Report the verbatim last ~60 lines of combined stdout+stderr as output_tail, including any pass/fail
    and case counts, so a reader can see how many cases actually ran.
 4. Report the exact command you executed as command.
+5. Report cases_executed: the number of test cases the runner ACTUALLY executed, COUNTED from its
+   output (a "N passed, M failed" line, a TAP plan, a per-case listing). Never guess and never infer
+   it from the corpus size. If the output does not let you determine the count, report -1. A run that
+   executed zero cases is reported as 0 even if it exited 0: that is a blind oracle, not a pass.
 
 FORBIDDEN: editing, creating, deleting or reverting ANY file; running any other command that changes
 state; re-running with different flags to get a better result; spawning subagents. If you cannot run
@@ -823,7 +849,11 @@ the command at all, report exit_code 127 and say why in output_tail.${ORACLE_AUT
 The oracle was written by the reviewing agent: if the output shows zero cases executed, or no case
 counts at all, say so plainly at the top of output_tail.` : ''}`
 
-const witnessOk = (w) => w && Number.isInteger(w.exit_code) && typeof w.output_tail === 'string' && typeof w.command === 'string'
+const witnessOk = (w) => w !== null && typeof w === 'object' && Number.isInteger(w.exit_code) && typeof w.output_tail === 'string' &&
+  typeof w.command === 'string' && Number.isInteger(w.cases_executed) && w.cases_executed >= -1
+// Zero cases executed is a BLIND ORACLE: the runner exits 0 because it tested nothing. -1 means the
+// count could not be determined from the output, which is treated the same way: unproven, not clean.
+const blindOracle = []
 
 while (dry < DRY_ROUNDS && round < MAX_ROUNDS) {
   round++
@@ -890,6 +920,9 @@ useful signal and will not be held against you — inflating it wastes a whole r
   // A dead feeder stops the loop. It must NOT fall through to the implementer with an empty feed,
   // and must NOT count as a low-yield signal: silence is not evidence the surface is exhausted.
   if (!alive(feed, `feeder (round ${round})`)) { log(`round ${round}: feeder died — stopping`); break }
+  if (badArrays(feed, ['cases']).length || typeof feed.strategy !== 'string') {
+    malformed(`feeder (round ${round})`, 'cases is not an array or strategy is not a string'); log(`round ${round}: feeder report malformed — stopping`); break
+  }
   feeds.push(feed)
   log(`round ${round} feeder: ${feed.strategy} → ${feed.cases.length} cases (yield ${feed.expected_yield}) targeting: ${feed.gap_targeted}`)
 
@@ -938,18 +971,26 @@ found nothing — no fix, no case, no insight.`,
     { label: `fix-${round}`, phase: 'Fix', schema: ROUND_SCHEMA, model: MODELS.implementer })
 
   if (!alive(result, `implementer (round ${round})`)) { log(`round ${round}: implementer died — stopping`); break }
+  const badRound = badArrays(result, ['still_failing', 'changes_made', 'cases_added'])
+  if (badRound.length) {
+    malformed(`implementer (round ${round})`, `${badRound.join(', ')} not an array`); log(`round ${round}: implementer report malformed — stopping`); break
+  }
   history.push(result)
   log(`round ${round}: ${result.changes_made.length} changes · ${result.cases_added.length} cases · ${result.still_failing.length} failing (claimed)`)
 
   const witness = await agent(witnessPrompt(`after round ${round}`),
     { label: `witness-${round}`, phase: 'Fix', schema: WITNESS_SCHEMA, model: MODELS.witness })
   if (!alive(witness, `witness (round ${round})`) || !witnessOk(witness)) {
-    if (witness && !witnessOk(witness)) deadRoles.push(`witness (round ${round}): malformed report`)
+    if (witness != null && !witnessOk(witness)) malformed(`witness (round ${round})`, 'missing or mistyped exit_code/output_tail/command/cases_executed')
     log(`round ${round}: runner witness returned no usable observation — stopping`)
     break
   }
   witnesses.push(witness)
   if (witness.command.trim() !== RUNNER.trim()) witnessFaults.push({ round, reported_command: witness.command })
+  if (witness.cases_executed <= 0) {
+    blindOracle.push({ round, cases_executed: witness.cases_executed, reason: witness.cases_executed === 0 ? 'runner executed zero cases' : 'case count unknown' })
+    log(`round ${round}: BLIND ORACLE — runner witness reports cases_executed ${witness.cases_executed}`)
+  }
 
   // The implementer's claim and the witnessed exit code must agree. Either direction of disagreement
   // is recorded: "nothing failing" with a non-zero exit is a fabricated pass; "still failing" with
@@ -970,7 +1011,7 @@ found nothing — no fix, no case, no insight.`,
   // A round is dry only when ALL of these hold: it is not round 1 (the baseline); the witnessed
   // runner exited 0; the implementer reports nothing failing and nothing new; the feeder expected
   // little; and the strategy was new. The feeder's self-reported yield is one input, never the only one.
-  const clean = witness.exit_code === 0 && claimsClean
+  const clean = witness.exit_code === 0 && witness.cases_executed > 0 && claimsClean
   const exhausted = round > 1 && clean && !result.anything_new && feed.expected_yield === 'low' && !repeated
   if (exhausted) { dry++; dryStreak.push(strat) } else { dry = 0; dryStreak = [] }
 }
@@ -1015,7 +1056,7 @@ ITS CLAIMS:
 ${JSON.stringify(history, null, 1)}
 
 WHAT THE RUNNER WITNESS OBSERVED (exit codes are observations, the claims above are not):
-${JSON.stringify(witnesses.map((w, i) => ({ round: i + 1, exit_code: w.exit_code })), null, 1)}
+${JSON.stringify(witnesses.map((w, i) => ({ round: i + 1, exit_code: w.exit_code, cases_executed: w.cases_executed })), null, 1)}
 ${claimMismatch.length ? `CLAIM MISMATCHES — rounds where the implementer's report contradicts the runner: ${JSON.stringify(claimMismatch.map((m) => m.round))}` : ''}
 
 VERIFY INDEPENDENTLY:
@@ -1049,7 +1090,8 @@ ${render(traced, 'findings', 'tracer')}
 
 Report as structured fields: verdict ('converged' only if you ran the runner yourself, it exited 0, and
 you found nothing that blocks; 'cannot_verify' if you could not run it), runner_exit_code and
-runner_output_tail from YOUR OWN run, every vacuous assertion, every unaddressed execution finding, and
+runner_output_tail from YOUR OWN run, cases_executed counted from YOUR OWN run's output (-1 if the output
+does not show it; never guess), every vacuous assertion, every unaddressed execution finding, and
 the remaining gaps. Do not congratulate.`,
   { label: 'verify', phase: 'Converge', schema: VERIFY_SCHEMA, model: MODELS.verifier })
 alive(verification, 'verifier')
@@ -1057,13 +1099,31 @@ alive(verification, 'verifier')
 // ── Convergence is computed here from observations, never taken from any agent's word alone.
 const verificationOk = (v) => v && typeof v === 'object' && VERDICTS.includes(v.verdict) &&
   Number.isInteger(v.runner_exit_code) && typeof v.runner_output_tail === 'string' &&
+  Number.isInteger(v.cases_executed) && v.cases_executed >= -1 &&
   Array.isArray(v.vacuous_assertions) && Array.isArray(v.unaddressed_trace_findings)
-const retraceFindings = Array.isArray(retraced?.findings) ? retraced.findings : null
+const retraceFindings = isObjArray(retraced?.findings) ? retraced.findings : null
+if (retraced != null && retraceFindings === null) malformed('retrace', 'findings is not an array of objects')
 const newSilent = (retraceFindings ?? []).filter((f) => f.outcome_still_correct && f.original_index === -1)
 const unclosedOriginal = (retraceFindings ?? []).filter((f) => Number.isInteger(f.original_index) && f.original_index >= 0)
 const unclosedSilent = unclosedOriginal.filter((f) => originalFindings[f.original_index]?.outcome_still_correct || f.outcome_still_correct)
 
+if (finalWitness != null && !witnessOk(finalWitness)) malformed('witness (final)', 'missing or mistyped exit_code/output_tail/command/cases_executed')
+if (verification != null && !verificationOk(verification)) malformed('verifier', 'missing or mistyped required fields')
 const blockers = []
+// Each Converge role that returned nothing is an EXPLICIT blocker here, independent of alive()'s
+// dead_roles side effect, so convergence never rides on a bare statement whose value is discarded.
+if (finalWitness == null) blockers.push('final runner witness returned nothing')
+if (retraced == null) blockers.push('retrace returned nothing')
+if (verification == null) blockers.push('verifier returned nothing')
+for (const m of malformedRoles) blockers.push(`malformed role output: ${m}`)
+if (blindOracle.length) blockers.push(`blind_oracle in round(s) ${blindOracle.map((b) => `${b.round} (${b.reason})`).join(', ')}`)
+const fwCases = witnessOk(finalWitness) ? finalWitness.cases_executed : null
+const vCases = verificationOk(verification) ? verification.cases_executed : null
+if (fwCases === 0) blockers.push('final runner witness: runner executed zero cases')
+if (fwCases === -1) blockers.push('final runner witness: case count unknown')
+if (vCases === 0) blockers.push('verifier: runner executed zero cases')
+if (vCases === -1) blockers.push('verifier: case count unknown')
+if (fwCases !== null && vCases !== null && fwCases > 0 && vCases > 0 && fwCases !== vCases) blockers.push(`case count disagreement: final witness ${fwCases}, verifier ${vCases}`)
 if (SMOKE_REASON) blockers.push(SMOKE_REASON)
 if (dry < DRY_ROUNDS) blockers.push(`dry streak ${dry} < dryRounds ${DRY_ROUNDS}`)
 if (dry >= DRY_ROUNDS && new Set(dryStreak).size < MIN_DRY_STREAK) blockers.push(`dry streak used ${new Set(dryStreak).size} distinct strateg${new Set(dryStreak).size === 1 ? 'y' : 'ies'}; ${MIN_DRY_STREAK} required`)
@@ -1100,8 +1160,9 @@ return {
   dead_roles: deadRoles,
   claim_mismatch: claimMismatch,
   witness_faults: witnessFaults,
+  blind_oracle: blindOracle,
   repeated_strategies: repeatedStrategies,
-  runner_witness: witnesses.map((w, i) => ({ round: i + 1, exit_code: w.exit_code })),
+  runner_witness: witnesses.map((w, i) => ({ round: i + 1, exit_code: w.exit_code, cases_executed: w.cases_executed })),
   final_runner_witness: finalWitness ?? null,
   retrace: retraceFindings === null ? null : { new_right_answer_wrong_execution: newSilent, unclosed_original: unclosedOriginal, findings: retraceFindings },
   // null = the role died (missing); [] = the role ran and found nothing.

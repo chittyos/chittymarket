@@ -640,3 +640,11 @@ least 2 rounds with distinct strategies, and repeated strategies are recorded; j
 are allow-listed (`opus`/`fable`). The agent budget changes from `4 + 2*maxRounds + 1` (17 at
 defaults, stated in the entry above) to `4 + 3*maxRounds + 3` (25 at defaults, 43 at the ceiling of
 12). `oracleAuthor: 'olmec'` is required when the reviewing agent builds the runner or corpus.
+
+### Amendment 3 (2026-10-03, same PR): separated review of `03a86ae`
+
+The second separated review confirmed the witness, verifier schema and allow-list closures, and found
+that a blind oracle (a runner that exits 0 having executed zero cases) still converged when the
+implementer agreed with it. Closed with a required `cases_executed` count from both the runner witness
+and the verifier, gated in code (`blind_oracle`). Null Converge roles are now explicit blockers, and
+malformed role output (non-array list fields) is recorded as a death and a blocker instead of throwing.

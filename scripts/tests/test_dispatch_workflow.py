@@ -237,7 +237,7 @@ HARNESS = r"""
 import wf from './wf.mjs'
 const cases = JSON.parse(process.argv[2])
 const results = []
-const GOOD_VERDICT = { verdict: 'converged', runner_exit_code: 0, runner_output_tail: '42 passed, 0 failed', vacuous_assertions: [], unaddressed_trace_findings: [], remaining_gaps: [], report: 'checked' }
+const GOOD_VERDICT = { verdict: 'converged', runner_exit_code: 0, runner_output_tail: '42 passed, 0 failed', cases_executed: 42, vacuous_assertions: [], unaddressed_trace_findings: [], remaining_gaps: [], report: 'checked' }
 for (const c of cases) {
   const calls = []
   const logs = []
@@ -245,7 +245,8 @@ for (const c of cases) {
   // With c.fake, agent() plays every role with canned, schema-shaped results so the loop runs for real.
   // Knobs: dead (labels returning null), yield, anythingNew, stillFailing (implementer claim),
   // witnessExit (number, or {label: exit}), witnessCommand, strategies ([per round]), verify (raw
-  // value returned by the verifier), retrace (findings array). Every call records label/model/prompt.
+  // value returned by the verifier), retrace (findings array), witnessCases (number, or {label: n}),
+  // override ({label: raw value} returned verbatim — for malformed shapes). Every call records label/model/prompt.
   const f = c.fake
   const runner = typeof c.args === 'object' && c.args ? c.args.runner : ''
   const agent = async (prompt, opts) => {
@@ -253,6 +254,7 @@ for (const c of cases) {
     if (!f) throw new Error('agent() dispatched in a test')
     const L = opts?.label ?? ''
     if ((f.dead ?? []).includes(L)) return null
+    if (f.override && L in f.override) return f.override[L]
     if (L === 'contest') return { contested: [] }
     if (L === 'generate') return { cases: [] }
     if (L === 'trace') return { findings: f.trace ?? [] }
@@ -264,7 +266,8 @@ for (const c of cases) {
     if (L.startsWith('fix-')) return { runner_output: 'all cases passed', changes_made: [], cases_added: [], still_failing: f.stillFailing ?? [], anything_new: !!f.anythingNew }
     if (L.startsWith('witness-')) {
       const exit = typeof f.witnessExit === 'object' && f.witnessExit ? (f.witnessExit[L] ?? 0) : (f.witnessExit ?? 0)
-      return { exit_code: exit, output_tail: exit === 0 ? '42 passed, 0 failed' : '41 passed, 1 failed', command: f.witnessCommand ?? runner }
+      const cases = typeof f.witnessCases === 'object' && f.witnessCases ? (L in f.witnessCases ? f.witnessCases[L] : 42) : (f.witnessCases ?? 42)
+      return { exit_code: exit, output_tail: exit === 0 ? '42 passed, 0 failed' : '41 passed, 1 failed', command: f.witnessCommand ?? runner, cases_executed: cases }
     }
     if (L === 'retrace') return { findings: f.retrace ?? [] }
     if (L === 'verify') return 'verify' in f ? f.verify : GOOD_VERDICT
@@ -591,7 +594,7 @@ class GauntletLoop(GauntletHarness):
                 self.assert_not_converged(out, "verifier output missing required fields")
 
     def test_verifier_verdict_and_own_exit_gate_convergence(self):
-        base = {"verdict": "converged", "runner_exit_code": 0, "runner_output_tail": "x", "vacuous_assertions": [],
+        base = {"verdict": "converged", "runner_exit_code": 0, "runner_output_tail": "x", "cases_executed": 42, "vacuous_assertions": [],
                 "unaddressed_trace_findings": [], "remaining_gaps": [], "report": "r"}
         for patch, needle in (({"verdict": "not_converged"}, "verifier verdict not_converged"),
                               ({"verdict": "cannot_verify"}, "verifier verdict cannot_verify"),
@@ -746,6 +749,103 @@ class GauntletLoop(GauntletHarness):
         by = {c["label"]: c["prompt"] for c in calls}
         self.assertNotIn("ORACLE PROVENANCE WARNING", by["contest"])
         self.assertIn("contest the ORACLE itself", by["contest"])   # always contested, louder when olmec
+
+
+class GauntletBlindOracleAndShapes(GauntletHarness):
+    """Round 3: zero-case runs, explicit Converge blockers, malformed role output."""
+
+    run_one = GauntletLoop.run_one
+    labels = GauntletLoop.labels
+    assert_not_converged = GauntletLoop.assert_not_converged
+
+    GOOD_V = {"verdict": "converged", "runner_exit_code": 0, "runner_output_tail": "42 passed", "cases_executed": 42,
+              "vacuous_assertions": [], "unaddressed_trace_findings": [], "remaining_gaps": [], "report": "r"}
+
+    def test_round_witness_zero_cases_is_blind_oracle(self):
+        out, calls = self.run_one({"witnessCases": {"witness-2": 0}})
+        self.assertEqual(out["blind_oracle"], [{"round": 2, "cases_executed": 0, "reason": "runner executed zero cases"}])
+        self.assert_not_converged(out, "blind_oracle in round(s) 2")
+
+    def test_every_round_blind_never_counts_dry(self):
+        # exit 0 + implementer claims clean every round, but the runner ran nothing: no dry round at all.
+        out, calls = self.run_one({"witnessCases": 0})
+        self.assertEqual(len(out["blind_oracle"]), 6)
+        self.assertEqual(out["stopped_because"], "hit maxRounds — NOT converged")
+        self.assertEqual(out["claim_mismatch"], [])           # they AGREE — and it is still not clean
+        self.assertEqual(len(calls), budget(6))
+
+    def test_round_witness_unknown_count_blocks(self):
+        out, _ = self.run_one({"witnessCases": {"witness-3": -1}}, maxRounds=4)
+        self.assertEqual(out["blind_oracle"][0]["reason"], "case count unknown")
+        self.assert_not_converged(out, "case count unknown")
+
+    def test_final_witness_zero_or_unknown_blocks(self):
+        for n, needle in ((0, "final runner witness: runner executed zero cases"), (-1, "final runner witness: case count unknown")):
+            with self.subTest(n=n):
+                out, _ = self.run_one({"witnessCases": {"witness-final": n}})
+                self.assert_not_converged(out, needle)
+
+    def test_verifier_zero_or_unknown_blocks(self):
+        for n, needle in ((0, "verifier: runner executed zero cases"), (-1, "verifier: case count unknown")):
+            with self.subTest(n=n):
+                out, _ = self.run_one({"verify": {**self.GOOD_V, "cases_executed": n}})
+                self.assert_not_converged(out, needle)
+
+    def test_witness_and_verifier_case_counts_must_agree(self):
+        out, _ = self.run_one({"verify": {**self.GOOD_V, "cases_executed": 40}})
+        self.assert_not_converged(out, "case count disagreement: final witness 42, verifier 40")
+
+    def test_witness_count_out_of_range_is_malformed(self):
+        for bad in (-2, 1.5, "42", None):
+            with self.subTest(cases=bad):
+                out, _ = self.run_one({"witnessCases": {"witness-1": bad}})
+                self.assertTrue(any(d.startswith("witness (round 1): malformed") for d in out["dead_roles"]), out["dead_roles"])
+                self.assert_not_converged(out, "malformed role output")
+
+    def test_null_converge_roles_are_explicit_blockers_and_dead_roles(self):
+        # Fails if either the bare alive() call (dead_roles) or the explicit blocker is removed.
+        for label, role, needle in (("witness-final", "witness (final)", "final runner witness returned nothing"),
+                                    ("retrace", "retrace", "retrace returned nothing"),
+                                    ("verify", "verifier", "verifier returned nothing")):
+            with self.subTest(label=label):
+                out, _ = self.run_one({"dead": [label]})
+                self.assertIn(role, out["dead_roles"])
+                self.assertIn(needle, out["not_converged_reasons"])
+                self.assertIs(out["converged"], False)
+
+    def test_malformed_implementer_arrays_do_not_throw(self):
+        for field, bad in (("still_failing", None), ("changes_made", "edited gate.ts"), ("cases_added", {"0": "x"})):
+            with self.subTest(field=field):
+                fix = {"runner_output": "x", "changes_made": [], "cases_added": [], "still_failing": [], "anything_new": False, field: bad}
+                out, calls = self.run_one({"override": {"fix-2": fix}})
+                self.assertTrue(any(d.startswith("implementer (round 2): malformed") and field in d for d in out["dead_roles"]), out["dead_roles"])
+                self.assert_not_converged(out, "malformed role output: implementer (round 2)")
+                self.assertTrue(out["stopped_because"].startswith("incomplete"))
+                self.assertNotIn("witness-2", self.labels(calls))
+                self.assertEqual(self.labels(calls)[-1], "verify")
+
+    def test_malformed_feeder_does_not_throw(self):
+        out, calls = self.run_one({"override": {"feed-1": {"strategy": "boundary", "gap_targeted": "g", "expected_yield": "low", "cases": None}}})
+        self.assertTrue(any(d.startswith("feeder (round 1): malformed") for d in out["dead_roles"]))
+        self.assertNotIn("fix-1", self.labels(calls))
+        self.assert_not_converged(out)
+
+    def test_malformed_challenge_output_renders_not_run(self):
+        out, calls = self.run_one({"override": {"trace": {"findings": "none found"}, "mandates": {"mandates": [None]}}})
+        self.assertTrue(any(d.startswith("tracer: malformed") for d in out["dead_roles"]))
+        self.assertTrue(any(d.startswith("mandate: malformed") for d in out["dead_roles"]))
+        self.assertIsNone(out["execution_findings"])
+        by = {c["label"]: c["prompt"] for c in calls}
+        self.assertIn("NOT RUN — the tracer agent returned nothing", by["fix-1"])
+        self.assert_not_converged(out, "malformed role output: tracer")
+
+    def test_malformed_retrace_and_verifier_arrays_do_not_throw(self):
+        out, _ = self.run_one({"retrace": [None]})
+        self.assertTrue(any(d.startswith("retrace: malformed") for d in out["dead_roles"]))
+        self.assert_not_converged(out, "malformed role output: retrace")
+        out, _ = self.run_one({"verify": {**self.GOOD_V, "vacuous_assertions": None}})
+        self.assertTrue(any(d.startswith("verifier: malformed") for d in out["dead_roles"]))
+        self.assert_not_converged(out, "verifier output missing required fields")
 
 
 if __name__ == "__main__":
