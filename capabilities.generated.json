@@ -8847,11 +8847,11 @@
       "capability_id": "chittycanon://capability/workspace/fc-lease-compile",
       "legacy_id": "skill-fc-lease-compile",
       "name": "FC Lease Compile — Illinois / Chicago execution package",
-      "description": "Compile a FURNISHED-CONDOS.COM lease into a signature-ready, brand-compliant execution package with the Illinois / Chicago statutory inclusions verified against their official sources, optionally tagged for TurboTenant e-sign. Use for any new or renewed FC lease, when a statutory attachment or requirement changes (the weekly watcher files drift), or when a lease audit returns items to disposition. <example> user: \"Compile the Swanson lease package for e-sign\" assistant: \"Running fc-lease-compile: check sources → restyle → rider → render → tag for TurboTenant → assemble → gates G1–G7 → deliver [DRAFT — owner review required].\" </example>",
+      "description": "Compile a FURNISHED-CONDOS.COM lease from a lease *record* (intake + screening + unit registry + policy) into a signature-ready, brand-compliant execution package with the Illinois / Chicago statutory inclusions verified against their official sources, tagged for TurboTenant e-sign, plus its projections (TurboTenant setup, ledger charges, chronicle entry, de-identified analytics row). Use for any new, renewed or amended FC lease, for a lifecycle instrument (extension, MTM conversion, cancellation, transfer MOU), when a statutory attachment or requirement changes (the weekly watcher files drift), or when a lease audit returns items to disposition. <example> user: \"Compile the Lakeside Loft annual lease package for e-sign\" assistant: \"Running fc-lease-compile: build the lease record → validate → decision tree D1–D8 → compile DOCX + projections → check sources → tag for TurboTenant → assemble → gates G1–G8 → deliver [DRAFT — owner review required].\" </example>",
       "capability_group": "workspace",
       "group_assignment_source": "override",
       "execution_class": "@chitty/workspace",
-      "canonical_version": "1.1.0",
+      "canonical_version": "1.2.0",
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
@@ -8884,6 +8884,9 @@
         "verbs": [
           "lease",
           "compile",
+          "lease record",
+          "field model",
+          "decision tree",
           "rlto",
           "disclosures",
           "e-sign",
@@ -8909,6 +8912,8 @@
         "codex"
       ],
       "source_links": [
+        "https://github.com/furnished-condos/ChittyPro-Compile/pull/2",
+        "https://github.com/furnished-condos/ChittyPro-Compile/tree/feat/lease-field-model",
         "https://github.com/furnished-condos/ChittyPro-Compile/tree/feat/il-chicago-lease-attachment-registry",
         "local://plugins/furnished-condos/skills/fc-lease-compile"
       ],
@@ -8923,7 +8928,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:8055e1d4bae08df6471ced344f7a142f7517f3b189c3d27426423efa42cb0b98",
+        "content_hash": "sha256:3f38e45c4d70c730cbca08d62753a4d10b9b7057fb81f6a50d1d25949579b204",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -9006,7 +9011,7 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:2d7bea3d8bef66c9d28e25ac5bcfcf0c1d6d674c8bb6a4c1d5fef11cb5f8ceda",
+    "aggregate_hash": "sha256:bd922fdc3ebbf0d8b70a497da7291a29cab30a2a9825ee4b75b6cee5c56595eb",
     "record_count": 111,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",

@@ -122,7 +122,7 @@
     {
       "name": "furnished-condos",
       "description": "FURNISHED-CONDOS.COM operations — lease compilation (Illinois / Chicago statutory package, TurboTenant e-sign tagging) and the weekly attachment drift watcher. Canonical definitions live in canonical/; projected by chittyagent-dispatch.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "source": "./plugins/furnished-condos",
       "strict": false,
       "category": "ecosystem",
