@@ -1,0 +1,17 @@
+{
+  "name": "furnished-condos",
+  "version": "0.2.0",
+  "description": "FURNISHED-CONDOS.COM operations \u2014 lease compilation (Illinois / Chicago statutory package, TurboTenant e-sign tagging) and the weekly attachment drift watcher. Canonical definitions live in canonical/; projected by chittyagent-dispatch.",
+  "author": {
+    "name": "ARIBIA LLC \u2013 MGMT, dba furnished-condos.com"
+  },
+  "keywords": [
+    "furnished-condos",
+    "lease",
+    "rlto",
+    "e-sign",
+    "turbotenant"
+  ],
+  "skills": "./skills/",
+  "workflows": "./workflows/"
+}
