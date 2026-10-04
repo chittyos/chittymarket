@@ -2609,6 +2609,58 @@
         "adversarial-review",
         "testing"
       ]
+    },
+    {
+      "id": "skill-fc-lease-compile",
+      "name": "FC Lease Compile — Illinois / Chicago execution package",
+      "description": "Compile a FURNISHED-CONDOS.COM lease into a signature-ready, brand-compliant execution package with the Illinois / Chicago statutory inclusions verified against their official sources, optionally tagged for TurboTenant e-sign. Use for any new or renewed FC lease, when a statutory attachment or requirement changes (the weekly watcher files drift), or when a lease audit returns items to disposition. <example> user: \"Compile the Swanson lease package for e-sign\" assistant: \"Running fc-lease-compile: check sources → restyle → rider → render → tag for TurboTenant → assemble → gates G1–G7 → deliver [DRAFT — owner review required].\" </example>",
+      "type": "skill",
+      "category": "workspace",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/fc-lease-compile",
+      "capability": "chittycanon://capability/workspace/fc-lease-compile",
+      "tags": [
+        "leasing",
+        "documents",
+        "compliance",
+        "furnished-condos"
+      ]
+    },
+    {
+      "id": "workflow-fc-lease-attachment-watch",
+      "name": "FC lease attachment watcher (weekly drift loop)",
+      "description": "Background loop for fc-lease-compile: weekly re-fetch and hash of every statutory lease attachment and watch page in the Illinois / Chicago registry (IDHR Safe Homes summary, Chicago RLTO summary, deposit-interest rider, CDPH bed-bug brochure, EPA lead pamphlet + lessor form, IEMA radon guide + form, Ch. 5-12 and 765 ILCS 705 sections, Domu model lease). Drift → Linear issue with the updated registry attached; fetch failures → warning. Read-only toward the repo; the operator ratifies by PR.",
+      "type": "workflow",
+      "category": "workspace",
+      "access": "read",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "workflow"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#workflows/fc-lease-attachment-watch",
+      "capability": "chittycanon://capability/workspace/fc-lease-attachment-watch",
+      "tags": [
+        "leasing",
+        "compliance",
+        "watcher",
+        "furnished-condos"
+      ]
     }
   ]
 }

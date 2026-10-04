@@ -137,6 +137,18 @@
       "category": "Integrations"
     },
     {
+      "name": "furnished-condos",
+      "source": {
+        "source": "local",
+        "path": "./plugins/furnished-condos"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Ecosystem"
+    },
+    {
       "name": "neon-mcp",
       "source": {
         "source": "local",
