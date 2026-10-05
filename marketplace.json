@@ -2617,7 +2617,7 @@
       "type": "skill",
       "category": "finance",
       "access": "read",
-      "enabled": false,
+      "enabled": true,
       "installMode": "standalone",
       "source": "canonical",
       "standalone": {
