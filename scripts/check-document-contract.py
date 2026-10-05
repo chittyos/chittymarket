@@ -13,6 +13,7 @@ FILES = {
     "agents": ROOT / "AGENTS.md",
     "security": ROOT / "SECURITY.md",
 }
+WORKFLOWS = ROOT / ".github" / "workflows"
 
 SERVICE_URI = "chittycanon://core/services/chittymarket"
 TIER_MARKER = "Tier 3"
@@ -114,6 +115,28 @@ for marker in (
 ):
     if marker not in security:
         errors.append(f"SECURITY.md missing invariant: {marker}")
+
+for filename, text in (
+    ("CHARTER.md", charter),
+    ("CHITTY.md", architecture),
+    ("AGENTS.md", agents),
+    ("SECURITY.md", security),
+):
+    if "CI_RUNNER" not in text:
+        errors.append(f"{filename}: missing governed CI_RUNNER runner-selection contract")
+
+for workflow in sorted([*WORKFLOWS.glob("*.yml"), *WORKFLOWS.glob("*.yaml")]):
+    workflow_text = read(workflow)
+    for line_number, line in enumerate(workflow_text.splitlines(), start=1):
+        match = re.match(r"^\s*runs-on:\s*(.+?)\s*$", line)
+        if not match:
+            continue
+        selector = match.group(1)
+        if "vars.CI_RUNNER" not in selector:
+            errors.append(
+                f"{workflow.relative_to(ROOT)}:{line_number}: runs-on must resolve through "
+                "vars.CI_RUNNER; change the policy guard in the same reviewed change for an exception"
+            )
 
 for stale_claim in (
     "Central manifest (single source of truth)",
