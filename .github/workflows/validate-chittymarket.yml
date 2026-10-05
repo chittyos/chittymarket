@@ -37,6 +37,28 @@ jobs:
       - name: OpenAI workspace marketplace validation
         run: python3 scripts/validate-openai-workspace.py
 
+      # Bootstrap pointers and OpenAI skill metadata are generated from the
+      # canonical skill. Re-generation must be byte-for-byte idempotent.
+      - name: Bootstrap projection idempotency
+        run: |
+          chmod +x scripts/generate-bootstrap-pointers.sh scripts/generate-legal-bootstrap.sh
+          bash scripts/generate-bootstrap-pointers.sh all
+          if ! git diff --quiet -- \
+            plugins/chittyos-legal/bootstrap/legal-operating-defaults \
+            plugins/chittyos-legal/skills/legal-operating-defaults/agents/openai.yaml \
+            plugins/chittyos-finance/bootstrap/finance-operating-defaults \
+            plugins/chittyos-finance/skills/finance-operating-defaults/agents/openai.yaml; then
+            echo "::error::Bootstrap/OpenAI projections are out of sync with canonical skills."
+            echo "Run 'bash scripts/generate-bootstrap-pointers.sh all' and commit the generated files."
+            git diff -- \
+              plugins/chittyos-legal/bootstrap/legal-operating-defaults \
+              plugins/chittyos-legal/skills/legal-operating-defaults/agents/openai.yaml \
+              plugins/chittyos-finance/bootstrap/finance-operating-defaults \
+              plugins/chittyos-finance/skills/finance-operating-defaults/agents/openai.yaml
+            exit 1
+          fi
+          echo "✓ Bootstrap/OpenAI projections are idempotent"
+
       # 1b. Matter-leak gate: no concrete legal matter may appear in a governed,
       #     published definition (legal-operating-defaults §15). Shape-matching only —
       #     the gate never learns which matters are real, because a denylist of real
