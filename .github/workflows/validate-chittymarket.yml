@@ -59,6 +59,23 @@ jobs:
           fi
           echo "✓ Bootstrap/OpenAI projections are idempotent"
 
+      # Existing materialized capability views are generated from the overlay.
+      # Preserve their committed provenance date during CI and fail on drift.
+      - name: Capability view idempotency
+        run: |
+          python3 scripts/generate-capability-views.py
+          if ! git diff --quiet -- \
+            views/by-job.json \
+            views/by-channel.json \
+            views/by-context-cost.json \
+            views/by-authority.json; then
+            echo "::error::Materialized capability views are stale."
+            echo "Run 'python3 scripts/generate-capability-views.py --generated-at YYYY-MM-DD' and commit the views."
+            git diff -- views/by-job.json views/by-channel.json views/by-context-cost.json views/by-authority.json
+            exit 1
+          fi
+          echo "✓ Materialized capability views are idempotent"
+
       # 1b. Matter-leak gate: no concrete legal matter may appear in a governed,
       #     published definition (legal-operating-defaults §15). Shape-matching only —
       #     the gate never learns which matters are real, because a denylist of real
