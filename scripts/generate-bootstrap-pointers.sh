@@ -15,10 +15,8 @@ generate() {
   local plugin="$2"
   local display_name="$3"
   local short_description="$4"
-  local trigger_line_1="$5"
-  local trigger_line_2="$6"
-  local governs_line="$7"
-  local generator_hint="$8"
+  local trigger_text="$5"
+  local generator_hint="$6"
 
   local canonical="$root/canonical/skills/$name.md"
   local out="$root/plugins/$plugin/bootstrap/$name"
@@ -38,8 +36,7 @@ generate() {
 **Canonical:** `$uri`
 **Canonical source:** `canonical/skills/$name.md` @ `$sha`
 
-$trigger_line_1
-$trigger_line_2 loads `$name` BEFORE acting on the request. $governs_line
+$trigger_text
 
 This file is a pointer. It states no rules of its own. Where it and the canonical document
 appear to differ, the canonical document governs and this file is drift.
@@ -106,11 +103,11 @@ EOF
 }
 
 generate_legal() {
-  generate     "legal-operating-defaults"     "chittyos-legal"     "Legal Operating Defaults"     "Evidence-governed operating defaults for legal, litigation, court-record, privilege, and legal-analysis work."     "Legal, litigation, evidentiary, dispute, court-record, or legal-governance work — including"     "requests that sound administrative —"     "It governs evidence handling, the factual lifecycle, provenance, matter isolation, and privilege."     "scripts/generate-legal-bootstrap.sh"
+  generate     "legal-operating-defaults"     "chittyos-legal"     "Legal Operating Defaults"     "Evidence-governed operating defaults for legal, litigation, court-record, privilege, and legal-analysis work."     $'Legal, litigation, evidentiary, dispute, court-record, or legal-governance work — including\nrequests that sound administrative — loads `legal-operating-defaults` BEFORE acting on the request. It governs\nevidence handling, the factual lifecycle, provenance, matter isolation, and privilege.'     "scripts/generate-legal-bootstrap.sh"
 }
 
 generate_finance() {
-  generate     "finance-operating-defaults"     "chittyos-finance"     "Finance Operating Defaults"     "Books-method defaults for bookkeeping, chart-of-accounts, classification, reconciliation, tax derivation, and governed financial writes."     "Bookkeeping, chart-of-accounts, classification, reconciliation, tax-form derivation, or"     "financial-datastore work — including requests that sound trivial —"     "It governs books method, financial-write controls, reconciliation discipline, and the handoff to legal when a figure becomes an assertion."     "scripts/generate-bootstrap-pointers.sh finance-operating-defaults"
+  generate     "finance-operating-defaults"     "chittyos-finance"     "Finance Operating Defaults"     "Books-method defaults for bookkeeping, chart-of-accounts, classification, reconciliation, tax derivation, and governed financial writes."     $'Bookkeeping, chart-of-accounts, classification, reconciliation, tax-form derivation, or\nfinancial-datastore work — including requests that sound trivial — loads `finance-operating-defaults` BEFORE acting on the request. It governs books method, financial-write controls, reconciliation discipline, and the handoff to legal when a figure becomes an assertion.'     "scripts/generate-bootstrap-pointers.sh finance-operating-defaults"
 }
 
 case "$requested" in
