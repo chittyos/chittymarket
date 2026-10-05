@@ -47,6 +47,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/govern/claude-md-management",
+        "name": "CLAUDE.md Management",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/ship/canon-certification-gate",
         "name": "Canon Certification Gate",
         "group": "ship",
@@ -135,18 +143,18 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
-        "group": "market",
-        "execution_class": "@chitty/connectors",
-        "visibility": "recommended",
-        "group_assignment_source": "name-rule"
-      },
-      {
         "id": "chittycanon://capability/legal/chittymcp-claude-ai",
         "name": "ChittyMCP (Claude.ai)",
         "group": "legal",
         "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "ChittyMarket Manager",
+        "group": "market",
+        "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -197,14 +205,6 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "override"
-      },
-      {
-        "id": "chittycanon://capability/govern/claude-md-management",
-        "name": "CLAUDE.md Management",
-        "group": "govern",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/ship/cloudflare-developer-platform-claude-ai",
@@ -575,6 +575,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/pr-review-toolkit",
+        "name": "PR Review Toolkit",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/plaid-developer-tools-claude-ai",
         "name": "Plaid Developer Tools (Claude.ai)",
         "group": "connect",
@@ -609,14 +617,6 @@
       {
         "id": "chittycanon://capability/build/plugin-dev",
         "name": "Plugin Dev",
-        "group": "build",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "category"
-      },
-      {
-        "id": "chittycanon://capability/build/pr-review-toolkit",
-        "name": "PR Review Toolkit",
         "group": "build",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
@@ -905,6 +905,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/govern/claude-md-management",
+        "name": "CLAUDE.md Management",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/connect/chatgpt-proxy-agent",
         "name": "ChatGPT Proxy Agent",
         "group": "connect",
@@ -953,18 +961,18 @@
         "group_assignment_source": "name-rule"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
-        "group": "market",
-        "execution_class": "@chitty/connectors",
-        "visibility": "recommended",
-        "group_assignment_source": "name-rule"
-      },
-      {
         "id": "chittycanon://capability/legal/chittymcp-claude-ai",
         "name": "ChittyMCP (Claude.ai)",
         "group": "legal",
         "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "ChittyMarket Manager",
+        "group": "market",
+        "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -1007,14 +1015,6 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "override"
-      },
-      {
-        "id": "chittycanon://capability/govern/claude-md-management",
-        "name": "CLAUDE.md Management",
-        "group": "govern",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/ship/cloudflare-developer-platform-claude-ai",
@@ -1345,6 +1345,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/pr-review-toolkit",
+        "name": "PR Review Toolkit",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/plaid-developer-tools-claude-ai",
         "name": "Plaid Developer Tools (Claude.ai)",
         "group": "connect",
@@ -1371,14 +1379,6 @@
       {
         "id": "chittycanon://capability/build/plugin-dev",
         "name": "Plugin Dev",
-        "group": "build",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "category"
-      },
-      {
-        "id": "chittycanon://capability/build/pr-review-toolkit",
-        "name": "PR Review Toolkit",
         "group": "build",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
@@ -1595,6 +1595,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/govern/claude-md-management",
+        "name": "CLAUDE.md Management",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/connect/chatgpt-proxy-agent",
         "name": "ChatGPT Proxy Agent",
         "group": "connect",
@@ -1643,18 +1651,18 @@
         "group_assignment_source": "name-rule"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
-        "group": "market",
-        "execution_class": "@chitty/connectors",
-        "visibility": "recommended",
-        "group_assignment_source": "name-rule"
-      },
-      {
         "id": "chittycanon://capability/legal/chittymcp-claude-ai",
         "name": "ChittyMCP (Claude.ai)",
         "group": "legal",
         "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "ChittyMarket Manager",
+        "group": "market",
+        "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -1697,14 +1705,6 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "override"
-      },
-      {
-        "id": "chittycanon://capability/govern/claude-md-management",
-        "name": "CLAUDE.md Management",
-        "group": "govern",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/ship/cloudflare-developer-platform-claude-ai",
@@ -2035,6 +2035,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/pr-review-toolkit",
+        "name": "PR Review Toolkit",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/plaid-developer-tools-claude-ai",
         "name": "Plaid Developer Tools (Claude.ai)",
         "group": "connect",
@@ -2061,14 +2069,6 @@
       {
         "id": "chittycanon://capability/build/plugin-dev",
         "name": "Plugin Dev",
-        "group": "build",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "category"
-      },
-      {
-        "id": "chittycanon://capability/build/pr-review-toolkit",
-        "name": "PR Review Toolkit",
         "group": "build",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
@@ -2309,6 +2309,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/govern/claude-md-management",
+        "name": "CLAUDE.md Management",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/ship/canon-certification-gate",
         "name": "Canon Certification Gate",
         "group": "ship",
@@ -2397,18 +2405,18 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
-        "group": "market",
-        "execution_class": "@chitty/connectors",
-        "visibility": "recommended",
-        "group_assignment_source": "name-rule"
-      },
-      {
         "id": "chittycanon://capability/legal/chittymcp-claude-ai",
         "name": "ChittyMCP (Claude.ai)",
         "group": "legal",
         "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "ChittyMarket Manager",
+        "group": "market",
+        "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -2459,14 +2467,6 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "override"
-      },
-      {
-        "id": "chittycanon://capability/govern/claude-md-management",
-        "name": "CLAUDE.md Management",
-        "group": "govern",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/ship/cloudflare-developer-platform-claude-ai",
@@ -2837,6 +2837,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/pr-review-toolkit",
+        "name": "PR Review Toolkit",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/plaid-developer-tools-claude-ai",
         "name": "Plaid Developer Tools (Claude.ai)",
         "group": "connect",
@@ -2871,14 +2879,6 @@
       {
         "id": "chittycanon://capability/build/plugin-dev",
         "name": "Plugin Dev",
-        "group": "build",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "category"
-      },
-      {
-        "id": "chittycanon://capability/build/pr-review-toolkit",
-        "name": "PR Review Toolkit",
         "group": "build",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
@@ -3191,6 +3191,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/govern/claude-md-management",
+        "name": "CLAUDE.md Management",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/ship/canon-certification-gate",
         "name": "Canon Certification Gate",
         "group": "ship",
@@ -3279,18 +3287,18 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
-        "group": "market",
-        "execution_class": "@chitty/connectors",
-        "visibility": "recommended",
-        "group_assignment_source": "name-rule"
-      },
-      {
         "id": "chittycanon://capability/legal/chittymcp-claude-ai",
         "name": "ChittyMCP (Claude.ai)",
         "group": "legal",
         "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "ChittyMarket Manager",
+        "group": "market",
+        "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -3341,14 +3349,6 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "override"
-      },
-      {
-        "id": "chittycanon://capability/govern/claude-md-management",
-        "name": "CLAUDE.md Management",
-        "group": "govern",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/ship/cloudflare-developer-platform-claude-ai",
@@ -3719,6 +3719,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/pr-review-toolkit",
+        "name": "PR Review Toolkit",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/plaid-developer-tools-claude-ai",
         "name": "Plaid Developer Tools (Claude.ai)",
         "group": "connect",
@@ -3753,14 +3761,6 @@
       {
         "id": "chittycanon://capability/build/plugin-dev",
         "name": "Plugin Dev",
-        "group": "build",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "category"
-      },
-      {
-        "id": "chittycanon://capability/build/pr-review-toolkit",
-        "name": "PR Review Toolkit",
         "group": "build",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
@@ -4073,6 +4073,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/govern/claude-md-management",
+        "name": "CLAUDE.md Management",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/ship/canon-certification-gate",
         "name": "Canon Certification Gate",
         "group": "ship",
@@ -4161,18 +4169,18 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
-        "group": "market",
-        "execution_class": "@chitty/connectors",
-        "visibility": "recommended",
-        "group_assignment_source": "name-rule"
-      },
-      {
         "id": "chittycanon://capability/legal/chittymcp-claude-ai",
         "name": "ChittyMCP (Claude.ai)",
         "group": "legal",
         "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "ChittyMarket Manager",
+        "group": "market",
+        "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -4223,14 +4231,6 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "override"
-      },
-      {
-        "id": "chittycanon://capability/govern/claude-md-management",
-        "name": "CLAUDE.md Management",
-        "group": "govern",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/ship/cloudflare-developer-platform-claude-ai",
@@ -4601,6 +4601,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/pr-review-toolkit",
+        "name": "PR Review Toolkit",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/plaid-developer-tools-claude-ai",
         "name": "Plaid Developer Tools (Claude.ai)",
         "group": "connect",
@@ -4635,14 +4643,6 @@
       {
         "id": "chittycanon://capability/build/plugin-dev",
         "name": "Plugin Dev",
-        "group": "build",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "category"
-      },
-      {
-        "id": "chittycanon://capability/build/pr-review-toolkit",
-        "name": "PR Review Toolkit",
         "group": "build",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
@@ -4955,6 +4955,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/govern/claude-md-management",
+        "name": "CLAUDE.md Management",
+        "group": "govern",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/ship/canon-certification-gate",
         "name": "Canon Certification Gate",
         "group": "ship",
@@ -5097,14 +5105,6 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "override"
-      },
-      {
-        "id": "chittycanon://capability/govern/claude-md-management",
-        "name": "CLAUDE.md Management",
-        "group": "govern",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/ship/cloudflare-developer-platform-claude-ai",
@@ -5451,6 +5451,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/pr-review-toolkit",
+        "name": "PR Review Toolkit",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/plaid-developer-tools-claude-ai",
         "name": "Plaid Developer Tools (Claude.ai)",
         "group": "connect",
@@ -5485,14 +5493,6 @@
       {
         "id": "chittycanon://capability/build/plugin-dev",
         "name": "Plugin Dev",
-        "group": "build",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "category"
-      },
-      {
-        "id": "chittycanon://capability/build/pr-review-toolkit",
-        "name": "PR Review Toolkit",
         "group": "build",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
