@@ -192,6 +192,14 @@
         "group_assignment_source": "category"
       },
       {
+        "capability_id": "chittycanon://capability/build/pr-review-toolkit",
+        "name": "PR Review Toolkit",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "advisory_disposition": "hold",
+        "group_assignment_source": "category"
+      },
+      {
         "capability_id": "chittycanon://capability/build/playground",
         "name": "Playground",
         "execution_class": "@chitty/connectors",
@@ -202,14 +210,6 @@
       {
         "capability_id": "chittycanon://capability/build/plugin-dev",
         "name": "Plugin Dev",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "advisory_disposition": "hold",
-        "group_assignment_source": "category"
-      },
-      {
-        "capability_id": "chittycanon://capability/build/pr-review-toolkit",
-        "name": "PR Review Toolkit",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "advisory_disposition": "hold",
@@ -494,6 +494,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "capability_id": "chittycanon://capability/govern/claude-md-management",
+        "name": "CLAUDE.md Management",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "advisory_disposition": "hold",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "capability_id": "chittycanon://capability/govern/chittycanon-code-cardinal",
         "name": "ChittyCanon Code Cardinal",
         "execution_class": "@chitty/connectors",
@@ -524,14 +532,6 @@
         "visibility": "recommended",
         "advisory_disposition": "local-only",
         "group_assignment_source": "override"
-      },
-      {
-        "capability_id": "chittycanon://capability/govern/claude-md-management",
-        "name": "CLAUDE.md Management",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "advisory_disposition": "hold",
-        "group_assignment_source": "name-rule"
       },
       {
         "capability_id": "chittycanon://capability/govern/fact-governance",
