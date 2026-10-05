@@ -918,10 +918,10 @@ completion_evidence: null
 distribution container holding exactly one capability; the container inherits the capability's
 disposition. Same shape as `chittyos-legal`.
 
-**Known doc debt, not gated by CI:** `CHITTYMARKET_CAPABILITY_ROUTER.md` now lists `finance` in the
-slug line but has no `### finance` section and its group-count table still totals the ten old
-groups. `views/by-channel.json` was not regenerated — there is no generator for it in `scripts/`
-and no CI gate reads it; it is stale with respect to this change.
+**Former doc/view debt — closed 2026-10-05:** `CHITTYMARKET_CAPABILITY_ROUTER.md` now has
+an explicit `finance` section and distribution totals derived from the 110-record overlay.
+`scripts/generate-capability-views.py` now materializes the existing by-job, by-channel,
+by-context-cost, and by-authority view schemas, and CI fails if those views drift.
 
 
 ### Amendment 2 (2026-10-05): ChatGPT/bootstrap projection gap closed
