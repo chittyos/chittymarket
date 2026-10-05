@@ -348,6 +348,7 @@ skipping the review and discovery conditions that document makes binding.
 | `docket` | Docket pull, court dates, case status for a named matter |
 | `dispute` | Dispute/claim intake and tracking |
 | `chittyagent-paralegal` *(pending merge)* | Litigation support performed for counsel — exhibits, cite-checking, fund tracing |
+| `finance-operating-defaults` | Books method — how a financial figure was derived, classified, or reconciled. It governs the figure **before** it enters a filing or a matter; once filed or asserted, this constitution governs it and the figure is evidence |
 | `finance-context` | Financial or accounting matters for the operator's business entities |
 | `capability-governor` | A capability, skill, agent, app, GPT, MCP route, or projection is created or changed |
 | `chittyos-compliance` | ChittyOS creation, modification, registration, certification, or deployment |

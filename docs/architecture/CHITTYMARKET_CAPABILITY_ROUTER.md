@@ -47,7 +47,7 @@ Ontology metadata, authority scopes, and context cost are enforcement layers. Th
 
 Slug convention:
 
-- Generated artifact slugs use **bare names**: `workspace`, `build`, `ship`, `govern`, `legal`, `connect`, `local-lab`, `agent-runtime`, `market`, `internal`.
+- Generated artifact slugs use **bare names**: `workspace`, `build`, `ship`, `govern`, `legal`, `finance`, `connect`, `local-lab`, `agent-runtime`, `market`, `internal`.
 - Documentation and UI may use Chitty-branded display labels such as `ChittyBuild`, `ChittyShip`, and `ChittyGovern`.
 - Branded labels are presentation-layer only. They are not canonical group slugs.
 
