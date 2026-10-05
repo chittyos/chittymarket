@@ -1,15 +1,15 @@
 {
   "version": "1.1.0",
-  "generated_at": "2026-05-11",
+  "generated_at": "2026-10-05",
   "view": "by-authority",
   "description": "Capabilities grouped by required authority scope",
   "counts": {
     "no_last_case_fallback": 5,
     "non_repudiation_required": 8,
     "requires_case": 5,
-    "requires_chittyid_only (default)": 70,
+    "requires_chittyid_only (default)": 76,
     "requires_deploy_authority": 12,
-    "requires_governance_authority": 15
+    "requires_governance_authority": 17
   },
   "groups": {
     "no_last_case_fallback": [
@@ -212,7 +212,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/connect/chittyagent-connect",
+        "id": "chittycanon://capability/connect/chittyconnect-concierge",
         "name": "ChittyConnect Concierge",
         "group": "connect",
         "execution_class": "@chitty/connectors",
@@ -268,7 +268,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/build/chittyagent-claude",
+        "id": "chittycanon://capability/build/claude-integration-architect",
         "name": "Claude Integration Architect",
         "group": "build",
         "execution_class": "@chitty/connectors",
@@ -396,6 +396,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/build/gauntlet",
+        "name": "Gauntlet",
+        "group": "build",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/build/github",
         "name": "GitHub",
         "group": "build",
@@ -426,6 +434,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/workspace/goal-creator",
+        "name": "Goal Creator",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
@@ -488,6 +504,14 @@
         "name": "Mercury Banking (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/nb-development-defaults",
+        "name": "NB Development Defaults",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -628,6 +652,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/repo-hygiene",
+        "name": "Repository Hygiene",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/build/require-pr-workflow",
         "name": "Require PR Workflow",
         "group": "build",
@@ -682,6 +714,22 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/skill-creator",
+        "name": "Skill Creator (ChittyMarket-routed)",
+        "group": "build",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/startup-mode",
+        "name": "Startup Mode",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/connect/suggest-chittyconnect",
@@ -848,7 +896,7 @@
         "group_assignment_source": "name-rule"
       },
       {
-        "id": "chittycanon://capability/govern/chittyagent-canon",
+        "id": "chittycanon://capability/govern/chittycanon-code-cardinal",
         "name": "ChittyCanon Code Cardinal",
         "group": "govern",
         "execution_class": "@chitty/connectors",
@@ -888,12 +936,28 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/finance/finance-operating-defaults",
+        "name": "Finance Operating Defaults",
+        "group": "finance",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/govern/hookify",
         "name": "Hookify",
         "group": "govern",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/legal-operating-defaults",
+        "name": "Legal Operating Defaults",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
       },
       {
         "id": "chittycanon://capability/govern/neon-schema-drift",

@@ -791,12 +791,13 @@ completion_evidence: chittyfinance PR (companion to this one)
 migration_item:  generalize-bootstrap-pointer-generator
 from_artifact:   scripts/generate-legal-bootstrap.sh
 to_canonical_capability: chittycanon://capability/finance/finance-operating-defaults
-action:          document
-blocking_dependencies: ["generator is hardcoded to legal-operating-defaults"]
+action:          project
+blocking_dependencies: []
 risk_level:      low
 owner:           chittymarket
-status:          backlog
-completion_evidence: null
+status:          completed
+completed_at:    2026-10-05
+completion_evidence: scripts/generate-bootstrap-pointers.sh + plugins/chittyos-finance/bootstrap/finance-operating-defaults + plugins/chittyos-finance/skills/finance-operating-defaults/agents/openai.yaml + Bootstrap projection idempotency CI gate
 ```
 
 ### Connections
@@ -917,7 +918,22 @@ completion_evidence: null
 distribution container holding exactly one capability; the container inherits the capability's
 disposition. Same shape as `chittyos-legal`.
 
-**Known doc debt, not gated by CI:** `CHITTYMARKET_CAPABILITY_ROUTER.md` now lists `finance` in the
-slug line but has no `### finance` section and its group-count table still totals the ten old
-groups. `views/by-channel.json` was not regenerated — there is no generator for it in `scripts/`
-and no CI gate reads it; it is stale with respect to this change.
+**Former doc/view debt — closed 2026-10-05:** `CHITTYMARKET_CAPABILITY_ROUTER.md` now has
+an explicit `finance` section and distribution totals derived from the 110-record overlay.
+`scripts/generate-capability-views.py` now materializes the existing by-job, by-channel,
+by-context-cost, and by-authority view schemas, and CI fails if those views drift.
+
+
+### Amendment 2 (2026-10-05): ChatGPT/bootstrap projection gap closed
+
+The queued `generalize-bootstrap-pointer-generator` migration is complete. The former
+legal-only generator is now a compatibility wrapper over
+`scripts/generate-bootstrap-pointers.sh`, which deterministically generates bootstrap
+pointers and `agents/openai.yaml` metadata for both `legal-operating-defaults` and
+`finance-operating-defaults`.
+
+For finance, this closes the repository-side contradiction between
+`compatible_channels: [chatgpt]` and the absence of a ChatGPT skill projection. CI now
+re-runs all bootstrap-managed projections and fails on drift. This is projection evidence,
+not runtime-install evidence: a ChatGPT client must still install/refresh the plugin before
+the skill may be claimed live there.
