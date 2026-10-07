@@ -121,8 +121,6 @@ generate_legal() {
 
 generate_finance() {
   generate     "finance-operating-defaults"     "chittyos-finance"     "Finance Operating Defaults"     "Books-method defaults for bookkeeping, chart-of-accounts, classification, reconciliation, tax derivation, and governed financial writes."     
-
-case "$requested" in
   all)
     generate_legal
     generate_finance
