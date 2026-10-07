@@ -120,24 +120,7 @@ generate_legal() {
 }
 
 generate_finance() {
-  generate     "finance-operating-defaults"     "chittyos-finance"     "Finance Operating Defaults"     "Books-method defaults for bookkeeping, chart-of-accounts, classification, reconciliation, tax derivation, and governed financial writes."     
-  all)
-    generate_legal
-    generate_finance
-    ;;
-  legal-operating-defaults)
-    generate_legal
-    ;;
-  finance-operating-defaults)
-    generate_finance
-    ;;
-  *)
-    echo "unknown bootstrap capability: $requested" >&2
-    echo "known: legal-operating-defaults, finance-operating-defaults, all" >&2
-    exit 2
-    ;;
-esac
-Bookkeeping, chart-of-accounts, classification, reconciliation, Mercury banking/reconciliation, tax-form derivation, or\nfinancial-datastore work — including requests that sound trivial — loads `finance-operating-defaults` BEFORE acting on the request. For Mercury work, resolve execution in order: ChittyConnect (provider lifecycle/auth/provenance) → `chittyconnect-finance` (finance identity/binding/dedupe/reconciliation adapter) → ChittyFinance/`chittyagent-finance` (canonical SOT/read validation). If the current channel lacks `chittyconnect-finance`, route the projection defect through `chittyagent-dev` → ChittyMarket/`chittymarket-manager`; never emulate the missing capability locally.'     "scripts/generate-bootstrap-pointers.sh finance-operating-defaults"
+  generate     "finance-operating-defaults"     "chittyos-finance"     "Finance Operating Defaults"     "Books-method defaults for bookkeeping, chart-of-accounts, classification, reconciliation, tax derivation, and governed financial writes."     $'Bookkeeping, chart-of-accounts, classification, reconciliation, Mercury banking/reconciliation, tax-form derivation, or\nfinancial-datastore work — including requests that sound trivial — loads `finance-operating-defaults` BEFORE acting on the request. For Mercury work, resolve execution in order: ChittyConnect (provider lifecycle/auth/provenance) → `chittyconnect-finance` (finance identity/binding/dedupe/reconciliation adapter) → ChittyFinance/`chittyagent-finance` (canonical SOT/read validation). If the current channel lacks `chittyconnect-finance`, route the projection defect through `chittyagent-dev` → ChittyMarket/`chittymarket-manager`; never emulate the missing capability locally.'     "scripts/generate-bootstrap-pointers.sh finance-operating-defaults"
 }
 
 case "$requested" in
