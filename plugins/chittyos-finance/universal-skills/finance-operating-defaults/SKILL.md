@@ -192,11 +192,61 @@ Apply **startup-mode** with it unless the operator expressly overrides.
 | `legal-operating-defaults` | A financial figure is filed, served, produced, or asserted in a matter (§11) |
 | `fact-governance` | A financial figure becomes a governed factual assertion in a matter |
 | `chittyconnect-concierge` (`/chico`) | Any credential, secret, binding, connection-string, or deploy intent — **always**, never resolved inline |
+| `chittyconnect-finance` | Mercury ↔ ChittyFinance business-identity, DBA/projection, tenant/account binding, source-identity dedupe, webhook reconciliation/backfill, or finance-adapter semantics |
+| `chittyagent-finance` | Read/query/validate canonical ChittyFinance state or reconciliation evidence; never provider credential lifecycle |
+| `chittyagent-dev` → `chittymarket-manager` | A finance capability or projection is missing/stale in a runtime; repair canonical Market source and regenerate rather than reimplementing locally |
 | `chittyagent-neon` | Neon project, branch, role, or connection work behind the books datastore |
 | `chittyschema-overlord` | Schema design, drift detection, or migration governance on a financial schema |
 | `capability-governor` | A capability, skill, agent, MCP route, or projection is created or changed |
 | `chittyos-compliance` | ChittyOS service creation, modification, registration, certification, or deployment |
 | `chitty-deploy` | Deploying the finance service to Cloudflare Workers |
+
+### Mercury → ChittyFinance execution sequence (all runtime projections)
+
+Mercury work is one canonical banking loop. Every projection follows this ownership order before
+performing provider or books work:
+
+1. **Generic ChittyConnect — provider boundary.** Owns provider connection lifecycle,
+   ChittySecrets credential resolution, auth/policy, connector provenance, external Mercury
+   organization/account IDs, and governed provider execution. It does not own accounting
+   identity or ledger semantics.
+2. **`chittyconnect-finance` — finance-adapter boundary.** The verified implementation
+   identity is repository `chittyos/chittyconnect-finance`. It owns canonical business
+   identity resolution before credential labels, DBA/credential-projection mapping, tenant
+   partition binding, financial-account binding, source-transaction dedupe, webhook
+   reconciliation/backfill semantics, and finance adapter behavior. Business/entity mappings
+   remain governed entity context; `tenant_id` is a technical partition key, never legal
+   identity.
+3. **ChittyFinance / `chittyagent-finance` — books boundary.** ChittyFinance is the canonical
+   financial/accounting source of truth. `chittyagent-finance` reads and validates that
+   canonical state and may surface reconciliation evidence; it does not take over provider
+   credential lifecycle or invent provider-side writes.
+4. **Apply the activity gate before opening the financial store.** Webhook delivery is primary.
+   Read Mercury credential boundaries and webhook state first. Open ChittyFinance/Neon only
+   when recent transaction, pending/state, or balance state changed; webhook delivery needs
+   reconciliation; or a recorded reconciliation exception requires retry. A pending/state
+   transition counts as activity. If none exists, do not wake Postgres because a timer fired.
+5. **Backfill narrowly and idempotently.** When activity exists, compare Mercury against
+   ChittyFinance and backfill only genuinely missing records through existing ingestion, keyed
+   by source transaction identity. Never auto-provision entities, accounts, or businesses
+   during reconciliation, and never create a second connection registry, business registry,
+   ledger, database, schema, or tracker.
+6. **Credentials and deployment route to `/chico`.** Non-mutating reads count as read-token
+   activity; never manufacture writes for liveness. Mercury configuration or financial writes
+   remain fail-closed through `MERCURY_EGRESS_URL` → mercury-proxy static egress,
+   `MERCURY_EGRESS_PROXY_TOKEN`, both Access service-token credentials, the matching
+   `MERCURY_WRITE_TOKEN_<CODE>`, an explicit mutation allowlist, deterministic idempotency,
+   an audit receipt, verified egress IP, and Mercury scope/IP allowlisting. Staging must not
+   inherit production Mercury write/proxy/Access credentials or production relay routing.
+   Feature-detect runtime deployment state; a merged change is not proof that the path is live.
+7. **Projection defects are development work.** If `chittyconnect-finance` or its agent/tool
+   projection is missing or stale in a channel, route the defect through `chittyagent-dev`
+   to the canonical ChittyMarket source, regenerate/sync/verify with
+   `chittymarket-manager`, and then refresh the client projection. Do not emulate the missing
+   capability with session-local logic.
+8. **Legal is a handoff, not another banking store.** If a financial figure becomes filed,
+   served, produced, or asserted in a matter, hand its derivation, provenance, and open gaps to
+   `legal-operating-defaults`; banking state remains in Finance.
 
 ### Connections this capability composes with
 
