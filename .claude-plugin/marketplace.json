@@ -102,7 +102,7 @@
     {
       "name": "chittyos-legal",
       "description": "Legal case management — the Legal Operating Defaults constitution and a paralegal/law-clerk/forensic-analyst support agent for counsel, plus evidence fact governance, dispute tracking, court docket monitoring, and evidence collection pipeline",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "source": "./plugins/chittyos-legal",
       "strict": false,
       "category": "legal",
