@@ -1,6 +1,6 @@
 ---
 name: post-judgment-claims-review
-description: Affirmative-claims review for an owner or defendant entity after an association, landlord, lender, or collection-counsel action has gone to judgment or payoff. Assembles the record as a non-destructive inventory, reconciles ledger ↔ complaint ↔ judgment ↔ payments to the cent, runs a sourced deep-research memo on candidate claims (restitution and contract, statutory records and fine-process rights, fiduciary duty, FDCPA / state consumer and collection statutes, abuse of process), computes post-judgment and limitations deadlines, and remediates any draft demand or refund letter as a new version. Use it whenever someone asks 'can I counter-sue', 'what claims do I have', 'did they overcharge me', 'they collected more than the judgment', or wants a refund or demand letter after paying off a judgment — even when they only say 'review my case'. Requires an explicit case parameter and runs under legal-operating-defaults.
+description: 'Affirmative-claims review for an owner or defendant entity after an association, landlord, lender, or collection-counsel action has gone to judgment or payoff. Assembles the record as a non-destructive inventory, reconciles ledger ↔ complaint ↔ judgment ↔ payments to the cent, runs a sourced deep-research memo on candidate claims (restitution and contract, statutory records and fine-process rights, fiduciary duty, FDCPA / state consumer and collection statutes, abuse of process), computes post-judgment and limitations deadlines, and remediates any draft demand or refund letter as a new version. Use it whenever someone asks ''can I counter-sue'', ''what claims do I have'', ''did they overcharge me'', ''they collected more than the judgment'', or wants a refund or demand letter after a judgment has been entered or paid. Not for pre-judgment work: intake and tracking belong to dispute, claim-versus-record audits to 9-step-legal-audit. Requires an explicit case parameter and runs under legal-operating-defaults.'
 canon_uri: chittycanon://core/services/chittymarket#skills/post-judgment-claims-review
 ---
 
@@ -15,8 +15,7 @@ first if it is not already loaded.
 
 Refuse to run without an explicit matter identifier (`case_id` or `case_slug`, resolved the same way
 `evidence-collect` and `fact-governance` resolve it). Never default to "the last case." If no case is
-registered yet, say so, list what registration needs (identity, slug, parties), and run only Stage 0
-and Stage 1 — both are non-destructive and do not write to any store.
+registered yet, say so and list what registration needs (identity, slug, parties). You may still build the Stage 0 frame and the Stage 1 manifest, because neither touches an evidence store — but both are work product: hand them to the operator as files and place them in the matter's shared store as they are written (legal-operating-defaults §11.2–§11.3); nothing stays only on the compute node. Stages 2–6 wait for the registered case.
 
 ## Why this exists
 
@@ -52,16 +51,13 @@ names, matter tag, category, in-scope flag, notes.
 - Tag matter mechanically (digit-boundary matching on identifiers), so the tagging is reproducible; hand-retag only with a note saying why.
 - Privileged counterparties (defense counsel, other counsel) are **counted, never listed as rows**. Platform notices that match only by street address (leasing sites, booking sites) are tagged out of scope.
 - Record coverage: every query, page, and count; and a gaps list of the instruments the frame says should exist but were not found. "Not found" is a finding; "absent" requires completed paging.
-- Operational: mail search results run ~12k tokens per page of 25; split the sweep across fresh agents at ~6 pages each and parse saved result files with scripts rather than reading them into context.
+- Operational: mail search pages are large. Split the sweep across fresh agents, cap the pages each one fetches, and parse saved result files with scripts rather than reading them into context.
 
-The manifest is the input to `evidence-collect` (its bulk-from-URL-list option). Do not copy bytes,
-stage files, or ingest anything without a registered case; that is the pipeline's job, with custody.
+The manifest's drive rows are the input to `evidence-collect` Option C (bulk from Drive URL list). Mail rows have no direct ingestion route: export each message or attachment to the case's drive location through the governed mail-to-drive export path first, record the export on the manifest row, and only then does it enter through Option C. Do not copy bytes, stage files, or ingest anything without a registered case; that is the pipeline's job, with custody.
 
 ## Stage 2 — Reconcile to the cent
 
-Lay out, with a source for every number: the ledger balance on the judgment date; the judgment by
-category; every posting after the judgment date (assessment, utility pass-through, late fee, counsel
-invoice); every payment. Then decompose the payment:
+Lay out, with a source for every number: the amount demanded in the complaint and its components; the ledger balance at filing and on the judgment date; the judgment by category; every posting after the judgment date (assessment, utility pass-through, late fee, counsel invoice, post-judgment interest, costs); every payment, credit, and prior partial tender with its disposition (accepted, returned, held). Reconcile three pairs — complaint ↔ ledger at filing, ledger at judgment ↔ judgment, payment ↔ judgment plus post-judgment postings — then decompose the payment:
 
 ```
 paid − judgment = Δ
@@ -69,13 +65,12 @@ paid − judgment = Δ
 ```
 
 The test is an exact-cent fit. If the decomposition does not close to the cent, a posting is missing
-or misread — find it before writing a demand. Label each line: judgment / owed under the instruments /
-contested (pre-judgment, not awarded → merger) / contested (post-judgment, no order). A late fee is
+or misread — find it before writing a demand. Label each line: judgment / owed under the instruments / owed by statute (post-judgment interest) / contested (pre-judgment, not awarded → merger) / contested (post-judgment, no order). A late fee is
 judged by its own posting date and rule, not by an earlier dispute.
 
 ## Stage 3 — Research, then verify what the draft will cite
 
-Launch extended research with the frame as allegations and a law-only brief: primary sources, pin
+Launch extended research with an abstracted fact pattern — roles instead of names; no case numbers, addresses, account or invoice numbers, exact amounts, or dates beyond what the legal question needs (rounded figures and relative timing suffice) — and a law-only brief. Sending the frame itself to an outside research service is a transmission under legal-operating-defaults §9 and requires the operator's explicit authorization. The brief asks for: primary sources, pin
 cites, every conclusion labeled `[Established law — cited]`, `[Contested or unsettled]`, or
 `[Depends on unverified fact]`, and a list of citations the researcher could not verify. Ask for, at
 minimum: post-judgment procedure (motion, appeal, sanctions, and vacatur windows; what a separate
@@ -94,7 +89,7 @@ re-fetched and label it. A research memo is derived material; it does not verify
 
 Two tables, dates first:
 
-1. **Deadlines** — each post-judgment clock (days from entry), each limitations period (years from accrual, and the accrual date used), with "expired" stated plainly where it has.
+1. **Deadlines** — each post-judgment clock (days from entry) and each limitations period (years from accrual, with the accrual date used). Every computed date carries its trigger, the rule relied on, and the counting convention, and is marked `computed (draft)` until confirmed against the governing order (legal-operating-defaults §14); where a computed date has passed, say so plainly as `computed — passed`.
 2. **Claims** — claim, defendant, viability (strong / plausible / weak / not available), the single biggest obstacle, evidence needed, forum, fee-shifting exposure.
 
 State the gaps: unverified facts the table depends on, contradictions between sources, and the one
@@ -102,7 +97,7 @@ open fact that most changes the answer.
 
 ## Stage 5 — Remediate the draft
 
-- Corrections are **versions**: write vN+1 with a revision log that lists each change, its source, and its label; keep the prior notes visible. Never overwrite.
+- Corrections are **versions**: write vN+1 and keep a revision log as a separate internal artifact — never inside the transmittable copy — listing each change, its source, and its label, with prior notes retained. Never overwrite.
 - Strip internal strategy from the transmittable copy; it lives in the log.
 - Convert assertions nobody can source into requests ("please confirm in writing that…").
 - Address money demands to the party that holds the money; address statutory records requests to the statutory addressee; copy counsel of record.
