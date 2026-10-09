@@ -4,9 +4,9 @@
   "view": "by-authority",
   "description": "Capabilities grouped by required authority scope",
   "counts": {
-    "no_last_case_fallback": 5,
-    "non_repudiation_required": 8,
-    "requires_case": 5,
+    "no_last_case_fallback": 6,
+    "non_repudiation_required": 11,
+    "requires_case": 6,
     "requires_chittyid_only (default)": 76,
     "requires_deploy_authority": 12,
     "requires_governance_authority": 17
@@ -36,6 +36,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/legal/legal-arsenal",
@@ -88,12 +96,36 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/document-intake-checks",
+        "name": "Document Intake Checks",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/evidence-collection",
         "name": "Evidence Collection",
         "group": "ship",
         "execution_class": "@chitty/reasoning",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-egress",
+        "name": "Evidence Egress",
+        "group": "legal",
+        "execution_class": "@chitty/workspace",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/govern/fact-governance",
@@ -144,6 +176,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/legal/legal-arsenal",

@@ -13,6 +13,63 @@ classification:
   - evidence
   - litigation
   - filing
+canonical_capability_ref: "chittycanon://capability/legal/evidence-to-filing"
+overlay:
+  title: "Evidence to Filing"
+  capability_group: "legal"
+  group_assignment_source: "override"
+  execution_class: "@chitty/reasoning"
+  canonical_version: "1.0.0"
+  projection_version_policy: "inherit-canonical"
+  ontology:
+    primary:
+      - "E"
+      - "A"
+    secondary:
+      - "P"
+      - "L"
+      - "T"
+  authority:
+    requires_chittyid: true
+    requires_case: true
+    write_scope: "case-scoped"
+    no_last_case_fallback: true
+    non_repudiation_required: true
+    evidence_gate: "legal-space-only"
+  execution:
+    default_surface: "ch1tty"
+    local_allowed: true
+    context_cost: "high"
+    mutation_risk: "high"
+  discovery:
+    indexable: true
+    session_index: "hidden"
+    ambient_by_intent: false
+    verbs:
+      - "file"
+      - "draft"
+      - "exhibit"
+      - "bates"
+      - "package"
+    fallback_search: true
+  auth_flow:
+    mode: "existing-session"
+    stores_credentials_in: "ChittyConnect"
+    fail_closed_if_unavailable: true
+    requires_case_id: true
+    no_fallback_last_case: true
+  runtime_exclusions: {}
+  phase0_audit:
+    job_to_be_done: "materialize"
+    environmental_footprint: "forensic-legal-grade"
+    evidentiary_risk: "legal-grade"
+    advisory_disposition: "legal-only"
+  legacy_category: "legal"
+  deprecated_aliases:
+    - "skill-evidence-to-filing"
+  visibility: "recommended"
+  access: "readwrite"
+
 ---
 
 # Evidence to Filing
