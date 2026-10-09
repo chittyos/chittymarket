@@ -578,6 +578,8 @@ cmd_preflight() {
     python3 scripts/tests/test_dispatch_state.py
     python3 scripts/check-agent-identity.py
     python3 scripts/market-reconcile.py audit
+    bash scripts/tests/test-gateway-route-lookup.sh
+    python3 scripts/tests/test_dispatch_workflow.py
   ) || return $?
   # Idempotency: regenerate in a throwaway worktree of HEAD so the real tree is never written.
   local wt out rc=0
@@ -589,6 +591,8 @@ cmd_preflight() {
     bash plugins/chittyagent-dispatch/scripts/dispatch.sh sync >"$out/dispatch.txt"
     bash plugins/chittyagent-dispatch/scripts/dispatch.sh audit
     bash scripts/generate-marketplace.sh >"$out/marketplace.txt"
+    python3 scripts/generate-capability-views.py >"$out/views.txt"
+    bash scripts/generate-bootstrap-pointers.sh all >"$out/bootstrap.txt"
     if [[ -n "$(git status --porcelain)" ]]; then
       echo "HOLD: generation is not idempotent; canonical/generated state drifted." >&2
       git diff --stat >&2 || true
