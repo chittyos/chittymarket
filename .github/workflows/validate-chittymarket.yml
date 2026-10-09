@@ -126,6 +126,11 @@ jobs:
       - name: Gateway route lookup tests
         run: bash scripts/tests/test-gateway-route-lookup.sh
 
+      # Offline: adversarial-review.sh's default model must be a direct model, not a
+      # dynamic/<name> route (undeployed routes 400 and kill the review lane silently).
+      - name: Review default-model guard
+        run: bash scripts/tests/test-review-default-model.sh
+
       - name: Dispatch state regression tests
         run: |
           bash -n plugins/chittyagent-dispatch/scripts/dispatch.sh
