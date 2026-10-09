@@ -72,9 +72,25 @@ PR_STATE=""
 pr_state() { # $1=repo slug (owner/name)  $2=branch -> sets PR_STATE
   local key="$1@$2" state
   if [ -n "${PR_CACHE[$key]:-}" ]; then PR_STATE="${PR_CACHE[$key]}"; return 0; fi
-  state=$(gh pr list --repo "$1" --head "$2" --state all --limit 1 \
-            --json state -q '.[0].state' 2>/dev/null) || state=""
-  [ -n "$state" ] || state=NONE
+  # Ask for EVERY PR on this head, not just the newest. A branch with an older
+  # OPEN pr and a newer CLOSED one must read as OPEN — "the first PR is landed"
+  # would reap a tree whose work is still in flight.
+  local all
+  all=$(gh pr list --repo "$1" --head "$2" --state all --limit 100 \
+          --json state -q '.[].state' 2>/dev/null) || all="__ERR__"
+  if [ "$all" = "__ERR__" ]; then
+    state=UNKNOWN
+  elif [ -z "$all" ]; then
+    state=NONE
+  elif printf '%s\n' "$all" | grep -qx OPEN; then
+    state=OPEN
+  elif printf '%s\n' "$all" | grep -qx MERGED; then
+    state=MERGED
+  elif printf '%s\n' "$all" | grep -qx CLOSED; then
+    state=CLOSED
+  else
+    state=UNKNOWN
+  fi
   PR_CACHE[$key]="$state"
   PR_STATE="$state"
 }
@@ -88,9 +104,27 @@ repo_slug() { # $1=worktree path -> sets REPO_SLUG ("" if undeterminable)
   [ -n "$url" ] || return 0
   url="${url%.git}"
   case "$url" in
-    *github.com[:/]*) REPO_SLUG="${url#*github.com}"; REPO_SLUG="${REPO_SLUG#[:/]}" ;;
+    *github.com*) ;;
+    *) return 0 ;;   # non-GitHub remote: no PR state is knowable
+  esac
+  REPO_SLUG="${url#*github.com}"
+  # Strip the separator, then an ssh:// port ("github.com:22/org/repo" left ":22/org/repo").
+  REPO_SLUG="${REPO_SLUG#[:/]}"
+  case "$REPO_SLUG" in
+    [0-9]*/*/*) REPO_SLUG="${REPO_SLUG#*/}" ;;   # drop a leading numeric port segment
+  esac
+  # Must be exactly owner/name; anything else is not a slug we will query.
+  case "$REPO_SLUG" in
+    */*/*|*/|/*|'') REPO_SLUG="" ;;
+    */*) ;;
+    *) REPO_SLUG="" ;;
   esac
 }
+
+# The repo's short name, for --repo filtering. Directory names under the
+# worktree root are BRANCH slugs (cc-280, ced-failclosed), not repo names, so
+# matching on the directory name filtered the wrong set entirely.
+repo_name() { REPO_NAME="${1##*/}"; }
 
 # Candidate node_modules paths accumulate here so the total can be measured
 # with ONE du invocation at the end. Summing per-directory du double-counts:
@@ -103,15 +137,34 @@ REAP_DIRS=()
 eligible=0
 skipped=0
 
-for wt in "$WTROOT"/*/; do
+# Without nullglob an empty root leaves the literal pattern, and the loop then
+# reported `SKIP * — orphan directory` and `skipped: 1` for a root holding
+# nothing. A miscounted sweep reads as "covered everything".
+shopt -s nullglob
+entries=("$WTROOT"/*/)
+shopt -u nullglob
+for wt in "${entries[@]}"; do
   wt="${wt%/}"
   name="$(basename "$wt")"
-  [ -z "$REPO_FILTER" ] || case "$name" in "$REPO_FILTER"*) ;; *) continue ;; esac
 
-  # A directory under WTROOT is not necessarily a registered worktree. Report
-  # orphans; never delete them — we cannot tell what they are.
-  if ! git -C "$wt" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  # A symlink under the root is never followed. du measures the LINK (0KB), so
+  # --mode empty judged any dir-symlink "empty" regardless of content and then
+  # `worktree remove --force` resolved the realpath and removed the real tree.
+  if [ -L "$wt" ]; then
+    echo "SKIP  $name — symlink; not followed"; skipped=$((skipped+1)); continue
+  fi
+
+  # A directory under WTROOT is not necessarily a REGISTERED worktree.
+  # --is-inside-work-tree is true for any repo, so a loose clone parked here
+  # was reaped instead of reported. A linked worktree is the case where
+  # --git-dir and --git-common-dir differ.
+  gd="$(git -C "$wt" rev-parse --git-dir 2>/dev/null || true)"
+  gcd="$(git -C "$wt" rev-parse --git-common-dir 2>/dev/null || true)"
+  if [ -z "$gd" ]; then
     echo "SKIP  $name — not a git worktree (orphan directory)"; skipped=$((skipped+1)); continue
+  fi
+  if [ "$gd" = "$gcd" ]; then
+    echo "SKIP  $name — a standalone clone, not a linked worktree"; skipped=$((skipped+1)); continue
   fi
 
   branch="$(git -C "$wt" rev-parse --abbrev-ref HEAD 2>/dev/null || echo DETACHED)"
@@ -130,6 +183,10 @@ for wt in "$WTROOT"/*/; do
   if [ -z "$REPO_SLUG" ]; then
     echo "SKIP  $name — no github origin remote; cannot resolve PR state"; skipped=$((skipped+1)); continue
   fi
+  # --repo filters on the REPO, not the directory name. Exact match on the
+  # repo's short name; the old prefix-match on $name selected branch slugs.
+  repo_name "$REPO_SLUG"
+  if [ -n "$REPO_FILTER" ] && [ "$REPO_NAME" != "$REPO_FILTER" ]; then continue; fi
   pr_state "$REPO_SLUG" "$branch"
   state="$PR_STATE"
   case "$state" in
@@ -152,8 +209,16 @@ for wt in "$WTROOT"/*/; do
     continue
   fi
 
-  # node-modules mode
-  mapfile -t nm < <(find "$wt" -maxdepth 3 -name node_modules -type d -prune 2>/dev/null)
+  # node-modules mode.
+  # -print0 / mapfile -d '' is load-bearing, not style. With `mapfile -t` a
+  # worktree path containing a newline split into two fragments and `rm -rf`
+  # deleted BOTH: a sibling directory under the root, and the second fragment
+  # resolved relative to the INVOKING SHELL'S CWD — outside the root entirely.
+  # -type d (not -L) also means a symlinked node_modules is never a candidate,
+  # so `git wt`-symlinked trees are excluded from the reclaim figure.
+  nm=()
+  while IFS= read -r -d '' d; do nm+=("$d"); done \
+    < <(find "$wt" -maxdepth 3 -name node_modules -type d -prune -print0 2>/dev/null)
   if [ "${#nm[@]}" -eq 0 ]; then continue; fi
   kb="$(du -s --total "${nm[@]}" 2>/dev/null | tail -1 | cut -f1)"
   eligible=$((eligible+1))
@@ -162,23 +227,40 @@ for wt in "$WTROOT"/*/; do
   # but will not free until the last link to it is gone. The footer total is
   # the figure to trust.
   printf 'REAP  %-58s %6sMB apparent  PR %s (%s)\n' "$name" "$(( ${kb:-0} / 1024 ))" "$state" "$branch"
-  if [ "$APPLY" -eq 1 ]; then
-    for d in "${nm[@]}"; do rm -rf "$d" || echo "      FAILED: $d"; done
-    echo "      deleted ${#nm[@]} node_modules dir(s) — regenerate with your package manager"
-  fi
 done
 
+# Measure and report BEFORE deleting. An earlier revision measured after, so
+# `du` ran on paths rm had just removed, exited 1, and under pipefail+errexit
+# killed the script before the footer — every successful --apply exited 1 and
+# printed no summary. Dry run never deletes, so the author's own validation
+# never reached it.
 echo
+true_kb=0
 if [ "${#REAP_DIRS[@]}" -gt 0 ]; then
   # One invocation, so each inode is counted once no matter how many
   # worktrees link to it.
-  true_kb="$(du -s --total "${REAP_DIRS[@]}" 2>/dev/null | tail -1 | cut -f1)"
-else
-  true_kb=0
+  true_kb="$(du -s --total "${REAP_DIRS[@]}" 2>/dev/null | tail -1 | cut -f1 || true)"
 fi
 printf 'eligible: %d worktrees, %d node_modules dirs   skipped: %d\n' \
   "$eligible" "${#REAP_DIRS[@]}" "$skipped"
 printf 'on-disk size of those dirs: %sMB (hardlinks counted once)\n' "$(( ${true_kb:-0} / 1024 ))"
 echo "that is an upper bound on space freed: content still hardlinked from a"
 echo "skipped worktree does not free until its last link is removed."
-[ "$APPLY" -eq 1 ] || echo "re-run with --apply to delete"
+
+if [ "$APPLY" -eq 1 ] && [ "${#REAP_DIRS[@]}" -gt 0 ]; then
+  echo
+  failed=0
+  for d in "${REAP_DIRS[@]}"; do
+    rm -rf -- "$d" || { echo "FAILED: $d" >&2; failed=$((failed+1)); }
+  done
+  printf 'deleted %d node_modules dir(s)' "$(( ${#REAP_DIRS[@]} - failed ))"
+  if [ "$failed" -eq 0 ]; then
+    echo " — regenerate with your package manager"
+  else
+    printf ' of %d; %d failed\n' "${#REAP_DIRS[@]}" "$failed"
+    exit 1
+  fi
+elif [ "$APPLY" -eq 0 ]; then
+  echo "re-run with --apply to delete"
+fi
+exit 0

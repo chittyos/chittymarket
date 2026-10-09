@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# gh stub for the wt-reap gauntlet. Injected via PATH so wt-reap.sh is
+# exercised unmodified. Never touches the network.
+#
+# PR states come from $GAUNTLET_PR_TABLE, a TSV of:  <owner/name> <branch> <state>
+# <state> is a literal gh state (OPEN|CLOSED|MERGED) or one of the sentinels:
+#   __EMPTY__     gh exits 0 printing nothing   (jq -q on [] with no match)
+#   __NULL__      gh prints "null"              (real gojq output for .[0] on [])
+#   __ERR__       gh exits 1 with a stderr message
+#   __RATELIMIT__ gh exits 1 with "API rate limit exceeded"
+#   __GARBAGE__   gh exits 0 printing an unexpected line
+# An unlisted (repo,branch) pair behaves as __EMPTY__.
+set -uo pipefail
+
+log() { [ -n "${GAUNTLET_GH_LOG:-}" ] && printf '%s\n' "$*" >>"$GAUNTLET_GH_LOG"; return 0; }
+
+case "${1:-}" in
+  auth)
+    log "auth $*"
+    # `gh auth status` — always authenticated in the harness.
+    exit 0
+    ;;
+  pr)
+    shift
+    [ "${1:-}" = list ] || { echo "gh stub: unsupported pr subcommand: ${1:-}" >&2; exit 64; }
+    shift
+    repo="" head=""
+    while [ $# -gt 0 ]; do
+      case "$1" in
+        --repo) repo="$2"; shift 2 ;;
+        --head) head="$2"; shift 2 ;;
+        --state|--limit|--json|-q|--jq) shift 2 ;;
+        *) shift ;;
+      esac
+    done
+    log "pr list --repo ${repo} --head ${head}"
+    state=__EMPTY__
+    if [ -n "${GAUNTLET_PR_TABLE:-}" ] && [ -f "$GAUNTLET_PR_TABLE" ]; then
+      while IFS=$'\t' read -r t_repo t_head t_state; do
+        [ -n "${t_repo:-}" ] || continue
+        case "$t_repo" in \#*) continue ;; esac
+        if [ "$t_repo" = "$repo" ] && [ "$t_head" = "$head" ]; then state="$t_state"; break; fi
+      done <"$GAUNTLET_PR_TABLE"
+    fi
+    case "$state" in
+      __EMPTY__)     exit 0 ;;
+      __NULL__)      printf 'null\n'; exit 0 ;;
+      __ERR__)       echo "gh: could not resolve PRs for $repo" >&2; exit 1 ;;
+      __RATELIMIT__) echo "gh: API rate limit exceeded for user" >&2; exit 1 ;;
+      __GARBAGE__)   printf 'Warning: gh version 2.0.0 is out of date\n'; exit 0 ;;
+      *)             printf '%s\n' "$state"; exit 0 ;;
+    esac
+    ;;
+  *)
+    log "unhandled $*"
+    echo "gh stub: unhandled invocation: $*" >&2
+    exit 64
+    ;;
+esac
