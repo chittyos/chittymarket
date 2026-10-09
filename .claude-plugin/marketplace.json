@@ -80,6 +80,16 @@
     }
 ,
     {
+      "name": "chittyos-finance",
+      "description": "Books and accounting — the Finance Operating Defaults constitution governing chart-of-accounts derivation, classification, reconciliation, and production financial writes, with a hard handoff to chittyos-legal the moment a figure is filed or asserted in a matter",
+      "version": "1.0.0",
+      "source": "./plugins/chittyos-finance",
+      "strict": false,
+      "category": "finance",
+      "keywords": ["finance", "books", "accounting", "chart-of-accounts", "classification", "reconciliation", "defaults"]
+    }
+,
+    {
       "name": "chittyos-governance",
       "description": "Canonical governance hooks — entity type validation, ChittyID accountability, deploy gates, PR workflow enforcement, and unified Neon integration governance (schema drift, Neon Auth, OAuth/OIDC, branch ops, project/role/connection management, migration governance, canonical token lifecycle)",
       "version": "1.0.0",

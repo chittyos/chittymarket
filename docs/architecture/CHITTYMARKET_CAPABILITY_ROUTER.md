@@ -47,7 +47,7 @@ Ontology metadata, authority scopes, and context cost are enforcement layers. Th
 
 Slug convention:
 
-- Generated artifact slugs use **bare names**: `workspace`, `build`, `ship`, `govern`, `legal`, `connect`, `local-lab`, `agent-runtime`, `market`, `internal`.
+- Generated artifact slugs use **bare names**: `workspace`, `build`, `ship`, `govern`, `legal`, `finance`, `connect`, `local-lab`, `agent-runtime`, `market`, `internal`.
 - Documentation and UI may use Chitty-branded display labels such as `ChittyBuild`, `ChittyShip`, and `ChittyGovern`.
 - Branded labels are presentation-layer only. They are not canonical group slugs.
 
@@ -120,6 +120,17 @@ Banned language until formal audit:
 - “E-SIGN compliant”
 - “court-admissible”
 - “legally binding”
+
+---
+
+### `finance`
+
+**Label:** Finance & Books Governance  
+**Job:** Govern bookkeeping method, chart-of-accounts changes, classification, reconciliation, tax-form derivation, and controlled financial writes.  
+**Examples:** finance operating defaults, reconciliation discipline, production-write gates, books-to-legal handoff.  
+**Ontology primary:** `A` (books-method authority)  
+**Ontology secondary:** `E` (write/reconcile events), `T` (charts/ledgers/documents), `P` (operator gate)  
+**Rule:** Method only; reusable finance capabilities carry no entity facts. A figure that is filed, served, produced, or asserted in a matter routes to `legal`.
 
 ---
 
@@ -534,40 +545,48 @@ Users should not shop for “ChittyMCP.” They should enable JTBD capabilities.
 
 # 7. Phase 0/1 Current Distribution
 
-Phase 1 unified pass produced full coverage across 104 capabilities (102 at 2026-05-11 generation; +2 skills projected 2026-06-12).
+Current generated overlay: **110 capabilities**. Counts below are derived from `capabilities.generated.json` and mirrored by `scripts/generate-capability-views.py`.
 
 ## 7.1 By Job
 
 | Group | Count | Percent |
 |---|---:|---:|
-| build | 30 | 29% |
-| connect | 22 | 22% |
-| govern | 15 | 15% |
-| ship | 12 | 12% |
-| workspace | 7 | 7% |
-| legal | 5 | 5% |
-| local-lab | 5 | 5% |
-| agent-runtime | 4 | 4% |
-| internal | 3 | 3% |
-| market | 1 | 1% |
-| Total | 104 | |
+| build | 31 | 28.2% |
+| connect | 22 | 20.0% |
+| govern | 15 | 13.6% |
+| ship | 12 | 10.9% |
+| workspace | 10 | 9.1% |
+| legal | 6 | 5.5% |
+| local-lab | 5 | 4.5% |
+| agent-runtime | 4 | 3.6% |
+| internal | 3 | 2.7% |
+| finance | 1 | 0.9% |
+| market | 1 | 0.9% |
+| Total | 110 | 100% |
 
 ## 7.2 By Execution Class
 
 | Execution Class | Count |
 |---|---:|
 | `@chitty/connectors` | 77 |
-| `@chitty/workspace` | 16 |
-| `@chitty/reasoning` | 5 |
-| `@chitty/ambient` | 6 |
+| `@chitty/workspace` | 17 |
+| `@chitty/reasoning` | 8 |
+| `@chitty/ambient` | 8 |
+| Total | 110 |
 
 ## 7.3 By Channel Compatibility
 
-| Channel | Compatible | Excluded Reason |
-|---|---:|---|
-| `claude_code` / `claude_desktop` / `codex` | 104 | none |
-| `openclaw` | 99 | 5 legal-write require policy elevation |
-| `chatgpt` / `claude_ai` | 80 | 24 workspace + local-lab + agent-runtime need local host |
+Compatibility follows the router rule used by `views/by-channel.json`: an absent exclusion means compatible; a write-only exclusion still permits read compatibility.
+
+| Channel | Compatible | Excluded |
+|---|---:|---:|
+| `claude_code` | 110 | 0 |
+| `claude_desktop` | 110 | 0 |
+| `codex` | 110 | 0 |
+| `ch1tty` | 110 | 0 |
+| `openclaw` | 105 | 5 legal capabilities |
+| `chatgpt` | 86 | 24 capabilities across ship/local-lab/connect/agent-runtime/govern/build |
+| `claude_ai` | 86 | 24 capabilities across ship/local-lab/connect/agent-runtime/govern/build |
 
 ## 7.4 By Context Cost
 

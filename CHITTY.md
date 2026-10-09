@@ -2,7 +2,7 @@
 uri: chittycanon://docs/ops/architecture/chittymarket
 namespace: chittycanon://docs/ops
 type: architecture
-version: 1.1.0
+version: 1.1.1
 status: DRAFT
 registered_with: chittycanon://core/services/canon
 title: "ChittyMarket"
@@ -75,7 +75,7 @@ During migration, existing overlay records may temporarily preserve established 
 | `scripts/overlay-provenance.py` | Content-hash provenance substrate |
 | `scripts/validate-overlay-schema.py` | Overlay structural validation |
 | `scripts/check-overlay-coverage.sh` | Inventory/overlay coverage |
-| GitHub CI | Admission and regression controls |
+| GitHub CI | Admission and regression controls; runner substrate selected through `CI_RUNNER` projection policy |
 | `/market` skill | Operator-facing management/discovery workflow |
 
 ## Truth States
@@ -134,6 +134,22 @@ Use the lowest-power safe projection:
 | Legal-only | Evidence, filings, disputes, custody, ownership, valuation, non-repudiable records |
 
 Do not create an MCP server merely because a skill exists. Do not create an agent merely because a workflow has multiple steps.
+
+## CI Runner Projection
+
+ChittyMarket owns the policy projection that maps a repository/workload to its permitted CI execution substrate. It does not own the machine identity, canonical entity identity, or GitHub runner-group enforcement itself.
+
+```text
+canonical owner/context
+  -> workload + risk class
+  -> Market runner policy
+  -> CI_RUNNER
+  -> GitHub runner group / labels
+```
+
+Repository workflows use `${{ vars.CI_RUNNER || 'ubuntu-latest' }}` as the portable selector. Setting `CI_RUNNER=self-hosted` (or a governed label expression supported by the workflow) activates eligible self-hosted capacity without creating a ChittyAgent. GitHub remains responsible for enforcing which repositories can use which runner groups.
+
+Runner hosts are ephemeral execution substrates from ChittyOS's perspective. Durable application state, legal/evidence truth, provenance records, and canonical metadata must remain in their governed stores.
 
 ## Publication Model
 
@@ -214,4 +230,4 @@ Do not infer a current certification badge from older documents or generated man
 - **DNA hash**: pending governed provenance process
 
 ---
-*Architecture Version: 1.1.0 | Updated: 2026-09-22*
+*Architecture Version: 1.1.1 | Updated: 2026-10-05*

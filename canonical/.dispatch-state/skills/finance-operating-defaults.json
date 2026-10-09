@@ -1,0 +1,34 @@
+{
+  "canonical_sha": "35a996db27e798f276cd4d48149810ed4db2eb63",
+  "dispatch": {
+    "canonical_sha": "35a996db27e798f276cd4d48149810ed4db2eb63",
+    "projected_at": "2026-10-07T20:49:00Z",
+    "status": "projected",
+    "targets": {
+      "claude-code": "d2c8eba1c663d97f90154d1d0c97f5963bc115a3",
+      "codex": "d2c8eba1c663d97f90154d1d0c97f5963bc115a3",
+      "openclaw": "d2c8eba1c663d97f90154d1d0c97f5963bc115a3",
+      "universal": "d2c8eba1c663d97f90154d1d0c97f5963bc115a3"
+    }
+  },
+  "targets": {
+    "claude-code": "d2c8eba1c663d97f90154d1d0c97f5963bc115a3",
+    "codex": "d2c8eba1c663d97f90154d1d0c97f5963bc115a3",
+    "openclaw": "d2c8eba1c663d97f90154d1d0c97f5963bc115a3",
+    "universal": "d2c8eba1c663d97f90154d1d0c97f5963bc115a3"
+  },
+  "verification": {
+    "projection": {
+      "findings": [],
+      "method": "dispatch-audit",
+      "status": "pending",
+      "verified_at": null
+    },
+    "runtime": {
+      "method": null,
+      "status": "not_run",
+      "targets": {},
+      "verified_at": null
+    }
+  }
+}

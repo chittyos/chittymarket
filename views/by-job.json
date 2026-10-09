@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "generated_at": "2026-05-11",
+  "generated_at": "2026-10-05",
   "view": "by-job",
   "description": "Capabilities grouped by JTBD (bare names)",
   "groups": {
@@ -48,7 +48,7 @@
         "group_assignment_source": "category"
       },
       {
-        "capability_id": "chittycanon://capability/build/chittyagent-claude",
+        "capability_id": "chittycanon://capability/build/claude-integration-architect",
         "name": "Claude Integration Architect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
@@ -118,6 +118,14 @@
         "visibility": "advanced",
         "advisory_disposition": "hold",
         "group_assignment_source": "category"
+      },
+      {
+        "capability_id": "chittycanon://capability/build/gauntlet",
+        "name": "Gauntlet",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "advanced",
+        "advisory_disposition": "local-only",
+        "group_assignment_source": "override"
       },
       {
         "capability_id": "chittycanon://capability/build/github",
@@ -256,6 +264,14 @@
         "group_assignment_source": "category"
       },
       {
+        "capability_id": "chittycanon://capability/build/skill-creator",
+        "name": "Skill Creator (ChittyMarket-routed)",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "advisory_disposition": "skill",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "capability_id": "chittycanon://capability/build/superpowers",
         "name": "Superpowers",
         "execution_class": "@chitty/connectors",
@@ -282,7 +298,7 @@
         "group_assignment_source": "name-rule"
       },
       {
-        "capability_id": "chittycanon://capability/connect/chittyagent-connect",
+        "capability_id": "chittycanon://capability/connect/chittyconnect-concierge",
         "name": "ChittyConnect Concierge",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
@@ -450,6 +466,16 @@
         "group_assignment_source": "override"
       }
     ],
+    "finance": [
+      {
+        "capability_id": "chittycanon://capability/finance/finance-operating-defaults",
+        "name": "Finance Operating Defaults",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "advisory_disposition": "books-only",
+        "group_assignment_source": "category"
+      }
+    ],
     "govern": [
       {
         "capability_id": "chittycanon://capability/govern/block-chittyid-generation",
@@ -476,7 +502,7 @@
         "group_assignment_source": "name-rule"
       },
       {
-        "capability_id": "chittycanon://capability/govern/chittyagent-canon",
+        "capability_id": "chittycanon://capability/govern/chittycanon-code-cardinal",
         "name": "ChittyCanon Code Cardinal",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
@@ -630,6 +656,14 @@
         "visibility": "recommended",
         "advisory_disposition": "legal-only",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "capability_id": "chittycanon://capability/legal/legal-operating-defaults",
+        "name": "Legal Operating Defaults",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "advisory_disposition": "legal-only",
+        "group_assignment_source": "category"
       },
       {
         "capability_id": "chittycanon://capability/legal/search-evidence-documents",
@@ -816,12 +850,36 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "capability_id": "chittycanon://capability/workspace/goal-creator",
+        "name": "Goal Creator",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "advisory_disposition": "skill",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "capability_id": "chittycanon://capability/workspace/nb-development-defaults",
+        "name": "NB Development Defaults",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "advisory_disposition": "local-only",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "capability_id": "chittycanon://capability/workspace/read-and-write-chittyos",
         "name": "Read and Write ChittyOS",
         "execution_class": "@chitty/reasoning",
         "visibility": "recommended",
         "advisory_disposition": "legal-only",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "capability_id": "chittycanon://capability/workspace/repo-hygiene",
+        "name": "Repository Hygiene",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "advisory_disposition": "skill",
+        "group_assignment_source": "override"
       },
       {
         "capability_id": "chittycanon://capability/workspace/sequential-thinking",
@@ -838,19 +896,28 @@
         "visibility": "recommended",
         "advisory_disposition": "skill",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "capability_id": "chittycanon://capability/workspace/startup-mode",
+        "name": "Startup Mode",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "advisory_disposition": "local-only",
+        "group_assignment_source": "name-rule"
       }
     ]
   },
   "counts": {
     "agent-runtime": 4,
-    "build": 29,
+    "build": 31,
     "connect": 22,
+    "finance": 1,
     "govern": 15,
     "internal": 3,
-    "legal": 5,
+    "legal": 6,
     "local-lab": 5,
     "market": 1,
     "ship": 12,
-    "workspace": 6
+    "workspace": 10
   }
 }
