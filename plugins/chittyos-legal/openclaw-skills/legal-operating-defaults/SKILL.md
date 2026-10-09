@@ -347,7 +347,7 @@ skipping the review and discovery conditions that document makes binding.
 | `cook-county-casesearch` *(or another jurisdiction-specific source capability)* | Court-record retrieval |
 | `docket` | Docket pull, court dates, case status for a named matter |
 | `dispute` | Dispute/claim intake and tracking |
-| `chittyagent-paralegal` *(pending merge)* | Litigation support performed for counsel — exhibits, cite-checking, fund tracing |
+| `chittyagent-paralegal` | Litigation support performed for counsel — exhibits, cite-checking, fund tracing. This is a packaged/projection agent; source presence does not imply a bound remote service in every runtime. |
 | `finance-operating-defaults` | Books method — how a financial figure was derived, classified, or reconciled. It governs the figure **before** it enters a filing or a matter; once filed or asserted, this constitution governs it and the figure is evidence |
 | `finance-context` | Financial or accounting matters for the operator's business entities |
 | `capability-governor` | A capability, skill, agent, app, GPT, MCP route, or projection is created or changed |
@@ -355,8 +355,8 @@ skipping the review and discovery conditions that document makes binding.
 
 **Resolution availability is not assumed.** `review-legal-record`, `case-execution-marshal`,
 and `finance-context` are named routing targets that are **not currently resolvable in this
-operator's canonical marketplace**. `chittyagent-paralegal` is authored but not yet merged to
-`main`; `9-step-legal-audit`, `litigation-evidence-dossier`, and `cook-county-casesearch`
+operator's canonical marketplace**. `chittyagent-paralegal` is merged and packaged, but is not thereby a bound remote service
+in every runtime; `9-step-legal-audit`, `litigation-evidence-dossier`, and `cook-county-casesearch`
 resolve today only inside the operator's Claude Desktop skill bundle, not through ChittyMarket
 dispatch. When a trigger fires for an unresolvable target, say so
 and proceed under these defaults — do not silently invent the capability's behavior, and do
