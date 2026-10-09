@@ -4,9 +4,9 @@
   "view": "by-context-cost",
   "description": "Capabilities grouped by execution context cost",
   "counts": {
-    "high": 10,
+    "high": 12,
     "low": 8,
-    "medium": 92
+    "medium": 93
   },
   "groups": {
     "high": [
@@ -49,6 +49,22 @@
         "execution_class": "@chitty/reasoning",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-egress",
+        "name": "Evidence Egress",
+        "group": "legal",
+        "execution_class": "@chitty/workspace",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/govern/fact-governance",
@@ -413,6 +429,14 @@
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/document-intake-checks",
+        "name": "Document Intake Checks",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/feature-dev",
