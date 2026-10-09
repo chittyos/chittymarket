@@ -134,6 +134,10 @@ jobs:
       - name: _MAP pair floor
         run: bash scripts/tests/test-map-pairs-cannot-shrink.sh
 
+      # Autobot Ship must never blind-merge (no gh pr merge --auto); pr-land path pinned.
+      - name: Autobot Ship gated merge
+        run: bash scripts/tests/test-autobot-ship-no-auto-merge.sh
+
       - name: Dispatch state regression tests
         run: |
           bash -n plugins/chittyagent-dispatch/scripts/dispatch.sh

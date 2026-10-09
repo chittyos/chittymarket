@@ -76,6 +76,7 @@ Per `chittycanon://docs/sovereignty-ontology-v1`:
 - Pentad incomplete on new service at Ship → block; loop to Phase 5.
 - Test failure → `superpowers:systematic-debugging`; do NOT silently work around.
 - Hook block detected → return to Generate with the rule pattern as a constraint.
+- Ship landing: never GitHub auto-merge. Land via orchestrator skill `autoassist:pr_land_v1` pinned to the reviewed head with reviewer attestations; on `errored` (`HEAD_MOVED`, `CHECKS_TIMEOUT`, `POLICY_BLOCKED_*`) report and stop. The gated local fallback is allowed only if the skill is unavailable and no pr-land instance was started (see `chittycanon://skills/chitty-autonomy-ship`).
 
 ## See also
 

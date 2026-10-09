@@ -22,7 +22,7 @@
     {
       "name": "chittyagent-autobot",
       "description": "Autonomous PR-driver agent for ChittyOS — orchestrates the canonical Sovereignty → Discover → Plan → Generate → Implement → Review → Tidy → CI/CD → Ship → Memory pipeline. Sovereignty-cert gated, pentad-aware, replaces the structured-autonomy trio.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "source": "./plugins/chittyagent-autobot",
       "strict": false,
       "category": "ecosystem",
