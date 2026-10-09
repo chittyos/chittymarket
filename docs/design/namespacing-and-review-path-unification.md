@@ -71,8 +71,17 @@ Conformance, item by item:
 | Namespace | `default` (empty) | NO | **Empty — free to delete or ignore.** Cheapest conformance win available. |
 | Namespace | `legal-cases` | YES (`legal`+`cases`) | n/a |
 | Namespace | `finance` | YES | n/a |
-| Instance | `chittyevidence-arias-2024d007847` | NO — `{service}-{case}-{docket}` | **Never rename.** Live evidence index, pending matter. Grandfathered. Conforming form would have been `legal-cases-arias2024d007847`. |
+| Instance | `chittyevidence-<case_slug>-<case_id>` | NO — `{service}-{case}-{docket}` | **Never rename.** Live evidence index, pending matter. Grandfathered. Conforming form would have been `legal-cases-<case_slug><case_id>`. |
 | Instance | `finance-reference` | Partially — `{namespace}-{role}`, missing entity | Conforming: `finance-reference-core`, or accept 2-token form for singleton instances. Cheap. |
+
+> The live evidence index for the pending matter is written here as
+> `chittyevidence-<case_slug>-<case_id>`. The concrete identifier is withheld
+> deliberately: a reusable capability package must not carry a matter fact
+> (legal-operating-defaults §15), and `scripts/check-matter-leak.py` enforces
+> that. The shape `{service}-{case}-{docket}` is the whole evidentiary point;
+> which matter it is, is not. Do not restore the value to "make the example
+> concrete".
+
 
 Net: 3 of 12 conform. **The answer is not a rename campaign.** Adopt the convention as
 *forward-binding only*: new ids must conform, existing ids are grandfathered with a recorded reason,

@@ -96,10 +96,19 @@ measured from the parked working tree, whose diff against `origin/main` removes
 No Cloudflare control-plane call was made in this session. The seven gateways
 across four accounts, the three namespaces, the two instances, the
 `finance-reference` null `type`/`source`, and the
-`chittyevidence-arias-2024d007847` `paused_r2_not_enabled` state are all carried
+`chittyevidence-<case_slug>-<case_id>` `paused_r2_not_enabled` state are all carried
 forward as UNVERIFIED-HERE. They are consistent with
 `CHITTYAPPS/chittysearch/docs/NAMESPACE-STRATEGY.md:17-31` ("Live state
 (2026-09-05)") but that is a document, not the control plane.
+
+> The live evidence index for the pending matter is written here as
+> `chittyevidence-<case_slug>-<case_id>`. The concrete identifier is withheld
+> deliberately: a reusable capability package must not carry a matter fact
+> (legal-operating-defaults §15), and `scripts/check-matter-leak.py` enforces
+> that. The shape `{service}-{case}-{docket}` is the whole evidentiary point;
+> which matter it is, is not. Do not restore the value to "make the example
+> concrete".
+
 
 ### 0.4 CONFIRMED — chittyconfig ships unprovisioned KV
 
@@ -358,7 +367,7 @@ this.
 
 **(c) State assertion, not just existence.** Existence is insufficient:
 `finance-reference` exists with `type` and `source` both null and state `waiting`;
-`chittyevidence-arias-2024d007847` exists with `enable:true, paused:true`. Both
+`chittyevidence-<case_slug>-<case_id>` exists with `enable:true, paused:true`. Both
 would pass an existence check and neither can serve a query. The detector's
 verdict must be *serviceable / present-but-unserviceable / absent*, and
 `present-but-unserviceable` is the state the entire class hides in.
@@ -628,7 +637,7 @@ unrelated domains is what §2 of the doctrine calls heat.
    working tree. Worth a convention: *claims about chittymarket cite
    `git show origin/main:<path>`, never the working tree.* Flagged as a candidate
    convention per reporting rules; not written as a rule here.
-7. **`chittyevidence-arias-2024d007847` was not touched and must not be.** Live
+7. **`chittyevidence-<case_slug>-<case_id>` was not touched and must not be.** Live
    matter's evidence index, `infra_mutation_operator_gated`, owned by
    chittystorage-sasquatch, custody review required. Its
    `paused_r2_not_enabled` state is cited in §3.3c only as the canonical example
