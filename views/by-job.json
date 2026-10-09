@@ -719,7 +719,7 @@
     "market": [
       {
         "capability_id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
+        "name": "ChittyMarket Capability Office",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "advisory_disposition": "skill",

@@ -152,7 +152,7 @@
       },
       {
         "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
+        "name": "ChittyMarket Capability Office",
         "group": "market",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
@@ -970,7 +970,7 @@
       },
       {
         "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
+        "name": "ChittyMarket Capability Office",
         "group": "market",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
@@ -1660,7 +1660,7 @@
       },
       {
         "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
+        "name": "ChittyMarket Capability Office",
         "group": "market",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
@@ -2414,7 +2414,7 @@
       },
       {
         "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
+        "name": "ChittyMarket Capability Office",
         "group": "market",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
@@ -3296,7 +3296,7 @@
       },
       {
         "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
+        "name": "ChittyMarket Capability Office",
         "group": "market",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
@@ -4178,7 +4178,7 @@
       },
       {
         "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
+        "name": "ChittyMarket Capability Office",
         "group": "market",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
@@ -5052,7 +5052,7 @@
       },
       {
         "id": "chittycanon://capability/market/chittymarket-manager",
-        "name": "ChittyMarket Manager",
+        "name": "ChittyMarket Capability Office",
         "group": "market",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
