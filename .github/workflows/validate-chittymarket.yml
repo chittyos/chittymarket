@@ -131,6 +131,9 @@ jobs:
       - name: Gateway route lookup tests
         run: bash scripts/tests/test-gateway-route-lookup.sh
 
+      - name: _MAP pair floor
+        run: bash scripts/tests/test-map-pairs-cannot-shrink.sh
+
       - name: Dispatch state regression tests
         run: |
           bash -n plugins/chittyagent-dispatch/scripts/dispatch.sh
