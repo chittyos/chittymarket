@@ -1232,7 +1232,7 @@
       "capability_group": "govern",
       "group_assignment_source": "name-rule",
       "execution_class": "@chitty/reasoning",
-      "canonical_version": "1.0.0",
+      "canonical_version": "1.1.0",
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
@@ -1299,7 +1299,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:e7e931250820b08ae4f6e00c325a90974ca0e4c8c56b2371a9e1154ef7819304",
+        "content_hash": "sha256:2bcb607714a1d93a2dd32b715dee16bdfcf8bc512019e9a5aee7b37a64e73ddd",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -1316,7 +1316,7 @@
       "capability_group": "legal",
       "group_assignment_source": "category",
       "execution_class": "@chitty/reasoning",
-      "canonical_version": "1.2.0",
+      "canonical_version": "1.2.1",
       "projection_version_policy": "inherit-canonical",
       "ontology": {
         "primary": [
@@ -1380,7 +1380,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:b47e44945b86b6ad54e48bc662f57f0e7252cd9cd9b6178e5770abd3825524ea",
+        "content_hash": "sha256:09598ac1bbba80d8b56d026374838b32357daf2b1dd63d4d11ed02292faf34db",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -8926,7 +8926,7 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:98075488dd639c9edaac6a55e5710408e1d4d52e7657724e1bc19c4295849c2f",
+    "aggregate_hash": "sha256:aafaa7782cf2ce650a4199b69918010b82848d09637de4909b8e963760046efe",
     "record_count": 110,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
