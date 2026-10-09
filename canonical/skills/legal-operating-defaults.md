@@ -423,14 +423,17 @@ skipping the review and discovery conditions that document makes binding.
 | `capability-governor` | A capability, skill, agent, app, GPT, MCP route, or projection is created or changed |
 | `chittyos-compliance` | ChittyOS creation, modification, registration, certification, or deployment |
 
-**Resolution availability is not assumed.** `review-legal-record`, `case-execution-marshal`,
-and `finance-context` are named routing targets that are **not currently resolvable in this
-operator's canonical marketplace**. `chittyagent-paralegal` is merged and packaged, but is not thereby a bound remote service
-in every runtime; `9-step-legal-audit`, `litigation-evidence-dossier`, and `cook-county-casesearch`
-resolve today only inside the operator's Claude Desktop skill bundle, not through ChittyMarket
-dispatch. When a trigger fires for an unresolvable target, say so
-and proceed under these defaults — do not silently invent the capability's behavior, and do
-not treat its absence as permission to skip its concern.
+**Resolution availability is runtime-specific and must be discovered, not assumed.**
+A routing target can exist in one or more distinct states: canonical ChittyMarket definition,
+installed client skill, orchestrator index entry, registered ChittyRegistry capability, or bound
+remote service. None of those states implies the others. Before declaring a named target
+unavailable, check the current runtime's installed skill/tool catalog and the canonical marketplace
+surface that governs it. `chittyagent-paralegal`, for example, is merged and packaged but is not
+thereby a bound remote service in every runtime. Conversely, an operator-local or client-installed
+skill may be callable even when it has not been promoted into ChittyMarket's capability overlay.
+When a trigger fires for a genuinely unresolvable target, say so and proceed under these defaults —
+do not invent the missing capability's behavior, and do not treat its absence as permission to skip
+its concern.
 
 ---
 
