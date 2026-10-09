@@ -937,3 +937,81 @@ For finance, this closes the repository-side contradiction between
 re-runs all bootstrap-managed projections and fails on drift. This is projection evidence,
 not runtime-install evidence: a ChatGPT client must still install/refresh the plugin before
 the skill may be claimed live there.
+
+## 2026-10-09 — proposed matter-scoped "case intelligence agent" service: merge into `chittycounsel`, activation held
+
+**Auditor:** capability-registry-audit plus a `startup-mode` pass, run in-session against a third-party build recommendation; a separated fresh-context review was applied before filing.
+**Scope:** one proposed artifact, not built. Not a sweep.
+**Disposition:** `merge` → canonical_id `chittycounsel`. Status `backlog`; activation gated on nine conditions, all failing at audit time.
+
+### What it is
+
+A recommendation to stand up a dedicated, stateful, matter-scoped case-intelligence
+service: one Durable Object coordinator per matter, Queues and Workflows for execution,
+the existing R2 evidence buckets, "existing Neon case and verification schemas" as the
+fact and relationship memory, hybrid AI retrieval, and automated publishing of counsel
+deliverables. The proposed service name embedded a case number and is not reproduced
+here; that form fails this repository's matter-leak gate (entry 2026-09-21) and the
+`chittyagent-{name}` shape, which is itself a finding against the proposal.
+
+### Why merge, not add
+
+The job already has a chartered owner. ChittyCounsel is the orchestrator of record for
+litigation workflows (the matter's operating SOP §3.4 and §4.2; CFDXN-107: "extend
+ChittyCounsel rather than creating a separate legal app"), and this log already
+dispositioned a matter-bound counsel clone as merge + retire (entry 2026-09-21). A second,
+matter-named service re-creates the out-of-tree clone that entry retired. Its proposed
+Neon fact layer would also stand up a second fact store beside the canonical D1 ledger,
+which `startup-mode` lever 3 and `legal-operating-defaults` both forbid; the Neon projects
+it names were measured empty or cold.
+
+### Classification
+
+`job_to_be_done: operate` · `environmental_footprint: forensic-legal-grade` ·
+`evidentiary_risk: legal-grade` · `runtime_projection: legal-space-only` ·
+`entity_mapping: [E, A, T]` · `non_repudiation_required: true` · `matrix_step: 1`
+(already exists under another name).
+
+### Decided
+
+- Reroute the capability into `chittycounsel` as a Durable Object coordinator class, one
+  instance per canonical matter id. It persists the continuity layer — decisions, open
+  questions, checkpoints, and pointers to where authoritative records live — plus execution
+  cursors. It is not a fact store and not a document store: facts enter only through
+  `fact-governance` into the D1 ledger as drafts, and the agent proposes verification with a
+  quote and pin cite without changing status.
+- No new worker, database, Hyperdrive binding, Vectorize index, or cron. Reconciliation is
+  queue-triggered; database reads sit behind a queue-empty or activity check.
+- Every read carries the matter id and is refused without it. Outputs land in one designated
+  matter folder as drafts; a person transmits.
+- Activation held behind nine gates: platform restored (R2 enabled, D1 reads uncapped);
+  read cost re-measured against the $20/month fleet ceiling; callers authenticated on every
+  entry point with tokens issued through the broker; matter isolation enforced and tested;
+  one canonical matter id; the D1 ledger designated and other fact locations mapped or
+  retired; per-matter retrieval rebuilt from reviewed scope; one publication folder with
+  human transmission; one `chittycounsel` repository with CI gates that can fail. All nine
+  failed on 2026-10-08.
+- Docket detection has no working automated source: deferred, operator-entered, and the
+  coordinator never reports "no new filings" as authoritative.
+
+### Deferred to the operator
+
+- Work registration: reuse CFDXN-107; do not open a competing item.
+- The `chittycounsel` service-identity re-home (two codebases, one live script name) — see
+  that repository's `docs/diagnostics/` collision note of 2026-08-01. The rename direction is
+  the operator's call.
+
+### Rules applied
+
+`legal-operating-defaults` §3, §8, §9, §10, §15 · `nb-development-defaults` discovery-first and
+separated adversarial review · `startup-mode` levers 1–3, measurement precondition, $20/month
+ceiling (the saving is governance-justified, not measured: declining to build avoids new spend
+but is not itself a saving) · `capability-registry-audit` one-disposition rule.
+
+### Review and provenance
+
+A fresh-context, read-only reviewer that did not write the audit reviewed it on 2026-10-08;
+its matter-leak finding against this record's draft was applied before filing.
+`chittyagent-canon` review was not run at filing time and is recommended at merge. The
+underlying baseline report is held in the matter's legal space and is deliberately not
+linked here (two-space rule).
