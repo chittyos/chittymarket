@@ -3,11 +3,11 @@
   "phase": "Materialized capability overlay — canonical-owned records generated; external/legacy records preserved",
   "source": "canonical/ Market projection definitions + marketplace.json distribution state; non-canonical external/legacy capability records preserved verbatim",
   "naming": "Bare JTBD group ids (no chitty- prefix). Namespace chittycanon://capability/ already encodes 'chitty'.",
-  "total": 110,
+  "total": 113,
   "group_assignment_sources": {
     "category": 36,
     "name-rule": 49,
-    "override": 25
+    "override": 28
   },
   "capabilities": [
     {
@@ -8923,11 +8923,257 @@
         "signer_chittyid": null,
         "anchored_in_ledger": null
       }
+    },
+    {
+      "capability_id": "chittycanon://capability/legal/document-intake-checks",
+      "legacy_id": "skill-doctype-checks",
+      "name": "Document Intake Checks",
+      "description": "Per-document-type intake checks for legal evidence. Given a document, identify its type and run every check that type requires, emitting an explicit result for each — pass, fail, or unknown — so nothing is silently skipped. Runs BEFORE a fact is drafted, upstream of fact-governance's draft/verified/locked lifecycle. Triggers on \"check this document\", \"what should I verify here\", \"intake checks\", \"doctype checks\", \"is this executed\", \"which balance\", \"entered or draft\", or any first read of a new instrument, statement, order, or export.",
+      "capability_group": "legal",
+      "group_assignment_source": "override",
+      "execution_class": "@chitty/reasoning",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "E",
+          "A"
+        ],
+        "secondary": [
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true,
+        "non_repudiation_required": true,
+        "evidence_gate": "legal-space-only"
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": true,
+        "context_cost": "medium",
+        "mutation_risk": "low"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "intake",
+          "validate",
+          "verify",
+          "inspect",
+          "classify"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "existing-session",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": false
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://canonical/skills/doctype-checks.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "validate",
+        "environmental_footprint": "forensic-legal-grade",
+        "evidentiary_risk": "legal-grade",
+        "advisory_disposition": "legal-only"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "legal",
+      "deprecated_aliases": [
+        "skill-doctype-checks"
+      ],
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:b83b07c085cd4a560dd1a7c75d61c3b9f86c8556d3c0f25f32bcae10c073bf6f",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/legal/evidence-egress",
+      "legacy_id": "skill-evidence-egress",
+      "name": "Evidence Egress",
+      "description": "Migrate evidence/document files out of scattered local source directories (Desktop, iCloud, Downloads, external) into the canonical pipeline (R2 + Drive mirror + local working copy). Read-only audit by default — produces per-case CSV reports of {in_neon, in_drive, action_needed} before any move or delete. Case-agnostic: discovers cases from <root>/cases/* and resolves Drive remotes by convention (sd_<case_id>:). Triggers on: 'egress', 'evidence egress', 'migrate evidence', 'free up desktop', 'iCloud evidence sprawl', 'audit before move', '/evidence-egress', 'where are the duplicates'.",
+      "capability_group": "legal",
+      "group_assignment_source": "override",
+      "execution_class": "@chitty/workspace",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "E",
+          "A"
+        ],
+        "secondary": [
+          "L",
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true,
+        "non_repudiation_required": true,
+        "evidence_gate": "legal-space-only"
+      },
+      "execution": {
+        "default_surface": "local",
+        "local_allowed": true,
+        "context_cost": "high",
+        "mutation_risk": "high"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "migrate",
+          "reconcile",
+          "deduplicate",
+          "audit",
+          "egress"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "local-only",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {
+        "openclaw": [
+          "filesystem_and_destructive_steps_require_local_operator"
+        ]
+      },
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://canonical/skills/evidence-egress.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "migrate",
+        "environmental_footprint": "filesystem-local",
+        "evidentiary_risk": "legal-grade",
+        "advisory_disposition": "legal-only"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "legal",
+      "deprecated_aliases": [
+        "skill-evidence-egress"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:633aa09999cb11f433b0065fafc96583c5c0d524a61fabccc9d6be86f68c88c6",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
+    },
+    {
+      "capability_id": "chittycanon://capability/legal/evidence-to-filing",
+      "legacy_id": "skill-evidence-to-filing",
+      "name": "Evidence to Filing",
+      "description": "Convert an explicitly identified legal matter's already-governed evidence and verified facts into an attorney-reviewable filing package. Use when asked to turn a contradiction matrix, verified chronology, citation map, exhibit set, or evidence audit into litigation work product; build exhibit/Bates architecture; prepare a statement of facts, memorandum, motion shell, proposed order, service shell, or e-filing checklist; or make an evidence package filing-ready. Requires a named matter and preserves source-to-fact-to-exhibit traceability. It does not collect evidence, verify new facts, choose disputed legal relief, or silently label a package court-ready.",
+      "capability_group": "legal",
+      "group_assignment_source": "override",
+      "execution_class": "@chitty/reasoning",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "E",
+          "A"
+        ],
+        "secondary": [
+          "P",
+          "L",
+          "T"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true,
+        "requires_case": true,
+        "write_scope": "case-scoped",
+        "no_last_case_fallback": true,
+        "non_repudiation_required": true,
+        "evidence_gate": "legal-space-only"
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": true,
+        "context_cost": "high",
+        "mutation_risk": "high"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "file",
+          "draft",
+          "exhibit",
+          "bates",
+          "package"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "existing-session",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true,
+        "requires_case_id": true,
+        "no_fallback_last_case": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://canonical/skills/evidence-to-filing.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "materialize",
+        "environmental_footprint": "forensic-legal-grade",
+        "evidentiary_risk": "legal-grade",
+        "advisory_disposition": "legal-only"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "legal",
+      "deprecated_aliases": [
+        "skill-evidence-to-filing"
+      ],
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:f7ac912e68b4a3c53c688bf72ab52067e07574159499f37a6fec3add7f06c52a",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:aafaa7782cf2ce650a4199b69918010b82848d09637de4909b8e963760046efe",
-    "record_count": 110,
+    "aggregate_hash": "sha256:4b66db68a04cf589612e404db0f3701419ab3da916fa475656d138488088e0d9",
+    "record_count": 113,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
     "anchored_in_ledger": null
