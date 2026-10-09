@@ -73,4 +73,35 @@ printf '#!/usr/bin/env bash\necho x >>generated.out\nexit 0\n' >scripts/generate
 run "$R4" preflight;                expect_rc "non-idempotent generation is HOLD" 2 "$RC"; expect_out "drift is reported" "not idempotent" "$OUT" 0
 [[ -z "$(git -C "$R4" status --porcelain)" ]] && ok "drift did not leak into real tree" || bad "drift leaked into real tree"
 
+# Path identity: only publishable sources inside the repo count; root and stray files do not.
+run "$R1" publish "$R1/plugins/chittyagent-dispatch"; expect_rc "publish a plugin source path is HOLD (never exit 0)" 2 "$RC"; expect_out "plugin source path resolves to READY" "READY: preflight passed" "$OUT" 0
+run "$R1" publish "$R1";            expect_rc "publish repo root is HOLD" 2 "$RC"; expect_out "repo root never READY" "READY" "$OUT" 1
+run "$R1" publish "$R1/.gitignore"; expect_rc "publish stray repo file is HOLD" 2 "$RC"; expect_out "stray file never READY" "READY" "$OUT" 1
+
+# Signal mid-generation must END the run (a trap that only returns lets later steps run in the
+# real tree and read as PASS). Generator 1 TERMs preflight; generator 2 would write MARKER.
+R5="$WORK/r5"; make_repo "$R5"; cd "$R5"
+printf '#!/usr/bin/env bash\nkill -TERM "$(cat "$PIDF")"\nsleep 2\nexit 0\n' >scripts/generate-marketplace.sh
+printf 'open("MARKER","w").write("x")\n' >scripts/generate-capability-views.py
+git add -A; git commit -qm "term"; cd "$HERE"
+H5="$WORK/h5"; mkdir -p "$H5/.claude"; ln -s "$R5/marketplace.json" "$H5/.claude/marketplace.json"
+OUT="$(cd "$R5" && PIDF="$WORK/pid5" HOME="$H5" MARKET_OVERLAY="$R5/capabilities.generated.json" MARKET="$MARKET" \
+  bash -c 'echo $$ >"$PIDF"; exec bash "$MARKET" publish demo' 2>&1)"; RC=$?
+expect_rc "SIGTERM mid-run terminates the run (143), never success" 143 "$RC"; expect_out "SIGTERM never READY" "READY" "$OUT" 1; expect_out "SIGTERM never PASS" "PREFLIGHT PASS" "$OUT" 1
+[[ ! -e "$R5/MARKER" ]] && ok "SIGTERM did not let later generators write into the real tree" || bad "later generator ran in real tree after SIGTERM"
+[[ "$(git -C "$R5" worktree list | wc -l)" == 1 ]] && ok "SIGTERM leaves no worktree" || bad "SIGTERM leaked worktree"
+
+# Unknown is never clean: if git status of the idempotency worktree fails, that is HOLD, not PASS.
+R6="$WORK/r6"; make_repo "$R6"; cd "$R6"
+printf '#!/usr/bin/env bash\nrm -f .git\nexit 0\n' >scripts/generate-bootstrap-pointers.sh; git add -A; git commit -qm "break git"; cd "$HERE"
+run "$R6" preflight;                expect_rc "unreadable worktree status is HOLD" 2 "$RC"; expect_out "unreadable status never PASS" "PREFLIGHT PASS" "$OUT" 1
+run "$R6" publish demo;             expect_rc "unreadable worktree status makes publish HOLD" 2 "$RC"; expect_out "unreadable status never READY" "READY" "$OUT" 1
+
+# Repo without scripts/: publish must still HOLD with exit 2 (not die with 1).
+R7="$WORK/r7"; mkdir -p "$R7"; cd "$R7"; git init -q .; git config user.email t@t; git config user.name t
+printf '{"artifacts":[{"id":"demo"}]}\n' >marketplace.json
+printf '{"total":1,"capabilities":[{"capability_id":"chittycanon://capability/market/demo","legacy_id":"demo"}]}\n' >capabilities.generated.json
+git add -A; git commit -qm init; cd "$HERE"
+run "$R7" publish demo;             expect_rc "publish with no scripts/ is HOLD not die" 2 "$RC"
+
 echo; echo "$PASS passed, $FAIL failed"; [[ "$FAIL" -eq 0 ]]

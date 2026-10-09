@@ -551,14 +551,21 @@ PY
 
 # NOTE: bash disables `set -e` inside anything called as `cmd || ...` or `if cmd`,
 # so preflight never relies on it: every step reports its own status via run_step.
-_PF_WT=""; _PF_OUT=""; _PF_FAILED=0
+_PF_ROOT=""; _PF_WT=""; _PF_FAILED=0
 _pf_cleanup() {
-  [[ -n "$_PF_WT" ]] && git -C "$_PF_ROOT" worktree remove --force "$_PF_WT" >/dev/null 2>&1
-  [[ -n "$_PF_OUT" ]] && rm -rf "$_PF_OUT"
-  _PF_WT=""; _PF_OUT=""
+  if [[ -n "$_PF_WT" && -n "$_PF_ROOT" ]]; then
+    git -C "$_PF_ROOT" worktree remove --force "$_PF_WT" >/dev/null 2>&1 || true
+    rm -rf "$_PF_WT"
+  fi
+  _PF_WT=""
 }
 run_step() {  # run_step <dir> <cmd...>: run in <dir>, record failure, keep going
   local dir="$1"; shift
+  if [[ -z "$dir" || ! -d "$dir" ]]; then   # never let a blank dir fall back to the cwd
+    echo "FAIL: no such directory '$dir' for: $*" >&2
+    _PF_FAILED=1
+    return 0
+  fi
   if ! ( cd "$dir" && "$@" ); then
     echo "FAIL: $*" >&2
     _PF_FAILED=1
@@ -568,17 +575,28 @@ run_step() {  # run_step <dir> <cmd...>: run in <dir>, record failure, keep goin
 cmd_preflight() {
   local target="${1:-}"
   local root; root="$(repo_root)"
-  [[ -d "$root/scripts" ]] || die "canonical ChittyMarket repo not resolved from manifest: $root"
+  if [[ ! -d "$root/scripts" ]]; then
+    echo "HOLD: canonical ChittyMarket repo not resolved from manifest: $root" >&2
+    return 2
+  fi
   echo "Preflight target: ${target:-repository}"
   echo "Repository: $root"
   # Preflight judges committed state and must not touch the working tree: refuse a
   # dirty tree instead of regenerating over uncommitted edits.
-  if [[ -n "$(git -C "$root" status --porcelain)" ]]; then
+  local st
+  if ! st="$(git -C "$root" status --porcelain 2>&1)"; then
+    echo "HOLD: cannot read git status for $root: $st" >&2
+    return 2
+  fi
+  if [[ -n "$st" ]]; then
     echo "HOLD: working tree has uncommitted changes; commit or discard them so preflight judges committed state." >&2
     return 2
   fi
   _PF_FAILED=0; _PF_ROOT="$root"
-  trap '_pf_cleanup' EXIT INT TERM
+  # Signals must END the script: a trap that merely returns lets the remaining steps run.
+  trap '_pf_cleanup' EXIT
+  trap 'exit 130' INT
+  trap 'exit 143' TERM
   run_step "$root" bash scripts/lint-plugins.sh
   run_step "$root" python3 scripts/validate-openai-workspace.py
   run_step "$root" python3 scripts/check-matter-leak.py
@@ -598,8 +616,8 @@ cmd_preflight() {
   run_step "$root" python3 scripts/tests/test_dispatch_workflow.py
   run_step "$root" bash scripts/tests/test-market-office.sh
   # Idempotency: regenerate in a throwaway worktree of HEAD so the real tree is never written.
-  _PF_WT="$(mktemp -d)"; _PF_OUT="$(mktemp -d)"
-  if ! git -C "$root" worktree add --detach -q "$_PF_WT" HEAD; then
+  _PF_WT="$(mktemp -d)"
+  if [[ -z "$_PF_WT" ]] || ! git -C "$root" worktree add --detach -q "$_PF_WT" HEAD; then
     echo "HOLD: could not create throwaway worktree for the idempotency check." >&2
     _pf_cleanup; trap - EXIT INT TERM
     return 2
@@ -610,8 +628,11 @@ cmd_preflight() {
   run_step "$_PF_WT" bash scripts/generate-marketplace.sh
   run_step "$_PF_WT" python3 scripts/generate-capability-views.py
   run_step "$_PF_WT" bash scripts/generate-bootstrap-pointers.sh all
-  local drift=0
-  if [[ -n "$(git -C "$_PF_WT" status --porcelain)" ]]; then
+  local drift=0 wst
+  if ! wst="$(git -C "$_PF_WT" status --porcelain 2>&1)"; then
+    echo "HOLD: cannot read git status of the idempotency worktree: $wst" >&2   # unknown is never clean
+    drift=1
+  elif [[ -n "$wst" ]]; then
     echo "HOLD: generation is not idempotent; canonical/generated state drifted." >&2
     git -C "$_PF_WT" diff --stat >&2 || true
     drift=1
@@ -646,7 +667,8 @@ cmd_publish() {
   local resolved=0 abs=""
   if [[ -e "$target" ]]; then
     abs="$(realpath -- "$target" 2>/dev/null || true)"
-    case "$abs" in "$root"|"$root"/*) resolved=1 ;; esac   # a path must live inside the repo
+    # a path must be a publishable source inside the repo, not the repo root or a stray file
+    case "$abs" in "$root/plugins/"*|"$root/canonical/"*) resolved=1 ;; esac
   fi
   if [[ "$resolved" -eq 0 ]] && OVERLAY_FILE="$OVERLAY" TARGET="$target" python3 - <<'PY'
 import json, os, sys
