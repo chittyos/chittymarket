@@ -60,6 +60,30 @@ if [[ ! "$MODEL" =~ $MODEL_RE ]]; then
   exit 1
 fi
 
+# A `dynamic/<name>` AI Gateway route is rejected HERE, on the RESOLVED value, so
+# the rejection covers the hardcoded default and a REVIEW_MODEL override alike.
+# An undeployed dynamic route answers 400 code 2005: no review runs, and an empty
+# review reads as "nothing found" — the silent-failure mode this lane exists to
+# prevent. `dynamic/three-wise-men` was retired by operator decision (2026-10-03)
+# and must not be recreated. A future purpose-built dynamic route for review is a
+# deliberate change to this guard, not an env override.
+if [[ "$MODEL" == *dynamic/* ]]; then
+  echo "refusing dynamic route '$MODEL' — review NOT performed." >&2
+  echo "  An undeployed dynamic/<name> route 400s (code 2005) and an empty review" >&2
+  echo "  reads as 'nothing found'. Use a directly-named model." >&2
+  exit 1
+fi
+
+# `--print-model` resolves the model exactly as a real run does — same default,
+# same override, same rejection above — then prints it and stops before any
+# dispatch. It exists so a guard test can assert on the RESOLVED value instead of
+# on how the assignment happens to be spelled: a default built by interpolation
+# reads differently in a grep than it does here.
+if [[ "${1:-}" == "--print-model" ]]; then
+  printf '%s\n' "$MODEL"
+  exit 0
+fi
+
 DIFF_FILE="${1:-}"
 EXTRA=""
 shift || true
