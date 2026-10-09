@@ -549,6 +549,22 @@ if bad: sys.exit(2)
 PY
 }
 
+# NOTE: bash disables `set -e` inside anything called as `cmd || ...` or `if cmd`,
+# so preflight never relies on it: every step reports its own status via run_step.
+_PF_WT=""; _PF_OUT=""; _PF_FAILED=0
+_pf_cleanup() {
+  [[ -n "$_PF_WT" ]] && git -C "$_PF_ROOT" worktree remove --force "$_PF_WT" >/dev/null 2>&1
+  [[ -n "$_PF_OUT" ]] && rm -rf "$_PF_OUT"
+  _PF_WT=""; _PF_OUT=""
+}
+run_step() {  # run_step <dir> <cmd...>: run in <dir>, record failure, keep going
+  local dir="$1"; shift
+  if ! ( cd "$dir" && "$@" ); then
+    echo "FAIL: $*" >&2
+    _PF_FAILED=1
+  fi
+}
+
 cmd_preflight() {
   local target="${1:-}"
   local root; root="$(repo_root)"
@@ -561,47 +577,51 @@ cmd_preflight() {
     echo "HOLD: working tree has uncommitted changes; commit or discard them so preflight judges committed state." >&2
     return 2
   fi
-  (
-    cd "$root"
-    bash scripts/lint-plugins.sh
-    python3 scripts/validate-openai-workspace.py
-    python3 scripts/check-matter-leak.py
-    bash scripts/test-plugins.sh
-    bash scripts/check-overlay-coverage.sh
-    python3 scripts/validate-overlay-schema.py
-    bash scripts/check-source-freshness.sh
-    python3 scripts/overlay-provenance.py verify
-    python3 scripts/check-document-contract.py
-    bash scripts/tests/test-market-reconcile.sh
-    bash -n plugins/chittyagent-dispatch/scripts/dispatch.sh
-    python3 -m py_compile plugins/chittyagent-dispatch/scripts/lib/state.py
-    python3 scripts/tests/test_dispatch_state.py
-    python3 scripts/check-agent-identity.py
-    python3 scripts/market-reconcile.py audit
-    bash scripts/tests/test-gateway-route-lookup.sh
-    python3 scripts/tests/test_dispatch_workflow.py
-  ) || return $?
+  _PF_FAILED=0; _PF_ROOT="$root"
+  trap '_pf_cleanup' EXIT INT TERM
+  run_step "$root" bash scripts/lint-plugins.sh
+  run_step "$root" python3 scripts/validate-openai-workspace.py
+  run_step "$root" python3 scripts/check-matter-leak.py
+  run_step "$root" bash scripts/test-plugins.sh
+  run_step "$root" bash scripts/check-overlay-coverage.sh
+  run_step "$root" python3 scripts/validate-overlay-schema.py
+  run_step "$root" bash scripts/check-source-freshness.sh
+  run_step "$root" python3 scripts/overlay-provenance.py verify
+  run_step "$root" python3 scripts/check-document-contract.py
+  run_step "$root" bash scripts/tests/test-market-reconcile.sh
+  run_step "$root" bash -n plugins/chittyagent-dispatch/scripts/dispatch.sh
+  run_step "$root" python3 -m py_compile plugins/chittyagent-dispatch/scripts/lib/state.py
+  run_step "$root" python3 scripts/tests/test_dispatch_state.py
+  run_step "$root" python3 scripts/check-agent-identity.py
+  run_step "$root" python3 scripts/market-reconcile.py audit
+  run_step "$root" bash scripts/tests/test-gateway-route-lookup.sh
+  run_step "$root" python3 scripts/tests/test_dispatch_workflow.py
+  run_step "$root" bash scripts/tests/test-market-office.sh
   # Idempotency: regenerate in a throwaway worktree of HEAD so the real tree is never written.
-  local wt out rc=0
-  wt="$(mktemp -d)"; out="$(mktemp -d)"
-  git -C "$root" worktree add --detach -q "$wt" HEAD
-  (
-    cd "$wt"
-    python3 scripts/market-reconcile.py sync >"$out/reconcile.txt"
-    bash plugins/chittyagent-dispatch/scripts/dispatch.sh sync >"$out/dispatch.txt"
-    bash plugins/chittyagent-dispatch/scripts/dispatch.sh audit
-    bash scripts/generate-marketplace.sh >"$out/marketplace.txt"
-    python3 scripts/generate-capability-views.py >"$out/views.txt"
-    bash scripts/generate-bootstrap-pointers.sh all >"$out/bootstrap.txt"
-    if [[ -n "$(git status --porcelain)" ]]; then
-      echo "HOLD: generation is not idempotent; canonical/generated state drifted." >&2
-      git diff --stat >&2 || true
-      exit 2
-    fi
-  ) || rc=$?
-  git -C "$root" worktree remove --force "$wt" >/dev/null 2>&1 || true
-  rm -rf "$out"
-  [[ "$rc" -eq 0 ]] || return "$rc"
+  _PF_WT="$(mktemp -d)"; _PF_OUT="$(mktemp -d)"
+  if ! git -C "$root" worktree add --detach -q "$_PF_WT" HEAD; then
+    echo "HOLD: could not create throwaway worktree for the idempotency check." >&2
+    _pf_cleanup; trap - EXIT INT TERM
+    return 2
+  fi
+  run_step "$_PF_WT" python3 scripts/market-reconcile.py sync
+  run_step "$_PF_WT" bash plugins/chittyagent-dispatch/scripts/dispatch.sh sync
+  run_step "$_PF_WT" bash plugins/chittyagent-dispatch/scripts/dispatch.sh audit
+  run_step "$_PF_WT" bash scripts/generate-marketplace.sh
+  run_step "$_PF_WT" python3 scripts/generate-capability-views.py
+  run_step "$_PF_WT" bash scripts/generate-bootstrap-pointers.sh all
+  local drift=0
+  if [[ -n "$(git -C "$_PF_WT" status --porcelain)" ]]; then
+    echo "HOLD: generation is not idempotent; canonical/generated state drifted." >&2
+    git -C "$_PF_WT" diff --stat >&2 || true
+    drift=1
+  fi
+  _pf_cleanup; trap - EXIT INT TERM
+  if [[ "$_PF_FAILED" -ne 0 ]]; then
+    echo "PREFLIGHT FAIL: one or more checks failed (see FAIL lines above)." >&2
+    return 1
+  fi
+  [[ "$drift" -eq 0 ]] || return 2
   echo "PREFLIGHT PASS"
 }
 
@@ -617,26 +637,45 @@ cmd_audit() {
 }
 
 cmd_publish() {
-  local target="$1"
-  # Identity must resolve before anything else: an unknown id is HOLD, never READY.
-  if [[ ! -e "$target" ]] && ! OVERLAY_FILE="$OVERLAY" TARGET="$target" python3 - <<'PY'
+  local target="${1:-}" root; root="$(repo_root)"
+  # Identity must resolve before anything else; any failure below is HOLD (exit 2), never READY.
+  if [[ -z "$target" ]]; then
+    echo "HOLD: no capability id or path given; identity unresolved." >&2
+    return 2
+  fi
+  local resolved=0 abs=""
+  if [[ -e "$target" ]]; then
+    abs="$(realpath -- "$target" 2>/dev/null || true)"
+    case "$abs" in "$root"|"$root"/*) resolved=1 ;; esac   # a path must live inside the repo
+  fi
+  if [[ "$resolved" -eq 0 ]] && OVERLAY_FILE="$OVERLAY" TARGET="$target" python3 - <<'PY'
 import json, os, sys
 caps = json.load(open(os.environ["OVERLAY_FILE"])).get("capabilities", [])
 t = os.environ["TARGET"]
 sys.exit(0 if any(t in (c.get("legacy_id"), c.get("capability_id")) for c in caps) else 1)
 PY
-  then
-    echo "HOLD: cannot resolve '$target' to a capability id or path; identity unresolved." >&2
+  then resolved=1; fi
+  if [[ "$resolved" -eq 0 ]]; then
+    echo "HOLD: cannot resolve '$target' to a capability id or a path inside the repo; identity unresolved." >&2
     return 2
   fi
-  cmd_preflight "$target" || return $?
+  local rc=0
+  cmd_preflight "$target" || rc=$?
+  if [[ "$rc" -ne 0 ]]; then
+    echo "HOLD: preflight did not pass for $target (code $rc); nothing published." >&2
+    return 2
+  fi
   echo "READY: preflight passed for $target"
   echo "HOLD: publication mutation is delegated to the canonical PR/merge/register surface (ChittyRegister); no approval or receipt is fabricated."
   return 2
 }
 
 cmd_retire() {
-  local artifact_id="$1"
+  local artifact_id="${1:-}"
+  if [[ -z "$artifact_id" ]]; then
+    echo "HOLD: no capability id given; identity unresolved." >&2
+    return 2
+  fi
   cmd_deps "$artifact_id" || true
   echo "HOLD: retirement requires reverse-consumer reconciliation and an explicit canonical deprecation/removal change. No destructive mutation performed for $artifact_id."
   return 2
@@ -657,7 +696,7 @@ case "${1:-list}" in
   deps)      [[ -n "${2:-}" ]] || die "Usage: market.sh deps <id>"; cmd_deps "$2" ;;
   preflight) cmd_preflight "${2:-}" ;;
   audit)     cmd_audit "${2:---all}" ;;
-  publish)   [[ -n "${2:-}" ]] || die "Usage: market.sh publish <id|path>"; cmd_publish "$2" ;;
-  retire)    [[ -n "${2:-}" ]] || die "Usage: market.sh retire <id>"; cmd_retire "$2" ;;
+  publish)   cmd_publish "${2:-}" ;;
+  retire)    cmd_retire "${2:-}" ;;
   *)         die "Unknown command: $1" ;;
 esac

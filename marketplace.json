@@ -773,7 +773,7 @@
     {
       "id": "skill-market",
       "name": "ChittyMarket Manager",
-      "description": "Manage all Claude Code artifacts — list, enable, disable, info, mode, sync",
+      "description": "Manage ChittyOS capabilities — list, enable, disable, info, mode, sync, plus inventory, deps, preflight, audit and HOLD-only publish/retire",
       "type": "skill",
       "category": "ecosystem",
       "access": "readwrite",

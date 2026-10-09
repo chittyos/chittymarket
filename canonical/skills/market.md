@@ -61,7 +61,7 @@ Operate the lifecycle of ChittyOS capabilities from one governed interface. Trea
 ## Non-negotiable rules
 
 1. Search for an existing canonical capability before creating or promoting anything.
-2. ChittyRegistry owns identity; ChittyMarket owns distribution; Ch1tty/ChittyMCP owns integration routing; ChittyConnect/ChittyAuth owns connection and credential state.
+2. ChittyRegistry (read-only directory) holds identity records and ChittyRegister is the only registration write path; ChittyMarket owns distribution; Ch1tty/ChittyMCP owns integration routing; ChittyConnect/ChittyAuth owns connection and credential state.
 3. Skills own method, apps/connectors own integrations, agents own delegated execution, and projects/workspaces own context.
 4. Never clone a shared MCP, skill, connector, registry, auth flow, database, or schema into a vertical plugin merely to make it self-contained.
 5. Generated manifests, provenance records, and runtime projections are compiler outputs. Do not hand-author them when a canonical generator exists.

@@ -123,6 +123,9 @@ jobs:
 
       # Offline: AI Gateway route-list lookup (apply-gateway-route.sh) against
       # real CF response shapes; unknown shape must exit 2, never "absent".
+      - name: Market office regression tests (preflight/publish/retire gates)
+        run: bash scripts/tests/test-market-office.sh
+
       - name: Gateway route lookup tests
         run: bash scripts/tests/test-gateway-route-lookup.sh
 
