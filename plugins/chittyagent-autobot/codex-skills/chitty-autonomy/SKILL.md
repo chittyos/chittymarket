@@ -104,7 +104,7 @@ Response payload is persisted to `chittycontext/structured-autonomy/<feature>/SO
 | 6 | Review | delegate to `chittyagent-canon` + `code-reviewer` + `silent-failure-hunter` + `comment-analyzer` | review report; gate to next phase |
 | 7 | Tidy | `chitty-autonomy-tidy` | branch-cleanup, format, lint, chitty-cleanup invocation |
 | 8 | CI/CD | `chitty-autonomy-cicd` | `.github/workflows/`, wrangler deploy targets, secrets scaffold |
-| 9 | Ship | `chitty-autonomy-ship` | PR created/auto-merged, ChittyRegistry update, Notion sync |
+| 9 | Ship | `chitty-autonomy-ship` | PR created and landed via gated `autoassist:pr_land_v1` (gated local fallback only if unavailable), ChittyRegistry update, Notion sync |
 | 10 | Memory | inline | feedback/project memory written; ChittyChronicle finalize entry |
 
 ## State Machine

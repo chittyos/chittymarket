@@ -18,7 +18,7 @@ The autobot will:
 7. Run `chittyagent-canon` + `code-reviewer` + `silent-failure-hunter` review.
 8. Tidy: format, lint, branch cleanup, wrangler-audit if applicable.
 9. Scaffold CI/CD if missing; audit your GitHub-Actions CF token scopes.
-10. Ship: push, PR, ChittyRegistry update for new services, Notion sync, auto-merge if allowed.
+10. Ship: push, PR, ChittyRegistry update for new services, Notion sync, land via gated `autoassist:pr_land_v1` (gated local fallback only when that skill is unavailable; never GitHub auto-merge).
 11. Persist memory + finalize ChittyChronicle audit chain.
 
 ## Why successor not extension
