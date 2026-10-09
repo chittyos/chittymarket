@@ -555,6 +555,12 @@ cmd_preflight() {
   [[ -d "$root/scripts" ]] || die "canonical ChittyMarket repo not resolved from manifest: $root"
   echo "Preflight target: ${target:-repository}"
   echo "Repository: $root"
+  # Preflight judges committed state and must not touch the working tree: refuse a
+  # dirty tree instead of regenerating over uncommitted edits.
+  if [[ -n "$(git -C "$root" status --porcelain)" ]]; then
+    echo "HOLD: working tree has uncommitted changes; commit or discard them so preflight judges committed state." >&2
+    return 2
+  fi
   (
     cd "$root"
     bash scripts/lint-plugins.sh
@@ -572,18 +578,26 @@ cmd_preflight() {
     python3 scripts/tests/test_dispatch_state.py
     python3 scripts/check-agent-identity.py
     python3 scripts/market-reconcile.py audit
-    before="$(git status --porcelain)"
-    python3 scripts/market-reconcile.py sync >/tmp/chittymarket-preflight-reconcile.txt
-    bash plugins/chittyagent-dispatch/scripts/dispatch.sh sync >/tmp/chittymarket-preflight-dispatch.txt
+  ) || return $?
+  # Idempotency: regenerate in a throwaway worktree of HEAD so the real tree is never written.
+  local wt out rc=0
+  wt="$(mktemp -d)"; out="$(mktemp -d)"
+  git -C "$root" worktree add --detach -q "$wt" HEAD
+  (
+    cd "$wt"
+    python3 scripts/market-reconcile.py sync >"$out/reconcile.txt"
+    bash plugins/chittyagent-dispatch/scripts/dispatch.sh sync >"$out/dispatch.txt"
     bash plugins/chittyagent-dispatch/scripts/dispatch.sh audit
-    bash scripts/generate-marketplace.sh >/tmp/chittymarket-preflight-marketplace.txt
-    after="$(git status --porcelain)"
-    if [[ "$before" != "$after" ]]; then
+    bash scripts/generate-marketplace.sh >"$out/marketplace.txt"
+    if [[ -n "$(git status --porcelain)" ]]; then
       echo "HOLD: generation is not idempotent; canonical/generated state drifted." >&2
       git diff --stat >&2 || true
       exit 2
     fi
-  )
+  ) || rc=$?
+  git -C "$root" worktree remove --force "$wt" >/dev/null 2>&1 || true
+  rm -rf "$out"
+  [[ "$rc" -eq 0 ]] || return "$rc"
   echo "PREFLIGHT PASS"
 }
 
@@ -600,9 +614,20 @@ cmd_audit() {
 
 cmd_publish() {
   local target="$1"
-  cmd_preflight "$target"
+  # Identity must resolve before anything else: an unknown id is HOLD, never READY.
+  if [[ ! -e "$target" ]] && ! OVERLAY_FILE="$OVERLAY" TARGET="$target" python3 - <<'PY'
+import json, os, sys
+caps = json.load(open(os.environ["OVERLAY_FILE"])).get("capabilities", [])
+t = os.environ["TARGET"]
+sys.exit(0 if any(t in (c.get("legacy_id"), c.get("capability_id")) for c in caps) else 1)
+PY
+  then
+    echo "HOLD: cannot resolve '$target' to a capability id or path; identity unresolved." >&2
+    return 2
+  fi
+  cmd_preflight "$target" || return $?
   echo "READY: preflight passed for $target"
-  echo "HOLD: publication mutation is delegated to the canonical PR/merge/register/index surface; no approval or receipt is fabricated."
+  echo "HOLD: publication mutation is delegated to the canonical PR/merge/register surface (ChittyRegister); no approval or receipt is fabricated."
   return 2
 }
 
