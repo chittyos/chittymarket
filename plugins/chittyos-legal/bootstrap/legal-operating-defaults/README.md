@@ -14,7 +14,7 @@ projections instead, under `plugins/{plugin}/{skills,codex-skills,openclaw-skill
 | `chittyos-agent-bootstrap.md` | ChittyOS agent/bootstrap policy |
 
 **Generated — do not edit.** Run `scripts/generate-legal-bootstrap.sh` after changing the
-canonical document. Generated from `canonical/skills/legal-operating-defaults.md` @ `cff58370723f03733bdb133c8a00f4542b051a6d`.
+canonical document. Generated from `canonical/skills/legal-operating-defaults.md` @ `d703c4afe9932139be8f36f4326a8234f0ca1622`.
 
 ## Why openclaw and universal reuse the claude-code adapter
 

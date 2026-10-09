@@ -1,6 +1,6 @@
 ---
 name: fact-governance
-description: Evidence fact governance for a specified case. Triggers on "fact", "evidence", "verify", "verification", case materials, dates/amounts/claims, or chittyevidence-db operations. REQUIRES an explicit `case` parameter — refuses to run without one. Manages fact lifecycle (draft→verified→locked), versioning, corrections, and Notion sync.
+description: Evidence fact governance for a specified case. Triggers on "fact", "evidence", "verify", "verification", case materials, dates/amounts/claims, or chittyevidence-db operations. REQUIRES an explicit `case` parameter — refuses to run without one. Manages fact lifecycle (draft→verified→locked), versioning, corrections, and governed downstream projections.
 canon_uri: chittycanon://core/services/chittymarket#skills/fact-governance
 ---
 
@@ -163,13 +163,17 @@ SELECT * FROM fact_history ORDER BY version DESC;
 5. **Every write and read MUST include `case_id = ?` in its WHERE clause.** Cross-case leaks are the exact class of bug this skill must prevent.
 6. On insert, verify `case_id` matches the resolved case from the invocation parameter — reject mismatches.
 
-## Notion Sync
+## Downstream projection sync
 
-Notion Evidence Tracker lives under `ChittyLedger → <case workspace> → Evidence Tracker`. The target workspace is selected from the resolved case's Notion mapping (via case registry metadata or Notion Projects DB lookup by `case_slug`). Never write facts from case A into case B's Notion workspace.
+`chittyevidence-db` is authoritative for the factual lifecycle. Human-facing trackers, Sheets, dashboards, document stores, and other matter workspaces are **projections**, not alternate fact authorities.
 
-- New D1 facts → Create Notion entry in the case's workspace
-- Status changes → Update corresponding Notion entry (same workspace)
-- Weekly reconciliation for drift — case-scoped
+- Resolve the matter's designated projection target from governed matter metadata; never hard-code a vendor or workspace.
+- New or changed facts may be projected only after the authoritative D1 write succeeds.
+- Every projected row carries the canonical fact ID, version, lifecycle status, and source/document identity needed to reconcile it back to D1.
+- Reconcile by canonical fact ID + version and report drift; never promote a projection's value back into D1 merely because it differs.
+- A projection failure does not roll back or silently downgrade the authoritative fact record. Record the projection failure and retry through the governed sync path.
+- Legacy Notion mappings are compatibility metadata only. They are not a default target and MUST NOT be used unless the matter explicitly designates that surface.
+- Every projection operation remains case-scoped; never copy facts between matters.
 
 ## Quick Reference
 
