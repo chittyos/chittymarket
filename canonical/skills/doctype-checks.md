@@ -10,6 +10,56 @@ runtimes:
 classification:
   - legal
   - evidence
+canonical_capability_ref: "chittycanon://capability/legal/document-intake-checks"
+overlay:
+  title: "Document Intake Checks"
+  capability_group: "legal"
+  group_assignment_source: "override"
+  execution_class: "@chitty/reasoning"
+  canonical_version: "1.0.0"
+  projection_version_policy: "inherit-canonical"
+  ontology:
+    primary:
+      - "E"
+      - "A"
+    secondary:
+      - "T"
+  authority:
+    requires_chittyid: true
+    non_repudiation_required: true
+    evidence_gate: "legal-space-only"
+  execution:
+    default_surface: "ch1tty"
+    local_allowed: true
+    context_cost: "medium"
+    mutation_risk: "low"
+  discovery:
+    indexable: true
+    session_index: "hidden"
+    ambient_by_intent: false
+    verbs:
+      - "intake"
+      - "validate"
+      - "verify"
+      - "inspect"
+      - "classify"
+    fallback_search: true
+  auth_flow:
+    mode: "existing-session"
+    stores_credentials_in: "ChittyConnect"
+    fail_closed_if_unavailable: false
+  runtime_exclusions: {}
+  phase0_audit:
+    job_to_be_done: "validate"
+    environmental_footprint: "forensic-legal-grade"
+    evidentiary_risk: "legal-grade"
+    advisory_disposition: "legal-only"
+  legacy_category: "legal"
+  deprecated_aliases:
+    - "skill-doctype-checks"
+  visibility: "recommended"
+  access: "read"
+
 ---
 
 # Document-Type Intake Checks
