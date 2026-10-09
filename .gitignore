@@ -13,6 +13,7 @@ npm-debug.log*
 # Claude Code harness / session-local state (never commit)
 .claude/
 .claude-worktrees/
+.harnesskit/
 
 # OS / editor
 .DS_Store
