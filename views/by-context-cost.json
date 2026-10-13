@@ -6,7 +6,7 @@
   "counts": {
     "high": 12,
     "low": 8,
-    "medium": 93
+    "medium": 94
   },
   "groups": {
     "high": [
@@ -293,6 +293,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/local-lab/chittyserv-fleet-caretaker",
+        "name": "ChittyServ Fleet Caretaker",
+        "group": "local-lab",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/connect/circleback",
