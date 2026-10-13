@@ -2709,6 +2709,31 @@
         "litigation",
         "filing"
       ]
+    },
+    {
+      "id": "agent-chittyagent-serv",
+      "name": "ChittyServ Fleet Caretaker",
+      "description": "Use this agent for the ongoing care of the chittyserv compute fleet — the portable tower of Mac Mini and Dell micro nodes plus chittyserv-vm and chittyclaw. It is the standing caretaker: it watches node reachability and address drift, Nomad raft and Serf convergence, client heartbeat health, OS and image currency, and configuration drift, then either remediates within policy or files a durable finding. Invoke it for \"is the fleet healthy\", \"why is a node unreachable\", \"why are clients not registering\", \"what is stale on the nodes\", or on a schedule. It is NOT a service-endpoint health checker — `chitty-health` owns `*.chitty.cc/health`; this agent owns the machines underneath.",
+      "type": "agent",
+      "category": "infrastructure",
+      "access": "write",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "agent"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittyagent-serv",
+      "capability": "chittycanon://capability/local-lab/chittyserv-fleet-caretaker",
+      "tags": [
+        "fleet-operations",
+        "node-lifecycle",
+        "reliability"
+      ]
     }
   ]
 }
