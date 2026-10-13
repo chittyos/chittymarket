@@ -700,6 +700,14 @@
     ],
     "local-lab": [
       {
+        "capability_id": "chittycanon://capability/local-lab/chittyserv-fleet-caretaker",
+        "name": "ChittyServ Fleet Caretaker",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "advisory_disposition": "promote",
+        "group_assignment_source": "override"
+      },
+      {
         "capability_id": "chittycanon://capability/local-lab/control-browser-automation",
         "name": "Control Browser Automation",
         "execution_class": "@chitty/connectors",
@@ -939,7 +947,7 @@
     "govern": 15,
     "internal": 3,
     "legal": 9,
-    "local-lab": 5,
+    "local-lab": 6,
     "market": 1,
     "ship": 12,
     "workspace": 10
