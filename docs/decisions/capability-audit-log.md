@@ -999,3 +999,87 @@ held:
 registry_blocker: ChittyRegister HTTP 429 rate_limit_exceeded
 evidentiary_risk: legal-grade
 ```
+
+
+### Ralph #187 amendment — 2026-10-09: review-legal-record provenance remains HOLD
+
+This amendment corrects the authorization trail and completes the existing-first provenance test for
+the installed `review-legal-record` surface.
+
+**Authorization correction.** Prior legal-capability follow-up comments were posted into issue #107,
+which is an agent naming/orchestrator-index issue. Those comments are historical evidence only and
+do not authorize legal-capability work. The governed follow-up is issue #187 on branch
+`govern/ralph-187-legal-closure`.
+
+**Live product evidence.** The installed `review-legal-record` skill is visible in ChatGPT/Codex/API/Atlas.
+Its exposed skill content defines the review method and its OpenAI interface metadata identifies the
+display name and default prompt, but the visible metadata does **not** identify a repository, owner,
+version, canonical URI, release identifier, or publisher authority.
+
+**Source search.** Accessible GitHub search for the exact skill name and invocation string found only
+ChittyMarket references that route to `review-legal-record`; it did not locate an authoritative skill
+definition. ChittyRegistry/Market discovery also returns no record for `review-legal-record`.
+
+Therefore:
+
+- `review-legal-record` is a **live observed projection**, not yet a verified canonical source.
+- `9-step-legal-audit` remains **merge / HOLD** and receives no competing canonical capability URI.
+- Do **not** recreate `review-legal-record` from memory, from ChittyMarket references, or by copying the
+  installed surface into canonical authority without publisher/owner provenance.
+- Promotion may resume only when an authoritative owner/source or an approved canonicalization decision
+  is available.
+
+```yaml
+decision_id: CAP-2026-10-09-review-legal-record-provenance
+issue: 187
+source_skill: review-legal-record
+source_confidence: observed
+decision: hold
+missing_authority:
+  - publisher_or_owner
+  - authoritative_repository_or_source_location
+  - version_or_release_identity
+  - canonical_identity_authority
+related_merge_source: 9-step-legal-audit
+prohibited_action: mint-competing-capability-from-observed-runtime-surface
+```
+
+
+### Ralph #187 registry durability blocker — proof-of-control gap
+
+Read-only implementation review changes the registry follow-up from **cooldown pending** to
+**security BLOCKED**.
+
+The current Market registration client documents the authoritative Register behavior it is
+integrated against:
+
+- `T/service` and `T/mcp-server` require HTTP proof-of-control.
+- `P/*` uses signature proof-of-control.
+- `T/skill` and `T/plugin` currently match neither proof-of-control path.
+- A skill/plugin submission can therefore mint a ChittyID from metadata without proving control;
+  the Market source itself labels this a real ChittyRegister gap.
+
+Separately, the Registry backfill runbook deliberately honors `retry_after_seconds` and spaces
+writes, so the observed 429 is an expected throttle to obey, not a reason to bypass the canonical
+Register path.
+
+**Disposition:** do not use the no-proof-of-control skill registration path to make legal
+capabilities appear durable. Registry completeness remains blocked until the owning Register
+authority verifies or remediates the skill/plugin identity-admission contract, or explicitly
+approves an equivalent governed proof.
+
+```yaml
+decision_id: CAP-2026-10-09-legal-registry-poc-blocker
+issue: 187
+decision: blocked
+blocked_capability_class:
+  - T/skill
+  - T/plugin
+blocking_control: publisher-or-owner proof-of-control / identity admission
+rate_limit_posture: honor retry_after_seconds; no bypass
+safe_actions:
+  - registry discovery
+  - source inspection
+  - issue/decision logging
+prohibited_action: mint legal skill identities through unverified no-PoC registration
+```
