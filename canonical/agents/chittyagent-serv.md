@@ -92,7 +92,7 @@ overlay:
   - claude_code
   - codex
   source_links:
-  - local://projects/github.com/CHITTYOS/chittyserv
+  - local://~/projects/github.com/CHITTYOS/chittyserv
 projection_family: ChittyAgent
 projection_id: chittyagent-serv
 projection_owner: chittycanon://core/services/chittymarket

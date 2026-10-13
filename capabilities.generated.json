@@ -9233,7 +9233,7 @@
         "codex"
       ],
       "source_links": [
-        "local://projects/github.com/CHITTYOS/chittyserv"
+        "local://~/projects/github.com/CHITTYOS/chittyserv"
       ],
       "phase0_audit": {
         "job_to_be_done": "operate",
@@ -9246,7 +9246,7 @@
       "deprecated_aliases": [],
       "visibility": "advanced",
       "provenance": {
-        "content_hash": "sha256:a91e79909a594d215d5754d195576c630c2dc430d490a0d0521d067384892cb8",
+        "content_hash": "sha256:11427eef583b5cc897fe0f4b8a7b669421f49ec70d422c4a48a5806407f19157",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -9257,7 +9257,7 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:e65c0beb5149be4a8031c3f0c0c1f0833bab267af7b56ae37a6e8f1070f06012",
+    "aggregate_hash": "sha256:d968291bdb00d8cd27e421a0c192bfc8c98e698cda5f502c8567058367a7db9b",
     "record_count": 114,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
