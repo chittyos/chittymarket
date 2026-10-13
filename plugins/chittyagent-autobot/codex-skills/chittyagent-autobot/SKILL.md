@@ -1,25 +1,7 @@
 ---
 name: chittyagent-autobot
 description: |
-  Use this agent when you want to autonomously drive a feature request from intent to merged PR using the ChittyOS canonical workflow (Sovereignty → Discover → Plan → Generate → Implement → Review → Tidy → CI/CD → Ship → Memory). Issues a SOVEREIGNTY.cert from ChittyCert at start; refuses to act without one. Pentad-aware (CHARTER+CHITTY+CLAUDE+SECURITY+AGENTS). Replaces the structured-autonomy-{plan,generate,implement} trio with a state-machine-driven, canon-citing, hookify-rule-aware orchestrator.
-
-  <example>
-  Context: User wants a new feature implemented end-to-end with ChittyOS governance.
-  user: "Build a watcher that pulls new evidence files from a Drive folder and feeds them into the ChittyEvidence pipeline"
-  assistant: "I'll use chittyagent-autobot to drive this through the canonical pipeline. It will request a Sovereignty cert, run ecosystem discovery (which will surface the canonical /documents and /vault/ingest endpoints we should use instead of bypassing the pipeline with rclone), then plan/generate/implement/review/ship."
-  </example>
-
-  <example>
-  Context: User has resumed a half-finished autonomy run.
-  user: "Pick up where we left off on the chittyfinance-revenue-attribution work"
-  assistant: "Reading chittycontext/structured-autonomy/chittyfinance-revenue-attribution/state.json — last completed phase was 'plan'. Re-verifying SOVEREIGNTY.cert validity, then advancing to Phase 4 (generate)."
-  </example>
-
-  <example>
-  Context: User wants to scaffold a new ChittyOS service.
-  user: "Create a new chittyledger-projection service"
-  assistant: "I'll use chittyagent-autobot with --service flag. It will require the full Pentad (CHARTER, CHITTY, CLAUDE, SECURITY, AGENTS) before Ship phase will proceed, register the service with ChittyRegistry, and emit a ChittyChronicle audit chain."
-  </example>
+  Drives a feature request from intent to merged PR through the ChittyOS canonical pipeline (sovereignty cert, discover, plan, implement, review, ship). Use for end-to-end autonomous feature work or to resume an autonomy run.
 canonical_uri: chittycanon://core/agents/chittyagent-autobot
 sovereignty_cert_required: true
 sovereignty_cert_issuer: chittycanon://core/services/chitty-cert
@@ -29,6 +11,28 @@ projection_owner: chittycanon://core/services/chittymarket
 ---
 
 # ChittyAgent Autobot
+
+## When to use this agent
+
+Use this agent when you want to autonomously drive a feature request from intent to merged PR using the ChittyOS canonical workflow (Sovereignty → Discover → Plan → Generate → Implement → Review → Tidy → CI/CD → Ship → Memory). Issues a SOVEREIGNTY.cert from ChittyCert at start; refuses to act without one. Pentad-aware (CHARTER+CHITTY+CLAUDE+SECURITY+AGENTS). Replaces the structured-autonomy-{plan,generate,implement} trio with a state-machine-driven, canon-citing, hookify-rule-aware orchestrator.
+
+<example>
+Context: User wants a new feature implemented end-to-end with ChittyOS governance.
+user: "Build a watcher that pulls new evidence files from a Drive folder and feeds them into the ChittyEvidence pipeline"
+assistant: "I'll use chittyagent-autobot to drive this through the canonical pipeline. It will request a Sovereignty cert, run ecosystem discovery (which will surface the canonical /documents and /vault/ingest endpoints we should use instead of bypassing the pipeline with rclone), then plan/generate/implement/review/ship."
+</example>
+
+<example>
+Context: User has resumed a half-finished autonomy run.
+user: "Pick up where we left off on the chittyfinance-revenue-attribution work"
+assistant: "Reading chittycontext/structured-autonomy/chittyfinance-revenue-attribution/state.json — last completed phase was 'plan'. Re-verifying SOVEREIGNTY.cert validity, then advancing to Phase 4 (generate)."
+</example>
+
+<example>
+Context: User wants to scaffold a new ChittyOS service.
+user: "Create a new chittyledger-projection service"
+assistant: "I'll use chittyagent-autobot with --service flag. It will require the full Pentad (CHARTER, CHITTY, CLAUDE, SECURITY, AGENTS) before Ship phase will proceed, register the service with ChittyRegistry, and emit a ChittyChronicle audit chain."
+</example>
 
 MCP-hosted agent — context loaded on-demand from Prompt Registry.
 

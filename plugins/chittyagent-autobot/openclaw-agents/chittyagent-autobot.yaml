@@ -1,5 +1,11 @@
 name: chittyagent-autobot
 description: |
+  Drives a feature request from intent to merged PR through the ChittyOS canonical pipeline (sovereignty cert, discover, plan, implement, review, ship). Use for end-to-end autonomous feature work or to resume an autonomy run.
+instructions: |
+  # ChittyAgent Autobot
+
+  ## When to use this agent
+
   Use this agent when you want to autonomously drive a feature request from intent to merged PR using the ChittyOS canonical workflow (Sovereignty → Discover → Plan → Generate → Implement → Review → Tidy → CI/CD → Ship → Memory). Issues a SOVEREIGNTY.cert from ChittyCert at start; refuses to act without one. Pentad-aware (CHARTER+CHITTY+CLAUDE+SECURITY+AGENTS). Replaces the structured-autonomy-{plan,generate,implement} trio with a state-machine-driven, canon-citing, hookify-rule-aware orchestrator.
 
   <example>
@@ -19,8 +25,6 @@ description: |
   user: "Create a new chittyledger-projection service"
   assistant: "I'll use chittyagent-autobot with --service flag. It will require the full Pentad (CHARTER, CHITTY, CLAUDE, SECURITY, AGENTS) before Ship phase will proceed, register the service with ChittyRegistry, and emit a ChittyChronicle audit chain."
   </example>
-instructions: |
-  # ChittyAgent Autobot
 
   MCP-hosted agent — context loaded on-demand from Prompt Registry.
 
