@@ -1,6 +1,6 @@
 ---
 name: startup-mode
-description: The operator's standing cost-discipline posture for this self-funded phase, and the single written source for it. Load it before any decision that creates, keeps, or justifies recurring spend — provisioning or re-provisioning a database, adding a Neon project or branch, adding a metered binding or paid SDK, adding a cron or long-lived poller that touches Postgres, adding CI to a private repo, choosing Postgres vs D1 vs R2 SQL vs KV vs Sheets, or claiming that a change saves money. Also load it when the words "startup mode", "lean", "cost", "spend", "cheaper", "scale to zero", or "off Neon" appear. It carries the three levers, the measurement precondition (comptroller cannot measure infra spend — Neon's consumption API is the source), the non-linear poller problem, and the boundary of what startup mode may never override.
+description: The operator's standing cost-discipline posture for this self-funded phase, and the single written source for it. Load it before any decision that creates, keeps, or justifies recurring spend — provisioning or re-provisioning a database, adding a Neon project or branch, adding a metered binding or paid SDK, adding a cron or long-lived poller that touches Postgres, adding CI to a private repo, choosing Postgres vs D1 vs R2 SQL vs KV vs Sheets, or claiming that a change saves money. Also load it when the words "startup mode", "lean", "cost", "spend", "cheaper", "scale to zero", or "off Neon" appear. It is gated on `policy.startup_mode.active` in the operator manifest — read that flag first, because when it is false the posture does not apply. It carries the three levers, the measurement precondition (comptroller cannot measure infra spend — Neon's consumption API is the source), the non-linear poller problem, and the boundary of what startup mode may never override.
 canon_uri: chittycanon://core/services/chittymarket#skills/startup-mode
 ---
 
@@ -26,6 +26,32 @@ Those notes stay as history. Cite **this** file when acting. If you learn someth
 about the posture, amend this file in the same session — the recorded lesson behind this
 skill is that *decisions must land in canon at decision time*, and the policy itself was
 the counter-example.
+
+## Is startup mode ON? Read the flag first (BINDING)
+
+`~/.ops/operator-manifest.json` → **`policy.startup_mode.active`** is the switch. Read it
+before applying anything below. Until 2026-10-03 this skill only ever read
+`monthly_ceiling_usd` from that object and treated the posture as unconditional, so the
+operator had a toggle that nothing honoured — turning it off changed no behaviour.
+
+```bash
+jq -r '.policy.startup_mode.active' ~/.ops/operator-manifest.json
+```
+
+- **`true`** — the posture applies in full. Everything below is binding.
+- **`false`** — startup mode is OFF. Do **not** apply the three levers, do not argue a
+  design down on recurring-spend grounds, and do not cite this skill as a constraint. Say
+  in one line that startup mode is off, then decide on the merits.
+- **absent, unreadable, or not a boolean** — treat as **ON**. Fail closed: the cost of
+  wrongly economising is a slower design, and the cost of wrongly spending is a bill the
+  operator did not choose. Say which one you read and that you defaulted.
+
+Off does not mean *spend freely*. The ceiling, the measurement precondition and the
+"what startup mode does NOT override" section are separate concerns — a disabled posture
+is not a disabled budget. What switches off is the **argument**, not the accounting.
+
+Report the flag's value whenever you invoke the posture to block or reshape a decision,
+so a reader can tell a live constraint from a stale one.
 
 ## The three levers
 
@@ -200,11 +226,16 @@ Private repos mean **Actions minutes are metered** — recurring spend, in scope
 
 ## Spend ceiling
 
-**$20/month, fleet-wide, ratified by the operator 2026-09-21.** Read it live from
-`~/.ops/operator-manifest.json` → `policy.startup_mode.monthly_ceiling_usd`; the manifest
-is authoritative if this line and it ever disagree. Its origin is
-`chittyreception/MASTERBOARD.md:43` (*"Keep monthly spend <$20"*, blank in the chittyentity
-twin), promoted from one app's limit to the whole fleet's on ratification.
+**The ceiling is not written here.** Read it:
+
+```bash
+jq -r '.policy.startup_mode | "\(.monthly_ceiling_usd) USD/month · ratified \(.monthly_ceiling_ratified) · origin \(.monthly_ceiling_origin)"' ~/.ops/operator-manifest.json
+```
+
+`~/.ops/operator-manifest.json` → `policy.startup_mode` carries the value, the
+ratification date and the origin. Earlier revisions of this file restated all three
+alongside a note that the manifest wins on disagreement — which is how a policy acquires
+two sources that *can* disagree. Quote the manifest, not this file.
 
 **Act as though the fleet is already over it, because it is.** ChittyOS-Core's idle Neon
 compute alone measured **$25–30/month** on 2026-09-17 (see *Pollers*) — more than the
