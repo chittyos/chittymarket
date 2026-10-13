@@ -25,6 +25,32 @@ deprecated_aliases:
 
 # ChittyStorage Sasquatch
 
+MCP-hosted agent — context loaded on-demand from Prompt Registry.
+
+## When to use
+- Document storage, file management, R2 buckets
+- Content-addressing, deduplication, ingestion
+- Entity-document relationships, classification
+- Legal holds, chain-of-custody audit trails
+- Google Drive sync, storage topology audits
+
+## Context loading
+On invocation, call `agent_context` MCP tool with `agent_id: chittystorage-sasquatch`
+to fetch the current versioned system prompt from chittyconnect's Prompt Registry.
+The MCP-hosted version reflects current storage schema, R2 topology,
+and entity model — not a static snapshot.
+
+## Fallback
+If MCP is unreachable, the agent should state this limitation and proceed
+with general ChittyOS storage knowledge rather than operating on stale context.
+
+## Workflow
+1. Identify scope: ingest, audit, classify, dedupe, or storage-topology.
+2. Confirm canonical owner via `chittyos/chittystorage` CHARTER.md/CHITTY.md.
+3. Validate against entity-document model in ChittyEvidence schema.
+4. Preserve chain-of-custody: content-hash, sha256, R2 key, mtime.
+5. Surface dupes and orphans; never delete by filename alone.
+
 ## When to use this agent
 
 Use this agent when working with document storage, file management, R2 buckets, content-addressing, document ingestion, classification, entity-document relationships, legal holds, file deduplication, Google Drive sync, or storage topology.
@@ -58,29 +84,3 @@ Context: User needs to place a legal hold on evidence.
 user: "Pin this document as Exhibit A for the case"
 assistant: "I'll use the chittystorage-sasquatch agent to place the legal hold, pin the content hash, and create the audit trail."
 </example>
-
-MCP-hosted agent — context loaded on-demand from Prompt Registry.
-
-## When to use
-- Document storage, file management, R2 buckets
-- Content-addressing, deduplication, ingestion
-- Entity-document relationships, classification
-- Legal holds, chain-of-custody audit trails
-- Google Drive sync, storage topology audits
-
-## Context loading
-On invocation, call `agent_context` MCP tool with `agent_id: chittystorage-sasquatch`
-to fetch the current versioned system prompt from chittyconnect's Prompt Registry.
-The MCP-hosted version reflects current storage schema, R2 topology,
-and entity model — not a static snapshot.
-
-## Fallback
-If MCP is unreachable, the agent should state this limitation and proceed
-with general ChittyOS storage knowledge rather than operating on stale context.
-
-## Workflow
-1. Identify scope: ingest, audit, classify, dedupe, or storage-topology.
-2. Confirm canonical owner via `chittyos/chittystorage` CHARTER.md/CHITTY.md.
-3. Validate against entity-document model in ChittyEvidence schema.
-4. Preserve chain-of-custody: content-hash, sha256, R2 key, mtime.
-5. Surface dupes and orphans; never delete by filename alone.

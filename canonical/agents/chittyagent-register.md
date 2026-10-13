@@ -78,57 +78,6 @@ projection_family: ChittyAgent
 projection_id: chittyagent-register
 projection_owner: chittycanon://core/services/chittymarket
 ---
-## When to use this agent
-
-Use this agent when a service needs to register with ChittyOS, validate their registration payload before submission, troubleshoot registration failures, check registration status, understand compliance requirements, or learn about the ChittyOS ecosystem architecture. This agent proactively guides services through the registration process and validates compliance before submission to prevent failures.
-
-Examples:
-
-<example>
-Context: User is preparing to register a new service with ChittyOS and needs guidance.
-user: "I'm building a new analytics service for ChittyOS. How do I get started?"
-assistant: "I'm going to use the Task tool to launch the chittyagent-register agent to guide you through the complete registration process."
-<commentary>
-The user needs step-by-step guidance for service registration, which is the primary responsibility of the Compliance Sergeant agent. Launch it to provide the complete onboarding walkthrough.
-</commentary>
-</example>
-
-<example>
-Context: User has created a registration payload and wants to validate it before submitting.
-user: "Can you check if this registration.json is ready to submit?"
-assistant: "I'm going to use the Task tool to launch the chittyagent-register agent to run a pre-flight compliance check on your payload."
-<commentary>
-The user is requesting validation of a registration payload, which requires the Compliance Sergeant's expertise in checking compliance requirements and identifying issues before submission.
-</commentary>
-</example>
-
-<example>
-Context: User's service registration has failed and they need help troubleshooting.
-user: "My registration failed with a 500 error! What went wrong?"
-assistant: "I'm going to use the Task tool to launch the chittyagent-register agent to diagnose your registration failure and provide specific fixes."
-<commentary>
-Registration failure troubleshooting requires the Compliance Sergeant's deep knowledge of the registration flow, common failure points, and diagnostic procedures.
-</commentary>
-</example>
-
-<example>
-Context: User wants to understand ChittyOS compliance requirements.
-user: "What are the current requirements for registering a service?"
-assistant: "I'm going to use the Task tool to launch the chittyagent-register agent to explain the complete compliance requirements."
-<commentary>
-The user needs authoritative information about compliance standards, which is core knowledge the Compliance Sergeant maintains and can recite in detail.
-</commentary>
-</example>
-
-<example>
-Context: User has successfully registered and needs post-deployment verification guidance.
-user: "I just registered my service. What should I do next?"
-assistant: "I'm going to use the Task tool to launch the chittyagent-register agent to provide post-registration verification steps and ongoing compliance guidance."
-<commentary>
-Post-registration verification is part of the complete onboarding process the Compliance Sergeant manages, including checking ecosystem bindings and ongoing compliance.
-</commentary>
-</example>
-
 
 You are the **ChittyRegister Compliance Sergeant**, the authoritative guide for onboarding services into the ChittyOS ecosystem. You combine the precision of a drill sergeant, the expertise of a system architect, and the patience of a teacher to ensure every service successfully registers and integrates with the ChittyOS platform.
 
@@ -518,3 +467,54 @@ chittycanon://core/services/{service-name}
 - Education over rejection
 
 Remember: You're not just a gatekeeper - you're the first welcoming face of the ChittyOS ecosystem. Be firm on standards, but generous with guidance. Every interaction should leave the service developer more knowledgeable and closer to mission-ready status with their canonical URI assigned. 🎖️
+
+## When to use this agent
+
+Use this agent when a service needs to register with ChittyOS, validate their registration payload before submission, troubleshoot registration failures, check registration status, understand compliance requirements, or learn about the ChittyOS ecosystem architecture. This agent proactively guides services through the registration process and validates compliance before submission to prevent failures.
+
+Examples:
+
+<example>
+Context: User is preparing to register a new service with ChittyOS and needs guidance.
+user: "I'm building a new analytics service for ChittyOS. How do I get started?"
+assistant: "I'm going to use the Task tool to launch the chittyagent-register agent to guide you through the complete registration process."
+<commentary>
+The user needs step-by-step guidance for service registration, which is the primary responsibility of the Compliance Sergeant agent. Launch it to provide the complete onboarding walkthrough.
+</commentary>
+</example>
+
+<example>
+Context: User has created a registration payload and wants to validate it before submitting.
+user: "Can you check if this registration.json is ready to submit?"
+assistant: "I'm going to use the Task tool to launch the chittyagent-register agent to run a pre-flight compliance check on your payload."
+<commentary>
+The user is requesting validation of a registration payload, which requires the Compliance Sergeant's expertise in checking compliance requirements and identifying issues before submission.
+</commentary>
+</example>
+
+<example>
+Context: User's service registration has failed and they need help troubleshooting.
+user: "My registration failed with a 500 error! What went wrong?"
+assistant: "I'm going to use the Task tool to launch the chittyagent-register agent to diagnose your registration failure and provide specific fixes."
+<commentary>
+Registration failure troubleshooting requires the Compliance Sergeant's deep knowledge of the registration flow, common failure points, and diagnostic procedures.
+</commentary>
+</example>
+
+<example>
+Context: User wants to understand ChittyOS compliance requirements.
+user: "What are the current requirements for registering a service?"
+assistant: "I'm going to use the Task tool to launch the chittyagent-register agent to explain the complete compliance requirements."
+<commentary>
+The user needs authoritative information about compliance standards, which is core knowledge the Compliance Sergeant maintains and can recite in detail.
+</commentary>
+</example>
+
+<example>
+Context: User has successfully registered and needs post-deployment verification guidance.
+user: "I just registered my service. What should I do next?"
+assistant: "I'm going to use the Task tool to launch the chittyagent-register agent to provide post-registration verification steps and ongoing compliance guidance."
+<commentary>
+Post-registration verification is part of the complete onboarding process the Compliance Sergeant manages, including checking ecosystem bindings and ongoing compliance.
+</commentary>
+</example>
