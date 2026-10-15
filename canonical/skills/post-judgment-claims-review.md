@@ -10,6 +10,64 @@ runtimes:
 classification:
   - legal
   - evidence
+canonical_capability_ref: "chittycanon://capability/legal/post-judgment-claims-review"
+overlay:
+  title: "Post-Judgment Claims Review"
+  capability_group: "legal"
+  group_assignment_source: "override"
+  execution_class: "@chitty/reasoning"
+  canonical_version: "1.0.0"
+  projection_version_policy: "inherit-canonical"
+  ontology:
+    primary:
+      - "P"
+      - "E"
+      - "T"
+    secondary:
+      - "L"
+      - "A"
+  authority:
+    requires_chittyid: true
+    requires_case: true
+    write_scope: "case-scoped"
+    no_last_case_fallback: true
+    non_repudiation_required: true
+    evidence_gate: "legal-space-only"
+  execution:
+    default_surface: "ch1tty"
+    local_allowed: true
+    context_cost: "high"
+    mutation_risk: "high"
+  discovery:
+    indexable: true
+    session_index: "hidden"
+    ambient_by_intent: false
+    verbs:
+      - "counterclaim"
+      - "overpayment"
+      - "refund"
+      - "demand"
+      - "judgment"
+    fallback_search: true
+  auth_flow:
+    mode: "existing-session"
+    stores_credentials_in: "ChittyConnect"
+    fail_closed_if_unavailable: true
+    requires_case_id: true
+    no_fallback_last_case: true
+  runtime_exclusions:
+    openclaw:
+      - "write_requires_policy_elevation"
+  phase0_audit:
+    job_to_be_done: "resolve"
+    environmental_footprint: "write-capable"
+    evidentiary_risk: "legal-grade"
+    advisory_disposition: "legal-only"
+  legacy_category: "legal"
+  deprecated_aliases:
+    - "skill-post-judgment-claims-review"
+  visibility: "recommended"
+  access: "readwrite"
 ---
 
 # Post-Judgment Claims Review
