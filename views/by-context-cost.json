@@ -4,9 +4,9 @@
   "view": "by-context-cost",
   "description": "Capabilities grouped by execution context cost",
   "counts": {
-    "high": 10,
+    "high": 12,
     "low": 8,
-    "medium": 92
+    "medium": 94
   },
   "groups": {
     "high": [
@@ -49,6 +49,22 @@
         "execution_class": "@chitty/reasoning",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-egress",
+        "name": "Evidence Egress",
+        "group": "legal",
+        "execution_class": "@chitty/workspace",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/govern/fact-governance",
@@ -279,6 +295,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/local-lab/chittyserv-fleet-caretaker",
+        "name": "ChittyServ Fleet Caretaker",
+        "group": "local-lab",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/circleback",
         "name": "Circleback",
         "group": "connect",
@@ -413,6 +437,14 @@
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/document-intake-checks",
+        "name": "Document Intake Checks",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/feature-dev",

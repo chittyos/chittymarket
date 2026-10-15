@@ -650,6 +650,30 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "capability_id": "chittycanon://capability/legal/document-intake-checks",
+        "name": "Document Intake Checks",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "advisory_disposition": "legal-only",
+        "group_assignment_source": "override"
+      },
+      {
+        "capability_id": "chittycanon://capability/legal/evidence-egress",
+        "name": "Evidence Egress",
+        "execution_class": "@chitty/workspace",
+        "visibility": "advanced",
+        "advisory_disposition": "legal-only",
+        "group_assignment_source": "override"
+      },
+      {
+        "capability_id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "advisory_disposition": "legal-only",
+        "group_assignment_source": "override"
+      },
+      {
         "capability_id": "chittycanon://capability/legal/legal-arsenal",
         "name": "Legal Arsenal",
         "execution_class": "@chitty/connectors",
@@ -675,6 +699,14 @@
       }
     ],
     "local-lab": [
+      {
+        "capability_id": "chittycanon://capability/local-lab/chittyserv-fleet-caretaker",
+        "name": "ChittyServ Fleet Caretaker",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "advisory_disposition": "promote",
+        "group_assignment_source": "override"
+      },
       {
         "capability_id": "chittycanon://capability/local-lab/control-browser-automation",
         "name": "Control Browser Automation",
@@ -914,8 +946,8 @@
     "finance": 1,
     "govern": 15,
     "internal": 3,
-    "legal": 6,
-    "local-lab": 5,
+    "legal": 9,
+    "local-lab": 6,
     "market": 1,
     "ship": 12,
     "workspace": 10

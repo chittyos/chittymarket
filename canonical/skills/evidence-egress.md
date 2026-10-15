@@ -10,6 +10,59 @@ runtimes:
 classification:
   - legal
   - evidence
+canonical_capability_ref: "chittycanon://capability/legal/evidence-egress"
+overlay:
+  title: "Evidence Egress"
+  capability_group: "legal"
+  group_assignment_source: "override"
+  execution_class: "@chitty/workspace"
+  canonical_version: "1.0.0"
+  projection_version_policy: "inherit-canonical"
+  ontology:
+    primary:
+      - "E"
+      - "A"
+    secondary:
+      - "L"
+      - "T"
+  authority:
+    requires_chittyid: true
+    non_repudiation_required: true
+    evidence_gate: "legal-space-only"
+  execution:
+    default_surface: "local"
+    local_allowed: true
+    context_cost: "high"
+    mutation_risk: "high"
+  discovery:
+    indexable: true
+    session_index: "hidden"
+    ambient_by_intent: false
+    verbs:
+      - "migrate"
+      - "reconcile"
+      - "deduplicate"
+      - "audit"
+      - "egress"
+    fallback_search: true
+  auth_flow:
+    mode: "local-only"
+    stores_credentials_in: "ChittyConnect"
+    fail_closed_if_unavailable: true
+  runtime_exclusions:
+    openclaw:
+      - "filesystem_and_destructive_steps_require_local_operator"
+  phase0_audit:
+    job_to_be_done: "migrate"
+    environmental_footprint: "filesystem-local"
+    evidentiary_risk: "legal-grade"
+    advisory_disposition: "legal-only"
+  legacy_category: "legal"
+  deprecated_aliases:
+    - "skill-evidence-egress"
+  visibility: "advanced"
+  access: "readwrite"
+
 ---
 
 # Evidence Egress — Audit Before You Move

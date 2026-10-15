@@ -2635,6 +2635,105 @@
         "books",
         "defaults"
       ]
+    },
+    {
+      "id": "skill-doctype-checks",
+      "name": "Document Intake Checks",
+      "description": "Per-document-type intake checks for legal evidence. Given a document, identify its type and run every check that type requires, emitting an explicit result for each — pass, fail, or unknown — so nothing is silently skipped. Runs BEFORE a fact is drafted, upstream of fact-governance's draft/verified/locked lifecycle. Triggers on \"check this document\", \"what should I verify here\", \"intake checks\", \"doctype checks\", \"is this executed\", \"which balance\", \"entered or draft\", or any first read of a new instrument, statement, order, or export.",
+      "type": "skill",
+      "category": "legal",
+      "access": "read",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/doctype-checks",
+      "capability": "chittycanon://capability/legal/document-intake-checks",
+      "tags": [
+        "legal",
+        "evidence"
+      ]
+    },
+    {
+      "id": "skill-evidence-egress",
+      "name": "Evidence Egress",
+      "description": "Migrate evidence/document files out of scattered local source directories (Desktop, iCloud, Downloads, external) into the canonical pipeline (R2 + Drive mirror + local working copy). Read-only audit by default — produces per-case CSV reports of {in_neon, in_drive, action_needed} before any move or delete. Case-agnostic: discovers cases from <root>/cases/* and resolves Drive remotes by convention (sd_<case_id>:). Triggers on: 'egress', 'evidence egress', 'migrate evidence', 'free up desktop', 'iCloud evidence sprawl', 'audit before move', '/evidence-egress', 'where are the duplicates'.",
+      "type": "skill",
+      "category": "legal",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/evidence-egress",
+      "capability": "chittycanon://capability/legal/evidence-egress",
+      "tags": [
+        "legal",
+        "evidence"
+      ]
+    },
+    {
+      "id": "skill-evidence-to-filing",
+      "name": "Evidence to Filing",
+      "description": "Convert an explicitly identified legal matter's already-governed evidence and verified facts into an attorney-reviewable filing package. Use when asked to turn a contradiction matrix, verified chronology, citation map, exhibit set, or evidence audit into litigation work product; build exhibit/Bates architecture; prepare a statement of facts, memorandum, motion shell, proposed order, service shell, or e-filing checklist; or make an evidence package filing-ready. Requires a named matter and preserves source-to-fact-to-exhibit traceability. It does not collect evidence, verify new facts, choose disputed legal relief, or silently label a package court-ready.",
+      "type": "skill",
+      "category": "legal",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/evidence-to-filing",
+      "capability": "chittycanon://capability/legal/evidence-to-filing",
+      "tags": [
+        "legal",
+        "evidence",
+        "litigation",
+        "filing"
+      ]
+    },
+    {
+      "id": "agent-chittyagent-serv",
+      "name": "ChittyServ Fleet Caretaker",
+      "description": "Use this agent for the ongoing care of the chittyserv compute fleet — the portable tower of Mac Mini and Dell micro nodes plus chittyserv-vm and chittyclaw. It is the standing caretaker: it watches node reachability and address drift, Nomad raft and Serf convergence, client heartbeat health, OS and image currency, and configuration drift, then either remediates within policy or files a durable finding. Invoke it for \"is the fleet healthy\", \"why is a node unreachable\", \"why are clients not registering\", \"what is stale on the nodes\", or on a schedule. It is NOT a service-endpoint health checker — `chitty-health` owns `*.chitty.cc/health`; this agent owns the machines underneath.",
+      "type": "agent",
+      "category": "infrastructure",
+      "access": "write",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "agent"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#agents/chittyagent-serv",
+      "capability": "chittycanon://capability/local-lab/chittyserv-fleet-caretaker",
+      "tags": [
+        "fleet-operations",
+        "node-lifecycle",
+        "reliability"
+      ]
     }
   ]
 }

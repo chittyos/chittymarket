@@ -26,6 +26,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
       - name: Ensure scripts are executable
         run: chmod +x scripts/*.sh
 
@@ -125,6 +130,15 @@ jobs:
       # real CF response shapes; unknown shape must exit 2, never "absent".
       - name: Gateway route lookup tests
         run: bash scripts/tests/test-gateway-route-lookup.sh
+
+      # Offline: adversarial-review.sh's default model must be a direct model, not a
+      # dynamic/<name> route (undeployed routes 400 and kill the review lane silently).
+      - name: Review default-model guard
+        timeout-minutes: 2
+        run: bash scripts/tests/test-review-default-model.sh
+
+      - name: _MAP pair floor
+        run: bash scripts/tests/test-map-pairs-cannot-shrink.sh
 
       - name: Dispatch state regression tests
         run: |

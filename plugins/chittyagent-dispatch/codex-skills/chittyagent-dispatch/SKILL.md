@@ -1,31 +1,7 @@
 ---
 name: chittyagent-dispatch
 description: |
-  Project canonical agent/skill/hook definitions to every runtime format. The single canonical doc lives at `chittymarket/canonical/<name>.md`; this agent reads it and projects it to every registered runtime as a file inside this repository — Claude Code agents/skills/commands/hooks/MCP configs, Codex SKILL.md, OpenClaw YAML agents, Claude Skills and ChatGPT Apps tool manifests. Also owns registration of agent/skill definitions into the orchestrator's KV discovery index (`agent:index` / `skill:index`) at agent.chitty.cc — currently a documented manual step with no adapter behind it. Use when (1) the canonical was just updated and runtimes need re-sync, (2) a new agent is being added and needs first-time projection, (3) drift is detected between canonical and a projected file, (4) a new runtime target is being onboarded. Companion to `chittyagent-autobot` (feature implementation orchestrator) — autobot does feature work, dispatch handles the definition-projection lifecycle.
-
-  <example>
-  Context: User just edited the canonical chittyagent-neon definition
-  user: "I updated chittymarket/canonical/chittyagent-neon.md — sync the runtimes"
-  assistant: "Running chittyagent-dispatch in `sync` mode to project the updated canonical to Claude Code, Codex, and OpenClaw."
-  </example>
-
-  <example>
-  Context: A new agent is being added
-  user: "Add a new chittyagent-storage agent — write the canonical and project everywhere"
-  assistant: "I'll author the canonical at chittymarket/canonical/chittyagent-storage.md, then run chittyagent-dispatch in `bootstrap` mode for first-time projection across all runtimes."
-  </example>
-
-  <example>
-  Context: User edited a projected file directly (drift detected)
-  user: "I tweaked plugins/chittyos-core/codex-skills/chittyagent-neon/SKILL.md directly — pick up my edit"
-  assistant: "Direct edits to projected files create drift. I'll run chittyagent-dispatch in `reconcile` mode: diff the projection against canonical, surface the change for promotion to canonical, then re-project everywhere."
-  </example>
-
-  <example>
-  Context: Onboarding a new runtime
-  user: "We need ChittyOS agents to also be installable in OpenClaw"
-  assistant: "I'll run chittyagent-dispatch in `add-target` mode: register the OpenClaw projection adapter, run `sync` for every canonical → OpenClaw agent format, verify install."
-  </example>
+  Projects canonical agent/skill/hook definitions from chittymarket/canonical/ to every runtime format (Claude Code, Codex, OpenClaw, Claude Skills, ChatGPT Apps). Use after editing a canonical, adding an agent, fixing projection drift, or onboarding a runtime.
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-dispatch
 projection_family: ChittyAgent
 projection_id: chittyagent-dispatch
@@ -293,3 +269,31 @@ This is the v0.1 skeleton. The agent definition is complete; adapter implementat
 4. 🔜 Migrate existing agents/skills into `chittymarket/canonical/` and run first `bootstrap`.
 5. 🔜 `openclaw-agent.sh`, `chatgpt-gpt.sh`, `notion-agent.sh`, `orchestrator-kv.sh` adapters.
 6. 🔜 Drift hooks: pre-commit hook on chittymarket that detects direct edits to projected files and triggers `reconcile`.
+
+## When to use this agent
+
+Project canonical agent/skill/hook definitions to every runtime format. The single canonical doc lives at `chittymarket/canonical/<name>.md`; this agent reads it and projects it to every registered runtime as a file inside this repository — Claude Code agents/skills/commands/hooks/MCP configs, Codex SKILL.md, OpenClaw YAML agents, Claude Skills and ChatGPT Apps tool manifests. Also owns registration of agent/skill definitions into the orchestrator's KV discovery index (`agent:index` / `skill:index`) at agent.chitty.cc — currently a documented manual step with no adapter behind it. Use when (1) the canonical was just updated and runtimes need re-sync, (2) a new agent is being added and needs first-time projection, (3) drift is detected between canonical and a projected file, (4) a new runtime target is being onboarded. Companion to `chittyagent-autobot` (feature implementation orchestrator) — autobot does feature work, dispatch handles the definition-projection lifecycle.
+
+<example>
+Context: User just edited the canonical chittyagent-neon definition
+user: "I updated chittymarket/canonical/chittyagent-neon.md — sync the runtimes"
+assistant: "Running chittyagent-dispatch in `sync` mode to project the updated canonical to Claude Code, Codex, and OpenClaw."
+</example>
+
+<example>
+Context: A new agent is being added
+user: "Add a new chittyagent-storage agent — write the canonical and project everywhere"
+assistant: "I'll author the canonical at chittymarket/canonical/chittyagent-storage.md, then run chittyagent-dispatch in `bootstrap` mode for first-time projection across all runtimes."
+</example>
+
+<example>
+Context: User edited a projected file directly (drift detected)
+user: "I tweaked plugins/chittyos-core/codex-skills/chittyagent-neon/SKILL.md directly — pick up my edit"
+assistant: "Direct edits to projected files create drift. I'll run chittyagent-dispatch in `reconcile` mode: diff the projection against canonical, surface the change for promotion to canonical, then re-project everywhere."
+</example>
+
+<example>
+Context: Onboarding a new runtime
+user: "We need ChittyOS agents to also be installable in OpenClaw"
+assistant: "I'll run chittyagent-dispatch in `add-target` mode: register the OpenClaw projection adapter, run `sync` for every canonical → OpenClaw agent format, verify install."
+</example>

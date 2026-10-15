@@ -1002,3 +1002,64 @@ allowed_projections: [claude-code, codex, legal-space]
 restricted_projections: [openclaw, chatgpt-public]
 non_repudiation_required: true
 ```
+
+## 2026-10-09 — Legal HOLD identity review: promote three distinct jobs; merge 9-step audit
+
+**Auditor:** capability-governor, continuing the legal runtime/registry reconciliation from PR #181  
+**Scope:** `doctype-checks`, `evidence-egress`, `evidence-to-filing`, `9-step-legal-audit`  
+**Existing-first surfaces checked:** ChittyMarket capability overlay + canonical definitions, live
+orchestrator skill index, ChittyRegistry discovery, and the installed `review-legal-record`,
+`litigation-evidence-dossier`, and `evidence-collect` skill surfaces.
+
+### Dispositions
+
+| Source skill | Primary job-to-be-done | Decision | Canonical capability |
+|---|---|---|---|
+| `doctype-checks` | validate a source document at intake before fact creation | **promote** | `chittycanon://capability/legal/document-intake-checks` |
+| `evidence-egress` | reconcile/migrate scattered evidence bytes without weakening custody | **promote** | `chittycanon://capability/legal/evidence-egress` |
+| `evidence-to-filing` | materialize already-governed evidence/facts into attorney-reviewable filing work product | **promote** | `chittycanon://capability/legal/evidence-to-filing` |
+| `9-step-legal-audit` | claim-versus-record / evidence-integrity audit | **merge / HOLD** | **none minted** |
+
+The three promoted jobs are materially distinct from existing `evidence-collect`,
+`fact-governance`, `legal-arsenal`, and `litigation-evidence-dossier`: intake validation is
+upstream of fact creation; egress is custody-preserving storage reconciliation; filing
+materialization is downstream of factual verification and does not collect or establish truth.
+
+### Why `9-step-legal-audit` remains HOLD
+
+The installed `review-legal-record` surface already owns the substantive record-review job:
+source inventory, controlling-document parsing, event reconstruction, claim-versus-record
+testing, contradictions, integrity checks, source register, and gap identification. The
+nine-step skill adds a fixed sequence and report/risk-score packaging, but that is a workflow
+profile over substantially the same job, not sufficient basis for a second canonical capability
+identity.
+
+Disposition is therefore **merge**, not delete: preserve the source skill/runtime entry while
+its useful structured-audit procedure is reconciled into a governed `review-legal-record`
+identity. Until that receiving capability has a canonical ChittyMarket identity, keep
+`9-step-legal-audit` unpublished in the capability overlay and do not mint a competing
+`chittycanon://capability/.../9-step-legal-audit` URI.
+
+### Registry status
+
+ChittyRegistry currently exposes `legal-operating-defaults` but not the other published legal
+skills. A governed registration attempt for `fact-governance` again returned HTTP 429
+`rate_limit_exceeded`; the gate was not bypassed. Registry durability is therefore a separate
+blocked migration and is not used as a reason to invent alternate registration paths.
+
+```yaml
+decision_id:     CAP-2026-10-09-legal-hold-identities
+date:            2026-10-09
+decision:        promote-three-merge-one
+promoted:
+  - chittycanon://capability/legal/document-intake-checks
+  - chittycanon://capability/legal/evidence-egress
+  - chittycanon://capability/legal/evidence-to-filing
+held:
+  - source: canonical/skills/9-step-legal-audit.md
+    disposition: merge
+    target: review-legal-record
+    reason: overlapping primary job-to-be-done; receiving surface lacks governed ChittyMarket identity
+registry_blocker: ChittyRegister HTTP 429 rate_limit_exceeded
+evidentiary_risk: legal-grade
+```
