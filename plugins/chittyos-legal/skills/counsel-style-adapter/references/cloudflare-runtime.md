@@ -78,6 +78,8 @@ Do not put full canonical evidence into Agent state.
 
 ### Preferred: Cloudflare Agent Memory
 
+As of the October 2026 Cloudflare documentation, Agent Memory is in **private beta**. Treat availability as a runtime capability check, not an assumption.
+
 When Agent Memory is available, create a dedicated namespace such as:
 
 `legal-counsel-style`
