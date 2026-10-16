@@ -1,0 +1,52 @@
+{
+  "skill_name": "post-judgment-claims-review",
+  "evals": [
+    {
+      "id": 1,
+      "name": "post-payoff-overcharge-review",
+      "prompt_file": "prompts/eval-1-overcharge.md",
+      "expected_output": "A matter frame treating the user's notes as allegations; an inventory of the 8 listed records with a gaps list; a cent-exact reconciliation (paid 7,632.15 \u2212 judgment 6,210.40 = 1,421.75 = 531.75 pre-judgment excess + 465.00 accruals owed + 35.00 late fee + 390.00 post-judgment fee; contested = 921.75); a deadlines table with computed dates marked draft and the 30-day post-judgment window shown as passed; a claims table; a refund/records demand addressed to the association (board/manager) with counsel cc'd, invoice numbers named, revision log kept separate; an abstracted research brief with no names; nothing sent.",
+      "assertions": [
+        "Reconciliation closes to the cent: 7,632.15 \u2212 6,210.40 = 1,421.75 decomposed into 531.75 + 465.00 + 35.00 + 390.00, with the contested amount stated as 921.75",
+        "The refund demand is addressed to the association (board or managing agent) as the recipient, with the law firm copied \u2014 not addressed to the law firm",
+        "A records request is made to the association/board (the statutory addressee), not to the law firm, and names the records with particularity (ledger period, invoice numbers)",
+        "Deadlines are given with the trigger date and rule, and computed dates are marked as computed/draft (and the 30-day post-judgment window is shown as already passed)",
+        "The transmittable letter contains no internal strategy; a revision log or internal notes section is kept as a separate section or file",
+        "At least one letter is drafted, and no message is sent or claimed to have been sent; the output says transmission is the operator's act",
+        "Any research brief or research request drafted contains no party names, case numbers, addresses, or exact dollar amounts (abstracted fact pattern)",
+        "The entry basis of the judgment is recorded as unknown pending the signed order (the lawyer's 'basically agreed' remark is not treated as fact)",
+        "The $35 late fee is treated as owed under the rules (not lumped into the contested amount)"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "prejudgment-trigger-boundary",
+      "prompt_file": "prompts/eval-2-prejudgment.md",
+      "expected_output": "Recognizes there is no judgment or payoff; does not run the post-judgment procedure (no reconciliation to a judgment, no deadlines-from-entry table); points to pre-judgment handling (dispute intake / claim-vs-record audit / responding to the notice) and asks for the governing documents; no refund letter.",
+      "assertions": [
+        "Does not produce a judgment reconciliation or a post-judgment deadlines table",
+        "States that the matter is pre-judgment and routes to pre-judgment handling (dispute intake, record audit, or responding to the notice)",
+        "Does not draft a refund demand for amounts collected beyond a judgment",
+        "Treats the user's figures as allegations and identifies the governing documents needed before any claim assessment"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "two-matters-isolation",
+      "prompt_file": "prompts/eval-3-two-matters.md",
+      "assertions": [
+        "Produces two separate matter frames (Unit A and Unit B) and does not attribute the Unit A agreed order to Unit B",
+        "Records Unit B's entry basis as unknown pending the signed order, noting the firm letter ('awarded') and the invoice line ('trial') as evidence against 'agreed'",
+        "Unit B reconciliation is laid out with a source for every number and is shown NOT to close: the 6,905.00 payment exceeds the 5,790.00 ledger at judgment plus 765.00 of post-judgment postings (380.00 + 45.00 + 300.00 + 40.00) by 350.00, which no posting explains; the Aug 1 postings are excluded because they post-date the payment; the output names the 350.00 gap as a missing or misread posting to resolve before any money demand",
+        "No money demand is written that treats the unexplained 350.00 as overpayment: any contested figure stated is limited to the identified items (310.00 pre-judgment excess + 300.00 post-judgment fee = 610.00) or the output says the demand waits until the gap closes",
+        "The note to the lawyer is short (under ~200 words), asks for the signed Unit B order, and does not argue law or cite statutes to counsel",
+        "Unit A is treated as an active agreed-order payment plan \u2014 what is owed is the remaining installments under the order, with the count marked Unknown where the prompt gives no payment history \u2014 not as a post-judgment overcharge matter",
+        "The counsel note's ask about the unexplained 350.00 is for the posting or transaction detail that explains it, not whether to demand it"
+      ],
+      "expected_output": "Two frames; Unit B entry basis unknown; Unit B reconciliation shown not to close (350.00 unexplained; contested items 610.00) and no demand written on it; Unit A payment-plan status; short counsel note; nothing sent.",
+      "files": []
+    }
+  ]
+}

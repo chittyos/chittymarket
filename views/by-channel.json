@@ -4,12 +4,12 @@
   "view": "by-channel",
   "description": "Capabilities grouped by supported channel",
   "counts": {
-    "ch1tty": 114,
-    "chatgpt": 90,
-    "claude_ai": 90,
-    "claude_code": 114,
-    "claude_desktop": 114,
-    "codex": 114,
+    "ch1tty": 115,
+    "chatgpt": 91,
+    "claude_ai": 91,
+    "claude_code": 115,
+    "claude_desktop": 115,
+    "codex": 115,
     "openclaw": 107
   },
   "groups": {
@@ -653,6 +653,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/legal/post-judgment-claims-review",
+        "name": "Post-Judgment Claims Review",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/python-lsp",
@@ -1449,6 +1457,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/legal/post-judgment-claims-review",
+        "name": "Post-Judgment Claims Review",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/build/python-lsp",
         "name": "Python LSP",
         "group": "build",
@@ -2169,6 +2185,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/legal/post-judgment-claims-review",
+        "name": "Post-Judgment Claims Review",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/python-lsp",
@@ -3011,6 +3035,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/legal/post-judgment-claims-review",
+        "name": "Post-Judgment Claims Review",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/python-lsp",
@@ -3927,6 +3959,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/legal/post-judgment-claims-review",
+        "name": "Post-Judgment Claims Review",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/build/python-lsp",
         "name": "Python LSP",
         "group": "build",
@@ -4839,6 +4879,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/legal/post-judgment-claims-review",
+        "name": "Post-Judgment Claims Review",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/python-lsp",

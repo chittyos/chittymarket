@@ -939,6 +939,70 @@ not runtime-install evidence: a ChatGPT client must still install/refresh the pl
 the skill may be claimed live there.
 
 
+## 2026-10-08 — chittycounsel ask_case backing index (store decision)
+
+```yaml
+decision_id: CAP-2026-10-08-001
+date: 2026-10-08
+capability_name: chittycounsel ask_case backing index
+canonical_id: chittycounsel-ask-case
+source_links:
+  - https://counsel.chitty.cc (v0.1.2; MCP tools case_summary, ask_case)
+  - chittycanon://core/services/chittycounsel
+  - Linear CFDXN-142 (tracking), CFDXN-139, CFDXN-140, CFDXN-141, CFDXN-143, ICB-36
+current_state: ask_case declares "query case evidence via AutoRAG with case_chitty_id filter"; no AI Search instance exists on any of the four Cloudflare accounts (checked 2026-10-04; one paused, sourceless instance on a separate business account). /helper and ChittyRegistry unreachable at decision time — design provisional.
+decision: project
+job_to_be_done: resolve
+entity_mapping: [T, E]
+environmental_footprint: network-service
+evidentiary_risk: legal-grade
+rationale: placement-matrix step 2 — the index is infrastructure for an existing capability (chittycounsel/ask_case), not a new job-to-be-done, so it projects onto that capability; per-matter instance proposals are consolidated into the one shared index. One shared index filtered by case_chitty_id metadata plus a per-case R2 key prefix; per-matter instances multiply cost and create a second identity for one document (legal-operating-defaults §5). Index evidence only — privileged and work-product material stays out (CFDXN-140 records a prior instance that indexed privileged bytes; this rule prevents a repeat). Reject unfiltered queries.
+duplicates_found: [one paused, sourceless instance on a separate business account — retire candidate]
+migration_required: yes
+migration_owner: ChittyFoundation (Linear team CFDXN)
+next_action: provisioning via /chico as a PR, operator ratifies; blocked by CFDXN-139 (auth), CFDXN-141 (include_items scoping), CFDXN-143 (register instance), ICB-36 (pipeline)
+review_date: 2026-11-08
+allowed_projections: [chittycounsel-mcp, ch1tty-gateway]
+restricted_projections: [openclaw, chatgpt-public, any unauthenticated route]
+non_repudiation_required: true
+migration_item:
+  from_artifact: AUTORAG_KSN_ID (names a nonexistent instance)
+  to_canonical_capability: shared legal-evidence AI Search index bound to chittycounsel
+  action: reroute
+  blocking_dependencies: [CFDXN-139, CFDXN-141, CFDXN-143, ICB-36]
+  risk_level: high
+  owner: ChittyFoundation (Linear team CFDXN)
+  status: backlog
+  completion_evidence: pending (PR + instance registration record)
+```
+
+## 2026-10-08 — post-judgment-claims-review (new skill, chittyos-legal)
+
+```yaml
+decision_id: CAP-2026-10-08-002
+date: 2026-10-08
+capability_name: post-judgment-claims-review
+canonical_id: chittycanon://capability/legal/post-judgment-claims-review
+source_links:
+  - canonical/skills/post-judgment-claims-review.md
+  - plugins/chittyos-legal/skills/post-judgment-claims-review/SKILL.md (projection)
+current_state: proposed — draft; skill-creator evals pending
+decision: skill
+job_to_be_done: resolve
+entity_mapping: [P, E, T]
+environmental_footprint: write-capable (connector reads for the inventory; writes limited to the matter's shared store and the tracker; never to an evidence store)
+evidentiary_risk: legal-grade
+rationale: existing-first search over capabilities.generated.json, canonical/skills and plugins/ found no capability with this job-to-be-done. Closest — legal/dispute-manager (intake and tracking), 9-step-legal-audit (claim-versus-record), ship/evidence-collection (ingestion; starts after the inventory), govern/fact-governance (lifecycle). This is a repeatable procedure that composes them — matrix step 4 → skill; step 9 (claims, disputes) → legal space with the non-repudiation gate. Carries no matter facts (check-matter-leak).
+duplicates_found: []
+migration_required: no
+migration_owner: n/a
+next_action: overlay registration done (5efb93d); evals run iterations 1–3 (eval-1 9/9 vs 6/9 baseline; eval-3 6/6 vs 3/6; eval-2 4/4 both, non-discriminating) — see docs/evals/post-judgment-claims-review/; PR #177 awaits operator ratification
+review_date: 2026-11-08
+allowed_projections: [claude-code, codex, legal-space]
+restricted_projections: [openclaw, chatgpt-public]
+non_repudiation_required: true
+```
+
 ## 2026-10-09 — Legal HOLD identity review: promote three distinct jobs; merge 9-step audit
 
 **Auditor:** capability-governor, continuing the legal runtime/registry reconciliation from PR #181  

@@ -2734,6 +2734,30 @@
         "node-lifecycle",
         "reliability"
       ]
+    },
+    {
+      "id": "skill-post-judgment-claims-review",
+      "name": "Post-Judgment Claims Review",
+      "description": "Affirmative-claims review for an owner or defendant entity after an association, landlord, lender, or collection-counsel action has gone to judgment or payoff. Assembles the record as a non-destructive inventory, reconciles ledger ↔ complaint ↔ judgment ↔ payments to the cent, runs a sourced deep-research memo on candidate claims (restitution and contract, statutory records and fine-process rights, fiduciary duty, FDCPA / state consumer and collection statutes, abuse of process), computes post-judgment and limitations deadlines, and remediates any draft demand or refund letter as a new version. Use it whenever someone asks 'can I counter-sue', 'what claims do I have', 'did they overcharge me', 'they collected more than the judgment', or wants a refund or demand letter after a judgment has been entered or paid. Not for pre-judgment work: intake and tracking belong to dispute, claim-versus-record audits to 9-step-legal-audit. Requires an explicit case parameter and runs under legal-operating-defaults.",
+      "type": "skill",
+      "category": "legal",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/post-judgment-claims-review",
+      "capability": "chittycanon://capability/legal/post-judgment-claims-review",
+      "tags": [
+        "legal",
+        "evidence"
+      ]
     }
   ]
 }

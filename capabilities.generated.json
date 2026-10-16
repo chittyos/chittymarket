@@ -3,11 +3,11 @@
   "phase": "Materialized capability overlay — canonical-owned records generated; external/legacy records preserved",
   "source": "canonical/ Market projection definitions + marketplace.json distribution state; non-canonical external/legacy capability records preserved verbatim",
   "naming": "Bare JTBD group ids (no chitty- prefix). Namespace chittycanon://capability/ already encodes 'chitty'.",
-  "total": 114,
+  "total": 115,
   "group_assignment_sources": {
     "category": 36,
     "name-rule": 49,
-    "override": 29
+    "override": 30
   },
   "capabilities": [
     {
@@ -9254,11 +9254,100 @@
         "signer_chittyid": null,
         "anchored_in_ledger": null
       }
+    },
+    {
+      "capability_id": "chittycanon://capability/legal/post-judgment-claims-review",
+      "legacy_id": "skill-post-judgment-claims-review",
+      "name": "Post-Judgment Claims Review",
+      "description": "Affirmative-claims review for an owner or defendant entity after an association, landlord, lender, or collection-counsel action has gone to judgment or payoff. Assembles the record as a non-destructive inventory, reconciles ledger ↔ complaint ↔ judgment ↔ payments to the cent, runs a sourced deep-research memo on candidate claims (restitution and contract, statutory records and fine-process rights, fiduciary duty, FDCPA / state consumer and collection statutes, abuse of process), computes post-judgment and limitations deadlines, and remediates any draft demand or refund letter as a new version. Use it whenever someone asks 'can I counter-sue', 'what claims do I have', 'did they overcharge me', 'they collected more than the judgment', or wants a refund or demand letter after a judgment has been entered or paid. Not for pre-judgment work: intake and tracking belong to dispute, claim-versus-record audits to 9-step-legal-audit. Requires an explicit case parameter and runs under legal-operating-defaults.",
+      "capability_group": "legal",
+      "group_assignment_source": "override",
+      "execution_class": "@chitty/reasoning",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "P",
+          "E",
+          "T"
+        ],
+        "secondary": [
+          "L",
+          "A"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true,
+        "requires_case": true,
+        "write_scope": "case-scoped",
+        "no_last_case_fallback": true,
+        "non_repudiation_required": true,
+        "evidence_gate": "legal-space-only"
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": true,
+        "context_cost": "high",
+        "mutation_risk": "high"
+      },
+      "discovery": {
+        "indexable": true,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "counterclaim",
+          "overpayment",
+          "refund",
+          "demand",
+          "judgment"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "existing-session",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true,
+        "requires_case_id": true,
+        "no_fallback_last_case": true
+      },
+      "runtime_exclusions": {
+        "openclaw": [
+          "write_requires_policy_elevation"
+        ]
+      },
+      "compatible_channels": [
+        "claude_code",
+        "codex"
+      ],
+      "source_links": [
+        "local://canonical/skills/post-judgment-claims-review.md"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "resolve",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "legal-grade",
+        "advisory_disposition": "legal-only"
+      },
+      "legacy_type": "skill",
+      "legacy_category": "legal",
+      "deprecated_aliases": [
+        "skill-post-judgment-claims-review"
+      ],
+      "visibility": "recommended",
+      "provenance": {
+        "content_hash": "sha256:26cbcb6f6aee716e3b3075941366c5529a186c356f2e9b7e717c6aee1f928baf",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:d968291bdb00d8cd27e421a0c192bfc8c98e698cda5f502c8567058367a7db9b",
-    "record_count": 114,
+    "aggregate_hash": "sha256:39cf3279c6457b8a97f434dbd6455ac0d74885d0c1e06139d482449ac8fb9be0",
+    "record_count": 115,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
     "anchored_in_ledger": null
