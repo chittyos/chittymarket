@@ -42,7 +42,8 @@
         "Unit B reconciliation is laid out with a source for every number and is shown NOT to close: the 6,905.00 payment exceeds the 5,790.00 ledger at judgment plus 765.00 of post-judgment postings (380.00 + 45.00 + 300.00 + 40.00) by 350.00, which no posting explains; the Aug 1 postings are excluded because they post-date the payment; the output names the 350.00 gap as a missing or misread posting to resolve before any money demand",
         "No money demand is written that treats the unexplained 350.00 as overpayment: any contested figure stated is limited to the identified items (310.00 pre-judgment excess + 300.00 post-judgment fee = 610.00) or the output says the demand waits until the gap closes",
         "The note to the lawyer is short (under ~200 words), asks for the signed Unit B order, and does not argue law or cite statutes to counsel",
-        "Unit A is treated as an active agreed-order payment plan (amount still owed = remaining installments), not as a post-judgment overcharge matter"
+        "Unit A is treated as an active agreed-order payment plan \u2014 what is owed is the remaining installments under the order, with the count marked Unknown where the prompt gives no payment history \u2014 not as a post-judgment overcharge matter",
+        "The counsel note's ask about the unexplained 350.00 is for the posting or transaction detail that explains it, not whether to demand it"
       ],
       "expected_output": "Two frames; Unit B entry basis unknown; Unit B reconciliation shown not to close (350.00 unexplained; contested items 610.00) and no demand written on it; Unit A payment-plan status; short counsel note; nothing sent.",
       "files": []

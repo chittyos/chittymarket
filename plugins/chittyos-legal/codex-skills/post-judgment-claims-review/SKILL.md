@@ -15,10 +15,10 @@ first if it is not already loaded.
 
 Every stage is scoped to one explicit matter. Which identifier a stage needs depends on what it touches:
 
-- **Reasoning on supplied facts (Stages 0–5)** is scoped by the label the operator used for the matter — a unit, an address, a case or file number. If the operator gave none, ask for one in a single line before Stage 2 and stop there; never invent a label and never infer "the last case." When the case is not registered, say so at the top of the output and list what registration needs (identity, slug, parties), then carry on. All work product from these stages goes to the operator as files and to the matter's shared store as it is written (legal-operating-defaults §11.2–§11.3); nothing stays only on the compute node.
-- **Anything that touches a store** — the Stage 1 handoff to `evidence-collect`, fact registration through `fact-governance`, tracker entries keyed to the case, index queries — needs a registered `case_id` or `case_slug`, resolved the way `evidence-collect` and `fact-governance` resolve it. Without one, write what the handoff would be and mark it held.
+- **Reasoning on supplied facts (Stages 0–5)** is scoped by the label the operator used for the matter — a unit, an address, a case or file number. If the operator gave none, ask for one in a single line before Stage 2 and stop there; never invent a label and never infer "the last case." When the case is not registered, say so at the top of the output and list what registration needs (identity, slug, parties), then carry on. All work product from these stages goes to the operator as files and to the matter's shared store as it is written (legal-operating-defaults §11.2–§11.3). The shared store is a document location the operator names (a matter folder, a project), not an evidence store; if none has been named yet, list it with the registration needs and deliver files meanwhile. Nothing stays only on the compute node.
+- **Anything that touches the evidence store, the fact table, the tracker or the index** — the Stage 1 handoff to `evidence-collect`, fact registration through `fact-governance`, tracker entries keyed to the case, index queries — needs a registered `case_id` or `case_slug`, resolved the way `evidence-collect` and `fact-governance` resolve it. Without one, write what the handoff would be and mark it held.
 
-The frame is the isolation boundary for the reasoning stages: one frame per matter, and nothing crosses between frames. Withholding the reconciliation or the letter because no case is registered yet is the wrong failure — the registration gate protects stores, not arithmetic.
+The frame is the isolation boundary for the reasoning stages: one frame per matter, and nothing crosses between frames. Withholding the reconciliation or the letter because no case is registered yet is the wrong failure — the registration gate protects stores, not arithmetic. The frontmatter flags `authority.requires_case`, `auth_flow.requires_case_id` and `fail_closed_if_unavailable` describe this store-touching tier; a router that applied them to the whole capability would reinstate the gate this section replaces.
 
 ## Why this exists
 
@@ -115,7 +115,7 @@ open fact that most changes the answer.
 ## Stage 6 — Deliver and register
 
 - Deliverables (memo, letter vN+1, inventory, counsel note) go to the matter's shared store as they are written, and to the operator as files.
-- Work items go to the tracker with identifiers only — no case facts beyond what identifies the matter.
+- Work items go to the tracker with identifiers only — no case facts beyond what identifies the matter. Without a registered case, the tracker entries are written as a held handoff listing what would be filed.
 - The note to counsel is short: facts, numbers, the specific ask. Do not argue law to counsel.
 - Short pieces first: write the operator's answers and the counsel note as soon as the reconciliation stands; the long-form artifacts follow. If the run stops before the checklist is complete, the index says what was not written — nothing references a file that does not exist.
 - Transmission to any outside party is the operator's act, after counsel's read. The agent never sends.
@@ -131,10 +131,12 @@ open fact that most changes the answer.
 
 ## Outputs checklist
 
+- [ ] Registration status stated at the top; registration needs listed if the case is not registered
 - [ ] Matter frame (facts as allegations, instruments quoted, case-number variants)
 - [ ] Inventory manifest with coverage and gaps
 - [ ] Cent-exact reconciliation with sources
 - [ ] Research memo with labels and unverified-citation list
 - [ ] Deadlines table and claims table
 - [ ] Letter vN+1 with revision log; counsel note
-- [ ] Tracker entries; nothing transmitted
+- [ ] Index of deliverables that says what was not written
+- [ ] Tracker entries, or the held handoff; nothing transmitted
