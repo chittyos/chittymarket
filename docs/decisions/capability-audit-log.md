@@ -999,3 +999,92 @@ held:
 registry_blocker: ChittyRegister HTTP 429 rate_limit_exceeded
 evidentiary_risk: legal-grade
 ```
+
+
+---
+
+## 2026-10-15 — counsel-style-adapter
+
+**Auditor:** capability-registry-audit workflow  
+**Request:** add an evolving counsel-style layer to `chittyos-legal`, with optional Cloudflare-backed memory/retrieval.
+
+### Existing-first search
+
+- `capabilities.generated.json`, `marketplace.json`, canonical skill definitions, and ChittyMarket code search: no existing counsel-style/profile capability.
+- Live `chittyos-legal` skill index: 9 existing skills; none owns recipient-specific counsel style. The closest capability is `evidence-to-filing`, whose job is materializing governed evidence into attorney-reviewable filing work product.
+- `evidence-to-filing` remains upstream/downstream adjacent, not a duplicate: it owns source-to-fact-to-exhibit materialization; `counsel-style-adapter` owns source-linked recipient adaptation only.
+- ChittyHelper returned `out_of_scope` for the architecture question; no ownership claim was inferred from that refusal.
+- Ch1tty search was attempted and failed internally; no capability identity was inferred from the failure.
+
+### Classification
+
+```yaml
+canonical_id: counsel-style-adapter
+capability_id: chittycanon://capability/legal/counsel-style-adapter
+display_name: Counsel Style Adapter
+job_to_be_done: generate
+entity_mapping: [P, A, E, T]
+source_of_truth: canonical/skills/counsel-style-adapter.md
+environmental_footprint: forensic-legal-grade
+evidentiary_risk: legal-grade
+canonical_version: 0.1.0
+allowed_projections: [claude_code, claude_ai, claude_desktop, chatgpt, codex, openclaw]
+restricted_projections: []
+non_repudiation_required: true
+owner: chittyos-legal
+status: experimental
+```
+
+### Matrix walk / disposition
+
+1. Already exists under another name? **No.**
+2. Only a platform adapter? **No.** Cloudflare is optional runtime substrate, not the capability identity.
+3. Genuinely new job-to-be-done? **Yes.**
+4. Reasoning/templates/procedure dominant? **Yes — skill.**
+5. Legal/evidence impact? **Yes — Legal space + non-repudiation gate.**
+
+**Disposition:** `skill` / `legal-only`.
+
+```yaml
+decision_id: CAP-2026-10-15-CSA-001
+date: 2026-10-15
+capability_name: Counsel Style Adapter
+canonical_id: chittycanon://capability/legal/counsel-style-adapter
+decision: skill
+rationale: >
+  New legal reasoning workflow that adapts attorney-facing presentation to a
+  source-linked counsel profile without owning facts, evidence collection, or
+  filing materialization. Legal-space-only because profile sources can be
+  privileged/work-product and because style adaptation must never weaken
+  evidence governance.
+duplicates_found: []
+migration_required: no
+next_action: >
+  Materialize the disabled ChittyMarket projection through market-reconcile,
+  validate runtime projections, then seed the first matter-scoped counsel
+  profile outside the canonical skill.
+review_date: 2026-11-15
+```
+
+### Runtime placement
+
+- Canonical skill: ChittyMarket / `chittyos-legal`.
+- Matter-specific counsel profile: outside canonical Market definitions.
+- Deterministic state: Cloudflare Agents SDK / Durable Object SQLite when provisioned.
+- Semantic profile memory: Cloudflare Agent Memory when account access exists; current Cloudflare docs identify Agent Memory as private beta.
+- Source-example retrieval: AI Search over style-eligible artifacts with matter/counsel filters.
+- Dynamic Workers / Code Mode: optional transformation/orchestration sandbox only; never memory authority.
+- Governed legal facts/evidence: remain in existing ChittyOS legal/evidence systems.
+
+### Quality gates
+
+- [x] Existing inventory searched first.
+- [x] Exactly one primary job-to-be-done.
+- [x] P/L/T/E/A mapping present.
+- [x] Exactly one disposition.
+- [x] Evidence-touching profile routed to Legal space.
+- [x] Non-repudiation required and `evidence_gate: legal-space-only`.
+- [x] Platform-specific Cloudflare implementation treated as runtime substrate, not a second canonical capability.
+- [x] No matter-specific facts embedded in the canonical skill.
+- [x] Existing `evidence-to-filing` boundary preserved.
+- [ ] Cloudflare runtime provisioned — intentionally not part of capability admission; requires separate availability/cost/deployment gate.
