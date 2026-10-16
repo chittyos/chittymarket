@@ -1,0 +1,5 @@
+interface:
+  display_name: Counsel Style Adapter
+  short_description: Learn and apply a source-linked attorney working style without changing governed legal facts or evidence status.
+policy:
+  allow_implicit_invocation: true
