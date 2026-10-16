@@ -131,6 +131,11 @@ When a persistent runtime is available, prefer:
 
 Do not use generated-code sandboxes as the memory store. Sandboxes may transform or compare text, but durable profile state stays in the scoped memory/state layer.
 
+## Progressive references
+
+- When persisting or exchanging a counsel profile, read `references/profile-schema.md`.
+- When the user requests a persistent/dynamic Cloudflare implementation, Agent Memory, AI Search, Durable Objects, Agents SDK, or Code Mode, read `references/cloudflare-runtime.md` before designing or provisioning anything.
+
 ## Adaptation workflow
 
 1. Load the current `COUNSEL_STYLE_BRIEF`.
