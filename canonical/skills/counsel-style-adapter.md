@@ -8,6 +8,7 @@ plugin: chittyos-legal
 runtimes:
   - claude-code
   - codex
+  - universal
 classification:
   - legal
   - counsel
@@ -49,6 +50,15 @@ overlay:
     advisory_disposition: "legal-only"
   visibility: "recommended"
   access: "readwrite"
+  compatible_channels:
+    - claude_code
+    - claude_ai
+    - claude_desktop
+    - chatgpt
+    - codex
+    - openclaw
+  source_links:
+    - local://canonical/skills/counsel-style-adapter.md
 ---
 
 # Counsel Style Adapter
@@ -176,6 +186,11 @@ When a persistent runtime is available, prefer:
 - metadata filters that enforce matter and counsel isolation before retrieval.
 
 Do not use generated-code sandboxes as the memory store. Sandboxes may transform or compare text, but durable profile state stays in the scoped memory/state layer.
+
+## Progressive references
+
+- When persisting or exchanging a counsel profile, read `references/profile-schema.md`.
+- When the user requests a persistent/dynamic Cloudflare implementation, Agent Memory, AI Search, Durable Objects, Agents SDK, or Code Mode, read `references/cloudflare-runtime.md` before designing or provisioning anything.
 
 ## Adaptation workflow
 
