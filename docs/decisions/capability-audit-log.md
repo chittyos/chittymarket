@@ -996,7 +996,7 @@ rationale: existing-first search over capabilities.generated.json, canonical/ski
 duplicates_found: []
 migration_required: no
 migration_owner: n/a
-next_action: run skill-creator evals (3 prompts) before promoting from draft; register in the capabilities overlay through the generator (never hand-edit capabilities.generated.json)
+next_action: overlay registration done (5efb93d); evals run iterations 1–3 (eval-1 9/9 vs 6/9 baseline; eval-3 6/6 vs 3/6; eval-2 4/4 both, non-discriminating) — see docs/evals/post-judgment-claims-review/; PR #177 awaits operator ratification
 review_date: 2026-11-08
 allowed_projections: [claude-code, codex, legal-space]
 restricted_projections: [openclaw, chatgpt-public]

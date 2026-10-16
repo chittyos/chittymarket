@@ -1,0 +1,116 @@
+{
+  "iteration-1": {
+    "evals": {
+      "eval-1-post-payoff-overcharge-review": {
+        "with_skill": {
+          "passed": 2,
+          "total": 8,
+          "failed": [
+            "Reconciliation closes to the cent: 7,632.15 \u2212 6,210.40 = 1,421.75 decomposed into 531.75 + 465.00 + 35.00 + 390.00, with the contested amount stated as 921.75",
+            "The refund/records demand is addressed to the association (board or managing agent) as the recipient, with the law firm copied \u2014 not addressed to the law firm",
+            "Deadlines are given with the trigger date and rule, and computed dates are marked as computed/draft (and the 30-day post-judgment window is shown as already passed)",
+            "The transmittable letter contains no internal strategy; a revision log or internal notes section is kept as a separate section or file",
+            "Any research brief or research request drafted contains no party names, case numbers, addresses, or exact dollar amounts (abstracted fact pattern)",
+            "The $35 late fee is treated as owed under the rules (not lumped into the contested amount)"
+          ]
+        },
+        "without_skill": {
+          "passed": 6,
+          "total": 8,
+          "failed": [
+            "The refund/records demand is addressed to the association (board or managing agent) as the recipient, with the law firm copied \u2014 not addressed to the law firm",
+            "Any research brief or research request drafted contains no party names, case numbers, addresses, or exact dollar amounts (abstracted fact pattern)"
+          ]
+        }
+      },
+      "eval-2-prejudgment-trigger-boundary": {
+        "with_skill": {
+          "passed": 4,
+          "total": 4,
+          "failed": []
+        },
+        "without_skill": {
+          "passed": 4,
+          "total": 4,
+          "failed": []
+        }
+      }
+    },
+    "totals": {
+      "with_skill": {
+        "passed": 6,
+        "total": 12
+      },
+      "without_skill": {
+        "passed": 10,
+        "total": 12
+      }
+    }
+  },
+  "iteration-2": {
+    "evals": {
+      "eval-1-post-payoff-overcharge-review": {
+        "with_skill": {
+          "passed": 9,
+          "total": 9,
+          "failed": []
+        },
+        "without_skill": {
+          "passed": 6,
+          "total": 9,
+          "failed": [
+            "Reconciliation closes to the cent: 7,632.15 \u2212 6,210.40 = 1,421.75 decomposed into 531.75 + 465.00 + 35.00 + 390.00, with the contested amount stated as 921.75",
+            "The refund demand is addressed to the association (board or managing agent) as the recipient, with the law firm copied \u2014 not addressed to the law firm",
+            "Any research brief or research request drafted contains no party names, case numbers, addresses, or exact dollar amounts (abstracted fact pattern)"
+          ]
+        }
+      },
+      "eval-3-two-matters-isolation": {
+        "with_skill": {
+          "passed": 4,
+          "total": 6,
+          "failed": [
+            "Produces two separate matter frames (Unit A and Unit B) and does not attribute the Unit A agreed order to Unit B",
+            "The note to the lawyer is short (under ~200 words), asks for the signed Unit B order, and does not argue law or cite statutes to counsel"
+          ]
+        },
+        "without_skill": {
+          "passed": 3,
+          "total": 6,
+          "failed": [
+            "Unit B reconciliation is laid out with a source for every number and is shown NOT to close: the 6,905.00 payment exceeds the 5,790.00 ledger at judgment plus 765.00 of post-judgment postings (380.00 + 45.00 + 300.00 + 40.00) by 350.00, which no posting explains; the Aug 1 postings are excluded because they post-date the payment; the output names the 350.00 gap as a missing or misread posting to resolve before any money demand",
+            "No money demand is written that treats the unexplained 350.00 as overpayment: any contested figure stated is limited to the identified items (310.00 pre-judgment excess + 300.00 post-judgment fee = 610.00) or the output says the demand waits until the gap closes",
+            "The note to the lawyer is short (under ~200 words), asks for the signed Unit B order, and does not argue law or cite statutes to counsel"
+          ]
+        }
+      }
+    },
+    "totals": {
+      "with_skill": {
+        "passed": 13,
+        "total": 15
+      },
+      "without_skill": {
+        "passed": 9,
+        "total": 15
+      }
+    }
+  },
+  "iteration-3": {
+    "evals": {
+      "eval-3-two-matters-isolation": {
+        "with_skill": {
+          "passed": 6,
+          "total": 6,
+          "failed": []
+        }
+      }
+    },
+    "totals": {
+      "with_skill": {
+        "passed": 6,
+        "total": 6
+      }
+    }
+  }
+}

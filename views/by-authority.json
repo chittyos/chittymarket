@@ -4,9 +4,9 @@
   "view": "by-authority",
   "description": "Capabilities grouped by required authority scope",
   "counts": {
-    "no_last_case_fallback": 6,
-    "non_repudiation_required": 11,
-    "requires_case": 6,
+    "no_last_case_fallback": 7,
+    "non_repudiation_required": 12,
+    "requires_case": 7,
     "requires_chittyid_only (default)": 77,
     "requires_deploy_authority": 12,
     "requires_governance_authority": 17
@@ -52,6 +52,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/post-judgment-claims-review",
+        "name": "Post-Judgment Claims Review",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/legal/search-evidence-documents",
@@ -144,6 +152,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/post-judgment-claims-review",
+        "name": "Post-Judgment Claims Review",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/legal/search-evidence-documents",
         "name": "Search Evidence Documents",
         "group": "legal",
@@ -192,6 +208,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/post-judgment-claims-review",
+        "name": "Post-Judgment Claims Review",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/legal/search-evidence-documents",

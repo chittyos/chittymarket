@@ -1,6 +1,6 @@
 ---
 name: post-judgment-claims-review
-description: 'Affirmative-claims review for an owner or defendant entity after an association, landlord, lender, or collection-counsel action has gone to judgment or payoff. Assembles the record as a non-destructive inventory, reconciles ledger ↔ complaint ↔ judgment ↔ payments to the cent, runs a sourced deep-research memo on candidate claims (restitution and contract, statutory records and fine-process rights, fiduciary duty, FDCPA / state consumer and collection statutes, abuse of process), computes post-judgment and limitations deadlines, and remediates any draft demand or refund letter as a new version. Use it whenever someone asks ''can I counter-sue'', ''what claims do I have'', ''did they overcharge me'', ''they collected more than the judgment'', or wants a refund or demand letter after a judgment has been entered or paid. Not for pre-judgment work: intake and tracking belong to dispute, claim-versus-record audits to 9-step-legal-audit. Requires an explicit case parameter and runs under legal-operating-defaults.'
+description: 'Affirmative-claims review for an owner or defendant entity after an association, landlord, lender, or collection-counsel action has gone to judgment or payoff. Assembles the record as a non-destructive inventory, reconciles ledger ↔ complaint ↔ judgment ↔ payments to the cent, runs a sourced deep-research memo on candidate claims (restitution and contract, statutory records and fine-process rights, fiduciary duty, FDCPA / state consumer and collection statutes, abuse of process), computes post-judgment and limitations deadlines, and remediates any draft demand or refund letter as a new version. Use it whenever someone asks ''can I counter-sue'', ''what claims do I have'', ''did they overcharge me'', ''they collected more than the judgment'', or wants a refund or demand letter after a judgment has been entered or paid. Not for pre-judgment work: intake and tracking belong to dispute, claim-versus-record audits to 9-step-legal-audit. Needs the matter named (a unit, address or case number is enough); only steps that touch an evidence store, a fact table or a tracker need a registered case. Runs under legal-operating-defaults.'
 canon_uri: chittycanon://core/services/chittymarket#skills/post-judgment-claims-review
 ---
 
@@ -11,11 +11,14 @@ its counsel; every decision that needs a law license stays with counsel, and not
 transmitted outside the engagement by the agent. `legal-operating-defaults` binds throughout — read it
 first if it is not already loaded.
 
-## Required: `case` parameter
+## Matter identifier — two tiers
 
-Refuse to run without an explicit matter identifier (`case_id` or `case_slug`, resolved the same way
-`evidence-collect` and `fact-governance` resolve it). Never default to "the last case." If no case is
-registered yet, say so and list what registration needs (identity, slug, parties). You may still build the Stage 0 frame and the Stage 1 manifest, because neither touches an evidence store — but both are work product: hand them to the operator as files and place them in the matter's shared store as they are written (legal-operating-defaults §11.2–§11.3); nothing stays only on the compute node. Stages 2–6 wait for the registered case.
+Every stage is scoped to one explicit matter. Which identifier a stage needs depends on what it touches:
+
+- **Reasoning on supplied facts (Stages 0–5)** is scoped by the label the operator used for the matter — a unit, an address, a case or file number. If the operator gave none, ask for one in a single line before Stage 2 and stop there; never invent a label and never infer "the last case." When the case is not registered, say so at the top of the output and list what registration needs (identity, slug, parties), then carry on. All work product from these stages goes to the operator as files and to the matter's shared store as it is written (legal-operating-defaults §11.2–§11.3); nothing stays only on the compute node.
+- **Anything that touches a store** — the Stage 1 handoff to `evidence-collect`, fact registration through `fact-governance`, tracker entries keyed to the case, index queries — needs a registered `case_id` or `case_slug`, resolved the way `evidence-collect` and `fact-governance` resolve it. Without one, write what the handoff would be and mark it held.
+
+The frame is the isolation boundary for the reasoning stages: one frame per matter, and nothing crosses between frames. Withholding the reconciliation or the letter because no case is registered yet is the wrong failure — the registration gate protects stores, not arithmetic.
 
 ## Why this exists
 
@@ -27,10 +30,11 @@ a letter goes out.
 
 ## Stage 0 — Frame the matter (facts as allegations)
 
-Write a matter frame before any research:
+Write a matter frame before any research. Keep it compact — one line per item; the label on each line
+(Given / Derived / Unknown, or "allegation") carries more weight than prose:
 
+- The matter label the operator used, and every rendering of the case number seen in the record (court caption, portal, counsel's files) — record all of them; they will differ.
 - Parties and roles (owner entity, association or creditor, managing agent, collection counsel, defense counsel).
-- Every rendering of the case number seen in the record (court caption, portal, counsel's files) — record all of them; they will differ.
 - Governing instruments by section (declaration, rules, lease, note) with the exact language relied on, quoted.
 - The judgment: date, amounts by category, possession terms, any stay and its conditions, entry basis (after trial / by agreement / default) — mark the entry basis **unknown** until the signed order is read; an OCR of a form does not establish which box was checked.
 - Payment events with amounts, channel, timestamps, and any written protest or reservation of rights, with proof of delivery.
@@ -39,7 +43,9 @@ Write a matter frame before any research:
 Isolation rule: one frame per matter. When the same counsel or the same parties appear in a second
 matter (another unit, another building), keep a separate frame and never let a document, order or
 date from one leak into the other. A document titled "agreed order" is attributed to a matter only by
-its caption, not by who sent it.
+its caption, not by who sent it. With two matters in one request, write both frames first (so nothing
+leaks), then finish the matter that carries the money question before starting the other's long-form
+artifacts.
 
 ## Stage 1 — Record inventory (non-destructive)
 
@@ -48,9 +54,10 @@ document date (unknown unless stated on the instrument), from/to/cc, subject or 
 names, matter tag, category, in-scope flag, notes.
 
 - Query the mailbox by counterpart domains, by the association/agent addresses, by case numbers and file numbers, by instrument names (notice of violation, demand, receipt), and the owner's own outbound letters (`in:sent`). Query the drive by file number, case number, counterpart name, and instrument titles.
-- Tag matter mechanically (digit-boundary matching on identifiers), so the tagging is reproducible; hand-retag only with a note saying why.
+- Tag matter mechanically (digit-boundary matching on case, file and unit identifiers; when the matter has no number yet, tag by the operator's label and say so), so the tagging is reproducible; hand-retag only with a note saying why.
 - Privileged counterparties (defense counsel, other counsel) are **counted, never listed as rows**. Platform notices that match only by street address (leasing sites, booking sites) are tagged out of scope.
 - Record coverage: every query, page, and count; and a gaps list of the instruments the frame says should exist but were not found. "Not found" is a finding; "absent" requires completed paging.
+- Proportional to the record: when the operator supplied the record in the request and there is no mailbox or drive to search, the manifest is a short table of those items plus the gaps list — do not pad coverage.
 - Operational: mail search pages are large. Split the sweep across fresh agents, cap the pages each one fetches, and parse saved result files with scripts rather than reading them into context.
 
 The manifest's drive rows are the input to `evidence-collect` Option C (bulk from Drive URL list). Mail rows have no direct ingestion route: export each message or attachment to the case's drive location through the governed mail-to-drive export path first, record the export on the manifest row, and only then does it enter through Option C. Do not copy bytes, stage files, or ingest anything without a registered case; that is the pipeline's job, with custody.
@@ -65,7 +72,8 @@ paid − judgment = Δ
 ```
 
 The test is an exact-cent fit. If the decomposition does not close to the cent, a posting is missing
-or misread — find it before writing a demand. Label each line: judgment / owed under the instruments / owed by statute (post-judgment interest) / contested (pre-judgment, not awarded → merger) / contested (post-judgment, no order). A late fee is
+or misread — find it before writing a demand: the first ask, to counsel or to the creditor, is for the
+posting detail that closes the gap, never whether to demand the unexplained amount. Label each line: judgment / owed under the instruments / owed by statute (post-judgment interest) / contested (pre-judgment, not awarded → merger) / contested (post-judgment, no order). A late fee is
 judged by its own posting date and rule, not by an earlier dispute.
 
 ## Stage 3 — Research, then verify what the draft will cite
@@ -109,6 +117,7 @@ open fact that most changes the answer.
 - Deliverables (memo, letter vN+1, inventory, counsel note) go to the matter's shared store as they are written, and to the operator as files.
 - Work items go to the tracker with identifiers only — no case facts beyond what identifies the matter.
 - The note to counsel is short: facts, numbers, the specific ask. Do not argue law to counsel.
+- Short pieces first: write the operator's answers and the counsel note as soon as the reconciliation stands; the long-form artifacts follow. If the run stops before the checklist is complete, the index says what was not written — nothing references a file that does not exist.
 - Transmission to any outside party is the operator's act, after counsel's read. The agent never sends.
 
 ## Anti-patterns

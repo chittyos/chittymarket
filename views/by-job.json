@@ -690,6 +690,14 @@
         "group_assignment_source": "category"
       },
       {
+        "capability_id": "chittycanon://capability/legal/post-judgment-claims-review",
+        "name": "Post-Judgment Claims Review",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "advisory_disposition": "legal-only",
+        "group_assignment_source": "override"
+      },
+      {
         "capability_id": "chittycanon://capability/legal/search-evidence-documents",
         "name": "Search Evidence Documents",
         "execution_class": "@chitty/reasoning",
@@ -946,7 +954,7 @@
     "finance": 1,
     "govern": 15,
     "internal": 3,
-    "legal": 9,
+    "legal": 10,
     "local-lab": 6,
     "market": 1,
     "ship": 12,

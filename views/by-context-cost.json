@@ -4,7 +4,7 @@
   "view": "by-context-cost",
   "description": "Capabilities grouped by execution context cost",
   "counts": {
-    "high": 12,
+    "high": 13,
     "low": 8,
     "medium": 94
   },
@@ -89,6 +89,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/post-judgment-claims-review",
+        "name": "Post-Judgment Claims Review",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/workspace/read-and-write-chittyos",
