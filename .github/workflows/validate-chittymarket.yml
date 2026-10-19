@@ -81,6 +81,20 @@ jobs:
           fi
           echo "✓ Materialized capability views are idempotent"
 
+      # Section 7 of the capability-router doc is rendered from the same artifacts as the
+      # views above. It was the only unguarded projection of the overlay, and every table
+      # in it had drifted: 110 capabilities claimed against a live 114, legal 6 against 9,
+      # and a By Context Cost table that summed to 104. Same idempotency gate as the views.
+      - name: Router doc distribution idempotency
+        run: |
+          python3 scripts/generate-router-doc-tables.py --check
+
+      # The write-only read-compatibility clause in the channel predicate is not exercised
+      # by any record in the overlay, so the gate above cannot see it removed. This pins it
+      # on synthetic records, and checks the doc renderer and the view generator agree.
+      - name: scripts/tests/test_router_doc_tables.py
+        run: python3 scripts/tests/test_router_doc_tables.py
+
       # 1b. Matter-leak gate: no concrete legal matter may appear in a governed,
       #     published definition (legal-operating-defaults §15). Shape-matching only —
       #     the gate never learns which matters are real, because a denylist of real
