@@ -999,3 +999,44 @@ held:
 registry_blocker: ChittyRegister HTTP 429 rate_limit_exceeded
 evidentiary_risk: legal-grade
 ```
+
+## CAP-2026-10-18 — Neural Operations Registry (spec, projection)
+
+The Neural Operations Registry (NOR) is a canon spec in `chittyfoundation/chittycanon`
+(`specs/NEURAL_OPERATIONS_REGISTRY.md`, PR chittyfoundation/chittycanon#98). It catalogs
+cognitive, epistemic and executive operations over existing surfaces. It is not an executable
+capability, so no capability record is minted in the overlay.
+
+Matrix Q1 is a partial match. Its legal-space epistemic entries project onto `fact-governance`,
+with `document-intake-checks` upstream. Business-space fact writes are blocked because no owner
+is defined (`/helper` returned UNDEFINED).
+
+```yaml
+decision_id:     CAP-2026-10-18-neural-operations-registry
+date:            2026-10-18
+capability_name: Neural Operations Registry
+canonical_id:    chittycanon://docs/tech/spec/neural-operations-registry
+source_links:
+  - https://github.com/chittyfoundation/chittycanon/pull/98
+current_state:   DRAFT spec, unratified
+decision:        project
+job_to_be_done:  govern
+entity_mapping:  [P, E, A]
+environmental_footprint: context-only
+evidentiary_risk: legal-grade   # legal-space rows write to fact-governance
+rationale:       >
+  Partial match at matrix Q1. Epistemic status semantics reuse fact-governance; no new
+  capability identity, record, store or status enum.
+duplicates_found:
+  - chittycanon://capability/govern/fact-governance
+adjacent:
+  - chittycanon://capability/legal/document-intake-checks
+  - chittycanon://capability/legal/dispute-manager
+  - chittycanon://capability/workspace/read-and-write-chittyos
+migration_required: no
+migration_owner: null
+next_action:     >
+  Operator ratifies the spec PR. Designate a Business-space owner of the fact lifecycle
+  via capability-governor. File: fact-governance does not enforce verifier != submitter.
+review_date:     2026-11-18
+```
