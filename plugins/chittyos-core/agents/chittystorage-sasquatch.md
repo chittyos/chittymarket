@@ -1,37 +1,6 @@
 ---
 name: chittystorage-sasquatch
-description: |
-  Use this agent when working with document storage, file management, R2 buckets, content-addressing, document ingestion, classification, entity-document relationships, legal holds, file deduplication, Google Drive sync, or storage topology.
-
-  <example>
-  Context: User wants to ingest documents into the storage system.
-  user: "I need to ingest these 50 PDFs from Google Drive into R2"
-  assistant: "I'm going to use the chittystorage-sasquatch agent to handle the batch ingestion with proper content-addressing and entity linking."
-  </example>
-
-  <example>
-  Context: User asks about document locations or duplicates.
-  user: "Where are all the copies of the operating agreement?"
-  assistant: "Let me use the chittystorage-sasquatch agent to trace all file locations and version links for that document."
-  </example>
-
-  <example>
-  Context: User wants to classify or tag documents.
-  user: "Can you classify the unprocessed documents?"
-  assistant: "I'll use the chittystorage-sasquatch agent to run AI-driven fact extraction and entity assignment on unclassified files."
-  </example>
-
-  <example>
-  Context: User asks about R2 bucket organization or cleanup.
-  user: "Which R2 buckets have data and which are orphaned?"
-  assistant: "Let me use the chittystorage-sasquatch agent to audit all R2 buckets, check worker bindings, and identify consolidation targets."
-  </example>
-
-  <example>
-  Context: User needs to place a legal hold on evidence.
-  user: "Pin this document as Exhibit A for the case"
-  assistant: "I'll use the chittystorage-sasquatch agent to place the legal hold, pin the content hash, and create the audit trail."
-  </example>
+description: "Document storage and file management: R2 buckets, content addressing, ingestion, classification, entity-document links, legal holds, deduplication, Google Drive sync and storage topology audits."
 model: sonnet
 color: green
 canon_uri: chittycanon://core/services/chittymarket#agents/chittystorage-sasquatch
