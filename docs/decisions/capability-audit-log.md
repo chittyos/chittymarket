@@ -1020,15 +1020,15 @@ source_links:
   - https://github.com/chittyfoundation/chittycanon/pull/98
 audited_revision:
   repo: chittyfoundation/chittycanon
-  commit: daea01de56fbad43ecf6c6fffa782dd543771198
+  commit: d0d006848a3a70f17cb85fadb7f2080fe24b8c97
   path: specs/NEURAL_OPERATIONS_REGISTRY.md
-  url: https://github.com/chittyfoundation/chittycanon/blob/daea01de56fbad43ecf6c6fffa782dd543771198/specs/NEURAL_OPERATIONS_REGISTRY.md
-  content_sha256: 135da8e65fd46ddda034d8ebefa8b006e55a629eefd2d80e57281ca57af2feeb
+  url: https://github.com/chittyfoundation/chittycanon/blob/d0d006848a3a70f17cb85fadb7f2080fe24b8c97/specs/NEURAL_OPERATIONS_REGISTRY.md
+  content_sha256: c8cfdebd1bcaa41272258911e7ea45eccea2b83fe4e6715c331d614d7f0f6916
   # any later change to the spec requires re-audit before this entry satisfies the admission gate
 current_state:   DRAFT spec, unratified
 decision:        project
 job_to_be_done:  govern
-entity_mapping:  [P, E, A]
+entity_mapping:  [P, L, T, E, A]
 environmental_footprint: context-only
 evidentiary_risk: legal-grade   # legal-space rows write to fact-governance
 rationale:       >
@@ -1056,7 +1056,7 @@ action: reroute
 blocking_dependencies:
   - operator ratification of chittyfoundation/chittycanon#98
   - Business-space owner of the fact lifecycle (helper: UNDEFINED)
-  - fact-governance enforcement of verifier != submitter
+  - fact-governance runtime enforcement of verifier != submitter (verify entry blocked until then)
 risk_level: medium
 owner: operator
 status: backlog
