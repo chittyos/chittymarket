@@ -1018,6 +1018,13 @@ capability_name: Neural Operations Registry
 canonical_id:    chittycanon://docs/tech/spec/neural-operations-registry
 source_links:
   - https://github.com/chittyfoundation/chittycanon/pull/98
+audited_revision:
+  repo: chittyfoundation/chittycanon
+  commit: daea01de56fbad43ecf6c6fffa782dd543771198
+  path: specs/NEURAL_OPERATIONS_REGISTRY.md
+  url: https://github.com/chittyfoundation/chittycanon/blob/daea01de56fbad43ecf6c6fffa782dd543771198/specs/NEURAL_OPERATIONS_REGISTRY.md
+  content_sha256: 135da8e65fd46ddda034d8ebefa8b006e55a629eefd2d80e57281ca57af2feeb
+  # any later change to the spec requires re-audit before this entry satisfies the admission gate
 current_state:   DRAFT spec, unratified
 decision:        project
 job_to_be_done:  govern
@@ -1033,10 +1040,25 @@ adjacent:
   - chittycanon://capability/legal/document-intake-checks
   - chittycanon://capability/legal/dispute-manager
   - chittycanon://capability/workspace/read-and-write-chittyos
-migration_required: no
-migration_owner: null
+migration_required: yes   # every `project` disposition requires migration (capability-governor audit_artifact.py needs_migration)
+migration_owner: operator
 next_action:     >
   Operator ratifies the spec PR. Designate a Business-space owner of the fact lifecycle
   via capability-governor. File: fact-governance does not enforce verifier != submitter.
 review_date:     2026-11-18
+```
+
+```yaml
+migration_item:
+from_artifact: chittycanon://docs/tech/spec/neural-operations-registry (DRAFT)
+to_canonical_capability: chittycanon://capability/govern/fact-governance
+action: reroute
+blocking_dependencies:
+  - operator ratification of chittyfoundation/chittycanon#98
+  - Business-space owner of the fact lifecycle (helper: UNDEFINED)
+  - fact-governance enforcement of verifier != submitter
+risk_level: medium
+owner: operator
+status: backlog
+completion_evidence: null
 ```
