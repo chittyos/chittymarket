@@ -1015,15 +1015,16 @@ is defined (`/helper` returned UNDEFINED).
 decision_id:     CAP-2026-10-18-neural-operations-registry
 date:            2026-10-18
 capability_name: Neural Operations Registry
-canonical_id:    chittycanon://docs/tech/spec/neural-operations-registry
+canonical_id:    chittycanon://capability/govern/fact-governance   # projection resolves to the existing capability (AGENTS.md)
+source_artifact: chittycanon://docs/tech/spec/neural-operations-registry
 source_links:
   - https://github.com/chittyfoundation/chittycanon/pull/98
 audited_revision:
   repo: chittyfoundation/chittycanon
-  commit: d0d006848a3a70f17cb85fadb7f2080fe24b8c97
+  commit: 43c3be02ee284099edf2fe2f345268a7b98ece36
   path: specs/NEURAL_OPERATIONS_REGISTRY.md
-  url: https://github.com/chittyfoundation/chittycanon/blob/d0d006848a3a70f17cb85fadb7f2080fe24b8c97/specs/NEURAL_OPERATIONS_REGISTRY.md
-  content_sha256: c8cfdebd1bcaa41272258911e7ea45eccea2b83fe4e6715c331d614d7f0f6916
+  url: https://github.com/chittyfoundation/chittycanon/blob/43c3be02ee284099edf2fe2f345268a7b98ece36/specs/NEURAL_OPERATIONS_REGISTRY.md
+  content_sha256: 1bcf81b16f0fbaa7ca4faab291235e310efdd68fa998c86373f75cba2a98f673
   # any later change to the spec requires re-audit before this entry satisfies the admission gate
 current_state:   DRAFT spec, unratified
 decision:        project
@@ -1049,7 +1050,7 @@ review_date:     2026-11-18
 ```
 
 ```yaml
-migration_item:
+migration_item: CAP-MIG-2026-10-18-nor-project-fact-governance
 from_artifact: chittycanon://docs/tech/spec/neural-operations-registry (DRAFT)
 to_canonical_capability: chittycanon://capability/govern/fact-governance
 action: reroute
