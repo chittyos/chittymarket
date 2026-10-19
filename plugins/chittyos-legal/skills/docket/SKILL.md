@@ -11,7 +11,7 @@ canon_uri: chittycanon://core/services/chittymarket#skills/docket
 This skill **requires** an explicit case identifier on every invocation. It MUST NOT default to any particular case. Accept either:
 
 - **`case_number`** — the Cook County case number, shape `YYYY D NNNNNN` (division letter varies)
-- **`case_slug`** — a registered case slug, shape `<case_slug>`; resolve through the chittyrouter case registry or chittyevidence-db `evidence_cases` table. Do not hardcode one here.
+- **`case_slug`** — a registered case slug, shape `<case_slug>`; resolve through the chittyrouter case registry or the chittyevidence-db scope tables. Do not hardcode one here. **Read §"Case resolution is currently unavailable" before relying on this** — the table this step named for months does not exist, and the store it points at is empty.
 
 If the invocation does not specify a case, stop and ask the caller for one. Do not guess.
 
@@ -30,6 +30,66 @@ the portal's search form needs. Both columns are format tokens — substitute th
 
 Spacing is not significant to the clerk's system but is to the search form: if a spaced number
 returns nothing, retry it unspaced before concluding the case does not exist.
+
+## Case resolution is currently unavailable (verified 2026-10-19)
+
+Step 1 below says to resolve `case_slug` against the case registry. **Via chittyevidence-db that
+cannot currently succeed, and the failure is silent-shaped** — a session follows the step, finds
+nothing, and has no way to tell "this case is not registered" from "the registry named here does
+not exist".
+
+What was actually checked, with real `COUNT(*)` rather than `pg_stat_user_tables.n_live_tup`
+(which is a planner estimate and would have reported the same numbers without being evidence of
+them), against the ChittyEvidence Neon project:
+
+- **There is no `evidence_cases` table.** This document named it for months. The schema holds
+  `scopes`, `scope_parties`, `scope_artifacts`, `scope_events`, `evidence_registry`,
+  `evidence_events`, `source_canonical`.
+- **`scopes` holds 0 rows**, as do `scope_parties`, `scope_artifacts`, `scope_events`,
+  `evidence_events` and `source_canonical`. `evidence_registry` holds exactly 1 row, and it is
+  not case material — an operator self-assessment artifact, `chittyverify_status: self-attested`.
+
+So there is no registered case to resolve, and no ingested evidence for any matter. Until that
+changes, a caller must pass `case_number` directly, and the chittyrouter path (`CASE_BY_NUMBER` /
+`CASE_BY_SLUG`) is the only registry lane that might answer.
+
+**Do not treat this as license to default to a case.** The Invocation Rejection rule below still
+binds: no `case` parameter means refuse. An unresolvable registry makes the parameter *more*
+load-bearing, not less — it is now the only thing scoping the run.
+
+## The portal case-number format is NOT derivable for every division
+
+The actor's input is digits only — no dashes, no division letter. Its worked example (in the
+actor's own `CLAUDE.md` on the host, where a concrete matter is permitted and here is not)
+**inserts a digit where the division letter was**. So the portal string is **not** a mechanical
+strip of the printed case number, and the inserted digit is **not** the `divisionValue` — in that
+example the division's table value and the inserted digit disagree.
+
+Written as shapes, for a printed number `YYYY <L> NNNNNN`:
+
+| Candidate derivation | Shape | Result for a live Domestic Relations matter |
+|---|---|---|
+| strip the division letter | `YYYYNNNNNN` (10 digits) | empty |
+| strip the letter, insert a district digit | `YYYY<d>NNNNNN` (11 digits) | empty |
+
+**Confirmed 2026-10-19:** both returned all header fields `null`, `case_activities: []`, exit 0.
+
+Two readings of that, and the skill must not silently pick one: the numbers are wrong, or the
+page did not render in time. Note the actor's `open_first_result_tables()` docstring describes an
+all-null result as the signature of a *past* bug (an unconditional `.click()` on a null selector
+plus a fixed 5s wait), now fixed by a conditional click and `_wait_for_stable()` — so from current
+code all-null reads as no-match, but the two outcomes remain indistinguishable from the output
+alone. **An all-null return is therefore a `UNVERIFIED` result, not a "case not found" finding.**
+
+**Party-name search does not substitute here.** `search_by_company_name()` writes
+`MainContent_txtCompName` — the by-name form's *company* field. A dissolution's parties are
+natural persons, so that field will not reach them, and the actor implements no individual
+last/first-name search. For Domestic Relations, case-number is the only path this actor offers.
+
+**Get the string from a source, do not derive it.** Ask the operator, or take it from a case whose
+portal string is already known to work in that division. Guessing further risks returning a
+*different* case's docket, which the Stop Conditions below and matter isolation both forbid — and
+a wrong caption that happens to look plausible is worse than an empty result.
 
 ## Case Configuration Schema
 
@@ -96,7 +156,7 @@ Pull live docket and update that case's master timeline CSV with new entries.
 
 ### Step 1: Resolve the case
 1. Read `case` parameter from invocation.
-2. Resolve against the case registry (chittyrouter `CASE_BY_NUMBER` / `CASE_BY_SLUG` or chittyevidence-db `evidence_cases`).
+2. Resolve against the case registry (chittyrouter `CASE_BY_NUMBER` / `CASE_BY_SLUG`, or the chittyevidence-db scope tables). **This step cannot currently succeed via chittyevidence-db — see §"Case resolution is currently unavailable".**
 3. If not found: stop, report "unknown case" to caller. Do not fall back.
 
 ### Step 2: WAF blocker — read this before choosing a method
@@ -112,15 +172,20 @@ automation that's confirmed blocked in every other tested form — it has not be
 tested against this specific portal, but treat it as likely blocked given the pattern, and
 prefer the method below unless/until it's confirmed otherwise.
 
-**Preferred method — real Safari GUI, verified working:** use
-`chittyentity/actors/chittyactor-cook-county-docket` (rewritten 2026-08-31). This drives a
+**Preferred method — real Safari GUI, verified working:** use the Cook County docket actor,
+which lives at **`/Users/claude/chittyactors/cook-county-docket` on `chittymini-01`** (verified
+2026-10-19). This document previously said `chittyentity/actors/chittyactor-cook-county-docket`;
+no such path exists on that host, which costs a session a search every time. This drives a
 genuine, logged-in Safari session via AppleScript (`osascript`/`do JavaScript`) on
 `chittymini-01` — the only method confirmed to load the actual search results instead of an F5
 "Request Rejected" page. It requires one-time, console-only permission grants on that specific
 Mac (see the actor's `CLAUDE.md`) and cannot run in Docker, on Apify's cloud, or on any headless
 Linux node. Invoke it via `python3 main.py <input.json> <output.json>` on `chittymini-01`
-directly, or dispatch the Nomad job (`cook-county-docket.nomad.hcl`, parameterized, node-pinned)
-from a calling `chittyagent-*` worker. Case-number format for this portal has no dashes
+directly, or `python3 src/safari_docket.py case-number <digits> <divisionValue>` for a one-shot
+read without the JSON file dance, or dispatch the Nomad job (`cook-county-docket.nomad.hcl`,
+parameterized, node-pinned) from a calling `chittyagent-*` worker. Note `timeout(1)` is not on
+that host's PATH (it is a GNU coreutils binary, absent from stock macOS) — wrap the ssh call
+instead of the remote command. Case-number format for this portal has no dashes
 (digits only, no dashes or division letter) — confirm the exact format against a case you already know
 the answer for before trusting a new one.
 
