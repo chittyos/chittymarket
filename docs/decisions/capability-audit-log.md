@@ -1021,10 +1021,10 @@ source_links:
   - https://github.com/chittyfoundation/chittycanon/pull/98
 audited_revision:
   repo: chittyfoundation/chittycanon
-  commit: ba1b99ca062a40b777a93425fbd1ec8915d764f0
+  commit: 982515f2d0533237485c8f6e61e325de9b22bf0e
   path: specs/NEURAL_OPERATIONS_REGISTRY.md
-  url: https://github.com/chittyfoundation/chittycanon/blob/ba1b99ca062a40b777a93425fbd1ec8915d764f0/specs/NEURAL_OPERATIONS_REGISTRY.md
-  content_sha256: 4127bbf03541723d21e29dc21627c6c152c5886c2e40d2fb21f25a9402a8beab
+  url: https://github.com/chittyfoundation/chittycanon/blob/982515f2d0533237485c8f6e61e325de9b22bf0e/specs/NEURAL_OPERATIONS_REGISTRY.md
+  content_sha256: 584b2591ab173e2e96e3c34b3933e09881d3c19a4861b5c35f714451a77300f6
   # any later change to the spec requires re-audit before this entry satisfies the admission gate
 current_state:   DRAFT spec, unratified
 decision:        project
