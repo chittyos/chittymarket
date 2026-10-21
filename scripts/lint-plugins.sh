@@ -348,7 +348,7 @@ for proj in "${projection_paths[@]}"; do
   fi
   # Resolve canonical from kind-subdirs first, then flat-layout fallback.
   found_canonical=""
-  for sub in agents skills commands mcp hooks tools workflows; do
+  for sub in agents skills commands mcp hooks tools workflows jobs; do
     if [ -f "$REPO_DIR/canonical/$sub/${name}.md" ]; then
       found_canonical="$REPO_DIR/canonical/$sub/${name}.md"
       break
