@@ -999,3 +999,69 @@ held:
 registry_blocker: ChittyRegister HTTP 429 rate_limit_exceeded
 evidentiary_risk: legal-grade
 ```
+
+## CAP-2026-10-18 — Cognitive Operations Registry (spec, projection; formerly Neural Operations Registry)
+
+The Cognitive Operations Registry (COR, renamed from Neural Operations Registry on 2026-10-20) is a canon spec in `chittyfoundation/chittycanon`
+(`specs/COGNITIVE_OPERATIONS_REGISTRY.md`, PR chittyfoundation/chittycanon#98). It catalogs
+cognitive, epistemic and executive operations over existing surfaces. It is not an executable
+capability, so no capability record is minted in the overlay.
+
+Matrix Q1 is a partial match. Its legal-space epistemic entries project onto `fact-governance`,
+with `document-intake-checks` upstream. Business-space fact writes are blocked: the operator designated `chittygov` as owner on
+2026-10-20, but its `atomic_facts` table has no status column, and adding one needs an
+approved schema change.
+
+```yaml
+decision_id:     CAP-2026-10-18-neural-operations-registry
+date:            2026-10-18   # original audit
+amended:         2026-10-20   # re-audit of the COR revision pinned below (rename + owner designation)
+capability_name: Cognitive Operations Registry
+canonical_id:    chittycanon://capability/govern/fact-governance   # projection resolves to the existing capability (AGENTS.md)
+source_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry
+source_links:
+  - https://github.com/chittyfoundation/chittycanon/pull/98
+audited_revision:
+  repo: chittyfoundation/chittycanon
+  commit: efc610a2b92184155fcb78edd40a5b0fc6a94fa8
+  path: specs/COGNITIVE_OPERATIONS_REGISTRY.md
+  url: https://github.com/chittyfoundation/chittycanon/blob/efc610a2b92184155fcb78edd40a5b0fc6a94fa8/specs/COGNITIVE_OPERATIONS_REGISTRY.md
+  content_sha256: 52f22967d4649646ce338e57ff4160ce13653ad7e5b5cd591ecb34ca130352a5
+  # any later change to the spec requires re-audit before this entry satisfies the admission gate
+current_state:   DRAFT spec, unratified
+decision:        project
+job_to_be_done:  govern
+entity_mapping:  [P, L, T, E, A]
+environmental_footprint: context-only
+evidentiary_risk: legal-grade   # legal-space rows write to fact-governance
+rationale:       >
+  Partial match at matrix Q1. Epistemic status semantics reuse fact-governance; no new
+  capability identity, record, store or status enum.
+duplicates_found:
+  - chittycanon://capability/govern/fact-governance
+adjacent:
+  - chittycanon://capability/legal/document-intake-checks
+  - chittycanon://capability/legal/dispute-manager
+  - chittycanon://capability/workspace/read-and-write-chittyos
+migration_required: yes   # every `project` disposition requires migration (capability-governor audit_artifact.py needs_migration)
+migration_owner: operator
+next_action:     >
+  Operator ratifies the spec PR. Approve (or reject) the chittygov atomic_facts status column.
+  File: fact-governance does not enforce verifier != submitter.
+review_date:     2026-11-20
+```
+
+```yaml
+migration_item: CAP-MIG-2026-10-18-nor-project-fact-governance
+from_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry (DRAFT)
+to_canonical_capability: chittycanon://capability/govern/fact-governance
+action: reroute
+blocking_dependencies:
+  - operator ratification of chittyfoundation/chittycanon#98
+  - chittygov (designated Business-space owner) needs an approved status column on atomic_facts
+  - fact-governance runtime enforcement of verifier != submitter (verify entry blocked until then)
+risk_level: medium
+owner: operator
+status: backlog
+completion_evidence: null
+```
