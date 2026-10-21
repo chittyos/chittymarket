@@ -126,6 +126,16 @@ jobs:
       - name: scripts/test-plugins.sh
         run: bash scripts/test-plugins.sh
 
+      # A plugin whose content changed must change its declared version, or no
+      # installed client can know to refetch it. Nothing compared those two
+      # before: the dispatch audit proves canonical and projection match EACH
+      # OTHER, never that the version clients key their cache on moved.
+      - name: Plugin version bump (content changed => version changed)
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch --quiet --depth=50 origin "${{ github.base_ref }}"
+          bash scripts/check-plugin-version-bump.sh "origin/${{ github.base_ref }}" HEAD
+
       # 2b. Overlay coverage: capabilities.generated.json must project EVERY
       #     real (non-_comment) artifact in marketplace.json, with no orphan
       #     records and a consistent .total. Prevents the overlay from silently
