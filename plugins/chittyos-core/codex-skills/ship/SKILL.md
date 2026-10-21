@@ -2,6 +2,7 @@
 name: ship
 description: |
   Development wrap-up lifecycle — preflight, brainstorm, checkpoint, cleanup, branch
+  Triggers on "/ship", "wrap up", "finish up", "ship it", "done for now", "close this out".
 canon_uri: chittycanon://core/services/chittymarket#skills/ship
 ---
 

@@ -2,6 +2,7 @@
 name: skills-orchestrator
 description: |
   Universal skill and agent router. Searches, discovers, and executes any skill or agent in the ChittyOS ecosystem via the orchestrator MCP at orchestrator.agent.chitty.cc/mcp.
+  Triggers on "/skills-orchestrator", "/skills", "/agents", "find skill", "find agent", "which skill", "which agent", "what can you do", "list skills", "list agents", "search skills", "search agents".
 canon_uri: chittycanon://core/services/chittymarket#skills/skills-orchestrator
 ---
 
