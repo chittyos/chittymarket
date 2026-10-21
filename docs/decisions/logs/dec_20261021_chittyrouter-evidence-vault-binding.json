@@ -1,0 +1,22 @@
+{
+  "canonical_id": "chittycanon://capability/legal/document-storage",
+  "capability_name": "chittyrouter-evidence-vault binding",
+  "current_state": "bucket missing",
+  "date": "2026-10-21",
+  "decision": "merge",
+  "decision_id": "dec_20261021_chittyrouter-evidence-vault-binding",
+  "duplicates_found": [
+    "capability.chittystorage.document-storage"
+  ],
+  "environmental_footprint": "forensic-legal-grade",
+  "evidentiary_risk": "high",
+  "job_to_be_done": "collect",
+  "migration_owner": "chittyrouter",
+  "migration_required": true,
+  "next_action": "Repoint binding to chittyevidence-documents and register via ChittyStorage, or remove the binding.",
+  "rationale": "Disposition 'merge' selected because the artifact's primary job is 'collect', its environmental footprint is 'forensic-legal-grade', and its evidentiary risk is 'high'.",
+  "review_date": "2026-11-20",
+  "source_links": [
+    "CHITTYOS/chittyrouter/wrangler.toml"
+  ]
+}

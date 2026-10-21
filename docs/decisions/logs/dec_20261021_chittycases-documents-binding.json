@@ -1,0 +1,22 @@
+{
+  "canonical_id": "chittycanon://capability/legal/document-storage",
+  "capability_name": "chittycases DOCUMENTS binding",
+  "current_state": "bucket chittycases-documents missing; worker chittycases-pro not deployed",
+  "date": "2026-10-21",
+  "decision": "merge",
+  "decision_id": "dec_20261021_chittycases-documents-binding",
+  "duplicates_found": [
+    "capability.chittystorage.document-storage"
+  ],
+  "environmental_footprint": "admin-system",
+  "evidentiary_risk": "high",
+  "job_to_be_done": "operate",
+  "migration_owner": "chittycases",
+  "migration_required": true,
+  "next_action": "Repoint DOCUMENTS binding to chittyevidence-documents and register via ChittyStorage, or remove the binding.",
+  "rationale": "Disposition 'merge' selected because the artifact's primary job is 'operate', its environmental footprint is 'admin-system', and its evidentiary risk is 'high'.",
+  "review_date": "2026-11-20",
+  "source_links": [
+    "CHICAGOAPPS/chittycases/wrangler.toml"
+  ]
+}

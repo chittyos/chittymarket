@@ -1,0 +1,20 @@
+{
+  "canonical_id": "chittycanon://capability/legal/document-storage",
+  "capability_name": "chittyevidence-documents incoming/ prefix",
+  "current_state": "89,266 objects 10.99 GB not content-addressed",
+  "date": "2026-10-21",
+  "decision": "legal-only",
+  "decision_id": "dec_20261021_chittyevidence-documents-incoming-prefix",
+  "duplicates_found": [],
+  "environmental_footprint": "forensic-legal-grade",
+  "evidentiary_risk": "high",
+  "job_to_be_done": "collect",
+  "migration_owner": "chittystorage",
+  "migration_required": true,
+  "next_action": "BLOCKED (legal-only): read-only key-level diff of incoming/ against sha256/; no move, promote or delete until custody review. Requires hash, timestamp and custody policy.",
+  "rationale": "Disposition 'legal-only' selected because the artifact's primary job is 'collect', its environmental footprint is 'forensic-legal-grade', and its evidentiary risk is 'high'.",
+  "review_date": "2026-11-20",
+  "source_links": [
+    "r2://chittyevidence-documents/incoming/"
+  ]
+}
