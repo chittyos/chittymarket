@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+# git wt — create an isolated worktree that is actually usable.
+#
+# Fixes three failure modes hit repeatedly in parallel-session work:
+#   1. Worktrees start from a STALE origin ref unless you fetch first, so you
+#      silently branch off an old main and "verify" against the wrong code.
+#   2. A worktree has no node_modules. vitest then exits with a startup error
+#      (ERR_MODULE_NOT_FOUND) that greps as "0 failures" — tests look green
+#      while nothing ran.
+#   3. `git stash` is REPOSITORY-global, not worktree-local: stashing in one
+#      worktree while another session works can pop the wrong entry. Use
+#      worktrees instead of stashing; this script never stashes.
+#   3b. A SYMLINKED node_modules shares the BUILD CACHE with the root checkout
+#      and every sibling worktree, because vite's cacheDir defaults to
+#      `node_modules/.vite` and a path inside a symlinked directory cannot be
+#      shadowed. Two sessions running vitest then serve each other stale
+#      transforms: a full suite reported 4 failures that belonged to another
+#      session's edits, while the same file passed 9/9 in isolation. A
+#      contaminated run is indistinguishable from a real one, in BOTH
+#      directions -- it can invent failures or hide them. So node_modules is a
+#      REAL directory whose children are symlinked, with the cache dirs left
+#      out so each worktree makes its own.
+#   4. `--rm` used to report success unconditionally: it built the destination
+#      path without the slash->dash substitution that `git wt <branch>` applies,
+#      then swallowed the resulting error with `2>/dev/null || true`. It now
+#      derives the path identically, reports each step's real outcome, and
+#      exits non-zero if either the worktree or the branch was not removed.
+#
+# Usage: git wt <branch-name> [base-ref]        (base defaults to origin/main)
+#        git wt --list
+#        git wt --rm <branch-name>
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+REPO="$(basename "$ROOT")"
+WTROOT="${GIT_WT_ROOT:-$HOME/projects/worktrees}"
+
+case "${1:-}" in
+  --list|-l) git worktree list; exit 0 ;;
+  --rm)
+    [ -n "${2:-}" ] || { echo "usage: git wt --rm <branch-name>" >&2; exit 2; }
+    # The destination path must be derived EXACTLY as the create path is (see
+    # DEST below): slashes become dashes. Without that substitution `--rm
+    # fix/foo` looked for "<repo>-fix/foo", which never exists, and the
+    # 2>/dev/null || true swallowed the failure — so the script printed
+    # "removed worktree + branch" while removing neither. Verified 2026-09-09
+    # against chittyentity-fix-chittyagent-npm-stale-credential-lane.
+    RM_DEST="$WTROOT/$REPO-${2//\//-}"
+    rm_wt=skipped
+    rm_br=skipped
+    rc=0
+
+    if git worktree list --porcelain | grep -qxF "worktree $RM_DEST"; then
+      if git worktree remove --force "$RM_DEST"; then rm_wt=removed; else rm_wt=FAILED; rc=1; fi
+    elif [ -e "$RM_DEST" ]; then
+      echo "note: $RM_DEST exists but is not a registered worktree — leaving it alone" >&2
+      rm_wt="not-a-worktree"
+      rc=1
+    else
+      rm_wt="absent"
+    fi
+
+    if git show-ref --verify --quiet "refs/heads/$2"; then
+      # -D force-deletes; warn when that discards commits not on origin/main.
+      if [ -n "$(git log --oneline "origin/main..$2" 2>/dev/null)" ]; then
+        echo "warning: $2 has commits not on origin/main; -D discards them" >&2
+      fi
+      if git branch -D "$2"; then rm_br=deleted; else rm_br=FAILED; rc=1; fi
+    else
+      rm_br="absent"
+    fi
+
+    git worktree prune
+    echo "worktree: $rm_wt ($RM_DEST)"
+    echo "branch:   $rm_br ($2)"
+    [ "$rc" -eq 0 ] || echo "git wt --rm did NOT fully succeed — see above" >&2
+    exit "$rc" ;;
+  "" ) echo "usage: git wt <branch-name> [base-ref]" >&2; exit 2 ;;
+esac
+
+BRANCH="$1"
+BASE="${2:-origin/main}"
+DEST="$WTROOT/$REPO-${BRANCH//\//-}"
+
+# 1. Never branch from a stale ref.
+git fetch --quiet origin
+
+# 2. Create the worktree.
+git worktree add --quiet -b "$BRANCH" "$DEST" "$BASE"
+
+# 3. Link dependencies so test runners actually run.
+#
+# node_modules is deliberately NOT a single symlink. Tool caches live inside it
+# (vite's cacheDir is `node_modules/.vite`), and a symlinked node_modules makes
+# every worktree share one cache with the root -- cross-session stale
+# transforms, which read as real test results. Packages are shared by
+# symlinking each child; the cache names below are skipped so each worktree
+# creates its own.
+NM_CACHE_SKIP=".vite .vite-temp .cache .turbo .mf .eslintcache .tsbuildinfo"
+if [ -d "$ROOT/node_modules" ] && [ ! -e "$DEST/node_modules" ]; then
+  mkdir -p "$DEST/node_modules"
+  linked=0
+  skipped=0
+  # `shopt -s dotglob` so dot-entries (.pnpm, .bin, .modules.yaml) are included;
+  # without it pnpm's entire store link is silently missed and resolution fails
+  # in a way that again looks like "0 failures".
+  ( shopt -s dotglob nullglob
+    for entry in "$ROOT/node_modules/"*; do
+      name="$(basename "$entry")"
+      case " $NM_CACHE_SKIP " in *" $name "*) continue ;; esac
+      ln -sfn "$entry" "$DEST/node_modules/$name"
+    done )
+  linked=$(find "$DEST/node_modules" -maxdepth 1 -type l | wc -l | tr -d ' ')
+  for name in $NM_CACHE_SKIP; do
+    [ -e "$ROOT/node_modules/$name" ] && skipped=$((skipped + 1))
+  done
+  echo "linked node_modules ($linked entries; $skipped cache dir(s) kept worktree-local)"
+fi
+
+# .venv has no equivalent shared-cache problem, so one symlink is fine.
+if [ -e "$ROOT/.venv" ] && [ ! -e "$DEST/.venv" ]; then
+  ln -sfn "$ROOT/.venv" "$DEST/.venv"
+  echo "linked .venv"
+fi
+
+echo "worktree: $DEST"
+echo "branch:   $BRANCH  (from $BASE @ $(git rev-parse --short "$BASE"))"
+echo "cd $DEST"
