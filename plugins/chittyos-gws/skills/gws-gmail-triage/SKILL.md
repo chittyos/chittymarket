@@ -7,7 +7,7 @@ canon_uri: chittycanon://core/services/chittyagent-google#skills/gws-gmail-triag
 
 # gmail +triage
 
-> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. If missing, run `gws generate-skills` to create it.
+> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. It ships in the `chittyos-gws` plugin alongside this skill.
 
 Show unread inbox summary (sender, subject, date)
 
@@ -42,4 +42,4 @@ gws gmail +triage --labels
 ## See Also
 
 - [gws-shared](../gws-shared/SKILL.md) — Global flags and auth
-- [gws-gmail](../gws-gmail/SKILL.md) — All send, read, and manage email commands
+- `gws gmail --help` — all send, read, and manage email commands (CLI reference; not a bundled skill)

@@ -7,7 +7,7 @@ canon_uri: chittycanon://core/services/chittyagent-google#skills/gws-events-rene
 
 # events +renew
 
-> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. If missing, run `gws generate-skills` to create it.
+> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. It ships in the `chittyos-gws` plugin alongside this skill.
 
 Renew/reactivate Workspace Events subscriptions
 
@@ -40,4 +40,4 @@ gws events +renew --all --within 2d
 ## See Also
 
 - [gws-shared](../gws-shared/SKILL.md) — Global flags and auth
-- [gws-events](../gws-events/SKILL.md) — All subscribe to google workspace events commands
+- `gws events --help` — all subscribe-to-Google-Workspace-events commands (CLI reference; not a bundled skill)

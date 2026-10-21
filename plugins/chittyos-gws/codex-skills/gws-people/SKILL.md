@@ -7,7 +7,7 @@ canon_uri: chittycanon://core/services/chittyagent-google#skills/gws-people
 
 # people (v1)
 
-> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. If missing, run `gws generate-skills` to create it.
+> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. It ships in the `chittyos-gws` plugin alongside this skill.
 
 ```bash
 gws people <resource> <method> [flags]
