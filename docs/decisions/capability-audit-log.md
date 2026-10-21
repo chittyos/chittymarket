@@ -1008,12 +1008,14 @@ cognitive, epistemic and executive operations over existing surfaces. It is not 
 capability, so no capability record is minted in the overlay.
 
 Matrix Q1 is a partial match. Its legal-space epistemic entries project onto `fact-governance`,
-with `document-intake-checks` upstream. Business-space fact writes are blocked because no owner
-is defined (`/helper` returned UNDEFINED).
+with `document-intake-checks` upstream. Business-space fact writes are blocked: the operator designated `chittygov` as owner on
+2026-10-20, but its `atomic_facts` table has no status column, and adding one needs an
+approved schema change.
 
 ```yaml
 decision_id:     CAP-2026-10-18-neural-operations-registry
-date:            2026-10-18
+date:            2026-10-18   # original audit
+amended:         2026-10-20   # re-audit of the COR revision pinned below (rename + owner designation)
 capability_name: Cognitive Operations Registry
 canonical_id:    chittycanon://capability/govern/fact-governance   # projection resolves to the existing capability (AGENTS.md)
 source_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry
@@ -1044,9 +1046,9 @@ adjacent:
 migration_required: yes   # every `project` disposition requires migration (capability-governor audit_artifact.py needs_migration)
 migration_owner: operator
 next_action:     >
-  Operator ratifies the spec PR. Designate a Business-space owner of the fact lifecycle
-  via capability-governor. File: fact-governance does not enforce verifier != submitter.
-review_date:     2026-11-18
+  Operator ratifies the spec PR. Approve (or reject) the chittygov atomic_facts status column.
+  File: fact-governance does not enforce verifier != submitter.
+review_date:     2026-11-20
 ```
 
 ```yaml
