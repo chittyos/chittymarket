@@ -110,64 +110,103 @@ Response payload is persisted to `chittycontext/structured-autonomy/<feature>/SO
 | 4 | Generate | `chitty-autonomy-generate` | `implementation.md` with copy-paste TDD-aware code |
 | 5 | Implement | `chitty-autonomy-implement` | committed code, format/lint inline |
 | 6 | Review | delegate to `chittyagent-canon` + `code-reviewer` + `silent-failure-hunter` + `comment-analyzer` | review report |
-| 6b | **Separated review (REQUIRED)** | `scripts/adversarial-review.sh` (from `nb-development-defaults`), or `chittyagent-olmec` | adversarial findings; **hard gate** to Ship |
-| 7 | Tidy | `chitty-autonomy-tidy` | branch-cleanup, format, lint, chitty-cleanup invocation |
-| 8 | CI/CD | `chitty-autonomy-cicd` | `.github/workflows/`, wrangler deploy targets, secrets scaffold |
-| 9 | Ship | `chitty-autonomy-ship` | PR created/auto-merged, ChittyRegistry update, Notion sync |
-| 10 | Memory | inline | feedback/project memory written; ChittyChronicle finalize entry |
+| 7 | **`separated_review` (REQUIRED)** | `scripts/adversarial-review.sh` (from `nb-development-defaults`), or `chittyagent-olmec` | `separated_review.json` receipt; **hard gate** to Ship |
+| 8 | Tidy | `chitty-autonomy-tidy` | branch-cleanup, format, lint, chitty-cleanup invocation |
+| 9 | CI/CD | `chitty-autonomy-cicd` | `.github/workflows/`, wrangler deploy targets, secrets scaffold |
+| 10 | Ship | `chitty-autonomy-ship` | PR created/auto-merged, ChittyRegistry update, Notion sync |
+| 11 | Memory | inline | feedback/project memory written; ChittyChronicle finalize entry |
 
-### Phase 6b is a hard gate, and why it is separate from phase 6
+### `separated_review` is a hard gate, and why it is not phase 6
 
-Phase 6's reviewers run **in-process, on this host, in this session's context**.
-That makes them a linting tier, not an adversarial one: an agent cannot
-adversarially review its own diff, and reviewers sharing the maker's context tend
-to share its blind spot. `nb-development-defaults` is explicit that the
-execute-now licence is granted by *separated* adversarial review — different
-agent, fresh context, ideally a different model — and that the licence is
-**withdrawn** when that reviewer is not in the path. Phase 6 alone does not
-satisfy it.
+Phase 6's reviewers run **in-process, on the same host, in the maker's own
+context**. That makes them a linting tier, not an adversarial one: an agent
+cannot adversarially review its own diff, and a reviewer sharing the maker's
+context tends to share its blind spot. `nb-development-defaults` grants the
+execute-now licence on *separated* review — different agent, fresh context,
+ideally a different model — and **withdraws** it when that reviewer is not in the
+path. Phase 6 alone does not satisfy it, so phase 6 no longer gates: this phase
+does.
 
-Measured, 2026-10-21, which is why this phase exists:
+**This gate is a state transition, not a paragraph.** A phase that exists only as
+a row in a table is documentation of a control, not the control — a driver whose
+transition logic reads `implement → review → tidy` is unaffected by prose. So:
 
-- Three PRs were merged citing `claude-review: pass` without dispatching the
-  separated lane. One of them shipped a predicate that **never fired in
-  production** — `drizzle-orm` wraps driver errors in `DrizzleQueryError` and puts
-  `code`/`constraint` on `.cause`, so a top-level read returned false on every
-  real collision. Thirteen green checks passed over it, because every fixture was
-  a flat hand-written object that had never been through drizzle.
-- On the next two PRs the separated lane was dispatched **before** merge. It found
-  a `set -e` fail-partial abort, a dishonest success count, an unreachable repair
-  path, a destructive unanchored matcher that rewrote a worktree nobody asked for,
-  and an own-install test that inverted the control it documented. The in-session
-  tests passed in **both** rounds — they exercised only the case the author
-  already had in mind.
+- `ship` is **unreachable** unless `state.json` records `separated_review` with a
+  receipt that passes every check below. A run whose `phase` moves from `review`
+  to `tidy`, `cicd` or `ship` is **invalid** and must be rejected, not resumed.
+- The phase has exactly one identifier — `separated_review` — in the table, the
+  enum, and `phase_history`. No alias, no ordinal suffix: an identifier that
+  differs between the table and the enum is joined by nothing, so an ordinal
+  iterator silently has no row for it.
 
-Rules for this phase:
+#### The receipt, and why an exit code is not enough
 
-- **It runs before Ship (phase 9), not after.** A review that lands after the
-  merge is a record, not a gate.
-- **Findings are triaged in writing** — confirmed / refuted / deliberately
-  deferred, each with its reason. A refutation must cite primary source, not
-  recollection: a `grep` that found nothing is evidence about the search. (One
-  refutation that day was made by grep and was wrong; `neon-http/session.js` has
-  no wrapping of its own but inherits it from `pg-core/session.js`.)
+The phase writes `separated_review.json` beside `state.json`, and Ship verifies
+it. An exit code cannot carry this, because the dangerous outcome is not an
+error — it is a reviewer that **ran and returned nothing**, which to a caller
+testing `exit 0` is indistinguishable from a clean pass. An under-powered
+reviewer fails exactly this way, and that is how the whole mechanism becomes
+theatre while still appearing in the pipeline.
+
+```json
+{
+  "run_status": "ran_adequate | ran_inconclusive | did_not_run",
+  "reviewer": { "model": "<id>", "host": "<separated host>" },
+  "implementer": { "model": "<id>", "host": "<host>" },
+  "coverage": { "diff_lines_sent": 0, "prompt_bytes": 0 },
+  "findings": [ { "id": "", "severity": "critical|high|medium|low",
+                  "state": "confirmed|refuted|fixed|risk_accepted",
+                  "reason": "" } ]
+}
+```
+
+Ship proceeds only when **all** hold:
+
+1. `run_status` is `ran_adequate`. `did_not_run` and `ran_inconclusive` both mean
+   the gate is **open**. A review that could not run is reported as *not
+   performed*, never as "no findings" — the dispatch script's non-zero exits
+   (unreachable reviewer, failed model call) map here, and so does a zero exit
+   that returned no findings without coverage evidence.
+2. `reviewer.model` **and** `reviewer.host` both differ from `implementer`'s.
+   This is what makes separation *attestable* rather than asserted; without it,
+   phase 6's own report can be relabelled to satisfy this phase, which is the
+   path of least resistance and defeats the whole gate.
+3. `coverage` is non-zero and consistent with the diff actually under review. A
+   receipt claiming adequacy over zero bytes is `ran_inconclusive`.
+4. **No finding with severity `critical` or `high` is left `confirmed`.** Each
+   must be `fixed` or explicitly `risk_accepted` by the operator, recorded with a
+   reason. Deferral to an issue is available for `medium` and `low` only — a
+   severity floor exists precisely so "deliberately deferred" cannot be used to
+   ship a confirmed critical within the letter of the rules.
+
+#### Conduct
+
+- **Runs before Ship.** A review landing after the merge is a record, not a gate.
+- **Findings are triaged in writing**, each confirmed, refuted, fixed or
+  risk-accepted with its reason. A refutation cites primary source, not
+  recollection: a search that found nothing is evidence about the search, and a
+  refutation built on one can be wrong while reading as rigorous.
 - **Every confirmed fix is mutation-tested** — break what it guards and watch the
   alarm fire. A guard never seen to fail is decoration.
-- **Two rounds maximum.** Remaining low-severity items are filed as issues, not
-  iterated on in-session.
-- **A review that did not run is reported as not performed**, never as "no
-  findings". `adversarial-review.sh` exits 2 when claw is unreachable and 3 when
-  the model call fails; both mean the gate is OPEN and Ship is blocked. An
-  under-powered reviewer returns confident empty findings, which is how this
-  mechanism quietly becomes theatre.
-- **Judgement, never a cheap model.** Fan-out width and model tier are
-  independent axes; review is judgement and absorbs wrong answers rather than
-  catching them downstream.
+- **Two rounds maximum**, subject to the severity floor above. The cap limits
+  iteration, never the floor.
+- **Judgement, never an under-powered model.** Width and tier are independent
+  axes; review absorbs wrong answers instead of catching them downstream.
 
-Scheduling and durable state for the loop belong to **`chittyagent-tasks`**
-(`https://tasks.chitty.cc`, verified live) plus `/schedule` or `/loop`. Do **not**
-stand up a new Worker or cron for it: those exist, and a new recurring line item
-has no headroom under the startup-mode ceiling.
+#### Cost, bounded explicitly
+
+One capable-model review **per PR**, not per phase and not per round: rounds
+reuse the same lane, and the two-round cap bounds it at two calls. Dispatch to a
+separated host draws on a different quota pool than the orchestrating session,
+so the spend does not land in the caller's budget. Where the diff is empty the
+phase records `did_not_run` with that reason and no model call is made. These
+bounds are stated because a control mandated on every run, with a tier
+requirement attached, is a recurring cost and the capability that imposes it owes
+the number.
+
+Scheduling and durable state for the loop belong to the existing durable task
+board and scheduler capabilities. Do **not** stand up a new worker or cron for
+it: they exist, and a new recurring line item is governed by `startup-mode`.
 
 ## State Machine
 
@@ -178,6 +217,9 @@ State persisted at `chittycontext/structured-autonomy/<feature>/state.json`:
   "branch": "<kebab>",
   "cert_id": "<chittycert-issued-id>",
   "phase": "discover|plan|generate|implement|review|separated_review|tidy|cicd|ship|memory|done",
+  "phase_order": ["discover","plan","generate","implement","review",
+                  "separated_review","tidy","cicd","ship","memory","done"],
+  "gates": { "ship": { "requires": "separated_review", "receipt": "separated_review.json" } },
   "started_at": "<iso>",
   "phase_history": [
     { "phase": "affirm", "completed_at": "<iso>", "chronicle_entry": "<id>" }
