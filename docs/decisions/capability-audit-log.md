@@ -1000,10 +1000,10 @@ registry_blocker: ChittyRegister HTTP 429 rate_limit_exceeded
 evidentiary_risk: legal-grade
 ```
 
-## CAP-2026-10-18 — Neural Operations Registry (spec, projection)
+## CAP-2026-10-18 — Cognitive Operations Registry (spec, projection; formerly Neural Operations Registry)
 
-The Neural Operations Registry (NOR) is a canon spec in `chittyfoundation/chittycanon`
-(`specs/NEURAL_OPERATIONS_REGISTRY.md`, PR chittyfoundation/chittycanon#98). It catalogs
+The Cognitive Operations Registry (COR, renamed from Neural Operations Registry on 2026-10-20) is a canon spec in `chittyfoundation/chittycanon`
+(`specs/COGNITIVE_OPERATIONS_REGISTRY.md`, PR chittyfoundation/chittycanon#98). It catalogs
 cognitive, epistemic and executive operations over existing surfaces. It is not an executable
 capability, so no capability record is minted in the overlay.
 
@@ -1014,17 +1014,17 @@ is defined (`/helper` returned UNDEFINED).
 ```yaml
 decision_id:     CAP-2026-10-18-neural-operations-registry
 date:            2026-10-18
-capability_name: Neural Operations Registry
+capability_name: Cognitive Operations Registry
 canonical_id:    chittycanon://capability/govern/fact-governance   # projection resolves to the existing capability (AGENTS.md)
-source_artifact: chittycanon://docs/tech/spec/neural-operations-registry
+source_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry
 source_links:
   - https://github.com/chittyfoundation/chittycanon/pull/98
 audited_revision:
   repo: chittyfoundation/chittycanon
-  commit: 51ecabed475e002627d58538ef469d257a03faeb
-  path: specs/NEURAL_OPERATIONS_REGISTRY.md
-  url: https://github.com/chittyfoundation/chittycanon/blob/51ecabed475e002627d58538ef469d257a03faeb/specs/NEURAL_OPERATIONS_REGISTRY.md
-  content_sha256: c783c4bb66ab3babe729a7824b3b6722bf5c0559ce7f5dc55b11b0a14583ca2e
+  commit: 62e27946a500e91057c79d0b01a79b7bd1fc6258
+  path: specs/COGNITIVE_OPERATIONS_REGISTRY.md
+  url: https://github.com/chittyfoundation/chittycanon/blob/62e27946a500e91057c79d0b01a79b7bd1fc6258/specs/COGNITIVE_OPERATIONS_REGISTRY.md
+  content_sha256: 4fb41ff209b7132f3c0bf2c6ad776dc194186ad4bd7e8abcb81247fa8af3d650
   # any later change to the spec requires re-audit before this entry satisfies the admission gate
 current_state:   DRAFT spec, unratified
 decision:        project
@@ -1051,12 +1051,12 @@ review_date:     2026-11-18
 
 ```yaml
 migration_item: CAP-MIG-2026-10-18-nor-project-fact-governance
-from_artifact: chittycanon://docs/tech/spec/neural-operations-registry (DRAFT)
+from_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry (DRAFT)
 to_canonical_capability: chittycanon://capability/govern/fact-governance
 action: reroute
 blocking_dependencies:
   - operator ratification of chittyfoundation/chittycanon#98
-  - Business-space owner of the fact lifecycle (helper: UNDEFINED)
+  - chittygov (designated Business-space owner) needs an approved status column on atomic_facts
   - fact-governance runtime enforcement of verifier != submitter (verify entry blocked until then)
 risk_level: medium
 owner: operator
