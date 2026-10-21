@@ -10,6 +10,8 @@ plugin: chittyagent-autobot
 runtimes:
   - claude-code
   - codex
+  - openclaw
+  - universal
 classification:
   - governance
   - autonomy

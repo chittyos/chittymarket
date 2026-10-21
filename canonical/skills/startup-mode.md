@@ -11,6 +11,8 @@ classification:
 runtimes:
   - claude-code
   - codex
+  - openclaw
+  - universal
 plugin: chittyos-core
 canonical_capability_ref: "chittycanon://capability/workspace/startup-mode"
 overlay:
