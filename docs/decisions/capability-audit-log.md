@@ -1008,14 +1008,15 @@ cognitive, epistemic and executive operations over existing surfaces. It is not 
 capability, so no capability record is minted in the overlay.
 
 Matrix Q1 is a partial match. Its legal-space epistemic entries project onto `fact-governance`,
-with `document-intake-checks` upstream. Business-space fact writes are blocked: the operator designated `chittygov` as owner on
-2026-10-20, but its `atomic_facts` table has no status column, and adding one needs an
-approved schema change.
+with `document-intake-checks` upstream. Business-space fact writes are blocked: `chittygov` (governance, designated 2026-10-20) has an
+approved-but-unlanded status migration on `atomic_facts`; `chittyfinance` (finance, designated
+2026-10-21) has an unverified fact store. The episodic surface is named `experience` under
+MemoryCloude; its persist path is broken via ChittyMCP, so cognitive entries stay `draft`.
 
 ```yaml
 decision_id:     CAP-2026-10-18-neural-operations-registry
 date:            2026-10-18   # original audit
-amended:         2026-10-20   # re-audit of the COR revision pinned below (rename + owner designation)
+amended:         2026-10-21   # re-audit of the COR revision pinned below (v0.10.0: finance owner, schema approval, 'experience' surface)
 capability_name: Cognitive Operations Registry
 canonical_id:    chittycanon://capability/govern/fact-governance   # projection resolves to the existing capability (AGENTS.md)
 source_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry
@@ -1023,10 +1024,10 @@ source_links:
   - https://github.com/chittyfoundation/chittycanon/pull/98
 audited_revision:
   repo: chittyfoundation/chittycanon
-  commit: efc610a2b92184155fcb78edd40a5b0fc6a94fa8
+  commit: 02364821c82b3edba11ee88eca11ce2d5fa7d5a1
   path: specs/COGNITIVE_OPERATIONS_REGISTRY.md
-  url: https://github.com/chittyfoundation/chittycanon/blob/efc610a2b92184155fcb78edd40a5b0fc6a94fa8/specs/COGNITIVE_OPERATIONS_REGISTRY.md
-  content_sha256: 52f22967d4649646ce338e57ff4160ce13653ad7e5b5cd591ecb34ca130352a5
+  url: https://github.com/chittyfoundation/chittycanon/blob/02364821c82b3edba11ee88eca11ce2d5fa7d5a1/specs/COGNITIVE_OPERATIONS_REGISTRY.md
+  content_sha256: 81ce45a5f5e27f7b68a58a295170a5517785b36ab112359c5ad809f7f6995097
   # any later change to the spec requires re-audit before this entry satisfies the admission gate
 current_state:   DRAFT spec, unratified
 decision:        project
@@ -1057,8 +1058,9 @@ from_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry (DRAFT
 to_canonical_capability: chittycanon://capability/govern/fact-governance
 action: reroute
 blocking_dependencies:
-  - operator ratification of chittyfoundation/chittycanon#98
-  - chittygov (designated Business-space owner) needs an approved status column on atomic_facts
+  - chittyfoundation/chittycanon#98 ratified 2026-10-21 (DRAFT); #101 records decisions
+  - chittygov atomic_facts status migration (approved 2026-10-21) not landed — CFDXN-196
+  - chittyfinance fact store unverified; MemoryCloude persist broken — CFDXN-194
   - fact-governance runtime enforcement of verifier != submitter (verify entry blocked until then)
 risk_level: medium
 owner: operator
