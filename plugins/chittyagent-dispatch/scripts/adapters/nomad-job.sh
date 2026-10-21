@@ -16,8 +16,9 @@
 # the canonical file) so a reconciler can tell projections apart.
 #
 # Secrets are NAMES only and are emitted as Env placeholders `${NAME}`; a
-# secret given as a `key: value` mapping is rejected, so a value can never
-# reach the projection.
+# secret given as a `key: value` mapping is rejected. `env:` entries with a
+# credential-shaped key or value are rejected too (list those under `secrets:`).
+# This cannot detect every secret.
 #
 # Strict: invalid input => exit 2. Output is deterministic (sorted keys,
 # 2-space indent, trailing newline, no timestamps).
@@ -55,6 +56,11 @@ except yaml.YAMLError as e:
 for req in ("name", "canon_uri", "kind"):
     if not fm.get(req):
         fail(f"missing required field: {req}")
+if not re.fullmatch(r"[a-z0-9-]+", str(fm["name"])):
+    fail(f"name {fm['name']!r} must match ^[a-z0-9-]+$")
+_base = canonical_path.rsplit("/", 1)[-1]
+if _base.endswith(".md") and _base[:-3] != fm["name"]:
+    fail(f"name {fm['name']!r} must equal the canonical file basename {_base[:-3]!r}")
 if fm["kind"] != "job":
     fail(f"nomad-job adapter requires kind=job, got kind={fm['kind']!r}")
 job = fm.get("job")
@@ -86,6 +92,18 @@ def duration(v, field):
     return int(mm.group(1)) * UNITS[mm.group(2)]
 
 
+def num(v, field, minimum=0):
+    if isinstance(v, bool) or not isinstance(v, (int, str)):
+        fail(f"{field}: must be an integer, got {v!r}")
+    try:
+        n = int(v)
+    except ValueError:
+        fail(f"{field}: must be an integer, got {v!r}")
+    if n < minimum:
+        fail(f"{field}: must be >= {minimum}, got {n}")
+    return n
+
+
 def check_image(img, field):
     if not isinstance(img, str) or not img:
         fail(f"{field}: image is required")
@@ -94,10 +112,12 @@ def check_image(img, field):
     last = img.rsplit("/", 1)[-1]
     if ":" not in last:
         fail(f"{field}: image {img!r} is untagged; pin a tag or digest")
-    if last.rsplit(":", 1)[1] == "latest":
+    if last.rsplit(":", 1)[1].lower() == "latest":
         fail(f"{field}: image {img!r} uses tag 'latest'; pin a tag or digest")
 
 
+CRED_KEY = re.compile(r"TOKEN|SECRET|PASSWORD|PASSWD|_KEY$|^KEY_|CONNECTION_STRING|DSN|CREDENTIAL|PRIVATE", re.I)
+CRED_URL = re.compile(r"^[a-z][a-z0-9+.-]*://[^/]*:[^/@]*@", re.I)
 SECRET_NAME = re.compile(r"^[A-Z][A-Z0-9_]*$")
 
 # Defaults Nomad fills in server-side (taken from `nomad job inspect` output).
@@ -122,8 +142,8 @@ for gi, g in enumerate(groups_in):
     if not isinstance(g, dict) or not g.get("name"):
         fail(f"{gf}: must be a mapping with a name")
     group = {
-        "Count": int(g.get("count", 1)),
-        "EphemeralDisk": {"Migrate": False, "SizeMB": int(g.get("ephemeral_disk_mb", 300)), "Sticky": False},
+        "Count": num(g.get("count", 1), f"{gf}.count"),
+        "EphemeralDisk": {"Migrate": False, "SizeMB": num(g.get("ephemeral_disk_mb", 300), f"{gf}.ephemeral_disk_mb"), "Sticky": False},
         "Name": g["name"],
         "PreventRescheduleOnLost": False,
     }
@@ -132,7 +152,7 @@ for gi, g in enumerate(groups_in):
         r = g["restart"]
         if not isinstance(r, dict):
             fail(f"{gf}.restart must be a mapping")
-        restart = {"Attempts": int(r.get("attempts", 2)),
+        restart = {"Attempts": num(r.get("attempts", 2), f"{gf}.restart.attempts"),
                    "Delay": duration(r.get("delay", "15s"), f"{gf}.restart.delay"),
                    "Interval": duration(r.get("interval", "30m"), f"{gf}.restart.interval"),
                    "Mode": r.get("mode", "fail"), "RenderTemplates": False}
@@ -143,8 +163,8 @@ for gi, g in enumerate(groups_in):
         for pi, p in enumerate(ports):
             if not isinstance(p, dict) or not p.get("label"):
                 fail(f"{gf}.ports[{pi}]: must be a mapping with a label")
-            port = {"HostNetwork": "default", "Label": p["label"], "To": int(p.get("to", 0)),
-                    "Value": int(p.get("static", 0))}
+            port = {"HostNetwork": "default", "Label": p["label"], "To": num(p.get("to", 0), f"{gf}.ports[{pi}].to"),
+                    "Value": num(p.get("static", 0), f"{gf}.ports[{pi}].static")}
             (reserved if "static" in p else dynamic).append(port)
         net = {}
         if reserved:
@@ -173,6 +193,13 @@ for gi, g in enumerate(groups_in):
         if not isinstance(env, dict):
             fail(f"{tf}.env must be a mapping")
         env = {str(k): str(v) for k, v in env.items()}
+        for k, v in env.items():
+            if CRED_KEY.search(k):
+                fail(f"{tf}.env: key {k!r} looks like a credential; list it under `secrets:` instead")
+            if CRED_URL.match(v):
+                fail(f"{tf}.env: value of {k!r} embeds credentials (scheme://user:pass@); list it under `secrets:` instead")
+            if len(v) > 200:
+                fail(f"{tf}.env: value of {k!r} is longer than 200 chars; list secret-like values under `secrets:` instead")
         secrets = t.get("secrets") or []
         if not isinstance(secrets, list):
             fail(f"{tf}.secrets must be a list of secret NAMES, never a key: value mapping")
@@ -195,8 +222,8 @@ for gi, g in enumerate(groups_in):
             "Leader": False,
             "LogConfig": copy.deepcopy(LOG_CONFIG),
             "Name": t["name"],
-            "Resources": {"CPU": int(res.get("cpu", 100)), "Cores": 0, "DiskMB": 0, "IOPS": 0,
-                          "MemoryMB": int(res.get("memory_mb", 300)), "MemoryMaxMB": 0, "SecretsMB": 0},
+            "Resources": {"CPU": num(res.get("cpu", 100), f"{tf}.resources.cpu"), "Cores": 0, "DiskMB": 0, "IOPS": 0,
+                          "MemoryMB": num(res.get("memory_mb", 300), f"{tf}.resources.memory_mb"), "MemoryMaxMB": 0, "SecretsMB": 0},
             "ShutdownDelay": 0,
             "User": "",
         }
@@ -216,7 +243,7 @@ out_job = {
     "Name": fm["name"],
     "Namespace": "default",
     "NodePool": "default",
-    "Priority": int(job.get("priority", 50)),
+    "Priority": num(job.get("priority", 50), "job.priority"),
     "Region": "global",
     "TaskGroups": groups,
     "Type": jtype,

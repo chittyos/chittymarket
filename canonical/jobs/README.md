@@ -47,9 +47,13 @@ job:
 - `placement`: `micro` -> Constraint `${node.unique.name}` regexp `^chittymicro-`;
   `mini` -> `^chittymini-`; `any` -> no constraint.
 - `secrets` are names only and are emitted as Env placeholders `NAME: "${NAME}"`.
-  A secret written as `NAME: value` (mapping or list item) is rejected, so a
-  value can never reach a projection. Values are delivered at runtime through
-  ChittySecrets, never through this repo.
+  A secret written as `NAME: value` (mapping or list item) is rejected. The
+  adapter also rejects `env:` entries whose key looks like a credential
+  (`TOKEN|SECRET|PASSWORD|PASSWD|_KEY$|^KEY_|CONNECTION_STRING|DSN|CREDENTIAL|PRIVATE`,
+  case-insensitive) or whose value is `scheme://user:pass@...` or over 200
+  characters; list such names under `secrets:` instead. This is a guard, not a
+  proof: the adapter cannot detect every secret, so do not put one in `env:`.
+  Values are never delivered through this repo.
 - `restart` becomes the group RestartPolicy and is copied to each task, as Nomad does.
 - Durations accept `ns|us|ms|s|m|h` suffixes and are emitted in nanoseconds.
 - The defaults Nomad fills in server-side (Region, Namespace, NodePool, Update,
@@ -59,6 +63,15 @@ job:
 - `Job.Meta` carries `canon_uri` and `canonical_sha` (sha256 of the canonical
   file) so a reconciler can tell projections apart.
 - Output is deterministic: sorted keys, 2-space indent, trailing newline.
+
+## How secrets are delivered
+
+The `${NAME}` placeholders are declarations only: Nomad does not substitute
+them. At start the workload resolves each declared name from the node-local
+chittyserv endpoint `http://127.0.0.1:8080/v1/credentials/<vault>/<item>/<field>`,
+authenticating with the node's `CHITTY_SERV_TOKEN`. vault/item/field are derived
+from the name, e.g. `SERVICES_NEONDB_CONNECTION_STRING` ->
+`services/neondb/connection_string`.
 
 Invalid input (missing `job`, `latest`/untagged image, unknown placement,
 secret values) exits 2 with a message naming the field.
