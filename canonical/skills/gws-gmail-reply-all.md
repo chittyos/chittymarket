@@ -61,7 +61,7 @@ overlay:
 
 # gmail +reply-all
 
-> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. If missing, run `gws generate-skills` to create it.
+> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. It ships in the `chittyos-gws` plugin alongside this skill.
 
 Reply-all to a message (handles threading automatically)
 
@@ -114,4 +114,4 @@ gws gmail +reply-all --message-id 18f1a2b3c4d --body 'Draft reply' --draft
 ## See Also
 
 - [gws-shared](../gws-shared/SKILL.md) — Global flags and auth
-- [gws-gmail](../gws-gmail/SKILL.md) — All send, read, and manage email commands
+- `gws gmail --help` — all send, read, and manage email commands (CLI reference; not a bundled skill)

@@ -1,6 +1,6 @@
 {
   "name": "chittyos-gws",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Google Workspace CLI skills (gws) bound to chittyagent-google — Gmail, Chat, Drive recipes, Slides, Tasks, Keep, People, Apps Script, Workspace Events, Model Armor. Requires the gws CLI on PATH",
   "author": {
     "name": "ChittyOS",

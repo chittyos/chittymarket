@@ -61,7 +61,7 @@ overlay:
 
 # workflow +email-to-task
 
-> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. If missing, run `gws generate-skills` to create it.
+> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. It ships in the `chittyos-gws` plugin alongside this skill.
 
 Convert a Gmail message into a Google Tasks entry
 

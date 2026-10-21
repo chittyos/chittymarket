@@ -61,7 +61,7 @@ overlay:
 
 # gmail +watch
 
-> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. If missing, run `gws generate-skills` to create it.
+> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. It ships in the `chittyos-gws` plugin alongside this skill.
 
 Watch for new emails and stream them as NDJSON
 
@@ -104,4 +104,4 @@ gws gmail +watch --project my-project --cleanup --output-dir ./emails
 ## See Also
 
 - [gws-shared](../gws-shared/SKILL.md) — Global flags and auth
-- [gws-gmail](../gws-gmail/SKILL.md) — All send, read, and manage email commands
+- `gws gmail --help` — all send, read, and manage email commands (CLI reference; not a bundled skill)

@@ -7,7 +7,7 @@ canon_uri: chittycanon://core/services/chittyagent-google#skills/gws-workflow
 
 # workflow (v1)
 
-> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. If missing, run `gws generate-skills` to create it.
+> **PREREQUISITE:** Read `../gws-shared/SKILL.md` for auth, global flags, and security rules. It ships in the `chittyos-gws` plugin alongside this skill.
 
 ```bash
 gws workflow <resource> <method> [flags]
@@ -17,10 +17,10 @@ gws workflow <resource> <method> [flags]
 
 | Command | Description |
 |---------|-------------|
-| [`+standup-report`](../gws-workflow-standup-report/SKILL.md) | Today's meetings + open tasks as a standup summary |
-| [`+meeting-prep`](../gws-workflow-meeting-prep/SKILL.md) | Prepare for your next meeting: agenda, attendees, and linked docs |
+| `+standup-report` | Today's meetings + open tasks as a standup summary |
+| `+meeting-prep` | Prepare for your next meeting: agenda, attendees, and linked docs |
 | [`+email-to-task`](../gws-workflow-email-to-task/SKILL.md) | Convert a Gmail message into a Google Tasks entry |
-| [`+weekly-digest`](../gws-workflow-weekly-digest/SKILL.md) | Weekly summary: this week's meetings + unread email count |
+| `+weekly-digest` | Weekly summary: this week's meetings + unread email count |
 | [`+file-announce`](../gws-workflow-file-announce/SKILL.md) | Announce a Drive file in a Chat space |
 
 ## Discovering Commands
