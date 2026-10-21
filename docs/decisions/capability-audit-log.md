@@ -1087,6 +1087,7 @@ decision_id:     CAP-2026-10-21-document-storage
 date:            2026-10-21
 canonical_id:    chittycanon://capability/legal/document-storage
 decision:        promote-inactive
+activation_status: inactive  # machine-readable in every dec_20261021_* log
 owner:           chittystorage
 job_to_be_done:  remember
 projected:       [chittyevidence-db R2 binding]

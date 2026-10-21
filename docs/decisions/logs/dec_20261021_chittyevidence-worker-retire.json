@@ -6,7 +6,7 @@
   "decision": "retire",
   "decision_id": "dec_20261021_chittyevidence-worker-retire",
   "duplicates_found": [
-    "chittyevidence-db"
+    "chittycanon://capability/legal/document-storage"
   ],
   "environmental_footprint": "forensic-legal-grade",
   "evidentiary_risk": "high",
@@ -18,5 +18,7 @@
   "review_date": "2026-11-20",
   "source_links": [
     "CHITTYAPPS/chittyevidence/wrangler.toml"
-  ]
+  ],
+  "activation_status": "inactive",
+  "activation_gate": "timestamp and custody policies written into CHITTYOS/chittystorage/CHARTER.md (hash policy satisfied by sha256/<content_hash>)"
 }

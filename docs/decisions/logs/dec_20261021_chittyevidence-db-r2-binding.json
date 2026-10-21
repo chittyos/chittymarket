@@ -1,20 +1,24 @@
 {
   "canonical_id": "chittycanon://capability/legal/document-storage",
   "capability_name": "chittyevidence-db worker R2 binding",
-  "current_state": "version 2d9ee09d 2026-10-19 binds DOCUMENTS=chittyevidence-documents, PROCESSED=chittyevidence-processed",
+  "current_state": "Currently deployed version 2d9ee09d (created 2026-10-19), read via wrangler deployments status on 2026-10-21; binds DOCUMENTS=chittyevidence-documents, PROCESSED=chittyevidence-processed",
   "date": "2026-10-21",
   "decision": "project",
   "decision_id": "dec_20261021_chittyevidence-db-r2-binding",
-  "duplicates_found": [],
+  "duplicates_found": [
+    "chittycanon://capability/legal/document-storage"
+  ],
   "environmental_footprint": "forensic-legal-grade",
   "evidentiary_risk": "high",
   "job_to_be_done": "generate",
   "migration_owner": "chittyevidence",
   "migration_required": true,
-  "next_action": "Keep binding to chittyevidence-documents; register writes via StorageRegistrationService.registerExisting instead of writing storage.* directly.",
+  "next_action": "After activation only (do not act before the gate is met): Keep binding to chittyevidence-documents; register writes via StorageRegistrationService.registerExisting instead of writing storage.* directly.",
   "rationale": "Disposition 'project' selected because the artifact's primary job is 'generate', its environmental footprint is 'forensic-legal-grade', and its evidentiary risk is 'high'.",
   "review_date": "2026-11-20",
   "source_links": [
     "CHITTYOS/chittyos-workspace/chittyevidence-db/wrangler.toml"
-  ]
+  ],
+  "activation_status": "inactive",
+  "activation_gate": "timestamp and custody policies written into CHITTYOS/chittystorage/CHARTER.md (hash policy satisfied by sha256/<content_hash>)"
 }

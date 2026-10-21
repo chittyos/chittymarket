@@ -6,17 +6,19 @@
   "decision": "merge",
   "decision_id": "dec_20261021_chittychronicle-aribia-evidence-bindings",
   "duplicates_found": [
-    "capability.chittystorage.document-storage"
+    "chittycanon://capability/legal/document-storage"
   ],
   "environmental_footprint": "forensic-legal-grade",
   "evidentiary_risk": "high",
   "job_to_be_done": "collect",
   "migration_owner": "chittychronicle",
   "migration_required": true,
-  "next_action": "Repoint aribia-evidence-* bindings to chittyevidence-documents and register via ChittyStorage, or remove them.",
+  "next_action": "After activation only (do not act before the gate is met): Repoint aribia-evidence-* bindings to chittyevidence-documents and register via ChittyStorage, or remove them.",
   "rationale": "Disposition 'merge' selected because the artifact's primary job is 'collect', its environmental footprint is 'forensic-legal-grade', and its evidentiary risk is 'high'.",
   "review_date": "2026-11-20",
   "source_links": [
     "CHITTYOS/chittychronicle/wrangler.toml"
-  ]
+  ],
+  "activation_status": "inactive",
+  "activation_gate": "timestamp and custody policies written into CHITTYOS/chittystorage/CHARTER.md (hash policy satisfied by sha256/<content_hash>)"
 }

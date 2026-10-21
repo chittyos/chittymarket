@@ -16,5 +16,7 @@
   "review_date": "2026-11-20",
   "source_links": [
     "neon:restless-grass-40598426/storage.entity_storage_config"
-  ]
+  ],
+  "activation_status": "inactive",
+  "activation_gate": "timestamp and custody policies written into CHITTYOS/chittystorage/CHARTER.md (hash policy satisfied by sha256/<content_hash>)"
 }
