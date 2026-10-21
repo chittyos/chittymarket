@@ -103,6 +103,34 @@ link_child() {
   [ -L "$dst" ] && [ -e "$dst" ]
 }
 
+# A worktree may have its OWN dependency install rather than a link farm -- real
+# package directories from its own `pnpm install`. That is not contamination: it
+# has no shared cache, because its node_modules is genuinely its own. Linking
+# into it must not be attempted (link_child correctly refuses to clobber a real
+# directory) and, more importantly, must not be REPORTED as "INCOMPLETE" --
+# that is a false alarm telling the operator not to trust a healthy worktree,
+# which is as costly as missing a real one.
+nm_is_own_install() {
+  local nm="$1"
+  # A SYMLINK is never an own install -- it is the contamination itself. This
+  # test must come first: `[ -d ]` FOLLOWS the link to the root's real
+  # node_modules, finds a real .pnpm there, and would answer "own install" for
+  # precisely the case this script exists to repair, skipping it silently. Same
+  # symlink-following trap as `-e` on .venv.
+  [ -L "$nm" ] && return 1
+  [ -d "$nm" ] || return 1
+  # .pnpm as a REAL directory is the signal: a link farm always has it as a
+  # symlink back to the root. Fall back to any non-symlink package directory.
+  if [ -d "$nm/.pnpm" ] && [ ! -L "$nm/.pnpm" ]; then return 0; fi
+  local e
+  for e in "$nm"/*; do
+    [ -e "$e" ] || continue
+    case "${e##*/}" in .*) continue ;; esac
+    [ -d "$e" ] && [ ! -L "$e" ] && return 0
+  done
+  return 1
+}
+
 nm_link_children() {
   local root_nm="$1" dest_nm="$2"
   local name target failed=0 ok=0 dangling=0
@@ -151,13 +179,30 @@ nm_link_children() {
 # remediation would be unreachable code claiming a control that is not applied.
 if [ -n "$RELINK_MODE" ]; then
   rc=0
+  matched=0
   while IFS= read -r line; do
     case "$line" in worktree\ *) wt="${line#worktree }" ;; *) continue ;; esac
     [ "$wt" = "$ROOT" ] && continue
     if [ "$RELINK_MODE" != "--all" ]; then
-      [ "$wt" = "$WTROOT/$REPO-${RELINK_MODE//\//-}" ] || continue
+      # Match on what the worktree IS, not only on where `git wt` would have put
+      # it. Deriving `$WTROOT/$REPO-<name>` alone made a scoped --relink silently
+      # match NOTHING for any worktree created elsewhere -- `.claude/worktrees/`,
+      # a bare `git worktree add`, a custom GIT_WT_ROOT -- and still exit 0. A
+      # no-op reported as success is the failure this script exists to prevent.
+      want="${RELINK_MODE//\//-}"
+      case "$wt" in
+        "$WTROOT/$REPO-$want") : ;;
+        */"$want") : ;;
+        *"-$want") : ;;
+        *) continue ;;
+      esac
     fi
+    matched=$((matched + 1))
     echo "--- $wt"
+    if nm_is_own_install "$wt/node_modules"; then
+      echo "has its own dependency install — not a link farm, left alone"
+      continue
+    fi
     if [ -L "$wt/node_modules" ]; then
       rm -f "$wt/node_modules"
       echo "replaced a symlinked node_modules (it shared the root's build cache)"
@@ -171,6 +216,11 @@ if [ -n "$RELINK_MODE" ]; then
     [ -d "$ROOT/node_modules" ] || { echo "warn: root has no node_modules to link from" >&2; continue; }
     nm_link_children "$ROOT/node_modules" "$wt/node_modules" || rc=1
   done < <(git worktree list --porcelain)
+  if [ "$matched" -eq 0 ]; then
+    echo "git wt --relink: no worktree matched '$RELINK_MODE'" >&2
+    echo "  (git wt --list shows the registered worktrees; --all repairs every one)" >&2
+    exit 1
+  fi
   exit "$rc"
 fi
 

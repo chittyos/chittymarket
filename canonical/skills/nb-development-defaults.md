@@ -153,6 +153,21 @@ Run **`git wt --relink`** on them. It replaces a symlinked `node_modules`,
 re-links children of a real one, and re-verifies every child resolves, so repair
 and check are one pass.
 
+`--relink` matches a worktree by its real path, its basename, or the
+`<repo>-<branch>` form, not only by where `git wt` would have put it — a worktree
+under `.claude/worktrees/`, or from a bare `git worktree add`, is matched too.
+**When a name matches nothing it exits non-zero rather than 0**, because a
+scoped repair that silently touches nothing is indistinguishable from one that
+worked.
+
+A worktree with **its own dependency install** (real package directories from
+its own `pnpm install`, not a link farm) is left alone: it has no shared cache,
+so there is nothing to repair, and reporting it as broken is as costly as
+missing a real break. The signal is a real, non-symlink `.pnpm`. Check `-L`
+before `-d` when testing for this: `-d` follows the symlink to the root's
+`node_modules`, finds a real `.pnpm` there, and would answer "own install" for
+the exact case needing repair.
+
 **`--relink` exits non-zero and says so when `node_modules` is incomplete**, and
 that matters more than the linking: a real `node_modules` directory is *not*
 assumed healthy, because the state a failed run leaves behind is a real directory
