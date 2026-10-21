@@ -1023,10 +1023,10 @@ source_links:
   - https://github.com/chittyfoundation/chittycanon/pull/98
 audited_revision:
   repo: chittyfoundation/chittycanon
-  commit: 63074186bae51f19bfa8a9837ee52e8eb20f61a5
+  commit: 13e9ab64a5bf09c11f68777c49db6e9e620f379a
   path: specs/COGNITIVE_OPERATIONS_REGISTRY.md
-  url: https://github.com/chittyfoundation/chittycanon/blob/63074186bae51f19bfa8a9837ee52e8eb20f61a5/specs/COGNITIVE_OPERATIONS_REGISTRY.md
-  content_sha256: e40ebfb9bdeaf35d8a4d9f421c67269f1112c796c895a528e3e6c6f43285ca25
+  url: https://github.com/chittyfoundation/chittycanon/blob/13e9ab64a5bf09c11f68777c49db6e9e620f379a/specs/COGNITIVE_OPERATIONS_REGISTRY.md
+  content_sha256: 37cd6bdcc2b0c2a221947578633fcca36db1c95a020016a83b735308ef617861
   # any later change to the spec requires re-audit before this entry satisfies the admission gate
 current_state:   DRAFT spec, unratified
 decision:        project
