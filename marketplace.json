@@ -2734,6 +2734,703 @@
         "node-lifecycle",
         "reliability"
       ]
+    },
+    {
+      "id": "skill-context-resume",
+      "name": "Context Resume",
+      "description": "Generate a full accounting of the current context's accumulated knowledge, exposure, and emergent value. Synthesizes everything this context has touched into a resume-style one-sheet. Use at session end, before compaction, or when capturing context value.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/context-resume",
+      "capability": "chittycanon://capability/workspace/context-resume",
+      "tags": [
+        "session",
+        "context"
+      ]
+    },
+    {
+      "id": "skill-gws-admin-reports",
+      "name": "GWS Admin Reports",
+      "description": "Google Workspace Admin SDK: Audit logs and usage reports.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-admin-reports",
+      "capability": "chittycanon://capability/connect/gws-admin-reports",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-chat-send",
+      "name": "GWS Chat Send",
+      "description": "Google Chat: Send a message to a space.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-chat-send",
+      "capability": "chittycanon://capability/connect/gws-chat-send",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-chat",
+      "name": "GWS Chat",
+      "description": "Google Chat: Manage Chat spaces and messages.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-chat",
+      "capability": "chittycanon://capability/connect/gws-chat",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-events-renew",
+      "name": "GWS Events Renew",
+      "description": "Google Workspace Events: Renew/reactivate Workspace Events subscriptions.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-events-renew",
+      "capability": "chittycanon://capability/connect/gws-events-renew",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-events-subscribe",
+      "name": "GWS Events Subscribe",
+      "description": "Google Workspace Events: Subscribe to Workspace events and stream them as NDJSON.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-events-subscribe",
+      "capability": "chittycanon://capability/connect/gws-events-subscribe",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-gmail-forward",
+      "name": "GWS Gmail Forward",
+      "description": "Gmail: Forward a message to new recipients.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-gmail-forward",
+      "capability": "chittycanon://capability/connect/gws-gmail-forward",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-gmail-reply-all",
+      "name": "GWS Gmail Reply All",
+      "description": "Gmail: Reply-all to a message (handles threading automatically).",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-gmail-reply-all",
+      "capability": "chittycanon://capability/connect/gws-gmail-reply-all",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-gmail-triage",
+      "name": "GWS Gmail Triage",
+      "description": "Gmail: Show unread inbox summary (sender, subject, date).",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-gmail-triage",
+      "capability": "chittycanon://capability/connect/gws-gmail-triage",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-gmail-watch",
+      "name": "GWS Gmail Watch",
+      "description": "Gmail: Watch for new emails and stream them as NDJSON.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-gmail-watch",
+      "capability": "chittycanon://capability/connect/gws-gmail-watch",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-keep",
+      "name": "GWS Keep",
+      "description": "Manage Google Keep notes.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-keep",
+      "capability": "chittycanon://capability/connect/gws-keep",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-modelarmor-create-template",
+      "name": "GWS Modelarmor Create Template",
+      "description": "Google Model Armor: Create a new Model Armor template.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-modelarmor-create-template",
+      "capability": "chittycanon://capability/connect/gws-modelarmor-create-template",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-modelarmor-sanitize-prompt",
+      "name": "GWS Modelarmor Sanitize Prompt",
+      "description": "Google Model Armor: Sanitize a user prompt through a Model Armor template.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-modelarmor-sanitize-prompt",
+      "capability": "chittycanon://capability/connect/gws-modelarmor-sanitize-prompt",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-modelarmor-sanitize-response",
+      "name": "GWS Modelarmor Sanitize Response",
+      "description": "Google Model Armor: Sanitize a model response through a Model Armor template.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-modelarmor-sanitize-response",
+      "capability": "chittycanon://capability/connect/gws-modelarmor-sanitize-response",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-modelarmor",
+      "name": "GWS Modelarmor",
+      "description": "Google Model Armor: Filter user-generated content for safety.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-modelarmor",
+      "capability": "chittycanon://capability/connect/gws-modelarmor",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-people",
+      "name": "GWS People",
+      "description": "Google People: Manage contacts and profiles.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-people",
+      "capability": "chittycanon://capability/connect/gws-people",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-script-push",
+      "name": "GWS Script Push",
+      "description": "Google Apps Script: Upload local files to an Apps Script project.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-script-push",
+      "capability": "chittycanon://capability/connect/gws-script-push",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-script",
+      "name": "GWS Script",
+      "description": "Manage Google Apps Script projects.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-script",
+      "capability": "chittycanon://capability/connect/gws-script",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-shared",
+      "name": "GWS Shared",
+      "description": "gws CLI: Shared patterns for authentication, global flags, and output formatting.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-shared",
+      "capability": "chittycanon://capability/connect/gws-shared",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-slides",
+      "name": "GWS Slides",
+      "description": "Google Slides: Read and write presentations.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-slides",
+      "capability": "chittycanon://capability/connect/gws-slides",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-tasks",
+      "name": "GWS Tasks",
+      "description": "Google Tasks: Manage task lists and tasks.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-tasks",
+      "capability": "chittycanon://capability/connect/gws-tasks",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-workflow-email-to-task",
+      "name": "GWS Workflow Email To Task",
+      "description": "Google Workflow: Convert a Gmail message into a Google Tasks entry.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-workflow-email-to-task",
+      "capability": "chittycanon://capability/connect/gws-workflow-email-to-task",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-workflow-file-announce",
+      "name": "GWS Workflow File Announce",
+      "description": "Google Workflow: Announce a Drive file in a Chat space.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-workflow-file-announce",
+      "capability": "chittycanon://capability/connect/gws-workflow-file-announce",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-gws-workflow",
+      "name": "GWS Workflow",
+      "description": "Google Workflow: Cross-service productivity workflows.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/gws-workflow",
+      "capability": "chittycanon://capability/connect/gws-workflow",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-pipeline-submit",
+      "name": "Evidence Pipeline Submit",
+      "description": "Ingest, store, and log documents into the ChittyEvidence pipeline. Not just evidence — anything could be evidence, but all documents need proper storage and chain of custody. Triggers on: 'ingest', 'submit to pipeline', 'upload documents', 'store documents', 'pipeline submit', '/pipeline-submit', 'batch ingest', 'log documents'. Handles: local files, Downloads folder, batch submission via the canonical drop-folder watcher, and verifying what actually landed.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/pipeline-submit",
+      "capability": "chittycanon://capability/legal/evidence-pipeline-submit",
+      "tags": [
+        "legal",
+        "evidence",
+        "ingestion"
+      ]
+    },
+    {
+      "id": "skill-recipe-create-task-list",
+      "name": "Recipe Create Task List",
+      "description": "Set up a new Google Tasks list with initial tasks.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/recipe-create-task-list",
+      "capability": "chittycanon://capability/connect/recipe-create-task-list",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-reclaim",
+      "name": "Orphaned Task Reclaim",
+      "description": "Claim orphaned in-progress tasks left behind by dead Claude Code sessions. Lists unclaimed tasks from the orphan sweeper, lets you claim one, loads its context, and resumes. Triggers on \"reclaim\", \"orphaned tasks\", \"dead session tasks\", \"/reclaim\".",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/reclaim",
+      "capability": "chittycanon://capability/workspace/orphaned-task-reclaim",
+      "tags": [
+        "operations",
+        "tasks"
+      ]
+    },
+    {
+      "id": "skill-ship",
+      "name": "Development Wrap-Up",
+      "description": "Development wrap-up lifecycle — preflight, brainstorm, checkpoint, cleanup, branch",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/ship",
+      "capability": "chittycanon://capability/ship/development-wrap-up",
+      "tags": [
+        "workflow",
+        "git"
+      ]
+    },
+    {
+      "id": "skill-skills-orchestrator",
+      "name": "Skills Orchestrator",
+      "description": "Universal skill and agent router. Searches, discovers, and executes any skill or agent in the ChittyOS ecosystem via the orchestrator MCP at orchestrator.agent.chitty.cc/mcp.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/skills-orchestrator",
+      "capability": "chittycanon://capability/workspace/skills-orchestrator",
+      "tags": [
+        "orchestration",
+        "mcp"
+      ]
     }
   ]
 }

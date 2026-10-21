@@ -113,6 +113,18 @@
       "category": "Security"
     },
     {
+      "name": "chittyos-gws",
+      "source": {
+        "source": "local",
+        "path": "./plugins/chittyos-gws"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Integrations"
+    },
+    {
       "name": "chittyos-legal",
       "source": {
         "source": "local",

@@ -30,6 +30,7 @@ CATEGORY_MAP[chittyos-legal]="legal"
 CATEGORY_MAP[chittyos-finance]="finance"
 CATEGORY_MAP[chittyos-governance]="security"
 CATEGORY_MAP[chittyos-proxy-agents]="integrations"
+CATEGORY_MAP[chittyos-gws]="integrations"
 CATEGORY_MAP[chittymarket-manager]="ecosystem"
 CATEGORY_MAP[chittyos-mcp]="ecosystem"
 CATEGORY_MAP[neon-mcp]="database"
@@ -44,6 +45,7 @@ KEYWORDS_MAP[chittyos-legal]="legal,evidence,disputes,docket,cases,custody,agent
 KEYWORDS_MAP[chittyos-finance]="finance,books,accounting,chart-of-accounts,classification,reconciliation,defaults"
 KEYWORDS_MAP[chittyos-governance]="governance,hooks,entity-types,chittyid,deploy-gate,schema"
 KEYWORDS_MAP[chittyos-proxy-agents]="notion,chatgpt,cloudflare,proxy,agent"
+KEYWORDS_MAP[chittyos-gws]="google,workspace,gmail,gws"
 KEYWORDS_MAP[chittymarket-manager]="marketplace,market,artifacts,toggle,manage"
 # nowebmaster was absent from this map, so regeneration emitted keywords: []
 # while the committed manifest carried three. That single mismatch made the
