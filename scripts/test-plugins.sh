@@ -314,6 +314,15 @@ else
 fi
 echo ""
 
+# --- nomad-job adapter tests ---
+echo "--- nomad-job adapter ---"
+if bash "$PLUGINS_DIR/chittyagent-dispatch/scripts/test-nomad-job-adapter.sh" >/dev/null 2>&1; then
+  green "nomad-job adapter tests"
+else
+  red "nomad-job adapter tests (run plugins/chittyagent-dispatch/scripts/test-nomad-job-adapter.sh)"
+fi
+echo ""
+
 # --- Summary ---
 TOTAL=$((PASS + FAIL))
 echo "=== Test Summary ==="
