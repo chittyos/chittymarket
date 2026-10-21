@@ -119,16 +119,31 @@ nm_is_own_install() {
   # symlink-following trap as `-e` on .venv.
   [ -L "$nm" ] && return 1
   [ -d "$nm" ] || return 1
-  # .pnpm as a REAL directory is the signal: a link farm always has it as a
-  # symlink back to the root. Fall back to any non-symlink package directory.
-  if [ -d "$nm/.pnpm" ] && [ ! -L "$nm/.pnpm" ]; then return 0; fi
-  local e
+
+  # An installer's own metadata is the signal: a link farm has `.pnpm` as a
+  # SYMLINK back to the root, never a real store. An earlier version also fell
+  # back to "any one non-symlink directory", which was the wrong test: an
+  # interrupted install leaves a real directory behind, so a genuinely broken
+  # link farm with one real child was classified "own install" and SKIPPED --
+  # contradicting the very control this is documented to provide, and (because
+  # the skip bypasses nm_link_children) exiting 0 over it. The fallback is gone.
+  local marker=0 e
+  if { [ -d "$nm/.pnpm" ] && [ ! -L "$nm/.pnpm" ]; } \
+    || { [ -f "$nm/.package-lock.json" ] && [ ! -L "$nm/.package-lock.json" ]; } \
+    || { [ -f "$nm/.yarn-state.yml" ] && [ ! -L "$nm/.yarn-state.yml" ]; }; then
+    marker=1
+  fi
+  [ "$marker" -eq 1 ] || return 1
+
+  # A marker alone is not health. An install interrupted after writing its store
+  # can leave dangling children, and that worktree needs repair, not a pass. Any
+  # dangling top-level entry disqualifies it. (No nullglob here: the `-e`/`-L`
+  # guards make an unmatched literal glob fall through, and an empty
+  # node_modules has no marker anyway.)
   for e in "$nm"/*; do
-    [ -e "$e" ] || continue
-    case "${e##*/}" in .*) continue ;; esac
-    [ -d "$e" ] && [ ! -L "$e" ] && return 0
+    [ -L "$e" ] && [ ! -e "$e" ] && return 1
   done
-  return 1
+  return 0
 }
 
 nm_link_children() {
@@ -190,12 +205,18 @@ if [ -n "$RELINK_MODE" ]; then
       # a bare `git worktree add`, a custom GIT_WT_ROOT -- and still exit 0. A
       # no-op reported as success is the failure this script exists to prevent.
       want="${RELINK_MODE//\//-}"
-      case "$wt" in
-        "$WTROOT/$REPO-$want") : ;;
-        */"$want") : ;;
-        *"-$want") : ;;
-        *) continue ;;
-      esac
+      # EQUALITY on the basename only. An earlier version used `*"-$want"`, an
+      # unanchored suffix match against the FULL PATH, and it was exploitable:
+      # `--relink zzfoo` matched both `<repo>-zzfoo` and `<repo>-bar-zzfoo`,
+      # because the latter also ends in `-zzfoo`. The loop then `rm -f`s
+      # node_modules in every match and does not break, so one scoped invocation
+      # destructively rewrote an unintended worktree -- announced only by a
+      # `--- <path>` line an operator scanning for success would not flag.
+      # Any pattern beginning with `*` can collide; compare exact strings.
+      wt_base="${wt##*/}"
+      if [ "$wt_base" != "$want" ] && [ "$wt_base" != "$REPO-$want" ]; then
+        continue
+      fi
     fi
     matched=$((matched + 1))
     echo "--- $wt"
@@ -213,8 +234,13 @@ if [ -n "$RELINK_MODE" ]; then
     # unusable node_modules -- a false all-clear of the same kind this script
     # exists to stop. Re-linking is idempotent (`ln -sfn`) and re-verifies every
     # child resolves, so repair and check are the same pass.
-    [ -d "$ROOT/node_modules" ] || { echo "warn: root has no node_modules to link from" >&2; continue; }
+    # Non-zero: a repair that could not run is not a success. Exiting 0 here
+    # would be the same no-op-reported-as-success the matched==0 guard exists for.
+    [ -d "$ROOT/node_modules" ] || { echo "ERROR: root has no node_modules to link from" >&2; rc=1; continue; }
     nm_link_children "$ROOT/node_modules" "$wt/node_modules" || rc=1
+    # Process substitution ON PURPOSE: `cmd | while` runs the loop in a subshell,
+    # where `matched` and `rc` would be discarded -- the no-match guard below
+    # would then be dead code and always see 0. Do not "simplify" this to a pipe.
   done < <(git worktree list --porcelain)
   if [ "$matched" -eq 0 ]; then
     echo "git wt --relink: no worktree matched '$RELINK_MODE'" >&2
