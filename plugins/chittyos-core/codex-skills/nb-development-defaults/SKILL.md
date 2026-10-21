@@ -57,6 +57,7 @@ git wt <branch>            # worktree from a freshly-fetched origin/main
 git wt <branch> <base-ref> # explicit base
 git wt --list
 git wt --rm <branch>       # remove worktree + branch
+git wt --relink [<branch>]  # repair deps in EXISTING worktrees (default: all)
 ```
 
 `git wt` (`scripts/git-wt`, bundled with this skill; install it on PATH as
@@ -82,10 +83,27 @@ git wt --rm <branch>       # remove worktree + branch
    parallel session is active can pop *their* entry. Use a worktree instead of
    stashing; `git wt` never stashes.
 
-A worktree you created by hand (`git worktree add` + `ln -s node_modules`) has
-failure 3. If you are about to trust a suite result from one, re-run the file on
-its own first: agreement between the two is the cheap check, and disagreement
-means the cache, not the code.
+A worktree you created by hand (`git worktree add` + `ln -s node_modules`), or
+one made before this change, still has failure 3 — and the create path cannot
+repair it, because `git worktree add` refuses a destination that already exists.
+Run **`git wt --relink`** on them. It replaces a symlinked `node_modules`,
+re-links children of a real one, and re-verifies every child resolves, so repair
+and check are one pass.
+
+**`--relink` exits non-zero and says so when `node_modules` is incomplete**, and
+that matters more than the linking: a real `node_modules` directory is *not*
+assumed healthy, because the state a failed run leaves behind is a real directory
+with missing children. Answering "nothing to repair" over that would be a false
+all-clear of exactly the kind this section is about. Two traps it checks for:
+
+- `ln -sfn src dst` where `dst` is an existing real directory creates
+  `dst/<name>` **inside** it and returns 0. The path then exists while the
+  top-level entry the resolver needs does not — so "it linked fine" is wrong.
+- A dangling symlink is still `-type l`, so counting links counts unusable ones.
+
+If a suite result from any worktree surprises you, re-run the file on its own
+before believing it. Agreement between the two runs is the cheap check;
+disagreement means the cache, not the code.
 
 Global git defaults set for this workflow: `rerere.enabled` + `rerere.autoupdate`
 (conflict resolutions replay across worktrees), `worktree.guessRemote`,
