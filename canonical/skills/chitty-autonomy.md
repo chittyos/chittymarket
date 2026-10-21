@@ -109,11 +109,65 @@ Response payload is persisted to `chittycontext/structured-autonomy/<feature>/SO
 | 3 | Plan | `chitty-autonomy-plan` | `plan.md` with [NEEDS_CLARIFICATION] markers enforced |
 | 4 | Generate | `chitty-autonomy-generate` | `implementation.md` with copy-paste TDD-aware code |
 | 5 | Implement | `chitty-autonomy-implement` | committed code, format/lint inline |
-| 6 | Review | delegate to `chittyagent-canon` + `code-reviewer` + `silent-failure-hunter` + `comment-analyzer` | review report; gate to next phase |
+| 6 | Review | delegate to `chittyagent-canon` + `code-reviewer` + `silent-failure-hunter` + `comment-analyzer` | review report |
+| 6b | **Separated review (REQUIRED)** | `scripts/adversarial-review.sh` (from `nb-development-defaults`), or `chittyagent-olmec` | adversarial findings; **hard gate** to Ship |
 | 7 | Tidy | `chitty-autonomy-tidy` | branch-cleanup, format, lint, chitty-cleanup invocation |
 | 8 | CI/CD | `chitty-autonomy-cicd` | `.github/workflows/`, wrangler deploy targets, secrets scaffold |
 | 9 | Ship | `chitty-autonomy-ship` | PR created/auto-merged, ChittyRegistry update, Notion sync |
 | 10 | Memory | inline | feedback/project memory written; ChittyChronicle finalize entry |
+
+### Phase 6b is a hard gate, and why it is separate from phase 6
+
+Phase 6's reviewers run **in-process, on this host, in this session's context**.
+That makes them a linting tier, not an adversarial one: an agent cannot
+adversarially review its own diff, and reviewers sharing the maker's context tend
+to share its blind spot. `nb-development-defaults` is explicit that the
+execute-now licence is granted by *separated* adversarial review — different
+agent, fresh context, ideally a different model — and that the licence is
+**withdrawn** when that reviewer is not in the path. Phase 6 alone does not
+satisfy it.
+
+Measured, 2026-10-21, which is why this phase exists:
+
+- Three PRs were merged citing `claude-review: pass` without dispatching the
+  separated lane. One of them shipped a predicate that **never fired in
+  production** — `drizzle-orm` wraps driver errors in `DrizzleQueryError` and puts
+  `code`/`constraint` on `.cause`, so a top-level read returned false on every
+  real collision. Thirteen green checks passed over it, because every fixture was
+  a flat hand-written object that had never been through drizzle.
+- On the next two PRs the separated lane was dispatched **before** merge. It found
+  a `set -e` fail-partial abort, a dishonest success count, an unreachable repair
+  path, a destructive unanchored matcher that rewrote a worktree nobody asked for,
+  and an own-install test that inverted the control it documented. The in-session
+  tests passed in **both** rounds — they exercised only the case the author
+  already had in mind.
+
+Rules for this phase:
+
+- **It runs before Ship (phase 9), not after.** A review that lands after the
+  merge is a record, not a gate.
+- **Findings are triaged in writing** — confirmed / refuted / deliberately
+  deferred, each with its reason. A refutation must cite primary source, not
+  recollection: a `grep` that found nothing is evidence about the search. (One
+  refutation that day was made by grep and was wrong; `neon-http/session.js` has
+  no wrapping of its own but inherits it from `pg-core/session.js`.)
+- **Every confirmed fix is mutation-tested** — break what it guards and watch the
+  alarm fire. A guard never seen to fail is decoration.
+- **Two rounds maximum.** Remaining low-severity items are filed as issues, not
+  iterated on in-session.
+- **A review that did not run is reported as not performed**, never as "no
+  findings". `adversarial-review.sh` exits 2 when claw is unreachable and 3 when
+  the model call fails; both mean the gate is OPEN and Ship is blocked. An
+  under-powered reviewer returns confident empty findings, which is how this
+  mechanism quietly becomes theatre.
+- **Judgement, never a cheap model.** Fan-out width and model tier are
+  independent axes; review is judgement and absorbs wrong answers rather than
+  catching them downstream.
+
+Scheduling and durable state for the loop belong to **`chittyagent-tasks`**
+(`https://tasks.chitty.cc`, verified live) plus `/schedule` or `/loop`. Do **not**
+stand up a new Worker or cron for it: those exist, and a new recurring line item
+has no headroom under the startup-mode ceiling.
 
 ## State Machine
 
@@ -123,7 +177,7 @@ State persisted at `chittycontext/structured-autonomy/<feature>/state.json`:
   "feature": "<name>",
   "branch": "<kebab>",
   "cert_id": "<chittycert-issued-id>",
-  "phase": "discover|plan|generate|implement|review|tidy|cicd|ship|memory|done",
+  "phase": "discover|plan|generate|implement|review|separated_review|tidy|cicd|ship|memory|done",
   "started_at": "<iso>",
   "phase_history": [
     { "phase": "affirm", "completed_at": "<iso>", "chronicle_entry": "<id>" }
