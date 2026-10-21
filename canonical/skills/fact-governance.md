@@ -85,7 +85,7 @@ Accept either:
 
 If no `case` is specified, stop and ask the caller for one. Do not fall back to any previously-used case.
 
-Every SQL example below uses `<case_id>` as a placeholder — substitute the resolved case at runtime. Do not paste literal case IDs.
+Resolve the case for each invocation. Read-only SQL examples use placeholders; mutation paths use the resolved case in the authenticated service request. Never reuse a case by default.
 
 ## Database Integration
 
@@ -152,49 +152,94 @@ evidence_statement_of_facts (
 | ADM | Admission (party statements) |
 | EVID | Evidence (document existence/location) |
 
-## Operations
+## Governed runtime operations (CFDXN-193)
 
-In every SQL below, `<case_id>` means the resolved case identifier for THIS invocation. Never paste a literal case string.
+Use the existing ChittyConnect broker to invoke the ChittyEvidence service. The
+runtime must authenticate the acting ChittyID, require write/admin authority and
+an active case grant, and compare that actor with the stored producer on every
+lifecycle write. A service credential without an authenticated acting identity is
+insufficient. Never supply `verified_by`, `submitted_by`, an actor header, or a
+newly invented identity as a substitute for authenticated caller context.
 
-### Add Fact
-```sql
-INSERT INTO evidence_statement_of_facts (
-  id, case_id, fact_number, fact_date, fact_text,
-  exhibit_reference, document_id, source_quote,
-  status, version, category, submitted_by, created_at, updated_at
-) VALUES (
-  'FACT-' || hex(randomblob(8)),
-  ?,  -- <case_id>
-  (SELECT COALESCE(MAX(fact_number), 0) + 1 FROM evidence_statement_of_facts WHERE case_id = ?),
-  ?, ?, ?, ?, ?, 'draft', 1, ?, ?, datetime('now'), datetime('now')
-);
+These operations depend on the CFDXN-193 service implementation being deployed
+and verified. If the broker, authenticated identity, runtime route, or required
+schema is unavailable, **refuse the mutation**. Do not fall back to direct D1 SQL,
+a model's assurance, a local cache, or another service's fact table.
+
+### Read before mutation
+
+Use `GET /facts/cases/{caseId}/enriched` within the caller's authorized matter to
+retrieve canonical fact IDs, current statuses, source versions, producer
+provenance, and source links. Treat an unresolved producer as a blocker; do not
+backfill it with the reviewer, document uploader, or a guessed name.
+
+### Create a sourced draft
+
+Invoke `POST /legal/cases/{caseId}/facts` with `factNumber`, `factText`, and
+`exhibitReference`; optional fields are `factDate`, `documentId`, and `sourceQuote`.
+The runtime assigns the returned record ID, records the authenticated producer,
+and creates only `draft` status. Use the returned ID as opaque; do not mint a
+record ID locally. This operation is not independent verification.
+
+### Change lifecycle status
+
+Invoke `POST /legal/cases/{caseId}/facts/{factId}/status` with:
+
+```json
+{
+  "status": "verified",
+  "expectedStatus": "draft",
+  "expectedVersion": 1
+}
 ```
 
-### Verify Fact
-```sql
-UPDATE evidence_statement_of_facts 
-SET status = 'verified', verified_by = ?, verified_at = datetime('now'), updated_at = datetime('now')
-WHERE id = ? AND case_id = ? AND status = 'draft';
-```
+The values above illustrate the payload shape. Populate expected status/version
+from the actual authorized read and use only the transitions in the lifecycle
+table. A dispute additionally requires `conflictWithFactId` pointing to another
+fact in the same case. Locking uses `status: "locked"` from verified status;
+archiving uses `status: "archived"` from verified status. Rejection and a return
+from disputed to draft require the same independent actor check.
 
-### Lock Fact
-```sql
-UPDATE evidence_statement_of_facts 
-SET status = 'locked', updated_at = datetime('now')
-WHERE id = ? AND case_id = ? AND status = 'verified';
-```
+On **every** invocation the acting actor must differ from the pre-existing fact's
+stored producer. Merely naming a different verifier in JSON has no effect.
+A conflict response requires a fresh read and renewed evaluation; never retry
+blindly. `version` is the source/content revision, so these preconditions compare
+present state and do not prove that no intervening status changes occurred.
 
-### Correct Fact (creates new version)
-1. Archive old: `UPDATE ... SET status = 'archived' WHERE id = ? AND case_id = ? AND status IN ('draft', 'verified')`
-2. Insert new version with `supersedes_id` pointing to old, `version + 1`, status = 'draft', same `case_id`
-3. Log to `evidence_correction_audit_log`
+### Supersede a verified or archived fact
 
-### Flag Dispute
-```sql
-UPDATE evidence_statement_of_facts 
-SET status = 'disputed', has_conflict = 1, conflict_with_fact_id = ?, updated_at = datetime('now')
-WHERE id = ? AND case_id = ?;
-```
+Invoke `POST /legal/cases/{caseId}/facts/{factId}/supersede` with
+`expectedStatus` (`verified` or `archived`), `expectedVersion`, `factText`, and
+`exhibitReference`; optional fields are `factDate`, `documentId`, and `sourceQuote`.
+
+The runtime compares the acting actor with the **superseded fact's producer**,
+then atomically creates the replacement draft and ensures the source is archived.
+The new draft points to that archived source through `supersedes_id`, increments
+the source revision, and records its own producer as the current actor. That
+actor cannot subsequently verify the draft they just produced. Do not split this
+operation into separate archive/insert SQL. Locked and rejected facts cannot be
+superseded through this operation, and no direct text-edit endpoint is implied.
+
+### Pending candidates and audit evidence
+
+AI confidence never establishes independent verification. Legacy
+`evidence_pending_facts` rows lack authoritative producer lineage, so their
+approval and rejection paths remain blocked. A sourced canonical draft requires
+an independently established authoring decision; do not relabel a candidate's
+reviewer as its historical producer.
+
+A successful status-transition or supersession response includes `actorSeparation`
+with the acting actor,
+stored producer, source fact ID, case, source version/status, and check time.
+Retain that evidence with the actual Chronicle receipt. `chronicle: null` means
+the database mutation may have committed without a durable audit receipt; report
+that state explicitly, do not retry blindly, and do not call it audited.
+
+**COR admission remains blocked** until the deployed runtime, Chico authorization,
+required durable Chronicle evidence, and CFDXN-195 validator gates are verified.
+A merged draft specification, generated skill projection, or local test pass does
+not activate an epistemic entry. Direct database administration is outside this
+guarded service path and is not an approved fallback for this skill.
 
 ## Query Helpers
 
@@ -225,11 +270,12 @@ SELECT * FROM fact_history ORDER BY version DESC;
 ## Validation Rules
 
 1. `exhibit_reference` is **REQUIRED** — every fact needs a source.
-2. Check status before any UPDATE — locked facts are immutable.
-3. Corrections create new versions — never UPDATE locked/verified fact_text.
+2. Check current status through the authorized read; locked facts remain immutable.
+3. Corrections use the guarded supersession operation; never rewrite locked/verified fact text.
 4. Valid transitions only (see lifecycle table).
-5. **Every write and read MUST include `case_id = ?` in its WHERE clause.** Cross-case leaks are the exact class of bug this skill must prevent.
-6. On insert, verify `case_id` matches the resolved case from the invocation parameter — reject mismatches.
+5. Every operation is case-scoped; read-only SQL must include `case_id = ?`. Lifecycle mutations must use the authenticated case-scoped runtime and cannot fall back to SQL.
+6. The created draft must belong to the invocation case. The runtime must validate linked documents and conflict facts within that same case.
+7. Every lifecycle write, including a superseding draft, requires the runtime producer comparison. Unresolved producer identity fails closed.
 
 ## Downstream projection sync
 
@@ -246,13 +292,13 @@ SELECT * FROM fact_history ORDER BY version DESC;
 ## Quick Reference
 
 **Can I edit?**
-- draft → YES
+- draft → authoring changes require a supported governed operation; no direct SQL edit
 - verified → Correction only (new version)
 - locked/archived/rejected → NO
 - disputed → Notes only
 
 **ID Formats:**
-- Internal: `FACT-{hex}` (e.g., FACT-a1b2c3d4e5f6)
+- Internal: preserve the opaque ID returned by the authoritative service, including legacy `FACT-…` identifiers
 - Display: `{CAT}-{NUM}.{VER}` (e.g., CORP-001.1, TIME-042.2) — fact_number is scoped per-case
 
 ## Invocation Rejection
@@ -261,3 +307,4 @@ If invoked without a `case` parameter, the skill MUST:
 1. Refuse to proceed.
 2. Return: "fact-governance: no `case` specified — refusing to run. Provide `case_id=<id>` or `case_slug=<slug>`."
 3. List the caller's currently-active cases so they can pick one.
+
