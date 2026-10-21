@@ -1065,3 +1065,43 @@ owner: operator
 status: backlog
 completion_evidence: null
 ```
+
+## 2026-10-21 — Document storage gets a canonical identity (inactive)
+
+No record in `capabilities.generated.json` covered document or evidence storage. Live checks on
+2026-10-21 found nine evidence bucket bindings across seven repos. Only the deployed `chittyevidence-db`
+worker writes to a bucket that exists (`chittyevidence-documents`, 108,861 objects). Five other
+repos bind buckets that do not exist, and one superseded worker binds a 404 bucket. ChittyStorage's
+CHARTER already scopes file storage, indexing and retrieval, with canonical objects at
+`sha256/<content_hash>`. Its Neon index (`storage.file_locations`) has 15,156 `sha256/` rows
+against 19,240 `sha256/` objects in R2, so about 4,084 objects are unindexed (row counts, not a
+key-level join).
+
+The promotion is approved but **inactive**. The non-repudiation gate requires hash, timestamp and
+custody policies. Hash is covered by content addressing; the other two are not written anywhere
+found. The registry entry in `capabilities.generated.json` is deliberately not added until they
+exist.
+
+```yaml
+decision_id:     CAP-2026-10-21-document-storage
+date:            2026-10-21
+canonical_id:    chittycanon://capability/legal/document-storage
+decision:        promote-inactive
+activation_status: inactive  # machine-readable in every dec_20261021_* log
+owner:           chittystorage
+job_to_be_done:  remember
+projected:       [chittyevidence-db R2 binding]
+merge_into_canonical:
+  - chittycases DOCUMENTS (chittycases-documents, missing)
+  - chittychat (chittyos-evidence, missing)
+  - chittychronicle (aribia-evidence-*, missing)
+  - chittyrouter (chittyrouter-evidence-vault, missing)
+  - chittyscore (chittyscore-evidence-*, missing)
+retired:         [CHITTYAPPS/chittyevidence chittyevidence-worker (bucket chittyevidence-storage 404)]
+legal_only_blocked:
+  - storage.entity_storage_config Drive mapping (hash/timestamp/custody policy missing)
+  - chittyevidence-documents incoming/ (89,266 objects, not content-addressed)
+activation_gate: timestamp + custody policy in CHITTYOS/chittystorage/CHARTER.md
+evidentiary_risk: legal-grade
+logs:            docs/decisions/logs/dec_20261021_*.json (10, all pass validate_decision_log.py)
+```

@@ -1,0 +1,22 @@
+{
+  "canonical_id": "chittycanon://capability/legal/document-storage",
+  "capability_name": "Drive entity_storage_config shared-drive mapping",
+  "current_state": "15+ rows including a matter-named shared drive; operator memory names sd_chittyos_data canonical and a matter-named rclone remote a stale decoy",
+  "date": "2026-10-21",
+  "decision": "legal-only",
+  "decision_id": "dec_20261021_entity-storage-config-drive-mapping",
+  "duplicates_found": [],
+  "environmental_footprint": "forensic-legal-grade",
+  "evidentiary_risk": "high",
+  "job_to_be_done": "govern",
+  "migration_owner": "chittystorage",
+  "migration_required": true,
+  "next_action": "BLOCKED (legal-only): reconcile the a matter-named shared drive mapping against operator-designated canonical Drive store sd_chittyos_data before any change. Requires hash, timestamp and custody policy.",
+  "rationale": "Disposition 'legal-only' selected because the artifact's primary job is 'govern', its environmental footprint is 'forensic-legal-grade', and its evidentiary risk is 'high'.",
+  "review_date": "2026-11-20",
+  "source_links": [
+    "neon:restless-grass-40598426/storage.entity_storage_config"
+  ],
+  "activation_status": "inactive",
+  "activation_gate": "timestamp and custody policies written into CHITTYOS/chittystorage/CHARTER.md (hash policy satisfied by sha256/<content_hash>)"
+}
