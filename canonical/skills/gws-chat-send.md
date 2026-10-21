@@ -42,7 +42,7 @@ overlay:
     fallback_search: true
   auth_flow:
     mode: "local-only"
-    stores_credentials_in: "n/a"
+    stores_credentials_in: "local gws CLI OAuth token store"
     fail_closed_if_unavailable: false
   runtime_exclusions: {}
   phase0_audit:

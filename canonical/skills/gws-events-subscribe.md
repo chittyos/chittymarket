@@ -31,7 +31,7 @@ overlay:
     default_surface: "local"
     local_allowed: true
     context_cost: "low"
-    mutation_risk: "low"
+    mutation_risk: "medium"
   discovery:
     indexable: true
     session_index: "hidden"
@@ -42,7 +42,7 @@ overlay:
     fallback_search: true
   auth_flow:
     mode: "local-only"
-    stores_credentials_in: "n/a"
+    stores_credentials_in: "local gws CLI OAuth token store"
     fail_closed_if_unavailable: false
   runtime_exclusions: {}
   phase0_audit:

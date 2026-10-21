@@ -2,6 +2,7 @@
 name: context-resume
 description: |
   Generate a full accounting of the current context's accumulated knowledge, exposure, and emergent value. Synthesizes everything this context has touched into a resume-style one-sheet. Use at session end, before compaction, or when capturing context value.
+  Triggers on "/resume", "context resume", "what do you know", "session summary", "capture context".
 canon_uri: chittycanon://core/services/chittymarket#skills/context-resume
 ---
 

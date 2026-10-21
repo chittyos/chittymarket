@@ -1,8 +1,8 @@
 {
-  "canonical_sha": "ade6eacbf658d0203132880d1b8672803defc685",
+  "canonical_sha": "6bab3ea58b80c4acd8808add733a9483a66b8ffe",
   "dispatch": {
-    "canonical_sha": "ade6eacbf658d0203132880d1b8672803defc685",
-    "projected_at": "2026-10-21T12:32:24Z",
+    "canonical_sha": "6bab3ea58b80c4acd8808add733a9483a66b8ffe",
+    "projected_at": "2026-10-21T12:38:01Z",
     "status": "projected",
     "targets": {
       "claude-code": "a626f5e9c6c48dcdfabf0e7a31f77a9636f87bc8",

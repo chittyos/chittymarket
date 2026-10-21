@@ -9367,7 +9367,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -9389,7 +9389,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:f1b2a3a6fe5743b7f76941d33c1212e2a00560248ceb668399474d5a357ab43f",
+        "content_hash": "sha256:1d885db09b811ae8885b3d435dbaf3f80d527d1478e010fc0c270f7393936d2f",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -9438,7 +9438,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -9460,7 +9460,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:9652a57b4507f44f775ea3715f6fc4e86206d6b05776c2db0971d447f2eeba87",
+        "content_hash": "sha256:0323bbef042a2d4f90f90e534de1a5272a67cb57a6eda68a5e37d35bcf932d2a",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -9510,7 +9510,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -9532,7 +9532,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:2b7dda0b81b08da264cb6cdcca790d746f1de46914260d0d21739b4ef71850cf",
+        "content_hash": "sha256:77a67f3f8da9e29900a0f6845f8f046ca9d278499c967b5f2511a5d45f646688",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -9581,7 +9581,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -9603,7 +9603,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:5bdb01f94f1c7bb1860e50f3d4db1405998f70a6305c1982bf2e5f9b64ac2a30",
+        "content_hash": "sha256:a6afa7e980d8de8535f1cf8dbbcd8f8808fb2e38050f99765a2ac962799d34b8",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -9638,7 +9638,7 @@
         "default_surface": "local",
         "local_allowed": true,
         "context_cost": "low",
-        "mutation_risk": "low"
+        "mutation_risk": "medium"
       },
       "discovery": {
         "indexable": true,
@@ -9652,7 +9652,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -9674,7 +9674,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:b52af83d5190fd1da86489c2a08950a963cfa57277165a7622f3c6f1a167bcf0",
+        "content_hash": "sha256:826638ffcce7391e45c96ff457695c2a47fddacd2e85a3079c9e2c840604078f",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -9723,7 +9723,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -9745,7 +9745,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:3692b8a85f93edf3e66ad743518c7e53170f5f72253565bc5a0cae2358aa7ba4",
+        "content_hash": "sha256:7d9e2623b1a4902e765debd4436a784c616275bf5649df75dd606d720850f8ac",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -9794,7 +9794,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -9816,7 +9816,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:ce8bf4bc8e557f46033a9b46af442c30132650fe0814dc6bea49c9b87deef246",
+        "content_hash": "sha256:81178aa5ff405083f2fe0f0786e0e645c0250498ce4e7cd46239e7f72de28944",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -9865,7 +9865,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -9887,7 +9887,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:7f9e03d568afb2d63c6cc7248522bce2654c5a00f652d98b3e7d3ee97b24a2b3",
+        "content_hash": "sha256:bdc406618d9229416c90b3efb3f243e0770129454ea683756e4e00c6560dbac0",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -9936,7 +9936,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -9958,7 +9958,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:b98fc7a8d476541437f725494814b195ae25390655101b9a694ad0bab5f77763",
+        "content_hash": "sha256:d41345ed5adfbf02650fd8eefcd646ba3770ac71475a94bfea66477fac541b45",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10008,7 +10008,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10030,7 +10030,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:c279dfc62c2981dc47366bfe5da6979605abd61d1a73ffd05f128a4a6196c2e3",
+        "content_hash": "sha256:ba9c735e28080c4c83018301840ef1cb5ad160317ccc03954c6f3c76aa472e95",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10065,7 +10065,7 @@
         "default_surface": "local",
         "local_allowed": true,
         "context_cost": "low",
-        "mutation_risk": "low"
+        "mutation_risk": "medium"
       },
       "discovery": {
         "indexable": true,
@@ -10079,7 +10079,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10101,7 +10101,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:09836f53470efabbb8e38abf15ba0a5b35cad5b5943183f411a2ea7e6d1733b8",
+        "content_hash": "sha256:d1354c3466362d0438fc80cbed8f9035c9d15836c2edfe297f58fc4ae4af6239",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10150,7 +10150,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10172,7 +10172,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:04a692861b20fb4570e2774582009f62fb187f0333507a14c98231837ad99048",
+        "content_hash": "sha256:4ee22f20f6d79825940e691f6c78908facf39c6beed5a2c54478ee6b97c77adb",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10221,7 +10221,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10243,7 +10243,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:a3b635e37a65f706a433e0683e0d4d82337b8c0701814577f18d3760080222b2",
+        "content_hash": "sha256:d84790b81e52297e6258cc9baec0138f5da44bdb77c80dc3d5e33f256fce1d11",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10292,7 +10292,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10314,7 +10314,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:e17c37c1a14c47703e9fc777fafc68099ff59042bdb6af10aa8218abb437f627",
+        "content_hash": "sha256:9a2d9dbbd605d926b67a5e1f7bb15a96c2174c7ab0ba4c088688944816d585bd",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10364,7 +10364,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10386,7 +10386,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:fda5068f18731dd3081fbc4959af6145d1f10009555006b2d7b2adb6bc4adee9",
+        "content_hash": "sha256:9c888c25742b46aaa7b03242b80ab018884a84c1c8537e6606059a456a2667b8",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10435,7 +10435,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10457,7 +10457,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:9621f9611042b02c7573b11c9c14a440ee60eb3a5a89547c34fb2f9d55792a06",
+        "content_hash": "sha256:b3fd512f3f409d3953089d40dcf5f626071a2a9bd229ec7fa0fdd593109efbc4",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10506,7 +10506,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10528,7 +10528,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:bafa6725f21ead74199e67ff4b8e6b19f7877f9cc166235d54a129dfbd78ce8f",
+        "content_hash": "sha256:a958c80fe4a91327c7174eaab04f118d4129fcb05af1abf7eb0bb55c3c71373f",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10578,7 +10578,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10600,7 +10600,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:25f2582847c3afa6cfba5b3feb30daf1b348836da6710de5cdeb0f2766290b1a",
+        "content_hash": "sha256:b95beeb9dd38d67458ea315f84523222e2a0b3279d0550e44cec228ce52c5600",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10650,7 +10650,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10672,7 +10672,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:7ba4a5ccacff0fdc115f449e137553de5c0f614df8fa16c2245b630aa515889e",
+        "content_hash": "sha256:719b78fb01dbb7ca24681138048fed8be6b6c3a2a0032cb8b24879b075477d37",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10722,7 +10722,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10744,7 +10744,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:55d02e6961283f64a7637b18dc14743f8526a36d0173781faa21d35df82d2854",
+        "content_hash": "sha256:73a5e0ee87d8bb6e5d8766281aad225bdcf42e68e30ff9cb07c0649ee5ba62f8",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10793,7 +10793,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10815,7 +10815,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:20b6ca4be65afad0cef4908e11b1bb3c1f7b7d1a29cae108d97637527274ae60",
+        "content_hash": "sha256:71b263d4f74dd22a9849a61afdf53777c4e4544fade2d5f58223cc2451ead94d",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10864,7 +10864,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10886,7 +10886,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:3a2ab56b621974c496cb7a2170ba3958401cb509394598563f978b33b70187de",
+        "content_hash": "sha256:7e25ae92fc379fbaf60a940005d255d958b564497e4a89e07d7ade8f1a048b04",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10936,7 +10936,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -10958,7 +10958,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:48c42857d23057f5c744792d06c9e8b4af11ea117c063029c4da4ad3fa4333de",
+        "content_hash": "sha256:aba185e37b540a0b92d7a5cea9b1f35f77bee125c945e42e3c54fb0bb8892ca0",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -10993,7 +10993,7 @@
         "default_surface": "local",
         "local_allowed": true,
         "context_cost": "low",
-        "mutation_risk": "medium"
+        "mutation_risk": "high"
       },
       "discovery": {
         "indexable": true,
@@ -11020,17 +11020,17 @@
         "local://canonical/skills/pipeline-submit.md"
       ],
       "phase0_audit": {
-        "job_to_be_done": "generate",
+        "job_to_be_done": "collect",
         "environmental_footprint": "write-capable",
-        "evidentiary_risk": "none",
-        "advisory_disposition": "skill"
+        "evidentiary_risk": "legal-grade",
+        "advisory_disposition": "legal-only"
       },
       "legacy_type": "skill",
       "legacy_category": "ecosystem",
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:6375976ed87711c7db30679ea812df1d4026aa96c1736d1339ec617e89817530",
+        "content_hash": "sha256:3025913b67f31504ebc86ce857a0d22bc012af60a94470656bcd44586441c2ac",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -11079,7 +11079,7 @@
       },
       "auth_flow": {
         "mode": "local-only",
-        "stores_credentials_in": "n/a",
+        "stores_credentials_in": "local gws CLI OAuth token store",
         "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {},
@@ -11101,7 +11101,7 @@
       "deprecated_aliases": [],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:3e4ba6570e766800b55fad4d81200ec48c52e147b89c8165dedb469efcad026b",
+        "content_hash": "sha256:f4a8e4c0079b977668f7c5a87385e0b0d568ae09f998eb7642db1e5b2c3626ed",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -11328,7 +11328,7 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:c8fdd5fd59b6117b699fa7ed217eb85b6e31303a0f9fe3fb1001ca845ebb7b2a",
+    "aggregate_hash": "sha256:552f61e3f0a55f75ef7a5eaef35a0e356846816d143074c86426423b1a118290",
     "record_count": 143,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",

@@ -862,7 +862,7 @@
         "name": "Evidence Pipeline Submit",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
-        "advisory_disposition": "skill",
+        "advisory_disposition": "legal-only",
         "group_assignment_source": "override"
       },
       {

@@ -32,7 +32,7 @@ overlay:
     default_surface: "local"
     local_allowed: true
     context_cost: "low"
-    mutation_risk: "medium"
+    mutation_risk: "high"
   discovery:
     indexable: true
     session_index: "hidden"
@@ -48,10 +48,10 @@ overlay:
     fail_closed_if_unavailable: false
   runtime_exclusions: {}
   phase0_audit:
-    job_to_be_done: "generate"
+    job_to_be_done: "collect"
     environmental_footprint: "write-capable"
-    evidentiary_risk: "none"
-    advisory_disposition: "skill"
+    evidentiary_risk: "legal-grade"
+    advisory_disposition: "legal-only"
   legacy_category: "ecosystem"
   deprecated_aliases: []
   visibility: "recommended"
