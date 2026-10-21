@@ -1,21 +1,21 @@
 {
-  "canonical_sha": "3a6d971173ff2a4c469e83dce7470b035f845e66",
+  "canonical_sha": "424a8edc3be1cde907a62d139857c9d8d5dd4843",
   "dispatch": {
-    "canonical_sha": "3a6d971173ff2a4c469e83dce7470b035f845e66",
-    "projected_at": "2026-10-21T15:49:41Z",
+    "canonical_sha": "424a8edc3be1cde907a62d139857c9d8d5dd4843",
+    "projected_at": "2026-10-21T17:23:41Z",
     "status": "projected",
     "targets": {
-      "claude-code": "d2ce57a6a4b76353b4dc043924dd0986f87fea26",
-      "codex": "d2ce57a6a4b76353b4dc043924dd0986f87fea26",
-      "openclaw": "d2ce57a6a4b76353b4dc043924dd0986f87fea26",
-      "universal": "d2ce57a6a4b76353b4dc043924dd0986f87fea26"
+      "claude-code": "534875042f0433a1e63aa1d5c2a8b874740aa4d6",
+      "codex": "534875042f0433a1e63aa1d5c2a8b874740aa4d6",
+      "openclaw": "534875042f0433a1e63aa1d5c2a8b874740aa4d6",
+      "universal": "534875042f0433a1e63aa1d5c2a8b874740aa4d6"
     }
   },
   "targets": {
-    "claude-code": "d2ce57a6a4b76353b4dc043924dd0986f87fea26",
-    "codex": "d2ce57a6a4b76353b4dc043924dd0986f87fea26",
-    "openclaw": "d2ce57a6a4b76353b4dc043924dd0986f87fea26",
-    "universal": "d2ce57a6a4b76353b4dc043924dd0986f87fea26"
+    "claude-code": "534875042f0433a1e63aa1d5c2a8b874740aa4d6",
+    "codex": "534875042f0433a1e63aa1d5c2a8b874740aa4d6",
+    "openclaw": "534875042f0433a1e63aa1d5c2a8b874740aa4d6",
+    "universal": "534875042f0433a1e63aa1d5c2a8b874740aa4d6"
   },
   "verification": {
     "projection": {

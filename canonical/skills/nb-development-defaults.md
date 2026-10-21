@@ -383,11 +383,26 @@ without anyone noticing. So the check is part of the rule:
 ssh chittyclaw 'curl -s -o /dev/null -w "%{http_code}\n" http://localhost:18789/health'
 ```
 
-**chittyclaw is its own tailnet node (`100.69.69.7`), NOT `chittyserv-vm`.** Running
-`docker ps` on the VM and finding no openclaw containers is the wrong check and
-produces a false "claw is down" — verified failure, made in practice. Two containers
-should be up: `openclaw-prod-openclaw-gateway-1` (healthy) and
-`openclaw-prod-openclaw-cli-1`.
+**chittyclaw is its own tailnet node, NOT `chittyserv-vm`.** Running `docker ps` on
+the VM and finding no openclaw containers is the wrong check and produces a false
+"claw is down" — verified failure, made in practice. Two containers should be up:
+`openclaw-prod-openclaw-gateway-1` (healthy) and `openclaw-prod-openclaw-cli-1`.
+
+**Address it by name, and MEASURE the IP when you need one.** This section used to
+hardcode `100.69.69.7`. Measured 2026-10-21 it is `100.86.86.2`, from both sides —
+local `tailscale status` and the node's own `tailscale ip -4`. A stale address here
+produces exactly the false "claw is down" this paragraph warns about, with the skill
+itself as the cause, so the number is not restated:
+
+```
+tailscale status | grep chittyclaw          # from here
+ssh chittyclaw 'tailscale ip -4'            # from the node
+```
+
+Use the `chittyclaw` host alias for ssh (it resolves through tailnet DNS) and read
+the address only when something genuinely needs a literal IP. If a written address
+and a live `tailscale status` disagree, the live reading wins and the document is
+the thing to fix.
 
 If claw is genuinely unreachable: **say so explicitly**, fall back to local subagents,
 and note that the fan-out spent viewport budget rather than the separate pool. Silent
