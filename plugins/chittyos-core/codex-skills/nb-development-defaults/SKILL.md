@@ -57,18 +57,53 @@ git wt <branch>            # worktree from a freshly-fetched origin/main
 git wt <branch> <base-ref> # explicit base
 git wt --list
 git wt --rm <branch>       # remove worktree + branch
+git wt --relink [<branch>]  # repair deps in EXISTING worktrees (default: all)
 ```
 
-`git wt` (`~/.local/bin/git-wt`) exists because three failure modes recur:
+`git wt` (`scripts/git-wt`, bundled with this skill; install it on PATH as
+`git-wt` so `git wt` resolves) exists because four failure modes recur:
 
 1. **Stale base.** `git worktree add` off `origin/main` uses whatever was last
    fetched. `git wt` fetches first, so you never verify against old code.
 2. **No `node_modules`.** A bare worktree makes vitest exit with
    `ERR_MODULE_NOT_FOUND` — which greps as *zero failures*. Tests look green
-   while nothing ran. `git wt` symlinks `node_modules` / `.venv` from the root.
-3. **`git stash` is repository-global, not worktree-local.** Stashing while a
+   while nothing ran. `git wt` links dependencies from the root.
+3. **A symlinked `node_modules` shares the BUILD CACHE.** vite's `cacheDir`
+   defaults to `node_modules/.vite`, and a path inside a symlinked directory
+   cannot be shadowed — so one symlink makes every worktree and the root share
+   one cache, and parallel sessions serve each other stale transforms. Measured:
+   a full suite reported 4 failures that belonged to another session's edits,
+   while the same file passed 9/9 in isolation. **A contaminated run is
+   indistinguishable from a real one, and it lies in both directions** — it can
+   invent failures or hide them. So `git wt` makes `node_modules` a real
+   directory and symlinks its children, skipping `.vite`, `.vite-temp`,
+   `.cache`, `.turbo`, `.mf`, `.eslintcache` and `.tsbuildinfo` so each worktree
+   builds its own. Packages stay shared; only the cache is local.
+4. **`git stash` is repository-global, not worktree-local.** Stashing while a
    parallel session is active can pop *their* entry. Use a worktree instead of
    stashing; `git wt` never stashes.
+
+A worktree you created by hand (`git worktree add` + `ln -s node_modules`), or
+one made before this change, still has failure 3 — and the create path cannot
+repair it, because `git worktree add` refuses a destination that already exists.
+Run **`git wt --relink`** on them. It replaces a symlinked `node_modules`,
+re-links children of a real one, and re-verifies every child resolves, so repair
+and check are one pass.
+
+**`--relink` exits non-zero and says so when `node_modules` is incomplete**, and
+that matters more than the linking: a real `node_modules` directory is *not*
+assumed healthy, because the state a failed run leaves behind is a real directory
+with missing children. Answering "nothing to repair" over that would be a false
+all-clear of exactly the kind this section is about. Two traps it checks for:
+
+- `ln -sfn src dst` where `dst` is an existing real directory creates
+  `dst/<name>` **inside** it and returns 0. The path then exists while the
+  top-level entry the resolver needs does not — so "it linked fine" is wrong.
+- A dangling symlink is still `-type l`, so counting links counts unusable ones.
+
+If a suite result from any worktree surprises you, re-run the file on its own
+before believing it. Agreement between the two runs is the cheap check;
+disagreement means the cache, not the code.
 
 Global git defaults set for this workflow: `rerere.enabled` + `rerere.autoupdate`
 (conflict resolutions replay across worktrees), `worktree.guessRemote`,

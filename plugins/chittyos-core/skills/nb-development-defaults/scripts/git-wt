@@ -1,0 +1,224 @@
+#!/usr/bin/env bash
+# git wt — create an isolated worktree that is actually usable.
+#
+# Fixes three failure modes hit repeatedly in parallel-session work:
+#   1. Worktrees start from a STALE origin ref unless you fetch first, so you
+#      silently branch off an old main and "verify" against the wrong code.
+#   2. A worktree has no node_modules. vitest then exits with a startup error
+#      (ERR_MODULE_NOT_FOUND) that greps as "0 failures" — tests look green
+#      while nothing ran.
+#   3. `git stash` is REPOSITORY-global, not worktree-local: stashing in one
+#      worktree while another session works can pop the wrong entry. Use
+#      worktrees instead of stashing; this script never stashes.
+#   3b. A SYMLINKED node_modules shares the BUILD CACHE with the root checkout
+#      and every sibling worktree, because vite's cacheDir defaults to
+#      `node_modules/.vite` and a path inside a symlinked directory cannot be
+#      shadowed. Two sessions running vitest then serve each other stale
+#      transforms: a full suite reported 4 failures that belonged to another
+#      session's edits, while the same file passed 9/9 in isolation. A
+#      contaminated run is indistinguishable from a real one, in BOTH
+#      directions -- it can invent failures or hide them. So node_modules is a
+#      REAL directory whose children are symlinked, with the cache dirs left
+#      out so each worktree makes its own.
+#   4. `--rm` used to report success unconditionally: it built the destination
+#      path without the slash->dash substitution that `git wt <branch>` applies,
+#      then swallowed the resulting error with `2>/dev/null || true`. It now
+#      derives the path identically, reports each step's real outcome, and
+#      exits non-zero if either the worktree or the branch was not removed.
+#
+# Usage: git wt <branch-name> [base-ref]        (base defaults to origin/main)
+#        git wt --list
+#        git wt --rm <branch-name>
+#        git wt --relink [<branch-name>|--all]   repair deps in EXISTING worktrees
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+REPO="$(basename "$ROOT")"
+WTROOT="${GIT_WT_ROOT:-$HOME/projects/worktrees}"
+
+RELINK_MODE=""
+case "${1:-}" in
+  --list|-l) git worktree list; exit 0 ;;
+  --relink) RELINK_MODE="${2:---all}" ;;
+  --rm)
+    [ -n "${2:-}" ] || { echo "usage: git wt --rm <branch-name>" >&2; exit 2; }
+    # The destination path must be derived EXACTLY as the create path is (see
+    # DEST below): slashes become dashes. Without that substitution `--rm
+    # fix/foo` looked for "<repo>-fix/foo", which never exists, and the
+    # 2>/dev/null || true swallowed the failure — so the script printed
+    # "removed worktree + branch" while removing neither. Verified 2026-09-09
+    # against chittyentity-fix-chittyagent-npm-stale-credential-lane.
+    RM_DEST="$WTROOT/$REPO-${2//\//-}"
+    rm_wt=skipped
+    rm_br=skipped
+    rc=0
+
+    if git worktree list --porcelain | grep -qxF "worktree $RM_DEST"; then
+      if git worktree remove --force "$RM_DEST"; then rm_wt=removed; else rm_wt=FAILED; rc=1; fi
+    elif [ -e "$RM_DEST" ]; then
+      echo "note: $RM_DEST exists but is not a registered worktree — leaving it alone" >&2
+      rm_wt="not-a-worktree"
+      rc=1
+    else
+      rm_wt="absent"
+    fi
+
+    if git show-ref --verify --quiet "refs/heads/$2"; then
+      # -D force-deletes; warn when that discards commits not on origin/main.
+      if [ -n "$(git log --oneline "origin/main..$2" 2>/dev/null)" ]; then
+        echo "warning: $2 has commits not on origin/main; -D discards them" >&2
+      fi
+      if git branch -D "$2"; then rm_br=deleted; else rm_br=FAILED; rc=1; fi
+    else
+      rm_br="absent"
+    fi
+
+    git worktree prune
+    echo "worktree: $rm_wt ($RM_DEST)"
+    echo "branch:   $rm_br ($2)"
+    [ "$rc" -eq 0 ] || echo "git wt --rm did NOT fully succeed — see above" >&2
+    exit "$rc" ;;
+  "" ) echo "usage: git wt <branch-name> [base-ref]" >&2; exit 2 ;;
+esac
+
+NM_CACHE_SKIP=".vite .vite-temp .cache .turbo .mf .eslintcache .tsbuildinfo"
+
+# Link one child, non-fatally. `set -e` is inherited by subshells and by this
+# function, so a bare `ln` in a loop is an ABORT surface: one failure (dangling
+# source, odd byte in a name, FS hiccup) would kill the whole script mid-populate,
+# after the worktree exists and before anything is printed -- leaving a PARTIAL
+# node_modules, which is the `ERR_MODULE_NOT_FOUND`-greps-as-zero-failures trap
+# this script exists to prevent. Linking children gives N chances to fail where
+# the old single symlink had one, so each has to be survivable and counted.
+link_child() {
+  local src="$1" dst="$2"
+  # A real (non-symlink) directory already at $dst is a TRAP: `ln -sfn src dst`
+  # then creates `dst/<name>` INSIDE it rather than failing, so `ln` returns 0,
+  # the path exists, and a naive check counts it as linked while the top-level
+  # entry the resolver needs is still absent. Refuse it instead of "succeeding".
+  if [ -e "$dst" ] && [ ! -L "$dst" ]; then return 1; fi
+  ln -sfn "$src" "$dst" 2>/dev/null || return 1
+  # Honest success: it must be the SYMLINK we meant, and it must resolve. A
+  # dangling link is `-type l` and would otherwise be reported as usable.
+  [ -L "$dst" ] && [ -e "$dst" ]
+}
+
+nm_link_children() {
+  local root_nm="$1" dest_nm="$2"
+  local name target failed=0 ok=0 dangling=0
+  mkdir -p "$dest_nm"
+  # dotglob so .pnpm/.bin/.modules.yaml are included -- a missing .pnpm breaks
+  # resolution in the same way that again reads as zero failures. bash excludes
+  # `.` and `..` from dotglob by name, so no self-link is possible; this script
+  # is bash-only (shebang) and relies on that guarantee.
+  local saved_dotglob saved_nullglob
+  shopt -q dotglob && saved_dotglob=1 || saved_dotglob=0
+  shopt -q nullglob && saved_nullglob=1 || saved_nullglob=0
+  shopt -s dotglob nullglob
+  for entry in "$root_nm"/*; do
+    name="${entry##*/}"   # not basename: one fork per entry over ~400 entries
+    case " $NM_CACHE_SKIP " in *" $name "*) continue ;; esac
+    if link_child "$entry" "$dest_nm/$name"; then
+      ok=$((ok + 1))
+    elif [ -L "$dest_nm/$name" ]; then
+      dangling=$((dangling + 1))
+      echo "warn: node_modules/$name is linked but does not resolve" >&2
+    else
+      failed=$((failed + 1))
+      echo "warn: could not link node_modules/$name" >&2
+    fi
+  done
+  [ "$saved_dotglob" = 1 ] || shopt -u dotglob
+  [ "$saved_nullglob" = 1 ] || shopt -u nullglob
+
+  echo "linked node_modules ($ok resolvable)"
+  if [ "$dangling" -gt 0 ] || [ "$failed" -gt 0 ]; then
+    # Loud and non-zero. A partial node_modules must never be reported as success:
+    # the test runner would start, resolve nothing, and exit in a way that greps
+    # as zero failures.
+    echo "ERROR: node_modules is INCOMPLETE -- $failed unlinked, $dangling dangling." >&2
+    echo "       Do not trust a test result from this worktree. Re-run git wt, or" >&2
+    echo "       install dependencies in it directly." >&2
+    return 1
+  fi
+  return 0
+}
+
+# --relink repairs EXISTING worktrees. The create path cannot do this: `git
+# worktree add` refuses a destination that already exists, so re-running
+# `git wt <branch>` after upgrading this script never reaches the repair and the
+# installed base keeps the shared-cache bug. Without an explicit entry point the
+# remediation would be unreachable code claiming a control that is not applied.
+if [ -n "$RELINK_MODE" ]; then
+  rc=0
+  while IFS= read -r line; do
+    case "$line" in worktree\ *) wt="${line#worktree }" ;; *) continue ;; esac
+    [ "$wt" = "$ROOT" ] && continue
+    if [ "$RELINK_MODE" != "--all" ]; then
+      [ "$wt" = "$WTROOT/$REPO-${RELINK_MODE//\//-}" ] || continue
+    fi
+    echo "--- $wt"
+    if [ -L "$wt/node_modules" ]; then
+      rm -f "$wt/node_modules"
+      echo "replaced a symlinked node_modules (it shared the root's build cache)"
+    fi
+    # A real directory is NOT assumed healthy. The partial-populate state a failed
+    # link run leaves behind is a real directory with missing or dangling children,
+    # and skipping it here would answer "nothing to repair" and exit 0 over an
+    # unusable node_modules -- a false all-clear of the same kind this script
+    # exists to stop. Re-linking is idempotent (`ln -sfn`) and re-verifies every
+    # child resolves, so repair and check are the same pass.
+    [ -d "$ROOT/node_modules" ] || { echo "warn: root has no node_modules to link from" >&2; continue; }
+    nm_link_children "$ROOT/node_modules" "$wt/node_modules" || rc=1
+  done < <(git worktree list --porcelain)
+  exit "$rc"
+fi
+
+BRANCH="$1"
+BASE="${2:-origin/main}"
+DEST="$WTROOT/$REPO-${BRANCH//\//-}"
+
+# 1. Never branch from a stale ref.
+git fetch --quiet origin
+
+# 2. Create the worktree.
+git worktree add --quiet -b "$BRANCH" "$DEST" "$BASE"
+
+# 3. Link dependencies so test runners actually run.
+#
+# node_modules is deliberately NOT a single symlink. Tool caches live inside it
+# (vite's cacheDir is `node_modules/.vite`), and a symlinked node_modules makes
+# every worktree share one cache with the root -- cross-session stale
+# transforms, which read as real test results. Packages are shared by
+# symlinking each child; the cache names below are skipped so each worktree
+# creates its own.
+if [ -d "$ROOT/node_modules" ]; then
+  if [ -L "$DEST/node_modules" ]; then
+    # A worktree from the OLD version (or a hand-made `ln -s node_modules`) has
+    # the shared-cache bug: vite's cacheDir is `node_modules/.vite`, and a path
+    # inside a symlinked directory cannot be shadowed, so this worktree and the
+    # root share one cache. Re-running the script must REMEDIATE that rather than
+    # skip it -- otherwise the fix never reaches the installed base and the
+    # defence is documented but not applied.
+    rm -f "$DEST/node_modules"
+    echo "replaced a symlinked node_modules (it shared the root's build cache)"
+    nm_link_children "$ROOT/node_modules" "$DEST/node_modules" || exit 1
+  elif [ ! -e "$DEST/node_modules" ]; then
+    nm_link_children "$ROOT/node_modules" "$DEST/node_modules" || exit 1
+  fi
+fi
+
+# .venv has no equivalent shared-cache problem, so one symlink is fine.
+if { [ -e "$ROOT/.venv" ] || [ -L "$ROOT/.venv" ]; } && [ ! -e "$DEST/.venv" ]; then
+  # `-e` follows symlinks, so a dangling $ROOT/.venv would be silently skipped
+  # and python tooling would fail in the worktree with no warning. `-L` catches it.
+  if ln -sfn "$ROOT/.venv" "$DEST/.venv" 2>/dev/null; then
+    [ -e "$DEST/.venv" ] && echo "linked .venv" || echo "warn: .venv linked but does not resolve" >&2
+  else
+    echo "warn: could not link .venv" >&2
+  fi
+fi
+
+echo "worktree: $DEST"
+echo "branch:   $BRANCH  (from $BASE @ $(git rev-parse --short "$BASE"))"
+echo "cd $DEST"

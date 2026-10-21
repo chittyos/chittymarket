@@ -31,6 +31,25 @@ jobs:
         with:
           node-version: "24"
 
+      # This job imports `yaml` in five places -- test-plugins.sh's nomad-job
+      # adapter, check-document-contract.py, check-agent-identity.py,
+      # market-reconcile.py and the dispatch lib -- and installed it NOWHERE. It
+      # was passing on whatever the runner happened to ship, which is not a
+      # dependency, it is luck. `runs-on` is `vars.CI_RUNNER || ubuntu-latest`,
+      # so the pool is overridable and need not be homogeneous.
+      #
+      # Observed: main passed 130/130 at 14:30 and #207 failed
+      # `ModuleNotFoundError: No module named 'yaml'` at 14:45, same job, same
+      # tree for the files involved. The two smoke jobs below already did this
+      # correctly; `validate` was the one that did not.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install PyYAML
+        run: pip install --quiet pyyaml
+
       - name: Ensure scripts are executable
         run: chmod +x scripts/*.sh
 
