@@ -5,7 +5,7 @@
   "description": "Capabilities grouped by execution context cost",
   "counts": {
     "high": 12,
-    "low": 8,
+    "low": 37,
     "medium": 94
   },
   "groups": {
@@ -133,6 +133,214 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/workspace/context-resume",
+        "name": "Context Resume",
+        "group": "workspace",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/ship/development-wrap-up",
+        "name": "Development Wrap-Up",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-pipeline-submit",
+        "name": "Evidence Pipeline Submit",
+        "group": "legal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-admin-reports",
+        "name": "GWS Admin Reports",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat",
+        "name": "GWS Chat",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat-send",
+        "name": "GWS Chat Send",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-renew",
+        "name": "GWS Events Renew",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-subscribe",
+        "name": "GWS Events Subscribe",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-forward",
+        "name": "GWS Gmail Forward",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-reply-all",
+        "name": "GWS Gmail Reply All",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-triage",
+        "name": "GWS Gmail Triage",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-watch",
+        "name": "GWS Gmail Watch",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-keep",
+        "name": "GWS Keep",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor",
+        "name": "GWS Modelarmor",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-create-template",
+        "name": "GWS Modelarmor Create Template",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-prompt",
+        "name": "GWS Modelarmor Sanitize Prompt",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-response",
+        "name": "GWS Modelarmor Sanitize Response",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-people",
+        "name": "GWS People",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script",
+        "name": "GWS Script",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script-push",
+        "name": "GWS Script Push",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-shared",
+        "name": "GWS Shared",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-slides",
+        "name": "GWS Slides",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-tasks",
+        "name": "GWS Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow",
+        "name": "GWS Workflow",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-email-to-task",
+        "name": "GWS Workflow Email To Task",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-file-announce",
+        "name": "GWS Workflow File Announce",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/workspace/goal-creator",
         "name": "Goal Creator",
         "group": "workspace",
@@ -149,6 +357,22 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/workspace/orphaned-task-reclaim",
+        "name": "Orphaned Task Reclaim",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/recipe-create-task-list",
+        "name": "Recipe Create Task List",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/workspace/repo-hygiene",
         "name": "Repository Hygiene",
         "group": "workspace",
@@ -161,6 +385,14 @@
         "name": "Sequential Thinking",
         "group": "workspace",
         "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/workspace/skills-orchestrator",
+        "name": "Skills Orchestrator",
+        "group": "workspace",
+        "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "override"
       },
