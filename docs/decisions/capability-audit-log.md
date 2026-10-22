@@ -1010,26 +1010,30 @@ capability, so no capability record is minted in the overlay.
 Matrix Q1 is a partial match. Its legal-space epistemic entries project onto `fact-governance`,
 with `document-intake-checks` upstream. Business-space fact writes are blocked: `chittygov` (governance, designated 2026-10-20) has an
 approved-but-unlanded status migration on `atomic_facts`; `chittyfinance` (finance, designated
-2026-10-21) has an unverified fact store. The episodic surface is named `experience` under
-MemoryCloude; its persist path is broken via ChittyMCP, so cognitive entries stay `draft`.
+2026-10-21) has an unverified fact store. The persistent memory surface is now named **Experiences**, with **Experience Projection** as
+the architectural abstraction, logical path `/experiences/`, and **Experience History** as the
+temporal retrieval view. Runtime activation is implemented in chittyos/chittyconnect#374 /
+CFDXN-194; COR entries remain `draft` until the independent admission gates pass.
 
 ```yaml
 decision_id:     CAP-2026-10-18-neural-operations-registry
 date:            2026-10-18   # original audit
-amended:         2026-10-21   # re-audit of the COR revision pinned below (v0.10.0: finance owner, schema approval, 'experience' surface)
+amended:         2026-10-21   # re-audit of the COR revision pinned below (v0.10.0: Experiences naming + runtime mapping)
 capability_name: Cognitive Operations Registry
 canonical_id:    chittycanon://capability/govern/fact-governance   # projection resolves to the existing capability (AGENTS.md)
 source_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry
 source_links:
   - https://github.com/chittyfoundation/chittycanon/pull/98
+  - https://github.com/chittyfoundation/chittycanon/pull/105
+  - https://github.com/chittyos/chittyconnect/pull/374
 audited_revision:
   repo: chittyfoundation/chittycanon
-  commit: 4ab8eb9fb76f483a9c669094303c2b946fce6051
+  commit: 11f99af838a84ef82bdf09af2a160297f7423aed
   path: specs/COGNITIVE_OPERATIONS_REGISTRY.md
-  url: https://github.com/chittyfoundation/chittycanon/blob/4ab8eb9fb76f483a9c669094303c2b946fce6051/specs/COGNITIVE_OPERATIONS_REGISTRY.md
-  content_sha256: df05b038c5551bdc9742f6054dd2c28b47b49e29c933a55e08a6171e34055f01
+  url: https://github.com/chittyfoundation/chittycanon/blob/11f99af838a84ef82bdf09af2a160297f7423aed/specs/COGNITIVE_OPERATIONS_REGISTRY.md
+  content_sha256: f18b8f90c21ad7cfb10331b9cb7fc0b30c0f503f26e3ff6a3810bbad3843b8f5
   # any later change to the spec requires re-audit before this entry satisfies the admission gate
-current_state:   DRAFT spec, unratified
+current_state:   DRAFT spec, operator-ratified; runtime activation tracked separately
 decision:        project
 job_to_be_done:  govern
 entity_mapping:  [P, L, T, E, A]
@@ -1047,8 +1051,8 @@ adjacent:
 migration_required: yes   # every `project` disposition requires migration (capability-governor audit_artifact.py needs_migration)
 migration_owner: operator
 next_action:     >
-  Operator ratifies the spec PR. Approve (or reject) the chittygov atomic_facts status column.
-  File: fact-governance does not enforce verifier != submitter.
+  Complete and verify chittyos/chittyconnect#374 / CFDXN-194; land CFDXN-196; enforce
+  verifier != submitter under CFDXN-193; then complete the CFDXN-195 admission validator.
 review_date:     2026-11-20
 ```
 
@@ -1058,10 +1062,11 @@ from_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry (DRAFT
 to_canonical_capability: chittycanon://capability/govern/fact-governance
 action: reroute
 blocking_dependencies:
-  - chittyfoundation/chittycanon#98 ratified 2026-10-21 (DRAFT); #101 records decisions
+  - chittyfoundation/chittycanon#105 merged 2026-10-21; this entry pins its exact COR revision
   - chittygov atomic_facts status migration (approved 2026-10-21) not landed — CFDXN-196
-  - chittyfinance fact store unverified; MemoryCloude persist broken — CFDXN-194
-  - fact-governance runtime enforcement of verifier != submitter (verify entry blocked until then)
+  - per-P Experiences runtime deployment + persist→recall verification — chittyos/chittyconnect#374 / CFDXN-194
+  - fact-governance runtime enforcement of verifier != submitter — CFDXN-193
+  - COR admission validator — CFDXN-195
 risk_level: medium
 owner: operator
 status: backlog
