@@ -175,8 +175,24 @@ database is exact rather than stale, and detection latency improves. Work in fli
 `chittyops#121` (measurement), `chittyops#122` (the queue rework — retarget onto
 `chittyagents/comptroller/src/engine.ts`; the two copies differ by ~164 lines, a port not a
 cherry-pick), `chittyops#125` (removes the service's crons), `chittyverify#60`,
-`chittystorage#84`. **Verify each state live before citing it** — as of 2026-09-21 none had
-merged.
+`chittystorage#84`. Status, re-measured 2026-10-25 via the Neon API (project
+`restless-grass-40598426`):
+
+- Endpoint `ep-green-water-ael1lksw` has been active continuously since 2026-10-14T18:31Z;
+  `active_time_seconds` is 2,139,944 of ~2,145,000 elapsed in the 2026-10 period (99.75%),
+  ~210 CU-hours.
+- `chittystorage#84` (merged 2026-10-13), `chittyverify#60` (merged 2026-10-19) and
+  `chittyops#125` (merged 2026-10-21) produced no measurable saving — as this section
+  predicts while any `*/5` poller remains.
+- `chittyops#125` never deployed: the legacy `comptroller` worker has no Workers Builds
+  trigger, so its `*/5` schedule stayed live until removed via the API on 2026-10-25.
+- The cutover target `chittyagent-comptroller` (chittyentity `chittyagents/comptroller`,
+  production env) also runs `*/5 * * * *`; `pg_stat_activity` shows
+  `comptroller_writer`/`comptroller_reader` connecting every 5 minutes
+  (`refresh_cost_ledger_daily`, `service_budgets`). The queue rework is being ported there
+  (`chittyops#122`'s design); `chittyops#122` itself targets the retired worker.
+- Lesson: a merged cron removal is not a removed cron — verify live schedules
+  (`GET /workers/scripts/{name}/schedules`) and check the worker has a build trigger.
 
 **`chittyentity#585` is not this fix.** The idle-gate PR is open, not a draft, untouched
 since 2026-08-09 — and it gates `chittyagent-tasks`, which is *not* one of the three
