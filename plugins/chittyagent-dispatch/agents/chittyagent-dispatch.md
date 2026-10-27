@@ -1,7 +1,7 @@
 ---
 name: chittyagent-dispatch
 description: |
-  Projects canonical agent/skill/hook definitions from chittymarket/canonical/ to every runtime format (Claude Code, Codex, OpenClaw, Claude Skills, ChatGPT Apps). Use after editing a canonical, adding an agent, fixing projection drift, or onboarding a runtime.
+  Projects canonical agent/skill/hook definitions from chittymarket/canonical/ to every runtime format (Claude Code, Codex, OpenClaw, Anthropic Managed Agents, Claude Skills, ChatGPT Apps). Use after editing a canonical, adding an agent, fixing projection drift, or onboarding a runtime.
 model: sonnet
 color: amber
 tools:
@@ -226,6 +226,7 @@ each one serves are declared in `lib/resolve_output.py`; this list is the disk c
 | `claude-code-mcp.sh` | `(claude-code, mcp-server)` | `plugins/{plugin}/.mcp.json` |
 | `codex-skill.sh` | `(codex, agent)`, `(codex, skill)` | `plugins/{plugin}/codex-skills/{name}/SKILL.md` |
 | `openclaw-agent.sh` | `(openclaw, agent)` | `plugins/{plugin}/openclaw-agents/{name}.yaml` |
+| `anthropic-managed-agent.sh` | `(anthropic-managed, agent)` | `plugins/{plugin}/anthropic-managed/{name}.json` |
 | `claude-skills.sh` | `(claude-skills, tool)` | `plugins/{plugin}/claude-skills/{name}.json` |
 | `chatgpt-apps.sh` | `(chatgpt-apps, tool)` | `plugins/{plugin}/chatgpt-apps/{name}.json` |
 
@@ -306,3 +307,22 @@ Context: Onboarding a new runtime
 user: "We need ChittyOS agents to also be installable in OpenClaw"
 assistant: "I'll run chittyagent-dispatch in `add-target` mode: register the OpenClaw projection adapter, run `sync` for every canonical → OpenClaw agent format, verify install."
 </example>
+
+## Anthropic Managed Agents deployment boundary
+
+`anthropic-managed-agent.sh` is deliberately a pure projection adapter. It writes a
+provider intent JSON document containing the canonical agent identity, resolved provider
+configuration, and system behavior, but no Anthropic `agent_*` deployment reference and no
+provider credential.
+
+Runtime mutation is a separate phase:
+
+```bash
+bash plugins/chittyagent-dispatch/scripts/deploy-anthropic-managed.sh \
+  plugins/<plugin>/anthropic-managed/<name>.json
+```
+
+The deploy helper sends the projection to the authenticated ChittyAgent dispatch runtime seam
+at `/api/v1/runtime/anthropic/project`. Its bearer must come from the normal ChittyAuth/
+ChittyConnect injection path. ChittyAgent resolves the Anthropic provider credential through
+ChittyConnect and reconciles the actual Managed Agent by canonical metadata.
