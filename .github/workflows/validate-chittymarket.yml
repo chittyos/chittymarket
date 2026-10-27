@@ -180,6 +180,9 @@ jobs:
         timeout-minutes: 2
         run: bash scripts/tests/test-review-default-model.sh
 
+      - name: Anthropic Managed Agent projection adapter
+        run: bash scripts/tests/test-anthropic-managed-projection.sh
+
       - name: _MAP pair floor
         run: bash scripts/tests/test-map-pairs-cannot-shrink.sh
 
