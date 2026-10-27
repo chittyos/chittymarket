@@ -15,6 +15,7 @@ mkdir -p "$(dirname "$out")"
 
 python3 - "$canonical" "$out" <<'PY'
 import json, re, sys, yaml
+from pathlib import Path
 
 canonical_path, out_path = sys.argv[1], sys.argv[2]
 src = open(canonical_path, encoding="utf-8").read()
@@ -41,7 +42,11 @@ if not model:
     sys.exit("anthropic-managed projection requires model or runtime_overrides.anthropic-managed.model")
 
 metadata = dict(overrides.get("metadata") or {})
-metadata.setdefault("chittyos_source", canonical_path)
+source_path = Path(canonical_path)
+metadata.setdefault(
+    "chittyos_source",
+    f"canonical/{source_path.parent.name}/{source_path.name}",
+)
 
 spec = {
     "canonicalAgentId": str(canonical_id),
