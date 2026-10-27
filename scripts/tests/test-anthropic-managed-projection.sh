@@ -46,6 +46,8 @@ assert spec["model"] == "claude-opus-5-5"
 assert spec["system"] == "You are ChittyTest.\n"
 assert spec["tools"][0]["type"] == "agent_toolset_20260401"
 assert spec["mcpServers"][0]["url"] == "https://mcp.chitty.cc/mcp"
+assert spec["metadata"]["chittyos_source"].endswith("/test-agent.md")
+assert not spec["metadata"]["chittyos_source"].startswith("/")
 assert "deploymentRef" not in spec
 assert "agent_id" not in spec
 PY
