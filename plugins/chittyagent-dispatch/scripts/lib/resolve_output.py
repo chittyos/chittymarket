@@ -27,6 +27,7 @@ _MAP = {
     ("codex", "agent"):             ("plugins/{plugin}/codex-skills/{name}/SKILL.md", "codex-skill.sh"),
     ("codex", "skill"):             ("plugins/{plugin}/codex-skills/{name}/SKILL.md", "codex-skill.sh"),
     ("openclaw", "agent"):          ("plugins/{plugin}/openclaw-agents/{name}.yaml", "openclaw-agent.sh"),
+    ("anthropic-managed", "agent"): ("plugins/{plugin}/anthropic-managed/{name}.json", "anthropic-managed-agent.sh"),
     ("openclaw", "skill"):          ("plugins/{plugin}/openclaw-skills/{name}/SKILL.md", "claude-code-agent.sh"),
     ("universal", "skill"):         ("plugins/{plugin}/universal-skills/{name}/SKILL.md", "claude-code-agent.sh"),
     ("claude-skills", "tool"):      ("plugins/{plugin}/claude-skills/{name}.json",   "claude-skills.sh"),

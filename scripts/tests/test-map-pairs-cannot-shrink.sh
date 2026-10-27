@@ -24,6 +24,7 @@ REQUIRED=(
   '"claude-code", "workflow"'
   '"codex", "agent"'            '"codex", "skill"'
   '"openclaw", "agent"'         '"openclaw", "skill"'
+  '"anthropic-managed", "agent"'
   '"universal", "skill"'        '"claude-skills", "tool"'  '"chatgpt-apps", "tool"'
 )
 for pair in "${REQUIRED[@]}"; do

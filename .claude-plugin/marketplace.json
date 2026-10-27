@@ -31,8 +31,8 @@
 ,
     {
       "name": "chittyagent-dispatch",
-      "description": "Single-source-of-truth projection for ChittyOS agents/skills/hooks. Reads `chittymarket/canonical/<name>.md` and projects to every runtime format — Claude Code agents, Codex skills, OpenClaw agents, ChatGPT GPT configs, Notion agents, and the agent.chitty.cc orchestrator KV index. Eliminates per-runtime forks; canonical is the only file edited, projections are generated.",
-      "version": "0.1.1",
+      "description": "Single-source-of-truth projection for ChittyOS agents/skills/hooks across Claude Code, Codex, OpenClaw, Anthropic Managed Agents, and other governed runtimes. Canonical definitions project to deterministic runtime artifacts; provider mutation remains a separate authenticated deployment phase.",
+      "version": "0.1.2",
       "source": "./plugins/chittyagent-dispatch",
       "strict": false,
       "category": "ecosystem",
