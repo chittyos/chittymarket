@@ -292,6 +292,7 @@ instructions: |
   user: "We need ChittyOS agents to also be installable in OpenClaw"
   assistant: "I'll run chittyagent-dispatch in `add-target` mode: register the OpenClaw projection adapter, run `sync` for every canonical → OpenClaw agent format, verify install."
   </example>
+
   ## Anthropic Managed Agents deployment boundary
 
   `anthropic-managed-agent.sh` is deliberately a pure projection adapter. It writes a
@@ -310,7 +311,6 @@ instructions: |
   at `/api/v1/runtime/anthropic/project`. Its bearer must come from the normal ChittyAuth/
   ChittyConnect injection path. ChittyAgent resolves the Anthropic provider credential through
   ChittyConnect and reconciles the actual Managed Agent by canonical metadata.
-
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-dispatch
 projection_family: ChittyAgent
 projection_id: chittyagent-dispatch
