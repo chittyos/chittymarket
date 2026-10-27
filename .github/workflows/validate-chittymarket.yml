@@ -235,7 +235,7 @@ jobs:
       #     diverge from canonical/.
       - name: Dispatch idempotency (dispatch.sh sync → no diff)
         run: |
-          chmod +x plugins/chittyagent-dispatch/scripts/dispatch.sh plugins/chittyagent-dispatch/scripts/adapters/*.sh
+          chmod +x plugins/chittyagent-dispatch/scripts/dispatch.sh
           bash plugins/chittyagent-dispatch/scripts/dispatch.sh sync > /dev/null
           if ! git diff --quiet -- canonical/ plugins/; then
             echo "::error::Direct edits to projection files detected — they diverge from canonical/."
