@@ -235,7 +235,8 @@ each one serves are declared in `lib/resolve_output.py`; this list is the disk c
 | `claude-code-hook.sh` | `(claude-code, hook)` | `plugins/{plugin}/hooks/hooks.json` |
 | `claude-code-mcp.sh` | `(claude-code, mcp-server)` | `plugins/{plugin}/.mcp.json` |
 | `codex-skill.sh` | `(codex, agent)`, `(codex, skill)` | `plugins/{plugin}/codex-skills/{name}/SKILL.md` |
-| `openclaw-agent.sh` | `(openclaw, agent)` | `plugins/{plugin}/openclaw-agents/{name}.yaml` |\n| `anthropic-managed-agent.sh` | `(anthropic-managed, agent)` | `plugins/{plugin}/anthropic-managed/{name}.json` |
+| `openclaw-agent.sh` | `(openclaw, agent)` | `plugins/{plugin}/openclaw-agents/{name}.yaml` |
+| `anthropic-managed-agent.sh` | `(anthropic-managed, agent)` | `plugins/{plugin}/anthropic-managed/{name}.json` |
 | `claude-skills.sh` | `(claude-skills, tool)` | `plugins/{plugin}/claude-skills/{name}.json` |
 | `chatgpt-apps.sh` | `(chatgpt-apps, tool)` | `plugins/{plugin}/chatgpt-apps/{name}.json` |
 
