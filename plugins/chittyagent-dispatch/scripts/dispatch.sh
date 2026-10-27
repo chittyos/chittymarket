@@ -109,7 +109,7 @@ PY
         out="${resolved%%$'\t'*}"
         adapter="${resolved#*$'\t'}"
         if [ -n "$adapter" ]; then
-          "$adapter" "$can" "$out"
+          bash "$adapter" "$can" "$out"
           proj_sha=$(git hash-object "$out")
           targets_json=$(python3 -c "import json,sys; d=json.loads(sys.argv[1]); d[sys.argv[2]]=sys.argv[3]; print(json.dumps(d))" "$targets_json" "$runtime" "$proj_sha")
         fi
