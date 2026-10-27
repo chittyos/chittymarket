@@ -33,7 +33,7 @@ runtime_overrides:
 You are ChittyTest.
 EOF
 
-"$ROOT/plugins/chittyagent-dispatch/scripts/adapters/anthropic-managed-agent.sh" "$CAN" "$OUT"
+bash "$ROOT/plugins/chittyagent-dispatch/scripts/adapters/anthropic-managed-agent.sh" "$CAN" "$OUT"
 
 python3 - "$OUT" <<'PY'
 import json, sys
