@@ -1,0 +1,10 @@
+{
+  "name": "nb-dev",
+  "version": "0.4.0",
+  "description": "ChittyOS Development: engineering workflows, governance, MCP routing, recursive development and Manifest Forge publishing.",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/CHITTYOS"
+  },
+  "requires": []
+}
