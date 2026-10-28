@@ -34,6 +34,7 @@ Add `--marketplace <path>` to `generate` or `repair` to upsert the package into 
 - `.codex-plugin/plugin.json`
 - `.agent-plugin/plugin.json`
 - `agents/openai.yaml` beside each discovered `SKILL.md`
+- `skills/<name>/SKILL.md` projection for `npx skills add` / skills.sh discovery when the source skill lives at package root
 - optional marketplace entry via `--marketplace`
 
 The engine is deterministic: identical skill frontmatter produces identical generated output.

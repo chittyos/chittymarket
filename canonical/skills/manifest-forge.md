@@ -35,6 +35,10 @@ overlay:
     ambient_by_intent: true
     verbs: ["generate manifest", "repair manifest", "validate plugin", "marketplace sync"]
     fallback_search: true
+  auth_flow:
+    mode: "none"
+    stores_credentials_in: "none"
+    fail_closed_if_unavailable: true
   runtime_exclusions: {}
   phase0_audit:
     job_to_be_done: "project"

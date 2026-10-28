@@ -3431,6 +3431,30 @@
         "orchestration",
         "mcp"
       ]
+    },
+    {
+      "id": "skill-manifest-forge",
+      "name": "Manifest Forge",
+      "description": "Generate, validate, diff, and repair cross-runtime plugin manifests from existing SKILL.md packages for Claude, Codex/OpenAI, Agent Plugins, and ChatGPT skill metadata. Use when a repository or skill package needs compatible manifests, marketplace import repair, or manifest drift detection.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#skills/manifest-forge",
+      "capability": "chittycanon://capability/market/chittymarket-manager",
+      "tags": [
+        "marketplace",
+        "projection"
+      ]
     }
   ]
 }
