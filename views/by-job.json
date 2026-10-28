@@ -956,6 +956,14 @@
         "visibility": "recommended",
         "advisory_disposition": "skill",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "capability_id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "Manifest Forge",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "advisory_disposition": "skill",
+        "group_assignment_source": "name-rule"
       }
     ],
     "ship": [
@@ -1180,7 +1188,7 @@
     "internal": 3,
     "legal": 10,
     "local-lab": 6,
-    "market": 1,
+    "market": 2,
     "ship": 13,
     "workspace": 13
   }

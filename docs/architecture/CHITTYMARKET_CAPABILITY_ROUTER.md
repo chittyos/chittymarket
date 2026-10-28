@@ -547,34 +547,34 @@ Users should not shop for “ChittyMCP.” They should enable JTBD capabilities.
 
 <!-- BEGIN GENERATED: router-distribution — scripts/generate-router-doc-tables.py -->
 
-Current generated overlay: **143 capabilities**. Every table in this section is rendered by `scripts/generate-router-doc-tables.py` from `capabilities.generated.json` and `views/*.json`, and CI fails on drift. Do not edit these tables by hand — the edit will be overwritten and the gate will catch it.
+Current generated overlay: **144 capabilities**. Every table in this section is rendered by `scripts/generate-router-doc-tables.py` from `capabilities.generated.json` and `views/*.json`, and CI fails on drift. Do not edit these tables by hand — the edit will be overwritten and the gate will catch it.
 
 ## 7.1 By Job
 
 | Group | Count | Percent |
 |---|---:|---:|
-| connect | 46 | 32.2% |
-| build | 31 | 21.7% |
-| govern | 15 | 10.5% |
-| ship | 13 | 9.1% |
-| workspace | 13 | 9.1% |
-| legal | 10 | 7.0% |
+| connect | 46 | 31.9% |
+| build | 31 | 21.5% |
+| govern | 15 | 10.4% |
+| ship | 13 | 9.0% |
+| workspace | 13 | 9.0% |
+| legal | 10 | 6.9% |
 | local-lab | 6 | 4.2% |
 | agent-runtime | 4 | 2.8% |
 | internal | 3 | 2.1% |
+| market | 2 | 1.4% |
 | finance | 1 | 0.7% |
-| market | 1 | 0.7% |
-| Total | 143 | 100% |
+| Total | 144 | 100% |
 
 ## 7.2 By Execution Class
 
 | Execution Class | Count |
 |---|---:|
 | @chitty/connectors | 104 |
-| @chitty/workspace | 20 |
+| @chitty/workspace | 21 |
 | @chitty/reasoning | 11 |
 | @chitty/ambient | 8 |
-| Total | 143 |
+| Total | 144 |
 
 ## 7.3 By Channel Compatibility
 
@@ -582,30 +582,30 @@ Compatibility follows the router rule used by `views/by-channel.json`: an absent
 
 | Channel | Compatible | Excluded | Excluded groups |
 |---|---:|---:|---|
-| `claude_code` | 143 | 0 | — |
-| `claude_desktop` | 143 | 0 | — |
-| `codex` | 143 | 0 | — |
-| `ch1tty` | 143 | 0 | — |
-| `openclaw` | 136 | 7 | legal/local-lab |
-| `chatgpt` | 119 | 24 | govern/ship/local-lab/agent-runtime/connect/build |
-| `claude_ai` | 119 | 24 | govern/ship/local-lab/agent-runtime/connect/build |
+| `claude_code` | 144 | 0 | — |
+| `claude_desktop` | 144 | 0 | — |
+| `codex` | 144 | 0 | — |
+| `ch1tty` | 144 | 0 | — |
+| `openclaw` | 137 | 7 | legal/local-lab |
+| `chatgpt` | 120 | 24 | govern/ship/local-lab/agent-runtime/connect/build |
+| `claude_ai` | 120 | 24 | govern/ship/local-lab/agent-runtime/connect/build |
 
 ## 7.4 By Context Cost
 
 | Cost | Count |
 |---|---:|
 | medium | 94 |
-| low | 37 |
+| low | 38 |
 | high | 12 |
-| Total | 143 |
+| Total | 144 |
 
 ## 7.5 By Authority
 
-Authority flags are non-exclusive — a capability may carry several (a `legal` write requires both `requires_case` and `non_repudiation_required`), so this column sums to more than 143.
+Authority flags are non-exclusive — a capability may carry several (a `legal` write requires both `requires_case` and `non_repudiation_required`), so this column sums to more than 144.
 
 | Flag | Count |
 |---|---:|
-| requires_chittyid_only (default) | 106 |
+| requires_chittyid_only (default) | 107 |
 | requires_governance_authority | 17 |
 | requires_deploy_authority | 12 |
 | non_repudiation_required | 11 |
@@ -617,9 +617,9 @@ Authority flags are non-exclusive — a capability may carry several (a `legal` 
 | Source | Count |
 |---|---:|
 | override | 58 |
-| name-rule | 49 |
+| name-rule | 50 |
 | category | 36 |
-| Total | 143 |
+| Total | 144 |
 
 <!-- END GENERATED: router-distribution -->
 

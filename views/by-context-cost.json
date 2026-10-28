@@ -5,7 +5,7 @@
   "description": "Capabilities grouped by execution context cost",
   "counts": {
     "high": 12,
-    "low": 37,
+    "low": 38,
     "medium": 94
   },
   "groups": {
@@ -345,6 +345,14 @@
         "name": "Goal Creator",
         "group": "workspace",
         "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },

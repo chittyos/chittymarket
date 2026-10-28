@@ -61,6 +61,9 @@ jobs:
       - name: OpenAI workspace marketplace validation
         run: python3 scripts/validate-openai-workspace.py
 
+      - name: Manifest Forge regression tests
+        run: python3 scripts/tests/test-manifest-forge.py
+
       # Bootstrap pointers and OpenAI skill metadata are generated from the
       # canonical skill. Re-generation must be byte-for-byte idempotent.
       - name: Bootstrap projection idempotency
