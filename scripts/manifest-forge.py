@@ -160,15 +160,30 @@ def openai_yaml(fm: dict[str, Any]) -> str:
     )
 
 
-def generated_files(root: Path, targets: list[str]) -> dict[Path, str]:
+def generated_files(root: Path, targets: list[str], preserve_native: bool = False) -> dict[Path, str]:
     skills = discover_skills(root)
     out: dict[Path, str] = {}
     for target in targets:
         if target in PLUGIN_TARGETS:
             path = root / TARGET_FILES[target]
-            out[path] = json.dumps(plugin_manifest(target, root, skills), indent=2, ensure_ascii=False) + "\n"
+            manifest = plugin_manifest(target, root, skills)
+            if preserve_native:
+                # Native package identity and presentation metadata are authored,
+                # while skill discovery paths remain generated from frontmatter.
+                source = path if path.exists() else root / TARGET_FILES["codex"]
+                if source.exists():
+                    authored = json.loads(source.read_text(encoding="utf-8"))
+                    if not isinstance(authored, dict):
+                        raise ValueError(f"{source}: expected a JSON object")
+                    manifest.update(authored)
+                    manifest["skills"] = relative_skill_paths(root, skills)
+            out[path] = json.dumps(manifest, indent=2, ensure_ascii=False) + "\n"
     for skill_md, fm in skills:
-        out[skill_md.parent / "agents/openai.yaml"] = openai_yaml(fm)
+        agent_path = skill_md.parent / "agents/openai.yaml"
+        if preserve_native and agent_path.exists():
+            out[agent_path] = agent_path.read_text(encoding="utf-8")
+        else:
+            out[agent_path] = openai_yaml(fm)
         if "skills-sh" in targets and skill_md.parent == root:
             projected = root / "skills" / str(fm["name"]) / "SKILL.md"
             out[projected] = skill_md.read_text(encoding="utf-8")
@@ -233,6 +248,7 @@ def main() -> int:
     parser.add_argument("path", nargs="?", default=".")
     parser.add_argument("--targets", default="claude,codex,agent,skills-sh", help="comma-separated: claude,codex,agent,skills-sh")
     parser.add_argument("--marketplace", help="optional marketplace JSON to upsert")
+    parser.add_argument("--preserve-native", action="store_true", help="preserve authored native manifest metadata and skill agent descriptions; regenerate skill discovery paths")
     args = parser.parse_args()
 
     root = Path(args.path).expanduser().resolve()
@@ -242,7 +258,7 @@ def main() -> int:
         parser.error(f"unknown targets: {', '.join(unknown)}")
 
     try:
-        files = generated_files(root, targets)
+        files = generated_files(root, targets, preserve_native=args.preserve_native)
         clean, patch = diff_files(files)
         if args.mode in {"generate", "repair"}:
             write_files(files)

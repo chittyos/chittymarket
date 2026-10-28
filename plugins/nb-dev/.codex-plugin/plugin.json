@@ -2,6 +2,19 @@
   "name": "nb-dev",
   "version": "0.4.0",
   "description": "ChittyOS engineering workflows, governance, MCP routing, recursive development and canonical Manifest Forge publishing.",
+  "skills": [
+    "./skills/chittyos-integration-auditor",
+    "./skills/chittyos-mcp-routing",
+    "./skills/ci-repair-loop",
+    "./skills/deployment-verifier",
+    "./skills/development-governance",
+    "./skills/development-security-gates",
+    "./skills/development-work-continuity",
+    "./skills/manifest-forge-publisher",
+    "./skills/pr-finalizer",
+    "./skills/recursive-development-orchestrator",
+    "./skills/repository-hygiene"
+  ],
   "interface": {
     "displayName": "ChittyOS Development",
     "description": "ChittyOS engineering and connected MCP orchestration",
