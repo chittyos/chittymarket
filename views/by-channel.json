@@ -4,13 +4,13 @@
   "view": "by-channel",
   "description": "Capabilities grouped by supported channel",
   "counts": {
-    "ch1tty": 143,
-    "chatgpt": 119,
-    "claude_ai": 119,
-    "claude_code": 143,
-    "claude_desktop": 143,
-    "codex": 143,
-    "openclaw": 136
+    "ch1tty": 144,
+    "chatgpt": 120,
+    "claude_ai": 120,
+    "claude_code": 144,
+    "claude_desktop": 144,
+    "codex": 144,
+    "openclaw": 137
   },
   "groups": {
     "ch1tty": [
@@ -765,6 +765,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
@@ -1801,6 +1809,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
         "name": "Mercury Banking (Claude.ai)",
         "group": "connect",
@@ -2753,6 +2769,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
@@ -3819,6 +3843,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
@@ -4967,6 +4999,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
         "name": "Mercury Banking (Claude.ai)",
         "group": "connect",
@@ -6113,6 +6153,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
         "name": "Mercury Banking (Claude.ai)",
         "group": "connect",
@@ -7209,6 +7257,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/market/chittymarket-manager",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
