@@ -767,7 +767,7 @@
         "group_assignment_source": "category"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
+        "id": "chittycanon://capability/market/manifest-forge",
         "name": "Manifest Forge",
         "group": "market",
         "execution_class": "@chitty/workspace",
@@ -1809,7 +1809,7 @@
         "group_assignment_source": "category"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
+        "id": "chittycanon://capability/market/manifest-forge",
         "name": "Manifest Forge",
         "group": "market",
         "execution_class": "@chitty/workspace",
@@ -2771,7 +2771,7 @@
         "group_assignment_source": "category"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
+        "id": "chittycanon://capability/market/manifest-forge",
         "name": "Manifest Forge",
         "group": "market",
         "execution_class": "@chitty/workspace",
@@ -3845,7 +3845,7 @@
         "group_assignment_source": "category"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
+        "id": "chittycanon://capability/market/manifest-forge",
         "name": "Manifest Forge",
         "group": "market",
         "execution_class": "@chitty/workspace",
@@ -4999,7 +4999,7 @@
         "group_assignment_source": "category"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
+        "id": "chittycanon://capability/market/manifest-forge",
         "name": "Manifest Forge",
         "group": "market",
         "execution_class": "@chitty/workspace",
@@ -6153,7 +6153,7 @@
         "group_assignment_source": "category"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
+        "id": "chittycanon://capability/market/manifest-forge",
         "name": "Manifest Forge",
         "group": "market",
         "execution_class": "@chitty/workspace",
@@ -7259,7 +7259,7 @@
         "group_assignment_source": "category"
       },
       {
-        "id": "chittycanon://capability/market/chittymarket-manager",
+        "id": "chittycanon://capability/market/manifest-forge",
         "name": "Manifest Forge",
         "group": "market",
         "execution_class": "@chitty/workspace",

@@ -958,7 +958,7 @@
         "group_assignment_source": "name-rule"
       },
       {
-        "capability_id": "chittycanon://capability/market/chittymarket-manager",
+        "capability_id": "chittycanon://capability/market/manifest-forge",
         "name": "Manifest Forge",
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",

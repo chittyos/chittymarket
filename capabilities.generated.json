@@ -11327,7 +11327,7 @@
       }
     },
     {
-      "capability_id": "chittycanon://capability/market/chittymarket-manager",
+      "capability_id": "chittycanon://capability/market/manifest-forge",
       "legacy_id": "skill-manifest-forge",
       "name": "Manifest Forge",
       "description": "Generate, validate, diff, and repair cross-runtime plugin manifests from existing SKILL.md packages for Claude, Codex/OpenAI, Agent Plugins, and ChatGPT skill metadata. Use when a repository or skill package needs compatible manifests, marketplace import repair, or manifest drift detection.",
@@ -11366,7 +11366,7 @@
         "fallback_search": true
       },
       "auth_flow": {
-        "mode": "none",
+        "mode": "local-only",
         "stores_credentials_in": "none",
         "fail_closed_if_unavailable": true
       },
@@ -11392,7 +11392,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:2f327681c57a9c13705757911e2a58f221952c8bdeff5a19bd47223fffdb45d2",
+        "content_hash": "sha256:5b406a6aa911b5267581d1d98538d5ea0239b78fffb7427bdec3e672e0653747",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -11403,7 +11403,7 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:85a968fe1fbfb5a01215dd59cc04bf3850e4b3529eaf2d5ef0983cd1b186ce79",
+    "aggregate_hash": "sha256:8be9d471ee82920b2174ceac34e8cbf4bdaff6972a3ba59388c4a91c14c1fd2a",
     "record_count": 144,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
