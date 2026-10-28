@@ -11,7 +11,7 @@ runtimes:
 classification:
   - marketplace
   - projection
-canonical_capability_ref: "chittycanon://capability/market/chittymarket-manager"
+canonical_capability_ref: "chittycanon://capability/market/manifest-forge"
 overlay:
   title: "Manifest Forge"
   capability_group: "market"
@@ -36,7 +36,7 @@ overlay:
     verbs: ["generate manifest", "repair manifest", "validate plugin", "marketplace sync"]
     fallback_search: true
   auth_flow:
-    mode: "none"
+    mode: "local-only"
     stores_credentials_in: "none"
     fail_closed_if_unavailable: true
   runtime_exclusions: {}
