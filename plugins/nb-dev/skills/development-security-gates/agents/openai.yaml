@@ -1,0 +1,3 @@
+interface:
+  display_name: Development Security Gates
+  short_description: Assess authentication, credential custody, protected scopes, legal evidence, deployment authorization, ro

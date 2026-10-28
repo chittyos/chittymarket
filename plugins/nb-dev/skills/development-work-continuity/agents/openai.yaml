@@ -1,0 +1,3 @@
+interface:
+  display_name: Development Work Continuity
+  short_description: Reconcile and persist GitHub issues, branches, PRs, commits, reviews, checks, blockers and resumable engi

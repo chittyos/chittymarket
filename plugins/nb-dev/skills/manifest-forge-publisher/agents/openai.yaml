@@ -1,0 +1,3 @@
+interface:
+  display_name: "Manifest Forge Publisher"
+  short_description: "Publish ChittyOS skills through canonical ChittyMarket projections"

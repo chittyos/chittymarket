@@ -1,0 +1,3 @@
+interface:
+  display_name: Chittyos Integration Auditor
+  short_description: Audit ChittyOS service integration for canonical reuse, auth, identity, registry, MCP and deployment standards

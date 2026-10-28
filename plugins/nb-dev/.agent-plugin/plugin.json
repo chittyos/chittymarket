@@ -1,0 +1,39 @@
+{
+  "name": "nb-dev",
+  "version": "0.4.0",
+  "description": "ChittyOS engineering workflows, governance, MCP routing, recursive development and canonical Manifest Forge publishing.",
+  "skills": [
+    "./skills/chittyos-integration-auditor",
+    "./skills/chittyos-mcp-routing",
+    "./skills/ci-repair-loop",
+    "./skills/deployment-verifier",
+    "./skills/development-governance",
+    "./skills/development-security-gates",
+    "./skills/development-work-continuity",
+    "./skills/manifest-forge-publisher",
+    "./skills/pr-finalizer",
+    "./skills/recursive-development-orchestrator",
+    "./skills/repository-hygiene"
+  ],
+  "interface": {
+    "displayName": "ChittyOS Development",
+    "description": "ChittyOS engineering and connected MCP orchestration",
+    "shortDescription": "ChittyOS development, MCP discovery and recursive delivery",
+    "longDescription": "ChittyOS Development orchestrates engineering using existing ChittyOS services and connected MCP tools. Standalone governance, work continuity and security release gates complement CI repair, PR finalization, deployment verification and recursive development. No automatic credential grants or background execution.",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Recursive development",
+      "Canonical governance and compliance routing",
+      "ChittyOS MCP discovery",
+      "Issue and PR continuity",
+      "Security and release gates",
+      "CI and deployment verification",
+      "Cross-runtime publishing through ChittyMarket Manifest Forge"
+    ],
+    "developerName": "ChittyOS"
+  },
+  "author": {
+    "name": "ChittyOS",
+    "email": "nick@nevershitty.com"
+  }
+}

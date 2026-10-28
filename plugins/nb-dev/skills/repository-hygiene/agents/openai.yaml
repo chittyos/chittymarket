@@ -1,0 +1,3 @@
+interface:
+  display_name: Repository Hygiene
+  short_description: Reconcile ChittyOS repository branches, worktrees, stale pull requests, duplicate changes and development trac

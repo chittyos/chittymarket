@@ -42,6 +42,26 @@ def main() -> int:
         repaired = run("repair", str(pkg), cwd=ROOT)
         assert repaired.returncode == 0, repaired.stderr
         assert run("validate", str(pkg), cwd=ROOT).returncode == 0
+    with tempfile.TemporaryDirectory() as tmp:
+        pkg = Path(tmp) / "nb-dev"
+        skill = pkg / "skills" / "example"
+        skill.mkdir(parents=True)
+        (skill / "SKILL.md").write_text("---\nname: example\ndescription: Example skill.\n---\n")
+        codex = pkg / ".codex-plugin" / "plugin.json"
+        codex.parent.mkdir(parents=True)
+        codex.write_text(json.dumps({"name": "nb-dev", "version": "0.4.0", "description": "Authored description", "interface": {"displayName": "ChittyOS Development"}}))
+        agent = skill / "agents" / "openai.yaml"
+        agent.parent.mkdir()
+        agent.write_text('interface:\n  display_name: "Authored Example"\n')
+        generated = run("generate", str(pkg), "--preserve-native", cwd=ROOT)
+        assert generated.returncode == 0, generated.stderr
+        for target in (".claude-plugin/plugin.json", ".codex-plugin/plugin.json", ".agent-plugin/plugin.json"):
+            manifest = json.loads((pkg / target).read_text())
+            assert manifest["version"] == "0.4.0"
+            assert manifest["interface"]["displayName"] == "ChittyOS Development" if target != ".claude-plugin/plugin.json" else manifest["name"] == "nb-dev"
+            assert manifest["skills"] == ["./skills/example"]
+        assert agent.read_text() == 'interface:\n  display_name: "Authored Example"\n'
+        assert run("validate", str(pkg), "--preserve-native", cwd=ROOT).returncode == 0
     print("manifest-forge tests: ok")
     return 0
 
