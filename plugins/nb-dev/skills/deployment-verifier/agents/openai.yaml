@@ -1,0 +1,3 @@
+interface:
+  display_name: Deployment Verifier
+  short_description: Verify ChittyOS deployment readiness and deployed behavior without unauthorized deployment. Use for release ch
