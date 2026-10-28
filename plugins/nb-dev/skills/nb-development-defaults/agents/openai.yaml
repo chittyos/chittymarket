@@ -1,0 +1,3 @@
+interface:
+  display_name: "NB Development Defaults"
+  short_description: "ChittyOS engineering conventions and development orchestration routing"
