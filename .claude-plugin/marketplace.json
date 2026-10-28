@@ -10,6 +10,23 @@
   },
   "plugins": [
     {
+      "name": "nb-dev",
+      "description": "ChittyOS Development: 12 engineering skills, recursive orchestration, repository hygiene, governance and Manifest Forge publishing.",
+      "version": "0.4.0",
+      "source": "./plugins/nb-dev",
+      "strict": false,
+      "category": "development",
+      "keywords": [
+        "chittyos",
+        "development",
+        "recursive-orchestration",
+        "manifest-forge",
+        "codex",
+        "skills"
+      ]
+    },
+
+    {
       "name": "ch1tty",
       "description": "Ch1tty surface — natural-language intent resolver and tool gateway. Public-API tools projected to Claude Skills app SDK and (future) ChatGPT Apps SDK via canonical/tools/.",
       "version": "0.1.0",
