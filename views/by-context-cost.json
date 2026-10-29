@@ -5,7 +5,7 @@
   "description": "Capabilities grouped by execution context cost",
   "counts": {
     "high": 12,
-    "low": 38,
+    "low": 39,
     "medium": 94
   },
   "groups": {
@@ -141,6 +141,14 @@
         "group_assignment_source": "override"
       },
       {
+        "id": "chittycanon://capability/build/create-actor",
+        "name": "Create ChittyActor",
+        "group": "build",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "capability"
+      },
+      {
         "id": "chittycanon://capability/ship/development-wrap-up",
         "name": "Development Wrap-Up",
         "group": "ship",
@@ -155,6 +163,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/workspace/goal-creator",
+        "name": "Goal Creator",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/connect/gws-admin-reports",
@@ -339,14 +355,6 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "override"
-      },
-      {
-        "id": "chittycanon://capability/workspace/goal-creator",
-        "name": "Goal Creator",
-        "group": "workspace",
-        "execution_class": "@chitty/ambient",
-        "visibility": "recommended",
-        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/market/manifest-forge",
