@@ -820,6 +820,14 @@
         "group_assignment_source": "override"
       },
       {
+        "id": "chittycanon://capability/build/pr-review-toolkit",
+        "name": "PR Review Toolkit",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/plaid-developer-tools-claude-ai",
         "name": "Plaid Developer Tools (Claude.ai)",
         "group": "connect",
@@ -854,14 +862,6 @@
       {
         "id": "chittycanon://capability/build/plugin-dev",
         "name": "Plugin Dev",
-        "group": "build",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "category"
-      },
-      {
-        "id": "chittycanon://capability/build/pr-review-toolkit",
-        "name": "PR Review Toolkit",
         "group": "build",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
