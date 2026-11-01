@@ -2,7 +2,7 @@
 uri: chittycanon://docs/ops/architecture/chittymarket-capability-router
 namespace: chittycanon://docs/ops
 type: architecture
-version: 4.0.0
+version: 4.1.0
 status: PENDING
 registered_with: chittycanon://core/services/canon
 title: "ChittyMarket Capability Router Architecture"
@@ -33,6 +33,38 @@ This architecture enforces:
 - non-destructive migration
 - alias-based compatibility
 - channel-aware capability routing
+
+## Layer Separation
+
+A product, capability, package, runtime control plane, and execution substrate are different objects.
+
+| Layer | Governing source | Rule |
+|---|---|---|
+| Product / application | ChittyCorp / ChittyApps plus canonical identity | A commercial/user-facing offering may compose many capabilities. Market does not infer product identity from repository or package names. |
+| Capability | ChittyCanon / ChittyRegistry | Canonical job-to-be-done. Identity precedes projection. |
+| Market package | ChittyMarket | Install/distribution bundle. A package can carry multiple projections and does not mint capability identity. |
+| Runtime control plane | Ch1tty, Apps/MCP, Cloudflare MCP Portals / AI Gateway | Curates and routes live access; runtime configuration is evidence, not canonical identity. |
+| Execution substrate | MCP server, agent, Worker, tool, local host | Performs work. Deployment presence does not make the substrate a product or capability. |
+
+The relationships are many-to-many. A product may consume several capabilities; one capability may support several products and runtime channels.
+
+```text
+product/application context (optional)
+              |
+              v
+canonical capability identity
+              |
+              v
+Market projection/package
+              |
+              v
+runtime control plane
+              |
+              v
+execution substrate
+```
+
+**Invariant:** never synthesize a new product or capability merely to make package/runtime inventory look tidy.
 
 ---
 
@@ -396,6 +428,35 @@ Suggested baseline high-signal verbs:
 
 ---
 
+# 3.4 Live Remote-MCP Control Plane
+
+Cloudflare MCP Server Portals are a supported **runtime distribution and policy surface** for remote MCP. They do not replace ChittyCanon, ChittyRegister, ChittyRegistry, ChittyMarket, or Ch1tty.
+
+Portal configuration can provide:
+
+- curated server/tool exposure;
+- Access/OAuth and authentication state;
+- Code Mode policy;
+- Secure Web Gateway routing;
+- synchronization status;
+- tool-call/request observability.
+
+Market consumes these facts as **runtime verification evidence**. It must not import them as canonical capability identity.
+
+Runtime health is fail-closed for verification claims:
+
+```text
+configured != authenticated != synced != ready != runtime-verified
+```
+
+A Market artifact may remain `PROJECTED` or `VALIDATED` while its remote MCP projection is unavailable. `RUNTIME_VERIFIED` requires evidence that the intended runtime surface is usable.
+
+Cloudflare accounts are execution/authority boundaries. Portal/server inventory from one account must not be merged into another account's product or capability identity merely because names overlap.
+
+The dated live-state audit is maintained at `docs/audits/2026-11-01-marketplace-control-plane-audit.md`.
+
+---
+
 # 4. Zero-Trust Auth and State Sync
 
 ## 4.1 Device-Code Auth Flow
@@ -547,34 +608,34 @@ Users should not shop for “ChittyMCP.” They should enable JTBD capabilities.
 
 <!-- BEGIN GENERATED: router-distribution — scripts/generate-router-doc-tables.py -->
 
-Current generated overlay: **144 capabilities**. Every table in this section is rendered by `scripts/generate-router-doc-tables.py` from `capabilities.generated.json` and `views/*.json`, and CI fails on drift. Do not edit these tables by hand — the edit will be overwritten and the gate will catch it.
+Current generated overlay: **145 capabilities**. Every table in this section is rendered by `scripts/generate-router-doc-tables.py` from `capabilities.generated.json` and `views/*.json`, and CI fails on drift. Do not edit these tables by hand — the edit will be overwritten and the gate will catch it.
 
 ## 7.1 By Job
 
 | Group | Count | Percent |
 |---|---:|---:|
-| connect | 46 | 31.9% |
-| build | 31 | 21.5% |
-| govern | 15 | 10.4% |
+| connect | 46 | 31.7% |
+| build | 32 | 22.1% |
+| govern | 15 | 10.3% |
 | ship | 13 | 9.0% |
 | workspace | 13 | 9.0% |
 | legal | 10 | 6.9% |
-| local-lab | 6 | 4.2% |
+| local-lab | 6 | 4.1% |
 | agent-runtime | 4 | 2.8% |
 | internal | 3 | 2.1% |
 | market | 2 | 1.4% |
 | finance | 1 | 0.7% |
-| Total | 144 | 100% |
+| Total | 145 | 100% |
 
 ## 7.2 By Execution Class
 
 | Execution Class | Count |
 |---|---:|
 | @chitty/connectors | 104 |
-| @chitty/workspace | 21 |
+| @chitty/workspace | 22 |
 | @chitty/reasoning | 11 |
 | @chitty/ambient | 8 |
-| Total | 144 |
+| Total | 145 |
 
 ## 7.3 By Channel Compatibility
 
@@ -582,30 +643,30 @@ Compatibility follows the router rule used by `views/by-channel.json`: an absent
 
 | Channel | Compatible | Excluded | Excluded groups |
 |---|---:|---:|---|
-| `claude_code` | 144 | 0 | — |
-| `claude_desktop` | 144 | 0 | — |
-| `codex` | 144 | 0 | — |
-| `ch1tty` | 144 | 0 | — |
-| `openclaw` | 137 | 7 | legal/local-lab |
-| `chatgpt` | 120 | 24 | govern/ship/local-lab/agent-runtime/connect/build |
-| `claude_ai` | 120 | 24 | govern/ship/local-lab/agent-runtime/connect/build |
+| `claude_code` | 145 | 0 | — |
+| `claude_desktop` | 145 | 0 | — |
+| `codex` | 145 | 0 | — |
+| `ch1tty` | 145 | 0 | — |
+| `openclaw` | 138 | 7 | legal/local-lab |
+| `chatgpt` | 121 | 24 | govern/ship/local-lab/agent-runtime/connect/build |
+| `claude_ai` | 121 | 24 | govern/ship/local-lab/agent-runtime/connect/build |
 
 ## 7.4 By Context Cost
 
 | Cost | Count |
 |---|---:|
 | medium | 94 |
-| low | 38 |
+| low | 39 |
 | high | 12 |
-| Total | 144 |
+| Total | 145 |
 
 ## 7.5 By Authority
 
-Authority flags are non-exclusive — a capability may carry several (a `legal` write requires both `requires_case` and `non_repudiation_required`), so this column sums to more than 144.
+Authority flags are non-exclusive — a capability may carry several (a `legal` write requires both `requires_case` and `non_repudiation_required`), so this column sums to more than 145.
 
 | Flag | Count |
 |---|---:|
-| requires_chittyid_only (default) | 107 |
+| requires_chittyid_only (default) | 108 |
 | requires_governance_authority | 17 |
 | requires_deploy_authority | 12 |
 | non_repudiation_required | 11 |
@@ -616,10 +677,10 @@ Authority flags are non-exclusive — a capability may carry several (a `legal` 
 
 | Source | Count |
 |---|---:|
-| override | 58 |
+| override | 59 |
 | name-rule | 50 |
 | category | 36 |
-| Total | 144 |
+| Total | 145 |
 
 <!-- END GENERATED: router-distribution -->
 

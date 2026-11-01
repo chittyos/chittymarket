@@ -2,7 +2,7 @@
 uri: chittycanon://docs/ops/architecture/chittymarket
 namespace: chittycanon://docs/ops
 type: architecture
-version: 1.1.1
+version: 1.1.2
 status: DRAFT
 registered_with: chittycanon://core/services/canon
 title: "ChittyMarket"
@@ -48,6 +48,20 @@ The product is the repository/build/release control plane. There is no standalon
 
 ChittyMarket may carry resolvable references to these systems; it does not replace them.
 
+## Live Runtime Control Plane
+
+Remote runtime state may be projected through Cloudflare MCP Server Portals, AI Gateway, Ch1tty, Apps/MCP, or other approved execution surfaces.
+
+These surfaces are **verification and delivery evidence**, never canonical identity:
+
+- portal membership does not create a capability;
+- an MCP server does not become a product because it is deployed;
+- a Worker name does not define product ownership;
+- `configured`, `authenticated`, `synced`, `ready`, and `runtime-verified` are distinct conditions;
+- Cloudflare account boundaries are preserved as execution/authority scope and are not flattened into one global catalog.
+
+The current live snapshot and drift findings are recorded in `docs/audits/2026-11-01-marketplace-control-plane-audit.md`.
+
 ## Source Hierarchy
 
 ### Authoritative
@@ -55,6 +69,12 @@ ChittyMarket may carry resolvable references to these systems; it does not repla
 - `canonical/` — Market-owned projection definitions.
 - ChittyCanon / ChittyRegister / ChittyRegistry — upstream identity and ownership.
 - GitHub history / PRs / CI — implementation and release evidence.
+
+### Live verification evidence
+
+- Cloudflare MCP Portals / MCP Server state — remote distribution, auth, synchronization, readiness, and tool exposure.
+- Cloudflare Workers / AI Gateway — deployed execution/model-routing substrate.
+- Native runtime discovery/smoke results — proof that a target client can actually load or execute a projection.
 
 ### Materialized / generated
 
@@ -230,4 +250,4 @@ Do not infer a current certification badge from older documents or generated man
 - **DNA hash**: pending governed provenance process
 
 ---
-*Architecture Version: 1.1.1 | Updated: 2026-10-05*
+*Architecture Version: 1.1.2 | Updated: 2026-11-01*

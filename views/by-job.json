@@ -109,7 +109,7 @@
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
         "advisory_disposition": "skill",
-        "group_assignment_source": "capability"
+        "group_assignment_source": "override"
       },
       {
         "capability_id": "chittycanon://capability/build/feature-dev",
@@ -200,6 +200,14 @@
         "group_assignment_source": "category"
       },
       {
+        "capability_id": "chittycanon://capability/build/pr-review-toolkit",
+        "name": "PR Review Toolkit",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "advisory_disposition": "hold",
+        "group_assignment_source": "category"
+      },
+      {
         "capability_id": "chittycanon://capability/build/playground",
         "name": "Playground",
         "execution_class": "@chitty/connectors",
@@ -210,14 +218,6 @@
       {
         "capability_id": "chittycanon://capability/build/plugin-dev",
         "name": "Plugin Dev",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "advisory_disposition": "hold",
-        "group_assignment_source": "category"
-      },
-      {
-        "capability_id": "chittycanon://capability/build/pr-review-toolkit",
-        "name": "PR Review Toolkit",
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "advisory_disposition": "hold",

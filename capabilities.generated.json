@@ -5,10 +5,9 @@
   "naming": "Bare JTBD group ids (no chitty- prefix). Namespace chittycanon://capability/ already encodes 'chitty'.",
   "total": 145,
   "group_assignment_sources": {
-    "capability": 1,
     "category": 36,
     "name-rule": 50,
-    "override": 58
+    "override": 59
   },
   "capabilities": [
     {
@@ -11408,7 +11407,7 @@
       "name": "Create ChittyActor",
       "description": "Scaffold, repair, or standardize ChittyOS Python actors under chittyentity/chittyactors/{name} using the canonical chittysdks/actor-base package and current Apify/Docker conventions. Use when creating a new ChittyActor, converting an ad hoc scraper/executor into a compliant actor, fixing actor structure or deployment packaging, or preparing an Actor for Apify monorepo deployment. Do not use to create autonomous policy-bearing agents; those belong under chittyagents/.",
       "capability_group": "build",
-      "group_assignment_source": "capability",
+      "group_assignment_source": "override",
       "execution_class": "@chitty/workspace",
       "canonical_version": "1.0.0",
       "projection_version_policy": "inherit-canonical",
@@ -11443,7 +11442,7 @@
         "fallback_search": true
       },
       "auth_flow": {
-        "mode": "delegated",
+        "mode": "local-only",
         "stores_credentials_in": "none",
         "fail_closed_if_unavailable": true
       },
@@ -11454,8 +11453,9 @@
         "codex"
       ],
       "source_links": [
-        "https://github.com/chittyos/chittyentity/issues/690",
-        "https://github.com/chittyos/chittyentity/pull/889"
+        "local://canonical/skills/create-actor.md",
+        "local://skills/create-actor/SKILL.md",
+        "local://skills/create-actor/scripts/scaffold_actor.py"
       ],
       "phase0_audit": {
         "job_to_be_done": "generate",
@@ -11470,7 +11470,7 @@
       ],
       "visibility": "recommended",
       "provenance": {
-        "content_hash": "sha256:ca5a678898249dcc1e48a4d52e4fb61fe5a7e3fd7da078f8df867427ad717f0a",
+        "content_hash": "sha256:794efbaaf24f8f66b8318072ae843ac8be0603c88fca76e745fd16e8802771b4",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -11481,7 +11481,7 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:134cfa746f14bdc0c8616c3e70e6d76418a8cb7f663201dbbbc0c4f344270838",
+    "aggregate_hash": "sha256:39256e191575a10bdffc716d1b9bf52953ba0bc3d65b303cf06473e56b9a2ad9",
     "record_count": 145,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
