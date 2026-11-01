@@ -1,6 +1,7 @@
 ---
 name: create-actor
 description: Scaffold, repair, or standardize ChittyOS Python actors under chittyentity/chittyactors/{name} using the canonical chittysdks/actor-base package and current Apify/Docker conventions. Use when creating a new ChittyActor, converting an ad hoc scraper/executor into a compliant actor, fixing actor structure or deployment packaging, or preparing an Actor for Apify monorepo deployment. Do not use to create autonomous policy-bearing agents; those belong under chittyagents/.
+canon_uri: chittycanon://core/services/chittymarket#skills/create-actor
 ---
 
 # Create Actor

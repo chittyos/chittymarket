@@ -677,10 +677,9 @@ Authority flags are non-exclusive — a capability may carry several (a `legal` 
 
 | Source | Count |
 |---|---:|
-| override | 58 |
+| override | 59 |
 | name-rule | 50 |
 | category | 36 |
-| capability | 1 |
 | Total | 145 |
 
 <!-- END GENERATED: router-distribution -->

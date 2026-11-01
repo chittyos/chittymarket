@@ -332,7 +332,7 @@
         "group": "build",
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
-        "group_assignment_source": "capability"
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
@@ -1390,7 +1390,7 @@
         "group": "build",
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
-        "group_assignment_source": "capability"
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/ship/development-wrap-up",
@@ -2360,7 +2360,7 @@
         "group": "build",
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
-        "group_assignment_source": "capability"
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/ship/development-wrap-up",
@@ -3434,7 +3434,7 @@
         "group": "build",
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
-        "group_assignment_source": "capability"
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
@@ -4596,7 +4596,7 @@
         "group": "build",
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
-        "group_assignment_source": "capability"
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
@@ -5758,7 +5758,7 @@
         "group": "build",
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
-        "group_assignment_source": "capability"
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
@@ -6896,7 +6896,7 @@
         "group": "build",
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
-        "group_assignment_source": "capability"
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",

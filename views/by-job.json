@@ -109,7 +109,7 @@
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
         "advisory_disposition": "skill",
-        "group_assignment_source": "capability"
+        "group_assignment_source": "override"
       },
       {
         "capability_id": "chittycanon://capability/build/feature-dev",
