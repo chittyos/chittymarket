@@ -165,14 +165,6 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/workspace/goal-creator",
-        "name": "Goal Creator",
-        "group": "workspace",
-        "execution_class": "@chitty/ambient",
-        "visibility": "recommended",
-        "group_assignment_source": "name-rule"
-      },
-      {
         "id": "chittycanon://capability/connect/gws-admin-reports",
         "name": "GWS Admin Reports",
         "group": "connect",
@@ -355,6 +347,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/workspace/goal-creator",
+        "name": "Goal Creator",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/market/manifest-forge",

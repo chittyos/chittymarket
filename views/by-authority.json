@@ -476,70 +476,6 @@
         "group_assignment_source": "category"
       },
       {
-        "id": "chittycanon://capability/build/gauntlet",
-        "name": "Gauntlet",
-        "group": "build",
-        "execution_class": "@chitty/reasoning",
-        "visibility": "advanced",
-        "group_assignment_source": "override"
-      },
-      {
-        "id": "chittycanon://capability/build/github",
-        "name": "GitHub",
-        "group": "build",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "category"
-      },
-      {
-        "id": "chittycanon://capability/build/github-workflows",
-        "name": "GitHub Workflows",
-        "group": "build",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "category"
-      },
-      {
-        "id": "chittycanon://capability/connect/gmail-claude-ai",
-        "name": "Gmail (Claude.ai)",
-        "group": "connect",
-        "execution_class": "@chitty/connectors",
-        "visibility": "recommended",
-        "group_assignment_source": "name-rule"
-      },
-      {
-        "id": "chittycanon://capability/build/go-lsp",
-        "name": "Go LSP",
-        "group": "build",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "category"
-      },
-      {
-        "id": "chittycanon://capability/workspace/goal-creator",
-        "name": "Goal Creator",
-        "group": "workspace",
-        "execution_class": "@chitty/ambient",
-        "visibility": "recommended",
-        "group_assignment_source": "name-rule"
-      },
-      {
-        "id": "chittycanon://capability/connect/google-calendar-claude-ai",
-        "name": "Google Calendar (Claude.ai)",
-        "group": "connect",
-        "execution_class": "@chitty/connectors",
-        "visibility": "recommended",
-        "group_assignment_source": "name-rule"
-      },
-      {
-        "id": "chittycanon://capability/build/greptile",
-        "name": "Greptile",
-        "group": "build",
-        "execution_class": "@chitty/connectors",
-        "visibility": "advanced",
-        "group_assignment_source": "category"
-      },
-      {
         "id": "chittycanon://capability/connect/gws-admin-reports",
         "name": "GWS Admin Reports",
         "group": "connect",
@@ -722,6 +658,70 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/gauntlet",
+        "name": "Gauntlet",
+        "group": "build",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/github",
+        "name": "GitHub",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/github-workflows",
+        "name": "GitHub Workflows",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/gmail-claude-ai",
+        "name": "Gmail (Claude.ai)",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/build/go-lsp",
+        "name": "Go LSP",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/workspace/goal-creator",
+        "name": "Goal Creator",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-calendar-claude-ai",
+        "name": "Google Calendar (Claude.ai)",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/build/greptile",
+        "name": "Greptile",
+        "group": "build",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "category"
       },
       {
         "id": "chittycanon://capability/build/hugging-face-claude-ai",
