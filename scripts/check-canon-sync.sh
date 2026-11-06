@@ -18,7 +18,7 @@ elif command -v shasum >/dev/null 2>&1; then HASH_CMD="shasum -a 256"
 else echo "UNVERIFIED: no sha256 tool" >&2; exit 4; fi
 [ -r "$BODY" ] || { SIG_STATE="n/a"; emit "UNVERIFIED"; echo "UNVERIFIED: artifact not readable: $BODY" >&2; exit 4; }
 strip_fm() {
-  if [ "$(sed -n '1p' "$1" | sed 's/\r$//')" = "---" ] && sed -n '2,$p' "$1" | sed 's/\r$//' | grep -qxF -- '---'; then
+  if [ "$(sed -n '1p' "$1" | sed 's/\r$//')" = "---" ] && sed -n '2,$p' "$1" | sed 's/\r$//' | grep -xF -- '---' >/dev/null; then
     awk '{l=$0; sub(/\r$/,"",l)} NR==1&&l=="---"{fm=1;next} fm&&l=="---"{fm=0;next} fm{next} {print}' "$1"
   else cat "$1"; fi
 }
