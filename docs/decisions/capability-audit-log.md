@@ -1115,7 +1115,7 @@ logs:            docs/decisions/logs/dec_20261021_*.json (10, all pass validate_
 
 ## CAP-2026-11-06-stripe-billing — gateway
 
-The ch1tty `stripe` server (`@stripe/mcp`, readwrite, enabled) was live with no manifest entry
+The ch1tty `stripe` server (`@stripe/mcp`, readwrite, enabled) was enabled in the local stdio gateway with no manifest entry
 and no overlay record. It is now registered as `chittycanon://capability/connect/stripe` from
 `canonical/mcp/stripe.md` through `market-reconcile.py sync --name stripe`, restricted to
 `claude_code`. `stripe@claude-plugins-official` and the claude.ai Stripe connector are recorded

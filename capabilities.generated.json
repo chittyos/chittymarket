@@ -11952,8 +11952,8 @@
       },
       "auth_flow": {
         "mode": "service-token",
-        "stores_credentials_in": "ChittyConnect",
-        "fail_closed_if_unavailable": true
+        "stores_credentials_in": "ChittyConnect (target; route not yet verified)",
+        "fail_closed_if_unavailable": false
       },
       "runtime_exclusions": {
         "claude_ai": [
@@ -11992,7 +11992,7 @@
       ],
       "visibility": "advanced",
       "provenance": {
-        "content_hash": "sha256:75482a857ad533171e5ae66d154cce2f7e1f61b41d3665fa6e79547cb07c954c",
+        "content_hash": "sha256:75a360df732d29428914102bbc4c80cfe06e662c15acc23796549160802d9275",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -12003,7 +12003,7 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:ec50c3004cc7d5541dc7585afacd66b4967a0c597d5250165a057b9098e67be0",
+    "aggregate_hash": "sha256:f06a040375b5de20a19693d5eaa163c8ad2a43cf45be2982c3c4d3c72dc3ce3a",
     "record_count": 152,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
