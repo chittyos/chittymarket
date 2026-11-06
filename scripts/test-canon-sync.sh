@@ -9,6 +9,7 @@ set -uo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"; ROOT="$(dirname "$HERE")"
 CHECK="$HERE/check-canon-sync.sh"; GATE="$HERE/gate-canon-sync.sh"; STAMP="$HERE/stamp-canon.sh"
 W="$(mktemp -d "${TMPDIR:-/tmp}/canontest.XXXXXX")"; trap 'rm -rf "$W"' EXIT
+URI=chittycanon://test/canon-sync
 PASS=0; FAIL=0
 t() { # name expected_rc actual_rc
   if [ "$2" = "$3" ]; then PASS=$((PASS+1)); printf 'ok   %s\n' "$1"
@@ -32,57 +33,79 @@ cp "$ART" "$W/a.md"
 "$STAMP" "$W/a.md" chittycanon://test/canon-sync 1.0.0 > "$W/m.unsigned" 2>/dev/null || { echo "stamp failed"; exit 99; }
 sign "$W/m.unsigned" "$SK" "$W/m.json"
 
-t "valid artifact+manifest+sig -> IN_SYNC"        0 "$(run "$CHECK" "$W/a.md" "$W/m.json" "$W/pub.pem")"
-t "gate passes IN_SYNC"                            0 "$(run "$GATE"  "$W/a.md" "$W/m.json" "$W/pub.pem")"
-t "pubkey via CANON_PUBKEY env"                    0 "$(CANON_PUBKEY="$W/pub.pem" run "$CHECK" "$W/a.md" "$W/m.json")"
+t "valid artifact+manifest+sig -> IN_SYNC"        0 "$(run "$CHECK" "$W/a.md" "$W/m.json" "$W/pub.pem" "$URI")"
+t "gate passes IN_SYNC"                            0 "$(run "$GATE"  "$W/a.md" "$W/m.json" "$W/pub.pem" "$URI")"
+t "CANON env var alone must NOT supply the trust anchor" 4 "$(CANON_PUBKEY="$W/pub.pem" run "$CHECK" "$W/a.md" "$W/m.json" "" "$URI")"
 
 # identity semantics
 { printf -- '---\nname: changed\nextra: x\n---\n'; awk 'NR==1&&$0=="---"{f=1;next} f&&$0=="---"{f=0;next} !f{print}' "$ART"; } > "$W/fm.md"
-t "frontmatter-only change -> still IN_SYNC"       0 "$(run "$CHECK" "$W/fm.md" "$W/m.json" "$W/pub.pem")"
+t "frontmatter-only change -> still IN_SYNC"       0 "$(run "$CHECK" "$W/fm.md" "$W/m.json" "$W/pub.pem" "$URI")"
 sed 's/$/\r/' "$W/a.md" > "$W/crlf.md"
-t "CRLF line endings -> still IN_SYNC"             0 "$(run "$CHECK" "$W/crlf.md" "$W/m.json" "$W/pub.pem")"
+t "CRLF line endings -> still IN_SYNC"             0 "$(run "$CHECK" "$W/crlf.md" "$W/m.json" "$W/pub.pem" "$URI")"
 { cat "$W/a.md"; printf '\n\n\n'; } > "$W/trail.md"
-t "trailing blank lines -> still IN_SYNC"          0 "$(run "$CHECK" "$W/trail.md" "$W/m.json" "$W/pub.pem")"
+t "trailing blank lines -> still IN_SYNC"          0 "$(run "$CHECK" "$W/trail.md" "$W/m.json" "$W/pub.pem" "$URI")"
 jq -c 'to_entries|reverse|from_entries' "$W/m.json" > "$W/reorder.json"
-t "manifest key reorder -> still IN_SYNC"          0 "$(run "$CHECK" "$W/a.md" "$W/reorder.json" "$W/pub.pem")"
+t "manifest key reorder -> still IN_SYNC"          0 "$(run "$CHECK" "$W/a.md" "$W/reorder.json" "$W/pub.pem" "$URI")"
 
 # drift
 { cat "$W/a.md"; echo "tampered line"; } > "$W/body.md"
-t "body tampered -> OUT_OF_SYNC"                   3 "$(run "$CHECK" "$W/body.md" "$W/m.json" "$W/pub.pem")"
-t "gate blocks OUT_OF_SYNC with rc 3"              3 "$(run "$GATE"  "$W/body.md" "$W/m.json" "$W/pub.pem")"
+t "body tampered -> OUT_OF_SYNC"                   3 "$(run "$CHECK" "$W/body.md" "$W/m.json" "$W/pub.pem" "$URI")"
+t "gate blocks OUT_OF_SYNC with rc 3"              3 "$(run "$GATE"  "$W/body.md" "$W/m.json" "$W/pub.pem" "$URI")"
 : > "$W/empty.md"
-t "empty artifact -> OUT_OF_SYNC"                  3 "$(run "$CHECK" "$W/empty.md" "$W/m.json" "$W/pub.pem")"
+t "empty artifact -> UNVERIFIED (empty-body hash refused)" 4 "$(run "$CHECK" "$W/empty.md" "$W/m.json" "$W/pub.pem" "$URI")"
 
 # unverified (must never be 0 or 3)
 jq '.version="9.9.9"' "$W/m.json" > "$W/mv.json"
-t "manifest field edited after signing -> UNVERIFIED" 4 "$(run "$CHECK" "$W/a.md" "$W/mv.json" "$W/pub.pem")"
+t "manifest field edited after signing -> UNVERIFIED" 4 "$(run "$CHECK" "$W/a.md" "$W/mv.json" "$W/pub.pem" "$URI")"
 ZERO="$(printf '0%.0s' $(seq 64))"
 jq --arg h "sha256:$ZERO" '.content_hash=$h' "$W/m.json" > "$W/mh.json"
-t "hash swapped, stale sig -> UNVERIFIED (not OUT_OF_SYNC)" 4 "$(run "$CHECK" "$W/body.md" "$W/mh.json" "$W/pub.pem")"
-t "wrong pinned pubkey -> UNVERIFIED"              4 "$(run "$CHECK" "$W/a.md" "$W/m.json" "$W/pub2.pem")"
+t "hash swapped, stale sig -> UNVERIFIED (not OUT_OF_SYNC)" 4 "$(run "$CHECK" "$W/body.md" "$W/mh.json" "$W/pub.pem" "$URI")"
+t "wrong pinned pubkey -> UNVERIFIED"              4 "$(run "$CHECK" "$W/a.md" "$W/m.json" "$W/pub2.pem" "$URI")"
 jq 'del(.signature)' "$W/m.json" > "$W/ns.json"
-t "signature absent -> UNVERIFIED"                 4 "$(run "$CHECK" "$W/a.md" "$W/ns.json" "$W/pub.pem")"
-t "stamp placeholder signature -> UNVERIFIED"      4 "$(run "$CHECK" "$W/a.md" "$W/m.unsigned" "$W/pub.pem")"
+t "signature absent -> UNVERIFIED"                 4 "$(run "$CHECK" "$W/a.md" "$W/ns.json" "$W/pub.pem" "$URI")"
+t "stamp placeholder signature -> UNVERIFIED"      4 "$(run "$CHECK" "$W/a.md" "$W/m.unsigned" "$W/pub.pem" "$URI")"
 jq '.signature="!!!notbase64!!!"' "$W/m.json" > "$W/bs.json"
-t "garbage signature -> UNVERIFIED"                4 "$(run "$CHECK" "$W/a.md" "$W/bs.json" "$W/pub.pem")"
+t "garbage signature -> UNVERIFIED"                4 "$(run "$CHECK" "$W/a.md" "$W/bs.json" "$W/pub.pem" "$URI")"
 jq '.content_hash=""' "$W/m.json" > "$W/eh.json"
-t "empty content_hash -> UNVERIFIED"               4 "$(run "$CHECK" "$W/a.md" "$W/eh.json" "$W/pub.pem")"
+t "empty content_hash -> UNVERIFIED"               4 "$(run "$CHECK" "$W/a.md" "$W/eh.json" "$W/pub.pem" "$URI")"
 echo 'not json' > "$W/nj.json"
-t "manifest not JSON -> UNVERIFIED"                4 "$(run "$CHECK" "$W/a.md" "$W/nj.json" "$W/pub.pem")"
-t "manifest missing -> UNVERIFIED"                 4 "$(run "$CHECK" "$W/a.md" "$W/nope.json" "$W/pub.pem")"
-t "artifact missing -> UNVERIFIED"                 4 "$(run "$CHECK" "$W/nope.md" "$W/m.json" "$W/pub.pem")"
-t "no pubkey supplied -> UNVERIFIED"               4 "$(env -u CANON_PUBKEY bash -c '"$0" "$1" "$2" >/dev/null 2>&1; echo $?' "$CHECK" "$W/a.md" "$W/m.json")"
-t "pubkey unreadable -> UNVERIFIED"                4 "$(run "$CHECK" "$W/a.md" "$W/m.json" "$W/nopub.pem")"
-t "gate collapses UNVERIFIED to rc 4"              4 "$(run "$GATE"  "$W/a.md" "$W/m.json" "$W/pub2.pem")"
-t "unreachable URL -> UNVERIFIED"                  4 "$(run "$CHECK" "$W/a.md" "http://127.0.0.1:9/m.json" "$W/pub.pem")"
+t "manifest not JSON -> UNVERIFIED"                4 "$(run "$CHECK" "$W/a.md" "$W/nj.json" "$W/pub.pem" "$URI")"
+t "manifest missing -> UNVERIFIED"                 4 "$(run "$CHECK" "$W/a.md" "$W/nope.json" "$W/pub.pem" "$URI")"
+t "artifact missing -> UNVERIFIED"                 4 "$(run "$CHECK" "$W/nope.md" "$W/m.json" "$W/pub.pem" "$URI")"
+t "no pubkey supplied -> UNVERIFIED"               4 "$(run "$CHECK" "$W/a.md" "$W/m.json" "" "$URI")"
+t "pubkey unreadable -> UNVERIFIED"                4 "$(run "$CHECK" "$W/a.md" "$W/m.json" "$W/nopub.pem" "$URI")"
+t "gate collapses UNVERIFIED to rc 4"              4 "$(run "$GATE"  "$W/a.md" "$W/m.json" "$W/pub2.pem" "$URI")"
+t "unreachable URL -> UNVERIFIED"                  4 "$(run "$CHECK" "$W/a.md" "http://127.0.0.1:9/m.json" "$W/pub.pem" "$URI")"
+
+
+# manifest binding / freshness (signed fields must actually be compared)
+t "manifest for a different uri -> UNVERIFIED"      4 "$(run "$CHECK" "$W/a.md" "$W/m.json" "$W/pub.pem" chittycanon://test/OTHER)"
+t "no expected uri supplied -> UNVERIFIED"          4 "$(run "$CHECK" "$W/a.md" "$W/m.json" "$W/pub.pem")"
+t "version >= min-version -> IN_SYNC"               0 "$(run "$CHECK" "$W/a.md" "$W/m.json" "$W/pub.pem" "$URI" 1.0.0)"
+t "stale manifest (1.0.0 < min 1.0.1) -> UNVERIFIED" 4 "$(run "$CHECK" "$W/a.md" "$W/m.json" "$W/pub.pem" "$URI" 1.0.1)"
+mkdir -p "$W/adir"
+t "directory as artifact -> UNVERIFIED"             4 "$(run "$CHECK" "$W/adir" "$W/m.json" "$W/pub.pem" "$URI")"
+printf -- '---\nname: x\n---\n' > "$W/fmonly.md"; "$STAMP" "$W/fmonly.md" "$URI" 1.0.0 > "$W/fu.json"; sign "$W/fu.json" "$SK" "$W/fmo.json"
+t "frontmatter-only artifact (empty-body hash) -> UNVERIFIED" 4 "$(run "$CHECK" "$W/fmonly.md" "$W/fmo.json" "$W/pub.pem" "$URI")"
+# '---' rules inside the body must stay in the hash (kills the awk toggle mutation)
+printf -- '---\nname: x\n---\nintro\n\n---\nsecret-rule A\n---\noutro\n' > "$W/rules.md"
+"$STAMP" "$W/rules.md" "$URI" 1.0.0 > "$W/ru.json"; sign "$W/ru.json" "$SK" "$W/rm.json"
+t "body with '---' rules -> IN_SYNC"                0 "$(run "$CHECK" "$W/rules.md" "$W/rm.json" "$W/pub.pem" "$URI")"
+sed 's/secret-rule A/secret-rule B/' "$W/rules.md" > "$W/rules2.md"
+t "edit between body '---' rules -> OUT_OF_SYNC"    3 "$(run "$CHECK" "$W/rules2.md" "$W/rm.json" "$W/pub.pem" "$URI")"
+# reason codes: rc alone cannot tell causes apart
+reason() { "$@" 2>&1 >/dev/null | grep -o 'sig=[^ ]*' | head -1; }
+t "reason: wrong key -> sig=INVALID"                "sig=INVALID" "$(reason "$CHECK" "$W/a.md" "$W/m.json" "$W/pub2.pem" "$URI")"
+t "reason: absent signature -> sig=no-signature"    "sig=no-signature" "$(reason "$CHECK" "$W/a.md" "$W/ns.json" "$W/pub.pem" "$URI")"
+t "reason: unreadable key file -> sig=pubkey-unreadable" "sig=pubkey-unreadable" "$(reason "$CHECK" "$W/a.md" "$W/m.json" "$W/nopub.pem" "$URI")"
 
 # stamp/check agreement on every real canonical artifact (hash computed in two places)
 bad=0; n=0
 for f in "$ROOT"/canonical/*/*.md; do
   [ -r "$f" ] || continue; n=$((n+1))
-  "$STAMP" "$f" chittycanon://test/x 1.0.0 > "$W/u.json" 2>/dev/null || { bad=$((bad+1)); continue; }
+  "$STAMP" "$f" "$URI" 1.0.0 > "$W/u.json" 2>/dev/null || { bad=$((bad+1)); continue; }
   sign "$W/u.json" "$SK" "$W/sm.json"
-  [ "$(run "$CHECK" "$f" "$W/sm.json" "$W/pub.pem")" = 0 ] || { bad=$((bad+1)); echo "  stamp/check disagree: $f"; }
+  [ "$(run "$CHECK" "$f" "$W/sm.json" "$W/pub.pem" "$URI")" = 0 ] || { bad=$((bad+1)); echo "  stamp/check disagree: $f"; }
 done
 [ "$n" -gt 0 ] || { FAIL=$((FAIL+1)); echo "FAIL zero canonical artifacts found"; }
 t "stamp->sign->check round-trip on $n real canonical artifacts (0 disagreements)" 0 "$bad"
@@ -92,8 +115,8 @@ t "stamp->sign->check round-trip on $n real canonical artifacts (0 disagreements
 BIG="$(ls -S "$ROOT"/canonical/*/*.md | head -1)"
 distinct="$(for _ in $(seq 150); do "$STAMP" "$BIG" chittycanon://test/x 1.0.0 2>/dev/null | jq -r .content_hash; done | sort -u | wc -l | tr -d ' ')"
 t "stamp hash deterministic over 150 runs on largest artifact" 1 "$distinct"
-cp "$BIG" "$W/big.md"; "$STAMP" "$W/big.md" chittycanon://test/x 1.0.0 > "$W/bu.json"; sign "$W/bu.json" "$SK" "$W/bm.json"
-flaky=0; for _ in $(seq 150); do [ "$(run "$CHECK" "$W/big.md" "$W/bm.json" "$W/pub.pem")" = 0 ] || flaky=$((flaky+1)); done
+cp "$BIG" "$W/big.md"; "$STAMP" "$W/big.md" "$URI" 1.0.0 > "$W/bu.json"; sign "$W/bu.json" "$SK" "$W/bm.json"
+flaky=0; for _ in $(seq 150); do [ "$(run "$CHECK" "$W/big.md" "$W/bm.json" "$W/pub.pem" "$URI")" = 0 ] || flaky=$((flaky+1)); done
 t "check verdict stable over 150 runs on largest artifact (0 flaky)" 0 "$flaky"
 
 printf '\n%s passed, %s failed\n' "$PASS" "$FAIL"; exit "$FAIL"

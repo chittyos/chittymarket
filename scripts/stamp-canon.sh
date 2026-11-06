@@ -7,7 +7,7 @@
 # Usage: stamp-canon.sh <artifact-file> <uri> <version> [supersedes]
 set -euo pipefail
 BODY="${1:?body file}"; URI="${2:?canon uri}"; VER="${3:?version}"; PREV="${4:-}"
-[ -r "$BODY" ] || { echo "stamp: artifact not readable: $BODY" >&2; exit 1; }
+[ -f "$BODY" ] && [ -r "$BODY" ] || { echo "stamp: artifact not readable: $BODY" >&2; exit 1; }
 if command -v sha256sum >/dev/null 2>&1; then HASH_CMD="sha256sum"; else HASH_CMD="shasum -a 256"; fi
 strip_fm() {
   if [ "$(sed -n '1p' "$1" | sed 's/\r$//')" = "---" ] && sed -n '2,$p' "$1" | sed 's/\r$//' | grep -xF -- '---' >/dev/null; then

@@ -4,10 +4,12 @@
 # reference = SIGNED manifest, verdict emitted here. A valid ed25519 signature against a
 # pinned pubkey is REQUIRED for IN_SYNC. Requires OpenSSL >= 3.0 (-rawin), jq, coreutils.
 # canon: chittycanon://core/contracts/canon-versioning
-# Usage: check-canon-sync.sh <artifact-file> <manifest-url-or-path> [pubkey-file]
+# Usage: check-canon-sync.sh <artifact-file> <manifest-url-or-path> <pubkey-file> <expected-uri> [min-version]
+# The pubkey is an explicit argument (no environment fallback: env must not choose the trust anchor).
+# The signed manifest uri MUST equal <expected-uri>; version MUST be >= [min-version] (sort -V).
 # Exit: 0 IN_SYNC · 3 OUT_OF_SYNC · 4 UNVERIFIED
 set -uo pipefail
-BODY="${1:?artifact file}"; MANIFEST_SRC="${2:?manifest url or path}"; PUBKEY="${3:-${CANON_PUBKEY:-}}"
+BODY="${1:?artifact file}"; MANIFEST_SRC="${2:?manifest url or path}"; PUBKEY="${3:-}"; EXPECT_URI="${4:-}"; MIN_VER="${5:-}"
 NOW="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 TMP="$(mktemp -d "${TMPDIR:-/tmp}/canonsync.XXXXXX")" || { echo "UNVERIFIED: mktemp failed" >&2; exit 4; }
 trap 'rm -rf "$TMP"' EXIT INT TERM
@@ -16,13 +18,15 @@ emit() { printf 'CANON-SYNC %s | artifact=%s | local=%s | canon=%s | ver=%s | si
 if command -v sha256sum >/dev/null 2>&1; then HASH_CMD="sha256sum"
 elif command -v shasum >/dev/null 2>&1; then HASH_CMD="shasum -a 256"
 else echo "UNVERIFIED: no sha256 tool" >&2; exit 4; fi
-[ -r "$BODY" ] || { SIG_STATE="n/a"; emit "UNVERIFIED"; echo "UNVERIFIED: artifact not readable: $BODY" >&2; exit 4; }
+[ -f "$BODY" ] && [ -r "$BODY" ] || { SIG_STATE="n/a"; emit "UNVERIFIED"; echo "UNVERIFIED: artifact not readable: $BODY" >&2; exit 4; }
 strip_fm() {
   if [ "$(sed -n '1p' "$1" | sed 's/\r$//')" = "---" ] && sed -n '2,$p' "$1" | sed 's/\r$//' | grep -xF -- '---' >/dev/null; then
     awk '{l=$0; sub(/\r$/,"",l)} NR==1&&l=="---"{fm=1;next} fm&&l=="---"{fm=0;next} fm{next} {print}' "$1"
   else cat "$1"; fi
 }
-LOCAL_HASH="sha256:$(strip_fm "$BODY" | sed -e 's/\r$//' | sed -e :a -e '/^\n*$/{$d;N;ba}' | $HASH_CMD | cut -d' ' -f1)"
+HASH_HEX="$(strip_fm "$BODY" | sed -e 's/\r$//' | sed -e :a -e '/^\n*$/{$d;N;ba}' | $HASH_CMD | cut -d' ' -f1; exit "${PIPESTATUS[0]}")" ; HRC=$?
+if [ "$HRC" -ne 0 ] || [ -z "$HASH_HEX" ]; then SIG_STATE="n/a"; emit "UNVERIFIED"; echo "UNVERIFIED: hash pipeline failed on $BODY" >&2; exit 4; fi
+LOCAL_HASH="sha256:$HASH_HEX"
 fetch() { case "$1" in http*://*) curl -fsS --max-time 10 "$1";; *) [ -r "$1" ] && cat "$1";; esac; }
 if ! MANIFEST="$(fetch "$MANIFEST_SRC")" || [ -z "$MANIFEST" ]; then
   SIG_STATE="unreachable"; emit "UNVERIFIED"; echo "UNVERIFIED: manifest unreachable/empty ($MANIFEST_SRC)" >&2; exit 4; fi
@@ -40,6 +44,13 @@ if [ -z "$SIG_B64" ] || ! printf '%s' "$SIG_B64" | openssl base64 -d -A > "$TMP/
 if openssl pkeyutl -verify -pubin -inkey "$PUBKEY" -rawin -in "$TMP/signed" -sigfile "$TMP/sig" >/dev/null 2>&1; then
   SIG_STATE="valid"
 else SIG_STATE="INVALID"; emit "UNVERIFIED"; echo "UNVERIFIED: signature INVALID" >&2; exit 4; fi
+# Bind the signed manifest to THIS artifact and to freshness (signed fields, now actually compared).
+if [ -z "$EXPECT_URI" ]; then emit "UNVERIFIED"; echo "UNVERIFIED: no expected uri supplied" >&2; exit 4; fi
+if [ "$ARTIFACT" != "$EXPECT_URI" ]; then emit "UNVERIFIED"; echo "UNVERIFIED: manifest uri '$ARTIFACT' != expected '$EXPECT_URI'" >&2; exit 4; fi
+if [ -n "$MIN_VER" ] && [ "$(printf '%s\n%s\n' "$MIN_VER" "$CANON_VER" | sort -V | head -n1)" != "$MIN_VER" ]; then
+  emit "UNVERIFIED"; echo "UNVERIFIED: manifest version $CANON_VER < required $MIN_VER (stale/replayed)" >&2; exit 4; fi
+if [ "$LOCAL_HASH" = "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" ]; then
+  emit "UNVERIFIED"; echo "UNVERIFIED: empty-body hash refused" >&2; exit 4; fi
 if [ "$LOCAL_HASH" = "$CANON_HASH" ]; then
   emit "IN_SYNC"; echo "IN SYNC ok $ARTIFACT @ $CANON_VER" >&2; exit 0
 else emit "OUT_OF_SYNC"; echo "OUT OF SYNC $ARTIFACT local $LOCAL_HASH canon $CANON_HASH" >&2; exit 3; fi
