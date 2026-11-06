@@ -11977,7 +11977,7 @@
       ],
       "source_links": [
         "local://canonical/mcp/stripe.md",
-        "ch1tty://servers.json#stripe"
+        "ch1tty://servers/stripe"
       ],
       "phase0_audit": {
         "job_to_be_done": "operate",
@@ -11992,7 +11992,7 @@
       ],
       "visibility": "advanced",
       "provenance": {
-        "content_hash": "sha256:75a360df732d29428914102bbc4c80cfe06e662c15acc23796549160802d9275",
+        "content_hash": "sha256:deb3a9af381d9f08f05481a3225c415c9439c756f5458f8de6edc510a79ae87e",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -12003,7 +12003,7 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:f06a040375b5de20a19693d5eaa163c8ad2a43cf45be2982c3c4d3c72dc3ce3a",
+    "aggregate_hash": "sha256:2bcb14b66918504f1c20729416d6772b6fb8b02ad3628b4a02cd90c35cbc7867",
     "record_count": 152,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",

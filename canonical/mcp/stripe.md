@@ -66,7 +66,7 @@ overlay:
     - write_requires_policy_elevation
   source_links:
   - local://canonical/mcp/stripe.md
-  - ch1tty://servers.json#stripe
+  - ch1tty://servers/stripe
 ---
 
 # Stripe Billing
