@@ -1,41 +1,60 @@
 #!/usr/bin/env bash
-# canon-hash.sh — the ONE implementation of the canon-versioning content hash (v1).
+# canon-hash.sh — the ONE implementation of the canon-versioning content hash (v2).
 # Sourced by stamp-canon.sh and check-canon-sync.sh so they cannot drift apart.
 # canon: chittycanon://core/contracts/canon-versioning
 #
-# Canonical byte string hashed (sha256), all line endings normalised to LF:
-#   canon-hash-v1\n
-#   fm=<1|0>\n                      1 only when a COMPLETE frontmatter block exists (line 1 '---' + a later '---')
-#   for each ALLOWLISTED top-level frontmatter key, sorted bytewise (LC_ALL=C), stable:
-#     <the key's lines: 'key: value' + its indented continuation lines, whitespace-only lines dropped>\n
+# Canonical byte string hashed (sha256), line endings normalised to LF:
+#   canon-hash-v2\n
+#   fm=<1|0>\n                 1 only when a complete frontmatter block exists
+#   every frontmatter line EXCEPT lines belonging to a DENYLISTED top-level key (projection metadata),
+#     grouped by top-level key, keys sorted bytewise (LC_ALL=C), file order kept within a key,
+#     whitespace-only lines and '#' comment lines dropped
 #   body\n
 #   <everything below the frontmatter, trailing blank lines stripped>
-# Allowlist = keys that change runtime BEHAVIOUR. Projection metadata (canon_uri, overlay, projection_*,
-# runtimes, kind, ...) is deliberately outside the hash because projections add/rewrite it.
+# DENYLIST, not allowlist: an unknown key is hashed (fails safe). Only projection metadata that
+# projections add or rewrite is outside the hash: see CANON_FM_DENY.
+# FAIL CLOSED: the hash is refused (rc 1 -> UNVERIFIED) if any column-0 frontmatter line is not
+# `key: value` / `key:` with key = [A-Za-z0-9_-]+ (quoted keys, `key : v`, `? k`, `<<:`, flow `{..}`
+# mappings are all rejected), if an indented line has no owning key, or if a line starting with
+# `---` other than `---[ \t]*` appears inside frontmatter.
+# Delimiters follow the Claude Code runtime: opener/closer = a line matching ^---[ \t]*$ (CR tolerated).
 # Signed-manifest bytes: `jq -cS 'del(.signature)'` output INCLUDING its trailing 0x0a. Non-jq signers
 # MUST emit sorted-key compact JSON + "\n" (jq also escapes U+007F).
-CANON_FM_ALLOW="name description tools allowed-tools disallowedTools model permissionMode hooks mcpServers skills effort"
+CANON_FM_DENY="canon_uri canonical_uri overlay canonical_capability_ref projection_owner projection_id projection_family runtimes plugin kind classification"
 
-canon_has_fm() { # complete frontmatter? (no early-exit pipes: pipefail/SIGPIPE-safe)
-  [ "$(sed -n '1p' "$1" | sed 's/\r$//')" = "---" ] || return 1
-  sed -n '2,$p' "$1" | sed 's/\r$//' | grep -xF -- '---' >/dev/null
+canon_has_fm() { # complete frontmatter? pure awk, reads whole file (no early-exit pipes)
+  LC_ALL=C awk '{l=$0; sub(/\r$/,"",l)} NR==1{ if (l ~ /^---[ \t]*$/) o=1; else exit } NR>1 && o && l ~ /^---[ \t]*$/ {c=1} END{exit !(o && c)}' "$1"
 }
 
-canon_canonical_bytes() { # file -> canonical byte string on stdout
+canon_body_text() { # body only, CR stripped
+  if canon_has_fm "$1"; then
+    LC_ALL=C awk '{l=$0; sub(/\r$/,"",l)} NR==1{next} !done && l ~ /^---[ \t]*$/ {done=1; next} !done{next} {print l}' "$1"
+  else LC_ALL=C awk '{l=$0; sub(/\r$/,"",l); print l}' "$1"; fi
+}
+
+canon_fm_lines() { # prints "key<TAB>seq<TAB>line" for hashed frontmatter lines; exit 3 on malformed frontmatter
+  LC_ALL=C awk -v deny="$CANON_FM_DENY" '
+    BEGIN { n=split(deny, d, " "); for(i=1;i<=n;i++) bad[d[i]]=1 }
+    { l=$0; sub(/\r$/,"",l) }
+    NR==1 { next }
+    {
+      if (l ~ /^---[ \t]*$/) exit 0
+      if (l ~ /^---/) { print "malformed delimiter-like line in frontmatter: " l > "/dev/stderr"; exit 3 }
+      if (l ~ /^[ \t]*$/ || l ~ /^#/) next
+      if (l ~ /^[A-Za-z0-9_-]+:([ \t]|$)/) { k=l; sub(/:.*/,"",k); cur=k; have=1 }
+      else if ((l ~ /^[ \t]/ || l ~ /^-([ \t]|$)/) && have) { }
+      else { print "unparseable frontmatter line: " l > "/dev/stderr"; exit 3 }
+      if (!(cur in bad)) { seq++; printf "%s\t%08d\t%s\n", cur, seq, l }
+    }
+  ' "$1"
+}
+
+canon_canonical_bytes() { # file -> canonical byte string on stdout; nonzero on malformed input
   local f="$1"
-  printf 'canon-hash-v1\n'
+  printf 'canon-hash-v2\n'
   if canon_has_fm "$f"; then
     printf 'fm=1\n'
-    LC_ALL=C awk -v allow="$CANON_FM_ALLOW" '
-      BEGIN { n=split(allow, a, " "); for(i=1;i<=n;i++) ok[a[i]]=1 }
-      { l=$0; sub(/\r$/,"",l) }
-      NR==1 && l=="---" { fm=1; next }
-      fm && l=="---" { fm=0; done=1; next }
-      done { next }
-      fm {
-        if (l ~ /^[A-Za-z0-9_-]+:/) { k=l; sub(/:.*/,"",k); cur=(k in ok)?k:"" }
-        if (cur!="" && l !~ /^[ \t]*$/) { seq++; printf "%s\t%08d\t%s\n", cur, seq, l }
-      }' "$f" | LC_ALL=C sort -t "$(printf '\t')" -k1,1 -k2,2n | cut -f3-
+    ( set -o pipefail; canon_fm_lines "$f" | LC_ALL=C sort -t "$(printf '\t')" -k1,1 -k2,2n | cut -f3- ) || return 1
     printf 'body\n'
   else
     printf 'fm=0\nbody\n'
@@ -43,20 +62,19 @@ canon_canonical_bytes() { # file -> canonical byte string on stdout
   canon_body_text "$f"
 }
 
-canon_body_text() { # body only (below a complete frontmatter block, or the whole file), CR stripped
-  if canon_has_fm "$1"; then
-    LC_ALL=C awk '{l=$0; sub(/\r$/,"",l)} NR==1&&l=="---"{fm=1;next} fm&&l=="---"{fm=0;done=1;next} fm{next} {print l}' "$1"
-  else sed -e 's/\r$//' "$1"; fi
-}
-
-# canon_hash FILE -> "sha256:<hex>" ; returns nonzero (no output) on any pipeline failure.
+# canon_hash FILE -> "sha256:<hex>"; nonzero (no output) on ANY failure in ANY stage.
 canon_hash() {
-  local hc out rc
+  local hc tmp out rc
   if command -v sha256sum >/dev/null 2>&1; then hc="sha256sum"; else hc="shasum -a 256"; fi
   [ -f "$1" ] && [ -r "$1" ] || return 1
-  # strip trailing blank lines from the whole canonical string, then hash
-  out="$({ canon_canonical_bytes "$1" || exit 1; } | sed -e :a -e '/^\n*$/{$d;N;ba}' | $hc | cut -d' ' -f1; exit "${PIPESTATUS[0]}")"; rc=$?
-  [ "$rc" -eq 0 ] && [ -n "$out" ] || return 1
+  tmp="$(mktemp "${TMPDIR:-/tmp}/canonhash.XXXXXX")" || return 1
+  if ! canon_canonical_bytes "$1" > "$tmp"; then rm -f "$tmp"; return 1; fi
+  # strip trailing blank lines (portable awk; no GNU-only sed), then hash; every stage checked via pipefail
+  out="$( set -o pipefail; awk '/^[[:space:]]*$/ {b=b $0 "\n"; next} {printf "%s", b; b=""; print}' "$tmp" | $hc | cut -d' ' -f1 )"; rc=$?
+  rm -f "$tmp"
+  [ "$rc" -eq 0 ] || return 1
+  case "$out" in e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855) return 1;; esac
+  printf '%s' "$out" | grep -Eq '^[0-9a-f]{64}$' || return 1
   printf 'sha256:%s\n' "$out"
 }
 

@@ -35,6 +35,8 @@ if [ -z "$SIG_B64" ] || ! printf '%s' "$SIG_B64" | openssl base64 -d -A > "$TMP/
 if openssl pkeyutl -verify -pubin -inkey "$PUBKEY" -rawin -in "$TMP/signed" -sigfile "$TMP/sig" >/dev/null 2>&1; then
   SIG_STATE="valid"
 else SIG_STATE="INVALID"; emit "UNVERIFIED"; echo "UNVERIFIED: signature INVALID" >&2; exit 4; fi
+if ! printf '%s' "$CANON_VER" | grep -Eq '^[0-9]+(\.[0-9A-Za-z.+-]+)*$'; then
+  emit "UNVERIFIED"; echo "UNVERIFIED: manifest version missing or malformed ('$CANON_VER')" >&2; exit 4; fi
 # Bind the signed manifest to THIS artifact and to freshness (signed fields, now actually compared).
 if [ -z "$EXPECT_URI" ]; then emit "UNVERIFIED"; echo "UNVERIFIED: no expected uri supplied" >&2; exit 4; fi
 if [ "$ARTIFACT" != "$EXPECT_URI" ]; then emit "UNVERIFIED"; echo "UNVERIFIED: manifest uri '$ARTIFACT' != expected '$EXPECT_URI'" >&2; exit 4; fi

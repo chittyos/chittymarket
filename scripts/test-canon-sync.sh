@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# test-canon-sync.sh — real-crypto test corpus (hash = canon-hash-v1, scripts/lib/canon-hash.sh) for check-canon-sync.sh / gate-canon-sync.sh.
+# test-canon-sync.sh — real-crypto test corpus (hash = canon-hash-v2, scripts/lib/canon-hash.sh) for check-canon-sync.sh / gate-canon-sync.sh.
 # No mocks: generates a throwaway ed25519 keypair (openssl) in a temp dir, stamps REAL
 # canonical/ artifacts with stamp-canon.sh, signs the manifest the way the pipeline does
 # (jq -cS del(.signature)), and asserts exit codes. Fail-closed cases must exit 3/4, never 0.
@@ -37,7 +37,7 @@ t "valid artifact+manifest+sig -> IN_SYNC"        0 "$(run "$CHECK" "$W/a.md" "$
 t "gate passes IN_SYNC"                            0 "$(run "$GATE"  "$W/a.md" "$W/m.json" "$W/pub.pem" "$URI")"
 t "CANON env var alone must NOT supply the trust anchor" 4 "$(CANON_PUBKEY="$W/pub.pem" run "$CHECK" "$W/a.md" "$W/m.json" "" "$URI")"
 
-# identity semantics (canon-hash-v1: allowlisted frontmatter keys + fm marker + body)
+# identity semantics (canon-hash-v2: allowlisted frontmatter keys + fm marker + body)
 sed '1a projection_id: zzz-not-behaviour' "$W/a.md" > "$W/fm.md"
 t "non-allowlisted frontmatter key added -> still IN_SYNC"   0 "$(run "$CHECK" "$W/fm.md" "$W/m.json" "$W/pub.pem" "$URI")"
 sed 's/^description:/description: EVIL/' "$W/a.md" > "$W/fd.md"
@@ -51,8 +51,8 @@ t "no-frontmatter artifact -> IN_SYNC"                       0 "$(run "$CHECK" "
 { printf -- '---\nanything: deploy freely\n---\n'; cat "$W/nofm.md"; } > "$W/fake.md"
 t "fake frontmatter prepended to bare artifact -> OUT_OF_SYNC" 3 "$(run "$CHECK" "$W/fake.md" "$W/nm.json" "$W/pub.pem" "$URI")"
 # known-answer vector, computed independently in python (stamp and check share the lib, so a round trip alone proves nothing)
-printf -- '---\nname: kat\nignored: z\ndescription: |\n  zeta\n\n  alpha\n---\nBody line\n\n\n' > "$W/kat.md"
-EXPECT="sha256:$(python3 -I -c "import hashlib;print(hashlib.sha256(b'canon-hash-v1\nfm=1\ndescription: |\n  zeta\n  alpha\nname: kat\nbody\nBody line\n').hexdigest())")"
+printf -- '---\nname: kat\ncanon_uri: z\ndescription: |\n  zeta\n\n  alpha\n---\nBody line\n\n\n' > "$W/kat.md"
+EXPECT="sha256:$(python3 -I -c "import hashlib;print(hashlib.sha256(b'canon-hash-v2\nfm=1\ndescription: |\n  zeta\n  alpha\nname: kat\nbody\nBody line\n').hexdigest())")"
 GOT="$("$STAMP" "$W/kat.md" "$URI" 1.0.0 2>/dev/null | jq -r .content_hash)"
 t "known-answer vector matches independent python hash" "$EXPECT" "$GOT"
 sed 's/$/\r/' "$W/a.md" > "$W/crlf.md"
@@ -113,6 +113,42 @@ reason() { "$@" 2>&1 >/dev/null | grep -o 'sig=[^ ]*' | head -1; }
 t "reason: wrong key -> sig=INVALID"                "sig=INVALID" "$(reason "$CHECK" "$W/a.md" "$W/m.json" "$W/pub2.pem" "$URI")"
 t "reason: absent signature -> sig=no-signature"    "sig=no-signature" "$(reason "$CHECK" "$W/a.md" "$W/ns.json" "$W/pub.pem" "$URI")"
 t "reason: unreadable key file -> sig=pubkey-unreadable" "sig=pubkey-unreadable" "$(reason "$CHECK" "$W/a.md" "$W/m.json" "$W/nopub.pem" "$URI")"
+
+# round-2: frontmatter parsing must fail closed / hash unknown keys
+mk() { # name fixture-text -> stamps+signs $W/<name>.md as $W/<name>.m.json
+  printf -- "$2" > "$W/$1.md"; "$STAMP" "$W/$1.md" "$URI" 1.0.0 > "$W/$1.u.json" 2>/dev/null; sign "$W/$1.u.json" "$SK" "$W/$1.m.json"; }
+chk() { run "$CHECK" "$W/$1.md" "$W/$2.m.json" "$W/pub.pem" "$URI"; }
+BASE='---\nname: n\ndescription: d\ncolor: blue\n---\nBody\n'
+mk rb "$BASE"
+t "fixture base -> IN_SYNC" 0 "$(chk rb rb)"
+for v in '"tools": Bash, Write' 'tools : Bash' "'permissionMode': bypassPermissions" '{tools: Bash}' '<<: {tools: Bash}' '? tools'; do
+  printf -- '---\nname: n\ndescription: d\ncolor: blue\n%s\n---\nBody\n' "$v" > "$W/rq.md"
+  t "unparseable/quoted frontmatter line [$v] -> UNVERIFIED" 4 "$(run "$CHECK" "$W/rq.md" "$W/rb.m.json" "$W/pub.pem" "$URI")"
+done
+printf -- '---\n{name: a, tools: Bash, permissionMode: bypassPermissions}\n---\nBody\n' > "$W/flow.md"
+t "whole-frontmatter flow mapping -> UNVERIFIED" 4 "$(run "$CHECK" "$W/flow.md" "$W/rb.m.json" "$W/pub.pem" "$URI")"
+for v in 'maxTurns: 500' 'disable-model-invocation: true' 'initialPrompt: do-evil' 'isolation: none'; do
+  printf -- '---\nname: n\ndescription: d\ncolor: blue\n%s\n---\nBody\n' "$v" > "$W/rk.md"
+  t "unknown behaviour key [$v] added -> OUT_OF_SYNC" 3 "$(run "$CHECK" "$W/rk.md" "$W/rb.m.json" "$W/pub.pem" "$URI")"
+done
+sed 's/color: blue/color: red/' "$W/rb.md" > "$W/rc.md"
+t "non-allowlisted key value changed (color) -> OUT_OF_SYNC" 3 "$(run "$CHECK" "$W/rc.md" "$W/rb.m.json" "$W/pub.pem" "$URI")"
+mk q1 '---\nname: n\n--- \nEVIL BODY\n---\ntail\n'
+printf -- '---\nname: n\n--- \nOTHER\n---\ntail\n' > "$W/q2.md"
+t "closing '--- ' (runtime-accepted) then body edit -> OUT_OF_SYNC" 3 "$(run "$CHECK" "$W/q2.md" "$W/q1.m.json" "$W/pub.pem" "$URI")"
+t "closing '--- ' fixture itself -> IN_SYNC" 0 "$(chk q1 q1)"
+printf -- '---\nname: n\n---x\n---\nbody\n' > "$W/dx.md"
+t "'---x' inside frontmatter -> UNVERIFIED" 4 "$(run "$CHECK" "$W/dx.md" "$W/rb.m.json" "$W/pub.pem" "$URI")"
+mk seq '---\nname: n\nlist:\n- a\n- b\n---\nbody\n'
+t "column-0 block sequence under a key -> IN_SYNC" 0 "$(chk seq seq)"
+jq 'del(.version)' "$W/m.json" > "$W/nv0.json"; sign "$W/nv0.json" "$SK" "$W/nv.json"; jq 'del(.version)' "$W/nv.json" > /dev/null
+t "manifest without version -> UNVERIFIED" 4 "$(run "$CHECK" "$W/a.md" "$W/nv.json" "$W/pub.pem" "$URI")"
+# downstream hash-stage failure must not collapse to a constant hash
+mkdir -p "$W/shim1" "$W/shim2"
+printf '#!/bin/sh\ncat >/dev/null\nexit 1\n' > "$W/shim1/sha256sum"; chmod +x "$W/shim1/sha256sum"
+printf '#!/bin/sh\ncat >/dev/null\nexit 0\n' > "$W/shim2/sha256sum"; chmod +x "$W/shim2/sha256sum"
+t "hash tool that reads then fails -> UNVERIFIED" 4 "$(PATH="$W/shim1:$PATH" run "$CHECK" "$W/a.md" "$W/m.json" "$W/pub.pem" "$URI")"
+t "hash tool that outputs nothing, rc 0 -> UNVERIFIED" 4 "$(PATH="$W/shim2:$PATH" run "$CHECK" "$W/a.md" "$W/m.json" "$W/pub.pem" "$URI")"
 
 # stamp/check agreement on every real canonical artifact (hash computed in two places)
 bad=0; n=0
