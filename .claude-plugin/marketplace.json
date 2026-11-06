@@ -101,8 +101,8 @@
 ,
     {
       "name": "chittyos-gws",
-      "description": "Google Workspace CLI skills (gws) bound to chittyagent-google — Gmail, Chat, Drive recipes, Slides, Tasks, Keep, People, Apps Script, Workspace Events, Model Armor. Requires the gws CLI on PATH",
-      "version": "1.0.1",
+      "description": "Google Workspace skills for chittyagent-google. The google-* skills (gmail, drive, calendar, docs, sheets, tasks) drive the chittyagent-google MCP tools and hold no credential. The gws-* and recipe-* skills are legacy, need the gws CLI on PATH, and are CLI-only: gws-admin-reports, gws-chat, gws-chat-send, gws-events-renew, gws-events-subscribe, gws-gmail-forward, gws-gmail-reply-all, gws-gmail-triage, gws-gmail-watch, gws-keep, gws-modelarmor, gws-modelarmor-create-template, gws-modelarmor-sanitize-prompt, gws-modelarmor-sanitize-response, gws-people, gws-script, gws-script-push, gws-shared, gws-slides, gws-tasks, gws-workflow, gws-workflow-email-to-task, gws-workflow-file-announce, recipe-create-task-list.",
+      "version": "1.1.0",
       "source": "./plugins/chittyos-gws",
       "strict": false,
       "category": "integrations",

@@ -538,12 +538,60 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "capability_id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "advisory_disposition": "skill",
+        "group_assignment_source": "override"
+      },
+      {
         "capability_id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "advisory_disposition": "gateway",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "capability_id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "advisory_disposition": "skill",
+        "group_assignment_source": "override"
+      },
+      {
+        "capability_id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "advisory_disposition": "skill",
+        "group_assignment_source": "override"
+      },
+      {
+        "capability_id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "advisory_disposition": "skill",
+        "group_assignment_source": "override"
+      },
+      {
+        "capability_id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "advisory_disposition": "skill",
+        "group_assignment_source": "override"
+      },
+      {
+        "capability_id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "advisory_disposition": "skill",
+        "group_assignment_source": "override"
       },
       {
         "capability_id": "chittycanon://capability/connect/linear",
@@ -1190,7 +1238,7 @@
   "counts": {
     "agent-runtime": 4,
     "build": 32,
-    "connect": 46,
+    "connect": 52,
     "finance": 1,
     "govern": 15,
     "internal": 3,
