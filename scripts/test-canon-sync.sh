@@ -133,8 +133,8 @@ for v in 'maxTurns: 500' 'disable-model-invocation: true' 'initialPrompt: do-evi
 done
 sed 's/color: blue/color: red/' "$W/rb.md" > "$W/rc.md"
 t "non-allowlisted key value changed (color) -> OUT_OF_SYNC" 3 "$(run "$CHECK" "$W/rc.md" "$W/rb.m.json" "$W/pub.pem" "$URI")"
-mk q1 '---\nname: n\n--- \nEVIL BODY\n---\ntail\n'
-printf -- '---\nname: n\n--- \nOTHER\n---\ntail\n' > "$W/q2.md"
+mk q1 '---\nname: n\ncolor: blue\n--- \nEVIL BODY\n---\ntail\n'
+printf -- '---\nname: n\ncolor: blue\n--- \nOTHER\n---\ntail\n' > "$W/q2.md"
 t "closing '--- ' (runtime-accepted) then body edit -> OUT_OF_SYNC" 3 "$(run "$CHECK" "$W/q2.md" "$W/q1.m.json" "$W/pub.pem" "$URI")"
 t "closing '--- ' fixture itself -> IN_SYNC" 0 "$(chk q1 q1)"
 printf -- '---\nname: n\n---x\n---\nbody\n' > "$W/dx.md"
