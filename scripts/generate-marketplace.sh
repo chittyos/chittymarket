@@ -28,6 +28,7 @@ CATEGORY_MAP[chittyos-core]="ecosystem"
 CATEGORY_MAP[chittyos-devops]="operations"
 CATEGORY_MAP[chittyos-legal]="legal"
 CATEGORY_MAP[chittyos-finance]="finance"
+CATEGORY_MAP[nb-dev]="development"
 CATEGORY_MAP[chittyos-governance]="security"
 CATEGORY_MAP[chittyos-proxy-agents]="integrations"
 CATEGORY_MAP[chittyos-gws]="integrations"
@@ -54,6 +55,9 @@ KEYWORDS_MAP[chittymarket-manager]="marketplace,market,artifacts,toggle,manage"
 KEYWORDS_MAP[nowebmaster]="webmaster,capability-lifecycle,hot-loading"
 KEYWORDS_MAP[chittyos-mcp]="mcp,chittyos,gateway,standalone"
 KEYWORDS_MAP[neon-mcp]="neon,postgres,database,sql,standalone"
+# nb-dev (#222) was added to the committed manifests by hand without map entries,
+# so regeneration emitted category=ecosystem, keywords: [] and broke the same gate.
+KEYWORDS_MAP[nb-dev]="chittyos,development,recursive-orchestration,manifest-forge,codex,skills"
 
 # Start building the JSON
 cat > "$OUTPUT" <<'HEADER'
