@@ -27,6 +27,26 @@ CHANNELS = (
 )
 
 
+def channel_included(cap: dict, channel: str) -> bool:
+    """Whether `cap` counts as compatible with `channel`.
+
+    A channel absent from `runtime_exclusions` is compatible, and a `["write"]` exclusion
+    still counts as read-compatible. Any other exclusion value excludes — including the
+    token the overlay actually uses, `["write_requires_policy_elevation"]`, and including a
+    bare string rather than a list.
+
+    Extracted from the loop below so it is one implementation rather than two: section 7.3
+    of docs/architecture/CHITTYMARKET_CAPABILITY_ROUTER.md renders the same distribution
+    and imports this function instead of restating the rule. A second copy produced a
+    self-contradicting table (0 excluded beside a list of excluded groups) before it was
+    unified. scripts/tests/test_router_doc_tables.py pins the cases, including the
+    write-only one that no live record exercises.
+    """
+    exclusions = cap.get("runtime_exclusions") or {}
+    exclusion = exclusions.get(channel)
+    return channel not in exclusions or (isinstance(exclusion, list) and exclusion == ["write"])
+
+
 def existing_generated_at() -> str:
     dates = set()
     for name in VIEW_NAMES:
@@ -120,14 +140,8 @@ def main() -> int:
         by_job[cap.get("capability_group", "unknown")].append(job_summary(cap))
 
         summary = compact_summary(cap)
-        exclusions = cap.get("runtime_exclusions") or {}
         for channel in CHANNELS:
-            exclusion = exclusions.get(channel)
-            include = channel not in exclusions or (
-                isinstance(exclusion, list)
-                and exclusion == ["write"]
-            )
-            if include:
+            if channel_included(cap, channel):
                 by_channel[channel].append(summary)
 
         cost = (cap.get("execution") or {}).get("context_cost", "medium")

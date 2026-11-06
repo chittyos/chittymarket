@@ -999,3 +999,116 @@ held:
 registry_blocker: ChittyRegister HTTP 429 rate_limit_exceeded
 evidentiary_risk: legal-grade
 ```
+
+## CAP-2026-10-18 — Cognitive Operations Registry (spec, projection; formerly Neural Operations Registry)
+
+The Cognitive Operations Registry (COR, renamed from Neural Operations Registry on 2026-10-20) is a canon spec in `chittyfoundation/chittycanon`
+(`specs/COGNITIVE_OPERATIONS_REGISTRY.md`, PR chittyfoundation/chittycanon#98). It catalogs
+cognitive, epistemic and executive operations over existing surfaces. It is not an executable
+capability, so no capability record is minted in the overlay.
+
+Matrix Q1 is a partial match. Its legal-space epistemic entries project onto `fact-governance`,
+with `document-intake-checks` upstream. Business-space fact writes are blocked: `chittygov` (governance, designated 2026-10-20) has an
+approved-but-unlanded status migration on `atomic_facts`; `chittyfinance` (finance, designated
+2026-10-21) has an unverified fact store. The persistent memory surface is now named **Experiences**, with **Experience Projection** as
+the architectural abstraction, logical path `/experiences/`, and **Experience History** as the
+temporal retrieval view. Runtime activation is implemented in chittyos/chittyconnect#374 /
+CFDXN-194; COR entries remain `draft` until the independent admission gates pass.
+
+```yaml
+decision_id:     CAP-2026-10-18-neural-operations-registry
+date:            2026-10-18   # original audit
+amended:         2026-10-21   # re-audit of the COR revision pinned below (v0.10.0: Experiences naming + runtime mapping)
+capability_name: Cognitive Operations Registry
+canonical_id:    chittycanon://capability/govern/fact-governance   # projection resolves to the existing capability (AGENTS.md)
+source_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry
+source_links:
+  - https://github.com/chittyfoundation/chittycanon/pull/98
+  - https://github.com/chittyfoundation/chittycanon/pull/105
+  - https://github.com/chittyos/chittyconnect/pull/374
+audited_revision:
+  repo: chittyfoundation/chittycanon
+  commit: 11f99af838a84ef82bdf09af2a160297f7423aed
+  path: specs/COGNITIVE_OPERATIONS_REGISTRY.md
+  url: https://github.com/chittyfoundation/chittycanon/blob/11f99af838a84ef82bdf09af2a160297f7423aed/specs/COGNITIVE_OPERATIONS_REGISTRY.md
+  content_sha256: f18b8f90c21ad7cfb10331b9cb7fc0b30c0f503f26e3ff6a3810bbad3843b8f5
+  # any later change to the spec requires re-audit before this entry satisfies the admission gate
+current_state:   DRAFT spec, operator-ratified; runtime activation tracked separately
+decision:        project
+job_to_be_done:  govern
+entity_mapping:  [P, L, T, E, A]
+environmental_footprint: context-only
+evidentiary_risk: legal-grade   # legal-space rows write to fact-governance
+rationale:       >
+  Partial match at matrix Q1. Epistemic status semantics reuse fact-governance; no new
+  capability identity, record, store or status enum.
+duplicates_found:
+  - chittycanon://capability/govern/fact-governance
+adjacent:
+  - chittycanon://capability/legal/document-intake-checks
+  - chittycanon://capability/legal/dispute-manager
+  - chittycanon://capability/workspace/read-and-write-chittyos
+migration_required: yes   # every `project` disposition requires migration (capability-governor audit_artifact.py needs_migration)
+migration_owner: operator
+next_action:     >
+  Complete and verify chittyos/chittyconnect#374 / CFDXN-194; land CFDXN-196; enforce
+  verifier != submitter under CFDXN-193; then complete the CFDXN-195 admission validator.
+review_date:     2026-11-20
+```
+
+```yaml
+migration_item: CAP-MIG-2026-10-18-nor-project-fact-governance
+from_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry (DRAFT)
+to_canonical_capability: chittycanon://capability/govern/fact-governance
+action: reroute
+blocking_dependencies:
+  - chittyfoundation/chittycanon#105 merged 2026-10-21; this entry pins its exact COR revision
+  - chittygov atomic_facts status migration (approved 2026-10-21) not landed — CFDXN-196
+  - per-P Experiences runtime deployment + persist→recall verification — chittyos/chittyconnect#374 / CFDXN-194
+  - fact-governance runtime enforcement of verifier != submitter — CFDXN-193
+  - COR admission validator — CFDXN-195
+risk_level: medium
+owner: operator
+status: backlog
+completion_evidence: null
+```
+
+## 2026-10-21 — Document storage gets a canonical identity (inactive)
+
+No record in `capabilities.generated.json` covered document or evidence storage. Live checks on
+2026-10-21 found nine evidence bucket bindings across seven repos. Only the deployed `chittyevidence-db`
+worker writes to a bucket that exists (`chittyevidence-documents`, 108,861 objects). Five other
+repos bind buckets that do not exist, and one superseded worker binds a 404 bucket. ChittyStorage's
+CHARTER already scopes file storage, indexing and retrieval, with canonical objects at
+`sha256/<content_hash>`. Its Neon index (`storage.file_locations`) has 15,156 `sha256/` rows
+against 19,240 `sha256/` objects in R2, so about 4,084 objects are unindexed (row counts, not a
+key-level join).
+
+The promotion is approved but **inactive**. The non-repudiation gate requires hash, timestamp and
+custody policies. Hash is covered by content addressing; the other two are not written anywhere
+found. The registry entry in `capabilities.generated.json` is deliberately not added until they
+exist.
+
+```yaml
+decision_id:     CAP-2026-10-21-document-storage
+date:            2026-10-21
+canonical_id:    chittycanon://capability/legal/document-storage
+decision:        promote-inactive
+activation_status: inactive  # machine-readable in every dec_20261021_* log
+owner:           chittystorage
+job_to_be_done:  remember
+projected:       [chittyevidence-db R2 binding]
+merge_into_canonical:
+  - chittycases DOCUMENTS (chittycases-documents, missing)
+  - chittychat (chittyos-evidence, missing)
+  - chittychronicle (aribia-evidence-*, missing)
+  - chittyrouter (chittyrouter-evidence-vault, missing)
+  - chittyscore (chittyscore-evidence-*, missing)
+retired:         [CHITTYAPPS/chittyevidence chittyevidence-worker (bucket chittyevidence-storage 404)]
+legal_only_blocked:
+  - storage.entity_storage_config Drive mapping (hash/timestamp/custody policy missing)
+  - chittyevidence-documents incoming/ (89,266 objects, not content-addressed)
+activation_gate: timestamp + custody policy in CHITTYOS/chittystorage/CHARTER.md
+evidentiary_risk: legal-grade
+logs:            docs/decisions/logs/dec_20261021_*.json (10, all pass validate_decision_log.py)
+```
