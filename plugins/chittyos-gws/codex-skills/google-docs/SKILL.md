@@ -17,7 +17,7 @@ Use when the user wants to read a Google Doc, create a new one, or change its co
 | `docs_create` | **title**, account | New empty document; returns its id |
 | `docs_batch_update` | **document_id**, **requests**, account | Docs API `batchUpdate` request array (for example `insertText`, `replaceAllText`, `deleteContentRange`) |
 
-`account` is optional on every tool here: an email or account id of one of the caller's connected Google accounts. When omitted, the caller's default (primary) account is used.
+`account` is optional on every tool here (the argument stays optional in the server schema), but never choose the account by omission. It must be one of `ws_jeanarlene`, `ws_nevershitty` or `personal_gmail`. Before any read or write, ask the user which account to use, unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; the write confirmation must then say "default account (the server's primary — confirm this is intended)".
 
 The document id is the long URL segment between `/d/` and `/edit`. To find a doc by name, use the `google-drive` skill (`drive_list_files`). To read a doc as plain text, `drive_export_file` with `text/plain` also works. Not available here: sharing, comments, suggestions.
 
@@ -25,7 +25,7 @@ For `docs_batch_update`, read the document first with `docs_get` so indexes are 
 
 ## Confirm before every external write
 
-Before calling `docs_create` or `docs_batch_update`: show the user the exact target (document title and id) and the full content you will write, and state which account the write lands in (or say "default account" explicitly), and get an explicit yes for that specific change. Do not infer consent from an earlier, broader request. Never edit a document the user did not name or confirm.
+Before calling `docs_create` or `docs_batch_update`: show the user the exact target (document title and id) and the full content you will write, and name the specific account id the write lands in (`ws_jeanarlene`, `ws_nevershitty` or `personal_gmail`; if the user explicitly chose the default, say "default account (the server's primary — confirm this is intended)" instead), and get an explicit yes for that specific change. Do not infer consent from an earlier, broader request. Never edit a document the user did not name or confirm.
 
 Show the exact text to insert, replace or delete, and where. A `deleteContentRange` or `replaceAllText` that removes existing text must quote what will be removed.
 

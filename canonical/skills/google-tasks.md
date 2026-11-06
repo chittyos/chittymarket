@@ -73,13 +73,13 @@ Use when the user wants to see their task lists or open tasks, add a task, or ma
 | `tasks_create_task` | **title**, tasklist_id, notes, due, account | New task; `due` is RFC 3339 (Google keeps only the date) |
 | `tasks_complete_task` | **task_id**, tasklist_id, account | Mark complete |
 
-`account` is optional on every tool here: an email or account id of one of the caller's connected Google accounts. When omitted, the caller's default (primary) account is used.
+`account` is optional on every tool here (the argument stays optional in the server schema), but never choose the account by omission. It must be one of `ws_jeanarlene`, `ws_nevershitty` or `personal_gmail`. Before any read or write, ask the user which account to use, unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; the write confirmation must then say "default account (the server's primary — confirm this is intended)".
 
 When `tasklist_id` is omitted the server uses the user's default list; say so when you confirm. Not available here: edit, move, delete, or create a task list.
 
 ## Confirm before every external write
 
-Before calling `tasks_create_task` or `tasks_complete_task`: show the user the exact target (task list name and id, and for completion the task title and id) and the full content you will write, and state which account the write lands in (or say "default account" explicitly), and get an explicit yes for that specific action. Do not infer consent from an earlier, broader request. Never pick a list or task the user did not name or confirm.
+Before calling `tasks_create_task` or `tasks_complete_task`: show the user the exact target (task list name and id, and for completion the task title and id) and the full content you will write, and name the specific account id the write lands in (`ws_jeanarlene`, `ws_nevershitty` or `personal_gmail`; if the user explicitly chose the default, say "default account (the server's primary — confirm this is intended)" instead), and get an explicit yes for that specific action. Do not infer consent from an earlier, broader request. Never pick a list or task the user did not name or confirm.
 
 Show the full title, notes and due date for new tasks.
 

@@ -75,13 +75,13 @@ Use when the user wants to find files, read a file's metadata or exported text, 
 | `drive_upload_file` | **name**, **content**, mime_type, folder_id, is_base64, account | Upload text or base64 content |
 | `drive_move_file` | **file_id**, **new_parent_id**, remove_from_parent_id, account | Move between folders |
 
-`account` is optional on every tool here: an email or account id of one of the caller's connected Google accounts. When omitted, the caller's default (primary) account is used.
+`account` is optional on every tool here (the argument stays optional in the server schema), but never choose the account by omission. It must be one of `ws_jeanarlene`, `ws_nevershitty` or `personal_gmail`. Before any read or write, ask the user which account to use, unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; the write confirmation must then say "default account (the server's primary — confirm this is intended)".
 
 Not available here: sharing or permission changes, delete, copy, comments. Do not claim to have shared a file. Tell the user sharing must be done in Drive itself.
 
 ## Confirm before every external write
 
-Before calling `drive_create_folder`, `drive_upload_file` or `drive_move_file`: show the user the exact target (file name, destination folder id and name, and for moves the folder it leaves) and the full content you will write, and state which account the write lands in (or say "default account" explicitly), and get an explicit yes for that specific action. Do not infer consent from an earlier, broader request. Never pick a folder or file the user did not name or confirm; there is no default destination.
+Before calling `drive_create_folder`, `drive_upload_file` or `drive_move_file`: show the user the exact target (file name, destination folder id and name, and for moves the folder it leaves) and the full content you will write, and name the specific account id the write lands in (`ws_jeanarlene`, `ws_nevershitty` or `personal_gmail`; if the user explicitly chose the default, say "default account (the server's primary — confirm this is intended)" instead), and get an explicit yes for that specific action. Do not infer consent from an earlier, broader request. Never pick a folder or file the user did not name or confirm; there is no default destination.
 
 For uploads, show the full content (or, for large or binary content, its size, type and source) before calling.
 
