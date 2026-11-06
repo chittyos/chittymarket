@@ -1,0 +1,24 @@
+{
+  "canonical_sha": "eafca57db36eb2ab53a8d3097e5a0a33a3852805",
+  "dispatch": {
+    "canonical_sha": "eafca57db36eb2ab53a8d3097e5a0a33a3852805",
+    "projected_at": "2026-11-06T06:06:30Z",
+    "status": "projected",
+    "targets": {}
+  },
+  "targets": {},
+  "verification": {
+    "projection": {
+      "findings": [],
+      "method": "dispatch-audit",
+      "status": "pending",
+      "verified_at": null
+    },
+    "runtime": {
+      "method": null,
+      "status": "not_run",
+      "targets": {},
+      "verified_at": null
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "canonical_id": "chittycanon://capability/connect/stripe",
+  "capability_name": "Stripe Billing (ch1tty stripe server)",
+  "current_state": "ch1tty servers.json id stripe (@stripe/mcp via npx, access readwrite, enabled, lazy) was live with no manifest entry and no overlay record. The official plugin stripe@claude-plugins-official points at hosted https://mcp.stripe.com with browser OAuth. The claude.ai Stripe connector is a third surface.",
+  "date": "2026-11-06",
+  "decision": "gateway",
+  "decision_id": "dec_20261106_stripe-billing-gateway",
+  "duplicates_found": [
+    "stripe@claude-plugins-official (hosted mcp.stripe.com, OAuth, not registered)",
+    "claude.ai Stripe connector mcp__claude_ai_Stripe__* (not registered)"
+  ],
+  "environmental_footprint": "write-capable",
+  "evidentiary_risk": "medium",
+  "job_to_be_done": "operate",
+  "migration_owner": "chittyagent-connect",
+  "migration_required": true,
+  "next_action": "Verify how the Stripe secret reaches the npx @stripe/mcp process in ch1tty servers.json (no credential route is declared there) and bring it onto the ChittyConnect path. Until verified, the record is restricted to claude_code and the server stays operator-gated for writes.",
+  "rationale": "Matrix step 1: the job already exists as the ch1tty stripe server, so the plugin is a projection of an existing job, not a new root. The plugin authenticates by OAuth in the client and bypasses ch1tty to ChittyConnect, which sensitive-intent routing forbids for financial writes, so it is recorded here as restricted and not projected. The server is registered under one canonical id in the connect group (precedent: connect/read-and-write-neon-database).",
+  "review_date": "2026-12-06",
+  "source_links": [
+    "ch1tty/servers.json#stripe",
+    "canonical/mcp/stripe.md",
+    "~/.claude/plugins/cache/claude-plugins-official/stripe/0.11.17/.mcp.json"
+  ]
+}

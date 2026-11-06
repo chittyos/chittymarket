@@ -3480,6 +3480,31 @@
         "actor",
         "apify"
       ]
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe Billing",
+      "description": "Stripe Billing — charges, customers, invoices, subscriptions via the ch1tty-managed Stripe MCP server",
+      "type": "mcp-server",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": true,
+      "installMode": "ch1tty",
+      "source": "canonical",
+      "standalone": {
+        "available": false,
+        "type": "mcp-server"
+      },
+      "ch1tty": {
+        "serverId": "stripe"
+      },
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp/stripe",
+      "capability": "chittycanon://capability/connect/stripe",
+      "tags": [
+        "billing",
+        "payments",
+        "finance"
+      ]
     }
   ]
 }

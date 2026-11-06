@@ -3,11 +3,11 @@
   "phase": "Materialized capability overlay — canonical-owned records generated; external/legacy records preserved",
   "source": "canonical/ Market projection definitions + marketplace.json distribution state; non-canonical external/legacy capability records preserved verbatim",
   "naming": "Bare JTBD group ids (no chitty- prefix). Namespace chittycanon://capability/ already encodes 'chitty'.",
-  "total": 145,
+  "total": 146,
   "group_assignment_sources": {
     "category": 36,
     "name-rule": 50,
-    "override": 59
+    "override": 60
   },
   "capabilities": [
     {
@@ -11478,11 +11478,86 @@
         "signer_chittyid": null,
         "anchored_in_ledger": null
       }
+    },
+    {
+      "capability_id": "chittycanon://capability/connect/stripe",
+      "legacy_id": "stripe",
+      "name": "Stripe Billing",
+      "description": "Stripe Billing — charges, customers, invoices, subscriptions via the ch1tty-managed Stripe MCP server",
+      "capability_group": "connect",
+      "group_assignment_source": "override",
+      "execution_class": "@chitty/connectors",
+      "canonical_version": "1.0.0",
+      "projection_version_policy": "inherit-canonical",
+      "ontology": {
+        "primary": [
+          "E",
+          "T"
+        ],
+        "secondary": [
+          "P",
+          "A"
+        ]
+      },
+      "authority": {
+        "requires_chittyid": true
+      },
+      "execution": {
+        "default_surface": "ch1tty",
+        "local_allowed": false,
+        "context_cost": "medium",
+        "mutation_risk": "high"
+      },
+      "discovery": {
+        "indexable": false,
+        "session_index": "hidden",
+        "ambient_by_intent": false,
+        "verbs": [
+          "query",
+          "search",
+          "operate"
+        ],
+        "fallback_search": true
+      },
+      "auth_flow": {
+        "mode": "service-token",
+        "stores_credentials_in": "ChittyConnect",
+        "fail_closed_if_unavailable": true
+      },
+      "runtime_exclusions": {},
+      "compatible_channels": [
+        "claude_code"
+      ],
+      "source_links": [
+        "local://canonical/mcp/stripe.md",
+        "ch1tty://servers.json#stripe"
+      ],
+      "phase0_audit": {
+        "job_to_be_done": "operate",
+        "environmental_footprint": "write-capable",
+        "evidentiary_risk": "medium",
+        "advisory_disposition": "gateway"
+      },
+      "legacy_type": "mcp-server",
+      "legacy_category": "ecosystem",
+      "deprecated_aliases": [
+        "stripe"
+      ],
+      "visibility": "advanced",
+      "provenance": {
+        "content_hash": "sha256:fe3df7a46f495f4a7481b53048bb6e8f0a4780d44ead32cacfa4ee390a90a663",
+        "canonicalization": "json-sorted-compact",
+        "hash_covers": "record-excluding-provenance",
+        "schema_ref": "chittycanon://core/services/chittymarket#section-16",
+        "signature": null,
+        "signer_chittyid": null,
+        "anchored_in_ledger": null
+      }
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:39256e191575a10bdffc716d1b9bf52953ba0bc3d65b303cf06473e56b9a2ad9",
-    "record_count": 145,
+    "aggregate_hash": "sha256:7c35aedf5cac82c48ada0262cdf36a5be77903c516fe90032486a27c5b6672a5",
+    "record_count": 146,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",
     "anchored_in_ledger": null

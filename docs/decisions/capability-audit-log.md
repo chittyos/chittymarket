@@ -1112,3 +1112,27 @@ activation_gate: timestamp + custody policy in CHITTYOS/chittystorage/CHARTER.md
 evidentiary_risk: legal-grade
 logs:            docs/decisions/logs/dec_20261021_*.json (10, all pass validate_decision_log.py)
 ```
+
+## CAP-2026-11-06-stripe-billing — gateway
+
+The ch1tty `stripe` server (`@stripe/mcp`, readwrite, enabled) was live with no manifest entry
+and no overlay record. It is now registered as `chittycanon://capability/connect/stripe` from
+`canonical/mcp/stripe.md` through `market-reconcile.py sync --name stripe`, restricted to
+`claude_code`. `stripe@claude-plugins-official` and the claude.ai Stripe connector are recorded
+as duplicates and are not projected: both authenticate by OAuth in the client and bypass
+ch1tty to ChittyConnect.
+
+Open: no credential route is declared for the server in `servers.json`. Verifying how the Stripe
+secret reaches the process is the migration item, owned by `chittyagent-connect`.
+
+```yaml
+decision_id:     CAP-2026-11-06-stripe-billing
+date:            2026-11-06
+canonical_id:    chittycanon://capability/connect/stripe
+decision:        gateway
+owner:           chittyagent-connect
+job_to_be_done:  operate
+duplicates:      [stripe@claude-plugins-official, claude.ai Stripe connector]
+evidentiary_risk: medium
+logs:            docs/decisions/logs/dec_20261106_stripe-billing-gateway.json
+```
