@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# test-canon-sync.sh — real-crypto test corpus for check-canon-sync.sh / gate-canon-sync.sh.
+# test-canon-sync.sh — real-crypto test corpus (hash = canon-hash-v1, scripts/lib/canon-hash.sh) for check-canon-sync.sh / gate-canon-sync.sh.
 # No mocks: generates a throwaway ed25519 keypair (openssl) in a temp dir, stamps REAL
 # canonical/ artifacts with stamp-canon.sh, signs the manifest the way the pipeline does
 # (jq -cS del(.signature)), and asserts exit codes. Fail-closed cases must exit 3/4, never 0.
@@ -37,9 +37,24 @@ t "valid artifact+manifest+sig -> IN_SYNC"        0 "$(run "$CHECK" "$W/a.md" "$
 t "gate passes IN_SYNC"                            0 "$(run "$GATE"  "$W/a.md" "$W/m.json" "$W/pub.pem" "$URI")"
 t "CANON env var alone must NOT supply the trust anchor" 4 "$(CANON_PUBKEY="$W/pub.pem" run "$CHECK" "$W/a.md" "$W/m.json" "" "$URI")"
 
-# identity semantics
-{ printf -- '---\nname: changed\nextra: x\n---\n'; awk 'NR==1&&$0=="---"{f=1;next} f&&$0=="---"{f=0;next} !f{print}' "$ART"; } > "$W/fm.md"
-t "frontmatter-only change -> still IN_SYNC"       0 "$(run "$CHECK" "$W/fm.md" "$W/m.json" "$W/pub.pem" "$URI")"
+# identity semantics (canon-hash-v1: allowlisted frontmatter keys + fm marker + body)
+sed '1a projection_id: zzz-not-behaviour' "$W/a.md" > "$W/fm.md"
+t "non-allowlisted frontmatter key added -> still IN_SYNC"   0 "$(run "$CHECK" "$W/fm.md" "$W/m.json" "$W/pub.pem" "$URI")"
+sed 's/^description:/description: EVIL/' "$W/a.md" > "$W/fd.md"
+t "description (allowlisted) edited -> OUT_OF_SYNC"          3 "$(run "$CHECK" "$W/fd.md" "$W/m.json" "$W/pub.pem" "$URI")"
+sed '1a permissionMode: bypassPermissions' "$W/a.md" > "$W/fp.md"
+t "permissionMode injected into frontmatter -> OUT_OF_SYNC"  3 "$(run "$CHECK" "$W/fp.md" "$W/m.json" "$W/pub.pem" "$URI")"
+sed '1a tools: Bash, Write, Edit, Agent' "$W/a.md" > "$W/ft.md"
+t "tools injected into frontmatter -> OUT_OF_SYNC"           3 "$(run "$CHECK" "$W/ft.md" "$W/m.json" "$W/pub.pem" "$URI")"
+printf 'Plain doc, no frontmatter.\nSecond line.\n' > "$W/nofm.md"; "$STAMP" "$W/nofm.md" "$URI" 1.0.0 > "$W/nu.json"; sign "$W/nu.json" "$SK" "$W/nm.json"
+t "no-frontmatter artifact -> IN_SYNC"                       0 "$(run "$CHECK" "$W/nofm.md" "$W/nm.json" "$W/pub.pem" "$URI")"
+{ printf -- '---\nanything: deploy freely\n---\n'; cat "$W/nofm.md"; } > "$W/fake.md"
+t "fake frontmatter prepended to bare artifact -> OUT_OF_SYNC" 3 "$(run "$CHECK" "$W/fake.md" "$W/nm.json" "$W/pub.pem" "$URI")"
+# known-answer vector, computed independently in python (stamp and check share the lib, so a round trip alone proves nothing)
+printf -- '---\nname: kat\nignored: z\ndescription: |\n  line1\n\n  line2\n---\nBody line\n\n\n' > "$W/kat.md"
+EXPECT="sha256:$(python3 -I -c "import hashlib;print(hashlib.sha256(b'canon-hash-v1\nfm=1\ndescription: |\n  line1\n  line2\nname: kat\nbody\nBody line\n').hexdigest())")"
+GOT="$("$STAMP" "$W/kat.md" "$URI" 1.0.0 2>/dev/null | jq -r .content_hash)"
+t "known-answer vector matches independent python hash" "$EXPECT" "$GOT"
 sed 's/$/\r/' "$W/a.md" > "$W/crlf.md"
 t "CRLF line endings -> still IN_SYNC"             0 "$(run "$CHECK" "$W/crlf.md" "$W/m.json" "$W/pub.pem" "$URI")"
 { cat "$W/a.md"; printf '\n\n\n'; } > "$W/trail.md"
