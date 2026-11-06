@@ -12,17 +12,27 @@ Audit all Cloudflare Worker configurations across the ChittyOS ecosystem for con
 
 ### Step 1: Discovery
 
-Find all wrangler.toml files in the workspace:
+Find every wrangler config in the workspace. The repo root differs by host
+(`~/projects/github.com` on chittyserv-vm, `~/Desktop/Projects/github.com` on the
+Mac), so resolve it instead of hardcoding one. Workers use `wrangler.toml`,
+`wrangler.jsonc` or `wrangler.json` — match all three.
 
 ```bash
-find /Users/nb/Desktop/Projects/github.com/CHITTYOS -name "wrangler.toml" -not -path "*/node_modules/*" 2>/dev/null
+ROOT=""
+for d in "$HOME/projects/github.com" "$HOME/Desktop/Projects/github.com"; do
+  [ -d "$d/CHITTYOS" ] && ROOT="$d" && break
+done
+[ -n "$ROOT" ] || { echo "no ChittyOS repo root on this host — stop and report"; exit 1; }
+
+for org in CHITTYOS CHITTYFOUNDATION CHITTYAPPS CHITTYCORP; do
+  [ -d "$ROOT/$org" ] || continue
+  find "$ROOT/$org" \
+    \( -name node_modules -o -name .wrangler -o -name .git -o -name worktrees \) -prune -o \
+    \( -name "wrangler.toml" -o -name "wrangler.jsonc" -o -name "wrangler.json" \) -print 2>/dev/null
+done
 ```
 
-Also check for wrangler.toml files inside nested worker directories:
-
-```bash
-find /Users/nb/Desktop/Projects/github.com/CHITTYOS -name "wrangler.toml" -not -path "*/node_modules/*" -not -path "*/.wrangler/*" 2>/dev/null
-```
+An empty result means the discovery failed, not that there is nothing to audit.
 
 ### Step 2: Extract Config
 
