@@ -5,18 +5,6 @@
   },
   "plugins": [
     {
-      "name": "nb-dev",
-      "source": {
-        "source": "local",
-        "path": "./plugins/nb-dev"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Development"
-    },
-    {
       "name": "ch1tty",
       "source": {
         "source": "local",
@@ -171,6 +159,18 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Integrations"
+    },
+    {
+      "name": "nb-dev",
+      "source": {
+        "source": "local",
+        "path": "./plugins/nb-dev"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Development"
     },
     {
       "name": "neon-mcp",
