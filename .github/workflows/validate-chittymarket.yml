@@ -129,6 +129,13 @@ jobs:
       - name: scripts/test-plugins.sh
         run: bash scripts/test-plugins.sh
 
+      # Canon sync gate: real ed25519 keys (throwaway, generated per run), real
+      # canonical/ artifacts, exit-code assertions incl. every fail-closed path.
+      # Needs OpenSSL >= 3.0 (-rawin) and jq. The busybox-awk cases run only
+      # where busybox is installed.
+      - name: scripts/test-canon-sync.sh
+        run: bash scripts/test-canon-sync.sh
+
       # A plugin whose content changed must change its declared version, or no
       # installed client can know to refetch it. Nothing compared those two
       # before: the dispatch audit proves canonical and projection match EACH
