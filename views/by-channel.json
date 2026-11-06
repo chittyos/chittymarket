@@ -4,13 +4,13 @@
   "view": "by-channel",
   "description": "Capabilities grouped by supported channel",
   "counts": {
-    "ch1tty": 146,
-    "chatgpt": 121,
-    "claude_ai": 121,
-    "claude_code": 146,
-    "claude_desktop": 145,
-    "codex": 145,
-    "openclaw": 138
+    "ch1tty": 152,
+    "chatgpt": 127,
+    "claude_ai": 127,
+    "claude_code": 152,
+    "claude_desktop": 151,
+    "codex": 151,
+    "openclaw": 144
   },
   "groups": {
     "ch1tty": [
@@ -687,12 +687,60 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -1745,12 +1793,60 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -2715,12 +2811,60 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -3797,12 +3941,60 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -4967,12 +5159,60 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -6129,12 +6369,60 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -7251,12 +7539,60 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",

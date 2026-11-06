@@ -3482,6 +3482,150 @@
       ]
     },
     {
+      "id": "skill-google-tasks",
+      "name": "Google Tasks",
+      "description": "Google Tasks through the chittyagent-google MCP tools: list task lists and tasks, create tasks and complete tasks (with confirmation).",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/google-tasks",
+      "capability": "chittycanon://capability/connect/google-tasks",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-google-calendar",
+      "name": "Google Calendar",
+      "description": "Google Calendar through the chittyagent-google MCP tools: list calendars and events, and create events (with confirmation). No update, delete, RSVP or invite-notification tool.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/google-calendar",
+      "capability": "chittycanon://capability/connect/google-calendar",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-google-docs",
+      "name": "Google Docs",
+      "description": "Google Docs through the chittyagent-google MCP tools: read, create and batch-update documents (with confirmation).",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/google-docs",
+      "capability": "chittycanon://capability/connect/google-docs",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-google-drive",
+      "name": "Google Drive",
+      "description": "Google Drive through the chittyagent-google MCP tools: list files, get metadata, export, create folders, upload and move (with confirmation). No sharing tool.",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/google-drive",
+      "capability": "chittycanon://capability/connect/google-drive",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-google-gmail",
+      "name": "Google Gmail",
+      "description": "Gmail through the chittyagent-google MCP tools: search, read, label lookup, mark read, trash, save attachments or PDFs to Drive, and send (with confirmation).",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/google-gmail",
+      "capability": "chittycanon://capability/connect/google-gmail",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
+      "id": "skill-google-sheets",
+      "name": "Google Sheets",
+      "description": "Google Sheets through the chittyagent-google MCP tools: read metadata and values, create spreadsheets, and update or append values (with confirmation).",
+      "type": "skill",
+      "category": "ecosystem",
+      "access": "readwrite",
+      "enabled": false,
+      "installMode": "standalone",
+      "source": "canonical",
+      "standalone": {
+        "available": true,
+        "type": "skill"
+      },
+      "ch1tty": {
+        "available": false
+      },
+      "canon_uri": "chittycanon://core/services/chittyagent-google#skills/google-sheets",
+      "capability": "chittycanon://capability/connect/google-sheets",
+      "tags": [
+        "integrations",
+        "google-workspace"
+      ]
+    },
+    {
       "id": "stripe",
       "name": "Stripe Billing",
       "description": "Stripe Billing — charges, customers, invoices, subscriptions via the ch1tty-managed Stripe MCP server",

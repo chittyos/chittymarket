@@ -5,7 +5,7 @@
   "description": "Capabilities grouped by execution context cost",
   "counts": {
     "high": 12,
-    "low": 39,
+    "low": 45,
     "medium": 95
   },
   "groups": {
@@ -355,6 +355,54 @@
         "execution_class": "@chitty/ambient",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/market/manifest-forge",
