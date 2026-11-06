@@ -1,17 +1,17 @@
 {
-  "canonical_sha": "5d294b3a4f3647537d5dbe14be43d4af90957b30",
+  "canonical_sha": "40c05a4d766de82d691ab86e0414dc5712c575ef",
   "dispatch": {
-    "canonical_sha": "5d294b3a4f3647537d5dbe14be43d4af90957b30",
-    "projected_at": "2026-11-06T06:54:28Z",
+    "canonical_sha": "40c05a4d766de82d691ab86e0414dc5712c575ef",
+    "projected_at": "2026-11-06T07:04:03Z",
     "status": "projected",
     "targets": {
-      "claude-code": "f425a1447013a73aa806edb02a7460ff6ae0eb85",
-      "codex": "f425a1447013a73aa806edb02a7460ff6ae0eb85"
+      "claude-code": "ba67b3a8ea5ee628bf5d483def13333427b25ece",
+      "codex": "ba67b3a8ea5ee628bf5d483def13333427b25ece"
     }
   },
   "targets": {
-    "claude-code": "f425a1447013a73aa806edb02a7460ff6ae0eb85",
-    "codex": "f425a1447013a73aa806edb02a7460ff6ae0eb85"
+    "claude-code": "ba67b3a8ea5ee628bf5d483def13333427b25ece",
+    "codex": "ba67b3a8ea5ee628bf5d483def13333427b25ece"
   },
   "verification": {
     "projection": {
