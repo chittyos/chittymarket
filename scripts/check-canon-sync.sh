@@ -22,8 +22,10 @@ LOCAL_HASH="$(canon_hash "$BODY")" || { LOCAL_HASH="?"; SIG_STATE="n/a"; emit "U
 fetch() { case "$1" in http*://*) curl -fsS --max-time 10 "$1";; *) [ -r "$1" ] && cat "$1";; esac; }
 if ! MANIFEST="$(fetch "$MANIFEST_SRC")" || [ -z "$MANIFEST" ]; then
   SIG_STATE="unreachable"; emit "UNVERIFIED"; echo "UNVERIFIED: manifest unreachable/empty ($MANIFEST_SRC)" >&2; exit 4; fi
-if ! printf '%s' "$MANIFEST" | jq -e '(.content_hash|type=="string") and (.content_hash|length>0) and (.uri|type=="string") and (.version|type=="string")' >/dev/null 2>&1; then
-  SIG_STATE="n/a"; emit "UNVERIFIED"; echo "UNVERIFIED: manifest unparseable or missing content_hash/uri/version strings" >&2; exit 4; fi
+if ! printf '%s' "$MANIFEST" | jq -e '(.content_hash|type=="string") and (.content_hash|length>0) and (.uri|type=="string") and (.version|type=="string") and ([.uri,.version,.content_hash]|all(explode|any(. < 32 or . == 127)|not))' >/dev/null 2>&1; then
+  SIG_STATE="n/a"; emit "UNVERIFIED"; echo "UNVERIFIED: manifest unparseable or missing content_hash/uri/version strings (control characters refused)" >&2; exit 4; fi
+# The three fields are control-character-free (checked above), so $(jq -r) cannot strip or
+# truncate them: the shell compares exactly the signed string.
 ARTIFACT="$(printf '%s' "$MANIFEST" | jq -r '.uri // "?"')"
 CANON_HASH="$(printf '%s' "$MANIFEST" | jq -r '.content_hash')"
 CANON_VER="$(printf '%s' "$MANIFEST" | jq -r '.version // "?"')"

@@ -221,6 +221,27 @@ t "documented: whitespace-only trailing lines normalised" 0 "$([ "$(canon_hash "
 printf 'Body\n\tx\n' > "$W/tabx.md"
 t "trailing line with content after a tab is hashed" 1 "$([ "$(canon_hash "$W/tabx.md")" = "$(canon_hash "$W/final.md")" ]; echo $?)"
 
+# round-5: signed string fields compared exactly; runtime \s superset; locale independence
+mkm "$W/a.md" "$W/vnl.json" '2.0.0
+'
+t "signed version with trailing newline -> UNVERIFIED" 4 "$(run "$CHECK" "$W/a.md" "$W/vnl.json" "$W/pub.pem" "$URI")"
+jq -n --arg u "$URI"$'\n\n' --arg h "$(canon_hash "$W/a.md")" '{uri:$u,version:"1.0.0",content_hash:$h}' > "$W/unl.u"; sign "$W/unl.u" "$SK" "$W/unl.json"
+t "signed uri with trailing newlines -> UNVERIFIED"  4 "$(run "$CHECK" "$W/a.md" "$W/unl.json" "$W/pub.pem" "$URI")"
+jq -n --arg u "$URI" --arg h "$(canon_hash "$W/a.md")" '{uri:($u[0:13]+"\u0000"+$u[13:]),version:"1.0.0",content_hash:$h}' > "$W/unul.u"; sign "$W/unul.u" "$SK" "$W/unul.json"
+t "signed uri with embedded NUL -> UNVERIFIED"       4 "$(run "$CHECK" "$W/a.md" "$W/unul.json" "$W/pub.pem" "$URI")"
+jq -n --arg u "$URI" --arg h "$(canon_hash "$W/a.md")"$'\n' '{uri:$u,version:"1.0.0",content_hash:$h}' > "$W/hnl.u"; sign "$W/hnl.u" "$SK" "$W/hnl.json"
+t "signed content_hash with trailing newline -> UNVERIFIED" 4 "$(run "$CHECK" "$W/a.md" "$W/hnl.json" "$W/pub.pem" "$URI")"
+t "stamp refuses uri with trailing newline"          1 "$(run "$STAMP" "$W/a.md" "$URI"$'\n' 1.0.0)"
+i=0
+for f in '---\r\r\nname: x\n---\n' '---\xc2\xa0\nname: x\n---\n' '---\nname: x\n---\n\xc2\xa0\n' '---\nname: x\n---\n\xe3\x80\x80\n' '---\nname: x\n---\n\xe2\x80\xa8\n'; do
+  i=$((i+1)); printf -- "$f" > "$W/ws$i.md"; mkm "$W/ws$i.md" "$W/ws$i.json"
+  t "runtime-\\s empty body #$i: stamp refuses"       1 "$(run "$STAMP" "$W/ws$i.md" "$URI" 1.0.0)"
+  t "runtime-\\s empty body #$i -> UNVERIFIED"         4 "$(run "$CHECK" "$W/ws$i.md" "$W/ws$i.json" "$W/pub.pem" "$URI")"
+  t "runtime-\\s empty body #$i, LC_ALL=C -> UNVERIFIED" 4 "$(LC_ALL=C run "$CHECK" "$W/ws$i.md" "$W/ws$i.json" "$W/pub.pem" "$URI")"
+done
+printf -- '---\nname: x\n---\n\xc2\xa0 real text\n' > "$W/wsok.md"; mkm "$W/wsok.md" "$W/wsok.json"
+t "non-ASCII space then visible text -> IN_SYNC"    0 "$(run "$CHECK" "$W/wsok.md" "$W/wsok.json" "$W/pub.pem" "$URI")"
+
 # stamp/check agreement on every real canonical artifact (hash computed in two places)
 bad=0; n=0
 for f in "$ROOT"/canonical/*/*.md; do

@@ -53,22 +53,25 @@ canon_hash() {
 }
 
 # --- refusal policy only below: these can turn a verdict into UNVERIFIED, never into IN_SYNC ---
-# canon_body_text FILE: the body as the RUNTIME sees it. The runtime parses frontmatter with
-# /^---\s*\n([\s\S]*?)---\s*\n?/ : an opening `---` + whitespace containing a newline, then the
-# FIRST `---` anywhere (mid-line included) closes it, then leading whitespace is consumed.
-# No closing `---` -> no frontmatter -> the whole file is the body. CRs are stripped first.
-canon_body_text() {
-  LC_ALL=C awk '{ l=$0; sub(/\r$/,"",l); s = s l "\n" }
+# canon_body_nonempty FILE: refuse artifacts whose RUNTIME body is empty. The runtime parses
+# frontmatter with JS /^---\s*\n([\s\S]*?)---\s*\n?/ : opener `---` + a \s-run containing a
+# newline, closed by the FIRST `---` anywhere (mid-line included), then leading \s consumed; no
+# closer -> the whole file is the body. JS \s includes \r and Unicode spaces (U+00A0, U+2028,
+# U+3000, ...), which no portable awk can match exactly. So this uses a deliberate SUPERSET:
+# "whitespace" W = every byte that is not visible ASCII (0x21-0x7e), in LC_ALL=C (locale-independent).
+# A superset of \s finds an opener whenever the runtime does, strips at least as much, and so
+# yields a body that is empty whenever the runtime's is. Being refusal-only, the cost of the
+# superset is over-refusal (e.g. a body of only non-ASCII text), never a wrong IN_SYNC.
+canon_body_nonempty() {
+  LC_ALL=C awk '{ s = s $0 "\n" }
     END {
       if (substr(s,1,3) == "---") {
-        r = substr(s,4)
-        if (match(r, /^[ \t\v\f]*\n/)) {
+        r = substr(s,4); j = index(r, "\n")
+        if (j > 0 && substr(r, 1, j-1) !~ /[!-~]/) {
           i = index(r, "---")
-          if (i > 0) { s = substr(r, i+3); sub(/^[ \t\n\v\f]+/, "", s) }
+          if (i > 0) s = substr(r, i+3)
         }
       }
-      printf "%s", s
+      exit !(s ~ /[!-~]/)
     }' < "$1"
 }
-# canon_body_nonempty FILE: true iff the runtime-visible body has a non-blank line.
-canon_body_nonempty() { local n; n="$(canon_body_text "$1" | grep -c '[^[:space:]]')"; [ "${n:-0}" -gt 0 ]; }
