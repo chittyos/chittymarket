@@ -11524,7 +11524,23 @@
         "stores_credentials_in": "ChittyConnect",
         "fail_closed_if_unavailable": true
       },
-      "runtime_exclusions": {},
+      "runtime_exclusions": {
+        "claude_ai": [
+          "write_requires_policy_elevation"
+        ],
+        "chatgpt": [
+          "write_requires_policy_elevation"
+        ],
+        "claude_desktop": [
+          "write_requires_policy_elevation"
+        ],
+        "codex": [
+          "write_requires_policy_elevation"
+        ],
+        "openclaw": [
+          "write_requires_policy_elevation"
+        ]
+      },
       "compatible_channels": [
         "claude_code"
       ],
@@ -11545,7 +11561,7 @@
       ],
       "visibility": "advanced",
       "provenance": {
-        "content_hash": "sha256:fe3df7a46f495f4a7481b53048bb6e8f0a4780d44ead32cacfa4ee390a90a663",
+        "content_hash": "sha256:75482a857ad533171e5ae66d154cce2f7e1f61b41d3665fa6e79547cb07c954c",
         "canonicalization": "json-sorted-compact",
         "hash_covers": "record-excluding-provenance",
         "schema_ref": "chittycanon://core/services/chittymarket#section-16",
@@ -11556,7 +11572,7 @@
     }
   ],
   "overlay_provenance": {
-    "aggregate_hash": "sha256:7c35aedf5cac82c48ada0262cdf36a5be77903c516fe90032486a27c5b6672a5",
+    "aggregate_hash": "sha256:3560538c7fafce098aeb040eff19474a0a38abab4a66255c4b186c48a5951df2",
     "record_count": 146,
     "canonicalization": "json-sorted-compact",
     "hash_alg": "sha256",

@@ -1,8 +1,8 @@
 {
-  "canonical_sha": "eafca57db36eb2ab53a8d3097e5a0a33a3852805",
+  "canonical_sha": "80b3c1d4c6594ced4a5945c29c06120bbff2b9f6",
   "dispatch": {
-    "canonical_sha": "eafca57db36eb2ab53a8d3097e5a0a33a3852805",
-    "projected_at": "2026-11-06T06:06:30Z",
+    "canonical_sha": "80b3c1d4c6594ced4a5945c29c06120bbff2b9f6",
+    "projected_at": "2026-11-06T08:24:25Z",
     "status": "projected",
     "targets": {}
   },

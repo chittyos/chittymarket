@@ -53,6 +53,17 @@ overlay:
   access: readwrite
   compatible_channels:
   - claude_code
+  runtime_exclusions:
+    claude_ai:
+    - write_requires_policy_elevation
+    chatgpt:
+    - write_requires_policy_elevation
+    claude_desktop:
+    - write_requires_policy_elevation
+    codex:
+    - write_requires_policy_elevation
+    openclaw:
+    - write_requires_policy_elevation
   source_links:
   - local://canonical/mcp/stripe.md
   - ch1tty://servers.json#stripe

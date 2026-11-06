@@ -4,10 +4,10 @@
   "view": "by-channel",
   "description": "Capabilities grouped by supported channel",
   "counts": {
-    "ch1tty": 145,
+    "ch1tty": 146,
     "chatgpt": 121,
     "claude_ai": 121,
-    "claude_code": 145,
+    "claude_code": 146,
     "claude_desktop": 145,
     "codex": 145,
     "openclaw": 138
@@ -1109,6 +1109,14 @@
         "execution_class": "@chitty/ambient",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/stripe",
+        "name": "Stripe Billing",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/connect/suggest-chittyconnect",
@@ -4211,6 +4219,14 @@
         "execution_class": "@chitty/ambient",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/stripe",
+        "name": "Stripe Billing",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/connect/suggest-chittyconnect",
