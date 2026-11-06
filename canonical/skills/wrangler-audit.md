@@ -1,7 +1,7 @@
 ---
 name: wrangler-audit
 canon_uri: chittycanon://core/services/chittymarket#skills/wrangler-audit
-description: Audit all wrangler.toml files across CHITTYOS projects for consistency, stale compatibility dates, observability drift from the ratified OFF standard, orphaned tail consumers, binding gaps, and route conflicts. Triggers on "wrangler audit", "audit workers", "check wrangler", "worker consistency", or /wrangler-audit.
+description: Audit all wrangler configs (toml, jsonc, json) across the ChittyOS orgs for consistency, stale compatibility dates, observability drift from the ratified OFF standard, orphaned tail consumers, binding gaps, and route conflicts. Triggers on "wrangler audit", "audit workers", "check wrangler", "worker consistency", or /wrangler-audit.
 kind: skill
 plugin: chittyos-devops
 runtimes:
@@ -86,20 +86,37 @@ Mac), so resolve it instead of hardcoding one. Workers use `wrangler.toml`,
 
 ```bash
 ROOT=""
-for d in "$HOME/projects/github.com" "$HOME/Desktop/Projects/github.com"; do
-  [ -d "$d/CHITTYOS" ] && ROOT="$d" && break
+# Desktop first: on a case-insensitive Mac volume "$HOME/projects" also matches ~/Projects.
+for d in "$HOME/Desktop/Projects/github.com" "$HOME/projects/github.com"; do
+  if [ -d "$d/CHITTYOS" ]; then ROOT="$d"; break; fi
 done
-[ -n "$ROOT" ] || { echo "no ChittyOS repo root on this host — stop and report"; exit 1; }
 
-for org in CHITTYOS CHITTYFOUNDATION CHITTYAPPS CHITTYCORP; do
-  [ -d "$ROOT/$org" ] || continue
-  find "$ROOT/$org" \
-    \( -name node_modules -o -name .wrangler -o -name .git -o -name worktrees \) -prune -o \
-    \( -name "wrangler.toml" -o -name "wrangler.jsonc" -o -name "wrangler.json" \) -print 2>/dev/null
-done
+if [ -z "$ROOT" ]; then
+  echo "DISCOVERY FAILED: no ChittyOS repo root on this host"
+else
+  echo "repo root: $ROOT"
+  WT="$(mktemp)"
+  for org in CHITTYOS CHITTYFOUNDATION CHITTYAPPS CHITTYCORP; do
+    [ -d "$ROOT/$org" ] || continue
+    # A linked git worktree is a directory of ANY name whose .git is a FILE
+    # pointing into <repo>/.git/worktrees/. Its configs are copies - skip them.
+    find "$ROOT/$org" \( -name node_modules -o -name .wrangler -o -name dist \) -prune -o \
+      -name .git -type f -print |
+      while IFS= read -r g; do
+        if grep -q '/worktrees/' "$g"; then echo "$(dirname "$g")/"; fi
+      done > "$WT"
+    find "$ROOT/$org" \
+      \( -name node_modules -o -name .wrangler -o -name .git -o -name dist \) -prune -o \
+      \( -name "wrangler.toml" -o -name "wrangler.jsonc" -o -name "wrangler.json" \) -print |
+      if [ -s "$WT" ]; then grep -v -F -f "$WT"; else cat; fi
+  done
+  rm -f "$WT"
+fi
 ```
 
-An empty result means the discovery failed, not that there is nothing to audit.
+An empty result, a `DISCOVERY FAILED` line, or any `find` error (permission denied,
+missing org directory) means the discovery is incomplete — report that, not "nothing
+to audit". `find` errors are deliberately not silenced.
 
 ### Step 2: Extract Config
 
