@@ -456,10 +456,13 @@ worker already exposes; designing a durable store when a Neon-backed canonical
 primitive exists; a build spec whose `composes_with` fields are all greenfield;
 proposing a new skill/agent without a duplicate check against the capability
 registry.
-`chittyentity/workers/` holds 50+ agent workers and `chittyentity/workers/shared/`
-holds the canonical primitives (`agent-protocol`, `remediation-loop`, `alchemize`,
-`governance`, `ledger-write`, `chronicle-queue`) — read these before concluding
-something does not exist.
+`chittyentity/chittyagents/` holds 50+ agent workers and `chittyentity/chittysdks/`
+holds the canonical primitives as kits consumed by package name — `agent-core`
+(protocol, governance, task-constants, platform types, binding ports), `agent-cf`
+(Cloudflare adapters), `agent-data` (Postgres: agent-tasks, agent-interactions,
+ledger-write), `agent-zod`, `clients` (alchemize, chronicle-queue, ChittyConnect).
+Read these before concluding something does not exist. (`workers/shared` was the
+old drawer for these; it was decomposed into the kits and removed 2026-11-06, #690.)
 
 A grep that finds nothing is evidence about your search, not about the ecosystem.
 
@@ -564,8 +567,8 @@ system. Configure Workers Builds through the API, not the dashboard.
 - **Triggers**: Each worker has 2 (production branch + non-production). PATCH to update, POST to create.
 - **Key endpoints**: `/builds/triggers` (CRUD), `/builds/workers/{script_tag}/triggers` (list), `/builds/triggers/{uuid}/builds` (manual trigger)
 - **Pattern**: Workers with `env.production` blocks deploy via `npx wrangler deploy --env production`
-- **Shared deps**: Workers importing from `../shared/` use build command `cd ../shared && npm ci`
-- **Watch paths**: Shared importers watch both `/workers/{name}/*` and `/workers/shared/*`
+- **Shared deps**: Workers consume `chittysdks` kits by package name; the root `pnpm install` Workers Builds runs links them, so the build command is `echo 'no build step needed'` (or the worker's own build, e.g. vite). No `cd ../shared && npm ci` — `workers/shared` is gone (#690)
+- **Watch paths**: Each trigger watches `/chittyagents/{name}/*` plus `/chittysdks/{kit}/*` for every kit the worker's `package.json` declares
 - **Normal path**: a push to the configured branch triggers the Cloudflare Workers Build
   and deployment.
 - **Wrangler**: use `npx wrangler deploy --env production` for local development,
