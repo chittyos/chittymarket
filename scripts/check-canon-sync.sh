@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # check-canon-sync.sh — verify a local canonical artifact against the deployed manifest.
-# Identity = canon-hash-v1 (scripts/lib/canon-hash.sh): behaviour-affecting frontmatter keys + fm marker + body,
+# Identity = canon-hash-v3 (scripts/lib/canon-hash.sh): the whole file, CRLF + trailing blank lines normalised,
 # reference = SIGNED manifest, verdict emitted here. A valid ed25519 signature against a
 # pinned pubkey is REQUIRED for IN_SYNC. Requires OpenSSL >= 3.0 (-rawin), jq, coreutils.
 # canon: chittycanon://core/contracts/canon-versioning
@@ -40,7 +40,19 @@ if ! printf '%s' "$CANON_VER" | grep -Eq '^[0-9]+(\.[0-9A-Za-z.+-]+)*$'; then
 # Bind the signed manifest to THIS artifact and to freshness (signed fields, now actually compared).
 if [ -z "$EXPECT_URI" ]; then emit "UNVERIFIED"; echo "UNVERIFIED: no expected uri supplied" >&2; exit 4; fi
 if [ "$ARTIFACT" != "$EXPECT_URI" ]; then emit "UNVERIFIED"; echo "UNVERIFIED: manifest uri '$ARTIFACT' != expected '$EXPECT_URI'" >&2; exit 4; fi
-if [ -n "$MIN_VER" ] && [ "$(printf '%s\n%s\n' "$MIN_VER" "$CANON_VER" | sort -V | head -n1)" != "$MIN_VER" ]; then
+# ver_ge V MIN: semver-style >=. sort -V alone ranks 1.0.1-rc1 ABOVE 1.0.1, so a pre-release of the
+# floor version is explicitly below it. Build metadata (+...) is ignored.
+ver_ge() {
+  local v="${1%%+*}" m="${2%%+*}" cv cm
+  cv="${v%%-*}"; cm="${m%%-*}"
+  if [ "$cv" != "$cm" ]; then [ "$(printf '%s\n%s\n' "$cm" "$cv" | sort -V | head -n1)" = "$cm" ]; return; fi
+  case "$v:$m" in
+    *-*:*-*) [ "$(printf '%s\n%s\n' "$m" "$v" | sort -V | head -n1)" = "$m" ] ;;
+    *-*:*)   return 1 ;;
+    *)       return 0 ;;
+  esac
+}
+if [ -n "$MIN_VER" ] && ! ver_ge "$CANON_VER" "$MIN_VER"; then
   emit "UNVERIFIED"; echo "UNVERIFIED: manifest version $CANON_VER < required $MIN_VER (stale/replayed)" >&2; exit 4; fi
 if ! canon_body_nonempty "$BODY"; then
   emit "UNVERIFIED"; echo "UNVERIFIED: empty-body artifact refused" >&2; exit 4; fi
