@@ -1,0 +1,3 @@
+interface:
+  display_name: Ci Repair Loop
+  short_description: Diagnose and repair CI or build failures in ChittyOS. Use on failed builds, broken tests, typecheck, deploymen

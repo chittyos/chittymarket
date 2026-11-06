@@ -1,0 +1,3 @@
+interface:
+  display_name: Pr Finalizer
+  short_description: Finalize ChittyOS pull requests. Use for merge readiness, review resolution, branch protection, overlapping PR
