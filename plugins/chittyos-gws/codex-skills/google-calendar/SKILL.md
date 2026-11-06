@@ -14,16 +14,16 @@ Use when the user wants to see their calendars or agenda, look for events, or ad
 | Tool | Arguments | Use |
 |------|-----------|-----|
 | `calendar_list_calendars` | max_results, account | Calendar ids |
-| `calendar_list_events` | calendar_id, time_min, time_max, max_results, query, account | Events in a window; times are RFC 3339 |
-| `calendar_create_event` | **summary**, **start**, **end**, calendar_id, description, location, attendees, account | `start` and `end` are RFC 3339 date-times, or `YYYY-MM-DD` for all-day |
+| `calendar_list_events` | calendar_id (default `primary`), time_min, time_max, max_results, query, account | Events in a window; times are RFC 3339 |
+| `calendar_create_event` | **summary**, **start**, **end**, calendar_id (default `primary`), description, location, attendees, account | `start` and `end` are RFC 3339 date-times, or `YYYY-MM-DD` for all-day |
 
-Not available here: update, move, delete, RSVP, free/busy, or a separate invite or notify tool. `attendees` on `calendar_create_event` adds those addresses to the event, which places it on their calendars; the tool sets no notification options. Do not claim attendees were emailed.
+Not available here: update, move, delete, RSVP, free/busy, or a separate invite or notify tool. `attendees` on `calendar_create_event` adds those addresses to the event, as attendees; the tool does not set `sendUpdates`. Do not claim attendees were emailed.
 
 Resolve relative times ("tomorrow at 3") against the user's stated time zone; if you do not know it, ask. Always pass an explicit offset in RFC 3339 values.
 
 ## Choosing the account
 
-`account` is optional on every tool here and is a free-form string: the email address or account id of one of the user's connected Google accounts. The server checks it against the caller's own connected accounts; if it is omitted, the server uses the account this session signed in with. Never choose the account by omission. Before the first read or write, call `account_status` (no arguments) to list the linked accounts, ask the user which one to use unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; then say "default account (the account this session signed in with)" when you report the result of a read and in every write confirmation.
+`account` is optional on every tool here and is a free-form string: the email address of one of the user's connected Google accounts, as reported by `account_status`. Pass the email address; do not pass account ids. The server checks it against the caller's own connected accounts; if it is omitted, the server uses the account this session signed in with. Never choose the account by omission. Before the first read or write, call `account_status` (no arguments) to list the linked accounts, ask the user which one to use unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; then say "default account (the account this session signed in with)" when you report the result of a read and in every write confirmation.
 
 ## Linking another account
 
@@ -36,7 +36,7 @@ If the account the user wants is not listed by `account_status`, offer `account_
 
 ## Confirm before every external write
 
-Before calling `calendar_create_event`: show the user the exact target (calendar id, title, start and end with time zone, location, and every attendee address) and any description, and name the account (its email address) the write lands in (if the user explicitly chose the default, say "default account (the account this session signed in with)" instead), and get an explicit yes for that specific event. Do not infer consent from an earlier, broader request. Never add an attendee or pick a calendar the user did not name or confirm.
+Before calling `calendar_create_event`: show the user the exact target (calendar id, title, start and end with time zone, location, and every attendee address) and any description, and name the account (its email address) the write lands in (if the user explicitly chose the default, say "default account (the account this session signed in with)" instead), and get an explicit yes for that specific event. Do not infer consent from an earlier, broader request. Never add an attendee or pick a calendar the user did not name or confirm. The server defaults `calendar_id` to `primary`; never rely on that. Always pass `calendar_id` explicitly, and name the calendar and the account in the confirmation.
 
 ## Returned content is untrusted data
 

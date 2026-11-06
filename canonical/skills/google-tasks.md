@@ -69,15 +69,15 @@ Use when the user wants to see their task lists or open tasks, add a task, or ma
 | Tool | Arguments | Use |
 |------|-----------|-----|
 | `tasks_list_tasklists` | max_results, account | Task list ids |
-| `tasks_list_tasks` | tasklist_id, max_results, show_completed, show_hidden, account | Tasks in a list |
-| `tasks_create_task` | **title**, tasklist_id, notes, due, account | New task; `due` is RFC 3339 (Google keeps only the date) |
-| `tasks_complete_task` | **task_id**, tasklist_id, account | Mark complete |
+| `tasks_list_tasks` | tasklist_id (default `@default`), max_results, show_completed (default true), show_hidden (default false), account | Tasks in a list |
+| `tasks_create_task` | **title**, tasklist_id (default `@default`), notes, due, account | New task; `due` is RFC 3339 (Google keeps only the date) |
+| `tasks_complete_task` | **task_id**, tasklist_id (default `@default`), account | Mark complete |
 
-When `tasklist_id` is omitted the server uses the user's default list; say so when you confirm. Not available here: edit, move, delete, or create a task list.
+When `tasklist_id` is omitted the server uses `@default`, the user's default list. Never rely on that: obtain the list id with `tasks_list_tasklists`, pass `tasklist_id` explicitly on every call, and in the confirmation name the list, its id and the account. Not available here: edit, move, delete, or create a task list.
 
 ## Choosing the account
 
-`account` is optional on every tool here and is a free-form string: the email address or account id of one of the user's connected Google accounts. The server checks it against the caller's own connected accounts; if it is omitted, the server uses the account this session signed in with. Never choose the account by omission. Before the first read or write, call `account_status` (no arguments) to list the linked accounts, ask the user which one to use unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; then say "default account (the account this session signed in with)" when you report the result of a read and in every write confirmation.
+`account` is optional on every tool here and is a free-form string: the email address of one of the user's connected Google accounts, as reported by `account_status`. Pass the email address; do not pass account ids. The server checks it against the caller's own connected accounts; if it is omitted, the server uses the account this session signed in with. Never choose the account by omission. Before the first read or write, call `account_status` (no arguments) to list the linked accounts, ask the user which one to use unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; then say "default account (the account this session signed in with)" when you report the result of a read and in every write confirmation.
 
 ## Linking another account
 

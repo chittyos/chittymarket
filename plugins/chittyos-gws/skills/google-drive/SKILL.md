@@ -13,18 +13,18 @@ Use when the user wants to find files, read a file's metadata or exported text, 
 
 | Tool | Arguments | Use |
 |------|-----------|-----|
-| `drive_list_files` | q, page_size, order_by, page_token, account | Search with Drive query syntax (`name contains 'budget'`, `'<folder_id>' in parents`) |
+| `drive_list_files` | q, page_size (default 20), order_by, page_token, account | Search with Drive query syntax (`name contains 'budget'`, `'<folder_id>' in parents`) |
 | `drive_get_file` | **file_id**, account | Metadata |
 | `drive_export_file` | **file_id**, **export_mime_type**, account | Export a Google Doc, Sheet or Slide (for example `text/plain`, `text/csv`, `application/pdf`) |
 | `drive_create_folder` | **name**, parent_id, account | New folder |
-| `drive_upload_file` | **name**, **content**, mime_type, folder_id, is_base64, account | Upload text or base64 content |
+| `drive_upload_file` | **name**, **content**, mime_type (default `text/plain`; a bare MIME type such as `text/csv`, matching `^[\w.+-]+\/[\w.+-]+$`, with no parameters), folder_id, is_base64 (default false; true decodes `content` from base64), account | Upload text or base64 content |
 | `drive_move_file` | **file_id**, **new_parent_id**, remove_from_parent_id, account | Move between folders |
 
 Not available here: sharing or permission changes, delete, copy, comments. Do not claim to have shared a file. Tell the user sharing must be done in Drive itself.
 
 ## Choosing the account
 
-`account` is optional on every tool here and is a free-form string: the email address or account id of one of the user's connected Google accounts. The server checks it against the caller's own connected accounts; if it is omitted, the server uses the account this session signed in with. Never choose the account by omission. Before the first read or write, call `account_status` (no arguments) to list the linked accounts, ask the user which one to use unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; then say "default account (the account this session signed in with)" when you report the result of a read and in every write confirmation.
+`account` is optional on every tool here and is a free-form string: the email address of one of the user's connected Google accounts, as reported by `account_status`. Pass the email address; do not pass account ids. The server checks it against the caller's own connected accounts; if it is omitted, the server uses the account this session signed in with. Never choose the account by omission. Before the first read or write, call `account_status` (no arguments) to list the linked accounts, ask the user which one to use unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; then say "default account (the account this session signed in with)" when you report the result of a read and in every write confirmation.
 
 ## Linking another account
 

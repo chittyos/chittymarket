@@ -13,10 +13,10 @@ Use when the user wants to find, read or triage their Gmail, save a message or a
 
 | Tool | Arguments | Use |
 |------|-----------|-----|
-| `gmail_search` | **query**, max_results, account | Gmail search syntax (`from:`, `is:unread`, `after:`) |
-| `gmail_search_messages` | **query**, max_results, include_metadata, label_ids, account | Search with a label filter and headers |
-| `gmail_list_messages` | query, max_results, page_token, account | Page through the mailbox |
-| `gmail_get_message` | **message_id**, format (`full`/`metadata`/`minimal`), account | Read one message |
+| `gmail_search` | **query**, max_results (default 20, 1 to 50), account | Gmail search syntax (`from:`, `is:unread`, `after:`) |
+| `gmail_search_messages` | **query**, max_results (default 10; the tool describes a maximum of 100, which the code does not enforce), include_metadata, label_ids, account | Search with a label filter and headers |
+| `gmail_list_messages` | query, max_results (default 50, 1 to 250), page_token, account | Page through the mailbox |
+| `gmail_get_message` | **message_id**, format (`full`/`metadata`/`minimal`, default `full`), account | Read one message |
 | `gmail_get_raw_message` | **message_id**, account | Raw RFC 2822 source |
 | `gmail_list_labels` | account | Label ids for filtering |
 | `gmail_get_attachment` | **message_id**, **attachment_id**, account | Attachment bytes |
@@ -43,7 +43,7 @@ Not available here: forward, reply-all as one call, drafts, filters, labelling, 
 
 ## Choosing the account
 
-`account` is optional on every tool here and is a free-form string: the email address or account id of one of the user's connected Google accounts. The server checks it against the caller's own connected accounts; if it is omitted, the server uses the account this session signed in with. Never choose the account by omission. Before the first read or write, call `account_status` (no arguments) to list the linked accounts, ask the user which one to use unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; then say "default account (the account this session signed in with)" when you report the result of a read and in every write confirmation.
+`account` is optional on every tool here and is a free-form string: the email address of one of the user's connected Google accounts, as reported by `account_status`. Pass the email address; do not pass account ids. The server checks it against the caller's own connected accounts; if it is omitted, the server uses the account this session signed in with. Never choose the account by omission. Before the first read or write, call `account_status` (no arguments) to list the linked accounts, ask the user which one to use unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; then say "default account (the account this session signed in with)" when you report the result of a read and in every write confirmation.
 
 ## Linking another account
 

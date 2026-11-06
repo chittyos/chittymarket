@@ -23,7 +23,7 @@ For `docs_batch_update`, read the document first with `docs_get` so indexes are 
 
 ## Choosing the account
 
-`account` is optional on every tool here and is a free-form string: the email address or account id of one of the user's connected Google accounts. The server checks it against the caller's own connected accounts; if it is omitted, the server uses the account this session signed in with. Never choose the account by omission. Before the first read or write, call `account_status` (no arguments) to list the linked accounts, ask the user which one to use unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; then say "default account (the account this session signed in with)" when you report the result of a read and in every write confirmation.
+`account` is optional on every tool here and is a free-form string: the email address of one of the user's connected Google accounts, as reported by `account_status`. Pass the email address; do not pass account ids. The server checks it against the caller's own connected accounts; if it is omitted, the server uses the account this session signed in with. Never choose the account by omission. Before the first read or write, call `account_status` (no arguments) to list the linked accounts, ask the user which one to use unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; then say "default account (the account this session signed in with)" when you report the result of a read and in every write confirmation.
 
 ## Linking another account
 

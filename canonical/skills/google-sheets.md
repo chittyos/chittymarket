@@ -71,14 +71,14 @@ Use when the user wants to read a spreadsheet, create one, or write or append ro
 | `sheets_get` | **spreadsheet_id**, account | Metadata: sheet (tab) names, grid sizes |
 | `sheets_get_values` | **spreadsheet_id**, **range**, value_render_option (`FORMATTED_VALUE`/`UNFORMATTED_VALUE`/`FORMULA`), account | Read an A1 range, for example `Sheet1!A1:D20` |
 | `sheets_create` | **title**, sheet_names, account | New spreadsheet |
-| `sheets_update_values` | **spreadsheet_id**, **range**, **values**, value_input_option (`RAW`/`USER_ENTERED`), account | Overwrite a range |
-| `sheets_append_values` | **spreadsheet_id**, **range**, **values**, value_input_option, insert_data_option (`INSERT_ROWS`/`OVERWRITE`), account | Append rows after the last row of a table |
+| `sheets_update_values` | **spreadsheet_id**, **range**, **values**, value_input_option (`RAW`/`USER_ENTERED`, default `USER_ENTERED`), account | Overwrite a range |
+| `sheets_append_values` | **spreadsheet_id**, **range**, **values**, value_input_option (default `USER_ENTERED`), insert_data_option (`INSERT_ROWS`/`OVERWRITE`), account | Append rows after the last row of a table |
 
 `values` is an array of rows, each an array of cells. The spreadsheet id is the URL segment between `/d/` and `/edit`. Call `sheets_get` first to learn the real tab names rather than assuming `Sheet1`.
 
 ## Choosing the account
 
-`account` is optional on every tool here and is a free-form string: the email address or account id of one of the user's connected Google accounts. The server checks it against the caller's own connected accounts; if it is omitted, the server uses the account this session signed in with. Never choose the account by omission. Before the first read or write, call `account_status` (no arguments) to list the linked accounts, ask the user which one to use unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; then say "default account (the account this session signed in with)" when you report the result of a read and in every write confirmation.
+`account` is optional on every tool here and is a free-form string: the email address of one of the user's connected Google accounts, as reported by `account_status`. Pass the email address; do not pass account ids. The server checks it against the caller's own connected accounts; if it is omitted, the server uses the account this session signed in with. Never choose the account by omission. Before the first read or write, call `account_status` (no arguments) to list the linked accounts, ask the user which one to use unless they already named one in this conversation, and pass `account` explicitly on every call. Omit `account` only if the user explicitly says to use the default; then say "default account (the account this session signed in with)" when you report the result of a read and in every write confirmation.
 
 ## Linking another account
 
@@ -91,7 +91,7 @@ If the account the user wants is not listed by `account_status`, offer `account_
 
 ## Confirm before every external write
 
-Before calling `sheets_create`, `sheets_update_values` or `sheets_append_values`: show the user the exact target (spreadsheet title and id, tab, and exact A1 range) and the full content you will write, and name the account (its email address) the write lands in (if the user explicitly chose the default, say "default account (the account this session signed in with)" instead), and get an explicit yes for that specific change. Do not infer consent from an earlier, broader request. Never write to a spreadsheet the user did not name or confirm.
+Before calling `sheets_create`, `sheets_update_values` or `sheets_append_values`: show the user the exact target (spreadsheet title and id, tab, and exact A1 range) and the full content you will write, and name the account (its email address) the write lands in (if the user explicitly chose the default, say "default account (the account this session signed in with)" instead), and get an explicit yes for that specific change. Do not infer consent from an earlier, broader request. Never write to a spreadsheet the user did not name or confirm. The server defaults `value_input_option` to `USER_ENTERED`, which evaluates cell text starting with `=` as a formula. For `sheets_update_values` and `sheets_append_values`, always pass `value_input_option: "RAW"` unless the user explicitly asks for formulas, and show the `value_input_option` in the write confirmation.
 
 Show every row and cell you will write. Before `sheets_update_values`, read the target range with `sheets_get_values` and show the user what will be overwritten. `USER_ENTERED` evaluates formulas; use `RAW` unless the user wants formulas.
 
