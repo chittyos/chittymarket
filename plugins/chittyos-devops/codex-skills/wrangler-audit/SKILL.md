@@ -1,6 +1,6 @@
 ---
 name: wrangler-audit
-description: Audit all wrangler.toml files across CHITTYOS projects for consistency, stale compatibility dates, observability drift from the ratified OFF standard, orphaned tail consumers, binding gaps, and route conflicts. Triggers on "wrangler audit", "audit workers", "check wrangler", "worker consistency", or /wrangler-audit.
+description: Audit all wrangler configs (toml, jsonc, json) across the ChittyOS orgs for consistency, stale compatibility dates, observability drift from the ratified OFF standard, orphaned tail consumers, binding gaps, and route conflicts. Triggers on "wrangler audit", "audit workers", "check wrangler", "worker consistency", or /wrangler-audit.
 canon_uri: chittycanon://core/services/chittymarket#skills/wrangler-audit
 ---
 
@@ -12,17 +12,44 @@ Audit all Cloudflare Worker configurations across the ChittyOS ecosystem for con
 
 ### Step 1: Discovery
 
-Find all wrangler.toml files in the workspace:
+Find every wrangler config in the workspace. The repo root differs by host
+(`~/projects/github.com` on chittyserv-vm, `~/Desktop/Projects/github.com` on the
+Mac), so resolve it instead of hardcoding one. Workers use `wrangler.toml`,
+`wrangler.jsonc` or `wrangler.json` — match all three.
 
 ```bash
-find /Users/nb/Desktop/Projects/github.com/CHITTYOS -name "wrangler.toml" -not -path "*/node_modules/*" 2>/dev/null
+ROOT=""
+# Desktop first: on a case-insensitive Mac volume "$HOME/projects" also matches ~/Projects.
+for d in "$HOME/Desktop/Projects/github.com" "$HOME/projects/github.com"; do
+  if [ -d "$d/CHITTYOS" ]; then ROOT="$d"; break; fi
+done
+
+if [ -z "$ROOT" ]; then
+  echo "DISCOVERY FAILED: no ChittyOS repo root on this host"
+else
+  echo "repo root: $ROOT"
+  WT="$(mktemp)"
+  for org in CHITTYOS CHITTYFOUNDATION CHITTYAPPS CHITTYCORP; do
+    [ -d "$ROOT/$org" ] || continue
+    # A linked git worktree is a directory of ANY name whose .git is a FILE
+    # pointing into <repo>/.git/worktrees/. Its configs are copies - skip them.
+    find "$ROOT/$org" \( -name node_modules -o -name .wrangler -o -name dist \) -prune -o \
+      -name .git -type f -print |
+      while IFS= read -r g; do
+        if grep -q '/worktrees/' "$g"; then echo "$(dirname "$g")/"; fi
+      done > "$WT"
+    find "$ROOT/$org" \
+      \( -name node_modules -o -name .wrangler -o -name .git -o -name dist \) -prune -o \
+      \( -name "wrangler.toml" -o -name "wrangler.jsonc" -o -name "wrangler.json" \) -print |
+      if [ -s "$WT" ]; then grep -v -F -f "$WT"; else cat; fi
+  done
+  rm -f "$WT"
+fi
 ```
 
-Also check for wrangler.toml files inside nested worker directories:
-
-```bash
-find /Users/nb/Desktop/Projects/github.com/CHITTYOS -name "wrangler.toml" -not -path "*/node_modules/*" -not -path "*/.wrangler/*" 2>/dev/null
-```
+An empty result, a `DISCOVERY FAILED` line, or any `find` error (permission denied,
+missing org directory) means the discovery is incomplete — report that, not "nothing
+to audit". `find` errors are deliberately not silenced.
 
 ### Step 2: Extract Config
 
