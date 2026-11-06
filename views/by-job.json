@@ -690,6 +690,14 @@
         "group_assignment_source": "override"
       },
       {
+        "capability_id": "chittycanon://capability/connect/stripe",
+        "name": "Stripe Billing",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "advisory_disposition": "gateway",
+        "group_assignment_source": "override"
+      },
+      {
         "capability_id": "chittycanon://capability/connect/suggest-chittyconnect",
         "name": "Suggest ChittyConnect",
         "execution_class": "@chitty/workspace",
@@ -1238,7 +1246,7 @@
   "counts": {
     "agent-runtime": 4,
     "build": 32,
-    "connect": 52,
+    "connect": 53,
     "finance": 1,
     "govern": 15,
     "internal": 3,

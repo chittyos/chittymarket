@@ -6,7 +6,7 @@
   "counts": {
     "high": 12,
     "low": 45,
-    "medium": 94
+    "medium": 95
   },
   "groups": {
     "high": [
@@ -1157,6 +1157,14 @@
         "execution_class": "@chitty/ambient",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/stripe",
+        "name": "Stripe Billing",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/connect/suggest-chittyconnect",
