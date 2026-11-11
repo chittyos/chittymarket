@@ -94,6 +94,15 @@ Use the lowest-power safe projection:
 
 Do not create an MCP server merely because a skill exists. Do not create an agent merely because a tool has multiple steps.
 
+## CI runner policy
+
+- ChittyMarket owns CI execution-substrate **projection policy**; it does not own canonical entity identity or GitHub runner-group enforcement.
+- Workflows in this repository must route `runs-on` through `${{ vars.CI_RUNNER || 'ubuntu-latest' }}` unless a reviewed exception is documented with the change.
+- Treat `CI_RUNNER` as configuration/projection, not canonical identity.
+- Do not create a ChittyAgent for an ordinary build/test/deploy job. Use an agent only when execution materially requires delegated planning/tool use/autonomous multi-step behavior.
+- Self-hosted runners are execution substrates only. Do not persist canonical, business, or evidence state on the runner as the system of record.
+- Runner-group/repository access is enforced in GitHub; Market metadata must never claim access that GitHub has not granted.
+
 ## Security and publication
 
 The working repository is private. Treat historical public exposure as a security fact, not as evidence that files are publication-safe.

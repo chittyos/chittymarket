@@ -11,6 +11,8 @@ classification:
 runtimes:
   - claude-code
   - codex
+  - openclaw
+  - universal
 plugin: chittyos-core
 canonical_capability_ref: "chittycanon://capability/workspace/nb-development-defaults"
 overlay:
@@ -120,18 +122,83 @@ git wt <branch>            # worktree from a freshly-fetched origin/main
 git wt <branch> <base-ref> # explicit base
 git wt --list
 git wt --rm <branch>       # remove worktree + branch
+git wt --relink [<branch>]  # repair deps in EXISTING worktrees (default: all)
 ```
 
-`git wt` (`~/.local/bin/git-wt`) exists because three failure modes recur:
+`git wt` (`scripts/git-wt`, bundled with this skill; install it on PATH as
+`git-wt` so `git wt` resolves) exists because four failure modes recur:
 
 1. **Stale base.** `git worktree add` off `origin/main` uses whatever was last
    fetched. `git wt` fetches first, so you never verify against old code.
 2. **No `node_modules`.** A bare worktree makes vitest exit with
    `ERR_MODULE_NOT_FOUND` — which greps as *zero failures*. Tests look green
-   while nothing ran. `git wt` symlinks `node_modules` / `.venv` from the root.
-3. **`git stash` is repository-global, not worktree-local.** Stashing while a
+   while nothing ran. `git wt` links dependencies from the root.
+3. **A symlinked `node_modules` shares the BUILD CACHE.** vite's `cacheDir`
+   defaults to `node_modules/.vite`, and a path inside a symlinked directory
+   cannot be shadowed — so one symlink makes every worktree and the root share
+   one cache, and parallel sessions serve each other stale transforms. Measured:
+   a full suite reported 4 failures that belonged to another session's edits,
+   while the same file passed 9/9 in isolation. **A contaminated run is
+   indistinguishable from a real one, and it lies in both directions** — it can
+   invent failures or hide them. So `git wt` makes `node_modules` a real
+   directory and symlinks its children, skipping `.vite`, `.vite-temp`,
+   `.cache`, `.turbo`, `.mf`, `.eslintcache` and `.tsbuildinfo` so each worktree
+   builds its own. Packages stay shared; only the cache is local.
+4. **`git stash` is repository-global, not worktree-local.** Stashing while a
    parallel session is active can pop *their* entry. Use a worktree instead of
    stashing; `git wt` never stashes.
+
+A worktree you created by hand (`git worktree add` + `ln -s node_modules`), or
+one made before this change, still has failure 3 — and the create path cannot
+repair it, because `git worktree add` refuses a destination that already exists.
+Run **`git wt --relink`** on them. It replaces a symlinked `node_modules`,
+re-links children of a real one, and re-verifies every child resolves, so repair
+and check are one pass.
+
+`--relink` matches a worktree by **basename equality** — either `<branch>` or
+`<repo>-<branch>` — so a worktree under `.claude/worktrees/`, or from a bare
+`git worktree add`, is matched too, not only one where `git wt` would have put
+it. **When a name matches nothing it exits non-zero rather than 0**, because a
+scoped repair that silently touches nothing is indistinguishable from one that
+worked.
+
+Match on equality, never a `*` pattern. A suffix match against the full path
+(`*-$want`) is exploitable: `--relink zzfoo` matched both `<repo>-zzfoo` and
+`<repo>-bar-zzfoo`, because the second also ends in `-zzfoo`. The loop then
+`rm -f`s `node_modules` in every match and does not break, so one scoped
+invocation destructively rewrote an unintended worktree — announced only by a
+`--- <path>` line nobody scanning for success would read.
+
+A worktree with **its own dependency install** is left alone: it has no shared
+cache, so there is nothing to repair, and reporting it as broken is as costly as
+missing a real break. Two rules make that judgement safe, and both exist because
+the loose version of it skipped real breakage:
+
+- The signal is an installer's own **metadata** — a real, non-symlink `.pnpm`
+  store, `.package-lock.json`, or `.yarn-state.yml`. Never "it contains at least
+  one real directory": an interrupted install leaves one behind, so that test
+  classifies a broken link farm as healthy and skips it.
+- A marker is not health. Any **dangling** top-level entry disqualifies it, since
+  an install interrupted after writing its store needs repair, not a pass.
+
+Check `-L` before `-d`: `-d` follows a symlinked `node_modules` to the root's
+real one, finds a real `.pnpm` there, and answers "own install" for the exact
+case needing repair.
+
+**`--relink` exits non-zero and says so when `node_modules` is incomplete**, and
+that matters more than the linking: a real `node_modules` directory is *not*
+assumed healthy, because the state a failed run leaves behind is a real directory
+with missing children. Answering "nothing to repair" over that would be a false
+all-clear of exactly the kind this section is about. Two traps it checks for:
+
+- `ln -sfn src dst` where `dst` is an existing real directory creates
+  `dst/<name>` **inside** it and returns 0. The path then exists while the
+  top-level entry the resolver needs does not — so "it linked fine" is wrong.
+- A dangling symlink is still `-type l`, so counting links counts unusable ones.
+
+If a suite result from any worktree surprises you, re-run the file on its own
+before believing it. Agreement between the two runs is the cheap check;
+disagreement means the cache, not the code.
 
 Global git defaults set for this workflow: `rerere.enabled` + `rerere.autoupdate`
 (conflict resolutions replay across worktrees), `worktree.guessRemote`,
@@ -316,11 +383,26 @@ without anyone noticing. So the check is part of the rule:
 ssh chittyclaw 'curl -s -o /dev/null -w "%{http_code}\n" http://localhost:18789/health'
 ```
 
-**chittyclaw is its own tailnet node (`100.69.69.7`), NOT `chittyserv-vm`.** Running
-`docker ps` on the VM and finding no openclaw containers is the wrong check and
-produces a false "claw is down" — verified failure, made in practice. Two containers
-should be up: `openclaw-prod-openclaw-gateway-1` (healthy) and
-`openclaw-prod-openclaw-cli-1`.
+**chittyclaw is its own tailnet node, NOT `chittyserv-vm`.** Running `docker ps` on
+the VM and finding no openclaw containers is the wrong check and produces a false
+"claw is down" — verified failure, made in practice. Two containers should be up:
+`openclaw-prod-openclaw-gateway-1` (healthy) and `openclaw-prod-openclaw-cli-1`.
+
+**Address it by name, and MEASURE the IP when you need one.** This section used to
+hardcode `100.69.69.7`. Measured 2026-10-21 it is `100.86.86.2`, from both sides —
+local `tailscale status` and the node's own `tailscale ip -4`. A stale address here
+produces exactly the false "claw is down" this paragraph warns about, with the skill
+itself as the cause, so the number is not restated:
+
+```
+tailscale status | grep chittyclaw          # from here
+ssh chittyclaw 'tailscale ip -4'            # from the node
+```
+
+Use the `chittyclaw` host alias for ssh (it resolves through tailnet DNS) and read
+the address only when something genuinely needs a literal IP. If a written address
+and a live `tailscale status` disagree, the live reading wins and the document is
+the thing to fix.
 
 If claw is genuinely unreachable: **say so explicitly**, fall back to local subagents,
 and note that the fan-out spent viewport budget rather than the separate pool. Silent
@@ -374,10 +456,13 @@ worker already exposes; designing a durable store when a Neon-backed canonical
 primitive exists; a build spec whose `composes_with` fields are all greenfield;
 proposing a new skill/agent without a duplicate check against the capability
 registry.
-`chittyentity/workers/` holds 50+ agent workers and `chittyentity/workers/shared/`
-holds the canonical primitives (`agent-protocol`, `remediation-loop`, `alchemize`,
-`governance`, `ledger-write`, `chronicle-queue`) — read these before concluding
-something does not exist.
+`chittyentity/chittyagents/` holds 50+ agent workers and `chittyentity/chittysdks/`
+holds the canonical primitives as kits consumed by package name — `agent-core`
+(protocol, governance, task-constants, platform types, binding ports), `agent-cf`
+(Cloudflare adapters), `agent-data` (Postgres: agent-tasks, agent-interactions,
+ledger-write), `agent-zod`, `clients` (alchemize, chronicle-queue, ChittyConnect).
+Read these before concluding something does not exist. (`workers/shared` was the
+old drawer for these; it was decomposed into the kits and removed 2026-11-06, #690.)
 
 A grep that finds nothing is evidence about your search, not about the ecosystem.
 
@@ -472,7 +557,9 @@ Every dispatched subagent should default to `ch1tty/cast` for orchestration and 
 
 ## Workers Builds (CF CI/CD)
 
-All ChittyOS workers deploy via Cloudflare Workers Builds (git-triggered). Config is managed via API, not dashboard.
+Cloudflare Workers Builds is the normal build and deployment path for ChittyOS workers.
+GitHub remains the source-control and review surface; it is not a second deployment
+system. Configure Workers Builds through the API, not the dashboard.
 
 - **API base**: `https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/builds/`
 - **Auth**: `Authorization: Bearer {cfut_ account token}` — needs "Workers Builds Configuration:Edit" permission
@@ -480,8 +567,30 @@ All ChittyOS workers deploy via Cloudflare Workers Builds (git-triggered). Confi
 - **Triggers**: Each worker has 2 (production branch + non-production). PATCH to update, POST to create.
 - **Key endpoints**: `/builds/triggers` (CRUD), `/builds/workers/{script_tag}/triggers` (list), `/builds/triggers/{uuid}/builds` (manual trigger)
 - **Pattern**: Workers with `env.production` blocks deploy via `npx wrangler deploy --env production`
-- **Shared deps**: Workers importing from `../shared/` use build command `cd ../shared && npm ci`
-- **Watch paths**: Shared importers watch both `/workers/{name}/*` and `/workers/shared/*`
+- **Shared deps**: Workers consume `chittysdks` kits by package name; the root `pnpm install` Workers Builds runs links them, so the build command is `echo 'no build step needed'` (or the worker's own build, e.g. vite). No `cd ../shared && npm ci` — `workers/shared` is gone (#690)
+- **Watch paths**: Each trigger watches `/chittyagents/{name}/*` plus `/chittysdks/{kit}/*` for every kit the worker's `package.json` declares
+- **Normal path**: a push to the configured branch triggers the Cloudflare Workers Build
+  and deployment.
+- **Wrangler**: use `npx wrangler deploy --env production` for local development,
+  `--dry-run` validation, or an explicitly approved emergency/manual deployment only.
+  Do not run Wrangler deployment in parallel with the Workers Build for the same commit.
+
+### GitHub free-tier operating model
+
+Keep GitHub Actions lightweight and non-duplicative. Repository workflows should do
+only inexpensive validation such as lint, typecheck, unit tests, and configuration
+checks. Full builds and deployments belong to Cloudflare Workers Builds unless a
+repository has an explicitly documented exception.
+
+- Do not duplicate a Cloudflare deployment in GitHub Actions.
+- Do not assume paid GitHub features, unlimited minutes, required reviewers, or
+  auto-merge are available.
+- Prefer one small repository workflow template over large, frequently changing
+  workflow copies.
+- Treat the Cloudflare build result as the deployment gate and record the build URL
+  or ID in the release/incident note when operational evidence is needed.
+- Use path filters and branch filters so unrelated repository changes do not trigger
+  Worker builds.
 
 ## Review and Audit Bias
 

@@ -2,7 +2,7 @@
 uri: chittycanon://docs/ops/policy/chittymarket-charter
 namespace: chittycanon://docs/ops
 type: policy
-version: 1.1.0
+version: 1.1.1
 status: DRAFT
 registered_with: chittycanon://core/services/canon
 title: "ChittyMarket Charter"
@@ -65,6 +65,7 @@ Supporting boundaries:
 - Release-state truth: authored, identity-resolved, projected, validated, runtime-verified, signed, published, indexed.
 - Private-to-public publication gating when a deliberately public package is approved.
 - Deprecation, migration, alias, and compatibility policy for Market projections.
+- CI execution-substrate projection policy, including the governed runner selector used by repository workflows.
 
 ### Not Responsible For
 
@@ -130,6 +131,28 @@ ChittyMarket currently exposes repository/build interfaces rather than a standal
 
 Any future network API is a separate product/deployment decision and must reuse existing identity/auth/runtime infrastructure rather than create a parallel Market backend by default.
 
+## CI Execution Substrate Policy
+
+Runner selection is a **Market-owned runtime projection**, not a new capability, identity class, or agent.
+
+```text
+repository / governed owner
+  -> workload class + risk boundary
+  -> ChittyMarket execution-substrate policy
+  -> GitHub CI_RUNNER projection
+  -> permitted GitHub runner group / labels
+```
+
+Rules:
+
+- ChittyCanon / ChittyRegister / ChittyRegistry remain authoritative for canonical identity and ownership inputs.
+- ChittyEntity implementations may expose governed entity/ownership context, but ChittyEntity does not become the CI scheduler or runner authority.
+- Ordinary GitHub Actions jobs are not ChittyAgents. ChittyAgent is used only when delegated execution materially requires planning, tool use, or autonomous multi-step behavior.
+- ChittyMarket workflows must resolve `runs-on` through `${{ vars.CI_RUNNER || 'ubuntu-latest' }}` unless a reviewed exception is documented in the same change.
+- Repository/org variable `CI_RUNNER` is the configuration projection point. GitHub runner-group membership and repository access remain GitHub enforcement boundaries and must not be inferred from Market metadata.
+- A self-hosted runner is an execution substrate, never an evidence or application-data store.
+- No new database, registry, schema, or always-on service is introduced for runner routing.
+
 ## Dependencies
 
 | Type | Service / Surface | Purpose |
@@ -182,4 +205,4 @@ Matter-specific legal content, private operator configuration, internal network 
 - [ ] Re-certification after migration completion
 
 ---
-*Charter Version: 1.1.0 | Updated: 2026-09-22*
+*Charter Version: 1.1.1 | Updated: 2026-10-05*

@@ -1,16 +1,16 @@
 {
   "version": "1.1.0",
-  "generated_at": "2026-05-11",
+  "generated_at": "2026-10-05",
   "view": "by-channel",
   "description": "Capabilities grouped by supported channel",
   "counts": {
-    "ch1tty": 102,
-    "chatgpt": 78,
-    "claude_ai": 78,
-    "claude_code": 102,
-    "claude_desktop": 102,
-    "codex": 102,
-    "openclaw": 97
+    "ch1tty": 152,
+    "chatgpt": 127,
+    "claude_ai": 127,
+    "claude_code": 152,
+    "claude_desktop": 151,
+    "codex": 151,
+    "openclaw": 144
   },
   "groups": {
     "ch1tty": [
@@ -95,7 +95,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/govern/chittyagent-canon",
+        "id": "chittycanon://capability/govern/chittycanon-code-cardinal",
         "name": "ChittyCanon Code Cardinal",
         "group": "govern",
         "execution_class": "@chitty/connectors",
@@ -111,7 +111,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/connect/chittyagent-connect",
+        "id": "chittycanon://capability/connect/chittyconnect-concierge",
         "name": "ChittyConnect Concierge",
         "group": "connect",
         "execution_class": "@chitty/connectors",
@@ -167,6 +167,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/local-lab/chittyserv-fleet-caretaker",
+        "name": "ChittyServ Fleet Caretaker",
+        "group": "local-lab",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/workspace/chittyxl-session-manager",
         "name": "ChittyXL Session Manager",
         "group": "workspace",
@@ -199,7 +207,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/build/chittyagent-claude",
+        "id": "chittycanon://capability/build/claude-integration-architect",
         "name": "Claude Integration Architect",
         "group": "build",
         "execution_class": "@chitty/connectors",
@@ -263,6 +271,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/context-resume",
+        "name": "Context Resume",
+        "group": "workspace",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/build/context7",
         "name": "Context7",
         "group": "build",
@@ -311,12 +327,28 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/create-actor",
+        "name": "Create ChittyActor",
+        "group": "build",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
         "name": "Deploy to Cloudflare Workers",
         "group": "ship",
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/ship/development-wrap-up",
+        "name": "Development Wrap-Up",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/legal/dispute-manager",
@@ -327,12 +359,44 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/document-intake-checks",
+        "name": "Document Intake Checks",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/evidence-collection",
         "name": "Evidence Collection",
         "group": "ship",
         "execution_class": "@chitty/reasoning",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-egress",
+        "name": "Evidence Egress",
+        "group": "legal",
+        "execution_class": "@chitty/workspace",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-pipeline-submit",
+        "name": "Evidence Pipeline Submit",
+        "group": "legal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/govern/fact-governance",
@@ -367,6 +431,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/finance/finance-operating-defaults",
+        "name": "Finance Operating Defaults",
+        "group": "finance",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/firecrawl",
         "name": "Firecrawl",
         "group": "connect",
@@ -381,6 +453,198 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-admin-reports",
+        "name": "GWS Admin Reports",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat",
+        "name": "GWS Chat",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat-send",
+        "name": "GWS Chat Send",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-renew",
+        "name": "GWS Events Renew",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-subscribe",
+        "name": "GWS Events Subscribe",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-forward",
+        "name": "GWS Gmail Forward",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-reply-all",
+        "name": "GWS Gmail Reply All",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-triage",
+        "name": "GWS Gmail Triage",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-watch",
+        "name": "GWS Gmail Watch",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-keep",
+        "name": "GWS Keep",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor",
+        "name": "GWS Modelarmor",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-create-template",
+        "name": "GWS Modelarmor Create Template",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-prompt",
+        "name": "GWS Modelarmor Sanitize Prompt",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-response",
+        "name": "GWS Modelarmor Sanitize Response",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-people",
+        "name": "GWS People",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script",
+        "name": "GWS Script",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script-push",
+        "name": "GWS Script Push",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-shared",
+        "name": "GWS Shared",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-slides",
+        "name": "GWS Slides",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-tasks",
+        "name": "GWS Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow",
+        "name": "GWS Workflow",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-email-to-task",
+        "name": "GWS Workflow Email To Task",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-file-announce",
+        "name": "GWS Workflow File Announce",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/gauntlet",
+        "name": "Gauntlet",
+        "group": "build",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/github",
@@ -415,12 +679,68 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/goal-creator",
+        "name": "Goal Creator",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -487,6 +807,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/legal-operating-defaults",
+        "name": "Legal Operating Defaults",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/linear",
         "name": "Linear",
         "group": "connect",
@@ -495,10 +823,26 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/market/manifest-forge",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
         "name": "Mercury Banking (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/nb-development-defaults",
+        "name": "NB Development Defaults",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -533,6 +877,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/orphaned-task-reclaim",
+        "name": "Orphaned Task Reclaim",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/pr-review-toolkit",
@@ -671,12 +1023,28 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/connect/recipe-create-task-list",
+        "name": "Recipe Create Task List",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/govern/registration-compliance",
         "name": "Registration Compliance",
         "group": "govern",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/repo-hygiene",
+        "name": "Repository Hygiene",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/require-pr-workflow",
@@ -765,6 +1133,38 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/skill-creator",
+        "name": "Skill Creator (ChittyMarket-routed)",
+        "group": "build",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/skills-orchestrator",
+        "name": "Skills Orchestrator",
+        "group": "workspace",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/workspace/startup-mode",
+        "name": "Startup Mode",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/stripe",
+        "name": "Stripe Billing",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/connect/suggest-chittyconnect",
@@ -873,7 +1273,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/govern/chittyagent-canon",
+        "id": "chittycanon://capability/govern/chittycanon-code-cardinal",
         "name": "ChittyCanon Code Cardinal",
         "group": "govern",
         "execution_class": "@chitty/connectors",
@@ -881,7 +1281,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/connect/chittyagent-connect",
+        "id": "chittycanon://capability/connect/chittyconnect-concierge",
         "name": "ChittyConnect Concierge",
         "group": "connect",
         "execution_class": "@chitty/connectors",
@@ -921,6 +1321,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/local-lab/chittyserv-fleet-caretaker",
+        "name": "ChittyServ Fleet Caretaker",
+        "group": "local-lab",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/workspace/chittyxl-session-manager",
         "name": "ChittyXL Session Manager",
         "group": "workspace",
@@ -945,7 +1353,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/build/chittyagent-claude",
+        "id": "chittycanon://capability/build/claude-integration-architect",
         "name": "Claude Integration Architect",
         "group": "build",
         "execution_class": "@chitty/connectors",
@@ -1001,6 +1409,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/context-resume",
+        "name": "Context Resume",
+        "group": "workspace",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/build/context7",
         "name": "Context7",
         "group": "build",
@@ -1025,6 +1441,22 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/create-actor",
+        "name": "Create ChittyActor",
+        "group": "build",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/ship/development-wrap-up",
+        "name": "Development Wrap-Up",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/legal/dispute-manager",
         "name": "Dispute Manager",
         "group": "legal",
@@ -1033,12 +1465,44 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/document-intake-checks",
+        "name": "Document Intake Checks",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/evidence-collection",
         "name": "Evidence Collection",
         "group": "ship",
         "execution_class": "@chitty/reasoning",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-egress",
+        "name": "Evidence Egress",
+        "group": "legal",
+        "execution_class": "@chitty/workspace",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-pipeline-submit",
+        "name": "Evidence Pipeline Submit",
+        "group": "legal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/govern/fact-governance",
@@ -1073,6 +1537,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/finance/finance-operating-defaults",
+        "name": "Finance Operating Defaults",
+        "group": "finance",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/firecrawl",
         "name": "Firecrawl",
         "group": "connect",
@@ -1087,6 +1559,198 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-admin-reports",
+        "name": "GWS Admin Reports",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat",
+        "name": "GWS Chat",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat-send",
+        "name": "GWS Chat Send",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-renew",
+        "name": "GWS Events Renew",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-subscribe",
+        "name": "GWS Events Subscribe",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-forward",
+        "name": "GWS Gmail Forward",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-reply-all",
+        "name": "GWS Gmail Reply All",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-triage",
+        "name": "GWS Gmail Triage",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-watch",
+        "name": "GWS Gmail Watch",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-keep",
+        "name": "GWS Keep",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor",
+        "name": "GWS Modelarmor",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-create-template",
+        "name": "GWS Modelarmor Create Template",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-prompt",
+        "name": "GWS Modelarmor Sanitize Prompt",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-response",
+        "name": "GWS Modelarmor Sanitize Response",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-people",
+        "name": "GWS People",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script",
+        "name": "GWS Script",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script-push",
+        "name": "GWS Script Push",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-shared",
+        "name": "GWS Shared",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-slides",
+        "name": "GWS Slides",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-tasks",
+        "name": "GWS Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow",
+        "name": "GWS Workflow",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-email-to-task",
+        "name": "GWS Workflow Email To Task",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-file-announce",
+        "name": "GWS Workflow File Announce",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/gauntlet",
+        "name": "Gauntlet",
+        "group": "build",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/github",
@@ -1121,12 +1785,68 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/goal-creator",
+        "name": "Goal Creator",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -1193,6 +1913,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/legal-operating-defaults",
+        "name": "Legal Operating Defaults",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/linear",
         "name": "Linear",
         "group": "connect",
@@ -1201,10 +1929,26 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/market/manifest-forge",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
         "name": "Mercury Banking (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/nb-development-defaults",
+        "name": "NB Development Defaults",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -1239,6 +1983,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/orphaned-task-reclaim",
+        "name": "Orphaned Task Reclaim",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/pr-review-toolkit",
@@ -1353,12 +2105,28 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/connect/recipe-create-task-list",
+        "name": "Recipe Create Task List",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/govern/registration-compliance",
         "name": "Registration Compliance",
         "group": "govern",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/repo-hygiene",
+        "name": "Repository Hygiene",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/govern/schema-validator",
@@ -1431,6 +2199,30 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/skill-creator",
+        "name": "Skill Creator (ChittyMarket-routed)",
+        "group": "build",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/skills-orchestrator",
+        "name": "Skills Orchestrator",
+        "group": "workspace",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/workspace/startup-mode",
+        "name": "Startup Mode",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/build/superpowers",
@@ -1499,7 +2291,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/govern/chittyagent-canon",
+        "id": "chittycanon://capability/govern/chittycanon-code-cardinal",
         "name": "ChittyCanon Code Cardinal",
         "group": "govern",
         "execution_class": "@chitty/connectors",
@@ -1507,7 +2299,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/connect/chittyagent-connect",
+        "id": "chittycanon://capability/connect/chittyconnect-concierge",
         "name": "ChittyConnect Concierge",
         "group": "connect",
         "execution_class": "@chitty/connectors",
@@ -1547,6 +2339,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/local-lab/chittyserv-fleet-caretaker",
+        "name": "ChittyServ Fleet Caretaker",
+        "group": "local-lab",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/workspace/chittyxl-session-manager",
         "name": "ChittyXL Session Manager",
         "group": "workspace",
@@ -1571,7 +2371,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/build/chittyagent-claude",
+        "id": "chittycanon://capability/build/claude-integration-architect",
         "name": "Claude Integration Architect",
         "group": "build",
         "execution_class": "@chitty/connectors",
@@ -1627,6 +2427,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/context-resume",
+        "name": "Context Resume",
+        "group": "workspace",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/build/context7",
         "name": "Context7",
         "group": "build",
@@ -1651,6 +2459,22 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/create-actor",
+        "name": "Create ChittyActor",
+        "group": "build",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/ship/development-wrap-up",
+        "name": "Development Wrap-Up",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/legal/dispute-manager",
         "name": "Dispute Manager",
         "group": "legal",
@@ -1659,12 +2483,44 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/document-intake-checks",
+        "name": "Document Intake Checks",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/evidence-collection",
         "name": "Evidence Collection",
         "group": "ship",
         "execution_class": "@chitty/reasoning",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-egress",
+        "name": "Evidence Egress",
+        "group": "legal",
+        "execution_class": "@chitty/workspace",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-pipeline-submit",
+        "name": "Evidence Pipeline Submit",
+        "group": "legal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/govern/fact-governance",
@@ -1699,6 +2555,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/finance/finance-operating-defaults",
+        "name": "Finance Operating Defaults",
+        "group": "finance",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/firecrawl",
         "name": "Firecrawl",
         "group": "connect",
@@ -1713,6 +2577,198 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-admin-reports",
+        "name": "GWS Admin Reports",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat",
+        "name": "GWS Chat",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat-send",
+        "name": "GWS Chat Send",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-renew",
+        "name": "GWS Events Renew",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-subscribe",
+        "name": "GWS Events Subscribe",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-forward",
+        "name": "GWS Gmail Forward",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-reply-all",
+        "name": "GWS Gmail Reply All",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-triage",
+        "name": "GWS Gmail Triage",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-watch",
+        "name": "GWS Gmail Watch",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-keep",
+        "name": "GWS Keep",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor",
+        "name": "GWS Modelarmor",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-create-template",
+        "name": "GWS Modelarmor Create Template",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-prompt",
+        "name": "GWS Modelarmor Sanitize Prompt",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-response",
+        "name": "GWS Modelarmor Sanitize Response",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-people",
+        "name": "GWS People",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script",
+        "name": "GWS Script",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script-push",
+        "name": "GWS Script Push",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-shared",
+        "name": "GWS Shared",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-slides",
+        "name": "GWS Slides",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-tasks",
+        "name": "GWS Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow",
+        "name": "GWS Workflow",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-email-to-task",
+        "name": "GWS Workflow Email To Task",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-file-announce",
+        "name": "GWS Workflow File Announce",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/gauntlet",
+        "name": "Gauntlet",
+        "group": "build",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/github",
@@ -1747,12 +2803,68 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/goal-creator",
+        "name": "Goal Creator",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -1819,6 +2931,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/legal-operating-defaults",
+        "name": "Legal Operating Defaults",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/linear",
         "name": "Linear",
         "group": "connect",
@@ -1827,10 +2947,26 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/market/manifest-forge",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
         "name": "Mercury Banking (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/nb-development-defaults",
+        "name": "NB Development Defaults",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -1865,6 +3001,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/orphaned-task-reclaim",
+        "name": "Orphaned Task Reclaim",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/pr-review-toolkit",
@@ -1979,12 +3123,28 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/connect/recipe-create-task-list",
+        "name": "Recipe Create Task List",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/govern/registration-compliance",
         "name": "Registration Compliance",
         "group": "govern",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/repo-hygiene",
+        "name": "Repository Hygiene",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/govern/schema-validator",
@@ -2057,6 +3217,30 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/skill-creator",
+        "name": "Skill Creator (ChittyMarket-routed)",
+        "group": "build",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/skills-orchestrator",
+        "name": "Skills Orchestrator",
+        "group": "workspace",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/workspace/startup-mode",
+        "name": "Startup Mode",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/build/superpowers",
@@ -2165,7 +3349,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/govern/chittyagent-canon",
+        "id": "chittycanon://capability/govern/chittycanon-code-cardinal",
         "name": "ChittyCanon Code Cardinal",
         "group": "govern",
         "execution_class": "@chitty/connectors",
@@ -2181,7 +3365,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/connect/chittyagent-connect",
+        "id": "chittycanon://capability/connect/chittyconnect-concierge",
         "name": "ChittyConnect Concierge",
         "group": "connect",
         "execution_class": "@chitty/connectors",
@@ -2237,6 +3421,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/local-lab/chittyserv-fleet-caretaker",
+        "name": "ChittyServ Fleet Caretaker",
+        "group": "local-lab",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/workspace/chittyxl-session-manager",
         "name": "ChittyXL Session Manager",
         "group": "workspace",
@@ -2269,7 +3461,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/build/chittyagent-claude",
+        "id": "chittycanon://capability/build/claude-integration-architect",
         "name": "Claude Integration Architect",
         "group": "build",
         "execution_class": "@chitty/connectors",
@@ -2333,6 +3525,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/context-resume",
+        "name": "Context Resume",
+        "group": "workspace",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/build/context7",
         "name": "Context7",
         "group": "build",
@@ -2381,12 +3581,28 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/create-actor",
+        "name": "Create ChittyActor",
+        "group": "build",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
         "name": "Deploy to Cloudflare Workers",
         "group": "ship",
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/ship/development-wrap-up",
+        "name": "Development Wrap-Up",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/legal/dispute-manager",
@@ -2397,12 +3613,44 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/document-intake-checks",
+        "name": "Document Intake Checks",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/evidence-collection",
         "name": "Evidence Collection",
         "group": "ship",
         "execution_class": "@chitty/reasoning",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-egress",
+        "name": "Evidence Egress",
+        "group": "legal",
+        "execution_class": "@chitty/workspace",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-pipeline-submit",
+        "name": "Evidence Pipeline Submit",
+        "group": "legal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/govern/fact-governance",
@@ -2437,6 +3685,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/finance/finance-operating-defaults",
+        "name": "Finance Operating Defaults",
+        "group": "finance",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/firecrawl",
         "name": "Firecrawl",
         "group": "connect",
@@ -2451,6 +3707,198 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-admin-reports",
+        "name": "GWS Admin Reports",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat",
+        "name": "GWS Chat",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat-send",
+        "name": "GWS Chat Send",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-renew",
+        "name": "GWS Events Renew",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-subscribe",
+        "name": "GWS Events Subscribe",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-forward",
+        "name": "GWS Gmail Forward",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-reply-all",
+        "name": "GWS Gmail Reply All",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-triage",
+        "name": "GWS Gmail Triage",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-watch",
+        "name": "GWS Gmail Watch",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-keep",
+        "name": "GWS Keep",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor",
+        "name": "GWS Modelarmor",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-create-template",
+        "name": "GWS Modelarmor Create Template",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-prompt",
+        "name": "GWS Modelarmor Sanitize Prompt",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-response",
+        "name": "GWS Modelarmor Sanitize Response",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-people",
+        "name": "GWS People",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script",
+        "name": "GWS Script",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script-push",
+        "name": "GWS Script Push",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-shared",
+        "name": "GWS Shared",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-slides",
+        "name": "GWS Slides",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-tasks",
+        "name": "GWS Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow",
+        "name": "GWS Workflow",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-email-to-task",
+        "name": "GWS Workflow Email To Task",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-file-announce",
+        "name": "GWS Workflow File Announce",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/gauntlet",
+        "name": "Gauntlet",
+        "group": "build",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/github",
@@ -2485,12 +3933,68 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/goal-creator",
+        "name": "Goal Creator",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -2557,6 +4061,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/legal-operating-defaults",
+        "name": "Legal Operating Defaults",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/linear",
         "name": "Linear",
         "group": "connect",
@@ -2565,10 +4077,26 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/market/manifest-forge",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
         "name": "Mercury Banking (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/nb-development-defaults",
+        "name": "NB Development Defaults",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -2603,6 +4131,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/orphaned-task-reclaim",
+        "name": "Orphaned Task Reclaim",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/pr-review-toolkit",
@@ -2741,12 +4277,28 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/connect/recipe-create-task-list",
+        "name": "Recipe Create Task List",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/govern/registration-compliance",
         "name": "Registration Compliance",
         "group": "govern",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/repo-hygiene",
+        "name": "Repository Hygiene",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/require-pr-workflow",
@@ -2835,6 +4387,38 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/skill-creator",
+        "name": "Skill Creator (ChittyMarket-routed)",
+        "group": "build",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/skills-orchestrator",
+        "name": "Skills Orchestrator",
+        "group": "workspace",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/workspace/startup-mode",
+        "name": "Startup Mode",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/stripe",
+        "name": "Stripe Billing",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/connect/suggest-chittyconnect",
@@ -2983,7 +4567,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/govern/chittyagent-canon",
+        "id": "chittycanon://capability/govern/chittycanon-code-cardinal",
         "name": "ChittyCanon Code Cardinal",
         "group": "govern",
         "execution_class": "@chitty/connectors",
@@ -2999,7 +4583,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/connect/chittyagent-connect",
+        "id": "chittycanon://capability/connect/chittyconnect-concierge",
         "name": "ChittyConnect Concierge",
         "group": "connect",
         "execution_class": "@chitty/connectors",
@@ -3055,6 +4639,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/local-lab/chittyserv-fleet-caretaker",
+        "name": "ChittyServ Fleet Caretaker",
+        "group": "local-lab",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/workspace/chittyxl-session-manager",
         "name": "ChittyXL Session Manager",
         "group": "workspace",
@@ -3087,7 +4679,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/build/chittyagent-claude",
+        "id": "chittycanon://capability/build/claude-integration-architect",
         "name": "Claude Integration Architect",
         "group": "build",
         "execution_class": "@chitty/connectors",
@@ -3151,6 +4743,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/context-resume",
+        "name": "Context Resume",
+        "group": "workspace",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/build/context7",
         "name": "Context7",
         "group": "build",
@@ -3199,12 +4799,28 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/create-actor",
+        "name": "Create ChittyActor",
+        "group": "build",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
         "name": "Deploy to Cloudflare Workers",
         "group": "ship",
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/ship/development-wrap-up",
+        "name": "Development Wrap-Up",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/legal/dispute-manager",
@@ -3215,12 +4831,44 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/document-intake-checks",
+        "name": "Document Intake Checks",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/evidence-collection",
         "name": "Evidence Collection",
         "group": "ship",
         "execution_class": "@chitty/reasoning",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-egress",
+        "name": "Evidence Egress",
+        "group": "legal",
+        "execution_class": "@chitty/workspace",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-pipeline-submit",
+        "name": "Evidence Pipeline Submit",
+        "group": "legal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/govern/fact-governance",
@@ -3255,6 +4903,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/finance/finance-operating-defaults",
+        "name": "Finance Operating Defaults",
+        "group": "finance",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/firecrawl",
         "name": "Firecrawl",
         "group": "connect",
@@ -3269,6 +4925,198 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-admin-reports",
+        "name": "GWS Admin Reports",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat",
+        "name": "GWS Chat",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat-send",
+        "name": "GWS Chat Send",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-renew",
+        "name": "GWS Events Renew",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-subscribe",
+        "name": "GWS Events Subscribe",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-forward",
+        "name": "GWS Gmail Forward",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-reply-all",
+        "name": "GWS Gmail Reply All",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-triage",
+        "name": "GWS Gmail Triage",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-watch",
+        "name": "GWS Gmail Watch",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-keep",
+        "name": "GWS Keep",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor",
+        "name": "GWS Modelarmor",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-create-template",
+        "name": "GWS Modelarmor Create Template",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-prompt",
+        "name": "GWS Modelarmor Sanitize Prompt",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-response",
+        "name": "GWS Modelarmor Sanitize Response",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-people",
+        "name": "GWS People",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script",
+        "name": "GWS Script",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script-push",
+        "name": "GWS Script Push",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-shared",
+        "name": "GWS Shared",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-slides",
+        "name": "GWS Slides",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-tasks",
+        "name": "GWS Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow",
+        "name": "GWS Workflow",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-email-to-task",
+        "name": "GWS Workflow Email To Task",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-file-announce",
+        "name": "GWS Workflow File Announce",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/gauntlet",
+        "name": "Gauntlet",
+        "group": "build",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/github",
@@ -3303,12 +5151,68 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/goal-creator",
+        "name": "Goal Creator",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -3375,6 +5279,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/legal-operating-defaults",
+        "name": "Legal Operating Defaults",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/linear",
         "name": "Linear",
         "group": "connect",
@@ -3383,10 +5295,26 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/market/manifest-forge",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
         "name": "Mercury Banking (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/nb-development-defaults",
+        "name": "NB Development Defaults",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -3421,6 +5349,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/orphaned-task-reclaim",
+        "name": "Orphaned Task Reclaim",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/pr-review-toolkit",
@@ -3559,12 +5495,28 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/connect/recipe-create-task-list",
+        "name": "Recipe Create Task List",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/govern/registration-compliance",
         "name": "Registration Compliance",
         "group": "govern",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/repo-hygiene",
+        "name": "Repository Hygiene",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/require-pr-workflow",
@@ -3653,6 +5605,30 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/skill-creator",
+        "name": "Skill Creator (ChittyMarket-routed)",
+        "group": "build",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/skills-orchestrator",
+        "name": "Skills Orchestrator",
+        "group": "workspace",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/workspace/startup-mode",
+        "name": "Startup Mode",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/connect/suggest-chittyconnect",
@@ -3801,7 +5777,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/govern/chittyagent-canon",
+        "id": "chittycanon://capability/govern/chittycanon-code-cardinal",
         "name": "ChittyCanon Code Cardinal",
         "group": "govern",
         "execution_class": "@chitty/connectors",
@@ -3817,7 +5793,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/connect/chittyagent-connect",
+        "id": "chittycanon://capability/connect/chittyconnect-concierge",
         "name": "ChittyConnect Concierge",
         "group": "connect",
         "execution_class": "@chitty/connectors",
@@ -3873,6 +5849,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/local-lab/chittyserv-fleet-caretaker",
+        "name": "ChittyServ Fleet Caretaker",
+        "group": "local-lab",
+        "execution_class": "@chitty/connectors",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/workspace/chittyxl-session-manager",
         "name": "ChittyXL Session Manager",
         "group": "workspace",
@@ -3905,7 +5889,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/build/chittyagent-claude",
+        "id": "chittycanon://capability/build/claude-integration-architect",
         "name": "Claude Integration Architect",
         "group": "build",
         "execution_class": "@chitty/connectors",
@@ -3969,6 +5953,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/context-resume",
+        "name": "Context Resume",
+        "group": "workspace",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/build/context7",
         "name": "Context7",
         "group": "build",
@@ -4017,12 +6009,28 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/create-actor",
+        "name": "Create ChittyActor",
+        "group": "build",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
         "name": "Deploy to Cloudflare Workers",
         "group": "ship",
         "execution_class": "@chitty/workspace",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/ship/development-wrap-up",
+        "name": "Development Wrap-Up",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/legal/dispute-manager",
@@ -4033,12 +6041,44 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/document-intake-checks",
+        "name": "Document Intake Checks",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/evidence-collection",
         "name": "Evidence Collection",
         "group": "ship",
         "execution_class": "@chitty/reasoning",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-egress",
+        "name": "Evidence Egress",
+        "group": "legal",
+        "execution_class": "@chitty/workspace",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-pipeline-submit",
+        "name": "Evidence Pipeline Submit",
+        "group": "legal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/govern/fact-governance",
@@ -4073,6 +6113,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/finance/finance-operating-defaults",
+        "name": "Finance Operating Defaults",
+        "group": "finance",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/firecrawl",
         "name": "Firecrawl",
         "group": "connect",
@@ -4087,6 +6135,198 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-admin-reports",
+        "name": "GWS Admin Reports",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat",
+        "name": "GWS Chat",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat-send",
+        "name": "GWS Chat Send",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-renew",
+        "name": "GWS Events Renew",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-subscribe",
+        "name": "GWS Events Subscribe",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-forward",
+        "name": "GWS Gmail Forward",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-reply-all",
+        "name": "GWS Gmail Reply All",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-triage",
+        "name": "GWS Gmail Triage",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-watch",
+        "name": "GWS Gmail Watch",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-keep",
+        "name": "GWS Keep",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor",
+        "name": "GWS Modelarmor",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-create-template",
+        "name": "GWS Modelarmor Create Template",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-prompt",
+        "name": "GWS Modelarmor Sanitize Prompt",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-response",
+        "name": "GWS Modelarmor Sanitize Response",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-people",
+        "name": "GWS People",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script",
+        "name": "GWS Script",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script-push",
+        "name": "GWS Script Push",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-shared",
+        "name": "GWS Shared",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-slides",
+        "name": "GWS Slides",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-tasks",
+        "name": "GWS Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow",
+        "name": "GWS Workflow",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-email-to-task",
+        "name": "GWS Workflow Email To Task",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-file-announce",
+        "name": "GWS Workflow File Announce",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/gauntlet",
+        "name": "Gauntlet",
+        "group": "build",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/github",
@@ -4121,12 +6361,68 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/goal-creator",
+        "name": "Goal Creator",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -4193,6 +6489,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/legal/legal-operating-defaults",
+        "name": "Legal Operating Defaults",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/linear",
         "name": "Linear",
         "group": "connect",
@@ -4201,10 +6505,26 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/market/manifest-forge",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
         "name": "Mercury Banking (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/nb-development-defaults",
+        "name": "NB Development Defaults",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -4239,6 +6559,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/orphaned-task-reclaim",
+        "name": "Orphaned Task Reclaim",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/pr-review-toolkit",
@@ -4377,12 +6705,28 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/connect/recipe-create-task-list",
+        "name": "Recipe Create Task List",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/govern/registration-compliance",
         "name": "Registration Compliance",
         "group": "govern",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/repo-hygiene",
+        "name": "Repository Hygiene",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/require-pr-workflow",
@@ -4471,6 +6815,30 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/skill-creator",
+        "name": "Skill Creator (ChittyMarket-routed)",
+        "group": "build",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/skills-orchestrator",
+        "name": "Skills Orchestrator",
+        "group": "workspace",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/workspace/startup-mode",
+        "name": "Startup Mode",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/connect/suggest-chittyconnect",
@@ -4619,7 +6987,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/govern/chittyagent-canon",
+        "id": "chittycanon://capability/govern/chittycanon-code-cardinal",
         "name": "ChittyCanon Code Cardinal",
         "group": "govern",
         "execution_class": "@chitty/connectors",
@@ -4635,7 +7003,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/connect/chittyagent-connect",
+        "id": "chittycanon://capability/connect/chittyconnect-concierge",
         "name": "ChittyConnect Concierge",
         "group": "connect",
         "execution_class": "@chitty/connectors",
@@ -4715,7 +7083,7 @@
         "group_assignment_source": "override"
       },
       {
-        "id": "chittycanon://capability/build/chittyagent-claude",
+        "id": "chittycanon://capability/build/claude-integration-architect",
         "name": "Claude Integration Architect",
         "group": "build",
         "execution_class": "@chitty/connectors",
@@ -4779,6 +7147,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/context-resume",
+        "name": "Context Resume",
+        "group": "workspace",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/build/context7",
         "name": "Context7",
         "group": "build",
@@ -4819,6 +7195,14 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/build/create-actor",
+        "name": "Create ChittyActor",
+        "group": "build",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/deploy-to-cloudflare-workers",
         "name": "Deploy to Cloudflare Workers",
         "group": "ship",
@@ -4827,12 +7211,44 @@
         "group_assignment_source": "name-rule"
       },
       {
+        "id": "chittycanon://capability/ship/development-wrap-up",
+        "name": "Development Wrap-Up",
+        "group": "ship",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/document-intake-checks",
+        "name": "Document Intake Checks",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/ship/evidence-collection",
         "name": "Evidence Collection",
         "group": "ship",
         "execution_class": "@chitty/reasoning",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-pipeline-submit",
+        "name": "Evidence Pipeline Submit",
+        "group": "legal",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/legal/evidence-to-filing",
+        "name": "Evidence to Filing",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/govern/fact-governance",
@@ -4867,6 +7283,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/finance/finance-operating-defaults",
+        "name": "Finance Operating Defaults",
+        "group": "finance",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/firecrawl",
         "name": "Firecrawl",
         "group": "connect",
@@ -4881,6 +7305,198 @@
         "execution_class": "@chitty/connectors",
         "visibility": "advanced",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-admin-reports",
+        "name": "GWS Admin Reports",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat",
+        "name": "GWS Chat",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-chat-send",
+        "name": "GWS Chat Send",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-renew",
+        "name": "GWS Events Renew",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-events-subscribe",
+        "name": "GWS Events Subscribe",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-forward",
+        "name": "GWS Gmail Forward",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-reply-all",
+        "name": "GWS Gmail Reply All",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-triage",
+        "name": "GWS Gmail Triage",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-gmail-watch",
+        "name": "GWS Gmail Watch",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-keep",
+        "name": "GWS Keep",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor",
+        "name": "GWS Modelarmor",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-create-template",
+        "name": "GWS Modelarmor Create Template",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-prompt",
+        "name": "GWS Modelarmor Sanitize Prompt",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-modelarmor-sanitize-response",
+        "name": "GWS Modelarmor Sanitize Response",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-people",
+        "name": "GWS People",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script",
+        "name": "GWS Script",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-script-push",
+        "name": "GWS Script Push",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-shared",
+        "name": "GWS Shared",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-slides",
+        "name": "GWS Slides",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-tasks",
+        "name": "GWS Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow",
+        "name": "GWS Workflow",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-email-to-task",
+        "name": "GWS Workflow Email To Task",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/gws-workflow-file-announce",
+        "name": "GWS Workflow File Announce",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/build/gauntlet",
+        "name": "Gauntlet",
+        "group": "build",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "advanced",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/github",
@@ -4915,12 +7531,68 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/workspace/goal-creator",
+        "name": "Goal Creator",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-calendar",
+        "name": "Google Calendar",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/connect/google-calendar-claude-ai",
         "name": "Google Calendar (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-docs",
+        "name": "Google Docs",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-drive",
+        "name": "Google Drive",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-gmail",
+        "name": "Google Gmail",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-sheets",
+        "name": "Google Sheets",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/connect/google-tasks",
+        "name": "Google Tasks",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/greptile",
@@ -4979,6 +7651,14 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/legal/legal-operating-defaults",
+        "name": "Legal Operating Defaults",
+        "group": "legal",
+        "execution_class": "@chitty/reasoning",
+        "visibility": "recommended",
+        "group_assignment_source": "category"
+      },
+      {
         "id": "chittycanon://capability/connect/linear",
         "name": "Linear",
         "group": "connect",
@@ -4987,10 +7667,26 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/market/manifest-forge",
+        "name": "Manifest Forge",
+        "group": "market",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
         "id": "chittycanon://capability/connect/mercury-banking-claude-ai",
         "name": "Mercury Banking (Claude.ai)",
         "group": "connect",
         "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/nb-development-defaults",
+        "name": "NB Development Defaults",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
       },
@@ -5025,6 +7721,14 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/orphaned-task-reclaim",
+        "name": "Orphaned Task Reclaim",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/pr-review-toolkit",
@@ -5163,12 +7867,28 @@
         "group_assignment_source": "category"
       },
       {
+        "id": "chittycanon://capability/connect/recipe-create-task-list",
+        "name": "Recipe Create Task List",
+        "group": "connect",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
         "id": "chittycanon://capability/govern/registration-compliance",
         "name": "Registration Compliance",
         "group": "govern",
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/repo-hygiene",
+        "name": "Repository Hygiene",
+        "group": "workspace",
+        "execution_class": "@chitty/workspace",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
       },
       {
         "id": "chittycanon://capability/build/require-pr-workflow",
@@ -5249,6 +7969,30 @@
         "execution_class": "@chitty/connectors",
         "visibility": "recommended",
         "group_assignment_source": "category"
+      },
+      {
+        "id": "chittycanon://capability/build/skill-creator",
+        "name": "Skill Creator (ChittyMarket-routed)",
+        "group": "build",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
+      },
+      {
+        "id": "chittycanon://capability/workspace/skills-orchestrator",
+        "name": "Skills Orchestrator",
+        "group": "workspace",
+        "execution_class": "@chitty/connectors",
+        "visibility": "recommended",
+        "group_assignment_source": "override"
+      },
+      {
+        "id": "chittycanon://capability/workspace/startup-mode",
+        "name": "Startup Mode",
+        "group": "workspace",
+        "execution_class": "@chitty/ambient",
+        "visibility": "recommended",
+        "group_assignment_source": "name-rule"
       },
       {
         "id": "chittycanon://capability/connect/suggest-chittyconnect",

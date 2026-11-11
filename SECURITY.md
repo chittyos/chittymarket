@@ -2,7 +2,7 @@
 uri: chittycanon://docs/ops/policy/chittymarket-security
 namespace: chittycanon://docs/ops
 type: policy
-version: 1.1.0
+version: 1.1.1
 status: DRAFT
 registered_with: chittycanon://core/services/canon
 title: "ChittyMarket Security Policy"
@@ -84,6 +84,7 @@ A Market projection must preserve these boundaries rather than collapsing them i
 | Package -> runtime | Executable instructions/tools/config | Native runtime validation where supported |
 | Registry/gateway -> execution | Discoverable capability to executable action | AuthZ, scope, approval, runtime verification |
 | External dependency -> package | Third-party/org code | Pinning/provenance/dependency review |
+| Workflow -> runner | Repository code, credentials, build inputs | `CI_RUNNER` projection + GitHub runner-group/repository authorization |
 
 ## Identity and Projection Controls
 
@@ -243,6 +244,17 @@ The validation workflow should gate at least:
 
 A workflow file is not itself enforcement. Required branch checks and merge policy must be verified separately.
 
+### Runner-selection boundary
+
+ChittyMarket governs the runner **selection contract** for Market-owned workflows; GitHub enforces runner availability and repository access.
+
+- Market workflows must resolve `runs-on` through `${{ vars.CI_RUNNER || 'ubuntu-latest' }}` unless an explicit reviewed exception exists.
+- `CI_RUNNER` is a runtime configuration projection, not an identity field.
+- Canonical owner/entity metadata may inform policy but cannot grant runner access.
+- Self-hosted runner groups should be restricted to the repositories that require them.
+- Runner hosts are not durable stores. Secrets, evidence truth, canonical metadata, and application state must remain in their governed systems.
+- A GitHub Actions job is not a ChittyAgent merely because it executes code.
+
 ## Startup-Mode Security
 
 Security controls must not create an always-on paid backend merely for convenience.
@@ -271,4 +283,4 @@ Treat these as security incidents or release blockers:
 Contain by disabling/de-indexing the affected projection where possible, preserve evidence, identify the authoritative source, and remediate through the existing work chain.
 
 ---
-*Policy Version: 1.1.0 | Updated: 2026-09-22*
+*Policy Version: 1.1.1 | Updated: 2026-10-05*

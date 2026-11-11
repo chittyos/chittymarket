@@ -1,0 +1,5 @@
+interface:
+  display_name: Finance Operating Defaults
+  short_description: Books-method defaults for bookkeeping, chart-of-accounts, classification, reconciliation, tax derivation, and governed financial writes.
+policy:
+  allow_implicit_invocation: true

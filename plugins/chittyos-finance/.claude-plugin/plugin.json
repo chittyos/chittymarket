@@ -1,0 +1,12 @@
+{
+  "name": "chittyos-finance",
+  "version": "1.0.0",
+  "description": "Books and accounting — the Finance Operating Defaults constitution governing chart-of-accounts derivation, classification, reconciliation, and production financial writes, with a hard handoff to chittyos-legal the moment a figure is filed or asserted in a matter",
+  "author": {
+    "name": "ChittyOS",
+    "url": "https://github.com/CHITTYOS"
+  },
+  "requires": [
+    "chittyos-core"
+  ]
+}

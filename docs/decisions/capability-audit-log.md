@@ -648,3 +648,491 @@ that a blind oracle (a runner that exits 0 having executed zero cases) still con
 implementer agreed with it. Closed with a required `cases_executed` count from both the runner witness
 and the verifier, gated in code (`blind_oracle`). Null Converge roles are now explicit blockers, and
 malformed role output (non-array list fields) is recorded as a death and a blocker instead of throwing.
+
+---
+
+## 2026-10-03 — `chittyos-finance` plugin + `finance-operating-defaults`; chittyfinance repo-local command sweep
+
+Operator instruction: *"check all finance skills and creat a finance plugin removing the standalone
+skills in favor of a chittymarket managed plugin and connections"*.
+
+### Step 1 — Existing-first search (MANDATORY)
+
+| Source | Query | Result |
+|---|---|---|
+| `capabilities.generated.json` (110 records) | finance / account / ledger / bookkeep / tax / mercury / invoice / reconcile keywords across the full record JSON | **No books/accounting capability exists.** Every keyword hit was incidental (`read-and-write-neon-database`, `fill-and-analyze-pdfs`, …). Group counts: build 30, connect 22, govern 15, ship 12, workspace 10, legal 6, local-lab 5, agent-runtime 4, internal 3, market 1 — **no `finance` group** |
+| `registry.chitty.cc/api/v1/tools` | finance / ledger / mercury | `chittyfinance` (`did:chitty:foundation:chittyfinance`, finance.chitty.cc, `/health` → ok), `chittyledger`, `chittycharge`, and a stale `finance` tool record (see Contradictions) |
+| `marketplace.json` / `.claude-plugin/marketplace.json` | finance | No finance artifact, no finance plugin. Existing plugins: ch1tty, chittyagent-autobot, chittyagent-dispatch, chittymarket-canonical, chittymarket-manager, chittyos-core, chittyos-devops, chittyos-governance, chittyos-legal, chittyos-mcp, chittyos-proxy-agents, neon-mcp, nowebmaster |
+| `canonical/skills/`, `canonical/agents/` | finance | One finance-adjacent skill: `startup-mode.md`, `capability_group: workspace` — it governs *our* spend, not the books. **Does not move.** No finance agents |
+| `~/.claude/skills/` (156 standalone) | finance / account / book / ledger / tax / money / bank / mercury / invoice / reconcile / rent / tenant / coa / chart, name **and** body | **Zero finance skills.** Only hits were Anthropic's bundled `pptx`/`docx`/`xlsx` sample text. Independently re-run; the brief's claim is confirmed |
+
+**Gate result:** no existing canonical capability covers books method. Not a duplicate. New root.
+
+Runbook note: Step 1.2 of the skill tells the auditor to curl `registry.chitty.cc/api/services`.
+That path does not exist on the deployed worker (404 + `availableEndpoints`). `/api/v1/tools` was
+used. **The runbook step is stale and should be corrected.**
+
+### Step 2 — Classification across the five axes
+
+- **A. Job-to-be-done:** `govern`
+- **B. Environmental footprint:** `context-only` (the constitution reasons and routes; every write
+  it governs is performed by a different capability)
+- **C. Evidentiary risk:** `medium` — books figures become evidence only after §11 hands off
+- **D. Runtime projection:** `skill`, four runtimes (claude-code, codex, openclaw, universal)
+- **E. Entity mapping:** primary **A** (Authority — a governing constitution); secondary **E**
+  (the write/apply/reconcile occurrences it governs), **T** (chart, ledger, document artifacts),
+  **P** (the operator who gates a production write). Not a smell — mapping is explicit
+
+### Step 3 — Placement Decision Matrix
+
+1. Already exists under another name? **No** (Step 1)
+2. Only a platform adapter? **No**
+3. Genuinely new job-to-be-done? **Yes** — books method is governed nowhere today. → **promote**
+
+Steps 4–10 not reached.
+
+### Step 4 — Governance gates
+
+**Non-repudiation: NOT required.** Matrix step 9 ("governance / valuation / removal docs / claims /
+filings / disputes → Legal Space + Non-Repudiation Gate") does **not** fire, because §11 of the
+capability explicitly removes filings from its own scope: the moment a figure is filed, served,
+produced, or asserted in a matter, `legal-operating-defaults` governs it and the figure becomes a
+governed factual assertion carrying that gate. Requiring hash+timestamp+source-trail on every
+routine chart-of-accounts reasoning step would make the gate meaningless where it matters. The gate
+**rides with the §11 handoff**, which is where the evidentiary act actually occurs. Mirrors
+`legal-operating-defaults` itself (`non_repudiation_required: false`,
+`requires_governance_authority: true`), which is likewise a constitution rather than an
+evidence-producing capability.
+
+**Per-channel projection:** all six channels allowed (claude_code, claude_ai, claude_desktop,
+chatgpt, codex, openclaw). The capability carries method only; nothing is channel-sensitive.
+No runtime exclusions.
+
+**Sensitive-intent routing:** the capability's dependency-routing table sends every credential,
+secret, binding, connection-string, and deploy intent to `chittyconnect-concierge` (`/chico`),
+**always**, and its distribution boundary forbids a secret value appearing in any projection.
+
+### Output 1 — Taxonomy entry
+
+```yaml
+canonical_id:           finance-operating-defaults
+display_name:           Finance Operating Defaults
+job_to_be_done:         govern
+entity_mapping:         [A, E, T, P]
+source_of_truth:        chittymarket / canonical/skills/finance-operating-defaults.md
+environmental_footprint: context-only
+evidentiary_risk:       medium
+canonical_version:      1.0.0
+runtime_exclusions:     []
+allowed_projections:    [claude_code, claude_ai, claude_desktop, chatgpt, codex, openclaw]
+restricted_projections: []
+non_repudiation_required: false
+slim_mcp_hint:          "books method — chart/classification/reconciliation/writes; hands off to legal once a figure is filed"
+owner:                  chittyos-finance
+status:                 active
+```
+
+### Output 2 — Disposition decision
+
+```yaml
+decision_id:   CAP-2026-10-03-finance-operating-defaults
+date:          2026-10-03
+capability_name: finance-operating-defaults
+canonical_id:  chittycanon://capability/finance/finance-operating-defaults
+decision:      promote
+rationale:     Matrix step 3 — genuinely new job-to-be-done. Step 1 found no books/accounting
+               capability in the overlay, the marketplace, canonical/, or the 156 standalone
+               skills. Steps 1 and 2 of the matrix do not fire because there is nothing to merge
+               into or adapt. Each of the twelve principles is drawn from a distinct production
+               failure, so the capability is evidenced rather than speculative.
+duplicates_found: []
+migration_required: yes
+next_action:   chittyfinance PR retires the four non-portable repo-local commands
+review_date:   2027-04-03
+```
+
+### Output 2b — Per-artifact disposition, the 8 chittyfinance repo-local commands
+
+Three tests, first hit wins: (1) carries entity facts → cannot promote, by the same rule
+`legal-operating-defaults` §15 applies to matter facts; (2) encodes a workflow the new principles
+forbid → retire; (3) pure dev-loop scaffolding → leave repo-local.
+
+| Command | Decision | Reasoning |
+|---|---|---|
+| `check-system` | **retire** | Invokes `npm run mode:detect`, `db:push:system`, `dev:system` — **none exist** in `package.json` (which has only dev/build/start/check/db:push/db:seed:coa/test). A broken validator reports health it never checked. No cross-runtime value |
+| `db-reset` | **retire** | `db:push:system -- --force` → drop → reseed, against a books datastore. Violates §4 (no transaction, no snapshot) and §7 (no operator gate, no rollback recipe). Also hardcodes entity facts (tenant counts, two named individuals, two property names) and calls three npm scripts that do not exist |
+| `quick-deploy` | **retire** | Lists `MODE=system npm run db:push:system` + `npm run db:seed` as **production pre-flight**. `drizzle-kit push` is destructive (repo CLAUDE.md), and this is precisely the hand-apply path §3 forbids and §2's four wrong rows came from. Calls `build:system`, `build:standalone`, `deploy:production`, `db:push:system`, `db:seed` — **none exist**. Leaving it repo-local preserves the failure path |
+| `fix-deploy` | **retire** | "Fix critical deployment blockers" with no defined scope or stop condition; its only concrete step (`npm run check`) is one command. No entity facts, but nothing worth keeping either |
+| `extract-turbotenant` | **leave repo-local** | Carries entity facts — four property names and street addresses in two cities. Cannot be promoted (§15-equivalent). Backing script `scripts/import-turbotenant.ts` exists, so it is live, not dead |
+| `extract-portfolio` | **leave repo-local** | Same entity facts, same portfolio table. Operational browser extraction bound to this repo |
+| `fetch-ledger` | **leave repo-local** | Names a specific Google Sheet ID and a specific external account. Backing script `scripts/fetch-turbotenant-ledger.ts` exists |
+| `tenant-switch` | **leave repo-local** | Enumerates seven tenant slugs — entity facts. Read-only local testing aid with no cross-runtime value |
+
+**Promoted: zero of eight.** The operator's instruction was "removing the standalone skills in
+favour of a managed plugin", not "move everything". Four carry entity facts and are therefore
+unpromotable by construction; four are broken or forbidden and are retired rather than relocated.
+What ChittyMarket gains is the **method** those commands lacked, not the commands.
+
+### Output 3 — Migration queue
+
+```yaml
+migration_item:  retire-chittyfinance-repo-local-deploy-commands
+from_artifact:   CHITTYAPPS/chittyfinance/.claude/commands/{check-system,db-reset,quick-deploy,fix-deploy}.md
+to_canonical_capability: chittycanon://capability/finance/finance-operating-defaults
+action:          retire
+blocking_dependencies: []
+risk_level:      low
+owner:           chittyos-finance
+status:          in-progress
+completion_evidence: chittyfinance PR (companion to this one)
+```
+
+```yaml
+migration_item:  generalize-bootstrap-pointer-generator
+from_artifact:   scripts/generate-legal-bootstrap.sh
+to_canonical_capability: chittycanon://capability/finance/finance-operating-defaults
+action:          project
+blocking_dependencies: []
+risk_level:      low
+owner:           chittymarket
+status:          completed
+completed_at:    2026-10-05
+completion_evidence: scripts/generate-bootstrap-pointers.sh + plugins/chittyos-finance/bootstrap/finance-operating-defaults + plugins/chittyos-finance/skills/finance-operating-defaults/agents/openai.yaml + Bootstrap projection idempotency CI gate
+```
+
+### Connections
+
+"Connections" resolved to three **existing** things, composed with and never redefined:
+
+| Connection | Status |
+|---|---|
+| `chittycanon://capability/connect/mercury-banking-claude-ai` | Exists as a connector. Referenced as the read-side bank source a reconciliation ties out against. **Not redefined** |
+| `chittycanon://capability/connect/read-and-write-neon-database` | Exists. The books datastore; §4 applies to every write through it |
+| ChittyFinance service MCP — `https://finance.chitty.cc/mcp` | Live and auth-gated (401). `/health` → `{"status":"ok","service":"chittyfinance"}`. Registered as `did:chitty:foundation:chittyfinance`. Referenced; auth routes through `/chico`. **No `canonical/mcp/chittyfinance.md` added** — that would be registering a connector, not wiring to one |
+
+No connector was invented and no placeholder was scaffolded.
+
+### Contradictions found against the brief
+
+1. **A `finance` capability group did not exist.** `GROUPS` in `scripts/validate-overlay-schema.py`
+   is a closed set of ten, and `market-reconcile.py` enforces that the `capability_id` group
+   segment equals `capability_group`. `finance` was added to the enum and to the slug list in
+   `docs/architecture/CHITTYMARKET_CAPABILITY_ROUTER.md`. The alternative — filing a books
+   constitution under `govern`, as `fact-governance` is — was rejected: `legal` is a peer domain
+   group and `finance` is its structural parallel.
+2. **No bootstrap pointer projections.** `chittyos-legal` has eight projections because
+   `scripts/generate-legal-bootstrap.sh` exists; that script is hardcoded to
+   `legal-operating-defaults`. `chittyos-finance` ships with the four runtimes that have
+   `resolve_output.py` rows. Generalizing the generator is queued above, not smuggled in here.
+3. **Registry record `finance` (`03-1-USA-2160-T-2606-1-15`) is dead.** It points at
+   `chittyagent-finance.ccorp.workers.dev`, reports `health: unhealthy` / `HTTP 404`, and has not
+   been updated since 2026-06-13. Reported, not wired to. The live surface is `finance.chitty.cc`.
+4. **Every npm script the four retired commands call is absent** from `chittyfinance/package.json`.
+   The repo's own `CLAUDE.md` Commands block is stale in the same way (`npm run deploy`,
+   `db:push:system`, `db:seed`, `dev:system` do not exist). Flagged in the chittyfinance PR;
+   correcting the whole block is out of scope for this change.
+5. **`capability-registry-audit` Step 1.2 cites a non-existent registry path** (`/api/services`).
+
+### Related change in this PR
+
+`legal-operating-defaults` 1.1.0 → 1.2.0: one conditional-routing row added for
+`finance-operating-defaults`, so the handoff is bidirectional rather than one-way. Four dispatch
+projections and four bootstrap pointers regenerated.
+
+### Output 4 — Decision log entry
+
+```yaml
+decision_id:     CAP-2026-10-03-finance-operating-defaults
+date:            2026-10-03
+capability_name: finance-operating-defaults
+canonical_id:    chittycanon://capability/finance/finance-operating-defaults
+source_links:    [local://canonical/skills/finance-operating-defaults.md]
+current_state:   new — plugin chittyos-finance created in this PR
+decision:        promote
+job_to_be_done:  govern
+entity_mapping:  [A, E, T, P]
+environmental_footprint: context-only
+evidentiary_risk: medium
+rationale:       no existing books capability in overlay, marketplace, canonical/, or the 156
+                 standalone skills; twelve principles each drawn from a production failure
+duplicates_found: []
+migration_required: yes
+migration_owner: chittyos-finance
+```
+
+### Amendment 1 (2026-10-03, same PR): duplicate search re-run against `origin/main`; Step 1.5 completed
+
+Two gaps in the entry above, both found on self-review before the report was written.
+
+**1. The Step 1 inventory was read from the wrong branch.** The shared chittymarket checkout sits on
+`feat/chittyagent-serv-fleet-caretaker` (109 → 108 records); this PR's worktree is cut from
+`origin/main`, which carries **109**. The entry's "110 records" is the post-change count, not the
+count searched. Re-run against `origin/main:capabilities.generated.json`:
+
+- The one record present on `main` and absent from the branch originally searched is
+  `chittycanon://capability/build/gauntlet` — a review-workflow capability, not finance.
+  **The `promote` disposition is unaffected.**
+- The first keyword pass was also noisier than it looked: every record carries
+  `provenance.anchored_in_ledger`, so a bare `ledger` substring matches all 109. Re-run with
+  `provenance` stripped, the substantive hits are four, and each is cleared:
+
+| Record | Why it is not a duplicate |
+|---|---|
+| `connect/mercury-banking-claude-ai` | A **connector**. Composed with, never redefined — already recorded |
+| `legal/chittymcp-claude-ai` | *"identity, cases, evidence, facts, ledger, finance, memory, credentials"* — a **gateway tool surface**, not a books method. No job-to-be-done overlap with a governing constitution. Added to the capability's connection table so the relationship is explicit: its finance tools are **governed by** these principles, not excused from them |
+| `legal/dispute-manager` | *"property, insurance, legal, and financial matters"* — dispute intake, not bookkeeping |
+| `govern/chittyid-accountability` | "account" as in accountability. Unrelated |
+
+**2. Step 1.5 (Ch1tty `servers.json` + ChittyMCP registrations) was not run in the original pass.**
+Completed now, and it changes what "connections" resolves to:
+
+- `CHITTYOS/ch1tty/servers.json` — **no `chittyfinance` entry.** The service is not registered with
+  the gateway, so no channel reaches its MCP surface through ch1tty today.
+- `chittymarket/ch1tty-servers-additions.json` — a ChittyFinance entry exists, but that file is an
+  **unmerged proposal** ("Proposed additions … Merge into the `servers` array"), and its endpoint
+  note — *"MCP endpoint pending — add /mcp when ChittyFinance ships native MCP"* — is **stale**.
+- Probed directly: `/mcp` → **401** while an unknown path → **404**, and `/api/v1/status` → 200.
+  A blanket auth middleware would 401 the unknown path too. **The MCP route is real and
+  auth-gated**; the proposal file's "pending" note no longer describes reality.
+
+So the precise answer: the ChittyFinance MCP surface **exists and is live, but is unregistered**.
+Registering it in `servers.json` is a backend change under Centralized Registration and routes
+through `/chico`; it is explicitly **not** done here and must never be worked around by adding the
+server to a local `.mcp.json`. The capability's connection table now states the unregistered status
+rather than implying reachability it does not have — a routing table that overstates what resolves
+is the failure §10 exists to prevent.
+
+```yaml
+migration_item:  register-chittyfinance-mcp-with-ch1tty-gateway
+from_artifact:   chittymarket/ch1tty-servers-additions.json (unmerged proposal, stale endpoint note)
+to_canonical_capability: chittycanon://capability/finance/finance-operating-defaults
+action:          document
+blocking_dependencies: ["backend registration is /chico-routed", "servers.json lives in CHITTYOS/ch1tty"]
+risk_level:      low
+owner:           chittyconnect-concierge
+status:          backlog
+completion_evidence: null
+```
+
+**Scope note.** This audit covers the **capability**, not the plugin. `chittyos-finance` is a
+distribution container holding exactly one capability; the container inherits the capability's
+disposition. Same shape as `chittyos-legal`.
+
+**Former doc/view debt — closed 2026-10-05:** `CHITTYMARKET_CAPABILITY_ROUTER.md` now has
+an explicit `finance` section and distribution totals derived from the 110-record overlay.
+`scripts/generate-capability-views.py` now materializes the existing by-job, by-channel,
+by-context-cost, and by-authority view schemas, and CI fails if those views drift.
+
+
+### Amendment 2 (2026-10-05): ChatGPT/bootstrap projection gap closed
+
+The queued `generalize-bootstrap-pointer-generator` migration is complete. The former
+legal-only generator is now a compatibility wrapper over
+`scripts/generate-bootstrap-pointers.sh`, which deterministically generates bootstrap
+pointers and `agents/openai.yaml` metadata for both `legal-operating-defaults` and
+`finance-operating-defaults`.
+
+For finance, this closes the repository-side contradiction between
+`compatible_channels: [chatgpt]` and the absence of a ChatGPT skill projection. CI now
+re-runs all bootstrap-managed projections and fails on drift. This is projection evidence,
+not runtime-install evidence: a ChatGPT client must still install/refresh the plugin before
+the skill may be claimed live there.
+
+
+## 2026-10-09 — Legal HOLD identity review: promote three distinct jobs; merge 9-step audit
+
+**Auditor:** capability-governor, continuing the legal runtime/registry reconciliation from PR #181  
+**Scope:** `doctype-checks`, `evidence-egress`, `evidence-to-filing`, `9-step-legal-audit`  
+**Existing-first surfaces checked:** ChittyMarket capability overlay + canonical definitions, live
+orchestrator skill index, ChittyRegistry discovery, and the installed `review-legal-record`,
+`litigation-evidence-dossier`, and `evidence-collect` skill surfaces.
+
+### Dispositions
+
+| Source skill | Primary job-to-be-done | Decision | Canonical capability |
+|---|---|---|---|
+| `doctype-checks` | validate a source document at intake before fact creation | **promote** | `chittycanon://capability/legal/document-intake-checks` |
+| `evidence-egress` | reconcile/migrate scattered evidence bytes without weakening custody | **promote** | `chittycanon://capability/legal/evidence-egress` |
+| `evidence-to-filing` | materialize already-governed evidence/facts into attorney-reviewable filing work product | **promote** | `chittycanon://capability/legal/evidence-to-filing` |
+| `9-step-legal-audit` | claim-versus-record / evidence-integrity audit | **merge / HOLD** | **none minted** |
+
+The three promoted jobs are materially distinct from existing `evidence-collect`,
+`fact-governance`, `legal-arsenal`, and `litigation-evidence-dossier`: intake validation is
+upstream of fact creation; egress is custody-preserving storage reconciliation; filing
+materialization is downstream of factual verification and does not collect or establish truth.
+
+### Why `9-step-legal-audit` remains HOLD
+
+The installed `review-legal-record` surface already owns the substantive record-review job:
+source inventory, controlling-document parsing, event reconstruction, claim-versus-record
+testing, contradictions, integrity checks, source register, and gap identification. The
+nine-step skill adds a fixed sequence and report/risk-score packaging, but that is a workflow
+profile over substantially the same job, not sufficient basis for a second canonical capability
+identity.
+
+Disposition is therefore **merge**, not delete: preserve the source skill/runtime entry while
+its useful structured-audit procedure is reconciled into a governed `review-legal-record`
+identity. Until that receiving capability has a canonical ChittyMarket identity, keep
+`9-step-legal-audit` unpublished in the capability overlay and do not mint a competing
+`chittycanon://capability/.../9-step-legal-audit` URI.
+
+### Registry status
+
+ChittyRegistry currently exposes `legal-operating-defaults` but not the other published legal
+skills. A governed registration attempt for `fact-governance` again returned HTTP 429
+`rate_limit_exceeded`; the gate was not bypassed. Registry durability is therefore a separate
+blocked migration and is not used as a reason to invent alternate registration paths.
+
+```yaml
+decision_id:     CAP-2026-10-09-legal-hold-identities
+date:            2026-10-09
+decision:        promote-three-merge-one
+promoted:
+  - chittycanon://capability/legal/document-intake-checks
+  - chittycanon://capability/legal/evidence-egress
+  - chittycanon://capability/legal/evidence-to-filing
+held:
+  - source: canonical/skills/9-step-legal-audit.md
+    disposition: merge
+    target: review-legal-record
+    reason: overlapping primary job-to-be-done; receiving surface lacks governed ChittyMarket identity
+registry_blocker: ChittyRegister HTTP 429 rate_limit_exceeded
+evidentiary_risk: legal-grade
+```
+
+## CAP-2026-10-18 — Cognitive Operations Registry (spec, projection; formerly Neural Operations Registry)
+
+The Cognitive Operations Registry (COR, renamed from Neural Operations Registry on 2026-10-20) is a canon spec in `chittyfoundation/chittycanon`
+(`specs/COGNITIVE_OPERATIONS_REGISTRY.md`, PR chittyfoundation/chittycanon#98). It catalogs
+cognitive, epistemic and executive operations over existing surfaces. It is not an executable
+capability, so no capability record is minted in the overlay.
+
+Matrix Q1 is a partial match. Its legal-space epistemic entries project onto `fact-governance`,
+with `document-intake-checks` upstream. Business-space fact writes are blocked: `chittygov` (governance, designated 2026-10-20) has an
+approved-but-unlanded status migration on `atomic_facts`; `chittyfinance` (finance, designated
+2026-10-21) has an unverified fact store. The persistent memory surface is now named **Experiences**, with **Experience Projection** as
+the architectural abstraction, logical path `/experiences/`, and **Experience History** as the
+temporal retrieval view. Runtime activation is implemented in chittyos/chittyconnect#374 /
+CFDXN-194; COR entries remain `draft` until the independent admission gates pass.
+
+```yaml
+decision_id:     CAP-2026-10-18-neural-operations-registry
+date:            2026-10-18   # original audit
+amended:         2026-10-21   # re-audit of the COR revision pinned below (v0.10.0: Experiences naming + runtime mapping)
+capability_name: Cognitive Operations Registry
+canonical_id:    chittycanon://capability/govern/fact-governance   # projection resolves to the existing capability (AGENTS.md)
+source_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry
+source_links:
+  - https://github.com/chittyfoundation/chittycanon/pull/98
+  - https://github.com/chittyfoundation/chittycanon/pull/105
+  - https://github.com/chittyos/chittyconnect/pull/374
+audited_revision:
+  repo: chittyfoundation/chittycanon
+  commit: 11f99af838a84ef82bdf09af2a160297f7423aed
+  path: specs/COGNITIVE_OPERATIONS_REGISTRY.md
+  url: https://github.com/chittyfoundation/chittycanon/blob/11f99af838a84ef82bdf09af2a160297f7423aed/specs/COGNITIVE_OPERATIONS_REGISTRY.md
+  content_sha256: f18b8f90c21ad7cfb10331b9cb7fc0b30c0f503f26e3ff6a3810bbad3843b8f5
+  # any later change to the spec requires re-audit before this entry satisfies the admission gate
+current_state:   DRAFT spec, operator-ratified; runtime activation tracked separately
+decision:        project
+job_to_be_done:  govern
+entity_mapping:  [P, L, T, E, A]
+environmental_footprint: context-only
+evidentiary_risk: legal-grade   # legal-space rows write to fact-governance
+rationale:       >
+  Partial match at matrix Q1. Epistemic status semantics reuse fact-governance; no new
+  capability identity, record, store or status enum.
+duplicates_found:
+  - chittycanon://capability/govern/fact-governance
+adjacent:
+  - chittycanon://capability/legal/document-intake-checks
+  - chittycanon://capability/legal/dispute-manager
+  - chittycanon://capability/workspace/read-and-write-chittyos
+migration_required: yes   # every `project` disposition requires migration (capability-governor audit_artifact.py needs_migration)
+migration_owner: operator
+next_action:     >
+  Complete and verify chittyos/chittyconnect#374 / CFDXN-194; land CFDXN-196; enforce
+  verifier != submitter under CFDXN-193; then complete the CFDXN-195 admission validator.
+review_date:     2026-11-20
+```
+
+```yaml
+migration_item: CAP-MIG-2026-10-18-nor-project-fact-governance
+from_artifact: chittycanon://docs/tech/spec/cognitive-operations-registry (DRAFT)
+to_canonical_capability: chittycanon://capability/govern/fact-governance
+action: reroute
+blocking_dependencies:
+  - chittyfoundation/chittycanon#105 merged 2026-10-21; this entry pins its exact COR revision
+  - chittygov atomic_facts status migration (approved 2026-10-21) not landed — CFDXN-196
+  - per-P Experiences runtime deployment + persist→recall verification — chittyos/chittyconnect#374 / CFDXN-194
+  - fact-governance runtime enforcement of verifier != submitter — CFDXN-193
+  - COR admission validator — CFDXN-195
+risk_level: medium
+owner: operator
+status: backlog
+completion_evidence: null
+```
+
+## 2026-10-21 — Document storage gets a canonical identity (inactive)
+
+No record in `capabilities.generated.json` covered document or evidence storage. Live checks on
+2026-10-21 found nine evidence bucket bindings across seven repos. Only the deployed `chittyevidence-db`
+worker writes to a bucket that exists (`chittyevidence-documents`, 108,861 objects). Five other
+repos bind buckets that do not exist, and one superseded worker binds a 404 bucket. ChittyStorage's
+CHARTER already scopes file storage, indexing and retrieval, with canonical objects at
+`sha256/<content_hash>`. Its Neon index (`storage.file_locations`) has 15,156 `sha256/` rows
+against 19,240 `sha256/` objects in R2, so about 4,084 objects are unindexed (row counts, not a
+key-level join).
+
+The promotion is approved but **inactive**. The non-repudiation gate requires hash, timestamp and
+custody policies. Hash is covered by content addressing; the other two are not written anywhere
+found. The registry entry in `capabilities.generated.json` is deliberately not added until they
+exist.
+
+```yaml
+decision_id:     CAP-2026-10-21-document-storage
+date:            2026-10-21
+canonical_id:    chittycanon://capability/legal/document-storage
+decision:        promote-inactive
+activation_status: inactive  # machine-readable in every dec_20261021_* log
+owner:           chittystorage
+job_to_be_done:  remember
+projected:       [chittyevidence-db R2 binding]
+merge_into_canonical:
+  - chittycases DOCUMENTS (chittycases-documents, missing)
+  - chittychat (chittyos-evidence, missing)
+  - chittychronicle (aribia-evidence-*, missing)
+  - chittyrouter (chittyrouter-evidence-vault, missing)
+  - chittyscore (chittyscore-evidence-*, missing)
+retired:         [CHITTYAPPS/chittyevidence chittyevidence-worker (bucket chittyevidence-storage 404)]
+legal_only_blocked:
+  - storage.entity_storage_config Drive mapping (hash/timestamp/custody policy missing)
+  - chittyevidence-documents incoming/ (89,266 objects, not content-addressed)
+activation_gate: timestamp + custody policy in CHITTYOS/chittystorage/CHARTER.md
+evidentiary_risk: legal-grade
+logs:            docs/decisions/logs/dec_20261021_*.json (10, all pass validate_decision_log.py)
+```
+
+## CAP-2026-11-06-stripe-billing — gateway
+
+The ch1tty `stripe` server (`@stripe/mcp`, readwrite, enabled) was enabled in the local stdio gateway with no manifest entry
+and no overlay record. It is now registered as `chittycanon://capability/connect/stripe` from
+`canonical/mcp/stripe.md` through `market-reconcile.py sync --name stripe`, restricted to
+`claude_code`. `stripe@claude-plugins-official` and the claude.ai Stripe connector are recorded
+as duplicates and are not projected: both authenticate by OAuth in the client and bypass
+ch1tty to ChittyConnect.
+
+Open: no credential route is declared for the server in `servers.json`. Verifying how the Stripe
+secret reaches the process is the migration item, owned by `chittyagent-connect`.
+
+```yaml
+decision_id:     CAP-2026-11-06-stripe-billing
+date:            2026-11-06
+canonical_id:    chittycanon://capability/connect/stripe
+decision:        gateway
+owner:           chittyagent-connect
+job_to_be_done:  operate
+duplicates:      [stripe@claude-plugins-official, claude.ai Stripe connector]
+evidentiary_risk: medium
+logs:            docs/decisions/logs/dec_20261106_stripe-billing-gateway.json
+```
