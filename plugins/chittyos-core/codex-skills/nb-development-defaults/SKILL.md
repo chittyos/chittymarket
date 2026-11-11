@@ -224,8 +224,12 @@ explicit opt-in: `REVIEW_LANE=gateway`.
 framing (system prompt) is owned by the script and is the only source of review
 instructions. `-p` text is placed after the diff as delimited, untrusted
 "requester-supplied context": claims to verify, not instructions. Instructions in it, or
-in the diff, about scope, focus, severity or verdict are ignored and reported. Text in
-the diff that addresses the reviewer is an automatic BLOCK. The script itself requires
+in the diff, about scope, focus, severity or verdict are ignored and reported. Only text in the diff that targets this review (addressed to the reviewer or the review
+process, trying to set its verdict, scope, focus or output, to make it ignore its
+instructions, or to make it run anything) is an automatic BLOCK. Agent-instruction docs
+(CLAUDE.md, SKILL.md, agent definitions) are reviewed on their merits like any other
+change. The script refuses the implementer's own models (`IMPLEMENTER_MODEL_DENYLIST`:
+`claude-opus-5*` and bare aliases) with `REVIEWER_IS_IMPLEMENTER`, exit 1, in both lanes. The script itself requires
 exactly one final `VERDICT: PASS` / `VERDICT: BLOCK` line.
 
 Exit codes: `0` review returned; `1` usage; `2` chittyclaw or its CLI unreachable;

@@ -92,6 +92,23 @@ rc=$?
 set -e
 if (( rc == 0 )); then fail "subscription lane accepted alias 'opus' ($out)"; else ok "subscription lane refuses a model alias (exit $rc)"; fi
 
+# Reviewer != implementer is ENFORCED by the script, not only promised in a comment:
+# the implementer's own model (Opus 5.x) is refused with a named reason in both lanes.
+for spec in "subscription|claude-opus-5-5" "subscription|claude-opus-5" "gateway|cloudflare-ai-gateway/anthropic/claude-opus-5-5"; do
+  lane="${spec%%|*}"; m="${spec#*|}"
+  set +e
+  out="$(REVIEW_LANE="$lane" REVIEW_MODEL="$m" timeout 30 bash "$SCRIPT" --print-model 2>&1)"
+  rc=$?
+  set -e
+  if (( rc == 0 )); then
+    fail "lane $lane accepted the implementer's model '$m' (exit 0, printed '$out')"
+  elif [[ "$out" != *REVIEWER_IS_IMPLEMENTER* ]]; then
+    fail "lane $lane refused '$m' (exit $rc) but without the named reason REVIEWER_IS_IMPLEMENTER: $out"
+  else
+    ok "lane $lane refuses the implementer's model '$m' (exit $rc, REVIEWER_IS_IMPLEMENTER)"
+  fi
+done
+
 # An unknown lane is a usage error, not a silent fallback to some lane.
 set +e
 out="$(REVIEW_LANE=nope timeout 30 bash "$SCRIPT" --print-model 2>&1)"
@@ -116,6 +133,76 @@ if (( rc2 != 0 )) || [[ "$out2" != "claude-sonnet-5-5" ]]; then
   fail "subscription full-name override did not resolve (exit $rc2): $out2"
 else
   ok "subscription full-name override resolves unchanged"
+fi
+
+# --- G1b: dispatch behaviour against a fake ssh (no network) -------------------
+# A fake `ssh` first on PATH stands in for chittyclaw, so these cases run offline.
+FAKE_DIR="$(mktemp -d)"
+trap 'rm -rf "$FAKE_DIR"' EXIT
+cat > "$FAKE_DIR/ssh" <<'FAKE'
+#!/usr/bin/env bash
+cmd="${*: -1}"
+case "$cmd" in
+  *"auth status"*) echo '{"loggedIn":true,"authMethod":"claude.ai","subscriptionType":"max"}'; exit 0 ;;
+  *"docker ps"*) exit 0 ;;
+esac
+cat > "$FAKE_SSH_CAPTURE"
+n=$(wc -c < "$FAKE_SSH_CAPTURE"); n=$((n + 0)); h=$(sha256sum < "$FAKE_SSH_CAPTURE" | cut -d' ' -f1)
+case "$FAKE_SSH_MODE" in
+  remote255)    echo "ADV_REVIEW_RECEIVED $n $h" >&2; exit 255 ;;
+  transport255) echo "client_loop: send disconnect: Broken pipe" >&2; exit 255 ;;
+  *)            echo "ADV_REVIEW_RECEIVED $n $h" >&2; exit 1 ;;
+esac
+FAKE
+chmod +x "$FAKE_DIR/ssh"
+printf 'diff --git a/x b/x\n+hello\n' > "$FAKE_DIR/diff"
+run_fake() { # mode lane extra...
+  local mode="$1" lane="$2"; shift 2
+  PATH="$FAKE_DIR:$PATH" FAKE_SSH_MODE="$mode" FAKE_SSH_CAPTURE="$FAKE_DIR/capture" \
+    REVIEW_LANE="$lane" REVIEW_NODE=fakehost timeout 60 bash "$SCRIPT" "$FAKE_DIR/diff" "$@" 2>&1
+}
+
+# ssh rc 255: a remote command that ran and exited 255 is a failed review (exit 3,
+# named), a transport failure is "unavailable" (exit 2). Both fail closed.
+set +e
+out="$(run_fake remote255 subscription)"; rc=$?
+set -e
+if (( rc == 3 )) && [[ "$out" == *REVIEWER_REMOTE_EXIT_255* ]]; then
+  ok "remote command exit 255 after delivery reported as REVIEWER_REMOTE_EXIT_255 (exit 3)"
+else
+  fail "remote command exit 255 not distinguished (exit $rc): $out"
+fi
+set +e
+out="$(run_fake transport255 subscription)"; rc=$?
+set -e
+if (( rc == 2 )) && [[ "$out" == *"ssh transport"*"Broken pipe"* ]]; then
+  ok "ssh transport failure rc 255 reported as unavailable (exit 2)"
+else
+  fail "ssh transport failure rc 255 not reported as unavailable (exit $rc): $out"
+fi
+
+# Gateway lane: -p text travels inside the requester-context delimiters, after the
+# diff, and never in the instruction paragraph before it.
+MARK='GATEWAY-P-MARKER-7f3a'
+set +e
+out="$(run_fake capture gateway -p "$MARK")"; rc=$?
+set -e
+if [[ ! -s "$FAKE_DIR/capture" ]]; then
+  fail "gateway lane sent no prompt to the fake ssh (exit $rc): $out"
+else
+  head_part="$(sed -n '1,/^=== BEGIN DIFF/p' "$FAKE_DIR/capture")"
+  ctx_part="$(sed -n '/^=== BEGIN REQUESTER-SUPPLIED CONTEXT/,/^=== END REQUESTER-SUPPLIED CONTEXT ===$/p' "$FAKE_DIR/capture")"
+  diff_end="$(grep -n '^=== END DIFF ===$' "$FAKE_DIR/capture" | cut -d: -f1 || true)"
+  ctx_begin="$(grep -n '^=== BEGIN REQUESTER-SUPPLIED CONTEXT' "$FAKE_DIR/capture" | cut -d: -f1 || true)"
+  if [[ "$head_part" == *"$MARK"* ]]; then
+    fail "gateway lane put -p text in the instruction block"
+  elif [[ "$ctx_part" != *"$MARK"* ]]; then
+    fail "gateway lane -p text is not inside the requester-context delimiters"
+  elif [[ -z "$diff_end" || -z "$ctx_begin" ]] || (( ctx_begin < diff_end )); then
+    fail "gateway lane requester context does not follow the diff"
+  else
+    ok "gateway lane -p text lands inside the requester-context delimiters, after the diff"
+  fi
 fi
 
 # --- G2: the literal default ---------------------------------------------------
