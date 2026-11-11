@@ -14,6 +14,31 @@ misreads an empty result, and reports "clean".
 Requires a built `chittycan`. If `can` is not on PATH, use
 `node <chittycan>/dist/index.js` — the CLI only runs against a built `dist/`.
 
+**Check the installed version against the repo before trusting any band
+(BINDING).** A globally installed `can` can be an older build than the source,
+and the classifier fails silently in the expensive direction:
+
+```bash
+node -e "console.log(require('/home/ubuntu/.npm-global/lib/node_modules/chittycan/package.json').version)"
+node -e "console.log(require('<chittycan>/package.json').version)"   # must match
+```
+
+Measured 2026-11-11: the installed CLI was **0.6.4**, whose
+`dist/lib/hygiene/workflow-facts.js` has no `write-tree` at all — it predates
+the `merge-tree --write-tree` fix, so (per that file's own comment) a conflict
+marker count "was always 0 and every branch read as merging clean". With
+`conflicts` pinned at 0, `driftBand()` can never return `gone` for a
+conflicting branch and returns **`closing`** instead. Same repo, same minute:
+0.6.4 proposed **20** closing branches "still merge clean"; merging
+`origin/main` into each showed **14 of 20 conflicted**; after
+`npm install -g .` from the repo at 0.6.8 the same command proposed **2**, and
+`gone` went 119 → 148. The fix is in the source, so the only symptom is a
+stale install, and the only tell is that the bands are wrong. Filed as
+chittycan#229 (print the CLI version in the report header).
+
+A mismatch is not a caveat to note afterwards — rebuild and reinstall
+(`npm run build && npm install -g .`), then re-run, before acting on the output.
+
 ## Deciding which surface
 
 | question | command |
