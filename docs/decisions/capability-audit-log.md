@@ -1136,3 +1136,29 @@ duplicates:      [stripe@claude-plugins-official, claude.ai Stripe connector]
 evidentiary_risk: medium
 logs:            docs/decisions/logs/dec_20261106_stripe-billing-gateway.json
 ```
+
+---
+
+decision_id:     CAP-2026-11-11-wake-up-sequence
+date:            2026-11-11
+capability_name: Wake-Up Sequence (session bootstrap; alias session-wake)
+canonical_id:    wake-up-sequence
+source_links:
+  - docs/decisions/logs/CAP-2026-11-11-wake-up-sequence.md (full audit, lineage, decision tree)
+  - https://connect.chitty.cc/api/v1/doctrine/seed (live 200; orchestrator directive)
+  - ChittyConnect GET /api/v1/identity/{chittyId}/policy-bundle[/check] (consumed by ~/.claude/hooks/fetch-policy-bundle.sh)
+  - ChittyConnect POST /api/v1/sessions/sync (consumed by ~/.claude/hooks/chittycontext-session-start.sh)
+  - agent.chitty.cc/orchestrator/api/v1/channels/{register,:id/sync} (CLAUDE.md, verified 2026-10-25)
+  - chittycanon://capability/govern/session-identity-card (partial overlap)
+current_state:   21 local SessionStart hooks on chittyserv-vm (9 user, 12 plugin); the original 2025-08-17 implementation (wake_up.sh, /wake, /project/wake) does not exist on disk, in canon, or in git history of chittyentity/ch1tty/chittymarket/chittyops
+decision:        merge
+job_to_be_done:  govern — resolve identity, registration, policy bundle, location, time, trust and intent in order; return only the context those checks license (tiered, <1 KB at tier 0)
+entity_mapping:  [P, A, L, E]
+environmental_footprint: network-service
+evidentiary_risk: medium
+rationale:       Matrix step 1 — every node already has an owner (ChittyAuth; orchestrator channels; ChittyConnect policy-bundle, doctrine seed, sessions/sync; Viewport; ChittyTrust; operating-defaults skills; ChittyConnect broker). The novelty is the composition and tiering, which belongs to the owner of most pieces, not a new root. Authority is a server-side node (trust + bundle hash), never a client flag; secrets never ride in the payload; every wake writes a telemetry row.
+duplicates_found: [fetch-policy-bundle.sh, chittycontext-session-start.sh, viewport-hydration.sh, team/card.sh, govern/session-identity-card (partial)]
+migration_required: yes
+migration_owner: chittyagent-connect (ChittyConnect); ChittyTrust for node 5
+next_action:     ChittyConnect CHARTER amendment + build spec for GET /api/v1/sessions/wake (decision tree, tier contract, refusal payloads); then collapse the 9 user hooks to one fetch. Blockers listed in the audit: ChittyTrust /v1/evaluate 500 (2026-09-18), mint_proof unverified (#826), route source not located in local chittyconnect checkout.
+review_date:     2026-12-11
