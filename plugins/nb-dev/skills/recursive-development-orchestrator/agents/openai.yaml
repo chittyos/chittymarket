@@ -1,0 +1,3 @@
+interface:
+  display_name: "Recursive Development Orchestrator"
+  short_description: "Implement, test, review, repair, and repeat without routine pauses"

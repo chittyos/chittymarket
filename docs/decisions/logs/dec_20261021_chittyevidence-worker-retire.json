@@ -1,0 +1,24 @@
+{
+  "canonical_id": "chittycanon://capability/legal/document-storage",
+  "capability_name": "chittyevidence-worker (CHITTYAPPS/chittyevidence)",
+  "current_state": "not deployed; bucket chittyevidence-storage 404",
+  "date": "2026-10-21",
+  "decision": "retire",
+  "decision_id": "dec_20261021_chittyevidence-worker-retire",
+  "duplicates_found": [
+    "chittycanon://capability/legal/document-storage"
+  ],
+  "environmental_footprint": "forensic-legal-grade",
+  "evidentiary_risk": "high",
+  "job_to_be_done": "operate",
+  "migration_owner": "chittyevidence",
+  "migration_required": true,
+  "next_action": "Remove or archive CHITTYAPPS/chittyevidence wrangler.toml worker definition; superseded by chittyevidence-db.",
+  "rationale": "Disposition 'retire' selected because the artifact's primary job is 'operate', its environmental footprint is 'forensic-legal-grade', and its evidentiary risk is 'high'.",
+  "review_date": "2026-11-20",
+  "source_links": [
+    "CHITTYAPPS/chittyevidence/wrangler.toml"
+  ],
+  "activation_status": "inactive",
+  "activation_gate": "timestamp and custody policies written into CHITTYOS/chittystorage/CHARTER.md (hash policy satisfied by sha256/<content_hash>)"
+}

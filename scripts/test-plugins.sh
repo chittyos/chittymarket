@@ -314,6 +314,23 @@ else
 fi
 echo ""
 
+# --- nomad-job adapter tests ---
+echo "--- nomad-job adapter ---"
+# Output is captured, not discarded, and replayed on failure. With
+# `>/dev/null 2>&1` a red gate said only "nomad-job adapter tests" -- the test
+# names every failure on stderr and all of it was thrown away, so a CI-only
+# failure could not be diagnosed from CI at all. A gate that hides why it failed
+# costs more than the test saves.
+_nomad_out="$(bash "$PLUGINS_DIR/chittyagent-dispatch/scripts/test-nomad-job-adapter.sh" 2>&1)" && _nomad_rc=0 || _nomad_rc=$?
+if [ "$_nomad_rc" -eq 0 ]; then
+  green "nomad-job adapter tests"
+else
+  red "nomad-job adapter tests (run plugins/chittyagent-dispatch/scripts/test-nomad-job-adapter.sh)"
+  printf '%s\n' "$_nomad_out" | sed 's/^/    | /'
+  echo "    | (exit $_nomad_rc; python3 $(python3 -V 2>&1), bash $BASH_VERSION)"
+fi
+echo ""
+
 # --- Summary ---
 TOTAL=$((PASS + FAIL))
 echo "=== Test Summary ==="

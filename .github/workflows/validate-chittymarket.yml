@@ -31,6 +31,25 @@ jobs:
         with:
           node-version: "24"
 
+      # This job imports `yaml` in five places -- test-plugins.sh's nomad-job
+      # adapter, check-document-contract.py, check-agent-identity.py,
+      # market-reconcile.py and the dispatch lib -- and installed it NOWHERE. It
+      # was passing on whatever the runner happened to ship, which is not a
+      # dependency, it is luck. `runs-on` is `vars.CI_RUNNER || ubuntu-latest`,
+      # so the pool is overridable and need not be homogeneous.
+      #
+      # Observed: main passed 130/130 at 14:30 and #207 failed
+      # `ModuleNotFoundError: No module named 'yaml'` at 14:45, same job, same
+      # tree for the files involved. The two smoke jobs below already did this
+      # correctly; `validate` was the one that did not.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install PyYAML
+        run: pip install --quiet pyyaml
+
       - name: Ensure scripts are executable
         run: chmod +x scripts/*.sh
 
@@ -41,6 +60,9 @@ jobs:
 
       - name: OpenAI workspace marketplace validation
         run: python3 scripts/validate-openai-workspace.py
+
+      - name: Manifest Forge regression tests
+        run: python3 scripts/tests/test-manifest-forge.py
 
       # Bootstrap pointers and OpenAI skill metadata are generated from the
       # canonical skill. Re-generation must be byte-for-byte idempotent.
@@ -107,6 +129,23 @@ jobs:
       - name: scripts/test-plugins.sh
         run: bash scripts/test-plugins.sh
 
+      # Canon sync gate: real ed25519 keys (throwaway, generated per run), real
+      # canonical/ artifacts, exit-code assertions incl. every fail-closed path.
+      # Needs OpenSSL >= 3.0 (-rawin) and jq. The busybox-awk cases run only
+      # where busybox is installed.
+      - name: scripts/test-canon-sync.sh
+        run: bash scripts/test-canon-sync.sh
+
+      # A plugin whose content changed must change its declared version, or no
+      # installed client can know to refetch it. Nothing compared those two
+      # before: the dispatch audit proves canonical and projection match EACH
+      # OTHER, never that the version clients key their cache on moved.
+      - name: Plugin version bump (content changed => version changed)
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch --quiet --depth=50 origin "${{ github.base_ref }}"
+          bash scripts/check-plugin-version-bump.sh "origin/${{ github.base_ref }}" HEAD
+
       # 2b. Overlay coverage: capabilities.generated.json must project EVERY
       #     real (non-_comment) artifact in marketplace.json, with no orphan
       #     records and a consistent .total. Prevents the overlay from silently
@@ -150,6 +189,9 @@ jobs:
       - name: Review default-model guard
         timeout-minutes: 2
         run: bash scripts/tests/test-review-default-model.sh
+
+      - name: Anthropic Managed Agent projection adapter
+        run: bash scripts/tests/test-anthropic-managed-projection.sh
 
       - name: _MAP pair floor
         run: bash scripts/tests/test-map-pairs-cannot-shrink.sh
@@ -203,7 +245,7 @@ jobs:
       #     diverge from canonical/.
       - name: Dispatch idempotency (dispatch.sh sync → no diff)
         run: |
-          chmod +x plugins/chittyagent-dispatch/scripts/dispatch.sh plugins/chittyagent-dispatch/scripts/adapters/*.sh
+          chmod +x plugins/chittyagent-dispatch/scripts/dispatch.sh
           bash plugins/chittyagent-dispatch/scripts/dispatch.sh sync > /dev/null
           if ! git diff --quiet -- canonical/ plugins/; then
             echo "::error::Direct edits to projection files detected — they diverge from canonical/."
