@@ -58,16 +58,64 @@ for m in dynamic/three-wise-men cloudflare-ai-gateway/dynamic/three-wise-men; do
   fi
 done
 
-# A directly-named override must still resolve, or a guard that refused every
-# model would pass the cases above.
+# Lanes (operator decision 2026-11-11): the DEFAULT lane is the Claude subscription
+# lane, pinned to a full Claude model name; the gateway lane is opt-in and keeps its
+# own direct model. Both resolutions are asserted, so neither lane can silently
+# change its reviewer.
+if [[ "$DEFAULT_OUT" == "claude-opus-4-8" ]]; then
+  ok "default lane is subscription, pinned to claude-opus-4-8"
+else
+  fail "default lane resolved '$DEFAULT_OUT', expected the pinned subscription model claude-opus-4-8"
+fi
 set +e
-out="$(REVIEW_MODEL=cloudflare-ai-gateway/anthropic/claude-opus-4-8 timeout 30 bash "$SCRIPT" --print-model 2>&1)"
+out="$(REVIEW_LANE=gateway timeout 30 bash "$SCRIPT" --print-model 2>&1)"
 rc=$?
 set -e
 if (( rc != 0 )) || [[ "$out" != "cloudflare-ai-gateway/anthropic/claude-opus-4-8" ]]; then
-  fail "direct model override did not resolve (exit $rc): $out"
+  fail "gateway lane did not resolve its direct model (exit $rc): $out"
 else
-  ok "direct model override resolves unchanged"
+  ok "REVIEW_LANE=gateway resolves the gateway model"
+fi
+
+# The rejection holds in the gateway lane too.
+set +e
+out="$(REVIEW_LANE=gateway REVIEW_MODEL=cloudflare-ai-gateway/dynamic/three-wise-men timeout 30 bash "$SCRIPT" --print-model 2>&1)"
+rc=$?
+set -e
+if (( rc == 0 )); then fail "gateway lane accepted a dynamic route: $out"; else ok "gateway lane rejects a dynamic route (exit $rc)"; fi
+
+# A model alias (e.g. `opus`) would float onto whatever the CLI maps it to — today
+# the implementer's own model — so the subscription lane refuses aliases.
+set +e
+out="$(REVIEW_MODEL=opus timeout 30 bash "$SCRIPT" --print-model 2>&1)"
+rc=$?
+set -e
+if (( rc == 0 )); then fail "subscription lane accepted alias 'opus' ($out)"; else ok "subscription lane refuses a model alias (exit $rc)"; fi
+
+# An unknown lane is a usage error, not a silent fallback to some lane.
+set +e
+out="$(REVIEW_LANE=nope timeout 30 bash "$SCRIPT" --print-model 2>&1)"
+rc=$?
+set -e
+if (( rc == 0 )); then fail "unknown REVIEW_LANE accepted ($out)"; else ok "unknown REVIEW_LANE rejected (exit $rc)"; fi
+
+# A directly-named override must still resolve in each lane, or a guard that refused
+# every model would pass the cases above.
+set +e
+out="$(REVIEW_LANE=gateway REVIEW_MODEL=cloudflare-ai-gateway/anthropic/claude-opus-4-8 timeout 30 bash "$SCRIPT" --print-model 2>&1)"
+rc=$?
+out2="$(REVIEW_MODEL=claude-sonnet-5-5 timeout 30 bash "$SCRIPT" --print-model 2>&1)"
+rc2=$?
+set -e
+if (( rc != 0 )) || [[ "$out" != "cloudflare-ai-gateway/anthropic/claude-opus-4-8" ]]; then
+  fail "gateway direct model override did not resolve (exit $rc): $out"
+else
+  ok "gateway direct model override resolves unchanged"
+fi
+if (( rc2 != 0 )) || [[ "$out2" != "claude-sonnet-5-5" ]]; then
+  fail "subscription full-name override did not resolve (exit $rc2): $out2"
+else
+  ok "subscription full-name override resolves unchanged"
 fi
 
 # --- G2: the literal default ---------------------------------------------------
