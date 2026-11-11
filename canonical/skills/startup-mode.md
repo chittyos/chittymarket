@@ -254,6 +254,22 @@ the CF API; an empirical bisection with Core idle before each probe; repo reads.
   connection history is recoverable only from the operations log and consumption series —
   or by bisection with the compute idle.
 
+**Outcome, same day (2026-11-11, measured):**
+
+- chittyentity #949 (`d321e689`, comptroller `/health` shallow by default, `?deep=1` pings) and
+  #950 (`232e47e5`, gatekeeper compliance cached 6 h, forced reads and register attempts
+  rate-limited to once per 6 h per service, never register from a cached verdict) deployed via
+  Workers Builds at 17:18Z. `self_heal:state` re-enabled 17:22:52Z.
+- 17:30 sweep: `compliance_source` fresh×37 (cold fill; one Core wake, suspend 17:41). 17:45 and
+  18:00 sweeps: cached×37, zero Core calls from the sweep. Core back to the hourly waker only;
+  awake windows 5.5–11 min. One extra touch inside some post-deploy windows is unattributed.
+- Per-tick `compliance_source` in KV `self_heal:last_sweep` is the live re-measure for this
+  hop: `fresh` > 0 on a routine tick means something is bypassing the cache.
+- Still open: the hourly `0 * * * *` waker (chittyschema drift check across up to 15 DBs, or
+  chittyconnect rotations) — bisect with the compute idle, as above; 31/37 bucket-A
+  auto-register POSTs fail on every sweep (chittyregister side, error discarded);
+  consumption-series re-measure due 2026-11-13.
+
 Apply to any new timer or long-lived loop that touches a database:
 
 - Does this need to run on a timer at all, or can it be event-driven?
