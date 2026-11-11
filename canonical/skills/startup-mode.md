@@ -199,6 +199,37 @@ since 2026-08-09 — and it gates `chittyagent-tasks`, which is *not* one of the
 decisive pollers. Merging it does not move ChittyOS-Core. It is still the reference
 implementation of the idle-gate pattern; it is not a discharge of lever 2.
 
+**Re-measured 2026-11-11 — the poller table above is superseded by measurement.** Source:
+Neon branch consumption (`compute_unit_seconds`, `br-long-shadow-aeaibeza`) plus the project
+operations log, read via the Neon MCP; live schedules and bindings read from the CF API.
+
+- `chittyagent-comptroller`'s `*/5` is still live, but its **deployed bindings carry no Neon or
+  Hyperdrive binding** (only `CF_ACCOUNT_API_TOKEN`, `COMPTROLLER_HMAC_KEY`). It cannot wake
+  Core. The legacy `comptroller` worker has Hyperdrive to `ep-green-water` and zero schedules.
+- `chittystorage`'s `*/2` is still live (`NEON_PROJECT_ID=restless-grass-40598426`) but the
+  compute suspends between hourly ticks, so it does not connect. A cron that fails auth, or
+  never opens a connection, does not wake the compute.
+- The decisive waker was a **Durable Object alarm loop, invisible to
+  `GET /workers/scripts/{name}/schedules`**: `chittyagent-mcp-builder` (`McpBuilderAgent.alarm()`,
+  5-min "self-heal" sweep of Bucket-A `/health` + `/mcp/manifest`, gated on KV
+  `BUILDER_CACHE self_heal:state`). Deployed 2026-10-31T21:11Z; Core `start_compute`
+  2026-10-31T21:22Z; **no suspend for 11 days** (~21.6k CU-s/day, ≈66 CU-h) until the loop was
+  disabled by writing `self_heal:state = {enabled:false, mode:"neon cost sweep 2026-11-11"}`
+  at 10:44Z; `suspend_compute` 10:55Z. The path to Core is indirect (a swept service's
+  `/health` opening it) and is not yet pinned to one service. While `self_heal` is off there is
+  no Bucket-A health watch — operator trade-off, not a free saving.
+- What remains is an **hourly** wake at `:00:46`, ~6 min each (Oct 26–31 and after 10:55Z on
+  Nov 11): ≈0.6 CU-h/day. Two workers have both `0 * * * *` and a Core binding:
+  `chittyschema` (`HYPERDRIVE_CORE`; its handler iterates **every** bound `*_DB_URL` — ten
+  Neon projects — and checks every manifested table, so this one cron wakes ~10 computes
+  hourly, a fleet-wide line item) and `chittyevidence-db` (`CHITTYOS_CORE_DB` is declared in
+  `types/index.ts` but unused in code). chittyschema is the probable waker; unconfirmed.
+- Steady state after the loop was disabled: ≈0.9–1.2 CU-h/day on Core. Check the launch-plan
+  CU rate before quoting dollars.
+- `pg_stat_activity` / `pg_stat_statements` reset on every suspend and Neon log telemetry is
+  not enabled on the branch, so connection history is recoverable only from the operations
+  log and consumption series. Audit DO alarms and KV-gated loops, not only schedules.
+
 Apply to any new timer or long-lived loop that touches a database:
 
 - Does this need to run on a timer at all, or can it be event-driven?
