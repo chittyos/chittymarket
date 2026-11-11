@@ -39,7 +39,7 @@ Drive a feature request from one-line prompt to merged PR with full ChittyOS can
 Exit 0 = proceed. Non-zero = **stop and report**; do not start the pipeline.
 Checks identity (and that it is entity type **P** — a synthetic agent is a
 Person, never a Thing), continuity-substrate health, ChittyCert reachability,
-and that the front-door contract has not moved.
+and that the identity front door (mychitty) answers.
 
 This exists because on 2026-07-30 a run reached Phase 0 and died on an opaque
 403, with three drifts behind it that no amount of reading the skill text would
@@ -51,12 +51,13 @@ run and tempts an agent into routing around a governance gate.
 Before any other work, the synthetic entity (this Claude context) MUST obtain a
 Sovereignty Affirmation certificate from ChittyCert.
 
-> **⚠ ChittyCert does NOT accept direct calls from synthetic agents.**
-> `POST https://cert.chitty.cc/api/v1/issue` returns:
-> *"Direct synthetic agent access prohibited. Route through the front door
-> (mychitty Phase 0 continuity substrate). Use the MCP Orchestrator or run
-> `can chitty whoami` / `can chitty authenticate-context` to acquire your
-> identity binding."*
+> **⚠ Never `POST https://cert.chitty.cc/api/v1/issue` directly.** Issuance
+> goes through the front door (mychitty Phase 0 continuity substrate) via the
+> MCP Orchestrator, after `can chitty whoami` / `can chitty authenticate-context`
+> establish the identity binding. ChittyCert used to refuse direct synthetic
+> calls with *"Direct synthetic agent access prohibited"*; that server-side
+> refusal is gone (route ungated pending chittycert#12), so the rule is now
+> doctrine-only and a 2xx from the direct route is NOT a valid affirmation.
 >
 > **A 403 here means WRONG DOOR, not "this entity lacks authority."** Do not
 > conclude you are unauthorized and stop — establish the identity binding via

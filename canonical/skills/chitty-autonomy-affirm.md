@@ -168,7 +168,7 @@ jq ".phase = \"affirm\" | .cert_id = \"$(jq -r .cert_id < SOVEREIGNTY.cert)\" | 
 | ChittyCert returns 401 | Token misconfigured. Do NOT resolve one inline — delegate to `chittyconnect-concierge` (`/chico`). Stop. |
 | ChittyCert 403 *"Direct synthetic agent access prohibited"* | **WRONG DOOR, not a permission denial.** Do not conclude the entity lacks authority. Establish the binding via `can chitty authenticate-context`, then route issuance through the MCP Orchestrator. Only if the substrate is degraded does this become terminal — then `POLICY_BLOCKED_CHITTYCERT_FRONT_DOOR_UNAVAILABLE`. |
 | ChittyCert 403, any other message | Genuine authorization failure. Stop. Surface to user. |
-| `can chitty authenticate-context` reports `ChittyCanon DB unavailable` | Substrate degraded; no legitimate issuance route exists. Stop with `POLICY_BLOCKED_CHITTYCERT_FRONT_DOOR_UNAVAILABLE`. Never self-sign or skip Phase 0 to get past this. |
+| `can chitty authenticate-context` reports `ChittyCanon DB unavailable` | **Advisory, not a substrate failure.** chittycan still looks for a ChittyCanon Neon DSN that stopped existing with the D1 move (chittycanon#54); the service is healthy when `canon.chitty.cc/health` (follows a 308 to `canon.chittyfoundation.org`) reports `status: ok`. Preflight probes that directly. Only a failed canon probe is `POLICY_BLOCKED_CHITTYCERT_FRONT_DOOR_UNAVAILABLE`. Never self-sign or skip Phase 0. |
 | ChittyCert returns 5xx | Retry once with exponential backoff. Then stop. |
 | Cert payload missing required fields | Treat as invalid; do not persist. Stop. |
 | Cert `expires_at < now + 30min` | Re-request with longer `valid_until`. |
