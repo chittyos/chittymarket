@@ -100,3 +100,11 @@ completion_evidence: (pending)
 - [x] Non-repudiation gate — not required; telemetry row per wake required
 - [x] Retirement path — hooks retire only after the route serves the same fields; rollback = re-enable hooks
 - [x] Decision log includes source links
+
+### Addendum — live read of chittymini-00 (operator, 2026-11-11)
+
+`~/.claude/settings.json` on chittymini-00 registers `chittycontext-session-start.sh` under SessionStart; the script names its own doctrine: **identity → coordinates → memory → resume** (the "Reconstitution Doctrine"). `wake_up.sh` and `viewport-hydration.sh` are absent there (the latter runs on chittyserv-vm only — host drift). Per-capability: identity (cached ChittyID) keep; location/project keep; time keep; memory keep-and-validate; governance (CHARTER + wrangler) keep; **mission/next-action — gap; tool inventory — gap; viewport hydration — reconcile across hosts; reflection — not established.**
+
+Two defects carried into the spec as requirements, not findings: (1) the hook uses a cached identity without validating it belongs to this session — node 1 of the tree therefore resolves identity through ChittyAuth and treats the cache as a hint, never as authority; (2) `find … -printf` in the newest-state fallback is GNU-only and fails on macOS BSD find — the route makes that lookup server-side so no host-specific shell remains in the sequence.
+
+Ownership, reconciled with the disposition: ChittyContext owns persistent state and identity *binding* (client side); ChittyAgent Viewport owns hydration; ChittyConnect serves the route (`/api/v1/sessions/wake`) both already call; the Wake-Up Sequence is the governed procedure that orders them. Status of the chittymini-00 claims: configuration *verified* by inspection; end-to-end execution *unverified*.
