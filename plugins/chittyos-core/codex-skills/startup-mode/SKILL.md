@@ -298,7 +298,10 @@ Private repos mean **Actions minutes are metered** — recurring spend, in scope
   `runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}` and set the org/repo variable, so an
   outage is a variable flip back to hosted (#82: the chittyos pool sat at zero runners for
   four days with jobs queued forever). A workflow that needs `services:` or Docker cannot
-  move. Idle JIT runners cost nothing on GitHub, so demand-scaling the pool buys fleet RAM,
+  move. **Never set `CI_RUNNER` on a public repo:** the chittyos Default runner group has
+  `allows_public_repositories=false`, so the job queues forever beside idle runners (chittymarket#245,
+  7 minutes, 2026-11-11) — and public repos have unlimited free hosted minutes anyway. Private repos
+  only (chittyconnect, chittyentity, chittyevidence-db as of 2026-11-11). Idle JIT runners cost nothing on GitHub, so demand-scaling the pool buys fleet RAM,
   not dollars — declined 2026-11-11. A new chittyapps pool was priced and declined the same
   day: chittyfinance is inside its allowance and the saving is nil.
 - **Since 2026-11-07 no check is enforced on these repos.** Rulesets, branch protection
