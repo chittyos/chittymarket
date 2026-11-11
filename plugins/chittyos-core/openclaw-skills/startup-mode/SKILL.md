@@ -268,6 +268,28 @@ Private repos mean **Actions minutes are metered** — recurring spend, in scope
   disable the gate and then borrow its authority.
 - Check the schedule comment against the schedule. A cron documented at one cadence and
   running at another has shipped in this fleet; cite the file:line when you find one.
+- **Budgets hard-stop; they do not bill.** Measured 2026-11-11 via the billing usage API:
+  every ChittyOS org (chittyos, chittyapps, chittyfoundation, chittycorp, chicagoapps) is on
+  the Free plan, and each has an Actions budget with `prevent_further_usage: true` — $10 on
+  chittyos, $0 on chittyapps. An exhausted allowance therefore stops hosted jobs, gates
+  included, rather than spending. Month to date: chittyos 2,992 Actions Linux minutes, 2,358
+  on private repos (chittyconnect 961, chittycan 592, chittyops 155), net $0; chittyapps 366
+  (chittyfinance 288), net $0. The allowance boundary did not reconcile with 2,000 min on a
+  calendar month — do not write "exceeded" without re-measuring.
+- **The metered-CI lever is the existing Nomad runner pool**, `chittyserv/nomad/gha-runner.nomad.hcl`
+  (chittyserv#63): JIT single-job runners, no Docker socket, per-org pools (chicagoapps,
+  chittyos, chittyfoundation; no chittyapps pool). Opt a repo in with
+  `runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}` and set the org/repo variable, so an
+  outage is a variable flip back to hosted (#82: the chittyos pool sat at zero runners for
+  four days with jobs queued forever). A workflow that needs `services:` or Docker cannot
+  move. Idle JIT runners cost nothing on GitHub, so demand-scaling the pool buys fleet RAM,
+  not dollars — declined 2026-11-11. A new chittyapps pool was priced and declined the same
+  day: chittyfinance is inside its allowance and the saving is nil.
+- **Since 2026-11-07 no check is enforced on these repos.** Rulesets, branch protection
+  and code scanning return 403 "Upgrade to GitHub Pro/Team" on private Free-plan repos;
+  CodeQL cannot upload and was removed from chittyfinance (#242). Precondition 2 of
+  `nb-development-defaults` now rests entirely on reading the rollup yourself before
+  `gh pr merge --squash`; `--auto` has nothing to arm against.
 
 ## Spend ceiling
 
