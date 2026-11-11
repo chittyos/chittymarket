@@ -19,7 +19,10 @@
 #
 #   3. The front door itself was degraded — `can chitty authenticate-context`
 #      reported "ChittyCanon DB unavailable - cannot create context" and fell
-#      back to a local manifest.
+#      back to a local manifest. (2026-11-11: that CLI message is a chittycan
+#      artefact — it wants a ChittyCanon Neon DSN that stopped existing when
+#      chittycanon moved to D1 (chittycanon#54). It says nothing about the
+#      service, so this script probes canon over HTTP instead of grepping it.)
 #
 # Discovering that mid-pipeline wastes a run and, worse, tempts an agent into
 # inventing a way around a governance gate. Fail here instead, with a canonical
@@ -55,22 +58,23 @@ fi
 say "  IDENTITY   $CID (P-Synthetic) ok"
 
 # 2. Continuity substrate ---------------------------------------------------
-# This is the "front door" ChittyCert requires. The CLI's own error text here
-# ("ChittyCanon DB unavailable") is misleading — confirmed via chittyfoundation/
-# chittycanon#43 (filed 2026-07-31, still open/unowned as of 2026-08-23) that
-# canon.chitty.cc has been 522ing at the Cloudflare edge, i.e. no worker is
-# bound to the hostname at all. The request never reaches a database, so it
-# cannot be a DB outage — the CLI message is stale/wrong, not this skill's.
+# Probe the service, not the CLI's opinion of it. canon.chitty.cc 308s to
+# canon.chittyfoundation.org (ChittyFoundation account, D1-backed); follow it.
+# chittycan's "ChittyCanon DB unavailable" line is a legacy direct-DSN path and
+# is reported as an advisory only.
 SUB="$(timeout 45 can chitty authenticate-context 2>&1)"
-if printf '%s' "$SUB" | grep -qi 'ChittyCanon DB unavailable'; then
-  say "  SUBSTRATE  DEGRADED — front door reports 'ChittyCanon DB unavailable'."
-  say "             That message is misdiagnosed: canon.chitty.cc is 522ing at"
-  say "             the Cloudflare edge (no worker bound to the hostname), not a"
-  say "             DB failure. Tracked: github.com/chittyfoundation/chittycanon#43"
-  say "             Identity resolved from local manifest only."
-  FAIL=10
+CANON="$(curl -sL --max-time 15 https://canon.chitty.cc/health || true)"
+if printf '%s' "$CANON" | grep -q '"status":"ok"'; then
+  say "  SUBSTRATE  canon ok ($(printf '%s' "$CANON" | grep -oE '"version":"[^"]+"' | head -1))"
+  if printf '%s' "$SUB" | grep -qi 'ChittyCanon DB unavailable'; then
+    say "             advisory: chittycan still looks for a ChittyCanon Neon DSN"
+    say "             (gone since the D1 move, chittycanon#54); identity came"
+    say "             from the local manifest. Not a substrate failure."
+  fi
 else
-  say "  SUBSTRATE  ok"
+  say "  SUBSTRATE  DEGRADED — canon.chitty.cc/health did not report ok:"
+  say "             $(printf '%s' "$CANON" | head -c 200)"
+  FAIL=10
 fi
 
 # 3. ChittyCert reachability ------------------------------------------------
@@ -81,20 +85,25 @@ if ! printf '%s' "$CERT_HEALTH" | grep -q '"status":"ok"'; then
 fi
 say "  CERT       reachable"
 
-# 4. Confirm the direct door is still closed --------------------------------
-# Not a probe for a way in — a check that our understanding is current. If this
-# ever returns something other than the front-door refusal, the contract moved
-# and this skill must be re-read against the live service before trusting it.
-DIRECT="$(curl -s --max-time 10 -X POST https://cert.chitty.cc/api/v1/issue \
-          -H 'content-type: application/json' -d '{"type":"TRUST_CHAIN"}' || true)"
-if printf '%s' "$DIRECT" | grep -qi 'Direct synthetic agent access prohibited'; then
-  say "  CERT DOOR  front-door-only (as documented) — direct POST correctly refused"
-else
-  say "  CERT DOOR  CONTRACT CHANGED — direct POST no longer returns the known refusal."
-  say "             Response: $(printf '%s' "$DIRECT" | head -c 200)"
-  say "             Re-read cert.chitty.cc's contract before relying on this skill."
-  FAIL=${FAIL:-10}
-fi
+# 4. Front door reachability ------------------------------------------------
+# chitty-autonomy-affirm issues through the front door
+#   POST https://mychitty.com/api/v1/identity/api/v1/issue
+# (delivered by the orchestrator), never by a direct POST to cert.chitty.cc.
+# Note: as of 2026-11-11 cert.chitty.cc/api/v1/issue is NOT gated (chittycert#12
+# — the old "Direct synthetic agent access prohibited" refusal is gone from
+# source). That makes the direct door *more* open, not less; the doctrine still
+# forbids using it, so this script does not probe it and the affirm skill must
+# not fall back to it.
+FD="$(curl -s --max-time 10 -o /dev/null -w '%{http_code}' https://mychitty.com/api/v1/identity/health || echo 000)"
+case "$FD" in
+  2*) say "  FRONT DOOR reachable (mychitty.com identity $FD)" ;;
+  *)  say "  FRONT DOOR UNREACHABLE — mychitty.com/api/v1/identity/health → HTTP $FD."
+      say "             The routed hostname is api.mychitty.com (CHITTYAPPS/mychitty"
+      say "             wrangler.jsonc); mychitty.com itself answers a Cloudflare 403"
+      say "             page and agent.chitty.cc/orchestrator has no identity route."
+      say "             No legitimate issuance path exists until the owner restores it."
+      FAIL=10 ;;
+esac
 
 say "──────────────────────────────────────────────────────"
 
@@ -107,8 +116,9 @@ if [[ $FAIL -ne 0 ]]; then
   say "resolve a cert token inline — a fabricated sovereignty cert defeats the"
   say "entire purpose of the phase."
   say ""
-  say "Remedy: restore canon.chitty.cc (worker-binding fix, not a DB fix — see"
-  say "github.com/chittyfoundation/chittycanon#43), then re-run."
+  say "Remedy: whichever line above is not ok names the owner — canon.chitty.cc"
+  say "(CHITTYFOUNDATION/chittycanon), cert.chitty.cc (CHITTYFOUNDATION/chittycert),"
+  say "the identity front door (CHITTYAPPS/mychitty). Fix there, then re-run."
   say "For the credential path, delegate to chittyconnect-concierge (/chico)."
   exit $FAIL
 fi
