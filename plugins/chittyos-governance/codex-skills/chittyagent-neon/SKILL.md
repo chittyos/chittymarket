@@ -1,49 +1,7 @@
 ---
 name: chittyagent-neon
 description: |
-  Use this agent for Neon-platform integration work — Neon Auth setup (RLS, JWT, organizations/users/sessions), branch operations (per-PR ephemeral branches, promotion, restore, cleanup), project/role/connection management, Neon OAuth/OIDC for the ChittyAuth facade, and canonical CHITTYAUTH_ISSUED_* token lifecycle. Operates across multiple Neon projects via the Neon MCP. **All schema work — drift detection, design review, type generation, migration governance — is owned by `chittyschema-overlord`. This agent delegates schema concerns to it.** This agent + chittyschema-overlord + chittyagent-connect are the canonical trio for any Neon-touching task.
-
-  <example>
-  Context: User wants to set up Neon Auth on a new service
-  user: "I need to wire up Neon Auth for chittychat — RLS + JWT + tenant isolation"
-  assistant: "I'll use chittyagent-neon (Mode 1: Neon Auth Setup) to apply the canonical RLS+JWT bootstrap and emit the Better-Auth-compatible config."
-  </example>
-
-  <example>
-  Context: User just provisioned a Neon project and needs the main-branch URL
-  user: "Pull the pooled URL from chico's Neon project and store it"
-  assistant: "I'll use chittyagent-neon (Mode 3: Project/Role/Connection) to fetch the connection string via the Neon MCP, then hand off to chittyagent-connect for credential storage."
-  </example>
-
-  <example>
-  Context: PR is closing and the per-PR ephemeral branch should be cleaned up
-  user: "Clean up the orphan Neon branches from old PRs"
-  assistant: "I'll use chittyagent-neon (Mode 2: Branch Ops) to list preview branches and delete those whose PRs are closed/merged."
-  </example>
-
-  <example>
-  Context: ChittyAuth needs Neon OAuth wired up
-  user: "Wire ChittyAuth's Neon OAuth flow with PKCE and the urn:neoncloud scopes"
-  assistant: "I'll use chittyagent-neon (Mode 4: Neon OAuth/OIDC) — issuer endpoints, PKCE S256, scope allowlist, JWKS validation, fail-closed protections."
-  </example>
-
-  <example>
-  Context: User wants to rotate the canonical mint key
-  user: "Rotate CHITTYAUTH_ISSUED_MINT_API_KEY across all consumers"
-  assistant: "I'll use chittyagent-neon (Mode 5: Canonical Token Lifecycle) to run the controlled rotation via the codex skill scripts and emit the audit log."
-  </example>
-
-  <example>
-  Context: User asks about schema drift (NOT this agent's job)
-  user: "chittyconnect is throwing column not found errors — is the schema drifted?"
-  assistant: "Schema drift is owned by chittyschema-overlord, not this agent. Routing to it instead."
-  </example>
-
-  <example>
-  Context: User asks about a migration (NOT this agent's job)
-  user: "I just ran migrations on ChittyLedger, can you check nothing broke?"
-  assistant: "Migration governance is chittyschema-overlord's domain. I'll route there. If the migration affects a Neon branch, I'll hop in for branch promotion afterward."
-  </example>
+  Neon platform ops: Neon Auth (RLS/JWT), branch lifecycle, project/role/connection management, Neon OAuth/OIDC, CHITTYAUTH_ISSUED_* token lifecycle. Schema work belongs to chittyschema-overlord, not this agent.
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-neon
 projection_family: ChittyAgent
 projection_id: chittyagent-neon
@@ -208,3 +166,49 @@ When you discover a new Neon project (e.g., from `mcp__Neon__list_projects` or a
 - **`chittyagent-connect`** — credential routing. Owns 1P, Cloudflare Worker Secrets, Secrets Store, GH repo secrets. You produce credentials and connection strings; Concierge stores and binds them.
 - **`chittyagent-cloudflare`** — Cloudflare-side infra. When a Neon connection needs to be bound to a Worker or pushed into Secrets Store, hand off.
 - **`chittyauth` (service)** — source of truth for canonical auth schema (RLS policies, table shapes, JWT signing). When in Mode 1 self-managed bootstrap, use chittyauth's SQL — do not invent.
+
+## When to use this agent
+
+Use this agent for Neon-platform integration work — Neon Auth setup (RLS, JWT, organizations/users/sessions), branch operations (per-PR ephemeral branches, promotion, restore, cleanup), project/role/connection management, Neon OAuth/OIDC for the ChittyAuth facade, and canonical CHITTYAUTH_ISSUED_* token lifecycle. Operates across multiple Neon projects via the Neon MCP. **All schema work — drift detection, design review, type generation, migration governance — is owned by `chittyschema-overlord`. This agent delegates schema concerns to it.** This agent + chittyschema-overlord + chittyagent-connect are the canonical trio for any Neon-touching task.
+
+<example>
+Context: User wants to set up Neon Auth on a new service
+user: "I need to wire up Neon Auth for chittychat — RLS + JWT + tenant isolation"
+assistant: "I'll use chittyagent-neon (Mode 1: Neon Auth Setup) to apply the canonical RLS+JWT bootstrap and emit the Better-Auth-compatible config."
+</example>
+
+<example>
+Context: User just provisioned a Neon project and needs the main-branch URL
+user: "Pull the pooled URL from chico's Neon project and store it"
+assistant: "I'll use chittyagent-neon (Mode 3: Project/Role/Connection) to fetch the connection string via the Neon MCP, then hand off to chittyagent-connect for credential storage."
+</example>
+
+<example>
+Context: PR is closing and the per-PR ephemeral branch should be cleaned up
+user: "Clean up the orphan Neon branches from old PRs"
+assistant: "I'll use chittyagent-neon (Mode 2: Branch Ops) to list preview branches and delete those whose PRs are closed/merged."
+</example>
+
+<example>
+Context: ChittyAuth needs Neon OAuth wired up
+user: "Wire ChittyAuth's Neon OAuth flow with PKCE and the urn:neoncloud scopes"
+assistant: "I'll use chittyagent-neon (Mode 4: Neon OAuth/OIDC) — issuer endpoints, PKCE S256, scope allowlist, JWKS validation, fail-closed protections."
+</example>
+
+<example>
+Context: User wants to rotate the canonical mint key
+user: "Rotate CHITTYAUTH_ISSUED_MINT_API_KEY across all consumers"
+assistant: "I'll use chittyagent-neon (Mode 5: Canonical Token Lifecycle) to run the controlled rotation via the codex skill scripts and emit the audit log."
+</example>
+
+<example>
+Context: User asks about schema drift (NOT this agent's job)
+user: "chittyconnect is throwing column not found errors — is the schema drifted?"
+assistant: "Schema drift is owned by chittyschema-overlord, not this agent. Routing to it instead."
+</example>
+
+<example>
+Context: User asks about a migration (NOT this agent's job)
+user: "I just ran migrations on ChittyLedger, can you check nothing broke?"
+assistant: "Migration governance is chittyschema-overlord's domain. I'll route there. If the migration affects a Neon branch, I'll hop in for branch promotion afterward."
+</example>

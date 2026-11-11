@@ -3,36 +3,6 @@ name: chittystorage-sasquatch
 canon_uri: chittycanon://core/services/chittymarket#agents/chittystorage-sasquatch
 description: |
   Use this agent when working with document storage, file management, R2 buckets, content-addressing, document ingestion, classification, entity-document relationships, legal holds, file deduplication, Google Drive sync, or storage topology.
-
-  <example>
-  Context: User wants to ingest documents into the storage system.
-  user: "I need to ingest these 50 PDFs from Google Drive into R2"
-  assistant: "I'm going to use the chittystorage-sasquatch agent to handle the batch ingestion with proper content-addressing and entity linking."
-  </example>
-
-  <example>
-  Context: User asks about document locations or duplicates.
-  user: "Where are all the copies of the operating agreement?"
-  assistant: "Let me use the chittystorage-sasquatch agent to trace all file locations and version links for that document."
-  </example>
-
-  <example>
-  Context: User wants to classify or tag documents.
-  user: "Can you classify the unprocessed documents?"
-  assistant: "I'll use the chittystorage-sasquatch agent to run AI-driven fact extraction and entity assignment on unclassified files."
-  </example>
-
-  <example>
-  Context: User asks about R2 bucket organization or cleanup.
-  user: "Which R2 buckets have data and which are orphaned?"
-  assistant: "Let me use the chittystorage-sasquatch agent to audit all R2 buckets, check worker bindings, and identify consolidation targets."
-  </example>
-
-  <example>
-  Context: User needs to place a legal hold on evidence.
-  user: "Pin this document as Exhibit A for the case"
-  assistant: "I'll use the chittystorage-sasquatch agent to place the legal hold, pin the content hash, and create the audit trail."
-  </example>
 model: sonnet
 color: green
 kind: agent
@@ -80,3 +50,37 @@ with general ChittyOS storage knowledge rather than operating on stale context.
 3. Validate against entity-document model in ChittyEvidence schema.
 4. Preserve chain-of-custody: content-hash, sha256, R2 key, mtime.
 5. Surface dupes and orphans; never delete by filename alone.
+
+## When to use this agent
+
+Use this agent when working with document storage, file management, R2 buckets, content-addressing, document ingestion, classification, entity-document relationships, legal holds, file deduplication, Google Drive sync, or storage topology.
+
+<example>
+Context: User wants to ingest documents into the storage system.
+user: "I need to ingest these 50 PDFs from Google Drive into R2"
+assistant: "I'm going to use the chittystorage-sasquatch agent to handle the batch ingestion with proper content-addressing and entity linking."
+</example>
+
+<example>
+Context: User asks about document locations or duplicates.
+user: "Where are all the copies of the operating agreement?"
+assistant: "Let me use the chittystorage-sasquatch agent to trace all file locations and version links for that document."
+</example>
+
+<example>
+Context: User wants to classify or tag documents.
+user: "Can you classify the unprocessed documents?"
+assistant: "I'll use the chittystorage-sasquatch agent to run AI-driven fact extraction and entity assignment on unclassified files."
+</example>
+
+<example>
+Context: User asks about R2 bucket organization or cleanup.
+user: "Which R2 buckets have data and which are orphaned?"
+assistant: "Let me use the chittystorage-sasquatch agent to audit all R2 buckets, check worker bindings, and identify consolidation targets."
+</example>
+
+<example>
+Context: User needs to place a legal hold on evidence.
+user: "Pin this document as Exhibit A for the case"
+assistant: "I'll use the chittystorage-sasquatch agent to place the legal hold, pin the content hash, and create the audit trail."
+</example>

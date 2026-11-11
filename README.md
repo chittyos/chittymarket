@@ -3,7 +3,25 @@
 
 # ChittyMarket
 
-The ChittyOS ecosystem marketplace for Claude Code — skills, agents, hooks, and MCP servers.
+ChittyMarket is the private capability supply-chain and projection control plane for ChittyOS. It packages governed capabilities for runtime-native delivery; it is **not** the canonical product catalog, and plugin directories are **not** product identities.
+
+## Operating Model
+
+ChittyMarket keeps these layers separate:
+
+| Layer | Authority | Meaning |
+|---|---|---|
+| Product / application | ChittyCorp / ChittyApps, resolved through canonical identity | User-facing or commercial offering that may compose many capabilities |
+| Capability | ChittyCanon / ChittyRegistry | Canonical job-to-be-done, identified independently of its delivery surface |
+| Market package | ChittyMarket | Install/distribution bundle that projects one or more governed capabilities |
+| Runtime control plane | Ch1tty, Apps/MCP, Cloudflare MCP Portals / AI Gateway | Curates, authorizes, routes, and observes runtime access |
+| Execution substrate | MCP server, agent, Worker, local host, tool | Where the work actually executes |
+
+The user-facing capability groups are `workspace`, `build`, `ship`, `govern`, `legal`, `finance`, `connect`, `local-lab`, `agent-runtime`, `market`, and `internal`.
+
+**Do not infer a product or capability from a package, repository, Worker, MCP server, portal, display name, or hostname.** Product/application identity and canonical capability identity must already resolve upstream.
+
+See [Capability Router Architecture](docs/architecture/CHITTYMARKET_CAPABILITY_ROUTER.md) and the [2026-11-01 live control-plane audit](docs/audits/2026-11-01-marketplace-control-plane-audit.md).
 
 ## Quick Start
 
@@ -22,39 +40,44 @@ cd chittymarket
 
 The `chittymarket-manager` plugin is the entry point — install it first, then use `/market` to manage everything else. This is the self-bootstrapping pattern: the marketplace installs itself, then installs the rest.
 
-## Plugin Groupings
+## Install Package Groupings
 
-### Foundation
+These are **delivery bundles**, not the product taxonomy. Their names may remain stable for compatibility even when the user-facing marketplace is organized by capability group.
 
-| Plugin | Purpose |
-|--------|---------|
-| **chittymarket-manager** | Marketplace control plane (`/market`) |
-| **chittymarket-canonical** | Canonical marketplace definitions and sync source |
-| **chittyos-core** | Core session/context operations and base ecosystem agents |
+### Foundation / Market
 
-### Agent Orchestration
+| Package | Purpose |
+|---|---|
+| **chittymarket-manager** | Marketplace operator workflow (`/market`) |
+| **chittymarket-canonical** | Market-owned projection definitions and sync source |
+| **chittyos-core** | Core session/context operations and base ecosystem projections |
 
-| Plugin | Purpose |
-|--------|---------|
+### Routing / Agent Runtime
+
+| Package | Purpose |
+|---|---|
+| **ch1tty** | Slim intent resolution and tool-routing projection |
 | **chittyagent-autobot** | Autonomous feature/PR workflow orchestrator |
 | **chittyagent-dispatch** | Canonical-to-runtime projection/dispatch pipeline |
+| **nowebmaster** | Cross-surface capability lifecycle and hot-loading workflow |
 
-### Platform Domains
+### Domain Capability Packs
 
-| Plugin | Purpose |
-|--------|---------|
+| Package | Purpose |
+|---|---|
 | **chittyos-devops** | Deploy, health, registry, pipelines, wrangler audit, compliance ops |
-| **chittyos-governance** | Governance controls and Neon governance bridge |
-| **chittyos-legal** | Legal workflows: dispute, docket, evidence, fact governance |
-| **chittyos-proxy-agents** | Remote proxy agents (ChatGPT, Cloudflare, Notion) |
+| **chittyos-governance** | Governance controls and platform policy projections |
+| **chittyos-legal** | Legal workflows: evidence, disputes, docket, fact governance |
+| **chittyos-finance** | Finance operating method, reconciliation, books governance |
 
-### MCP Delivery
+### Connect / Runtime Delivery
 
-| Plugin | Purpose |
-|--------|---------|
-| **chittyos-mcp** | ChittyOS MCP gateway packaging |
-| **neon-mcp** | Neon MCP packaging |
-
+| Package | Purpose |
+|---|---|
+| **chittyos-gws** | Google Workspace capability projections |
+| **chittyos-proxy-agents** | Remote integration/proxy projections |
+| **chittyos-mcp** | Standalone ChittyOS MCP packaging / compatibility path |
+| **neon-mcp** | Standalone Neon MCP packaging / compatibility path |
 ### Notes on Runtime Artifacts
 
 Some IDs shown by `/market` are runtime artifacts (skills/agents/MCP entries), not plugin directories. Examples include `chittyhelper`, `chittyagent`, `chittycommand`, and `legal-arsenal`.
@@ -127,14 +150,18 @@ Place `.claude/marketplace.project.json` in any project root:
 
 See [docs/per-project-overrides.md](docs/per-project-overrides.md) for full schema.
 
-## Ch1tty (Optional)
+## Runtime Delivery
 
-Ch1tty is an MCP server orchestrator that aggregates 14 MCP servers through a single stdio connection with lazy loading. If you use Ch1tty, MCP servers are managed through its `servers.json` instead of standalone `.mcp.json` configs.
+ChittyMarket does not own the live execution catalog.
 
-- **Without Ch1tty**: Marketplace plugins provide everything including standalone MCP configs
-- **With Ch1tty**: Ch1tty manages MCP servers, marketplace provides skills, agents, and hooks
-- **Switch modes**: `/market mode <id> ch1tty|standalone`
+- **Ch1tty** provides slim capability discovery and execution routing.
+- **Cloudflare MCP Server Portals** can curate remote MCP servers/tools, Access/OAuth policy, Code Mode, Secure Web Gateway, synchronization, and request observability.
+- **AI Gateway** governs model-provider traffic and policy; it is not a capability registry.
+- **Standalone MCP configs** remain compatibility/advanced delivery paths where needed.
 
+Package installation, canonical registration, portal membership, server synchronization, and server readiness are **separate facts**. A configured or synced MCP server is not runtime-verified unless the target reports a usable ready state.
+
+Current live-account evidence is recorded in [docs/audits/2026-11-01-marketplace-control-plane-audit.md](docs/audits/2026-11-01-marketplace-control-plane-audit.md).
 ## Management
 
 ```bash

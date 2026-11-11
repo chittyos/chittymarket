@@ -1,0 +1,24 @@
+{
+  "canonical_id": "chittycanon://capability/legal/document-storage",
+  "capability_name": "ChittyStorage document storage and index",
+  "current_state": "storage.documents 69,878 rows; storage.file_locations 156,205 rows total, of which 15,156 point at sha256/ paths; R2 sha256/ holds 19,240 objects, so ~4,084 sha256/ objects have no index row (row-count subtraction, not a key-level join); storage.chitty.cc/health returned 302 (Access redirect), so liveness is unconfirmed",
+  "date": "2026-10-21",
+  "decision": "promote",
+  "decision_id": "dec_20261021_chittystorage-document-storage",
+  "duplicates_found": [],
+  "environmental_footprint": "forensic-legal-grade",
+  "evidentiary_risk": "high",
+  "job_to_be_done": "remember",
+  "migration_owner": "chittystorage",
+  "migration_required": true,
+  "next_action": "Write timestamp and custody policies into CHITTYOS/chittystorage/CHARTER.md; then activate. Until then this promotion is approved but INACTIVE. Hash policy is satisfied by sha256/<content_hash> content addressing.",
+  "rationale": "ChittyStorage CHARTER already scopes 'file storage, indexing, and retrieval' with canonical objects at sha256/<content_hash>, and no capability record for storage exists in capabilities.generated.json. Promotion is gated by the non-repudiation rule: hash policy present (content addressing); timestamp and custody policies not found, so activation is withheld.",
+  "review_date": "2026-11-20",
+  "source_links": [
+    "CHITTYOS/chittystorage/CHARTER.md",
+    "neon:restless-grass-40598426/storage",
+    "r2://chittyevidence-documents/sha256/"
+  ],
+  "activation_status": "inactive",
+  "activation_gate": "timestamp and custody policies written into CHITTYOS/chittystorage/CHARTER.md (hash policy satisfied by sha256/<content_hash>)"
+}

@@ -1,19 +1,7 @@
 ---
 name: chittyagent-olmec
 description: |
-  The separated reviewer ("reviewer is not implementer", nb-development-defaults). Use when code must be judged by a context that did not write it: reviewing a diff before it merges, or putting a decision surface (validator, gate, parser, router, policy engine) through the gauntlet when its suite is green and you do not believe it. Named for Olmec, the stone head that runs the temple trials. It judges and reports; it never ships the fix itself. v1 functions: diff review (adversarial-review.sh) and the gauntlet (Workflow `chittyos-core:gauntlet`).
-
-  <example>
-  Context: a branch is finished and the same session wrote all of it.
-  user: "review this branch before I open the PR"
-  assistant: "The implementer cannot grade its own work. I'll use chittyagent-olmec for a separated diff review. If the chittyclaw route fails, it will say the review did not run and fall back to a fresh-context Opus subagent, labelled as the fallback."
-  </example>
-
-  <example>
-  Context: a validator was just written by the same agent that wrote its tests.
-  user: "the schema validator passes all its tests"
-  assistant: "A suite authored by the implementer proves internal consistency, not correctness. I'll use chittyagent-olmec to run the gauntlet: dry-run the config first, then contest the expectations and trace the execution."
-  </example>
+  The separated reviewer: judges code it did not write. Use for diff review before merge, or to run the gauntlet on a validator/gate/parser/router whose green suite you do not trust. Reports findings; never ships the fix.
 model: opus
 tools: Bash, Read, Write, Edit, Glob, Grep, Workflow, TaskList, Agent
 canon_uri: chittycanon://core/services/chittymarket#agents/chittyagent-olmec
@@ -178,3 +166,19 @@ the obvious. Recommend what would make it worth running instead.
   `plugins/chittyos-core/workflows/gauntlet.js`.
 - Tier-2 plan (remote, all-channel Agent Workflow, not built): `chittymarket/docs/design/gauntlet-as-agent-workflow.md`.
   A future remote worker would be `chittyagent-olmec`. Until it exists, this agent is local-only.
+
+## When to use this agent
+
+The separated reviewer ("reviewer is not implementer", nb-development-defaults). Use when code must be judged by a context that did not write it: reviewing a diff before it merges, or putting a decision surface (validator, gate, parser, router, policy engine) through the gauntlet when its suite is green and you do not believe it. Named for Olmec, the stone head that runs the temple trials. It judges and reports; it never ships the fix itself. v1 functions: diff review (adversarial-review.sh) and the gauntlet (Workflow `chittyos-core:gauntlet`).
+
+<example>
+Context: a branch is finished and the same session wrote all of it.
+user: "review this branch before I open the PR"
+assistant: "The implementer cannot grade its own work. I'll use chittyagent-olmec for a separated diff review. If the chittyclaw route fails, it will say the review did not run and fall back to a fresh-context Opus subagent, labelled as the fallback."
+</example>
+
+<example>
+Context: a validator was just written by the same agent that wrote its tests.
+user: "the schema validator passes all its tests"
+assistant: "A suite authored by the implementer proves internal consistency, not correctness. I'll use chittyagent-olmec to run the gauntlet: dry-run the config first, then contest the expectations and trace the execution."
+</example>

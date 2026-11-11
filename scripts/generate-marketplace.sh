@@ -28,8 +28,10 @@ CATEGORY_MAP[chittyos-core]="ecosystem"
 CATEGORY_MAP[chittyos-devops]="operations"
 CATEGORY_MAP[chittyos-legal]="legal"
 CATEGORY_MAP[chittyos-finance]="finance"
+CATEGORY_MAP[nb-dev]="development"
 CATEGORY_MAP[chittyos-governance]="security"
 CATEGORY_MAP[chittyos-proxy-agents]="integrations"
+CATEGORY_MAP[chittyos-gws]="integrations"
 CATEGORY_MAP[chittymarket-manager]="ecosystem"
 CATEGORY_MAP[chittyos-mcp]="ecosystem"
 CATEGORY_MAP[neon-mcp]="database"
@@ -44,6 +46,7 @@ KEYWORDS_MAP[chittyos-legal]="legal,evidence,disputes,docket,cases,custody,agent
 KEYWORDS_MAP[chittyos-finance]="finance,books,accounting,chart-of-accounts,classification,reconciliation,defaults"
 KEYWORDS_MAP[chittyos-governance]="governance,hooks,entity-types,chittyid,deploy-gate,schema"
 KEYWORDS_MAP[chittyos-proxy-agents]="notion,chatgpt,cloudflare,proxy,agent"
+KEYWORDS_MAP[chittyos-gws]="google,workspace,gmail,gws"
 KEYWORDS_MAP[chittymarket-manager]="marketplace,market,artifacts,toggle,manage"
 # nowebmaster was absent from this map, so regeneration emitted keywords: []
 # while the committed manifest carried three. That single mismatch made the
@@ -52,6 +55,9 @@ KEYWORDS_MAP[chittymarket-manager]="marketplace,market,artifacts,toggle,manage"
 KEYWORDS_MAP[nowebmaster]="webmaster,capability-lifecycle,hot-loading"
 KEYWORDS_MAP[chittyos-mcp]="mcp,chittyos,gateway,standalone"
 KEYWORDS_MAP[neon-mcp]="neon,postgres,database,sql,standalone"
+# nb-dev (#222) was added to the committed manifests by hand without map entries,
+# so regeneration emitted category=ecosystem, keywords: [] and broke the same gate.
+KEYWORDS_MAP[nb-dev]="chittyos,development,recursive-orchestration,manifest-forge,codex,skills"
 
 # Start building the JSON
 cat > "$OUTPUT" <<'HEADER'

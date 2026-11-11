@@ -1,0 +1,132 @@
+{
+  "Job": {
+    "AllAtOnce": false,
+    "Datacenters": [
+      "homelab"
+    ],
+    "ID": "cadvisor",
+    "Meta": {
+      "canon_uri": "chittycanon://core/services/chittyserv#jobs/cadvisor",
+      "canonical_sha": "8ec0718a5a8ea29403b8ab11e78b0328c6dd941289d4ab5c384465d402e820e3"
+    },
+    "Name": "cadvisor",
+    "Namespace": "default",
+    "NodePool": "default",
+    "Priority": 50,
+    "Region": "global",
+    "TaskGroups": [
+      {
+        "Count": 1,
+        "EphemeralDisk": {
+          "Migrate": false,
+          "SizeMB": 300,
+          "Sticky": false
+        },
+        "Name": "monitor",
+        "Networks": [
+          {
+            "ReservedPorts": [
+              {
+                "HostNetwork": "default",
+                "Label": "http",
+                "To": 8080,
+                "Value": 8081
+              }
+            ]
+          }
+        ],
+        "PreventRescheduleOnLost": false,
+        "RestartPolicy": {
+          "Attempts": 2,
+          "Delay": 15000000000,
+          "Interval": 1800000000000,
+          "Mode": "fail",
+          "RenderTemplates": false
+        },
+        "Tasks": [
+          {
+            "Config": {
+              "image": "gcr.io/cadvisor/cadvisor:v0.49.1",
+              "ports": [
+                "http"
+              ],
+              "privileged": false,
+              "volumes": [
+                "/:/rootfs:ro",
+                "/var/run:/var/run:ro",
+                "/sys:/sys:ro",
+                "/var/lib/docker/:/var/lib/docker:ro",
+                "/dev/disk/:/dev/disk:ro"
+              ]
+            },
+            "Driver": "docker",
+            "Identity": {
+              "Audience": [
+                "nomadproject.io"
+              ],
+              "ChangeMode": "",
+              "ChangeSignal": "",
+              "Env": false,
+              "File": false,
+              "Filepath": "",
+              "Name": "default",
+              "ServiceName": "",
+              "TTL": 0
+            },
+            "KillSignal": "",
+            "KillTimeout": 5000000000,
+            "Kind": "",
+            "Leader": false,
+            "LogConfig": {
+              "Disabled": false,
+              "MaxFileSizeMB": 10,
+              "MaxFiles": 10
+            },
+            "Name": "cadvisor",
+            "Resources": {
+              "CPU": 200,
+              "Cores": 0,
+              "DiskMB": 0,
+              "IOPS": 0,
+              "MemoryMB": 256,
+              "MemoryMaxMB": 0,
+              "SecretsMB": 0
+            },
+            "RestartPolicy": {
+              "Attempts": 2,
+              "Delay": 15000000000,
+              "Interval": 1800000000000,
+              "Mode": "fail",
+              "RenderTemplates": false
+            },
+            "ShutdownDelay": 0,
+            "User": ""
+          }
+        ],
+        "Update": {
+          "AutoPromote": false,
+          "AutoRevert": false,
+          "Canary": 0,
+          "HealthCheck": "checks",
+          "HealthyDeadline": 300000000000,
+          "MaxParallel": 1,
+          "MinHealthyTime": 10000000000,
+          "ProgressDeadline": 600000000000,
+          "Stagger": 30000000000
+        }
+      }
+    ],
+    "Type": "system",
+    "Update": {
+      "AutoPromote": false,
+      "AutoRevert": false,
+      "Canary": 0,
+      "HealthCheck": "",
+      "HealthyDeadline": 0,
+      "MaxParallel": 1,
+      "MinHealthyTime": 0,
+      "ProgressDeadline": 0,
+      "Stagger": 30000000000
+    }
+  }
+}
