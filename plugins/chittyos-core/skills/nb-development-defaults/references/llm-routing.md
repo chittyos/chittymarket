@@ -27,7 +27,8 @@ Load for LLM-routing, model-selection, OpenClaw gateway, or cross-client AI-conf
 ## Models & routing
 
 - Providers: **`chittyclaw`** (CF AI Gateway `central` `/compat`) → Workers AI (`@cf/meta/llama-3.3-70b-instruct-fp8-fast`, `@cf/meta/llama-3.1-8b-instruct`, `@cf/qwen/qwen2.5-coder-32b-instruct`); **`ollama`** (local `127.0.0.1:11434`, `glm-5.1:cloud`) = on-box/offline fallback.
-- **Review / default lane: a direct model, no dynamic route.** `cloudflare-ai-gateway/anthropic/claude-opus-4-8` (BYOK via gateway `central`, account ChittyCorp `0bc21e3a5a9de1a4cc843be9c3e98121`) is in chittyclaw's catalog and is the default of `adversarial-review.sh` (verified live 2026-10-03, exit 0). **No dynamic routes exist on `central`.** `dynamic/three-wise-men` — a catch-all "curated trio" route from the old `chittyclaw` gateway — was **retired deliberately (operator, 2026-10-03) and must not be recreated**; a 2026-10-02 recreation was deleted again. Future dynamic routes are strategic, purpose-built per job, codified in `scripts/ai-gateway-routes/` and drift-checked with `scripts/apply-gateway-route.sh --check`. A `400 code 2005` from a `dynamic/<name>` model id means that route is not deployed.
+- **Review lanes (operator decision 2026-11-11).** `adversarial-review.sh` defaults to the **subscription lane**: Claude Code 2.1.322 headless on chittyclaw (`~/.local/bin/claude`, logged in with claude.ai, Max). It is pinned to `claude-opus-4-8` and billed to subscription quota. The CLI default `claude-fable-5-1` answers 429 `model_requires_usage_credits` on this account, and the `opus` alias resolves to the implementer's own `claude-opus-5-5`, so neither is used. All tools, MCP, settings, hooks, skills, plugins and slash commands are off, and the run uses an empty temp dir. The prompt goes over stdin with a sha256 handshake, bounded at 1 MiB. Isolation and zero tool calls are checked from the CLI's own stream-json events. The script prints one `bridge-usage:` stderr line with model, tokens and the CLI-reported cost. The reviewer framing is owned by the script: `-p` text is placed after the diff as untrusted requester context and cannot steer scope or verdict. Named failures: `REVIEWER_NOT_LOGGED_IN`, `REVIEWER_USAGE_LIMIT`, `REVIEWER_TIMEOUT`, `REVIEWER_TOOL_CALL`, `REVIEWER_EMPTY_RESULT`, and an unreachable host as `POLICY_BLOCKED_CHITTYCLAW_UNAVAILABLE` (exit 2). No AI Gateway sits in this lane yet.
+- **Gateway lane (opt-in, `REVIEW_LANE=gateway`): a direct model, no dynamic route.** `cloudflare-ai-gateway/anthropic/claude-opus-4-8` via gateway `central` (account ChittyCorp `0bc21e3a5a9de1a4cc843be9c3e98121`) is in chittyclaw's catalog (verified live 2026-10-03, exit 0). **Billing is NOT BYOK** (corrected 2026-11-11): `central` holds no stored provider key, and requests draw Cloudflare **Unified Billing credits**. When the credit ran out, every gateway review failed rc 3 / HTTP 402, which is why this lane is no longer the default. **No dynamic routes exist on `central`.** `dynamic/three-wise-men` — a catch-all "curated trio" route from the old `chittyclaw` gateway — was **retired deliberately (operator, 2026-10-03) and must not be recreated**; a 2026-10-02 recreation was deleted again. Future dynamic routes are strategic, purpose-built per job, codified in `scripts/ai-gateway-routes/` and drift-checked with `scripts/apply-gateway-route.sh --check`. A `400 code 2005` from a `dynamic/<name>` model id means that route is not deployed.
 - **Auth is NOT off** (doc was stale). The gateway **hard-requires `CLOUDFLARE_ISSUED_CHITTYCLAW_AI_GATEWAY_TOKEN` at startup and fails closed** — `SecretRefResolutionError` → `Startup failed: required secrets are unavailable`. Placing that value is broker/`chico` work; never resolve it yourself.
 - **CLI invocation gotcha:** `--model` needs `<provider>/<catalog-id>`, and the catalog id itself contains a slash. `openclaw infer model list` shows e.g. `anthropic/claude-opus-4-8` (or `dynamic/<name>` for a route), but the working argument is `cloudflare-ai-gateway/anthropic/claude-opus-4-8`. Passing the bare id fails `Unknown model`.
 - **Use the wrapper, do not hand-roll the invocation.**
@@ -35,17 +36,17 @@ Load for LLM-routing, model-selection, OpenClaw gateway, or cross-client AI-conf
   ```
   git diff main...HEAD -- src/ | adversarial-review.sh - -p "focus on auth bypass"
   ```
-  It checks the container is actually running first (a dead node exits **2** with
+  In the gateway lane it checks the container is actually running first (a dead node exits **2** with
   `POLICY_BLOCKED_CHITTYCLAW_UNAVAILABLE` rather than returning an empty review that could be
   misread as "no findings"), streams the prompt over stdin with a sha256 delivery handshake, decides
   success positively (JSON `ok:true`, answered by the requested provider/model, non-blank text), and
   exits **3** on a model/route/delivery failure or on `REVIEW_TIMEOUT` (default 600s). Never report a
   change as reviewed on a non-zero exit.
-- **The reviewer must be a large-context BYOK model — context window is a correctness requirement.**
+- **The reviewer must be a large-context frontier model — context window is a correctness requirement.**
   Workers AI models return **HTTP 413** on the reviewing agent's own baseline payload (tool
   definitions from several MCP servers plus skills) before any diff is added: llama-3.3-70b is 24k
-  context, qwen2.5-coder-32b 32k — neither fits. That is why the review lane routes to Anthropic
-  frontier models via BYOK (`anthropic/claude-opus-4-8`, 1M context), and why a 413 means "pick a
+  context, qwen2.5-coder-32b 32k — neither fits. That is why both review lanes use an Anthropic
+  frontier model (`claude-opus-4-8`, 1M context), and why a 413 means "pick a
   larger model or split the diff", never "retry on Workers AI".
 
 - **`dynamic/adversarial-reviewer` no longer exists** on any gateway (400 code 2005) and must not be used or recreated: it was a $0.00 / 32k-context route, the inadequate-reviewer failure mode. On wrapper exit 2 or 3 the review was NOT performed; report it that way.
