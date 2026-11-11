@@ -339,8 +339,12 @@ mkdir "$d/cwd" && cd "$d/cwd" || exit 97
   echo "→ prompt delivery verified: ${RECV_BYTES} bytes, sha256 ${RECV_SHA}" >&2
 
   # Isolation and tool use are read from the CLI's own event stream.
+  # A field the CLI stopped sending must not read as "0": `null | length` is 0 in jq,
+  # so a renamed key would pass the isolation check while checking nothing. tools,
+  # mcp_servers and slash_commands must be arrays; skills may be absent (older CLIs).
   INIT="$(jq -R -c 'fromjson? | select(.type == "system" and .subtype == "init")
-    | {tools: (.tools | length), mcp: (.mcp_servers | length), slash: (.slash_commands | length), skills: ((.skills // []) | length)}' \
+    | def n(f): if (f | type) == "array" then (f | length) else "missing" end;
+      {tools: n(.tools), mcp: n(.mcp_servers), slash: n(.slash_commands), skills: n(.skills // [])}' \
     "$RESP" | head -n1)"
   RESULT="$(jq -R -c 'fromjson? | select(.type == "result")' "$RESP" | tail -n1)"
   TOOL_USES="$(jq -R 'fromjson? | select(.type == "assistant") | .message.content[]?
