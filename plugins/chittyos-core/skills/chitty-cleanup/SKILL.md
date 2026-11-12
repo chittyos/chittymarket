@@ -1,91 +1,80 @@
 ---
 name: chitty-cleanup
-description: Free disk space on macOS by clearing regenerable caches (npm, pip, brew, Xcode, Docker, etc.). Safe to run anytime — only removes data apps will rebuild.
+description: Free disk space on macOS or Linux by clearing the current user's regenerable caches (browser, npm, pnpm, pip, uv, Homebrew, logs, trash). Use when a host is low on disk or above 90% full. Never touches Docker, other users' homes, or anything needing sudo.
 canon_uri: chittycanon://core/services/chittymarket#skills/chitty-cleanup
 ---
 
-# ChittyOS Mac Cleanup Skill
+# ChittyOS Cleanup Skill
 
 ## Overview
-Free disk space by clearing regenerable caches. Safe to run anytime — only removes data that apps will rebuild automatically.
+Free disk space by clearing the **current user's** regenerable caches. Safe to run anytime: it only removes data the owning tool rebuilds on next use.
 
 ## Usage
 ```
 /cleanup [--dry-run]
 ```
 
-## Parameters
-| Parameter | Required | Default | Description |
-|-----------|----------|---------|-------------|
-| --dry-run | No | false | Show what would be cleared without deleting |
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| --dry-run | false | Report sizes and the commands that would run; delete nothing |
 
-## Targets
+## Step 1: detect the host, then measure
 
-### Browser Caches
-| Target | Path | Typical Size |
-|--------|------|-------------|
-| Chrome | ~/Library/Caches/Google | 1-3GB |
-| Chrome (alt) | ~/Library/Caches/com.google.Chrome | 200-500MB |
-| Brave | ~/Library/Caches/com.brave.Browser | 200-500MB |
-| Firefox | ~/Library/Caches/Firefox | 200-500MB |
-| Safari | ~/Library/Caches/com.apple.Safari | 100-300MB |
-
-### App Caches
-| Target | Path | Typical Size |
-|--------|------|-------------|
-| ChatGPT | ~/Library/Caches/com.openai.atlas | 300-600MB |
-| Siri TTS | ~/Library/Caches/SiriTTS | 300-500MB |
-| Spotify | ~/Library/Caches/com.spotify.client | 100-500MB |
-| VS Code | ~/Library/Caches/com.microsoft.VSCode | 100-300MB |
-
-### Dev Tool Caches
-| Target | Path | Typical Size |
-|--------|------|-------------|
-| node-gyp | ~/Library/Caches/node-gyp | 50-200MB |
-| pnpm | ~/Library/Caches/pnpm | 50-200MB |
-| Homebrew | ~/Library/Caches/Homebrew | 50-200MB |
-| TypeScript | ~/Library/Caches/typescript | 10-50MB |
-| pip | ~/Library/Caches/pip | 50-200MB |
-| yarn | ~/Library/Caches/yarn | 50-200MB |
-
-### System
-| Target | Path | Typical Size |
-|--------|------|-------------|
-| User logs | ~/Library/Logs | 30-100MB |
-| Trash | ~/.Trash | Variable |
-
-## Workflow
-
-### Quick Cleanup
 ```bash
-# Run the cleanup script
-/Users/nb/Desktop/Projects/github.com/CHITTYOS/chittyserv/scripts/cleanup-mac.sh
+uname -s          # Darwin -> macOS targets, Linux -> Linux targets
+df -h /           # record before
 ```
 
-### Dry Run (check sizes first)
+Use only the target table for the detected OS. On Linux, never substitute macOS `~/Library/...` paths.
+
+## Step 2: clear, preferring each tool's own clean command
+
+A tool's own command knows its cache layout and lock files. Fall back to deleting the
+directory only when the tool isn't installed.
+
+| Cache | Command (preferred) | Fallback path: macOS | Fallback path: Linux |
+|---|---|---|---|
+| npm | `npm cache clean --force` | `~/.npm/_cacache` | `~/.npm/_cacache` |
+| pnpm | `pnpm store prune` | `~/Library/Caches/pnpm` | `~/.local/share/pnpm/store` |
+| yarn | `yarn cache clean` | `~/Library/Caches/yarn` | `~/.cache/yarn` |
+| pip | `pip cache purge` | `~/Library/Caches/pip` | `~/.cache/pip` |
+| uv | `uv cache clean` | `~/Library/Caches/uv` | `~/.cache/uv` |
+| Homebrew | `brew cleanup -s --prune=all` | `~/Library/Caches/Homebrew` | `~/.cache/Homebrew` |
+| node-gyp | n/a | `~/Library/Caches/node-gyp` | `~/.cache/node-gyp` |
+| TypeScript | n/a | `~/Library/Caches/typescript` | `~/.cache/typescript` |
+| Browsers | n/a | `~/Library/Caches/{Google,com.google.Chrome,com.brave.Browser,Firefox,com.apple.Safari}` | `~/.cache/{google-chrome,chromium,BraveSoftware,mozilla}` |
+| Apps (macOS) | n/a | `~/Library/Caches/{com.openai.atlas,SiriTTS,com.spotify.client,com.microsoft.VSCode}` | n/a |
+| User logs | n/a | `~/Library/Logs` | n/a: `journalctl` is system-owned, so skip it |
+| Trash | n/a | `~/.Trash` | `~/.local/share/Trash` |
+
+Dry run (either OS) sizes only the paths that exist:
+
 ```bash
-du -sh ~/Library/Caches/Google ~/Library/Caches/com.openai.atlas ~/Library/Caches/SiriTTS ~/Library/Caches/node-gyp ~/Library/Caches/pnpm ~/Library/Caches/Homebrew ~/Library/Logs ~/.Trash 2>/dev/null | sort -hr
+du -sh <paths for this OS> 2>/dev/null | sort -hr
 ```
 
-### Check Disk Before/After
-```bash
-df -h /
-```
+Delete with an exact path, never a glob outside the user's home: `rm -rf -- "$HOME/.cache/uv"`.
+
+## Step 3: report
+
+`df -h /` again. Report the freed MB per target, before and after use%, and **where the remaining
+usage lives if it is outside this user's home**, as a pointer for the owner, not an action.
 
 ## Safety
 
-### Never Touched
-- iCloud / CloudKit data
-- Application Support (app state, not cache)
-- Docker images
-- Downloads folder
-- Ubuntu ISO files
-- Any user documents
+### Never touched
+- Anything outside `$HOME` of the user running the skill, including other users' homes on a shared host
+- Anything that needs `sudo`
+- Docker images, volumes and build cache (`docker system prune` is a destructive action with its own approval gate)
+- Agent and editor state: `~/.claude/` (plugins, file-history, projects), `~/.cache/claude*`, `~/.config/`
+- iCloud / CloudKit data, macOS Application Support
+- Downloads, documents, ISO images, any repo or worktree
 
-### Always Safe to Clear
-Everything listed above is a cache that the owning app will regenerate on next use. No data loss, no re-authentication needed.
+### Always safe to clear
+Every target in the Step 2 table is a cache its owning tool regenerates. There is no data loss and no re-authentication.
 
-## Typical Results
-- Expected recovery: 2-5GB per run
-- macOS may additionally release purgeable space after cleanup
-- Run weekly or whenever disk usage exceeds 90%
+## Typical results
+- macOS workstation: 2–5 GB per run. macOS may also release purgeable space afterwards.
+- Linux server account: usually under 1–2 GB. On a shared host, most usage is typically
+  system or other users' data, which this skill reports but never clears.
+- Run weekly, or when disk use exceeds 90%.
