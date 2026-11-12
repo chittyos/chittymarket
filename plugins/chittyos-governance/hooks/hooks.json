@@ -2,27 +2,31 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": ".*",
+        "_chitty_canonical": "block-chittyid-generation",
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit",
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'Governance hooks are managed via hookify rules at ~/.claude/hooks/hookify.*.local.md'"
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/block_chittyid_generation.py\"",
+            "timeout": 10
           }
         ]
       }
     ]
   },
-  "_note": "ChittyOS governance hooks are implemented as hookify rules. The following rules are part of this plugin:",
-  "rules": [
-    "hookify.validate-entity-types.local.md",
-    "hookify.claude-person-not-thing.local.md",
-    "hookify.block-chittyid-generation.local.md",
-    "hookify.chittyid-accountability.local.md",
-    "hookify.session-identity-card.local.md",
-    "hookify.canon-certification-gate.local.md",
-    "hookify.block-direct-deploy.local.md",
-    "hookify.require-pr-workflow.local.md",
-    "hookify.block-governance-edits.local.md",
-    "hookify.suggest-chittyconnect.local.md"
+  "_note": "Governance hooks are native Claude Code command hooks projected from chittymarket canonical/hooks/. They load for every session regardless of working directory. Do not add hookify rules here: measured 2026-11-12, hookify 0.1.1 core/config_loader.py:210-211 globs '.claude/hookify.*.local.md' RELATIVE to the hook process cwd and non-recursively, so a host-global rule is unreachable - hookify's own load_rules() returned 0 rules from the chittyfinance repo, from $HOME, and from ~/.claude. The ten rules listed below as _pending_conversion were declared by this plugin and shipped nowhere; nine exist only as inert files in ~/.claude/hooks/ on one host and have never fired.",
+  "_pending_conversion": [
+    "validate-entity-types",
+    "claude-person-not-thing",
+    "chittyid-accountability",
+    "session-identity-card",
+    "canon-certification-gate",
+    "block-direct-deploy",
+    "require-pr-workflow",
+    "block-governance-edits",
+    "suggest-chittyconnect"
+  ],
+  "_converted": [
+    "block-chittyid-generation"
   ]
 }
