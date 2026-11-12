@@ -196,6 +196,12 @@ jobs:
       - name: _MAP pair floor
         run: bash scripts/tests/test-map-pairs-cannot-shrink.sh
 
+      # Offline, stubbed tools: every chitty-cleanup safety guard is pinned by a case that
+      # fails if the guard is removed (allowlist, symlinks, repos, dry-run default, explicit cache dirs).
+      - name: chitty-cleanup guard tests
+        timeout-minutes: 2
+        run: bash scripts/tests/test-chitty-cleanup.sh
+
       - name: Dispatch state regression tests
         run: |
           bash -n plugins/chittyagent-dispatch/scripts/dispatch.sh
