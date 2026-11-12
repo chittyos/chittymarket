@@ -68,11 +68,21 @@ no_repo() {
   # Does d contain a repo, at any depth? -exec gets argv, so odd names are safe. A worktree
   # (.git) or a bare repo (dir with HEAD + objects + refs, any HEAD type) makes sh exit 3,
   # and find then exits non-zero. Unreadable directories also make find exit non-zero.
-  find "$d" \( -name .git -o -name HEAD \) -exec sh -c '
+  local nm=-name; [ "$OS" = Darwin ] && nm=-iname   # APFS is case-insensitive: .GIT is a repo
+  find "$d" \( $nm .git -o $nm HEAD \) -exec sh -c '
     for f; do
-      case $f in */.git) exit 3 ;; esac
-      p=${f%/HEAD}; [ -d "$p/objects" ] && [ -d "$p/refs" ] && exit 3
+      case ${f##*/} in
+        [Hh][Ee][Aa][Dd]) p=${f%/*}; [ -d "$p/objects" ] && [ -d "$p/refs" ] && exit 3 ;;
+        *) exit 3 ;;
+      esac
     done; exit 0' sh {} + >/dev/null 2>&1
+}
+
+# 0 = D contains no symlink anywhere. Anything else (a symlink found, or find failed) refuses.
+# Needed for pip: `pip cache purge` walks D/http and D/wheels with os.walk, which FOLLOWS a
+# symlinked top directory and deletes the files it points at (reproduced, pip 25.1.1).
+no_symlinks_inside() {
+  find "$1" -mindepth 1 -type l -exec sh -c 'exit 3' sh {} + >/dev/null 2>&1
 }
 
 guard() {  # guard <label> <raw> <exact expected path...>; sets GUARDED
@@ -116,15 +126,23 @@ fi
 if have pip; then
   c=$(cd "$H" && pip cache dir 2>/dev/null)
   if guard pip "$c" "$H/.cache/pip" "$H/Library/Caches/pip"; then
-    run_clean pip "$GUARDED" pip --cache-dir "$GUARDED" cache purge
+    if ! no_symlinks_inside "$GUARDED"; then
+      say "SKIP pip: $GUARDED contains a symlink (pip cache purge follows it), or could not be scanned"
+    else
+      run_clean pip "$GUARDED" pip --cache-dir "$GUARDED" cache purge
+    fi
   fi
 fi
 if have uv; then
   uvsym=0
   [ "$(printf '%s' "${UV_LINK_MODE:-}" | tr '[:upper:]' '[:lower:]')" = symlink ] && uvsym=1
-  for f in "${XDG_CONFIG_HOME:-$H/.config}/uv/uv.toml" "$H/.config/uv/uv.toml" /etc/uv/uv.toml; do
-    grep -qsiE '^[[:space:]]*link-mode[[:space:]]*=[[:space:]]*"?symlink' "$f" && uvsym=1
+  _uvcfgs="${XDG_CONFIG_HOME:-$H/.config}/uv/uv.toml:$H/.config/uv/uv.toml:/etc/uv/uv.toml"
+  _old_ifs=$IFS; IFS=:
+  for f in $_uvcfgs ${XDG_CONFIG_DIRS:-}; do
+    case "$f" in */uv.toml) ;; *) f="$f/uv/uv.toml" ;; esac
+    grep -qsiE "^[[:space:]]*link-mode[[:space:]]*=[[:space:]]*[\"']?symlink" "$f" && uvsym=1
   done
+  IFS=$_old_ifs
   if [ "$UVOK" -ne 1 ]; then
     say "SKIP uv: needs --uv (environments installed with link-mode=symlink break if the cache is cleaned)"
   elif [ "$uvsym" -eq 1 ]; then

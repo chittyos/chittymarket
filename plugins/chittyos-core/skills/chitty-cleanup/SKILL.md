@@ -28,9 +28,9 @@ Always show the dry run's output before running `--apply`.
 ## What the script guarantees
 - **Home** is computed inside the script. If it's empty or `/`, the script refuses (exit 3).
 - **Exact default directories only:** `~/.npm/_cacache`, `~/.cache/pip` or `~/Library/Caches/pip`, and `~/.cache/uv` or `~/Library/Caches/uv`. The comparison is case-insensitive on macOS. A tool resolving somewhere else (an env var or project config) is refused.
-- **Symlinks:** a symlinked target is refused, and parent symlinks are resolved first.
-- **Repos:** anything inside, or containing at any depth, a git worktree or bare repo is refused. So is any target the scan couldn't fully read. The scan is a single `find` with no temp files or here-docs, so it can't fail open on a full disk. If home is itself a repo, every target is skipped.
-- **uv** is skipped without `--uv`, and also when `UV_LINK_MODE` or a `uv.toml` sets `link-mode = "symlink"`.
+- **Symlinks:** a symlinked target is refused, and parent symlinks are resolved first. pip's cache is also refused if it contains **any** symlink, because `pip cache purge` follows a symlinked `http`/`wheels` directory and deletes what it points to.
+- **Repos:** anything inside, or containing at any depth, a git worktree or bare repo is refused (case-insensitive on macOS). So is any target the scan couldn't fully read. The scan is a single `find` with no temp files or here-docs, so it can't fail open on a full disk. If home is itself a repo, every target is skipped.
+- **uv** is skipped without `--uv`, and also when `UV_LINK_MODE` or a user or system `uv.toml` sets `link-mode` to `symlink`. **Per-project settings (`[tool.uv]` in `pyproject.toml`) aren't detected.** Only pass `--uv` when no project uses symlink mode.
 - **Report only, never deleted:** Homebrew, pnpm store, yarn, browser caches, Trash, `~/Library/Logs`. Clear those by hand only when the user confirms.
 - **Exit codes:** 0 OK, 1 if any step failed (`FAIL`), 2 on bad arguments, 3 on refusal.
 

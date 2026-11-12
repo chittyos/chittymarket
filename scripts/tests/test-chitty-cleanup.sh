@@ -41,14 +41,14 @@ has()  { grep -qF -- "$1" <<<"$OUT"; }
 logs() { grep -qF -- "$1" "$LOG"; }
 
 # Structural: the script deletes nothing itself and uses no here-docs (fail-open on ENOSPC)
-OUT=""; check "script contains no rm" '! grep -nE "(^|[;&|[:space:]])rm[[:space:]]" "$SCRIPT"'
-check "script contains no here-docs" '! grep -nE "<<-?[[:space:]]*[A-Za-z_\x27\"]" "$SCRIPT"'
+OUT=""; check "script contains no rm/rmdir/unlink/shred/-delete" '! grep -vE "^[[:space:]]*#" "$SCRIPT" | grep -nE "(^|[^[:alnum:]_])(rm|rmdir|unlink|shred)([^[:alnum:]_]|$)|-delete"'
+check "script contains no here-docs" "! grep -nE '<<-?[[:space:]]*[\\\"'\''A-Za-z_]' \"\$SCRIPT\""
 
 # HOME "/" or unset refuses (exit 3)
 new_case; OUT=$(env -i PATH="$C/stubs:/usr/bin:/bin" STUB_LOG="$LOG" HOME=/ bash "$SCRIPT" --apply 2>&1); RC=$?
 check "HOME=/ refuses" '[ $RC -eq 3 ] && has REFUSE && ! logs "cache clean"'
 new_case; OUT=$(env -i PATH="$C/stubs:/usr/bin:/bin" STUB_LOG="$LOG" bash "$SCRIPT" --apply 2>&1); RC=$?
-check "HOME unset refuses" '[ $RC -eq 3 ]'
+check "HOME unset refuses" '[ $RC -eq 3 ] && ! logs "cache"'
 
 # Dry run is the default
 new_case; mkdir -p "$H/.cache/pip/x"; STUB_PIP="$H/.cache/pip"; run
@@ -98,7 +98,15 @@ fi
 new_case; mkdir -p "$H/.cache/pip/zz/repo/.git"; for i in $(seq 1 300); do mkdir -p "$H/.cache/pip/h$i"; echo r > "$H/.cache/pip/h$i/HEAD"; done
 STUB_PIP="$H/.cache/pip"
 OUT=$(env -i HOME="$H" PATH="$C/stubs:/usr/bin:/bin" STUB_LOG="$LOG" TMPDIR="$TMP" STUB_PIP="$STUB_PIP" bash -c 'trap "" XFSZ; ulimit -f 1; exec bash "$0" --apply' "$SCRIPT" 2>&1); RC=$?
-check "full-disk does not fail open" 'has "git repo" && ! logs "cache purge"'
+check "write-limited run still refuses repo (structural no-here-doc test is the real guard)" 'has "git repo" && ! logs "cache purge"'
+
+# pip: a symlinked subdirectory inside the cache is refused, so pip can't follow it out (r6 H1)
+new_case; mkdir -p "$H/.cache/pip" "$C/outside/victim"; echo k > "$C/outside/victim/a"; ln -s "$C/outside/victim" "$H/.cache/pip/http"; STUB_PIP="$H/.cache/pip"; run --apply
+check "pip cache with symlinked http refused" 'has "SKIP pip:" && has "contains a symlink" && ! logs "cache purge" && [ -f "$C/outside/victim/a" ]'
+
+# Darwin: a .GIT directory (case-insensitive filesystem) counts as a repo (r6 L6)
+new_case; mkdir -p "$H/Library/Caches/pip/x/.GIT"; STUB_PIP="$H/Library/Caches/pip"; XENV="CLEANUP_OS_OVERRIDE=Darwin"; run --apply
+check "darwin .GIT refused" 'has "git repo" && ! logs "cache purge"'
 
 # uv is opt-in; symlink link-mode from env or config is skipped
 new_case; mkdir -p "$H/.cache/uv"; STUB_UV="$H/.cache/uv"; run --apply
@@ -107,6 +115,8 @@ XENV="UV_LINK_MODE=symlink"; run --apply --uv
 check "uv env symlink skipped" 'has "link-mode=symlink" && ! logs "uv cache clean"'
 XENV=; mkdir -p "$H/.config/uv"; printf 'link-mode = "symlink"\n' > "$H/.config/uv/uv.toml"; run --apply --uv
 check "uv config symlink skipped" 'has "link-mode=symlink" && ! logs "uv cache clean"'
+printf "link-mode = 'symlink'\n" > "$H/.config/uv/uv.toml"; run --apply --uv
+check "uv config single-quoted symlink skipped" 'has "link-mode=symlink" && ! logs "uv cache clean"'
 
 # No other tool is ever invoked to clean; everything else is report-only
 new_case; mkdir -p "$H/.cache/Homebrew/dl" "$H/.local/share/Trash/files"; echo x > "$H/.local/share/Trash/files/a"; run --apply
