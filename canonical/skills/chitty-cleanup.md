@@ -1,7 +1,7 @@
 ---
 name: chitty-cleanup
 canon_uri: chittycanon://core/services/chittymarket#skills/chitty-cleanup
-description: Free disk space on macOS or Linux by clearing the current user's regenerable caches (browser, npm, pnpm, pip, uv, Homebrew, logs, trash). Use when a host is low on disk or above 90% full. Never touches Docker, other users' homes, or anything needing sudo.
+description: Free disk space on macOS or Linux by clearing the current user's regenerable tool caches (npm, pnpm, yarn, pip, uv, Homebrew download cache, browser caches). Use when a host is low on disk or above 90% full. Only touches cache directories that resolve inside $HOME; never sudo, Docker, other users' data, or Trash without confirmation.
 kind: skill
 plugin: chittyos-core
 runtimes:
@@ -69,7 +69,10 @@ overlay:
 # ChittyOS Cleanup Skill
 
 ## Overview
-Free disk space by clearing the **current user's** regenerable caches. Safe to run anytime: it only removes data the owning tool rebuilds on next use.
+Free disk space by clearing the **current user's** regenerable caches. Every target is
+resolved to its real directory first and is touched only if that directory is inside
+`$HOME`. Trash is never emptied without explicit confirmation, because it holds
+recoverable user files.
 
 ## Usage
 ```
@@ -78,65 +81,80 @@ Free disk space by clearing the **current user's** regenerable caches. Safe to r
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| --dry-run | false | Report sizes and the commands that would run; delete nothing |
+| --dry-run | false | Resolve and size every target and print what would run. **Run no clean command and no `rm`.** |
 
-## Step 1: detect the host, then measure
-
-```bash
-uname -s          # Darwin -> macOS targets, Linux -> Linux targets
-df -h /           # record before
-```
-
-Use only the target table for the detected OS. On Linux, never substitute macOS `~/Library/...` paths.
-
-## Step 2: clear, preferring each tool's own clean command
-
-A tool's own command knows its cache layout and lock files. Fall back to deleting the
-directory only when the tool isn't installed.
-
-| Cache | Command (preferred) | Fallback path: macOS | Fallback path: Linux |
-|---|---|---|---|
-| npm | `npm cache clean --force` | `~/.npm/_cacache` | `~/.npm/_cacache` |
-| pnpm | `pnpm store prune` | `~/Library/Caches/pnpm` | `~/.local/share/pnpm/store` |
-| yarn | `yarn cache clean` | `~/Library/Caches/yarn` | `~/.cache/yarn` |
-| pip | `pip cache purge` | `~/Library/Caches/pip` | `~/.cache/pip` |
-| uv | `uv cache clean` | `~/Library/Caches/uv` | `~/.cache/uv` |
-| Homebrew | `brew cleanup -s --prune=all` | `~/Library/Caches/Homebrew` | `~/.cache/Homebrew` |
-| node-gyp | n/a | `~/Library/Caches/node-gyp` | `~/.cache/node-gyp` |
-| TypeScript | n/a | `~/Library/Caches/typescript` | `~/.cache/typescript` |
-| Browsers | n/a | `~/Library/Caches/{Google,com.google.Chrome,com.brave.Browser,Firefox,com.apple.Safari}` | `~/.cache/{google-chrome,chromium,BraveSoftware,mozilla}` |
-| Apps (macOS) | n/a | `~/Library/Caches/{com.openai.atlas,SiriTTS,com.spotify.client,com.microsoft.VSCode}` | n/a |
-| User logs | n/a | `~/Library/Logs` | n/a: `journalctl` is system-owned, so skip it |
-| Trash | n/a | `~/.Trash` | `~/.local/share/Trash` |
-
-Dry run (either OS) sizes only the paths that exist:
+## Step 1: guard, detect, measure
 
 ```bash
-du -sh <paths for this OS> 2>/dev/null | sort -hr
+: "${HOME:?HOME unset}"; cd "$HOME"   # run everything from $HOME, so project-level
+                                      # .npmrc / .yarnrc.yml / pip.conf can't redirect a tool
+uname -s                              # Darwin or Linux; use only that OS's rows
+df -h /                               # record before
 ```
 
-Delete with an exact path, never a glob outside the user's home: `rm -rf -- "$HOME/.cache/uv"`.
+## Step 2: resolve each cache's real directory, then check it is inside $HOME
 
-## Step 3: report
+Ask the tool where its cache really is. Environment variables (`npm_config_cache`,
+`PIP_CACHE_DIR`, `UV_CACHE_DIR`, `XDG_CACHE_HOME`, pnpm `store-dir`) can point a cache at
+a shared location, and fixed paths are wrong in those cases.
 
-`df -h /` again. Report the freed MB per target, before and after use%, and **where the remaining
-usage lives if it is outside this user's home**, as a pointer for the owner, not an action.
+| Cache | Resolve with | Clean with (only if the guard passes) |
+|---|---|---|
+| npm | `npm config get cache` | `npm cache clean --force` |
+| pnpm | `pnpm store path` | `pnpm store prune` |
+| yarn v1 | `yarn cache dir` | `yarn cache clean` |
+| yarn Berry (`yarn --version` ≥ 2) | `yarn config get cacheFolder` | `yarn cache clean --mirror`. **Never plain `yarn cache clean`**: in a zero-install repo it deletes the committed `.yarn/cache` |
+| pip | `pip cache dir` | `pip cache purge` |
+| uv | `uv cache dir` | `uv cache clean` |
+| Homebrew downloads | `brew --cache` | `rm -rf -- "$(brew --cache)"`. **Never `brew cleanup`** unless `brew --prefix` is owned by `$USER` (`stat -c %U` on Linux, `stat -f %Su` on macOS). `cleanup` also removes old kegs from the shared prefix, which isn't a cache |
 
-## Safety
+**Guard (required for every row):**
+```bash
+d=$(realpath -m -- "<resolved dir>")
+case "$d" in "$HOME"/*) ;; *) echo "SKIP $d: outside \$HOME"; continue ;; esac
+```
+If a tool isn't installed, skip its row. Don't guess its path.
 
-### Never touched
-- Anything outside `$HOME` of the user running the skill, including other users' homes on a shared host
+Fixed-path rows, which have no resolver. Each one is still guarded the same way:
+
+| Cache | macOS | Linux |
+|---|---|---|
+| node-gyp | `~/Library/Caches/node-gyp` | `~/.cache/node-gyp` |
+| TypeScript | `~/Library/Caches/typescript` | `~/.cache/typescript` |
+| Chrome | `~/Library/Caches/Google/Chrome` | `~/.cache/google-chrome` |
+| Chromium | n/a | `~/.cache/chromium` |
+| Brave | `~/Library/Caches/BraveSoftware` | `~/.cache/BraveSoftware` |
+| Firefox | `~/Library/Caches/Firefox` | `~/.cache/mozilla` |
+
+Skip a browser if it's running: check `pgrep -x` for the browser's process name first. Clearing the cache of a running browser can corrupt it.
+
+## Step 3: delete, exact paths only
+
+- **Never use globs or brace expansion with `rm`.** Delete only an exact path from the tables above, after the guard has passed: `rm -rf -- "$d"`.
+- In `--dry-run`, size each path with `du -sh -- "$d"`, print `brew cleanup -n` if Homebrew applies, and stop.
+
+## Step 4: Trash and logs: report, ask, never automatic
+
+| Item | Path | Rule |
+|---|---|---|
+| Trash | macOS `~/.Trash` (needs Full Disk Access; on "Operation not permitted", report it and don't retry), Linux `~/.local/share/Trash` | Report the size. Empty it **only after explicit confirmation**, because it holds recoverable files |
+| Logs | macOS `~/Library/Logs` | Report the size only. It holds crash reports, which aren't regenerable |
+
+## Step 5: report
+
+`df -h /` again, plus `du -xsh "$HOME"`. Report the freed size per target, any `SKIP` lines,
+and the use% before and after. If the disk is still full, say that the rest is outside
+this user's home and stop. **Don't scan other users' homes or `/`, and don't use `sudo`.**
+
+## Safety: never touched
+- Anything whose resolved path is outside `$HOME`. This covers shared caches, other users' homes and the Homebrew prefix
 - Anything that needs `sudo`
-- Docker images, volumes and build cache (`docker system prune` is a destructive action with its own approval gate)
-- Agent and editor state: `~/.claude/` (plugins, file-history, projects), `~/.cache/claude*`, `~/.config/`
-- iCloud / CloudKit data, macOS Application Support
-- Downloads, documents, ISO images, any repo or worktree
-
-### Always safe to clear
-Every target in the Step 2 table is a cache its owning tool regenerates. There is no data loss and no re-authentication.
+- Docker images, volumes and build cache. `docker system prune` is a destructive action with its own approval gate
+- Agent and editor state: `~/.claude/`, `~/.cache/claude*`, `~/.config/`
+- Repos and worktrees, including project `.yarn/cache` and `node_modules`
+- iCloud / CloudKit data, macOS Application Support, Downloads, documents, ISO images
 
 ## Typical results
-- macOS workstation: 2–5 GB per run. macOS may also release purgeable space afterwards.
-- Linux server account: usually under 1–2 GB. On a shared host, most usage is typically
-  system or other users' data, which this skill reports but never clears.
+- macOS workstation: 2–5 GB per run.
+- Linux server account: usually under 1–2 GB. On a shared host, most usage is someone else's, so the skill reports it but never clears it.
 - Run weekly, or when disk use exceeds 90%.
