@@ -80,20 +80,22 @@ an improvised guard fails open.
 |---|---|
 | `bash scripts/cleanup.sh` | **Dry run (default).** Resolves, guards and sizes every target, prints `PLAN`/`SKIP` lines, deletes nothing |
 | `bash scripts/cleanup.sh --apply` | Cleans every target that passed the guards |
+| `bash scripts/cleanup.sh --apply --uv` | Also cleans uv's cache. **Only on explicit request**: environments installed with `link-mode=symlink` break |
 | `bash scripts/cleanup.sh --apply --trash` | Also empties the user's Trash. **Permanent. Only on the user's explicit request** |
 
 Always run the dry run first and show its `PLAN` and `SKIP` lines before `--apply`.
 
 ## What the script guarantees
 - **Home** is computed inside the script (`pwd -P`). If it's empty or `/`, the script refuses and exits 3.
-- **Allowlist, not "inside `$HOME`".** A target's resolved path must be strictly below `~/.cache`, `~/Library/Caches`, `~/.local/share/pnpm`, `~/Library/pnpm`, or be `~/.npm/_cacache`. So `HOMEBREW_CACHE=~/Downloads` is refused. The comparison is case-insensitive on macOS.
-- **Symlinks:** a symlinked target is refused, and parent symlinks are resolved before the allowlist check.
-- **Repos:** anything inside or containing a `.git` is refused. The script finds it by walking the path, without relying on `git`, so `GIT_DIR` can't fool it.
+- **A per-tool allowlist, not broad roots.** Each target must resolve to that tool's own cache directory: `~/.npm/_cacache`, the pnpm *store* (not pnpm's global installs), `~/.cache/{yarn,pip,uv,Homebrew,node-gyp,typescript}` or the macOS `~/Library/Caches/...` equivalent, and the exact browser cache directories. `~/.cache`, `~/.npm` and pnpm's root are never targets, because they also hold data that isn't regenerable, such as poetry virtualenvs and pnpm global installs. The comparison is case-insensitive on macOS.
+- **Symlinks:** a symlinked target is refused, and parent symlinks are resolved first. The check runs again immediately before every `rm`.
+- **Repos:** anything inside, or containing at any depth, a git worktree or bare repo is refused, and so is a scan that couldn't read everything. The script finds repos by walking the path and scanning, without relying on `git`, so `GIT_DIR` can't fool it.
 - **Tools are cleaned with the guarded directory passed explicitly:** `npm --cache`, `pnpm --store-dir`, `yarn --cache-folder` (v1), `pip --cache-dir`, `uv --cache-dir`.
-- **Never automated:** `brew cleanup` (only Homebrew's download cache is removed), Yarn Berry, uv when `link-mode` may be `symlink` (needs approval), running browsers, `~/Library/Logs` (report only), Trash without `--trash`.
+- **Never automated:** `brew cleanup` (only Homebrew's download cache is removed), Yarn Berry, uv without `--uv`, running browsers, `~/Library/Logs` (report only), Trash without `--trash`.
 - **Never touched:** anything needing `sudo`, Docker, other users' homes, `~/.claude`, `~/.config`, documents.
 
 ## Reporting
+The exit code is 0 when everything succeeded, 1 when any step failed (a `FAIL` line), 3 when it refused (an unusable home), and 2 on bad arguments.
 Relay the script's `SKIP`, `DONE`/`PLAN` and `SUMMARY` lines and the before/after `df`. If the disk is
 still full, say the rest lies outside this user's caches. Don't scan other users' homes or `/`.
 
