@@ -1162,3 +1162,45 @@ migration_required: yes
 migration_owner: chittyagent-connect (ChittyConnect); ChittyTrust for node 5
 next_action:     ChittyConnect CHARTER amendment + build spec for GET /api/v1/sessions/wake (decision tree, tier contract, refusal payloads); then collapse the 9 user hooks to one fetch. Blockers listed in the audit: ChittyTrust /v1/evaluate 500 (2026-09-18), mint_proof unverified (#826), route source not located in local chittyconnect checkout.
 review_date:     2026-12-11
+
+---
+
+## 2026-11-17 — Property Management Operating Defaults (draft capability)
+
+```yaml
+decision_id: PM-DEFAULTS-20261117
+date: 2026-11-17
+capability_name: property-management-defaults
+canonical_id: chittycanon://core/services/chittymarket#skills/property-management-defaults # proposed, not registered
+source_links:
+  - https://github.com/chittyos/chittymarket/blob/feat/property-management-operating-defaults/canonical/skills/property-management-defaults.md
+  - https://github.com/chittyos/chittymarket/blob/main/docs/capability-registry-audit-runbook.md
+current_state: canonical draft on feature branch; not observed in generated capability overlay or two marketplace manifests
+decision: hold
+job_to_be_done: govern
+entity_mapping: [P, L, T, E, A]
+environmental_footprint: context-only
+evidentiary_risk: medium
+rationale: >
+  Distinct domain operating method with specialist handoffs; no exact duplicate
+  found in searched GitHub canonical inventory or installed skill catalog.
+  Identity and plugin owner remain unconfirmed by live authoritative Registry.
+  Skill existence does not establish active installation, permitted projections,
+  or runtime behavior.
+duplicates_found: []
+migration_required: yes
+migration_owner: ChittyMarket / property-domain owner (assignment pending)
+next_action: >
+  Confirm authoritative registry identity and plugin owner; validate
+  allow/restrict projection policy and non-repudiation boundaries;
+  generate projections via existing ChittyMarket dispatch (not by
+  editing generated overlays); run scenario/negative tests; read-after
+  verify installed skills and runtime behavior before promotion.
+review_date: 2026-11-24
+```
+
+**Source checks:** `capabilities.generated.json`, `marketplace.json`, and `.claude-plugin/marketplace.json` on this branch do not contain `property-management-defaults`. The ChittyRegistry system-ID helper did not find it; this is not a comprehensive registry listing. Web access to `https://registry.chitty.cc/api/services`, `https://register.chitty.cc/health`, and `https://register.chittyfoundation.org` was inconclusive.
+
+**Governance gates:** PASS — one job, P/L/T/E/A mapping, single disposition, source links, proposed skill placement, explicit Finance/Legal/Development routing. HOLD — authoritative registry match, plugin ownership, allowed/restricted projection matrix, generated-manifest and content-hash reconciliation, validation tests, live runtime deployment receipt. No legal or financial writes authorized by this skill. No new backend/service/schema/tracker authorized.
+
+**Migration queue:** `document` existing canonical draft, then controlled skill projection after gate clearance. Risk: medium. Completion evidence: approved PR + dispatched-file hashes + verified install receipts, not a draft path alone.
