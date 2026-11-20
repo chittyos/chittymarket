@@ -26,7 +26,7 @@ Manage all Claude Code artifacts (MCP servers, skills, plugins, agents, hooks) f
 - `/market verify [<id>|--all]` — Verify capability-record provenance (content_hash)
 - `/market mode <id> ch1tty|standalone` — Switch install mode
 - `/market sync` — Scan filesystem and reconcile manifest with actual state
-- `/market standardize [run|status|report|reset]` — Resumable packaging standardization across GitHub orgs (see below)
+- `/market standardize` — Cross-org packaging standardization, run by the remote `chittyagent-market` service (see below)
 
 ## Provenance (verify-on-enable)
 
@@ -38,36 +38,25 @@ audits one or all records; `info` shows provenance status. Signatures
 (`signer_chittyid`) are surfaced when present — pending Layer 2 they read
 "unsigned — signature pending".
 
-## Standardize (cross-org, resumable)
+## Standardize (cross-org, remote)
 
-`market.sh standardize` audits every repo in the orgs listed in
-`standard/targets.yaml` against `standard/gate.yaml` (marketplace + plugin
-packaging) and remediates per `standard/remediate.yaml`. Each repo moves through
-four checkpointed steps: `audit` → `plan` → `apply` → `verify`. State is saved
-after every step under `${MARKET_STATE_DIR:-~/.local/state/chittymarket}/standardize/<run-id>/`,
-so re-running the same command resumes at the first incomplete step.
+Packaging standardization is a remote service, not a `market.sh` command. The
+`chittyagent-market` MCP server runs it as a durable workflow:
 
-```bash
-market.sh standardize run                  # dry run: audit + plan, opens nothing
-market.sh standardize run --max 25         # bounded pass; run again to continue
-market.sh standardize status               # per-org progress
-market.sh standardize report               # findings as markdown
-market.sh standardize run --apply          # open ONE PR per repo for auto remediations
-market.sh standardize run                  # later: verify flips to ok once PRs merge
-market.sh standardize reset --only org/repo [--step audit]
-```
+- `standardize` — start a run. Optional `orgs`, `only` (`org/repo`), `standard_ref`. Returns a `workflow_id`.
+- `standardize_status` — status for a `workflow_id`; when finished, the output lists per-repo findings and the exact file each automatic remediation would add.
+
+This repository owns the standard the service evaluates, in `standard/`:
+`targets.yaml` (orgs to look in), `gate.yaml` (checks by repo class) and
+`remediate.yaml` (remediation per check). Change the standard here by pull
+request; the service reads it at run time and holds no copy.
 
 Rules when running this for the user:
 
-- Always dry-run first and show `report` before proposing `--apply`.
-- `--apply` only opens pull requests (branch `chore/market-standardize`). It
-  never pushes a default branch and never merges. Pass it only when the user
-  asked for the pull requests.
-- Manual remediations (secrets, foreign marketplaces, unlisted plugins) are
-  reported, not performed. A secret finding names the file and pattern only.
-- Exit codes: `0` all verified · `3` work remains · `1` a step errored.
-- A clean gate is a packaging fact. It is not canonical registration and not
-  runtime verification.
+- The run is read-only. It opens no pull requests; report the proposed remediations and let the user decide.
+- A secret finding names the file and pattern only.
+- `status: incomplete` means an org could not be listed, a repo errored, or a check could not be evaluated. Say so; do not present it as a clean result.
+- A clean gate is a packaging fact. It is not canonical registration and not runtime verification.
 
 ## Manifest Location
 

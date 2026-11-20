@@ -1,9 +1,8 @@
 # Remediation for each gate.yaml `remediation` id.
 #
-# auto: true  -> `standardize run --apply` opens ONE pull request per repo that
-#                carries every auto remediation for it. Never a direct push to a
-#                default branch, never a merge.
-# auto: false -> written into the plan for a human or an owning service to do.
+# auto: true  -> the service computes the exact file a pull request would carry
+#                and returns it in the report. It does not open the pull request.
+# auto: false -> reported for a human or an owning service to do.
 version: 1
 branch: chore/market-standardize
 remediations:

@@ -6,7 +6,6 @@
 #   disable <id>
 #   info <id>
 #   sync
-#   standardize [run|status|report|reset] [--apply] [--orgs a,b] [--only org/repo] [--max N]
 
 set -euo pipefail
 
@@ -489,12 +488,6 @@ print(f'Last sync: {manifest[\"lastSync\"]}')
 }
 
 # ─── Main ────────────────────────────────────────────────────────────────────
-
-# standardize audits OTHER repos; it neither reads nor needs the local manifest.
-if [ "${1:-}" = "standardize" ]; then
-  shift
-  exec python3 "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/standardize.py" "$@"
-fi
 
 require_manifest
 

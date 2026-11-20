@@ -7,7 +7,7 @@
 #   none      nothing Claude-facing; no checks run
 #
 # severity: error fails the gate for that repo; warn is reported and planned but
-# does not fail. `kind` selects the evaluator in standardize.py; everything else
+# does not fail. `kind` selects the evaluator in chittyagent-market; everything else
 # is its parameters. Adding a check of an existing kind needs no code change.
 version: 1
 checks:
