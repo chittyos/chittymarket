@@ -117,6 +117,8 @@ class FixtureSource:
         f = self._pr_file(org, repo)
         f.parent.mkdir(parents=True, exist_ok=True)
         url = f"fixture://{org}/{repo}/pull/1"
+        with open(f.parent / "_opened.log", "a") as log:
+            log.write(f"{org}/{repo}\n")
         f.write_text(json.dumps({"url": url, "branch": branch, "title": title, "files": files}, indent=2))
         return url
 
@@ -142,8 +144,11 @@ class GhSource:
     def list_repos(self, org):
         jq = ".[] | {name, archived, fork, default_branch}"
         out = self._api(f"orgs/{org}/repos?per_page=100&type=all", jq=jq, paginate=True)
-        if out is None:  # a user account, not an organization
-            out = self._api(f"users/{org}/repos?per_page=100", jq=jq, paginate=True)
+        if out is None:  # a user account: the authenticated listing includes private repos
+            mine = f'.[] | select(.owner.login | ascii_downcase == "{org.lower()}") | {{name, archived, fork, default_branch}}'
+            out = self._api("user/repos?per_page=100&affiliation=owner", jq=mine, paginate=True)
+            if not (out or "").strip():
+                out = self._api(f"users/{org}/repos?per_page=100", jq=jq, paginate=True)
         if out is None:
             raise RuntimeError(f"no such org or user: {org}")
         return [json.loads(line) for line in out.splitlines() if line.strip()]
@@ -198,9 +203,10 @@ def _json(ctx, path):
 
 
 def _market(ctx):
-    if ctx["market"] is None:
+    m = ctx["market"]()
+    if m is None:
         raise Unknown("marketplace manifest of the market repo could not be read")
-    return ctx["market"]
+    return m
 
 
 def _gh_source(entry):
@@ -294,7 +300,10 @@ def ev_marketplace_sources_resolve(ctx, c):
         if not s:
             continue
         repo = s.get("repo", "").lower()
-        if repo.split("/")[0] in ctx["orgs_seen"] and repo not in ctx["inventory"]:
+        owner = repo.split("/")[0]
+        if owner in ctx["orgs_targeted"] and owner not in ctx["orgs_seen"]:
+            raise Unknown(f"org {owner} was not discovered; cannot tell whether {s.get('repo')} exists")
+        if owner in ctx["orgs_seen"] and repo not in ctx["inventory"]:
             out.append(f"plugin entry {p.get('name')}: source repo {s.get('repo')} not found in its org")
     return out
 
@@ -388,7 +397,10 @@ class Runner:
             try:
                 raw = self.src.read(org, repo, ".claude-plugin/marketplace.json")
                 self._market = json.loads(raw) if raw else None
-            except Exception:
+            except Exception as e:
+                # Cached as unreadable for this run: every dependent check is
+                # then `unknown` (never pass) and the next run reads it again.
+                print(f"market manifest unreadable: {str(e)[:200]}", file=sys.stderr)
                 self._market = None
         return self._market
 
@@ -408,7 +420,8 @@ class Runner:
             "repo": repo,
             "files": files,
             "cfg": self.cfg,
-            "market": self.market(),
+            "market": self.market,
+            "orgs_targeted": {o.lower() for o in st["orgs"]},
             "orgs_seen": {o.lower() for o, v in st["orgs"].items() if v.get("discover", {}).get("status") == "ok"},
             "inventory": {f"{o}/{r}".lower() for o, v in st["orgs"].items() for r in v.get("repos", {})},
         }
@@ -435,12 +448,19 @@ class Runner:
                 )
         return cls, findings
 
+    @staticmethod
+    def gate(findings):
+        """fail > unknown > pass. A check that could not run is never a pass."""
+        if any(f["status"] == "fail" and f["severity"] == "error" for f in findings):
+            return "fail"
+        return "unknown" if any(f["status"] == "unknown" for f in findings) else "pass"
+
     # ---- steps ------------------------------------------------------------ #
 
     def step_audit(self, org, repo, rs):
         rs["class"], rs["findings"] = self.evaluate(org, repo)
         fails = [f for f in rs["findings"] if f["status"] == "fail"]
-        rs["gate"] = "fail" if any(f["severity"] == "error" for f in fails) else "pass"
+        rs["gate"] = self.gate(rs["findings"])
         return "ok", f"class={rs['class']} gate={rs['gate']} findings={len(fails)}"
 
     def step_plan(self, org, repo, rs):
@@ -468,6 +488,12 @@ class Runner:
             return "n/a", "no auto remediation"
         if not self.args.apply:
             return "pending", "dry-run: re-run with --apply to open the pull request"
+        # The audit may be days old. Never write on a stale verdict.
+        _, rs["findings"] = self.evaluate(org, repo)
+        rs["gate"] = self.gate(rs["findings"])
+        auto = [f for f in rs["findings"] if f["status"] == "fail" and f["auto"]]
+        if not auto:
+            return "n/a", "already remediated since the audit"
         branch = self.std["remediate"]["branch"]
         url = self.src.existing_pr(org, repo, branch)
         if not url:
@@ -490,12 +516,14 @@ class Runner:
     def step_verify(self, org, repo, rs):
         _, findings = self.evaluate(org, repo)
         rs["findings"] = findings  # the report must show the repo as it is now
-        errs = [f for f in findings if f["status"] == "fail" and f["severity"] == "error"]
-        rs["gate"] = "fail" if errs else "pass"
+        rs["gate"] = self.gate(findings)
+        unknown = [f["check"] for f in findings if f["status"] == "unknown"]
         left = [f for f in findings if f["status"] == "fail" and (f["severity"] == "error" or f["auto"])]
-        rs["remaining"] = [f["check"] for f in left]
-        if not left:
+        rs["remaining"] = [f["check"] for f in left] + unknown
+        if not left and not unknown:
             return "ok", "clean"
+        if not left:
+            return "waiting", f"could not evaluate: {', '.join(unknown)}"
         why = "pull request not merged yet" if rs.get("pr") else "manual remediation outstanding"
         return "waiting", f"{why}: {', '.join(rs['remaining'])}"
 
@@ -507,10 +535,11 @@ class Runner:
         self.state = st
         if st.get("standard_hash") not in (None, self.std_hash):
             # The standard changed: earlier verdicts are about a different bar.
-            # `apply` is kept so an already-opened pull request is not duplicated.
+            # `apply` is kept only where a pull request was already opened, so it
+            # is not duplicated; an `n/a` under the old bar proves nothing now.
             for org in st["orgs"].values():
                 for rs in org.get("repos", {}).values():
-                    for s in ("audit", "plan", "verify"):
+                    for s in STEPS if not rs.get("pr") else ("audit", "plan", "verify"):
                         rs.get("steps", {}).pop(s, None)
             print("standard changed since last run: re-auditing")
         st["standard_hash"] = self.std_hash
@@ -565,12 +594,14 @@ class Runner:
                             steps[rest] = {"status": "n/a", "at": now(), "note": "not Claude-facing"}
                         save_state(a.run_id, st)
                         break
-        return summarize(st)
+        return summarize(st, orgs)
 
 
-def summarize(st, quiet=False):
+def summarize(st, orgs=None):
     counts, errors, open_work = {}, 0, 0
     for org, o in st["orgs"].items():
+        if orgs is not None and org not in orgs:
+            continue
         if o.get("discover", {}).get("status") != "ok":
             errors += 1
         for rs in o.get("repos", {}).values():
@@ -588,7 +619,7 @@ def summarize(st, quiet=False):
                     key, open_work = f"{first}:{steps.get(first, {}).get('status', 'pending')}", open_work + 1
             counts.setdefault(org, {}).setdefault(key, 0)
             counts[org][key] += 1
-    if not quiet:
+    if True:
         print(f"\nrun {st['run_id']} · standard {st.get('standard_hash', '?')[:19]} · updated {st.get('updated_at', '-')}")
         for org, c in counts.items():
             print(f"  {org}: " + ", ".join(f"{k}={v}" for k, v in sorted(c.items())))

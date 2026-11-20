@@ -97,8 +97,13 @@ PY
 BEFORE="$(sha256sum "$PR")"
 set +e; std run --orgs chittyos,orgb --apply >/dev/null; set -e
 [ "$(sha256sum "$PR")" = "$BEFORE" ] || fail "re-run rewrote the pull request"
-[ "$(ls "$FX/_prs" | wc -l)" = 2 ] || fail "unexpected PR set: $(ls "$FX/_prs")"   # app + secretapp
-ok "--apply opens one PR per repo, preserves settings, and is idempotent"
+[ "$(wc -l < "$FX/_prs/_opened.log")" = 2 ] || fail "expected 2 PRs opened (app, secretapp)"
+# Forget that apply ran: only the existing-PR lookup can now prevent a duplicate.
+std reset --step apply >/dev/null; std reset --step verify >/dev/null
+set +e; std run --orgs chittyos,orgb --apply >/dev/null; set -e
+[ "$(wc -l < "$FX/_prs/_opened.log")" = 2 ] || fail "duplicate pull request opened after apply state was lost"
+[ "$(q "s['orgs']['chittyos']['repos']['app']['pr']")" = "fixture://chittyos/app/pull/1" ] || fail "existing PR not adopted"
+ok "--apply opens one PR per repo, preserves settings, and never duplicates"
 
 # 6. verify turns ok only once the change is actually on the repo.
 python3 -c "import json;print(json.load(open('$PR'))['files']['.claude/settings.json'],end='')" > "$FX/chittyos/app/.claude/settings.json"
@@ -120,5 +125,35 @@ cp -r "$SKILL/standard" "$TMP/std2"; echo "# changed" >> "$TMP/std2/gate.yaml"
 set +e; OUT="$(MARKET_STANDARD_DIR="$TMP/std2" std run --orgs chittyos)"; set -e
 grep -q 'standard changed' <<<"$OUT" && grep -q 'chittyos/goodplugin audit:' <<<"$OUT" || fail "changed standard did not force re-audit"
 ok "a changed standard forces re-audit"
+
+# 9. Fixed upstream between dry run and --apply: no pull request on a stale audit.
+mk orgc/fixedlater CLAUDE.md <<<"# f"
+set +e; std run --orgs orgc --rediscover >/dev/null; set -e
+[ "$(step orgc fixedlater apply)" = pending ] || fail "fixedlater should be pending"
+mk orgc/fixedlater .claude/settings.json <<'JSON'
+{"extraKnownMarketplaces":{"chittymarket":{"source":{"source":"github","repo":"chittyos/chittymarket"}}}}
+JSON
+set +e; std run --orgs orgc --only orgc/fixedlater --apply >/dev/null; set -e
+[ ! -e "$FX/_prs/orgc__fixedlater.json" ] || fail "opened a PR on a repo already remediated"
+[ "$(step orgc fixedlater verify)" = ok ] || fail "fixedlater should verify clean"
+ok "apply re-audits live and opens nothing on an already-clean repo"
+
+# 10. Fail closed: an unreadable market manifest is unknown, never pass.
+export MARKET_STATE_DIR="$TMP/state2"; STATE="$MARKET_STATE_DIR/standardize/default/state.json"
+FX2="$TMP/fx2"; mkdir -p "$FX2/chittyos/chittymarket/.claude-plugin" "$FX2/chittyos/plug/.claude-plugin"
+echo '{not json' > "$FX2/chittyos/chittymarket/.claude-plugin/marketplace.json"
+echo '{"name":"plug","version":"1.0.0","description":"d"}' > "$FX2/chittyos/plug/.claude-plugin/plugin.json"
+set +e; bash "$SKILL/market.sh" standardize run --orgs chittyos --fixtures "$FX2" >/dev/null 2>&1; RC=$?; set -e
+[ "$RC" != 0 ] || fail "run exited 0 with checks that could not be evaluated"
+[ "$(step chittyos plug verify)" = waiting ] || fail "unknown checks must hold verify at waiting"
+[ "$(q "s['orgs']['chittyos']['repos']['plug']['gate']")" = unknown ] || fail "gate should be unknown"
+ok "unevaluable checks fail closed (gate unknown, verify waiting, non-zero exit)"
+
+# 11. A standard change re-opens apply where no PR exists.
+export MARKET_STATE_DIR="$TMP/state"; STATE="$MARKET_STATE_DIR/standardize/default/state.json"
+set +e; MARKET_STANDARD_DIR="$TMP/std2" std run --orgs chittyos,orgb >/dev/null; set -e
+[ "$(step orgb badref apply)" = "n/a" ] && [ "$(q "'at' in s['orgs']['orgb']['repos']['badref']['steps']['audit']")" = True ] || fail "badref not re-run"
+[ "$(q "s['orgs']['chittyos']['repos']['app']['steps']['apply']['status']")" = ok ] || fail "apply with an existing PR must be kept"
+ok "standard change re-runs apply only where no PR exists"
 
 echo "test-market-standardize: $PASS passed"
