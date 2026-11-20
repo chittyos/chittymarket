@@ -1,0 +1,43 @@
+# Remediation for each gate.yaml `remediation` id.
+#
+# auto: true  -> the service computes the exact file a pull request would carry
+#                and returns it in the report. It does not open the pull request.
+# auto: false -> reported for a human or an owning service to do.
+version: 1
+branch: chore/market-standardize
+remediations:
+  register-marketplace:
+    auto: true
+    action: merge_json
+    path: .claude/settings.json
+    value:
+      extraKnownMarketplaces:
+        "{marketplace_name}":
+          source:
+            source: github
+            repo: "{market_repo}"
+    summary: Register the {marketplace_name} marketplace in the repo's Claude settings so plugins install from one source.
+  fix-plugin-manifest:
+    auto: false
+    summary: Correct .claude-plugin/plugin.json (name kebab-case, semver version, description). Owner edits; the version is theirs to choose.
+  list-in-marketplace:
+    auto: false
+    summary: Add the plugin to {market_repo} through its governor loop (canonical identity must resolve first; do not mint one from the repo name).
+  regenerate-marketplace:
+    auto: false
+    summary: In {market_repo}, fix the plugin.json and run scripts/generate-marketplace.sh. Never hand-edit the generated manifest.
+  remove-foreign-marketplace:
+    auto: false
+    summary: Delete this repo's .claude-plugin/marketplace.json and move its entries into {market_repo}. Capture the file before deleting it.
+  move-secret-to-broker:
+    auto: false
+    summary: Replace the literal with an ${ENV} reference resolved by the secrets broker, then rotate the exposed credential (operator action).
+  fix-enabled-plugins:
+    auto: false
+    summary: Point enabledPlugins entries at plugin names that exist in {market_repo}, or remove them.
+  fix-marketplace-source:
+    auto: false
+    summary: The external source repo was not found in its org. Correct the repo in generate-marketplace.sh or remove the entry.
+  pin-marketplace-source:
+    auto: false
+    summary: Pin the external source to a ref or sha so an upstream push cannot change what clients install.

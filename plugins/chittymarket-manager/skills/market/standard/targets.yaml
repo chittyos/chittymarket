@@ -1,0 +1,17 @@
+# Targets for `/market standardize`. Configuration, not canonical identity:
+# an org listed here is a place to look, nothing more. Override per run with
+# --orgs. Source of this list: the operator's GitHub org membership (2026-11-19).
+market_repo: chittyos/chittymarket
+marketplace_name: chittymarket
+orgs:
+  - chittyos
+  - chittyfoundation
+  - chittyapps
+  - chittycorp
+  - chicagoapps
+  - furnished-condos
+  - digitaldossierapps
+  - chitcommit
+skip:
+  archived: true
+  forks: true
