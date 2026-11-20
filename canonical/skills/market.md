@@ -89,6 +89,7 @@ Manage all Claude Code artifacts (MCP servers, skills, plugins, agents, hooks) f
 - `/market verify [<id>|--all]` — Verify capability-record provenance (content_hash)
 - `/market mode <id> ch1tty|standalone` — Switch install mode
 - `/market sync` — Scan filesystem and reconcile manifest with actual state
+- `/market standardize [run|status|report|reset]` — Resumable packaging standardization across GitHub orgs (see below)
 
 ## Provenance (verify-on-enable)
 
@@ -99,6 +100,37 @@ Every capability has a content-addressed record in `capabilities.generated.json`
 audits one or all records; `info` shows provenance status. Signatures
 (`signer_chittyid`) are surfaced when present — pending Layer 2 they read
 "unsigned — signature pending".
+
+## Standardize (cross-org, resumable)
+
+`market.sh standardize` audits every repo in the orgs listed in
+`standard/targets.yaml` against `standard/gate.yaml` (marketplace + plugin
+packaging) and remediates per `standard/remediate.yaml`. Each repo moves through
+four checkpointed steps: `audit` → `plan` → `apply` → `verify`. State is saved
+after every step under `${MARKET_STATE_DIR:-~/.local/state/chittymarket}/standardize/<run-id>/`,
+so re-running the same command resumes at the first incomplete step.
+
+```bash
+market.sh standardize run                  # dry run: audit + plan, opens nothing
+market.sh standardize run --max 25         # bounded pass; run again to continue
+market.sh standardize status               # per-org progress
+market.sh standardize report               # findings as markdown
+market.sh standardize run --apply          # open ONE PR per repo for auto remediations
+market.sh standardize run                  # later: verify flips to ok once PRs merge
+market.sh standardize reset --only org/repo [--step audit]
+```
+
+Rules when running this for the user:
+
+- Always dry-run first and show `report` before proposing `--apply`.
+- `--apply` only opens pull requests (branch `chore/market-standardize`). It
+  never pushes a default branch and never merges. Pass it only when the user
+  asked for the pull requests.
+- Manual remediations (secrets, foreign marketplaces, unlisted plugins) are
+  reported, not performed. A secret finding names the file and pattern only.
+- Exit codes: `0` all verified · `3` work remains · `1` a step errored.
+- A clean gate is a packaging fact. It is not canonical registration and not
+  runtime verification.
 
 ## Manifest Location
 

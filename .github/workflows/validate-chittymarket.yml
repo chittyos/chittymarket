@@ -179,6 +179,12 @@ jobs:
       - name: Market reconcile regression tests
         run: bash scripts/tests/test-market-reconcile.sh
 
+      # Offline (fixture source): /market standardize checkpoint/resume, dry-run
+      # opens nothing, one idempotent PR per repo, verify waits for the merge,
+      # secret values never reach state.
+      - name: Market standardize regression tests
+        run: bash scripts/tests/test-market-standardize.sh
+
       # Offline: AI Gateway route-list lookup (apply-gateway-route.sh) against
       # real CF response shapes; unknown shape must exit 2, never "absent".
       - name: Gateway route lookup tests

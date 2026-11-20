@@ -172,6 +172,7 @@ Current live-account evidence is recorded in [docs/audits/2026-11-01-marketplace
 /market profile <p>  # Switch to a profile
 /market sync         # Reconcile manifest with filesystem
 /market lint         # Check for conflicts
+/market standardize       # Resumable cross-org packaging audit + PRs (dry run by default)
 ```
 
 ## Scripts
