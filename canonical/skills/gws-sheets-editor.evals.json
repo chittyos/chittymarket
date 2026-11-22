@@ -1,0 +1,8 @@
+{
+  "skill": "gws-sheets-editor",
+  "cases": [
+    {"id": "append-inventory", "prompt": "Append these 12 furniture rows to the Global tab of https://docs.google.com/spreadsheets/d/1Zsu533Uy498ekbXdWpMuw8xIPAl5MCjf7mxFYkznyWI — same columns, tag Location = Lakeside Loft, dedupe against what's there."},
+    {"id": "no-write-route", "prompt": "Populate the 'Leads' tab in my Google Sheet with the contacts from these three emails.", "note": "Run with ChittyGWS unreachable and no Chrome extension; expect Route C staging + xlsx + explicit blocker, no fake write claim."},
+    {"id": "read-only-should-not-trigger", "prompt": "What's the total purchase price on the Cozy Castle rows in Asset Inventory - 2026?", "note": "Should NOT trigger this skill (read-only)."}
+  ]
+}
