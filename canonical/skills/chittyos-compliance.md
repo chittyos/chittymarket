@@ -178,11 +178,11 @@ Before auditing, scaffolding, monitoring, or certifying ANY service, first disco
 
 ### Discovery Steps
 
-1. **Query ChittyRegistry**: `curl -s https://registry.chitty.cc/api/services | jq .` — get the full service catalog
+1. **Query ChittyRegistry**: `curl -s https://registry.chitty.cc/api/v1/tools | jq .` — get the full service catalog
 2. **Identify upstream/downstream services** — who does this service depend on? Who consumes it?
 3. **Read the Compliance Triad** of related services — for each upstream and downstream dependency, read their `CHARTER.md` (API contract, endpoints), `CHITTY.md` (architecture, ecosystem position), and `CLAUDE.md` (dev patterns, integration examples)
-4. **Check service repos** at: `/Volumes/chitty/github.com/CHITTYFOUNDATION/`, `/Volumes/chitty/github.com/CHITTYOS/`, `/Users/nb/desktop/projects/github.com/chittyapps`
-5. **Local fallback**: `/Volumes/chitty/temp/systems-registry-import-v3.csv`
+4. **Check service repos** under the host's repo root — `~/projects/github.com/` on chittyserv-vm, `~/Desktop/Projects/github.com/` on the Mac — in `CHITTYFOUNDATION/`, `CHITTYOS/`, `CHITTYAPPS/` and `CHITTYCORP/`
+5. **No local fallback**: the registry is authoritative. The former CSV snapshot (`systems-registry-import-v3.csv`) no longer exists — if the registry is unreachable, say so and treat the discovery as incomplete
 
 ### Why This Matters
 
