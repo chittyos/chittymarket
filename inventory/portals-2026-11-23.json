@@ -1,0 +1,4525 @@
+{
+  "generated": "2026-11-23",
+  "account": "0bc21e3a5a9de1a4cc843be9c3e98121",
+  "counts": {
+    "portals": 8,
+    "servers": 65,
+    "access_apps": 112
+  },
+  "portals": [
+    {
+      "id": "gws-portal",
+      "hostname": "workspace.chitty.cc",
+      "server_ids": [
+        "alchemist",
+        "auth",
+        "autoassist",
+        "availability",
+        "bluebubbles",
+        "bridge-consent",
+        "buyflow",
+        "canon",
+        "ch1tty",
+        "chatgpt",
+        "cleaner",
+        "cloudflare",
+        "dispatch",
+        "dispute",
+        "evidence",
+        "finance",
+        "gam",
+        "gws",
+        "helper",
+        "human-escalator",
+        "imessage",
+        "market",
+        "neon",
+        "notes",
+        "notion",
+        "npm",
+        "orchestrator",
+        "quo",
+        "resolve",
+        "sandbox",
+        "scrape",
+        "secrets",
+        "ship",
+        "storage",
+        "twilio",
+        "viewport"
+      ]
+    },
+    {
+      "id": "dev-portal",
+      "hostname": "dev.chitty.cc",
+      "server_ids": [
+        "alchemist",
+        "apify",
+        "auth",
+        "autoassist",
+        "builder",
+        "canon",
+        "cf-ai-gateway",
+        "cf-ai-search",
+        "cf-bindings",
+        "cf-builds",
+        "cf-containers",
+        "cf-dns",
+        "cf-docs",
+        "cf-graphql",
+        "cf-observsbility",
+        "cloudflare",
+        "context",
+        "dispatch",
+        "ext-apify",
+        "gam",
+        "gh",
+        "git",
+        "heartbeat",
+        "helper",
+        "human-escalator",
+        "market",
+        "monitor",
+        "neon",
+        "npm",
+        "openai-docs",
+        "orchestrator",
+        "sandbox",
+        "schema",
+        "scrape",
+        "secrets",
+        "ship",
+        "storage",
+        "sync",
+        "tasks",
+        "viewport"
+      ]
+    },
+    {
+      "id": "chode",
+      "hostname": "chode.chitty.cc",
+      "server_ids": [
+        "alchemist",
+        "apify",
+        "auth",
+        "autoassist",
+        "availability",
+        "bindings",
+        "bluebubbles",
+        "bridge-consent",
+        "builder",
+        "canon",
+        "cf-ai-gateway",
+        "cf-ai-search",
+        "cf-bindings",
+        "cf-builds",
+        "cf-containers",
+        "cf-dns",
+        "cf-docs",
+        "cf-graphql",
+        "cf-observsbility",
+        "chatgpt",
+        "chitty-scrape",
+        "cleaner",
+        "cloudeflare-codemode",
+        "cloudflare",
+        "command",
+        "comptroller",
+        "context",
+        "contextual",
+        "dispatch",
+        "dispute",
+        "evidence",
+        "ext-apify",
+        "finance",
+        "gam",
+        "gh",
+        "git",
+        "heartbeat",
+        "helper",
+        "human-escalator",
+        "imessage",
+        "market",
+        "monitor",
+        "neon",
+        "notes",
+        "notion",
+        "npm",
+        "openai-docs",
+        "orchestrator",
+        "quo",
+        "resolve",
+        "sandbox",
+        "schema",
+        "scrape",
+        "ship",
+        "storage",
+        "sync",
+        "tasks",
+        "twilio",
+        "viewport"
+      ]
+    },
+    {
+      "id": "chittymcp-vm",
+      "hostname": "vm.ch1tty.com",
+      "server_ids": [
+        "alchemist",
+        "apify",
+        "auth",
+        "autoassist",
+        "availability",
+        "bindings",
+        "bluebubbles",
+        "bridge-consent",
+        "builder",
+        "buyflow",
+        "canon",
+        "cf-ai-gateway",
+        "cf-ai-search",
+        "cf-bindings",
+        "cf-builds",
+        "cf-containers",
+        "cf-dns",
+        "cf-docs",
+        "cf-graphql",
+        "cf-observsbility",
+        "cleaner",
+        "cloudeflare-codemode",
+        "cloudflare",
+        "command",
+        "comptroller",
+        "context",
+        "contextual",
+        "dispatch",
+        "dispute",
+        "evidence",
+        "ext-apify",
+        "finance",
+        "gam",
+        "gh",
+        "git",
+        "heartbeat",
+        "helper",
+        "human-escalator",
+        "imessage",
+        "market",
+        "monitor",
+        "neon",
+        "notes",
+        "notion",
+        "npm",
+        "openai-docs",
+        "orchestrator",
+        "quo",
+        "resolve",
+        "sandbox",
+        "schema",
+        "scrape",
+        "ship",
+        "storage",
+        "sync",
+        "tasks",
+        "twilio",
+        "viewport"
+      ]
+    },
+    {
+      "id": "chittycomms",
+      "hostname": "msg.chitty.cc",
+      "server_ids": [
+        "alchemist",
+        "autoassist",
+        "cf-ai-search",
+        "context",
+        "contextual",
+        "dispatch",
+        "helper",
+        "imessage",
+        "notes",
+        "notion",
+        "orchestrator",
+        "tasks",
+        "twilio",
+        "viewport"
+      ]
+    },
+    {
+      "id": "chitty-mcp",
+      "hostname": "mcp.chitty.cc",
+      "server_ids": [
+        "ai",
+        "alchemist",
+        "apify",
+        "auth",
+        "autoassist",
+        "availability",
+        "bindings",
+        "bluebubbles",
+        "bridge-consent",
+        "builder",
+        "buyflow",
+        "canon",
+        "cf-ai-gateway",
+        "cf-ai-search",
+        "cf-bindings",
+        "cf-builds",
+        "cf-containers",
+        "cf-dns",
+        "cf-docs",
+        "cf-graphql",
+        "cf-observsbility",
+        "ch1tty",
+        "chatgpt",
+        "chitty-scrape",
+        "cleaner",
+        "cloudeflare-codemode",
+        "cloudflare",
+        "command",
+        "comptroller",
+        "context",
+        "contextual",
+        "dispatch",
+        "dispute",
+        "evidence",
+        "ext-apify",
+        "finance",
+        "gam",
+        "gh",
+        "git",
+        "gws",
+        "heartbeat",
+        "helper",
+        "human-escalator",
+        "imessage",
+        "market",
+        "monitor",
+        "neon",
+        "notes",
+        "notion",
+        "npm",
+        "openai-docs",
+        "orchestrator",
+        "quo",
+        "resolve",
+        "sandbox",
+        "schema",
+        "scrape",
+        "secrets",
+        "ship",
+        "storage",
+        "sync",
+        "tasks",
+        "twilio",
+        "viewport"
+      ]
+    },
+    {
+      "id": "cf",
+      "hostname": "cf.chitty.cc",
+      "server_ids": [
+        "autoassist",
+        "cf-ai-gateway",
+        "cf-ai-search",
+        "cf-bindings",
+        "cf-builds",
+        "cf-containers",
+        "cf-dns",
+        "cf-docs",
+        "cf-graphql",
+        "cf-observsbility",
+        "cloudflare",
+        "helper",
+        "orchestrator",
+        "secrets",
+        "viewport"
+      ]
+    },
+    {
+      "id": "apf-portal",
+      "hostname": "portal.actors.chitty.cc",
+      "server_ids": [
+        "alchemist",
+        "apify",
+        "autoassist",
+        "builder",
+        "cf-ai-gateway",
+        "cf-ai-search",
+        "cf-docs",
+        "cloudeflare-codemode",
+        "contextual",
+        "dispatch",
+        "ext-apify",
+        "gh",
+        "heartbeat",
+        "helper",
+        "market",
+        "npm",
+        "orchestrator",
+        "sandbox",
+        "secrets",
+        "ship"
+      ]
+    }
+  ],
+  "servers": [
+    {
+      "id": "viewport",
+      "name": "viewport",
+      "hostname": "https://agent.chitty.cc/viewport/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "cf",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "hydrate",
+        "viewport_hydrate",
+        "resolve_context",
+        "viewport_resolve_context",
+        "memory_recall",
+        "viewport_memory_recall",
+        "memory_persist",
+        "viewport_memory_persist",
+        "doctrine_seed",
+        "viewport_doctrine_seed"
+      ],
+      "deprecated_tool_names": [
+        "viewport_hydrate",
+        "viewport_resolve_context",
+        "viewport_memory_recall",
+        "viewport_memory_persist",
+        "viewport_doctrine_seed"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "twilio",
+      "name": "twilio",
+      "hostname": "https://agent.chitty.cc/twilio/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "send_sms",
+        "twilio_send_sms",
+        "send_whatsapp",
+        "twilio_send_whatsapp",
+        "make_call",
+        "twilio_make_call",
+        "list_messages",
+        "twilio_list_messages",
+        "get_message",
+        "twilio_get_message",
+        "list_calls",
+        "twilio_list_calls",
+        "get_call",
+        "twilio_get_call",
+        "list_recordings",
+        "twilio_list_recordings",
+        "list_numbers",
+        "twilio_list_numbers"
+      ],
+      "deprecated_tool_names": [
+        "twilio_send_sms",
+        "twilio_send_whatsapp",
+        "twilio_make_call",
+        "twilio_list_messages",
+        "twilio_get_message",
+        "twilio_list_calls",
+        "twilio_get_call",
+        "twilio_list_recordings",
+        "twilio_list_numbers"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "name": "tasks",
+      "hostname": "https://agent.chitty.cc/tasks/mcp",
+      "auth_type": "oauth",
+      "authentication_status": "connected",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 21:07:04",
+      "portals": [
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "list",
+        "tasks_list",
+        "get",
+        "tasks_get",
+        "create",
+        "tasks_create",
+        "claim",
+        "tasks_claim",
+        "heartbeat",
+        "tasks_heartbeat",
+        "complete",
+        "tasks_complete",
+        "triage",
+        "tasks_triage"
+      ],
+      "deprecated_tool_names": [
+        "tasks_list",
+        "tasks_get",
+        "tasks_create",
+        "tasks_claim",
+        "tasks_heartbeat",
+        "tasks_complete",
+        "tasks_triage"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "30d07f37-dfe9-4aac-9cd4-1fe46ec3626d",
+          "name": "agent · tasks (pilot)",
+          "type": "self_hosted"
+        },
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "sync",
+      "name": "sync",
+      "hostname": "https://agent.chitty.cc/sync/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "status",
+        "health",
+        "ingest",
+        "get_decision",
+        "queue_review",
+        "resolve_review",
+        "registry_list"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "name": "storage",
+      "hostname": "https://agent.chitty.cc/storage/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "storage_search",
+        "storage_entity",
+        "storage_locate",
+        "storage_ingest",
+        "storage_references",
+        "storage_hold",
+        "storage_entities_list",
+        "storage_classify",
+        "storage_classify_batch",
+        "storage_embed_batch",
+        "storage_ai_search",
+        "storage_scan_r2"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [
+        "storage_ingest_document",
+        "storage_trace_copies",
+        "storage_place_hold",
+        "storage_triage_unclassified"
+      ],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "ship",
+      "name": "ship",
+      "hostname": "https://agent.chitty.cc/ship/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "start",
+        "ship_start",
+        "preflight",
+        "ship_preflight",
+        "brainstorm",
+        "ship_brainstorm",
+        "checkpoint",
+        "ship_checkpoint",
+        "cleanup",
+        "ship_cleanup",
+        "branch",
+        "ship_branch",
+        "status",
+        "ship_status",
+        "get_preferences",
+        "ship_preferences",
+        "preferences"
+      ],
+      "deprecated_tool_names": [
+        "ship_start",
+        "ship_preflight",
+        "ship_brainstorm",
+        "ship_checkpoint",
+        "ship_cleanup",
+        "ship_branch",
+        "ship_status",
+        "ship_preferences",
+        "preferences"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "secrets",
+      "name": "secrets",
+      "hostname": "https://secrets.chitty.cc/mcp",
+      "auth_type": "bearer",
+      "authentication_status": "required",
+      "status": "waiting",
+      "error_code": null,
+      "error_summary": "Invalid oauth credentials. Please contact your administrator",
+      "last_successful_sync": null,
+      "portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "c0eec21c-039c-485d-93a8-03e0d474328c",
+          "name": "ChittySecrets (secrets.chitty.cc)",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "scrape",
+      "name": "scrape",
+      "hostname": "https://agent.chitty.cc/scrape/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "enqueue_job",
+        "scrape_enqueue_job",
+        "process_queue",
+        "scrape_process_queue",
+        "get_job",
+        "scrape_get_job",
+        "list_jobs",
+        "scrape_list_jobs"
+      ],
+      "deprecated_tool_names": [
+        "scrape_enqueue_job",
+        "scrape_process_queue",
+        "scrape_get_job",
+        "scrape_list_jobs"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "schema",
+      "name": "schema",
+      "hostname": "https://agent.chitty.cc/schema/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": null,
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "sandbox",
+      "name": "sandbox",
+      "hostname": "https://agent.chitty.cc/sandbox/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "describe_domains",
+        "sandbox_describe_domains",
+        "run_ts",
+        "sandbox_run_ts"
+      ],
+      "deprecated_tool_names": [
+        "sandbox_describe_domains",
+        "sandbox_run_ts"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "resolve",
+      "name": "resolve",
+      "hostname": "https://agent.chitty.cc/resolve/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 16:12:42",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "evaluate_error",
+        "resolve_evaluate_error",
+        "list",
+        "resolve_list_resolutions",
+        "get_stats",
+        "resolve_get_stats",
+        "suppress",
+        "resolve_suppress"
+      ],
+      "deprecated_tool_names": [
+        "resolve_evaluate_error",
+        "resolve_list_resolutions",
+        "resolve_get_stats",
+        "resolve_suppress"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "quo",
+      "name": "quo",
+      "hostname": "https://agent.chitty.cc/quo/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "send_message",
+        "quo_send_message",
+        "list_messages",
+        "quo_list_messages",
+        "get_message",
+        "quo_get_message",
+        "list_calls",
+        "quo_list_calls",
+        "get_call",
+        "quo_get_call",
+        "get_call_transcription",
+        "quo_get_call_transcription",
+        "get_call_summary",
+        "quo_get_call_summary",
+        "list_phone_numbers",
+        "quo_list_phone_numbers",
+        "list_conversations",
+        "quo_list_conversations",
+        "list_contacts",
+        "quo_list_contacts",
+        "get_contact",
+        "quo_get_contact",
+        "create_contact",
+        "quo_create_contact",
+        "update_contact",
+        "quo_update_contact",
+        "resolve_contact_context",
+        "quo_lookup_contact_context",
+        "list_recent_events",
+        "quo_recent_events",
+        "list_recent_calls_local",
+        "quo_recent_calls_local",
+        "list_recent_messages_local",
+        "quo_recent_messages_local"
+      ],
+      "deprecated_tool_names": [
+        "quo_send_message",
+        "quo_list_messages",
+        "quo_get_message",
+        "quo_list_calls",
+        "quo_get_call",
+        "quo_get_call_transcription",
+        "quo_get_call_summary",
+        "quo_list_phone_numbers",
+        "quo_list_conversations",
+        "quo_list_contacts",
+        "quo_get_contact",
+        "quo_create_contact",
+        "quo_update_contact",
+        "quo_lookup_contact_context",
+        "quo_recent_events",
+        "quo_recent_calls_local",
+        "quo_recent_messages_local"
+      ],
+      "prompt_names": [
+        "quo_triage_inbound",
+        "quo_summarize_thread",
+        "quo_compose_followup",
+        "send_text_message",
+        "create_contact",
+        "fetch_conversation_history",
+        "fetch_call_transcripts"
+      ],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "orchestrator",
+      "name": "orchestrator",
+      "hostname": "https://agent.chitty.cc/orchestrator/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "provision_evaluate",
+        "orchestrator_provision_evaluate",
+        "provision_bind",
+        "orchestrator_provision_bind",
+        "provision_fork",
+        "orchestrator_provision_fork",
+        "provision_status",
+        "orchestrator_provision_status",
+        "skill_list",
+        "skill_search",
+        "skill_execute",
+        "skill_register",
+        "agent_list",
+        "agent_search",
+        "agent_execute",
+        "agent_register",
+        "list_provision_candidates",
+        "orchestrator_list_provision_candidates",
+        "provision_candidates"
+      ],
+      "deprecated_tool_names": [
+        "orchestrator_provision_evaluate",
+        "orchestrator_provision_bind",
+        "orchestrator_provision_fork",
+        "orchestrator_provision_status",
+        "orchestrator_list_provision_candidates",
+        "provision_candidates"
+      ],
+      "prompt_names": [
+        "orchestrator_route_intent",
+        "orchestrator_discover",
+        "orchestrator_provision_session"
+      ],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "openai-docs",
+      "name": "openai docs",
+      "hostname": "https://developers.openai.com/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:40",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "search_openai_docs",
+        "list_openai_docs",
+        "fetch_openai_doc",
+        "list_api_endpoints",
+        "get_openapi_spec"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "npm",
+      "name": "npm",
+      "hostname": "https://npm.chitty.cc/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:41",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "package_info",
+        "package_versions",
+        "dist_tags",
+        "download_stats",
+        "audit_bulk",
+        "search",
+        "publish_preflight",
+        "status",
+        "describe"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "notion",
+      "name": "notion",
+      "hostname": "https://agent.chitty.cc/notion/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "list_registries",
+        "notion_list_registries",
+        "query",
+        "notion_query",
+        "create_page",
+        "notion_create_page",
+        "update_page",
+        "notion_update_page",
+        "archive_page",
+        "notion_archive_page",
+        "unarchive_page",
+        "notion_unarchive_page",
+        "get_page",
+        "notion_get_page",
+        "get_database",
+        "notion_get_database",
+        "get_page_blocks",
+        "notion_get_page_blocks",
+        "health",
+        "notion_health"
+      ],
+      "deprecated_tool_names": [
+        "notion_list_registries",
+        "notion_query",
+        "notion_create_page",
+        "notion_update_page",
+        "notion_archive_page",
+        "notion_unarchive_page",
+        "notion_get_page",
+        "notion_get_database",
+        "notion_get_page_blocks",
+        "notion_health"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "notes",
+      "name": "notes",
+      "hostname": "https://agent.chitty.cc/notes/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 13:59:56",
+      "portals": [
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "search",
+        "notes_search",
+        "read",
+        "notes_read",
+        "folders_list",
+        "notes_list_folders",
+        "stats_get",
+        "notes_get_stats",
+        "recent_get",
+        "notes_get_recent",
+        "folder_contents_list",
+        "notes_list_folder_contents"
+      ],
+      "deprecated_tool_names": [
+        "notes_search",
+        "notes_read",
+        "notes_list_folders",
+        "notes_get_stats",
+        "notes_get_recent",
+        "notes_list_folder_contents"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "neon",
+      "name": "neon",
+      "hostname": "https://agent.chitty.cc/neon/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "list_projects",
+        "neon_list_projects",
+        "get_project",
+        "neon_get_project",
+        "list_branches",
+        "neon_list_branches",
+        "list_databases",
+        "neon_list_databases",
+        "run_sql",
+        "neon_run_sql",
+        "get_connection_string",
+        "neon_get_connection_string",
+        "list_operations",
+        "neon_list_operations",
+        "list_tables",
+        "neon_get_database_tables",
+        "describe_table",
+        "neon_describe_table_schema"
+      ],
+      "deprecated_tool_names": [
+        "neon_list_projects",
+        "neon_get_project",
+        "neon_list_branches",
+        "neon_list_databases",
+        "neon_run_sql",
+        "neon_get_connection_string",
+        "neon_list_operations",
+        "neon_get_database_tables",
+        "neon_describe_table_schema"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "monitor",
+      "name": "monitor",
+      "hostname": "https://agent.chitty.cc/monitor/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "get_global_kill_switch",
+        "set_global_kill_switch"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "market",
+      "name": "market",
+      "hostname": "https://agent.chitty.cc/market/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "discover",
+        "market_discover",
+        "register",
+        "market_register",
+        "get_manifest",
+        "market_surface_manifest"
+      ],
+      "deprecated_tool_names": [
+        "market_discover",
+        "market_register",
+        "market_surface_manifest"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "imessage",
+      "name": "imessage",
+      "hostname": "https://agent.chitty.cc/imessage/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-06 11:44:09",
+      "portals": [
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "search",
+        "imessage_search",
+        "list_recent",
+        "imessage_recent",
+        "list_top_contacts",
+        "imessage_top_contacts",
+        "get_thread",
+        "imessage_get_thread",
+        "get_unified_timeline",
+        "imessage_unified_with_quo",
+        "get_sync_status",
+        "imessage_sync_status"
+      ],
+      "deprecated_tool_names": [
+        "imessage_search",
+        "imessage_recent",
+        "imessage_top_contacts",
+        "imessage_get_thread",
+        "imessage_unified_with_quo",
+        "imessage_sync_status"
+      ],
+      "prompt_names": [
+        "imsg_summarize_thread",
+        "imsg_unified_brief",
+        "imsg_search_brief"
+      ],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        },
+        {
+          "id": "2f84f388-7db9-4225-bacd-4b3cdb5da219",
+          "name": "ChittyAgent iMessage MCP (edge)",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "human-escalator",
+      "name": "human-escalator",
+      "hostname": "https://agent.chitty.cc/human-escalator/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:44:39",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "open",
+        "human_escalator_open",
+        "get",
+        "human_escalator_status",
+        "list",
+        "human_escalator_list",
+        "resolve",
+        "human_escalator_resolve"
+      ],
+      "deprecated_tool_names": [
+        "human_escalator_open",
+        "human_escalator_status",
+        "human_escalator_list",
+        "human_escalator_resolve"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "helper",
+      "name": "helper",
+      "hostname": "https://agent.chitty.cc/helper/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "query",
+        "helper_query",
+        "registry_lookup",
+        "helper_registry_lookup",
+        "record_feedback",
+        "helper_record_feedback",
+        "list_patterns",
+        "helper_learn_patterns",
+        "list_gaps",
+        "helper_learn_gaps",
+        "sync_registry",
+        "helper_sync_registry"
+      ],
+      "deprecated_tool_names": [
+        "helper_query",
+        "helper_registry_lookup",
+        "helper_record_feedback",
+        "helper_learn_patterns",
+        "helper_learn_gaps",
+        "helper_sync_registry"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "heartbeat",
+      "name": "heartbeat",
+      "hostname": "https://agent.chitty.cc/heartbeat/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 23:05:28",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "gws",
+      "name": "gws",
+      "hostname": "https://agent.chitty.cc/google/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-08-09 08:23:14",
+      "portals": [
+        "chitty-mcp",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "list_services",
+        "mcp_proxy",
+        "gmail_send",
+        "gmail_get_message",
+        "gmail_list_messages",
+        "gmail_search",
+        "gmail_get_raw_message",
+        "gmail_export_pdf_to_drive",
+        "gmail_send_message",
+        "gmail_search_messages",
+        "gmail_get_attachment",
+        "gmail_list_labels",
+        "gmail_trash_message",
+        "gmail_mark_read",
+        "gmail_attachment_to_drive",
+        "docs_get",
+        "docs_create",
+        "docs_batch_update",
+        "sheets_get",
+        "sheets_get_values",
+        "sheets_update_values",
+        "sheets_append_values",
+        "tasks_list_tasklists",
+        "tasks_list_tasks",
+        "tasks_create_task",
+        "tasks_complete_task",
+        "drive_list_files",
+        "drive_get_file",
+        "calendar_list_calendars",
+        "calendar_list_events",
+        "calendar_create_event",
+        "drive_create_folder",
+        "drive_upload_file",
+        "drive_move_file",
+        "drive_export_file",
+        "sheets_create"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [
+        "email_triage",
+        "schedule_meeting",
+        "find_document",
+        "daily_briefing",
+        "extract_evidence",
+        "draft_document",
+        "analyze_spreadsheet",
+        "manage_tasks",
+        "lookup_person"
+      ],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "google",
+      "name": "google",
+      "hostname": "https://agent.chitty.cc/google/mcp",
+      "auth_type": "oauth",
+      "authentication_status": "required",
+      "status": "waiting",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": null,
+      "portals": [],
+      "tool_names": [],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "git",
+      "name": "git",
+      "hostname": "https://agent.chitty.cc/git/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "status",
+        "git_status",
+        "log",
+        "git_log",
+        "show",
+        "git_show",
+        "diff",
+        "git_diff",
+        "list_branches",
+        "git_branch_list"
+      ],
+      "deprecated_tool_names": [
+        "git_status",
+        "git_log",
+        "git_show",
+        "git_diff",
+        "git_branch_list"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "gh",
+      "name": "github",
+      "hostname": "https://api.githubcopilot.com/mcp/",
+      "auth_type": "bearer",
+      "authentication_status": "connected",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:41",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "add_comment_to_pending_review",
+        "add_issue_comment",
+        "add_reply_to_pull_request_comment",
+        "create_branch",
+        "create_or_update_file",
+        "create_pull_request",
+        "create_repository",
+        "delete_file",
+        "fork_repository",
+        "get_commit",
+        "get_file_contents",
+        "get_label",
+        "get_latest_release",
+        "get_me",
+        "get_release_by_tag",
+        "get_tag",
+        "get_team_members",
+        "get_teams",
+        "issue_read",
+        "issue_write",
+        "list_branches",
+        "list_commits",
+        "list_issue_fields",
+        "list_issue_types",
+        "list_issues",
+        "list_pull_requests",
+        "list_releases",
+        "list_repository_collaborators",
+        "list_tags",
+        "merge_pull_request",
+        "pull_request_read",
+        "pull_request_review_write",
+        "push_files",
+        "request_copilot_review",
+        "run_secret_scanning",
+        "search_code",
+        "search_commits",
+        "search_issues",
+        "search_pull_requests",
+        "search_repositories",
+        "search_users",
+        "sub_issue_write",
+        "ui_get",
+        "update_issue_comment",
+        "update_pull_request",
+        "update_pull_request_branch"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [
+        "AssignCodingAgent",
+        "issue_to_fix_workflow"
+      ],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "gam",
+      "name": "gam",
+      "hostname": "https://agent.chitty.cc/gam/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 16:12:42",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "list_capabilities",
+        "gam_list_capabilities",
+        "execute",
+        "gam_execute"
+      ],
+      "deprecated_tool_names": [
+        "gam_list_capabilities",
+        "gam_execute"
+      ],
+      "prompt_names": [
+        "gam_provision_user",
+        "gam_offboard_user",
+        "gam_audit_group_membership",
+        "gam_domain_inventory"
+      ],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "finance",
+      "name": "finance",
+      "hostname": "https://agent.chitty.cc/finance/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-10-02 23:39:14",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "list_entities",
+        "finance_list_entities",
+        "get_balances",
+        "finance_get_balances",
+        "get_transactions",
+        "finance_get_transactions",
+        "cash_flow",
+        "finance_cash_flow",
+        "inter_entity_transfers",
+        "finance_inter_entity_transfers",
+        "flow_of_funds",
+        "finance_flow_of_funds"
+      ],
+      "deprecated_tool_names": [
+        "finance_list_entities",
+        "finance_get_balances",
+        "finance_get_transactions",
+        "finance_cash_flow",
+        "finance_inter_entity_transfers",
+        "finance_flow_of_funds"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "ext-apify",
+      "name": "apify",
+      "hostname": "https://mcp.apify.com",
+      "auth_type": "oauth",
+      "authentication_status": "connected",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:41",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "search-actors",
+        "fetch-actor-details",
+        "call-actor",
+        "get-actor-run",
+        "get-dataset-items",
+        "get-key-value-store-record",
+        "abort-actor-run",
+        "fetch-actor-mcp-tool-list",
+        "call-actor-mcp-tool",
+        "send-server-actor-request",
+        "search-apify-docs",
+        "fetch-apify-docs",
+        "report-problem",
+        "apify--web-search",
+        "apify--web-fetch"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "evidence",
+      "name": "evidence",
+      "hostname": "https://agent.chitty.cc/evidence/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:44:18",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "search",
+        "evidence_search",
+        "get",
+        "evidence_get",
+        "stats",
+        "evidence_stats",
+        "ingest",
+        "evidence_ingest",
+        "pipeline_status",
+        "evidence_pipeline_status",
+        "workflow_status",
+        "evidence_workflow_status"
+      ],
+      "deprecated_tool_names": [
+        "evidence_search",
+        "evidence_get",
+        "evidence_stats",
+        "evidence_ingest",
+        "evidence_pipeline_status",
+        "evidence_workflow_status"
+      ],
+      "prompt_names": [
+        "evidence_ingest_document",
+        "evidence_triage_recent",
+        "evidence_chain_of_custody"
+      ],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "dispute",
+      "name": "dispute",
+      "hostname": "https://agent.chitty.cc/dispute/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:44:38",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "search",
+        "dispute_search",
+        "ingest",
+        "dispute_ingest",
+        "emails_list",
+        "dispute_emails",
+        "actions_list",
+        "dispute_actions",
+        "timeline_get",
+        "dispute_timeline",
+        "link",
+        "dispute_link",
+        "monitor",
+        "dispute_monitor"
+      ],
+      "deprecated_tool_names": [
+        "dispute_search",
+        "dispute_ingest",
+        "dispute_emails",
+        "dispute_actions",
+        "dispute_timeline",
+        "dispute_link",
+        "dispute_monitor"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "dispatch",
+      "name": "dispatch",
+      "hostname": "https://agent.chitty.cc/dispatch/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 18:20:29",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "list_targets",
+        "dispatch_list_targets",
+        "call",
+        "dispatch_call"
+      ],
+      "deprecated_tool_names": [
+        "dispatch_list_targets",
+        "dispatch_call"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "contextual",
+      "name": "contextual",
+      "hostname": "https://agent.chitty.cc/contextual/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "tool_names": [
+        "search_messages",
+        "get_timeline",
+        "get_topics",
+        "get_entities",
+        "get_cross_references",
+        "get_documents",
+        "get_analytics",
+        "get_topic_analysis",
+        "get_evidence"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "name": "context",
+      "hostname": "https://agent.chitty.cc/context/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "list_sessions",
+        "get_session",
+        "check_prune_auth",
+        "trigger_reconcile",
+        "list_chunks"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "comptroller",
+      "name": "comptroller",
+      "hostname": "https://agent.chitty.cc/comptroller/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "tool_names": [
+        "get_budget_status",
+        "comptroller_budget_status",
+        "get_metrics",
+        "comptroller_metrics",
+        "get_insights",
+        "comptroller_insights",
+        "list_anomalies",
+        "comptroller_anomalies",
+        "list_signals",
+        "comptroller_signals"
+      ],
+      "deprecated_tool_names": [
+        "comptroller_budget_status",
+        "comptroller_metrics",
+        "comptroller_insights",
+        "comptroller_anomalies",
+        "comptroller_signals"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "command",
+      "name": "command",
+      "hostname": "https://agent.chitty.cc/command/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "tool_names": [
+        "list_agent_capabilities",
+        "triage_ingest",
+        "triage_rank",
+        "triage_route",
+        "command_dispatch",
+        "command_status"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare",
+      "name": "cloudflare",
+      "hostname": "https://agent.chitty.cc/cloudflare/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:44:18",
+      "portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "list_accounts",
+        "cloudflare_list_accounts",
+        "call",
+        "cloudflare_call"
+      ],
+      "deprecated_tool_names": [
+        "cloudflare_list_accounts",
+        "cloudflare_call"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "cloudeflare-codemode",
+      "name": "Cloudeflare Codemode",
+      "hostname": "https://mcp.cloudflare.com/mcp",
+      "auth_type": "oauth",
+      "authentication_status": "stale",
+      "status": "stale",
+      "error_code": 401,
+      "error_summary": "Authorization failed: needs_reauth",
+      "last_successful_sync": "2026-11-09 14:51:16",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "tool_names": [
+        "docs",
+        "search",
+        "execute",
+        "whoami"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "cleaner",
+      "name": "cleaner",
+      "hostname": "https://agent.chitty.cc/cleaner/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 16:12:53",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "list_tools",
+        "cleaner_list_tools",
+        "execute",
+        "cleaner_execute",
+        "chat",
+        "cleaner_chat"
+      ],
+      "deprecated_tool_names": [
+        "cleaner_list_tools",
+        "cleaner_execute",
+        "cleaner_chat"
+      ],
+      "prompt_names": [
+        "cleaner_triage_disk",
+        "cleaner_analyze_logs",
+        "cleaner_recommend_cleanup",
+        "cleaner_spark_joy"
+      ],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "chitty-scrape",
+      "name": "Scrape",
+      "hostname": "https://mcp.apify.com/?tools=actors,docs,experimental,runs,storage,jeanarlene/chittyscrape",
+      "auth_type": "oauth",
+      "authentication_status": "connected",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:41",
+      "portals": [
+        "chitty-mcp",
+        "chode"
+      ],
+      "tool_names": [
+        "search-actors",
+        "fetch-actor-details",
+        "call-actor",
+        "get-actor-run",
+        "get-dataset-items",
+        "get-key-value-store-record",
+        "abort-actor-run",
+        "fetch-actor-mcp-tool-list",
+        "call-actor-mcp-tool",
+        "send-server-actor-request",
+        "search-apify-docs",
+        "fetch-apify-docs",
+        "get-actor-run-list",
+        "get-actor-run-log",
+        "get-dataset",
+        "get-dataset-schema",
+        "get-key-value-store",
+        "get-key-value-store-keys",
+        "get-dataset-list",
+        "get-key-value-store-list"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "chatgpt",
+      "name": "chatgpt",
+      "hostname": "https://agent.chitty.cc/chatgpt/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:44:28",
+      "portals": [
+        "chitty-mcp",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "design_mcp",
+        "chatgpt_mcp_design",
+        "design_actions",
+        "chatgpt_actions_design",
+        "design_plugins",
+        "chatgpt_plugins_design",
+        "troubleshoot",
+        "chatgpt_troubleshoot"
+      ],
+      "deprecated_tool_names": [
+        "chatgpt_mcp_design",
+        "chatgpt_actions_design",
+        "chatgpt_plugins_design",
+        "chatgpt_troubleshoot"
+      ],
+      "prompt_names": [
+        "chatgpt_design_mcp_server",
+        "chatgpt_design_custom_action",
+        "chatgpt_troubleshoot_integration",
+        "chatgpt_migrate_plugin_to_action"
+      ],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "ch1tty",
+      "name": "ch1tty",
+      "hostname": "https://agent.chitty.cc/ch1tty/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-09-27 22:19:12",
+      "portals": [
+        "chitty-mcp",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "search",
+        "ch1tty_search",
+        "execute",
+        "ch1tty_execute",
+        "status",
+        "ch1tty_status",
+        "reload",
+        "ch1tty_reload",
+        "cast",
+        "ch1tty_cast"
+      ],
+      "deprecated_tool_names": [
+        "ch1tty_search",
+        "ch1tty_execute",
+        "ch1tty_status",
+        "ch1tty_reload",
+        "ch1tty_cast"
+      ],
+      "prompt_names": [
+        "ch1tty_discover_capability",
+        "ch1tty_run_tool",
+        "ch1tty_cast_intent",
+        "ch1tty_gateway_health"
+      ],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "cf-observsbility",
+      "name": "CF Observsbility",
+      "hostname": "https://observability.mcp.cloudflare.com/mcp",
+      "auth_type": "oauth",
+      "authentication_status": "connected",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:40",
+      "portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "workers_list",
+        "workers_get_worker",
+        "workers_get_worker_code",
+        "query_worker_observability",
+        "observability_keys",
+        "observability_values",
+        "search_cloudflare_documentation",
+        "migrate_pages_to_workers_guide"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [
+        "workers-prompt-full"
+      ],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "cf-graphql",
+      "name": "CF Graphql",
+      "hostname": "https://graphql.mcp.cloudflare.com/mcp",
+      "auth_type": "oauth",
+      "authentication_status": "connected",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:40",
+      "portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "zones_list",
+        "zone_details",
+        "graphql_schema_search",
+        "graphql_schema_overview",
+        "graphql_type_details",
+        "graphql_complete_schema",
+        "graphql_query",
+        "graphql_api_explorer"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "cf-docs",
+      "name": "CF Docs",
+      "hostname": "https://docs.mcp.cloudflare.com/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:40",
+      "portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "search_cloudflare_documentation",
+        "migrate_pages_to_workers_guide"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [
+        "workers-prompt-full"
+      ],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "cf-dns",
+      "name": "CF DNS",
+      "hostname": "https://dns-analytics.mcp.cloudflare.com/mcp",
+      "auth_type": "oauth",
+      "authentication_status": "required",
+      "status": "stale",
+      "error_code": null,
+      "error_summary": "Invalid oauth credentials. Please contact your administrator",
+      "last_successful_sync": "2026-11-09 14:51:15",
+      "portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "dns_report",
+        "show_account_dns_settings",
+        "show_zone_dns_settings",
+        "zones_list",
+        "zone_details"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "cf-containers",
+      "name": "CF Containers",
+      "hostname": "https://containers.mcp.cloudflare.com/mcp",
+      "auth_type": "oauth",
+      "authentication_status": "connected",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:40",
+      "portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "container_initialize",
+        "container_ping",
+        "container_exec",
+        "container_file_delete",
+        "container_file_write",
+        "container_files_list",
+        "container_file_read"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "cf-builds",
+      "name": "CF Builds",
+      "hostname": "https://builds.mcp.cloudflare.com/mcp",
+      "auth_type": "oauth",
+      "authentication_status": "connected",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:40",
+      "portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "workers_list",
+        "workers_get_worker",
+        "workers_get_worker_code",
+        "workers_builds_list_builds",
+        "workers_builds_get_build",
+        "workers_builds_get_build_logs"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "cf-bindings",
+      "name": "CF Bindings",
+      "hostname": "https://bindings.mcp.cloudflare.com/mcp",
+      "auth_type": "oauth",
+      "authentication_status": "connected",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:40",
+      "portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "kv_namespaces_list",
+        "kv_namespace_create",
+        "kv_namespace_delete",
+        "kv_namespace_get",
+        "kv_namespace_update",
+        "workers_list",
+        "workers_get_worker",
+        "workers_get_worker_code",
+        "r2_buckets_list",
+        "r2_bucket_create",
+        "r2_bucket_get",
+        "r2_bucket_delete",
+        "d1_databases_list",
+        "d1_database_create",
+        "d1_database_delete",
+        "d1_database_get",
+        "d1_database_query",
+        "hyperdrive_configs_list",
+        "hyperdrive_config_delete",
+        "hyperdrive_config_get",
+        "hyperdrive_config_edit",
+        "search_cloudflare_documentation",
+        "migrate_pages_to_workers_guide"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [
+        "workers-prompt-full"
+      ],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "cf-ai-search",
+      "name": "CF AI Search",
+      "hostname": "https://autorag.mcp.cloudflare.com/mcp",
+      "auth_type": "oauth",
+      "authentication_status": "connected",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:40",
+      "portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "list_rags",
+        "search",
+        "ai_search"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "cf-ai-gateway",
+      "name": "CF AI Gateway",
+      "hostname": "https://ai-gateway.mcp.cloudflare.com/mcp",
+      "auth_type": "oauth",
+      "authentication_status": "connected",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:40",
+      "portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "list_gateways",
+        "list_logs",
+        "get_log_details",
+        "get_log_request_body",
+        "get_log_response_body"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "canon",
+      "name": "canon",
+      "hostname": "https://agent.chitty.cc/canon/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:44:38",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "validate_uri",
+        "canon_validate_uri",
+        "lookup_standard",
+        "canon_lookup_standard",
+        "register_document",
+        "canon_register_document",
+        "get_frontmatter_schema",
+        "canon_get_frontmatter_schema",
+        "jcs_canonicalize",
+        "canon_jcs_canonicalize"
+      ],
+      "deprecated_tool_names": [
+        "canon_validate_uri",
+        "canon_lookup_standard",
+        "canon_register_document",
+        "canon_get_frontmatter_schema",
+        "canon_jcs_canonicalize"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "buyflow",
+      "name": "buyflow",
+      "hostname": "https://agent.chitty.cc/buyflow/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": null,
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "gws-portal"
+      ],
+      "tool_names": [],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "builder",
+      "name": "builder",
+      "hostname": "https://agent.chitty.cc/builder/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "list",
+        "mcp_builder_list_services",
+        "get_template",
+        "mcp_builder_get_canonical_template",
+        "scaffold",
+        "mcp_builder_scaffold_service",
+        "validate",
+        "mcp_builder_validate_compliance",
+        "propose_bindings",
+        "mcp_builder_propose_binding_diff",
+        "propose_renames",
+        "mcp_builder_rename_to_snake_case",
+        "check_health",
+        "mcp_builder_check_registry_health",
+        "inventory",
+        "mcp_builder_inventory_tools",
+        "report_drift",
+        "mcp_builder_drift_report",
+        "reconcile",
+        "mcp_builder_reconcile_now",
+        "enable_healing",
+        "mcp_builder_enable_self_healing",
+        "healer_status",
+        "mcp_builder_healer_status",
+        "register",
+        "mcp_builder_register_with_gatekeeper",
+        "sync_registry",
+        "mcp_builder_sync_registry",
+        "portal_sync",
+        "mcp_builder_portal_sync",
+        "portal_status",
+        "mcp_builder_portal_status"
+      ],
+      "deprecated_tool_names": [
+        "mcp_builder_list_services",
+        "mcp_builder_get_canonical_template",
+        "mcp_builder_scaffold_service",
+        "mcp_builder_validate_compliance",
+        "mcp_builder_propose_binding_diff",
+        "mcp_builder_rename_to_snake_case",
+        "mcp_builder_check_registry_health",
+        "mcp_builder_inventory_tools",
+        "mcp_builder_drift_report",
+        "mcp_builder_reconcile_now",
+        "mcp_builder_enable_self_healing",
+        "mcp_builder_healer_status",
+        "mcp_builder_register_with_gatekeeper",
+        "mcp_builder_sync_registry",
+        "mcp_builder_portal_sync",
+        "mcp_builder_portal_status"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "bridge-consent",
+      "name": "bridge-consent",
+      "hostname": "https://agent.chitty.cc/bridge-consent/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": null,
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "bluebubbles",
+      "name": "bluebubbles",
+      "hostname": "https://agent.chitty.cc/bluebubbles/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": null,
+      "error_summary": "Unable to connect to server",
+      "last_successful_sync": "2026-11-06 00:23:11",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "send_text",
+        "bluebubbles_send_text",
+        "bb_send_text",
+        "list_chats",
+        "bluebubbles_list_chats",
+        "bb_list_chats",
+        "get_chat",
+        "bluebubbles_get_chat",
+        "bb_get_chat",
+        "list_messages",
+        "bluebubbles_list_messages",
+        "bb_list_messages",
+        "search_messages",
+        "bluebubbles_search_messages",
+        "bb_search_messages",
+        "get_contact",
+        "bluebubbles_get_contact",
+        "bb_get_contact",
+        "get_server_info",
+        "bluebubbles_server_info",
+        "bb_server_info"
+      ],
+      "deprecated_tool_names": [
+        "bluebubbles_send_text",
+        "bb_send_text",
+        "bluebubbles_list_chats",
+        "bb_list_chats",
+        "bluebubbles_get_chat",
+        "bb_get_chat",
+        "bluebubbles_list_messages",
+        "bb_list_messages",
+        "bluebubbles_search_messages",
+        "bb_search_messages",
+        "bluebubbles_get_contact",
+        "bb_get_contact",
+        "bluebubbles_server_info",
+        "bb_server_info"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        },
+        {
+          "id": "29557bd1-7f77-41d6-98a1-edb096993459",
+          "name": "ChittyAgent BlueBubbles MCP (edge)",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "bindings",
+      "name": "chittyagent-bindings",
+      "hostname": "https://agent.chitty.cc/bindings/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 23:05:28",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "tool_names": [],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "availability",
+      "name": "availability",
+      "hostname": "https://agent.chitty.cc/availability/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": null,
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tool_names": [],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "autoassist",
+      "name": "autoassist",
+      "hostname": "https://agent.chitty.cc/autoassist/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "list_templates",
+        "autoassist_list_templates",
+        "preview_loop",
+        "autoassist_preview_loop",
+        "run_loop",
+        "autoassist_run_loop",
+        "list_recipes",
+        "run_recipe",
+        "get_recipe_toggle",
+        "set_recipe_toggle"
+      ],
+      "deprecated_tool_names": [
+        "autoassist_list_templates",
+        "autoassist_preview_loop",
+        "autoassist_run_loop"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "auth",
+      "name": "auth",
+      "hostname": "https://agent.chitty.cc/auth/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "resolve_token",
+        "auth_resolve_token",
+        "oauth_discovery",
+        "auth_oauth_discovery",
+        "oauth_jwks",
+        "auth_oauth_jwks",
+        "provider_status",
+        "auth_provider_status"
+      ],
+      "deprecated_tool_names": [
+        "auth_resolve_token",
+        "auth_oauth_discovery",
+        "auth_oauth_jwks",
+        "auth_provider_status"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "apify",
+      "name": "apify",
+      "hostname": "https://mcp.apify.com/?tools=actors,docs,experimental,runs,storage,jeanarlene/chittyscrape,tri_angle/redfin-detail,maxcopell/zillow-detail-scraper,crawlerbros/furnished-finder-scraper,turboextract/ai-training-dataset-builder,chimerical_quicklime/turbotenant-scraper,tri_angle/airbnb-scraper,scraptivo/propertyfinder-scraper,rigelbytes/airbnb-property-details",
+      "auth_type": "oauth",
+      "authentication_status": "connected",
+      "status": "ready",
+      "error_code": null,
+      "error_summary": null,
+      "last_successful_sync": "2026-11-23 20:51:41",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tool_names": [
+        "search-actors",
+        "fetch-actor-details",
+        "call-actor",
+        "get-actor-run",
+        "get-dataset-items",
+        "get-key-value-store-record",
+        "abort-actor-run",
+        "fetch-actor-mcp-tool-list",
+        "call-actor-mcp-tool",
+        "send-server-actor-request",
+        "search-apify-docs",
+        "fetch-apify-docs",
+        "get-actor-run-list",
+        "get-actor-run-log",
+        "get-dataset",
+        "get-dataset-schema",
+        "get-key-value-store",
+        "get-key-value-store-keys",
+        "get-dataset-list",
+        "get-key-value-store-list",
+        "tri_angle--redfin-detail",
+        "maxcopell--zillow-detail-scraper",
+        "turboextract--ai-training-dataset-builder",
+        "chimerical_quicklime--turbotenant-scraper",
+        "tri_angle--airbnb-scraper"
+      ],
+      "deprecated_tool_names": [],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": []
+    },
+    {
+      "id": "alchemist",
+      "name": "alchemist",
+      "hostname": "https://agent.chitty.cc/alchemist/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tool_names": [
+        "ingest_event",
+        "alchemist_ingest_event",
+        "record_hook_event",
+        "alchemist_hook_event",
+        "get_proposals",
+        "alchemist_get_proposals",
+        "get_insights",
+        "alchemist_get_insights",
+        "run_analysis",
+        "alchemist_run_analysis",
+        "alchemize",
+        "alchemist_alchemize_service",
+        "get_score",
+        "alchemist_get_service_score"
+      ],
+      "deprecated_tool_names": [
+        "alchemist_ingest_event",
+        "alchemist_hook_event",
+        "alchemist_get_proposals",
+        "alchemist_get_insights",
+        "alchemist_run_analysis",
+        "alchemist_alchemize_service",
+        "alchemist_get_service_score"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "name": "chittyagent-ai",
+      "hostname": "https://agent.chitty.cc/ai/mcp",
+      "auth_type": "unauthenticated",
+      "authentication_status": "not_required",
+      "status": "error",
+      "error_code": 401,
+      "error_summary": "Authorization failed",
+      "last_successful_sync": "2026-11-22 20:43:58",
+      "portals": [
+        "chitty-mcp"
+      ],
+      "tool_names": [
+        "list_models",
+        "ai_list_models",
+        "complete",
+        "ai_complete"
+      ],
+      "deprecated_tool_names": [
+        "ai_list_models",
+        "ai_complete"
+      ],
+      "prompt_names": [],
+      "resource_count": null,
+      "access_covering_apps": [
+        {
+          "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+          "name": "ChittyAgents",
+          "type": "self_hosted"
+        }
+      ]
+    }
+  ],
+  "access_apps": [
+    {
+      "id": "30d07f37-dfe9-4aac-9cd4-1fe46ec3626d",
+      "name": "agent · tasks (pilot)",
+      "type": "self_hosted",
+      "destinations": [
+        "agent.chitty.cc/tasks",
+        "agent.chitty.cc/tasks/*"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "4c475ba4-abe3-4bc8-baae-7f8f7a02f2d1",
+      "name": "Chode",
+      "type": "mcp_portal",
+      "destinations": [
+        "chode.chitty.cc"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "9c7f32ab-ae62-4cce-b080-633dae70facf",
+      "name": "ChittyAgents",
+      "type": "self_hosted",
+      "destinations": [
+        "agent.chitty.cc",
+        "agent.chitty.cc/mcp"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "70652638-0bda-4fcd-8b42-f68454af9d3e",
+      "name": "chatgpt",
+      "type": "mcp",
+      "destinations": [
+        "chatgpt.agent.chitty.cc",
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "fe9ec135-9fdf-4680-872e-6d99d288ca93",
+      "name": "Viewport",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal",
+        "viewport.domdev.dev"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "62f1a568-f6f1-4010-926f-431c452dc765",
+      "name": "schema",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "948bcf11-f2f6-41fc-89c5-18f72fb6f5f2",
+      "name": "ChittyScrape",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "3cc884d7-a009-49c1-a426-9818476de0fb",
+      "name": "ChittyAgent-Google",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "36f2fdcf-f16e-45c9-8090-f33e7f016ad1",
+      "name": "Warp Login App",
+      "type": "warp",
+      "destinations": [
+        "chittycorp.cloudflareaccess.com/warp"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "af16beb2-10ed-4bff-8863-944811e13333",
+      "name": "chittyagent-tasks (worker)",
+      "type": "self_hosted",
+      "destinations": [
+        "agent.chitty.cc/tasks/mcp/*",
+        "worker"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "910ee47d-10c2-48e2-acee-bc9707065787",
+      "name": "App Launcher",
+      "type": "app_launcher",
+      "destinations": [
+        "chittycorp.cloudflareaccess.com"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "8c6afa24-d131-455c-84ae-2f8335669b7a",
+      "name": "CF Observsbility",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "32eab859-f3a1-4bdd-b58a-175578aca2e1",
+      "name": "apify",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "e3d242ea-8daa-4e63-b0b8-73adf9d88018",
+      "name": "CF Containers",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "fe6c86ea-b198-4f5a-b3f6-9fff206d6b83",
+      "name": "CF Graphql",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "f687a99a-7cb6-49a4-9663-071322d97a59",
+      "name": "CF AI Gateway",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "9cc6395b-69df-4707-a1e5-6c32cf9d2cd8",
+      "name": "CF AI Search",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "9725c709-d06d-4bbd-88f9-138047d934e9",
+      "name": "Quo",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "28374109-d788-432a-90f7-fb7d5b139fec",
+      "name": "Market",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "01e20f3d-bff5-4e24-acfc-72bfe026e785",
+      "name": "neon",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "47e54860-79ae-4407-91ea-dde1efeec16b",
+      "name": "CF Builds",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "8efa02bb-26c5-49e0-9f8b-2baed9fc363f",
+      "name": "Autoassist",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "59488c5c-2328-42ae-bab5-9b239d6741b6",
+      "name": "Resolve",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "2e7f61f4-29b8-400e-8ae7-3f5161a6bf32",
+      "name": "Notion",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "0b98ba7d-f83b-4a8e-b89f-5bbf67322f8b",
+      "name": "auth",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "a17fefd4-339b-4bf8-97f6-73cb87937d70",
+      "name": "Alchemist",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "07e135ce-6f31-41a8-b154-db1316de9aed",
+      "name": "Ai",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "7e95daa6-7287-42cb-9f28-218bcd743faf",
+      "name": "github",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "39a594dc-3f92-41e3-88ae-489c90751096",
+      "name": "Git",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "9683d989-6334-49d3-9890-5a2f21f6e3a8",
+      "name": "Twilio",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "fd1e8a9e-9148-4487-bc9a-3e715992059b",
+      "name": "heartbeat",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "82151a21-5d8c-41b0-9d3d-fe0a27814a34",
+      "name": "Ship",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "26e9ea22-25ad-4678-960e-d6cec66a0f7c",
+      "name": "Scrape",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "3e64f4ca-1343-4fda-a046-b3787600fde8",
+      "name": "monitor",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "dc16b752-f06a-469a-a0c9-be5811d90e52",
+      "name": "Notes",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "69c1a2aa-c1a9-4c0e-8c9f-0f21116d1679",
+      "name": "Storage",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": []
+    },
+    {
+      "id": "25f6c891-b1fe-4057-b55e-f7f41e787dd7",
+      "name": "npm",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "7ff25216-c0fa-4f86-9ac2-46a0cc3cb578",
+      "name": "GWS",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "8bb2c8f5-bb32-4e60-9aa8-cf02d42b73f2",
+      "name": "ChittyMSG",
+      "type": "mcp_portal",
+      "destinations": [
+        "msg.chitty.cc"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "0528965f-08ce-45df-9d48-815f82599578",
+      "name": "imessage",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "87585206-40a2-4f0b-a5b9-28951417d4ba",
+      "name": "ChittyOS MCP VM",
+      "type": "mcp_portal",
+      "destinations": [
+        "vm.ch1tty.com"
+      ],
+      "policy_names": [
+        "Allow VM IP",
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "f8542ebc-1b6d-40f1-8ef6-08622111250d",
+      "name": "Orchestrator",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "64d13d50-2d8d-41d8-a439-563190e42729",
+      "name": "Sandbox",
+      "type": "mcp",
+      "destinations": [
+        "sandbox.chitty.cc",
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "IP",
+        "Access"
+      ]
+    },
+    {
+      "id": "cb3ec259-18d8-47e5-98ed-af42e8f73337",
+      "name": "secrets",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Access",
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "2f84f388-7db9-4225-bacd-4b3cdb5da219",
+      "name": "ChittyAgent iMessage MCP (edge)",
+      "type": "self_hosted",
+      "destinations": [
+        "agent.chitty.cc/imessage/mcp"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "29557bd1-7f77-41d6-98a1-edb096993459",
+      "name": "ChittyAgent BlueBubbles MCP (edge)",
+      "type": "self_hosted",
+      "destinations": [
+        "agent.chitty.cc/bluebubbles/mcp"
+      ],
+      "policy_names": [
+        "Human · Owner"
+      ]
+    },
+    {
+      "id": "c15734d4-b6be-4e83-a8a0-adce6c221011",
+      "name": "central gateway (ai-gateway.ch1tty.com)",
+      "type": "self_hosted",
+      "destinations": [
+        "ai-gateway.ch1tty.com"
+      ],
+      "policy_names": [
+        "Email domain: chittycorp.com",
+        "Cloudflare account members"
+      ]
+    },
+    {
+      "id": "09ab596a-aa4b-4a57-a75b-c96bc82a6c8d",
+      "name": "central gateway (central-gateway.chitty.cc)",
+      "type": "self_hosted",
+      "destinations": [
+        "central-gateway.chitty.cc"
+      ],
+      "policy_names": [
+        "Email domain: chittycorp.com",
+        "Cloudflare account members"
+      ]
+    },
+    {
+      "id": "367d1c82-2129-4943-9588-fcd448dcebe2",
+      "name": "ChittyAgent Google - /accounts",
+      "type": "self_hosted",
+      "destinations": [
+        "google.chitty.cc/accounts",
+        "google.chitty.cc/ai/google/outbox",
+        "google.chitty.cc/ai/google/outbox/*",
+        "google.chitty.cc/google/outbox",
+        "google.chitty.cc/google/outbox/*",
+        "google.chitty.cc/outbox",
+        "google.chitty.cc/outbox/*"
+      ],
+      "policy_names": [
+        "Operator only"
+      ]
+    },
+    {
+      "id": "6826d6c8-bf79-4cb4-a62c-99e634e2d0af",
+      "name": "chittyagent-gam-executor",
+      "type": "self_hosted",
+      "destinations": [
+        "gam.ch1tty.com",
+        "gam.chitty.cc"
+      ],
+      "policy_names": [
+        "Access"
+      ]
+    },
+    {
+      "id": "4b6b982c-7c3f-4ddd-bde5-ea356d50cd30",
+      "name": "GWS",
+      "type": "mcp_portal",
+      "destinations": [
+        "workspace.chitty.cc"
+      ],
+      "policy_names": [
+        "Access",
+        "Allow Existing",
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "eabb0de8-f451-49ac-9b78-815ff8111957",
+      "name": "ChittyScrape-Apify",
+      "type": "mcp_portal",
+      "destinations": [
+        "portal.actors.chitty.cc"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "1b2dc07e-47fd-41f5-a78a-c7ede26e99cb",
+      "name": "chittyagent-builder",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Access",
+        "ServiceToken"
+      ]
+    },
+    {
+      "id": "1eca706f-f857-4058-a05d-83d03a5891f3",
+      "name": "ChittyScrape - APIFY",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "46b887db-a486-405a-9b21-ab38b30468c1",
+      "name": "Finance",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "f77f12c6-079d-45c4-b20e-b617bde71d79",
+      "name": "chittyconfig",
+      "type": "self_hosted",
+      "destinations": [
+        "agent.chitty.cc/config",
+        "agent.chitty.cc/config/*",
+        "config.chitty.cc"
+      ],
+      "policy_names": [
+        "chittyconfig operator email"
+      ]
+    },
+    {
+      "id": "03e0bdbe-00f7-4866-a6a6-745dcb85bade",
+      "name": "Mercury egress relay (mercury-proxy.chitty.cc/proxy)",
+      "type": "self_hosted",
+      "destinations": [
+        "mercury-proxy.chitty.cc/proxy"
+      ],
+      "policy_names": [
+        "mercury-egress-relay service token only"
+      ]
+    },
+    {
+      "id": "a9f8496b-ae3b-4a71-bb9d-b1ddf8cf4256",
+      "name": "chittyclaw dispatch (claw-dispatch.chitty.cc)",
+      "type": "self_hosted",
+      "destinations": [
+        "claw-dispatch.chitty.cc"
+      ],
+      "policy_names": [
+        "svc chittyconnect-claw"
+      ]
+    },
+    {
+      "id": "2699770f-004c-483d-904d-45effda32e34",
+      "name": "CF DNS",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": []
+    },
+    {
+      "id": "a71dfb7b-9c99-4b93-97aa-bdc433033cdd",
+      "name": "Cloudeflare Codemode",
+      "type": "mcp",
+      "destinations": [
+        "codemode.chitty.cc",
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Everyone"
+      ]
+    },
+    {
+      "id": "7062ce9c-a138-430b-a9c7-44f57b1790f3",
+      "name": "context",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow Existing",
+        "Allow ChittyCorp",
+        "Access"
+      ]
+    },
+    {
+      "id": "5c6f29cc-3225-4d69-a4cb-74078e66918a",
+      "name": "Comptroller",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "dc200961-337f-4c51-930e-7b327acffdc2",
+      "name": "ch1tty",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow Existing",
+        "Allow ChittyCorp",
+        "Access"
+      ]
+    },
+    {
+      "id": "6cf312c4-a052-4664-ac3e-53b308f76756",
+      "name": "command",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow Existing",
+        "Allow ChittyCorp",
+        "Access"
+      ]
+    },
+    {
+      "id": "3c7467df-0255-481b-9f72-db797590b517",
+      "name": "Contextual",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "2632e688-a10a-4016-a9c8-6ff408f659e0",
+      "name": "bridge-consent",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow Existing",
+        "Allow ChittyCorp",
+        "Access"
+      ]
+    },
+    {
+      "id": "19e81244-dfba-4502-8946-286c95a72692",
+      "name": "buyflow",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow Existing",
+        "Allow ChittyCorp",
+        "Access"
+      ]
+    },
+    {
+      "id": "65056863-b70a-432d-bd6a-a446f2e66b52",
+      "name": "availability",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow Existing",
+        "Allow ChittyCorp",
+        "Access"
+      ]
+    },
+    {
+      "id": "7a9c3462-871e-482b-84ad-915421f623a0",
+      "name": "sync",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Access",
+        "Allow Existing"
+      ]
+    },
+    {
+      "id": "e13b8528-0177-4e11-bc75-57d580fb1ae0",
+      "name": "Helper",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "c0eec21c-039c-485d-93a8-03e0d474328c",
+      "name": "ChittySecrets (secrets.chitty.cc)",
+      "type": "self_hosted",
+      "destinations": [
+        "secrets.chitty.cc"
+      ],
+      "policy_names": [
+        "Operator Console Access",
+        "Service Token Access (broad - tighten after consumer identified)",
+        "chittyserv-nodes"
+      ]
+    },
+    {
+      "id": "916b6394-8d86-4568-b200-595296bc5cef",
+      "name": "chittyclaw gateway (ai-gateway.chitty.cc)",
+      "type": "self_hosted",
+      "destinations": [
+        "ai-gateway.chitty.cc"
+      ],
+      "policy_names": [
+        "Access",
+        "Allow Existing",
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "4138c158-7986-4777-ac89-31b6d18215e1",
+      "name": "chittyclaw gateway (claw.chitty.cc)",
+      "type": "self_hosted",
+      "destinations": [
+        "claw.chitty.cc"
+      ],
+      "policy_names": [
+        "Access",
+        "Allow Existing",
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "ad4ed1a6-ddf2-4f2a-9dec-93f62f772f4f",
+      "name": "chittyclaw gateway (gateway.thechitty.com)",
+      "type": "self_hosted",
+      "destinations": [
+        "gateway.thechitty.com"
+      ],
+      "policy_names": [
+        "Access",
+        "Allow Existing",
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "1be16f79-ed32-4687-90e8-8ad84f72d40b",
+      "name": "Dispute",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow Existing",
+        "Access",
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "31ebbe9c-553d-4220-a520-0b841e74f24e",
+      "name": "Google",
+      "type": "mcp",
+      "destinations": [
+        "gws.chitty.cc"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "11afc9de-8fce-4c51-897a-78adc1ccf446",
+      "name": "ChittyDev Portal",
+      "type": "mcp_portal",
+      "destinations": [
+        "dev.chitty.cc"
+      ],
+      "policy_names": [
+        "Allow Existing",
+        "Access",
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "6c7a6de4-3bdf-4611-9aa4-1a6d22c05202",
+      "name": "ChittyMCP",
+      "type": "mcp_portal",
+      "destinations": [
+        "mcp.chitty.cc"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access",
+        "Service Auth: chittyserv-vm MCP Admin Portal token"
+      ]
+    },
+    {
+      "id": "f2315889-fad6-4941-9e42-2ac1aab740d2",
+      "name": "Quo MCP",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": []
+    },
+    {
+      "id": "9a8f9762-2175-4a3b-8114-4e34e57f822c",
+      "name": "ChittyPortal-CF",
+      "type": "mcp_portal",
+      "destinations": [
+        "cf.chitty.cc"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "82541ea9-62e3-4d6d-8c06-22e7b54ee993",
+      "name": "Bluebubbles",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "d921df5d-1bcc-4301-bc29-e4fe9f004c8f",
+      "name": "Canon",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "befe8903-f22e-4ac2-a48f-10b35129d2ee",
+      "name": "Dispatch",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "590eed9f-921f-4d45-932f-0d66baca36ae",
+      "name": "C Mode",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "81dd8db3-b982-482d-8106-8d057c0a28c6",
+      "name": "Evidence",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "1299a52d-3309-4db5-bdf0-a9392ac15bb1",
+      "name": "Build",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "d68af09e-0739-4426-b9f4-a7c8d97cbc1c",
+      "name": "ChittyMarket",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "acd69116-990b-4be4-bba2-02f09c5fc6f6",
+      "name": "ChittyAgent Market",
+      "type": "mcp",
+      "destinations": [
+        "market.chitty.cc"
+      ],
+      "policy_names": [
+        "Everyone",
+        "ServiceToken",
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "303b665e-e009-4046-8bbf-10a50b027471",
+      "name": "CF Docs",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp",
+        "Allow Existing",
+        "Access"
+      ]
+    },
+    {
+      "id": "7078fe6a-1536-466f-a30f-c8fb47990fa6",
+      "name": "Chitty",
+      "type": "self_hosted",
+      "destinations": [
+        "get.chitty.cc"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "73b5b499-16c7-4457-a875-fcb205216633",
+      "name": "Whatsapp",
+      "type": "saas",
+      "destinations": [
+        "chittycorp.cloudflareaccess.com/cdn-cgi/access/sso/oidc/2d95b0cd418bcb518affdeb436740f3358ef2fc2333ab56e873b3d30c645b475"
+      ],
+      "policy_names": []
+    },
+    {
+      "id": "063b4dab-3c53-4539-8d2d-f4f4e7b11f05",
+      "name": "ChittyAgent Neon",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": []
+    },
+    {
+      "id": "fdb79b5f-10e2-44b9-9165-a75cac46ddce",
+      "name": "ChittyIdentity Agents",
+      "type": "mcp_portal",
+      "destinations": [
+        "mcp.ch1tty.com"
+      ],
+      "policy_names": [
+        "Allow VM IP",
+        "ServiceToken",
+        "Allow ChittyCorp",
+        "Access"
+      ]
+    },
+    {
+      "id": "b2d0b972-aa2e-4bcb-a312-41505052fbbc",
+      "name": "ChittyAgent Gam",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": []
+    },
+    {
+      "id": "db439c48-7cd8-4f37-b532-781b5325d963",
+      "name": "openai docs",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Everyone"
+      ]
+    },
+    {
+      "id": "80ac4607-e6cf-4950-947b-2b8370ceb3b1",
+      "name": "ChittyMCP Registry",
+      "type": "mcp",
+      "destinations": [
+        "mcp-registry.chitty.cc"
+      ],
+      "policy_names": [
+        "Access",
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "7fbd4657-2ae2-48c3-9a89-0128e6432693",
+      "name": "ChittyAgent Notion (msg)",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Everyone"
+      ]
+    },
+    {
+      "id": "aef1f942-fe47-421d-9f99-8866c234b25c",
+      "name": "ChittyAgent BlueBubbles (msg)",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Everyone"
+      ]
+    },
+    {
+      "id": "9d619fee-cfab-4078-916f-5a3b22151039",
+      "name": "ChittyAgent iMessage (msg)",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Everyone"
+      ]
+    },
+    {
+      "id": "a618b2c3-3393-4495-b226-f11922fbf5d6",
+      "name": "ChittyAgent Quo (msg)",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Everyone"
+      ]
+    },
+    {
+      "id": "d534648c-0749-473f-aa73-d1dce419728f",
+      "name": "imsg",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Everyone"
+      ]
+    },
+    {
+      "id": "e19f66f3-fca6-49ad-a5f6-6578c2039aa6",
+      "name": "ChittyAgent Human Escalator",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Everyone"
+      ]
+    },
+    {
+      "id": "5363ea57-74be-4ff9-ba89-4fc5edd619cf",
+      "name": "BlueBubbles bb.claw",
+      "type": "self_hosted",
+      "destinations": [
+        "bb.claw.chitty.cc"
+      ],
+      "policy_names": [
+        "Allow chitty.cc and chittycorp.com emails"
+      ]
+    },
+    {
+      "id": "d80ff72b-fc89-4fba-a822-886f632bc5df",
+      "name": "ChittyConnect Secrets Portal",
+      "type": "self_hosted",
+      "destinations": [
+        "connect.chitty.cc/secrets-portal"
+      ],
+      "policy_names": [
+        "Allow nick@chittycorp.com",
+        "Service token: ChittyOS MCP Admin Portal (secrets-portal write)"
+      ]
+    },
+    {
+      "id": "a82cbe9d-1d20-4293-9e81-94c75b135746",
+      "name": "ChittyStorage Evidence Browser",
+      "type": "self_hosted",
+      "destinations": [
+        "storage.chitty.cc"
+      ],
+      "policy_names": [
+        "Service tokens",
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "6238e60b-2546-4378-ac69-0e80a4471f82",
+      "name": "ChittyAgent Notes",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Everyone"
+      ]
+    },
+    {
+      "id": "9f3b07ab-1906-4830-ab7f-4d02dfeccf85",
+      "name": "Ollama API",
+      "type": "self_hosted",
+      "destinations": [
+        "164.152.111.166/32",
+        "ch1tty.com",
+        "chitty.cc",
+        "ollama.chitty.cc"
+      ],
+      "policy_names": [
+        "Access",
+        "Allow ChittyCorp",
+        "ChittyConnect Ollama Service Token"
+      ]
+    },
+    {
+      "id": "f1e0a2e4-d165-433f-a36c-eb5e75d9abc1",
+      "name": "Mercury",
+      "type": "saas",
+      "destinations": [
+        "chittycorp.cloudflareaccess.com/cdn-cgi/access/sso/oidc/bafef0b3ca9d9d387a495db40c6b9c69399ff8eb5795e64166c38ef5593feab8"
+      ],
+      "policy_names": [
+        "Allow VM IP",
+        "ServiceToken",
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "382e81d2-2fae-4e4c-9c14-d404c4efd2e0",
+      "name": "Mercury · Furnished Condos",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow VM IP",
+        "ServiceToken",
+        "Access",
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "4dde9942-f7f8-4b63-bfae-2a241dc85746",
+      "name": "Mercury · Nicholas",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "fee10f88-5a3f-4760-9039-5e21cde85210",
+      "name": "Cloudflare Docs",
+      "type": "mcp",
+      "destinations": [
+        "via_mcp_server_portal"
+      ],
+      "policy_names": [
+        "Allow ChittyCorp"
+      ]
+    },
+    {
+      "id": "0e62dbee-384c-4e50-8ab5-135f052ca7f2",
+      "name": "divorcio-asistente - Cloudflare Pages",
+      "type": "self_hosted",
+      "destinations": [
+        "*.divorcio-asistente.pages.dev"
+      ],
+      "policy_names": [
+        "Allow Members - Cloudflare Pages"
+      ]
+    }
+  ]
+}
