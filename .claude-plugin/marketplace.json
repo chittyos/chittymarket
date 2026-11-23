@@ -32,7 +32,7 @@
     {
       "name": "chittyagent-dispatch",
       "description": "Single-source-of-truth projection for ChittyOS agents/skills/hooks across Claude Code, Codex, OpenClaw, Anthropic Managed Agents, and other governed runtimes. Canonical definitions project to deterministic runtime artifacts; provider mutation remains a separate authenticated deployment phase.",
-      "version": "0.1.2",
+      "version": "0.2.0",
       "source": "./plugins/chittyagent-dispatch",
       "strict": false,
       "category": "ecosystem",
@@ -122,7 +122,7 @@
     {
       "name": "chittyos-mcp",
       "description": "ChittyOS MCP gateway (standalone mode) — MemoryCloude, credentials, Notion/Neon queries, ecosystem awareness via mcp.chitty.cc",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "source": "./plugins/chittyos-mcp",
       "strict": false,
       "category": "ecosystem",
