@@ -19,7 +19,7 @@ auth:
 classification: "placed"
 portals:
   - id: "chitty-mcp"
-    reason: "ChittyOS control-plane agent (section 5 chitty-mcp list); ch1tty and secrets placed here by operator decision 2026-11-23 (unclassified -> placement)"
+    reason: "ChittyOS control-plane agent (section 5 chitty-mcp list)"
     on_behalf: true
   - id: "cf"
     reason: "Cloudflare platform server (section 5 cf list)"

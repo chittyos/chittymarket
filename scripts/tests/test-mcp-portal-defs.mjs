@@ -152,6 +152,18 @@ test("on_behalf rows: unknown snapshot value is recorded and summarised; a known
   assert.ok(t.portals.every((x) => x.on_behalf));
 });
 
+test("on_behalf rows: a known true -> false de-escalation emits a row; unknown -> false emits none", () => {
+  const m = manifest();
+  const s = snap();
+  const t = m.servers.find((x) => x.classification === "placed" && x.portals.some((p) => p.on_behalf !== true));
+  const live = s.servers.find((x) => x.id === t.server_id);
+  const off = t.portals.filter((p) => p.on_behalf !== true).map((p) => p.id);
+  assert.ok(!buildPlan(m, s).rows.some((r) => r.type === "on_behalf_set" && r.server === t.server_id && off.includes(r.portal)));
+  live.on_behalf = Object.fromEntries(live.portals.map((x) => [x, true]));
+  const rows = buildPlan(m, s).rows.filter((r) => r.type === "on_behalf_set" && r.server === t.server_id && off.includes(r.portal));
+  assert.ok(rows.length > 0 && rows.every((r) => r.from === true && r.to === false));
+});
+
 test("recreate rows are client-visible and counted in client_impact_total", () => {
   const p = buildPlan(manifest(), snap());
   const rec = p.rows.filter((r) => r.type === "recreate");

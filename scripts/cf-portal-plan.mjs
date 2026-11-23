@@ -53,10 +53,10 @@ export function buildPlan(manifest, snap) {
           t("recreate", { auth_type_from: live.auth_type, auth_type_to: s.auth.target, readd_portals: want, gated_on: s.auth.target === "oauth" ? "D3 probe" : null, client_visible: true, drops: "portal membership and per-user OAuth connections" });
         for (const p of want.filter((x) => !have.includes(x))) t("membership_add", { portal: p, bundled_with_recreate: recreate });
         for (const p of have.filter((x) => !want.includes(x))) t("membership_remove", { portal: p, client_visible: true });
-        // snapshot records no per-membership on_behalf: current is "unknown"; a target of false (third-party, unchanged) needs no row
+        // snapshot records no per-membership on_behalf: current is "unknown"; an unknown current with target false (third-party, unchanged) needs no row; a known true->false de-escalation does
         for (const p of want) {
           const now = live.on_behalf && p in live.on_behalf ? live.on_behalf[p] : "unknown";
-          if (now !== wantOb.get(p) && wantOb.get(p)) t("on_behalf_set", { portal: p, from: now, to: true });
+          if (now !== wantOb.get(p) && (wantOb.get(p) || now === true)) t("on_behalf_set", { portal: p, from: now, to: wantOb.get(p) });
         }
       }
     }

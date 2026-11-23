@@ -85,7 +85,7 @@
   "groups": [
     {
       "portal": "chitty-mcp",
-      "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list); ch1tty and secrets placed here by operator decision 2026-11-23 (unclassified -> placement)",
+      "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
       "servers": [
         "tasks",
         "context",
@@ -116,9 +116,7 @@
         "schema",
         "neon",
         "notion",
-        "cloudflare",
-        "ch1tty",
-        "secrets"
+        "cloudflare"
       ]
     },
     {
@@ -199,6 +197,8 @@
   ],
   "unclassified": {},
   "parked": {
+    "secrets": "operator decision pending: credential surface",
+    "ch1tty": "operator decision pending: umbrella gateway; portal inside portal",
     "buyflow": "Zero-tool server, never synced; operator did not decide, so parked (defined, in no portal), not retired.",
     "bridge-consent": "Zero-tool server, never synced; operator did not decide, so parked (defined, in no portal), not retired.",
     "availability": "Zero-tool server, never synced; operator did not decide, so parked (defined, in no portal), not retired.",

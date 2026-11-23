@@ -19,7 +19,7 @@ auth:
 classification: "placed"
 portals:
   - id: "chitty-mcp"
-    reason: "ChittyOS control-plane agent (section 5 chitty-mcp list); ch1tty and secrets placed here by operator decision 2026-11-23 (unclassified -> placement)"
+    reason: "ChittyOS control-plane agent (section 5 chitty-mcp list)"
     on_behalf: true
   - id: "chode"
     reason: "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."

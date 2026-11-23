@@ -16,17 +16,9 @@ auth:
   current: "unauthenticated"
   access_apps: ["ChittyAgents"]
   on_behalf: true
-classification: "placed"
-portals:
-  - id: "chitty-mcp"
-    reason: "ChittyOS control-plane agent (section 5 chitty-mcp list); ch1tty and secrets placed here by operator decision 2026-11-23 (unclassified -> placement)"
-    on_behalf: true
-  - id: "chode"
-    reason: "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
-    on_behalf: true
-  - id: "chittymcp-vm"
-    reason: "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
-    on_behalf: true
+classification: "parked"
+portals: []
+parked_reason: "operator decision pending: umbrella gateway; portal inside portal"
 current_portals: ["chitty-mcp", "gws-portal"]
 tools:
   naming: "no-self-prefix"
@@ -34,10 +26,7 @@ tools:
 prompts:
   expose: ["ch1tty_discover_capability", "ch1tty_run_tool", "ch1tty_cast_intent", "ch1tty_gateway_health"]
 resources: "unavailable"
-tags:
-  chitty.repo: "chittyos/chittyentity"
-  chitty.env: "production"
-  chitty.portal: "chitty-mcp"
+tags: 
 status: "active"
 ---
 
