@@ -57,6 +57,7 @@ function upstreamOf(s) {
 export function buildDefinitions(snap, cls) {
   const ids = snap.servers.map((s) => s.id);
   const byId = new Map(snap.servers.map((s) => [s.id, s]));
+  for (const id of [...ids, ...snap.portals.map((p) => p.id)]) if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) throw new Error(`invalid id (must match CF id pattern): ${JSON.stringify(id)}`);
   if (ids.length !== 65 || byId.size !== 65) throw new Error(`snapshot must hold 65 distinct servers, found ${ids.length}/${byId.size}`);
 
   // server -> [{id, reason}] from explicit groups

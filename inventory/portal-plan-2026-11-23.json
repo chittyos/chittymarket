@@ -11,7 +11,9 @@
     "blocked": 1,
     "unclassified": 9,
     "noop": 0,
-    "client_visible_removals": 132
+    "client_visible_removals": 132,
+    "client_visible_recreates": 41,
+    "client_impact_total": 173
   },
   "notes": [
     "mcp_portal Access app \"ChittyIdentity Agents\" (mcp.ch1tty.com) matches no portal"
@@ -28,7 +30,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -41,7 +44,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -54,7 +58,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -67,7 +72,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -80,7 +86,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -92,7 +99,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -105,7 +113,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -118,7 +127,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -130,7 +140,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -143,7 +154,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -157,7 +169,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -170,7 +183,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -183,7 +197,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -196,7 +211,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -209,7 +225,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -222,7 +239,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -235,7 +253,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -248,7 +267,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -261,7 +281,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -274,7 +295,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -286,7 +308,8 @@
         "gws-portal"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -299,7 +322,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -312,7 +336,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -325,7 +350,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -337,7 +363,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -350,7 +377,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -363,7 +391,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -376,7 +405,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -388,7 +418,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -401,7 +432,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -414,7 +446,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -426,7 +459,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -439,7 +473,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -452,7 +487,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -465,7 +501,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -477,7 +514,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -490,7 +528,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -503,7 +542,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -516,7 +556,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -528,7 +569,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "recreate",
@@ -541,7 +583,8 @@
         "chode"
       ],
       "gated_on": "D3 probe",
-      "drops": "per-user OAuth connections and portal membership"
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
     },
     {
       "type": "membership_add",

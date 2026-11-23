@@ -3,6 +3,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildDefinitions, expectedTools } from "../gen-portal-definitions.mjs";
@@ -78,4 +79,40 @@ test("plan emits create / recreate / retire rows from a perturbed snapshot", () 
   assert.ok(p.rows.filter((r) => r.type === "membership_remove" && r.server === "git").every((r) => r.client_visible));
   assert.ok(p.rows.some((r) => r.type === "recreate" && r.server === "viewport" && r.gated_on === "D3 probe"));
   assert.ok(!p.rows.some((r) => r.type === "recreate" && r.server === "tasks"), "tasks is already oauth");
+});
+
+test("recreate rows are client-visible and counted in client_impact_total", () => {
+  const p = buildPlan(manifest(), snap());
+  const rec = p.rows.filter((r) => r.type === "recreate");
+  assert.ok(rec.length > 0);
+  assert.ok(rec.every((r) => r.client_visible === true && r.drops));
+  assert.equal(p.counts.client_visible_recreates, rec.length);
+  assert.equal(p.counts.client_impact_total, p.counts.membership_remove + rec.length);
+});
+
+test("a server with a tag_set row is never also noop", () => {
+  const p = buildPlan(manifest(), snap());
+  const tagged = new Set(p.rows.filter((r) => r.type === "tag_set").map((r) => r.server));
+  assert.ok(!p.rows.some((r) => r.type === "noop" && tagged.has(r.server)));
+});
+
+test("plan CLI exits non-zero when the manifest is missing a server", () => {
+  const dir = fs.mkdtempSync(path.join(ROOT, "scripts/tests/.tmp-plan-"));
+  try {
+    const m = manifest();
+    m.servers.pop();
+    fs.writeFileSync(path.join(dir, "m.json"), JSON.stringify(m));
+    const r = spawnSync(process.execPath, [path.join(ROOT, "scripts/cf-portal-plan.mjs"), "--manifest", path.join(dir, "m.json"), "--snapshot", path.join(ROOT, "inventory/portals-2026-11-23.json"), "--out", path.join(dir, "out")], { encoding: "utf8" });
+    assert.notEqual(r.status, 0);
+    assert.match(r.stderr, /manifest has 64 servers but snapshot has 65/);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+test("generator rejects an id containing ../", () => {
+  const s = snap();
+  s.servers[0].id = "../evil";
+  assert.throws(() => buildDefinitions(s, cls()), /invalid id/);
+  const t = snap();
+  t.portals[0].id = "a/b";
+  assert.throws(() => buildDefinitions(t, cls()), /invalid id/);
 });
