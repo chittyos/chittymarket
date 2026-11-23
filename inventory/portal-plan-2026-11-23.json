@@ -5,21 +5,21 @@
     "create": 2,
     "recreate": 46,
     "delete": 0,
-    "membership_add": 17,
-    "membership_remove": 165,
-    "on_behalf_set": 120,
-    "tag_set": 44,
+    "membership_add": 13,
+    "membership_remove": 167,
+    "on_behalf_set": 117,
+    "tag_set": 43,
     "blocked": 1,
     "unclassified": 0,
     "noop": 1,
     "create_portals": 2,
-    "client_visible_removals": 165,
+    "client_visible_removals": 167,
     "client_visible_recreates": 46,
-    "client_impact_total": 211
+    "client_impact_total": 213
   },
   "notes": [
     "mcp_portal Access app \"ChittyIdentity Agents\" (mcp.ch1tty.com) matches no portal",
-    "on_behalf: the snapshot records no per-membership on_behalf, so 120 membership(s) have current value unknown and are planned as on_behalf=true (D7)"
+    "on_behalf: the snapshot records no per-membership on_behalf, so 117 membership(s) have current value unknown and are planned as on_behalf=true (D7)"
   ],
   "rows": [
     {
@@ -186,11 +186,7 @@
       "server": "ch1tty",
       "auth_type_from": "unauthenticated",
       "auth_type_to": "oauth",
-      "readd_portals": [
-        "chitty-mcp",
-        "chittymcp-vm",
-        "chode"
-      ],
+      "readd_portals": [],
       "gated_on": "D3 probe",
       "client_visible": true,
       "drops": "portal membership and per-user OAuth connections"
@@ -680,18 +676,6 @@
     },
     {
       "type": "membership_add",
-      "server": "ch1tty",
-      "portal": "chittymcp-vm",
-      "bundled_with_recreate": true
-    },
-    {
-      "type": "membership_add",
-      "server": "ch1tty",
-      "portal": "chode",
-      "bundled_with_recreate": true
-    },
-    {
-      "type": "membership_add",
       "server": "chatgpt",
       "portal": "chittycomms",
       "bundled_with_recreate": true
@@ -751,18 +735,6 @@
       "bundled_with_recreate": true
     },
     {
-      "type": "membership_add",
-      "server": "secrets",
-      "portal": "chittymcp-vm",
-      "bundled_with_recreate": false
-    },
-    {
-      "type": "membership_add",
-      "server": "secrets",
-      "portal": "chode",
-      "bundled_with_recreate": false
-    },
-    {
       "type": "membership_remove",
       "server": "alchemist",
       "portal": "apf-portal",
@@ -1120,6 +1092,12 @@
       "type": "membership_remove",
       "server": "cf-observsbility",
       "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "ch1tty",
+      "portal": "chitty-mcp",
       "client_visible": true
     },
     {
@@ -1653,6 +1631,12 @@
     {
       "type": "membership_remove",
       "server": "secrets",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "secrets",
       "portal": "dev-portal",
       "client_visible": true
     },
@@ -1909,27 +1893,6 @@
     {
       "type": "on_behalf_set",
       "server": "canon",
-      "portal": "chode",
-      "from": "unknown",
-      "to": true
-    },
-    {
-      "type": "on_behalf_set",
-      "server": "ch1tty",
-      "portal": "chitty-mcp",
-      "from": "unknown",
-      "to": true
-    },
-    {
-      "type": "on_behalf_set",
-      "server": "ch1tty",
-      "portal": "chittymcp-vm",
-      "from": "unknown",
-      "to": true
-    },
-    {
-      "type": "on_behalf_set",
-      "server": "ch1tty",
       "portal": "chode",
       "from": "unknown",
       "to": true
@@ -2665,16 +2628,6 @@
     {
       "type": "tag_set",
       "server": "canon",
-      "tags": {
-        "chitty.repo": "chittyos/chittyentity",
-        "chitty.env": "production",
-        "chitty.portal": "chitty-mcp"
-      },
-      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
-    },
-    {
-      "type": "tag_set",
-      "server": "ch1tty",
       "tags": {
         "chitty.repo": "chittyos/chittyentity",
         "chitty.env": "production",

@@ -27,7 +27,7 @@ test("generates 65 servers + 10 portals, each server placed, parked or unclassif
     else assert.ok(s.unclassified_reason && s.portals.length === 0);
   }
   assert.equal(m.servers.filter((s) => s.classification === "unclassified").length, 0);
-  assert.deepEqual(m.servers.filter((s) => s.classification === "parked").map((s) => s.server_id).sort(), ["availability", "bridge-consent", "buyflow", "google"]);
+  assert.deepEqual(m.servers.filter((s) => s.classification === "parked").map((s) => s.server_id).sort(), ["availability", "bridge-consent", "buyflow", "ch1tty", "google", "secrets"]);
 });
 
 test("D7: agent servers target oauth with on_behalf on every membership; third-party keeps its auth", () => {
@@ -48,7 +48,8 @@ test("D8: legal and finance-portal are proposed domain portals; their servers le
   for (const id of ["evidence", "dispute", "contextual"]) assert.deepEqual(where(id), ["chode", "legal"], id);
   assert.deepEqual(where("finance"), ["chode", "finance-portal"]);
   assert.deepEqual(where("gam"), ["chode", "gws-portal"]);
-  assert.deepEqual(where("secrets"), ["chitty-mcp", "chittymcp-vm", "chode"]);
+  assert.deepEqual(where("secrets"), []);
+  assert.deepEqual(where("ch1tty"), []);
   const serverIds = new Set(m.servers.map((s) => s.server_id));
   assert.ok(m.portals.every((p) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.portal_id) && !serverIds.has(p.portal_id)));
 });
