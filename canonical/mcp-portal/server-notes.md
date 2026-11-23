@@ -15,13 +15,15 @@ auth:
   target: "oauth"
   current: "unauthenticated"
   access_apps: ["ChittyAgents"]
-  on_behalf: false
+  on_behalf: true
 classification: "placed"
 portals:
   - id: "chittycomms"
     reason: "Messaging server (section 5 chittycomms list)"
+    on_behalf: true
   - id: "chode"
     reason: "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+    on_behalf: true
 current_portals: ["chitty-mcp", "chittycomms", "chittymcp-vm", "chode", "gws-portal"]
 tools:
   naming: "no-self-prefix"

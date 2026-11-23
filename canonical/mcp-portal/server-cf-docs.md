@@ -20,10 +20,13 @@ classification: "placed"
 portals:
   - id: "dev-portal"
     reason: "Developer docs/tooling server (section 5 dev-portal list)"
+    on_behalf: false
   - id: "cf"
     reason: "Cloudflare platform server (section 5 cf list)"
+    on_behalf: false
   - id: "chode"
     reason: "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+    on_behalf: false
 current_portals: ["apf-portal", "cf", "chitty-mcp", "chittymcp-vm", "chode", "dev-portal"]
 tools:
   naming: "no-self-prefix"

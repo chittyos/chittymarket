@@ -12,13 +12,21 @@ upstream:
   worker: "chittyagent-ch1tty"
   repo: "chittyos/chittyentity"
 auth:
-  target: "unauthenticated"
+  target: "oauth"
   current: "unauthenticated"
   access_apps: ["ChittyAgents"]
-  on_behalf: false
-classification: "unclassified"
-portals: []
-unclassified_reason: "No section 5 rule covers it."
+  on_behalf: true
+classification: "placed"
+portals:
+  - id: "chitty-mcp"
+    reason: "ChittyOS control-plane agent (section 5 chitty-mcp list); ch1tty and secrets placed here by operator decision 2026-11-23 (unclassified -> placement)"
+    on_behalf: true
+  - id: "chode"
+    reason: "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+    on_behalf: true
+  - id: "chittymcp-vm"
+    reason: "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+    on_behalf: true
 current_portals: ["chitty-mcp", "gws-portal"]
 tools:
   naming: "no-self-prefix"
@@ -26,7 +34,10 @@ tools:
 prompts:
   expose: ["ch1tty_discover_capability", "ch1tty_run_tool", "ch1tty_cast_intent", "ch1tty_gateway_health"]
 resources: "unavailable"
-tags: 
+tags:
+  chitty.repo: "chittyos/chittyentity"
+  chitty.env: "production"
+  chitty.portal: "chitty-mcp"
 status: "active"
 ---
 

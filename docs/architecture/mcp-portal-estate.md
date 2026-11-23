@@ -126,9 +126,24 @@ Definitions are **generated**, not hand-written: `scripts/gen-portal-definitions
 a classification table (this section), and hard-asserts definition ids == the 65 snapshot ids, with every server
 either placed or explicitly `unclassified`.
 
-Legal/finance agents (evidence, dispute, contextual, finance) stay in `chitty-mcp` only, with matter isolation
-enforced by the agents, not by portal placement. Anything a rule does not cover is listed as `unclassified` in the
-plan rather than placed.
+Domain portals (D8, `status: proposed`, shown as portal `create` rows in the plan): `legal` (legal.chitty.cc,
+litigation/evidence work) carries evidence, dispute, contextual; `finance-portal` (finance.chitty.cc, books/finance)
+carries finance. The portal id is `finance-portal`, not `finance`, because portal ids must not collide with server ids
+and `finance` is a server. The four servers leave `chitty-mcp` and its mirror `chittymcp-vm`; `chode` (code-mode,
+carries all) keeps them. Matter isolation is still enforced by the agents.
+
+Caller pass-through (D7): every `agent.chitty.cc` server targets `auth_type: oauth`, and every portal membership of
+such a server carries `on_behalf: true` (per-entry field in the server definition). Third-party servers keep their
+snapshot auth and `on_behalf: false`. The portal snapshot records no per-membership `on_behalf`, so the plan records
+the current value as `unknown` and emits an `on_behalf_set` row per membership, with a note saying so.
+
+Placement of the former unclassified set: gam to `gws-portal`; ch1tty and secrets to `chitty-mcp`;
+cloudeflare-codemode and cf-dns to `cf`. buyflow, bridge-consent, availability (0 tools, never synced) and google
+(duplicate upstream of gws, 0 portals) are `parked`: defined, `status: active`, in no portal, reason recorded; not
+unclassified and not retired. `unclassified` is now expected to be empty (asserted in the tests).
+
+Plan guard: every snapshot server must have a definition (`status` active or retire); a manifest server absent from
+the snapshot yields a `create` row; zero servers or zero portals fails.
 
 ## 6. Risks
 

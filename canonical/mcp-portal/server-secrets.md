@@ -16,9 +16,17 @@ auth:
   current: "bearer"
   access_apps: ["ChittySecrets (secrets.chitty.cc)"]
   on_behalf: false
-classification: "unclassified"
-portals: []
-unclassified_reason: "Bearer-auth server on secrets.chitty.cc with no section 5 rule covering it; credential surface, so placement is an operator decision."
+classification: "placed"
+portals:
+  - id: "chitty-mcp"
+    reason: "ChittyOS control-plane agent (section 5 chitty-mcp list); ch1tty and secrets placed here by operator decision 2026-11-23 (unclassified -> placement)"
+    on_behalf: false
+  - id: "chode"
+    reason: "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+    on_behalf: false
+  - id: "chittymcp-vm"
+    reason: "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+    on_behalf: false
 current_portals: ["apf-portal", "cf", "chitty-mcp", "dev-portal", "gws-portal"]
 tools:
   naming: "no-self-prefix"

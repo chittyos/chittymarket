@@ -15,10 +15,10 @@ auth:
   target: "oauth"
   current: "oauth"
   access_apps: ["ChittyAgents"]
-  on_behalf: false
-classification: "unclassified"
+  on_behalf: true
+classification: "parked"
 portals: []
-unclassified_reason: "Duplicate of gws (shares upstream agent.chitty.cc/google/mcp), 0 portals, oauth, waiting; operator decides whether to retire it."
+parked_reason: "Duplicate upstream of gws (agent.chitty.cc/google/mcp), 0 portals; operator did not decide, so parked (defined, in no portal), not retired."
 current_portals: []
 tools:
   naming: "no-self-prefix"
