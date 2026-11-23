@@ -70,7 +70,7 @@ test("plan is deterministic and its counts add up", () => {
 
 test("plan emits create / recreate / retire rows from a perturbed snapshot", () => {
   const s = snap();
-  s.servers = s.servers.filter((x) => x.id !== "ai");
+  s.servers.find((x) => x.id === "ai").id = "ai-renamed"; // keep cardinality equal so the guard passes
   const m = manifest();
   m.servers.find((x) => x.server_id === "git").status = "retire";
   const p = buildPlan(m, s);
