@@ -1,6 +1,6 @@
 {
   "name": "chittyagent-dispatch",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Single-source-of-truth projection for ChittyOS agents/skills/hooks across Claude Code, Codex, OpenClaw, Anthropic Managed Agents, and other governed runtimes. Canonical definitions project to deterministic runtime artifacts; provider mutation remains a separate authenticated deployment phase.",
   "author": {
     "name": "ChittyOS",
