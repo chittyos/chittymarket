@@ -1,0 +1,39 @@
+{
+  "_doc": "Classification table for gen-portal-definitions.mjs. Source: proposals MCP_PORTAL_ESTATE.md v0.1 section 5 (portal audiences) plus live evidence GET 2026-11-23. Servers not covered by a section 5 rule are listed under unclassified with a reason and are never placed.",
+  "snapshot_date": "2026-11-23",
+  "plugin": "chittyos-mcp",
+  "mirror_reasons": {
+    "chode": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+    "chittymcp-vm": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+  },
+  "portals": {
+    "chitty-mcp": {"audience": "operator core: ChittyOS control-plane agents plus legal/finance agents (matter isolation enforced by the agents)", "display_name": "ChittyMCP Main Aggregator", "description": "ChittyMCP Main Aggregator", "code_mode": "opt_in", "membership": "explicit"},
+    "chittycomms": {"audience": "messaging", "display_name": null, "description": "Messaging MCP, Quo, imessage, twillio, and others coming soon", "code_mode": "default_on", "membership": "explicit"},
+    "gws-portal": {"audience": "Google Workspace", "display_name": null, "description": null, "code_mode": "default_on", "membership": "explicit"},
+    "dev-portal": {"audience": "developer docs and tooling", "display_name": null, "description": null, "code_mode": "default_on", "membership": "explicit"},
+    "cf": {"audience": "Cloudflare platform", "display_name": null, "description": null, "code_mode": "default_on", "membership": "explicit"},
+    "apf-portal": {"audience": "scraping", "display_name": null, "description": null, "code_mode": "default_on", "membership": "explicit"},
+    "chode": {"audience": "code-mode connector (claude.ai Chitty Code-Mode); carries every placed server", "display_name": "Chode", "description": "Chitty Code Mode", "code_mode": "default_on", "membership": "all-placed"},
+    "chittymcp-vm": {"audience": "headless service access; mirror of chitty-mcp membership", "display_name": "ChittyMCP VM", "description": "Service Access - Headless", "code_mode": "opt_in", "membership": "mirror:chitty-mcp"}
+  },
+  "groups": [
+    {"portal": "chitty-mcp", "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)", "servers": ["tasks","context","viewport","orchestrator","builder","helper","canon","market","monitor","comptroller","ship","git","sync","dispatch","resolve","auth","alchemist","autoassist","command","ai","sandbox","bindings","heartbeat","human-escalator","cleaner","storage","schema","neon","notion","cloudflare"]},
+    {"portal": "chitty-mcp", "reason": "Legal/finance agent: chitty-mcp only; matter isolation is enforced by the agent, not portal placement (section 5)", "servers": ["evidence","dispute","contextual","finance"]},
+    {"portal": "chittycomms", "reason": "Messaging server (section 5 chittycomms list)", "servers": ["quo","twilio","imessage","bluebubbles","notes","chatgpt"]},
+    {"portal": "gws-portal", "reason": "Google Workspace server (section 5: gws only)", "servers": ["gws"]},
+    {"portal": "dev-portal", "reason": "Developer docs/tooling server (section 5 dev-portal list)", "servers": ["cf-docs","cf-builds","cf-observsbility","npm","gh","openai-docs"]},
+    {"portal": "cf", "reason": "Cloudflare platform server (section 5 cf list)", "servers": ["cf-docs","cf-builds","cf-observsbility","cf-bindings","cf-containers","cf-graphql","cf-ai-gateway","cf-ai-search","cloudflare"]},
+    {"portal": "apf-portal", "reason": "Scraping server (section 5 apf-portal list)", "servers": ["apify","ext-apify","chitty-scrape","scrape"]}
+  ],
+  "unclassified": {
+    "buyflow": "Zero-tool error server; no section 5 rule covers it.",
+    "bridge-consent": "Zero-tool error server; no section 5 rule covers it.",
+    "availability": "Zero-tool error server; no section 5 rule covers it.",
+    "gam": "No section 5 rule covers it.",
+    "ch1tty": "No section 5 rule covers it.",
+    "cloudeflare-codemode": "No section 5 rule covers it; stale third-party codemode upstream (mcp.cloudflare.com/mcp).",
+    "cf-dns": "Stale third-party upstream (snapshot status stale); left for an operator decision even though the cf-* rule would otherwise place it.",
+    "google": "Duplicate of gws (shares upstream agent.chitty.cc/google/mcp), 0 portals, oauth, waiting; operator decides whether to retire it.",
+    "secrets": "Bearer-auth server on secrets.chitty.cc with no section 5 rule covering it; credential surface, so placement is an operator decision."
+  }
+}

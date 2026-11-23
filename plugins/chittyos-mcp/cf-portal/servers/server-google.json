@@ -1,0 +1,38 @@
+{
+  "name": "server-google",
+  "server_id": "google",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/google",
+  "kind": "mcp-portal-server",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "ChittyOS agent MCP server at agent.chitty.cc/google/mcp.",
+  "upstream": {
+    "url": "https://agent.chitty.cc/google/mcp",
+    "worker": "chittyagent-google",
+    "repo": "chittyos/chittyentity"
+  },
+  "auth": {
+    "target": "oauth",
+    "current": "oauth",
+    "access_apps": [
+      "ChittyAgents"
+    ],
+    "on_behalf": false
+  },
+  "classification": "unclassified",
+  "portals": [],
+  "unclassified_reason": "Duplicate of gws (shares upstream agent.chitty.cc/google/mcp), 0 portals, oauth, waiting; operator decides whether to retire it.",
+  "current_portals": [],
+  "tools": {
+    "naming": "no-self-prefix",
+    "expected": []
+  },
+  "prompts": {
+    "expose": "none"
+  },
+  "resources": "unavailable",
+  "tags": null,
+  "status": "active"
+}

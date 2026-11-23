@@ -33,6 +33,8 @@ _MAP = {
     ("universal", "skill"):         ("plugins/{plugin}/universal-skills/{name}/SKILL.md", "claude-code-agent.sh"),
     ("claude-skills", "tool"):      ("plugins/{plugin}/claude-skills/{name}.json",   "claude-skills.sh"),
     ("chatgpt-apps", "tool"):       ("plugins/{plugin}/chatgpt-apps/{name}.json",    "chatgpt-apps.sh"),
+    ("cf-portal", "mcp-portal-server"): ("plugins/{plugin}/cf-portal/servers/{name}.json", "cf-portal.sh"),
+    ("cf-portal", "mcp-portal"):    ("plugins/{plugin}/cf-portal/portals/{name}.json", "cf-portal.sh"),
     ("nomad", "job"):               ("plugins/{plugin}/nomad-jobs/{name}.nomad.json", "nomad-job.sh"),
 }
 

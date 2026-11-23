@@ -1,0 +1,19 @@
+{
+  "name": "portal-dev-portal",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/dev-portal",
+  "kind": "mcp-portal",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "MCP portal dev-portal.",
+  "portal_id": "dev-portal",
+  "hostname": "dev.chitty.cc",
+  "audience": "developer docs and tooling",
+  "display_name": null,
+  "access_app": "ChittyDev Portal",
+  "code_mode": "default_on",
+  "membership": "explicit",
+  "evidence": null,
+  "status": "active"
+}
