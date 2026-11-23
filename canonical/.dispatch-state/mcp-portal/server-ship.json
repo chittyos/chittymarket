@@ -1,15 +1,15 @@
 {
-  "canonical_sha": "11d5960e8be5a288fdff397c9f30c37202cf3344",
+  "canonical_sha": "0afbfbe8a3d1c63943aac7337c4ae8bbd5fa17f0",
   "dispatch": {
-    "canonical_sha": "11d5960e8be5a288fdff397c9f30c37202cf3344",
-    "projected_at": "2026-11-23T22:23:18Z",
+    "canonical_sha": "0afbfbe8a3d1c63943aac7337c4ae8bbd5fa17f0",
+    "projected_at": "2026-11-23T22:59:24Z",
     "status": "projected",
     "targets": {
-      "cf-portal": "6f75e3a21e4e6ee8cb3f9fec1f2c1f4e5f99203b"
+      "cf-portal": "5029e2dfcdd20322b7068bd49f234bb6fab52165"
     }
   },
   "targets": {
-    "cf-portal": "6f75e3a21e4e6ee8cb3f9fec1f2c1f4e5f99203b"
+    "cf-portal": "5029e2dfcdd20322b7068bd49f234bb6fab52165"
   },
   "verification": {
     "projection": {

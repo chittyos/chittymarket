@@ -22,21 +22,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -81,21 +84,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -155,11 +161,13 @@
       "portals": [
         {
           "id": "apf-portal",
-          "reason": "Scraping server (section 5 apf-portal list)"
+          "reason": "Scraping server (section 5 apf-portal list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -227,21 +235,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -292,21 +303,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -358,16 +372,16 @@
         "repo": "chittyos/chittyentity"
       },
       "auth": {
-        "target": "unauthenticated",
+        "target": "oauth",
         "current": "unauthenticated",
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
-      "classification": "unclassified",
+      "classification": "parked",
       "portals": [],
-      "unclassified_reason": "Zero-tool error server; no section 5 rule covers it.",
+      "parked_reason": "Zero-tool server, never synced; operator did not decide, so parked (defined, in no portal), not retired.",
       "current_portals": [
         "chitty-mcp",
         "chittymcp-vm",
@@ -406,21 +420,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -465,17 +482,19 @@
           "ChittyAgents",
           "ChittyAgent BlueBubbles MCP (edge)"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chittycomms",
-          "reason": "Messaging server (section 5 chittycomms list)"
+          "reason": "Messaging server (section 5 chittycomms list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -523,16 +542,16 @@
         "repo": "chittyos/chittyentity"
       },
       "auth": {
-        "target": "unauthenticated",
+        "target": "oauth",
         "current": "unauthenticated",
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
-      "classification": "unclassified",
+      "classification": "parked",
       "portals": [],
-      "unclassified_reason": "Zero-tool error server; no section 5 rule covers it.",
+      "parked_reason": "Zero-tool server, never synced; operator did not decide, so parked (defined, in no portal), not retired.",
       "current_portals": [
         "chitty-mcp",
         "chittymcp-vm",
@@ -571,21 +590,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -643,16 +665,16 @@
         "repo": "chittyos/chittyentity"
       },
       "auth": {
-        "target": "unauthenticated",
+        "target": "oauth",
         "current": "unauthenticated",
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
-      "classification": "unclassified",
+      "classification": "parked",
       "portals": [],
-      "unclassified_reason": "Zero-tool error server; no section 5 rule covers it.",
+      "parked_reason": "Zero-tool server, never synced; operator did not decide, so parked (defined, in no portal), not retired.",
       "current_portals": [
         "chitty-mcp",
         "chittymcp-vm",
@@ -690,21 +712,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -760,11 +785,13 @@
       "portals": [
         {
           "id": "cf",
-          "reason": "Cloudflare platform server (section 5 cf list)"
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -817,11 +844,13 @@
       "portals": [
         {
           "id": "cf",
-          "reason": "Cloudflare platform server (section 5 cf list)"
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -873,11 +902,13 @@
       "portals": [
         {
           "id": "cf",
-          "reason": "Cloudflare platform server (section 5 cf list)"
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -947,15 +978,18 @@
       "portals": [
         {
           "id": "dev-portal",
-          "reason": "Developer docs/tooling server (section 5 dev-portal list)"
+          "reason": "Developer docs/tooling server (section 5 dev-portal list)",
+          "on_behalf": false
         },
         {
           "id": "cf",
-          "reason": "Cloudflare platform server (section 5 cf list)"
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -1008,11 +1042,13 @@
       "portals": [
         {
           "id": "cf",
-          "reason": "Cloudflare platform server (section 5 cf list)"
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -1062,9 +1098,19 @@
         "access_apps": [],
         "on_behalf": false
       },
-      "classification": "unclassified",
-      "portals": [],
-      "unclassified_reason": "Stale third-party upstream (snapshot status stale); left for an operator decision even though the cf-* rule would otherwise place it.",
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
       "current_portals": [
         "cf",
         "chitty-mcp",
@@ -1114,15 +1160,18 @@
       "portals": [
         {
           "id": "dev-portal",
-          "reason": "Developer docs/tooling server (section 5 dev-portal list)"
+          "reason": "Developer docs/tooling server (section 5 dev-portal list)",
+          "on_behalf": false
         },
         {
           "id": "cf",
-          "reason": "Cloudflare platform server (section 5 cf list)"
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -1172,11 +1221,13 @@
       "portals": [
         {
           "id": "cf",
-          "reason": "Cloudflare platform server (section 5 cf list)"
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -1231,15 +1282,18 @@
       "portals": [
         {
           "id": "dev-portal",
-          "reason": "Developer docs/tooling server (section 5 dev-portal list)"
+          "reason": "Developer docs/tooling server (section 5 dev-portal list)",
+          "on_behalf": false
         },
         {
           "id": "cf",
-          "reason": "Cloudflare platform server (section 5 cf list)"
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -1285,16 +1339,16 @@
         "repo": "chittyos/chittyentity"
       },
       "auth": {
-        "target": "unauthenticated",
+        "target": "oauth",
         "current": "unauthenticated",
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
-      "classification": "unclassified",
+      "classification": "parked",
       "portals": [],
-      "unclassified_reason": "No section 5 rule covers it.",
+      "parked_reason": "operator decision pending: umbrella gateway; portal inside portal",
       "current_portals": [
         "chitty-mcp",
         "gws-portal"
@@ -1342,17 +1396,19 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chittycomms",
-          "reason": "Messaging server (section 5 chittycomms list)"
+          "reason": "Messaging server (section 5 chittycomms list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -1410,11 +1466,13 @@
       "portals": [
         {
           "id": "apf-portal",
-          "reason": "Scraping server (section 5 apf-portal list)"
+          "reason": "Scraping server (section 5 apf-portal list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -1474,21 +1532,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -1542,9 +1603,19 @@
         "access_apps": [],
         "on_behalf": false
       },
-      "classification": "unclassified",
-      "portals": [],
-      "unclassified_reason": "No section 5 rule covers it; stale third-party codemode upstream (mcp.cloudflare.com/mcp).",
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
       "current_portals": [
         "apf-portal",
         "chitty-mcp",
@@ -1588,25 +1659,29 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "cf",
-          "reason": "Cloudflare platform server (section 5 cf list)"
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -1656,21 +1731,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -1721,21 +1799,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -1785,21 +1866,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -1851,21 +1935,19 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
-          "id": "chitty-mcp",
-          "reason": "Legal/finance agent: chitty-mcp only; matter isolation is enforced by the agent, not portal placement (section 5)"
+          "id": "legal",
+          "reason": "Legal domain agent (D8: leaves chitty-mcp for the legal portal; matter isolation still enforced by the agent)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
-        },
-        {
-          "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -1896,7 +1978,7 @@
       "tags": {
         "chitty.repo": "chittyos/chittyentity",
         "chitty.env": "production",
-        "chitty.portal": "chitty-mcp"
+        "chitty.portal": "legal"
       },
       "status": "active"
     },
@@ -1921,21 +2003,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -1986,21 +2071,19 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
-          "id": "chitty-mcp",
-          "reason": "Legal/finance agent: chitty-mcp only; matter isolation is enforced by the agent, not portal placement (section 5)"
+          "id": "legal",
+          "reason": "Legal domain agent (D8: leaves chitty-mcp for the legal portal; matter isolation still enforced by the agent)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
-        },
-        {
-          "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -2028,7 +2111,7 @@
       "tags": {
         "chitty.repo": "chittyos/chittyentity",
         "chitty.env": "production",
-        "chitty.portal": "chitty-mcp"
+        "chitty.portal": "legal"
       },
       "status": "active"
     },
@@ -2053,21 +2136,19 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
-          "id": "chitty-mcp",
-          "reason": "Legal/finance agent: chitty-mcp only; matter isolation is enforced by the agent, not portal placement (section 5)"
+          "id": "legal",
+          "reason": "Legal domain agent (D8: leaves chitty-mcp for the legal portal; matter isolation still enforced by the agent)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
-        },
-        {
-          "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -2098,7 +2179,7 @@
       "tags": {
         "chitty.repo": "chittyos/chittyentity",
         "chitty.env": "production",
-        "chitty.portal": "chitty-mcp"
+        "chitty.portal": "legal"
       },
       "status": "active"
     },
@@ -2127,11 +2208,13 @@
       "portals": [
         {
           "id": "apf-portal",
-          "reason": "Scraping server (section 5 apf-portal list)"
+          "reason": "Scraping server (section 5 apf-portal list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -2189,21 +2272,19 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
-          "id": "chitty-mcp",
-          "reason": "Legal/finance agent: chitty-mcp only; matter isolation is enforced by the agent, not portal placement (section 5)"
+          "id": "finance-portal",
+          "reason": "Finance domain agent (D8: leaves chitty-mcp for the finance portal)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
-        },
-        {
-          "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -2230,7 +2311,7 @@
       "tags": {
         "chitty.repo": "chittyos/chittyentity",
         "chitty.env": "production",
-        "chitty.portal": "chitty-mcp"
+        "chitty.portal": "finance-portal"
       },
       "status": "active"
     },
@@ -2250,16 +2331,26 @@
         "repo": "chittyos/chittyentity"
       },
       "auth": {
-        "target": "unauthenticated",
+        "target": "oauth",
         "current": "unauthenticated",
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
-      "classification": "unclassified",
-      "portals": [],
-      "unclassified_reason": "No section 5 rule covers it.",
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "gws-portal",
+          "reason": "Google Workspace server (section 5: gws only)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
       "current_portals": [
         "chitty-mcp",
         "chittymcp-vm",
@@ -2283,7 +2374,11 @@
         ]
       },
       "resources": "unavailable",
-      "tags": null,
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "gws-portal"
+      },
       "status": "active"
     },
     {
@@ -2311,11 +2406,13 @@
       "portals": [
         {
           "id": "dev-portal",
-          "reason": "Developer docs/tooling server (section 5 dev-portal list)"
+          "reason": "Developer docs/tooling server (section 5 dev-portal list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -2404,21 +2501,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -2469,11 +2569,11 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
-      "classification": "unclassified",
+      "classification": "parked",
       "portals": [],
-      "unclassified_reason": "Duplicate of gws (shares upstream agent.chitty.cc/google/mcp), 0 portals, oauth, waiting; operator decides whether to retire it.",
+      "parked_reason": "Duplicate upstream of gws (agent.chitty.cc/google/mcp), 0 portals; operator did not decide, so parked (defined, in no portal), not retired.",
       "current_portals": [],
       "tools": {
         "naming": "no-self-prefix",
@@ -2507,17 +2607,19 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "gws-portal",
-          "reason": "Google Workspace server (section 5: gws only)"
+          "reason": "Google Workspace server (section 5: gws only)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -2607,21 +2709,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -2667,21 +2772,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -2737,21 +2845,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -2803,17 +2914,19 @@
           "ChittyAgents",
           "ChittyAgent iMessage MCP (edge)"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chittycomms",
-          "reason": "Messaging server (section 5 chittycomms list)"
+          "reason": "Messaging server (section 5 chittycomms list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -2870,21 +2983,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -2935,21 +3051,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -2997,21 +3116,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -3067,17 +3189,19 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chittycomms",
-          "reason": "Messaging server (section 5 chittycomms list)"
+          "reason": "Messaging server (section 5 chittycomms list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -3130,21 +3254,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -3205,11 +3332,13 @@
       "portals": [
         {
           "id": "dev-portal",
-          "reason": "Developer docs/tooling server (section 5 dev-portal list)"
+          "reason": "Developer docs/tooling server (section 5 dev-portal list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -3266,11 +3395,13 @@
       "portals": [
         {
           "id": "dev-portal",
-          "reason": "Developer docs/tooling server (section 5 dev-portal list)"
+          "reason": "Developer docs/tooling server (section 5 dev-portal list)",
+          "on_behalf": false
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
         }
       ],
       "current_portals": [
@@ -3317,21 +3448,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -3398,17 +3532,19 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chittycomms",
-          "reason": "Messaging server (section 5 chittycomms list)"
+          "reason": "Messaging server (section 5 chittycomms list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -3479,21 +3615,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -3543,21 +3682,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -3607,21 +3749,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -3666,17 +3811,19 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "apf-portal",
-          "reason": "Scraping server (section 5 apf-portal list)"
+          "reason": "Scraping server (section 5 apf-portal list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -3729,9 +3876,9 @@
         ],
         "on_behalf": false
       },
-      "classification": "unclassified",
+      "classification": "parked",
       "portals": [],
-      "unclassified_reason": "Bearer-auth server on secrets.chitty.cc with no section 5 rule covering it; credential surface, so placement is an operator decision.",
+      "parked_reason": "operator decision pending: credential surface",
       "current_portals": [
         "apf-portal",
         "cf",
@@ -3771,21 +3918,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -3841,21 +3991,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -3919,21 +4072,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -3987,21 +4143,24 @@
           "agent · tasks (pilot)",
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -4055,17 +4214,19 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chittycomms",
-          "reason": "Messaging server (section 5 chittycomms list)"
+          "reason": "Messaging server (section 5 chittycomms list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -4121,21 +4282,24 @@
         "access_apps": [
           "ChittyAgents"
         ],
-        "on_behalf": false
+        "on_behalf": true
       },
       "classification": "placed",
       "portals": [
         {
           "id": "chitty-mcp",
-          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)"
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
         },
         {
           "id": "chode",
-          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
         },
         {
           "id": "chittymcp-vm",
-          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
         }
       ],
       "current_portals": [
@@ -4219,7 +4383,7 @@
       "description": "ChittyMCP Main Aggregator",
       "portal_id": "chitty-mcp",
       "hostname": "mcp.chitty.cc",
-      "audience": "operator core: ChittyOS control-plane agents plus legal/finance agents (matter isolation enforced by the agents)",
+      "audience": "operator core: ChittyOS control-plane agents (legal and finance agents moved to the legal and finance domain portals, D8)",
       "display_name": "ChittyMCP Main Aggregator",
       "access_app": "ChittyMCP",
       "code_mode": "opt_in",
@@ -4304,6 +4468,25 @@
       "status": "active"
     },
     {
+      "name": "portal-finance-portal",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/finance-portal",
+      "kind": "mcp-portal",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Finance domain portal: finance (portal id finance-portal because id finance collides with the finance server id)",
+      "portal_id": "finance-portal",
+      "hostname": "finance.chitty.cc",
+      "audience": "books and finance",
+      "display_name": "Finance",
+      "access_app": null,
+      "code_mode": "opt_in",
+      "membership": "explicit",
+      "evidence": null,
+      "status": "proposed"
+    },
+    {
       "name": "portal-gws-portal",
       "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/gws-portal",
       "kind": "mcp-portal",
@@ -4321,6 +4504,25 @@
       "membership": "explicit",
       "evidence": null,
       "status": "active"
+    },
+    {
+      "name": "portal-legal",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/legal",
+      "kind": "mcp-portal",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Legal domain portal: evidence, dispute, contextual",
+      "portal_id": "legal",
+      "hostname": "legal.chitty.cc",
+      "audience": "litigation and evidence work",
+      "display_name": "Legal",
+      "access_app": null,
+      "code_mode": "opt_in",
+      "membership": "explicit",
+      "evidence": null,
+      "status": "proposed"
     }
   ]
 }

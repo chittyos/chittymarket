@@ -20,8 +20,10 @@ classification: "placed"
 portals:
   - id: "apf-portal"
     reason: "Scraping server (section 5 apf-portal list)"
+    on_behalf: false
   - id: "chode"
     reason: "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+    on_behalf: false
 current_portals: ["chitty-mcp", "chode"]
 tools:
   naming: "no-self-prefix"

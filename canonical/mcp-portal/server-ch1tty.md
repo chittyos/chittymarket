@@ -12,13 +12,13 @@ upstream:
   worker: "chittyagent-ch1tty"
   repo: "chittyos/chittyentity"
 auth:
-  target: "unauthenticated"
+  target: "oauth"
   current: "unauthenticated"
   access_apps: ["ChittyAgents"]
-  on_behalf: false
-classification: "unclassified"
+  on_behalf: true
+classification: "parked"
 portals: []
-unclassified_reason: "No section 5 rule covers it."
+parked_reason: "operator decision pending: umbrella gateway; portal inside portal"
 current_portals: ["chitty-mcp", "gws-portal"]
 tools:
   naming: "no-self-prefix"

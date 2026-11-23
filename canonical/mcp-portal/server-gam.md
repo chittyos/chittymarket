@@ -12,13 +12,18 @@ upstream:
   worker: "chittyagent-gam"
   repo: "chittyos/chittyentity"
 auth:
-  target: "unauthenticated"
+  target: "oauth"
   current: "unauthenticated"
   access_apps: ["ChittyAgents"]
-  on_behalf: false
-classification: "unclassified"
-portals: []
-unclassified_reason: "No section 5 rule covers it."
+  on_behalf: true
+classification: "placed"
+portals:
+  - id: "gws-portal"
+    reason: "Google Workspace server (section 5: gws only)"
+    on_behalf: true
+  - id: "chode"
+    reason: "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+    on_behalf: true
 current_portals: ["chitty-mcp", "chittymcp-vm", "chode", "dev-portal", "gws-portal"]
 tools:
   naming: "no-self-prefix"
@@ -26,7 +31,10 @@ tools:
 prompts:
   expose: ["gam_provision_user", "gam_offboard_user", "gam_audit_group_membership", "gam_domain_inventory"]
 resources: "unavailable"
-tags: 
+tags:
+  chitty.repo: "chittyos/chittyentity"
+  chitty.env: "production"
+  chitty.portal: "gws-portal"
 status: "active"
 ---
 

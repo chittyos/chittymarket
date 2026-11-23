@@ -16,9 +16,14 @@ auth:
   current: "oauth"
   access_apps: []
   on_behalf: false
-classification: "unclassified"
-portals: []
-unclassified_reason: "No section 5 rule covers it; stale third-party codemode upstream (mcp.cloudflare.com/mcp)."
+classification: "placed"
+portals:
+  - id: "cf"
+    reason: "Cloudflare platform server (section 5 cf list)"
+    on_behalf: false
+  - id: "chode"
+    reason: "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+    on_behalf: false
 current_portals: ["apf-portal", "chitty-mcp", "chittymcp-vm", "chode"]
 tools:
   naming: "no-self-prefix"

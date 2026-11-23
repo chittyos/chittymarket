@@ -15,15 +15,15 @@ auth:
   target: "oauth"
   current: "unauthenticated"
   access_apps: ["ChittyAgents"]
-  on_behalf: false
+  on_behalf: true
 classification: "placed"
 portals:
-  - id: "chitty-mcp"
-    reason: "Legal/finance agent: chitty-mcp only; matter isolation is enforced by the agent, not portal placement (section 5)"
+  - id: "legal"
+    reason: "Legal domain agent (D8: leaves chitty-mcp for the legal portal; matter isolation still enforced by the agent)"
+    on_behalf: true
   - id: "chode"
     reason: "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
-  - id: "chittymcp-vm"
-    reason: "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded)."
+    on_behalf: true
 current_portals: ["apf-portal", "chitty-mcp", "chittycomms", "chittymcp-vm", "chode"]
 tools:
   naming: "no-self-prefix"
@@ -34,7 +34,7 @@ resources: "unavailable"
 tags:
   chitty.repo: "chittyos/chittyentity"
   chitty.env: "production"
-  chitty.portal: "chitty-mcp"
+  chitty.portal: "legal"
 status: "active"
 ---
 

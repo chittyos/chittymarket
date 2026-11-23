@@ -12,13 +12,13 @@ upstream:
   worker: "chittyagent-availability"
   repo: "chittyos/chittyentity"
 auth:
-  target: "unauthenticated"
+  target: "oauth"
   current: "unauthenticated"
   access_apps: ["ChittyAgents"]
-  on_behalf: false
-classification: "unclassified"
+  on_behalf: true
+classification: "parked"
 portals: []
-unclassified_reason: "Zero-tool error server; no section 5 rule covers it."
+parked_reason: "Zero-tool server, never synced; operator did not decide, so parked (defined, in no portal), not retired."
 current_portals: ["chitty-mcp", "chittymcp-vm", "chode", "gws-portal"]
 tools:
   naming: "no-self-prefix"

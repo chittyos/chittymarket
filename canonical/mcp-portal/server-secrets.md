@@ -16,9 +16,9 @@ auth:
   current: "bearer"
   access_apps: ["ChittySecrets (secrets.chitty.cc)"]
   on_behalf: false
-classification: "unclassified"
+classification: "parked"
 portals: []
-unclassified_reason: "Bearer-auth server on secrets.chitty.cc with no section 5 rule covering it; credential surface, so placement is an operator decision."
+parked_reason: "operator decision pending: credential surface"
 current_portals: ["apf-portal", "cf", "chitty-mcp", "dev-portal", "gws-portal"]
 tools:
   naming: "no-self-prefix"
