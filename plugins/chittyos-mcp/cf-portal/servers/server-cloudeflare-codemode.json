@@ -1,0 +1,46 @@
+{
+  "name": "server-cloudeflare-codemode",
+  "server_id": "cloudeflare-codemode",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cloudeflare-codemode",
+  "kind": "mcp-portal-server",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "Third-party style MCP server at mcp.cloudflare.com.",
+  "upstream": {
+    "url": "https://mcp.cloudflare.com/mcp",
+    "worker": null,
+    "repo": null
+  },
+  "auth": {
+    "target": "oauth",
+    "current": "oauth",
+    "access_apps": [],
+    "on_behalf": false
+  },
+  "classification": "unclassified",
+  "portals": [],
+  "unclassified_reason": "No section 5 rule covers it; stale third-party codemode upstream (mcp.cloudflare.com/mcp).",
+  "current_portals": [
+    "apf-portal",
+    "chitty-mcp",
+    "chittymcp-vm",
+    "chode"
+  ],
+  "tools": {
+    "naming": "no-self-prefix",
+    "expected": [
+      "docs",
+      "search",
+      "execute",
+      "whoami"
+    ]
+  },
+  "prompts": {
+    "expose": "none"
+  },
+  "resources": "unavailable",
+  "tags": null,
+  "status": "active"
+}

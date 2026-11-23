@@ -1,0 +1,97 @@
+{
+  "name": "server-gh",
+  "server_id": "gh",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/gh",
+  "kind": "mcp-portal-server",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "Third-party style MCP server at api.githubcopilot.com.",
+  "upstream": {
+    "url": "https://api.githubcopilot.com/mcp/",
+    "worker": null,
+    "repo": null
+  },
+  "auth": {
+    "target": "bearer",
+    "current": "bearer",
+    "access_apps": [],
+    "on_behalf": false
+  },
+  "classification": "placed",
+  "portals": [
+    {
+      "id": "dev-portal",
+      "reason": "Developer docs/tooling server (section 5 dev-portal list)"
+    },
+    {
+      "id": "chode",
+      "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server."
+    }
+  ],
+  "current_portals": [
+    "apf-portal",
+    "chitty-mcp",
+    "chittymcp-vm",
+    "chode",
+    "dev-portal"
+  ],
+  "tools": {
+    "naming": "no-self-prefix",
+    "expected": [
+      "add_comment_to_pending_review",
+      "add_issue_comment",
+      "add_reply_to_pull_request_comment",
+      "create_branch",
+      "create_or_update_file",
+      "create_pull_request",
+      "create_repository",
+      "delete_file",
+      "fork_repository",
+      "get_commit",
+      "get_file_contents",
+      "get_label",
+      "get_latest_release",
+      "get_me",
+      "get_release_by_tag",
+      "get_tag",
+      "get_team_members",
+      "get_teams",
+      "issue_read",
+      "issue_write",
+      "list_branches",
+      "list_commits",
+      "list_issue_fields",
+      "list_issue_types",
+      "list_issues",
+      "list_pull_requests",
+      "list_releases",
+      "list_repository_collaborators",
+      "list_tags",
+      "merge_pull_request",
+      "pull_request_read",
+      "pull_request_review_write",
+      "push_files",
+      "request_copilot_review",
+      "run_secret_scanning",
+      "search_code",
+      "search_commits",
+      "search_issues",
+      "search_pull_requests",
+      "search_repositories",
+      "search_users",
+      "sub_issue_write",
+      "ui_get",
+      "update_issue_comment",
+      "update_pull_request",
+      "update_pull_request_branch"
+    ]
+  },
+  "prompts": {
+    "expose": "none"
+  },
+  "resources": "unavailable",
+  "tags": null,
+  "status": "active"
+}

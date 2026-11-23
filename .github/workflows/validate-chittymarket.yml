@@ -116,6 +116,8 @@ jobs:
       # on synthetic records, and checks the doc renderer and the view generator agree.
       - name: scripts/tests/test_router_doc_tables.py
         run: python3 scripts/tests/test_router_doc_tables.py
+      - name: MCP portal definitions + plan tests
+        run: node --test scripts/tests/test-mcp-portal-defs.mjs
 
       # 1b. Matter-leak gate: no concrete legal matter may appear in a governed,
       #     published definition (legal-operating-defaults §15). Shape-matching only —

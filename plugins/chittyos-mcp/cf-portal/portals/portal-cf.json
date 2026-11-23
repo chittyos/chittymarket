@@ -1,0 +1,19 @@
+{
+  "name": "portal-cf",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/cf",
+  "kind": "mcp-portal",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "MCP portal cf.",
+  "portal_id": "cf",
+  "hostname": "cf.chitty.cc",
+  "audience": "Cloudflare platform",
+  "display_name": null,
+  "access_app": "ChittyPortal-CF",
+  "code_mode": "default_on",
+  "membership": "explicit",
+  "evidence": null,
+  "status": "active"
+}

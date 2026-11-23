@@ -1,0 +1,48 @@
+{
+  "name": "server-cf-dns",
+  "server_id": "cf-dns",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cf-dns",
+  "kind": "mcp-portal-server",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "Third-party style MCP server at dns-analytics.mcp.cloudflare.com.",
+  "upstream": {
+    "url": "https://dns-analytics.mcp.cloudflare.com/mcp",
+    "worker": null,
+    "repo": null
+  },
+  "auth": {
+    "target": "oauth",
+    "current": "oauth",
+    "access_apps": [],
+    "on_behalf": false
+  },
+  "classification": "unclassified",
+  "portals": [],
+  "unclassified_reason": "Stale third-party upstream (snapshot status stale); left for an operator decision even though the cf-* rule would otherwise place it.",
+  "current_portals": [
+    "cf",
+    "chitty-mcp",
+    "chittymcp-vm",
+    "chode",
+    "dev-portal"
+  ],
+  "tools": {
+    "naming": "no-self-prefix",
+    "expected": [
+      "dns_report",
+      "show_account_dns_settings",
+      "show_zone_dns_settings",
+      "zones_list",
+      "zone_details"
+    ]
+  },
+  "prompts": {
+    "expose": "none"
+  },
+  "resources": "unavailable",
+  "tags": null,
+  "status": "active"
+}

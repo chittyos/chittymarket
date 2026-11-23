@@ -1,0 +1,28 @@
+{
+  "canonical_sha": "dee105edbc362dc332a3c6f088e67db5f612b939",
+  "dispatch": {
+    "canonical_sha": "dee105edbc362dc332a3c6f088e67db5f612b939",
+    "projected_at": "2026-11-23T22:23:10Z",
+    "status": "projected",
+    "targets": {
+      "cf-portal": "63c44e97ad386c21cd537ab1be362d6ca468690e"
+    }
+  },
+  "targets": {
+    "cf-portal": "63c44e97ad386c21cd537ab1be362d6ca468690e"
+  },
+  "verification": {
+    "projection": {
+      "findings": [],
+      "method": "dispatch-audit",
+      "status": "pending",
+      "verified_at": null
+    },
+    "runtime": {
+      "method": null,
+      "status": "not_run",
+      "targets": {},
+      "verified_at": null
+    }
+  }
+}

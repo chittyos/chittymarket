@@ -109,7 +109,7 @@ if [ "${#names[@]}" -gt 0 ]; then
   for name in "${!names[@]}"; do
     # Search canonical/<kind>/<name>.md first, then flat canonical/<name>.md.
     can=""
-    for sub in agents skills commands mcp hooks tools workflows jobs; do
+    for sub in agents skills commands mcp mcp-portal hooks tools workflows jobs; do
       if [ -f "$REPO_ROOT/canonical/$sub/${name}.md" ]; then
         can="$REPO_ROOT/canonical/$sub/${name}.md"
         break
