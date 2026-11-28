@@ -87,11 +87,11 @@ Some IDs shown by `/market` are runtime artifacts (skills/agents/MCP entries), n
 | Group | Agents |
 |------|--------|
 | **Core Service Agents** | `chittyagent-canon`, `chittyschema-overlord`, `chittyagent-register`, `chittyagent-connect`, `chittyagent-claude` |
-| **Orchestration Agents** | `chittyagent-autobot`, `chittyagent-dispatch`, `chittyagent-source` |
+| **Orchestration Agents** | `chittyagent-autobot`, `chittyagent-dispatch` |
 | **Governance/Platform Agents** | `chittyagent-neon` |
 | **Proxy Agents** | `chittyagent-chatgpt`, `chittyagent-cloudflare`, `chittyagent-notion` |
 
-`chittyagent-source` is authored at `canonical/agents/chittyagent-source.md`. Its ChittyID and capability identity are unresolved, so it is not projected and it has no `proxies:` worker join key.
+The agent set is the files in `canonical/agents/`, read at use time. This table is not a roster and is not updated when a definition is added.
 
 ## Skill Groupings
 
