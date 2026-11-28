@@ -26,6 +26,9 @@ remediations:
   regenerate-marketplace:
     auto: false
     summary: In {market_repo}, fix the plugin.json and run scripts/generate-marketplace.sh. Never hand-edit the generated manifest.
+  align-external-plugin-version:
+    auto: false
+    summary: Externally sourced plugins have no plugin.json in {market_repo}; their listed version is the GITHUB_PLUGINS entry in scripts/generate-marketplace.sh. Update that entry and regenerate, or change the version in the plugin's own repository, whichever is the intended one.
   remove-foreign-marketplace:
     auto: false
     summary: Delete this repo's .claude-plugin/marketplace.json and move its entries into {market_repo}. Capture the file before deleting it.

@@ -104,7 +104,14 @@ audits one or all records; `info` shows provenance status. Signatures
 ## Standardize (cross-org, remote)
 
 Packaging standardization is a remote service, not a `market.sh` command. The
-`chittyagent-market` MCP server runs it as a durable workflow:
+`chittyagent-market` MCP server runs it as a durable workflow.
+
+**Availability.** The two tools below exist only once a `chittyagent-market`
+build that includes them is deployed. If neither tool is present in the session,
+say that standardize is not available yet and stop; do not fall back to
+`market.sh`, which has no `standardize` command.
+
+Tools:
 
 - `standardize` — start a run. Optional `orgs`, `only` (`org/repo`), `standard_ref`. Returns a `workflow_id`.
 - `standardize_status` — status for a `workflow_id`; when finished, the output lists per-repo findings and the exact file each automatic remediation would add.
@@ -128,7 +135,7 @@ The single source of truth is: `~/.claude/marketplace.json`
 
 ## Shell Actuator
 
-A shell script at `~/.claude/skills/market/market.sh` handles all commands. **Use this script for all operations** instead of manually reading/editing JSON files.
+A shell script at `~/.claude/skills/market/market.sh` handles every command except `standardize`, which is remote (see above). **Use this script for those operations** instead of manually reading/editing JSON files.
 
 ```bash
 ~/.claude/skills/market/market.sh list                    # List all
@@ -143,7 +150,7 @@ A shell script at `~/.claude/skills/market/market.sh` handles all commands. **Us
 ~/.claude/skills/market/market.sh sync                    # Reconcile with filesystem
 ```
 
-When this skill is triggered, run the appropriate `market.sh` command via Bash. Display the output to the user. For `/market mode`, fall back to the manual instructions below since `market.sh` doesn't implement mode switching yet.
+When this skill is triggered, run the appropriate `market.sh` command via Bash. Display the output to the user. `/market standardize` is the exception: call the remote tools, never `market.sh`. For `/market mode`, fall back to the manual instructions below since `market.sh` doesn't implement mode switching yet.
 
 ## Manual Instructions (fallback)
 

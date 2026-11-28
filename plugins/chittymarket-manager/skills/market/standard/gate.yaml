@@ -3,7 +3,7 @@
 # A repo is classified, then every check whose `applies_to` names its class runs.
 #   market    the marketplace repo itself (targets.yaml: market_repo)
 #   plugin    has .claude-plugin/plugin.json
-#   consumer  has CLAUDE.md, AGENTS.md or .claude/settings.json (and is not a plugin)
+#   consumer  has CLAUDE.md, AGENTS.md, .claude/settings.json or .mcp.json (and is not a plugin)
 #   none      nothing Claude-facing; no checks run
 #
 # severity: error fails the gate for that repo; warn is reported and planned but
@@ -33,7 +33,8 @@ checks:
     kind: json_regex
     path: .claude-plugin/plugin.json
     key: version
-    pattern: '^\d+\.\d+\.\d+([-+][0-9A-Za-z.-]+)?$'
+    # SemVer 2.0.0 reference expression (semver.org), unnamed groups.
+    pattern: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
     remediation: fix-plugin-manifest
   - id: P4-listed-in-marketplace
     applies_to: [plugin]
@@ -44,7 +45,7 @@ checks:
     applies_to: [plugin]
     severity: warn
     kind: version_matches_marketplace
-    remediation: regenerate-marketplace
+    remediation: align-external-plugin-version
   # --- every Claude-facing repo outside the marketplace --------------------
   - id: S1-single-marketplace
     applies_to: [plugin, consumer]
