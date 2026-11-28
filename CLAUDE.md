@@ -45,6 +45,7 @@ chittymarket/
 /market info <id>    # Show artifact details
 /market mode <id> ch1tty|standalone  # Switch install mode
 /market sync         # Reconcile manifest with filesystem
+/market standardize  # Cross-org packaging standardization (remote chittyagent-market service; standard lives in plugins/chittymarket-manager/skills/market/standard/)
 ```
 
 ## Ch1tty Integration

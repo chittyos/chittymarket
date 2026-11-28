@@ -1,0 +1,98 @@
+# Marketplace + plugin packaging standard. Deterministic, machine-checkable.
+#
+# A repo is classified, then every check whose `applies_to` names its class runs.
+#   market    the marketplace repo itself (targets.yaml: market_repo)
+#   plugin    has .claude-plugin/plugin.json
+#   consumer  has CLAUDE.md, AGENTS.md, .claude/settings.json or .mcp.json (and is not a plugin)
+#   none      nothing Claude-facing; no checks run
+#
+# severity: error fails the gate for that repo; warn is reported and planned but
+# does not fail. `kind` selects the evaluator in chittyagent-market; everything else
+# is its parameters. Adding a check of an existing kind needs no code change.
+version: 1
+checks:
+  # --- plugin repos -------------------------------------------------------
+  - id: P1-manifest-fields
+    applies_to: [plugin]
+    severity: error
+    kind: json_required_keys
+    path: .claude-plugin/plugin.json
+    keys: [name, version, description]
+    remediation: fix-plugin-manifest
+  - id: P2-name-kebab-case
+    applies_to: [plugin]
+    severity: error
+    kind: json_regex
+    path: .claude-plugin/plugin.json
+    key: name
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*$'
+    remediation: fix-plugin-manifest
+  - id: P3-version-semver
+    applies_to: [plugin]
+    severity: error
+    kind: json_regex
+    path: .claude-plugin/plugin.json
+    key: version
+    # SemVer 2.0.0 reference expression (semver.org), unnamed groups.
+    pattern: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
+    remediation: fix-plugin-manifest
+  - id: P4-listed-in-marketplace
+    applies_to: [plugin]
+    severity: warn
+    kind: listed_in_marketplace
+    remediation: list-in-marketplace
+  - id: P5-version-matches-marketplace
+    applies_to: [plugin]
+    severity: warn
+    kind: version_matches_marketplace
+    remediation: align-external-plugin-version
+  # --- every Claude-facing repo outside the marketplace --------------------
+  - id: S1-single-marketplace
+    applies_to: [plugin, consumer]
+    severity: error
+    kind: file_absent
+    path: .claude-plugin/marketplace.json
+    remediation: remove-foreign-marketplace
+  - id: S2-no-inline-secrets
+    applies_to: [market, plugin, consumer]
+    severity: error
+    kind: no_inline_secrets
+    paths: [.mcp.json, .claude/settings.json, .claude-plugin/plugin.json]
+    remediation: move-secret-to-broker
+  # --- consumers ------------------------------------------------------------
+  - id: C1-marketplace-registered
+    applies_to: [consumer]
+    severity: warn
+    kind: marketplace_registered
+    path: .claude/settings.json
+    remediation: register-marketplace
+  - id: C2-enabled-plugins-resolve
+    applies_to: [plugin, consumer]
+    severity: error
+    kind: enabled_plugins_resolve
+    path: .claude/settings.json
+    remediation: fix-enabled-plugins
+  # --- the marketplace itself ----------------------------------------------
+  - id: M1-marketplace-fields
+    applies_to: [market]
+    severity: error
+    kind: json_required_keys
+    path: .claude-plugin/marketplace.json
+    keys: [name, owner, plugins]
+    remediation: regenerate-marketplace
+  - id: M2-entries-complete
+    applies_to: [market]
+    severity: error
+    kind: marketplace_entries_complete
+    keys: [name, source, version, description]
+    remediation: regenerate-marketplace
+  - id: M3-external-sources-resolve
+    applies_to: [market]
+    severity: error
+    kind: marketplace_sources_resolve
+    remediation: fix-marketplace-source
+  - id: M4-external-sources-pinned
+    applies_to: [market]
+    severity: warn
+    kind: marketplace_sources_pinned
+    remediation: pin-marketplace-source

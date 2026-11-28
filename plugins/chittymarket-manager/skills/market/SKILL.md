@@ -26,6 +26,7 @@ Manage all Claude Code artifacts (MCP servers, skills, plugins, agents, hooks) f
 - `/market verify [<id>|--all]` — Verify capability-record provenance (content_hash)
 - `/market mode <id> ch1tty|standalone` — Switch install mode
 - `/market sync` — Scan filesystem and reconcile manifest with actual state
+- `/market standardize` — Cross-org packaging standardization, run by the remote `chittyagent-market` service (see below)
 
 ## Provenance (verify-on-enable)
 
@@ -37,6 +38,33 @@ audits one or all records; `info` shows provenance status. Signatures
 (`signer_chittyid`) are surfaced when present — pending Layer 2 they read
 "unsigned — signature pending".
 
+## Standardize (cross-org, remote)
+
+Packaging standardization is a remote service, not a `market.sh` command. The
+`chittyagent-market` MCP server runs it as a durable workflow.
+
+**Availability.** The two tools below exist only once a `chittyagent-market`
+build that includes them is deployed. If neither tool is present in the session,
+say that standardize is not available yet and stop; do not fall back to
+`market.sh`, which has no `standardize` command.
+
+Tools:
+
+- `standardize` — start a run. Optional `orgs`, `only` (`org/repo`), `standard_ref`. Returns a `workflow_id`.
+- `standardize_status` — status for a `workflow_id`; when finished, the output lists per-repo findings and the exact file each automatic remediation would add.
+
+This repository owns the standard the service evaluates, in `standard/`:
+`targets.yaml` (orgs to look in), `gate.yaml` (checks by repo class) and
+`remediate.yaml` (remediation per check). Change the standard here by pull
+request; the service reads it at run time and holds no copy.
+
+Rules when running this for the user:
+
+- The run is read-only. It opens no pull requests; report the proposed remediations and let the user decide.
+- A secret finding names the file and pattern only.
+- `status: incomplete` means an org could not be listed, a repo errored, or a check could not be evaluated. Say so; do not present it as a clean result.
+- A clean gate is a packaging fact. It is not canonical registration and not runtime verification.
+
 ## Manifest Location
 
 The single source of truth is: `~/.claude/marketplace.json`
@@ -44,7 +72,7 @@ The single source of truth is: `~/.claude/marketplace.json`
 
 ## Shell Actuator
 
-A shell script at `~/.claude/skills/market/market.sh` handles all commands. **Use this script for all operations** instead of manually reading/editing JSON files.
+A shell script at `~/.claude/skills/market/market.sh` handles every command except `standardize`, which is remote (see above). **Use this script for those operations** instead of manually reading/editing JSON files.
 
 ```bash
 ~/.claude/skills/market/market.sh list                    # List all
@@ -59,7 +87,7 @@ A shell script at `~/.claude/skills/market/market.sh` handles all commands. **Us
 ~/.claude/skills/market/market.sh sync                    # Reconcile with filesystem
 ```
 
-When this skill is triggered, run the appropriate `market.sh` command via Bash. Display the output to the user. For `/market mode`, fall back to the manual instructions below since `market.sh` doesn't implement mode switching yet.
+When this skill is triggered, run the appropriate `market.sh` command via Bash. Display the output to the user. `/market standardize` is the exception: call the remote tools, never `market.sh`. For `/market mode`, fall back to the manual instructions below since `market.sh` doesn't implement mode switching yet.
 
 ## Manual Instructions (fallback)
 
