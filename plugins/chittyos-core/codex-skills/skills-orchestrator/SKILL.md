@@ -1,14 +1,14 @@
 ---
 name: skills-orchestrator
 description: |
-  Universal skill and agent router. Searches, discovers, and executes any skill or agent in the ChittyOS ecosystem via the orchestrator MCP at orchestrator.agent.chitty.cc/mcp.
+  Universal skill and agent router. Searches, discovers, and executes any skill or agent in the ChittyOS ecosystem via the orchestrator MCP at agent.chitty.cc/orchestrator/mcp.
   Triggers on "/skills-orchestrator", "/skills", "/agents", "find skill", "find agent", "which skill", "which agent", "what can you do", "list skills", "list agents", "search skills", "search agents".
 canon_uri: chittycanon://core/services/chittymarket#skills/skills-orchestrator
 ---
 
 # Skills Orchestrator
 
-Universal entry point for discovering and executing skills and agents across the ChittyOS ecosystem. Routes through the `chittyagent-orchestrator` MCP server at `orchestrator.agent.chitty.cc/mcp`.
+Universal entry point for discovering and executing skills and agents across the ChittyOS ecosystem. Routes through the `chittyagent-orchestrator` MCP server at `agent.chitty.cc/orchestrator/mcp`.
 
 ## How It Works
 
@@ -57,7 +57,7 @@ Tool: agent_list    → 18 agents with binding status
 ## MCP Endpoint
 
 All tools are on the orchestrator MCP server:
-- **URL**: `https://orchestrator.agent.chitty.cc/mcp`
+- **URL**: `https://agent.chitty.cc/orchestrator/mcp`
 - **Protocol**: MCP (Streamable HTTP + SSE)
 - **Auth**: Bearer token or Cloudflare Access
 
@@ -113,4 +113,4 @@ The orchestrator determines execution mode per skill:
 
 ## Model Agnostic
 
-This orchestrator works from any MCP client — Claude Code, Claude Desktop, ChatGPT, Gemini, or custom apps. The same 50 skills and 18 agents are available everywhere through `orchestrator.agent.chitty.cc/mcp`.
+This orchestrator works from any MCP client — Claude Code, Claude Desktop, ChatGPT, Gemini, or custom apps. The same 50 skills and 18 agents are available everywhere through `agent.chitty.cc/orchestrator/mcp`.
