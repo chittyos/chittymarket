@@ -1,7 +1,9 @@
 ---
 name: chittyagent-source
 description: |
-  Inventory the ChittyOS estate, compare it to the interim plan of record, and propose each capability gap as one gated brief: one task row and one draft pull request. Use when asked which agents are missing, or to turn a gap into a brief. It does not implement, merge, deploy, register, or create a Bot.
+  Inventory the ChittyOS estate, compare it to the interim plan of record, and propose each capability gap as one gated brief: one task row and one draft pull request.
+
+  Use when asked which agents are missing, or to turn a gap into a brief. It does not implement, merge, deploy, register, or create a Bot.
 
   <example>
   Context: An operator wants the estate checked against the plan of record.
