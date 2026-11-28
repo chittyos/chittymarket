@@ -51,7 +51,7 @@ case "$mode" in
     for name in "${targets[@]}"; do
       # Resolve canonical: search kind-subdirs (canonical/<kind-plural>/<name>.md)
       can=""
-      for sub in agents skills commands mcp hooks tools workflows jobs; do
+      for sub in agents skills commands mcp mcp-portal hooks tools workflows jobs; do
         if [ -f "$CANONICAL_DIR/$sub/${name}.md" ]; then
           can="$CANONICAL_DIR/$sub/${name}.md"
           break

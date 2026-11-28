@@ -1,0 +1,2998 @@
+{
+  "schema": "chittymarket/cf-portal-plan/v1",
+  "snapshot": "2026-11-23",
+  "counts": {
+    "create": 2,
+    "recreate": 46,
+    "delete": 0,
+    "membership_add": 13,
+    "membership_remove": 167,
+    "on_behalf_set": 117,
+    "tag_set": 43,
+    "blocked": 1,
+    "unclassified": 0,
+    "noop": 1,
+    "create_portals": 2,
+    "client_visible_removals": 167,
+    "client_visible_recreates": 46,
+    "client_impact_total": 213
+  },
+  "notes": [
+    "mcp_portal Access app \"ChittyIdentity Agents\" (mcp.ch1tty.com) matches no portal",
+    "on_behalf: the snapshot records no per-membership on_behalf, so 117 membership(s) have current value unknown and are planned as on_behalf=true (D7)"
+  ],
+  "rows": [
+    {
+      "type": "create",
+      "kind": "portal",
+      "portal": "finance-portal",
+      "hostname": "finance.chitty.cc",
+      "status": "proposed",
+      "audience": "books and finance",
+      "code_mode": "opt_in"
+    },
+    {
+      "type": "create",
+      "kind": "portal",
+      "portal": "legal",
+      "hostname": "legal.chitty.cc",
+      "status": "proposed",
+      "audience": "litigation and evidence work",
+      "code_mode": "opt_in"
+    },
+    {
+      "type": "recreate",
+      "server": "ai",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "alchemist",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "auth",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "autoassist",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "availability",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "bindings",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "bluebubbles",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chittycomms",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "bridge-consent",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "builder",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "buyflow",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "canon",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "ch1tty",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "chatgpt",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chittycomms",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "cleaner",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "cloudflare",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "command",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "comptroller",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "context",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "contextual",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chode",
+        "legal"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "dispatch",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "dispute",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chode",
+        "legal"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "evidence",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chode",
+        "legal"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "finance",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chode",
+        "finance-portal"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "gam",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chode",
+        "gws-portal"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "git",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "gws",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chode",
+        "gws-portal"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "heartbeat",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "helper",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "human-escalator",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "imessage",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chittycomms",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "market",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "monitor",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "neon",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "notes",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chittycomms",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "notion",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "orchestrator",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "quo",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chittycomms",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "resolve",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "sandbox",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "schema",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "scrape",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "apf-portal",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "ship",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "storage",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "sync",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "twilio",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chittycomms",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "recreate",
+      "server": "viewport",
+      "auth_type_from": "unauthenticated",
+      "auth_type_to": "oauth",
+      "readd_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "gated_on": "D3 probe",
+      "client_visible": true,
+      "drops": "portal membership and per-user OAuth connections"
+    },
+    {
+      "type": "membership_add",
+      "server": "ai",
+      "portal": "chittymcp-vm",
+      "bundled_with_recreate": true
+    },
+    {
+      "type": "membership_add",
+      "server": "ai",
+      "portal": "chode",
+      "bundled_with_recreate": true
+    },
+    {
+      "type": "membership_add",
+      "server": "bluebubbles",
+      "portal": "chittycomms",
+      "bundled_with_recreate": true
+    },
+    {
+      "type": "membership_add",
+      "server": "chatgpt",
+      "portal": "chittycomms",
+      "bundled_with_recreate": true
+    },
+    {
+      "type": "membership_add",
+      "server": "chitty-scrape",
+      "portal": "apf-portal",
+      "bundled_with_recreate": false
+    },
+    {
+      "type": "membership_add",
+      "server": "cloudeflare-codemode",
+      "portal": "cf",
+      "bundled_with_recreate": false
+    },
+    {
+      "type": "membership_add",
+      "server": "contextual",
+      "portal": "legal",
+      "bundled_with_recreate": true
+    },
+    {
+      "type": "membership_add",
+      "server": "dispute",
+      "portal": "legal",
+      "bundled_with_recreate": true
+    },
+    {
+      "type": "membership_add",
+      "server": "evidence",
+      "portal": "legal",
+      "bundled_with_recreate": true
+    },
+    {
+      "type": "membership_add",
+      "server": "finance",
+      "portal": "finance-portal",
+      "bundled_with_recreate": true
+    },
+    {
+      "type": "membership_add",
+      "server": "gws",
+      "portal": "chode",
+      "bundled_with_recreate": true
+    },
+    {
+      "type": "membership_add",
+      "server": "quo",
+      "portal": "chittycomms",
+      "bundled_with_recreate": true
+    },
+    {
+      "type": "membership_add",
+      "server": "scrape",
+      "portal": "apf-portal",
+      "bundled_with_recreate": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "alchemist",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "alchemist",
+      "portal": "chittycomms",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "alchemist",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "alchemist",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "apify",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "apify",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "apify",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "auth",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "auth",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "autoassist",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "autoassist",
+      "portal": "cf",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "autoassist",
+      "portal": "chittycomms",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "autoassist",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "autoassist",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "availability",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "availability",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "availability",
+      "portal": "chode",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "availability",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "bluebubbles",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "bluebubbles",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "bluebubbles",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "bridge-consent",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "bridge-consent",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "bridge-consent",
+      "portal": "chode",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "bridge-consent",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "builder",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "builder",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "buyflow",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "buyflow",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "buyflow",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "canon",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "canon",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-ai-gateway",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-ai-gateway",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-ai-gateway",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-ai-gateway",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-ai-search",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-ai-search",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-ai-search",
+      "portal": "chittycomms",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-ai-search",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-ai-search",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-bindings",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-bindings",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-bindings",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-builds",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-builds",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-containers",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-containers",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-containers",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-dns",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-dns",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-dns",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-docs",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-docs",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-docs",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-graphql",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-graphql",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-graphql",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-observsbility",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cf-observsbility",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "ch1tty",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "ch1tty",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "chatgpt",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "chatgpt",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "chitty-scrape",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cleaner",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cloudeflare-codemode",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cloudeflare-codemode",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cloudeflare-codemode",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cloudflare",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "cloudflare",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "context",
+      "portal": "chittycomms",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "context",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "contextual",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "contextual",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "contextual",
+      "portal": "chittycomms",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "contextual",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "dispatch",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "dispatch",
+      "portal": "chittycomms",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "dispatch",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "dispatch",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "dispute",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "dispute",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "dispute",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "evidence",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "evidence",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "evidence",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "ext-apify",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "ext-apify",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "ext-apify",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "finance",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "finance",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "finance",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "gam",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "gam",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "gam",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "gh",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "gh",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "gh",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "git",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "gws",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "heartbeat",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "heartbeat",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "helper",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "helper",
+      "portal": "cf",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "helper",
+      "portal": "chittycomms",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "helper",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "helper",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "human-escalator",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "human-escalator",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "imessage",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "imessage",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "imessage",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "market",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "market",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "market",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "monitor",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "neon",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "neon",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "notes",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "notes",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "notes",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "notion",
+      "portal": "chittycomms",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "notion",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "npm",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "npm",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "npm",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "npm",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "openai-docs",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "openai-docs",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "orchestrator",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "orchestrator",
+      "portal": "cf",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "orchestrator",
+      "portal": "chittycomms",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "orchestrator",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "orchestrator",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "quo",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "quo",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "quo",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "resolve",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "sandbox",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "sandbox",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "sandbox",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "schema",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "scrape",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "scrape",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "scrape",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "scrape",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "secrets",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "secrets",
+      "portal": "cf",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "secrets",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "secrets",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "secrets",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "ship",
+      "portal": "apf-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "ship",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "ship",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "storage",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "storage",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "sync",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "tasks",
+      "portal": "chittycomms",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "tasks",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "twilio",
+      "portal": "chitty-mcp",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "twilio",
+      "portal": "chittymcp-vm",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "twilio",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "viewport",
+      "portal": "cf",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "viewport",
+      "portal": "chittycomms",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "viewport",
+      "portal": "dev-portal",
+      "client_visible": true
+    },
+    {
+      "type": "membership_remove",
+      "server": "viewport",
+      "portal": "gws-portal",
+      "client_visible": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "ai",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "ai",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "ai",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "alchemist",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "alchemist",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "alchemist",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "auth",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "auth",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "auth",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "autoassist",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "autoassist",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "autoassist",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "bindings",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "bindings",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "bindings",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "bluebubbles",
+      "portal": "chittycomms",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "bluebubbles",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "builder",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "builder",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "builder",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "canon",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "canon",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "canon",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "chatgpt",
+      "portal": "chittycomms",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "chatgpt",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "cleaner",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "cleaner",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "cleaner",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "cloudflare",
+      "portal": "cf",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "cloudflare",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "cloudflare",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "cloudflare",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "command",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "command",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "command",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "comptroller",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "comptroller",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "comptroller",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "context",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "context",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "context",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "contextual",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "contextual",
+      "portal": "legal",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "dispatch",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "dispatch",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "dispatch",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "dispute",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "dispute",
+      "portal": "legal",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "evidence",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "evidence",
+      "portal": "legal",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "finance",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "finance",
+      "portal": "finance-portal",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "gam",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "gam",
+      "portal": "gws-portal",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "git",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "git",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "git",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "gws",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "gws",
+      "portal": "gws-portal",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "heartbeat",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "heartbeat",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "heartbeat",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "helper",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "helper",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "helper",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "human-escalator",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "human-escalator",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "human-escalator",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "imessage",
+      "portal": "chittycomms",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "imessage",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "market",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "market",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "market",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "monitor",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "monitor",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "monitor",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "neon",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "neon",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "neon",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "notes",
+      "portal": "chittycomms",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "notes",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "notion",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "notion",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "notion",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "orchestrator",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "orchestrator",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "orchestrator",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "quo",
+      "portal": "chittycomms",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "quo",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "resolve",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "resolve",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "resolve",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "sandbox",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "sandbox",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "sandbox",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "schema",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "schema",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "schema",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "scrape",
+      "portal": "apf-portal",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "scrape",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "ship",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "ship",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "ship",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "storage",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "storage",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "storage",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "sync",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "sync",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "sync",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "tasks",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "tasks",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "tasks",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "twilio",
+      "portal": "chittycomms",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "twilio",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "viewport",
+      "portal": "chitty-mcp",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "viewport",
+      "portal": "chittymcp-vm",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "on_behalf_set",
+      "server": "viewport",
+      "portal": "chode",
+      "from": "unknown",
+      "to": true
+    },
+    {
+      "type": "tag_set",
+      "server": "ai",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "alchemist",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "auth",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "autoassist",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "bindings",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "bluebubbles",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chittycomms"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "builder",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "canon",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "chatgpt",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chittycomms"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "cleaner",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "cloudflare",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "command",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "comptroller",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "context",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "contextual",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "legal"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "dispatch",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "dispute",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "legal"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "evidence",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "legal"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "finance",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "finance-portal"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "gam",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "gws-portal"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "git",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "gws",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "gws-portal"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "heartbeat",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "helper",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "human-escalator",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "imessage",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chittycomms"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "market",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "monitor",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "neon",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "notes",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chittycomms"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "notion",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "orchestrator",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "quo",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chittycomms"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "resolve",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "sandbox",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "schema",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "scrape",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "apf-portal"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "ship",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "storage",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "sync",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "tasks",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "twilio",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chittycomms"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "tag_set",
+      "server": "viewport",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "support": "unverified (CF Resource Tagging may not accept MCP servers)"
+    },
+    {
+      "type": "blocked",
+      "server": "npm",
+      "reason": "upstream https://npm.chitty.cc/mcp has no covering Access app"
+    },
+    {
+      "type": "noop",
+      "server": "google"
+    }
+  ]
+}

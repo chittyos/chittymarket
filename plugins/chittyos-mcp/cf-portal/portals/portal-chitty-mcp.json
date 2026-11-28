@@ -1,0 +1,19 @@
+{
+  "name": "portal-chitty-mcp",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/chitty-mcp",
+  "kind": "mcp-portal",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "ChittyMCP Main Aggregator",
+  "portal_id": "chitty-mcp",
+  "hostname": "mcp.chitty.cc",
+  "audience": "operator core: ChittyOS control-plane agents (legal and finance agents moved to the legal and finance domain portals, D8)",
+  "display_name": "ChittyMCP Main Aggregator",
+  "access_app": "ChittyMCP",
+  "code_mode": "opt_in",
+  "membership": "explicit",
+  "evidence": null,
+  "status": "active"
+}

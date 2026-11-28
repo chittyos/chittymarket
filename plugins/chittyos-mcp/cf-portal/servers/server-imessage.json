@@ -1,0 +1,70 @@
+{
+  "name": "server-imessage",
+  "server_id": "imessage",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/imessage",
+  "kind": "mcp-portal-server",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "ChittyOS agent MCP server at agent.chitty.cc/imessage/mcp.",
+  "upstream": {
+    "url": "https://agent.chitty.cc/imessage/mcp",
+    "worker": "chittyagent-imessage",
+    "repo": "chittyos/chittyentity"
+  },
+  "auth": {
+    "target": "oauth",
+    "current": "unauthenticated",
+    "access_apps": [
+      "ChittyAgents",
+      "ChittyAgent iMessage MCP (edge)"
+    ],
+    "on_behalf": true
+  },
+  "classification": "placed",
+  "portals": [
+    {
+      "id": "chittycomms",
+      "reason": "Messaging server (section 5 chittycomms list)",
+      "on_behalf": true
+    },
+    {
+      "id": "chode",
+      "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+      "on_behalf": true
+    }
+  ],
+  "current_portals": [
+    "chitty-mcp",
+    "chittycomms",
+    "chittymcp-vm",
+    "chode",
+    "gws-portal"
+  ],
+  "tools": {
+    "naming": "no-self-prefix",
+    "expected": [
+      "search",
+      "list_recent",
+      "list_top_contacts",
+      "get_thread",
+      "get_unified_timeline",
+      "get_sync_status"
+    ]
+  },
+  "prompts": {
+    "expose": [
+      "imsg_summarize_thread",
+      "imsg_unified_brief",
+      "imsg_search_brief"
+    ]
+  },
+  "resources": "unavailable",
+  "tags": {
+    "chitty.repo": "chittyos/chittyentity",
+    "chitty.env": "production",
+    "chitty.portal": "chittycomms"
+  },
+  "status": "active"
+}

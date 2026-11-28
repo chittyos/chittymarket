@@ -1,0 +1,19 @@
+{
+  "name": "portal-chittycomms",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/chittycomms",
+  "kind": "mcp-portal",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "Messaging MCP, Quo, imessage, twillio, and others coming soon",
+  "portal_id": "chittycomms",
+  "hostname": "msg.chitty.cc",
+  "audience": "messaging",
+  "display_name": null,
+  "access_app": "ChittyMSG",
+  "code_mode": "default_on",
+  "membership": "explicit",
+  "evidence": null,
+  "status": "active"
+}
