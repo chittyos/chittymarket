@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 # xai-grok-bot.sh — project a canonical agent into an xAI Grok Bot profile.
 #
-# Grok Bot is xAI's hosted bot product. This adapter writes a profile only:
-# name, description (the job statement), instruction text, and connectors.
-# It does not call xAI, create a Bot, or read a secret.
+# Verified profile shape: a JSON object with name, description, and title.
+# Connectors are a separate section of the projection, not profile fields.
+# Long-form instructions are a sibling artifact, not a profile field.
+# This adapter does not call xAI, create a Bot, or read a secret.
 #
 # Usage:
 #   xai-grok-bot.sh <canonical-path> <output-path>
+#
+# <output-path> is the projection JSON. Instructions are written beside it
+# as <stem>.instructions.md, and the JSON points at that filename.
 #
 # Connectors come from the canonical, in this order:
 #   runtime_overrides.xai-grok-bot.connectors
@@ -87,9 +91,27 @@ instructions = overrides.get("instructions")
 if instructions is None:
     instructions = body
 if not isinstance(instructions, str) or not instructions.strip():
-    fail("canonical body is empty; Grok Bot instructions would be blank")
+    fail("canonical body is empty; the instructions artifact would be blank")
 if not instructions.endswith("\n"):
     instructions += "\n"
+
+def display_title(*candidates):
+    for candidate in candidates:
+        if isinstance(candidate, str):
+            text = " ".join(candidate.split()).strip()
+            if text:
+                return text
+    return None
+
+overlay = fm.get("overlay") if isinstance(fm.get("overlay"), dict) else {}
+title = display_title(
+    overrides.get("title"),
+    fm.get("title"),
+    fm.get("display_name"),
+    overlay.get("title"),
+)
+if title is None:
+    title = name.strip()
 
 USERINFO = re.compile(r"://[^/\s:]+:[^/\s@]+@")
 NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
@@ -103,6 +125,7 @@ def reject_secret(text, where):
         fail(f"{where} embeds credentials")
 
 reject_secret(description, "description")
+reject_secret(title, "title")
 reject_secret(instructions, "instructions")
 
 def as_name(value, where):
@@ -159,17 +182,25 @@ if canon_uri is not None:
 if boundary is not None:
     provenance["boundary_class"] = boundary
 
+out = Path(out_path)
+if out.suffix == ".json":
+    instructions_path = out.with_name(out.stem + ".instructions.md")
+else:
+    instructions_path = out.with_name(out.name + ".instructions.md")
+instructions_path.write_text(instructions, encoding="utf-8")
+
 doc = {
     "runtime": "xai-grok-bot",
     "profile": {
         "name": name.strip(),
         "description": description,
-        "instructions": instructions,
+        "title": title,
     },
     "connectors": connectors,
+    "instructions": {"artifact": instructions_path.name},
     "provenance": provenance,
 }
-Path(out_path).write_text(
+out.write_text(
     json.dumps(doc, indent=2, sort_keys=True, ensure_ascii=False) + "\n",
     encoding="utf-8",
 )

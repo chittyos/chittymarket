@@ -43,18 +43,25 @@ echo "xai-grok-bot adapter tests"
 
 write_fix base "$BASE"
 "$ADAPTER" "$TMP/base.md" "$TMP/a.json" >/dev/null
-"$ADAPTER" "$TMP/base.md" "$TMP/b.json" >/dev/null
-if cmp -s "$TMP/a.json" "$TMP/b.json"; then pass "renders deterministically"; else bad "output differs between runs"; fi
+cp "$TMP/a.json" "$TMP/a.first.json"
+cp "$TMP/a.instructions.md" "$TMP/a.first.instructions.md"
+"$ADAPTER" "$TMP/base.md" "$TMP/a.json" >/dev/null
+if cmp -s "$TMP/a.json" "$TMP/a.first.json" && cmp -s "$TMP/a.instructions.md" "$TMP/a.first.instructions.md"; then pass "renders deterministically"; else bad "output differs between runs"; fi
 
-if python3 - "$TMP/a.json" <<'PY'
+if python3 - "$TMP/a.json" "$TMP/a.instructions.md" <<'PY'
 import json, sys
 doc = json.load(open(sys.argv[1]))
+instructions = open(sys.argv[2], encoding="utf-8").read()
 assert doc["runtime"] == "xai-grok-bot"
-assert set(doc["profile"]) == {"name", "description", "instructions"}
+assert set(doc["profile"]) == {"name", "description", "title"}
 assert doc["profile"]["name"] == "example-agent"
+assert doc["profile"]["title"] == "example-agent"
 assert doc["profile"]["description"] == "Inventory one estate and propose one brief."
-assert doc["profile"]["instructions"].startswith("Follow the canonical")
+assert "instructions" not in doc["profile"]
+assert doc["instructions"] == {"artifact": "a.instructions.md"}
+assert instructions.startswith("Follow the canonical")
 assert doc["connectors"] == {"by": "canon_role", "resolve": "at-use-time", "source": "registry"}
+assert "connectors" not in doc["profile"]
 blob = json.dumps(doc)
 assert "example.invalid" not in blob
 assert "tier" not in doc and "tier" not in blob
@@ -65,7 +72,76 @@ assert doc["provenance"]["canon_uri"] == "chittycanon://example/agents/example-a
 assert doc["provenance"]["boundary_class"] == "business"
 assert doc["provenance"]["source"] == "base.md" or doc["provenance"]["source"].endswith("/base.md")
 PY
-then pass "profile is name, job, instructions, and the resolve instruction"; else bad "profile shape"; fi
+then pass "profile is name, description, and title; instructions and connectors are separate"; else bad "profile shape"; fi
+
+write_fix titled '---
+name: example-agent
+title: Example Display
+display_name: Ignored When Title Is Set
+description: One job.
+kind: agent
+connectors:
+  resolve: at-use-time
+  source: registry
+  by: canon_role
+---
+Body.
+'
+"$ADAPTER" "$TMP/titled.md" "$TMP/titled.json" >/dev/null
+if python3 -c 'import json,sys; p=json.load(open(sys.argv[1]))["profile"]; assert p["title"]=="Example Display" and p["name"]=="example-agent", p' "$TMP/titled.json"
+then pass "title comes from the canonical title field"; else bad "title field"; fi
+
+write_fix display '---
+name: example-agent
+display_name: Display From Canonical
+description: One job.
+kind: agent
+connectors:
+  resolve: at-use-time
+  source: registry
+  by: canon_role
+---
+Body.
+'
+"$ADAPTER" "$TMP/display.md" "$TMP/display.json" >/dev/null
+if python3 -c 'import json,sys; assert json.load(open(sys.argv[1]))["profile"]["title"]=="Display From Canonical"' "$TMP/display.json"
+then pass "title falls back to display_name"; else bad "display_name"; fi
+
+write_fix overlay '---
+name: example-agent
+description: One job.
+kind: agent
+overlay:
+  title: Overlay Display
+connectors:
+  resolve: at-use-time
+  source: registry
+  by: canon_role
+---
+Body.
+'
+"$ADAPTER" "$TMP/overlay.md" "$TMP/overlay.json" >/dev/null
+if python3 -c 'import json,sys; assert json.load(open(sys.argv[1]))["profile"]["title"]=="Overlay Display"' "$TMP/overlay.json"
+then pass "title falls back to overlay.title"; else bad "overlay title"; fi
+
+write_fix override '---
+name: example-agent
+title: Canonical Title
+description: One job.
+kind: agent
+runtime_overrides:
+  xai-grok-bot:
+    title: Projection Title
+connectors:
+  resolve: at-use-time
+  source: registry
+  by: canon_role
+---
+Body.
+'
+"$ADAPTER" "$TMP/override.md" "$TMP/override.json" >/dev/null
+if python3 -c 'import json,sys; assert json.load(open(sys.argv[1]))["profile"]["title"]=="Projection Title"' "$TMP/override.json"
+then pass "runtime title overrides the canonical title"; else bad "override title"; fi
 
 write_fix names '---
 name: example-agent

@@ -134,6 +134,9 @@ def audit(repo_root):
                                   runtime=rt, detail=f"unknown (runtime={rt}, kind={kind})"))
                 continue
             expected_proj_paths.add(os.path.normpath(out))
+            # Instructions are a sibling artifact of the profile JSON, not a profile field.
+            if rt == "xai-grok-bot" and out.endswith(".json"):
+                expected_proj_paths.add(os.path.normpath(out[: -len(".json")] + ".instructions.md"))
             cur_sha = git_hash(out)
             sentinel = recorded_targets.get(rt)
 

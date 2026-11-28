@@ -72,6 +72,8 @@ for f in "${staged[@]}"; do
       n="${f##*/}"; names["${n%.nomad.json}"]=1 ;;
     plugins/*/xai-grok-bot/*.json)
       n="${f##*/}"; names["${n%.json}"]=1 ;;
+    plugins/*/xai-grok-bot/*.instructions.md)
+      n="${f##*/}"; names["${n%.instructions.md}"]=1 ;;
   esac
 done
 
