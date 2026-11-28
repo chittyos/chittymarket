@@ -91,6 +91,8 @@ Some IDs shown by `/market` are runtime artifacts (skills/agents/MCP entries), n
 | **Governance/Platform Agents** | `chittyagent-neon` |
 | **Proxy Agents** | `chittyagent-chatgpt`, `chittyagent-cloudflare`, `chittyagent-notion` |
 
+The agent set is the files in `canonical/agents/`, read at use time. This table is not a roster and is not updated when a definition is added.
+
 ## Skill Groupings
 
 | Group | Skills |

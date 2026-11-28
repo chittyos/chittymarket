@@ -1,0 +1,76 @@
+{
+  "name": "server-cf-bindings",
+  "server_id": "cf-bindings",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cf-bindings",
+  "kind": "mcp-portal-server",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "Third-party style MCP server at bindings.mcp.cloudflare.com.",
+  "upstream": {
+    "url": "https://bindings.mcp.cloudflare.com/mcp",
+    "worker": null,
+    "repo": null
+  },
+  "auth": {
+    "target": "oauth",
+    "current": "oauth",
+    "access_apps": [],
+    "on_behalf": false
+  },
+  "classification": "placed",
+  "portals": [
+    {
+      "id": "cf",
+      "reason": "Cloudflare platform server (section 5 cf list)",
+      "on_behalf": false
+    },
+    {
+      "id": "chode",
+      "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+      "on_behalf": false
+    }
+  ],
+  "current_portals": [
+    "cf",
+    "chitty-mcp",
+    "chittymcp-vm",
+    "chode",
+    "dev-portal"
+  ],
+  "tools": {
+    "naming": "no-self-prefix",
+    "expected": [
+      "kv_namespaces_list",
+      "kv_namespace_create",
+      "kv_namespace_delete",
+      "kv_namespace_get",
+      "kv_namespace_update",
+      "workers_list",
+      "workers_get_worker",
+      "workers_get_worker_code",
+      "r2_buckets_list",
+      "r2_bucket_create",
+      "r2_bucket_get",
+      "r2_bucket_delete",
+      "d1_databases_list",
+      "d1_database_create",
+      "d1_database_delete",
+      "d1_database_get",
+      "d1_database_query",
+      "hyperdrive_configs_list",
+      "hyperdrive_config_delete",
+      "hyperdrive_config_get",
+      "hyperdrive_config_edit",
+      "search_cloudflare_documentation",
+      "migrate_pages_to_workers_guide"
+    ]
+  },
+  "prompts": {
+    "expose": "none"
+  },
+  "resources": "unavailable",
+  "tags": null,
+  "status": "active"
+}

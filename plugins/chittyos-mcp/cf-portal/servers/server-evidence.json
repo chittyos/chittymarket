@@ -1,0 +1,68 @@
+{
+  "name": "server-evidence",
+  "server_id": "evidence",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/evidence",
+  "kind": "mcp-portal-server",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "ChittyOS agent MCP server at agent.chitty.cc/evidence/mcp.",
+  "upstream": {
+    "url": "https://agent.chitty.cc/evidence/mcp",
+    "worker": "chittyagent-evidence",
+    "repo": "chittyos/chittyentity"
+  },
+  "auth": {
+    "target": "oauth",
+    "current": "unauthenticated",
+    "access_apps": [
+      "ChittyAgents"
+    ],
+    "on_behalf": true
+  },
+  "classification": "placed",
+  "portals": [
+    {
+      "id": "legal",
+      "reason": "Legal domain agent (D8: leaves chitty-mcp for the legal portal; matter isolation still enforced by the agent)",
+      "on_behalf": true
+    },
+    {
+      "id": "chode",
+      "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+      "on_behalf": true
+    }
+  ],
+  "current_portals": [
+    "chitty-mcp",
+    "chittymcp-vm",
+    "chode",
+    "gws-portal"
+  ],
+  "tools": {
+    "naming": "no-self-prefix",
+    "expected": [
+      "search",
+      "get",
+      "stats",
+      "ingest",
+      "pipeline_status",
+      "workflow_status"
+    ]
+  },
+  "prompts": {
+    "expose": [
+      "evidence_ingest_document",
+      "evidence_triage_recent",
+      "evidence_chain_of_custody"
+    ]
+  },
+  "resources": "unavailable",
+  "tags": {
+    "chitty.repo": "chittyos/chittyentity",
+    "chitty.env": "production",
+    "chitty.portal": "legal"
+  },
+  "status": "active"
+}

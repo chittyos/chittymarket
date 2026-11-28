@@ -1,0 +1,68 @@
+{
+  "name": "server-ext-apify",
+  "server_id": "ext-apify",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/ext-apify",
+  "kind": "mcp-portal-server",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "Third-party style MCP server at mcp.apify.com.",
+  "upstream": {
+    "url": "https://mcp.apify.com",
+    "worker": null,
+    "repo": null
+  },
+  "auth": {
+    "target": "oauth",
+    "current": "oauth",
+    "access_apps": [],
+    "on_behalf": false
+  },
+  "classification": "placed",
+  "portals": [
+    {
+      "id": "apf-portal",
+      "reason": "Scraping server (section 5 apf-portal list)",
+      "on_behalf": false
+    },
+    {
+      "id": "chode",
+      "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+      "on_behalf": false
+    }
+  ],
+  "current_portals": [
+    "apf-portal",
+    "chitty-mcp",
+    "chittymcp-vm",
+    "chode",
+    "dev-portal"
+  ],
+  "tools": {
+    "naming": "no-self-prefix",
+    "expected": [
+      "search-actors",
+      "fetch-actor-details",
+      "call-actor",
+      "get-actor-run",
+      "get-dataset-items",
+      "get-key-value-store-record",
+      "abort-actor-run",
+      "fetch-actor-mcp-tool-list",
+      "call-actor-mcp-tool",
+      "send-server-actor-request",
+      "search-apify-docs",
+      "fetch-apify-docs",
+      "report-problem",
+      "apify--web-search",
+      "apify--web-fetch"
+    ]
+  },
+  "prompts": {
+    "expose": "none"
+  },
+  "resources": "unavailable",
+  "tags": null,
+  "status": "active"
+}

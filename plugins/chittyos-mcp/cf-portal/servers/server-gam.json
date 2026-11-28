@@ -1,0 +1,66 @@
+{
+  "name": "server-gam",
+  "server_id": "gam",
+  "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/gam",
+  "kind": "mcp-portal-server",
+  "plugin": "chittyos-mcp",
+  "runtimes": [
+    "cf-portal"
+  ],
+  "description": "ChittyOS agent MCP server at agent.chitty.cc/gam/mcp.",
+  "upstream": {
+    "url": "https://agent.chitty.cc/gam/mcp",
+    "worker": "chittyagent-gam",
+    "repo": "chittyos/chittyentity"
+  },
+  "auth": {
+    "target": "oauth",
+    "current": "unauthenticated",
+    "access_apps": [
+      "ChittyAgents"
+    ],
+    "on_behalf": true
+  },
+  "classification": "placed",
+  "portals": [
+    {
+      "id": "gws-portal",
+      "reason": "Google Workspace server (section 5: gws only)",
+      "on_behalf": true
+    },
+    {
+      "id": "chode",
+      "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+      "on_behalf": true
+    }
+  ],
+  "current_portals": [
+    "chitty-mcp",
+    "chittymcp-vm",
+    "chode",
+    "dev-portal",
+    "gws-portal"
+  ],
+  "tools": {
+    "naming": "no-self-prefix",
+    "expected": [
+      "list_capabilities",
+      "execute"
+    ]
+  },
+  "prompts": {
+    "expose": [
+      "gam_provision_user",
+      "gam_offboard_user",
+      "gam_audit_group_membership",
+      "gam_domain_inventory"
+    ]
+  },
+  "resources": "unavailable",
+  "tags": {
+    "chitty.repo": "chittyos/chittyentity",
+    "chitty.env": "production",
+    "chitty.portal": "gws-portal"
+  },
+  "status": "active"
+}

@@ -1,0 +1,4528 @@
+{
+  "schema": "chittymarket/cf-portal-manifest/v1",
+  "servers": [
+    {
+      "name": "server-ai",
+      "server_id": "ai",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/ai",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/ai/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/ai/mcp",
+        "worker": "chittyagent-ai",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_models",
+          "complete"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-alchemist",
+      "server_id": "alchemist",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/alchemist",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/alchemist/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/alchemist/mcp",
+        "worker": "chittyagent-alchemist",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "ingest_event",
+          "record_hook_event",
+          "get_proposals",
+          "get_insights",
+          "run_analysis",
+          "alchemize",
+          "get_score"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-apify",
+      "server_id": "apify",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/apify",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at mcp.apify.com.",
+      "upstream": {
+        "url": "https://mcp.apify.com/?tools=actors,docs,experimental,runs,storage,jeanarlene/chittyscrape,tri_angle/redfin-detail,maxcopell/zillow-detail-scraper,crawlerbros/furnished-finder-scraper,turboextract/ai-training-dataset-builder,chimerical_quicklime/turbotenant-scraper,tri_angle/airbnb-scraper,scraptivo/propertyfinder-scraper,rigelbytes/airbnb-property-details",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "apf-portal",
+          "reason": "Scraping server (section 5 apf-portal list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "search-actors",
+          "fetch-actor-details",
+          "call-actor",
+          "get-actor-run",
+          "get-dataset-items",
+          "get-key-value-store-record",
+          "abort-actor-run",
+          "fetch-actor-mcp-tool-list",
+          "call-actor-mcp-tool",
+          "send-server-actor-request",
+          "search-apify-docs",
+          "fetch-apify-docs",
+          "get-actor-run-list",
+          "get-actor-run-log",
+          "get-dataset",
+          "get-dataset-schema",
+          "get-key-value-store",
+          "get-key-value-store-keys",
+          "get-dataset-list",
+          "get-key-value-store-list",
+          "tri_angle--redfin-detail",
+          "maxcopell--zillow-detail-scraper",
+          "turboextract--ai-training-dataset-builder",
+          "chimerical_quicklime--turbotenant-scraper",
+          "tri_angle--airbnb-scraper"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-auth",
+      "server_id": "auth",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/auth",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/auth/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/auth/mcp",
+        "worker": "chittyagent-auth",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "resolve_token",
+          "oauth_discovery",
+          "oauth_jwks",
+          "provider_status"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-autoassist",
+      "server_id": "autoassist",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/autoassist",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/autoassist/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/autoassist/mcp",
+        "worker": "chittyagent-autoassist",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_templates",
+          "preview_loop",
+          "run_loop",
+          "list_recipes",
+          "run_recipe",
+          "get_recipe_toggle",
+          "set_recipe_toggle"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-availability",
+      "server_id": "availability",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/availability",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/availability/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/availability/mcp",
+        "worker": "chittyagent-availability",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "parked",
+      "portals": [],
+      "parked_reason": "Zero-tool server, never synced; operator did not decide, so parked (defined, in no portal), not retired.",
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": []
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-bindings",
+      "server_id": "bindings",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/bindings",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/bindings/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/bindings/mcp",
+        "worker": "chittyagent-bindings",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": []
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-bluebubbles",
+      "server_id": "bluebubbles",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/bluebubbles",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/bluebubbles/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/bluebubbles/mcp",
+        "worker": "chittyagent-bluebubbles",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents",
+          "ChittyAgent BlueBubbles MCP (edge)"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chittycomms",
+          "reason": "Messaging server (section 5 chittycomms list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "send_text",
+          "list_chats",
+          "get_chat",
+          "list_messages",
+          "search_messages",
+          "get_contact",
+          "get_server_info"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chittycomms"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-bridge-consent",
+      "server_id": "bridge-consent",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/bridge-consent",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/bridge-consent/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/bridge-consent/mcp",
+        "worker": "chittyagent-bridge-consent",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "parked",
+      "portals": [],
+      "parked_reason": "Zero-tool server, never synced; operator did not decide, so parked (defined, in no portal), not retired.",
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": []
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-builder",
+      "server_id": "builder",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/builder",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/builder/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/builder/mcp",
+        "worker": "chittyagent-builder",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list",
+          "get_template",
+          "scaffold",
+          "validate",
+          "propose_bindings",
+          "propose_renames",
+          "check_health",
+          "inventory",
+          "report_drift",
+          "reconcile",
+          "enable_healing",
+          "healer_status",
+          "register",
+          "sync_registry",
+          "portal_sync",
+          "portal_status"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-buyflow",
+      "server_id": "buyflow",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/buyflow",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/buyflow/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/buyflow/mcp",
+        "worker": "chittyagent-buyflow",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "parked",
+      "portals": [],
+      "parked_reason": "Zero-tool server, never synced; operator did not decide, so parked (defined, in no portal), not retired.",
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": []
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-canon",
+      "server_id": "canon",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/canon",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/canon/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/canon/mcp",
+        "worker": "chittyagent-canon",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "validate_uri",
+          "lookup_standard",
+          "register_document",
+          "get_frontmatter_schema",
+          "jcs_canonicalize"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-cf-ai-gateway",
+      "server_id": "cf-ai-gateway",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cf-ai-gateway",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at ai-gateway.mcp.cloudflare.com.",
+      "upstream": {
+        "url": "https://ai-gateway.mcp.cloudflare.com/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_gateways",
+          "list_logs",
+          "get_log_details",
+          "get_log_request_body",
+          "get_log_response_body"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-cf-ai-search",
+      "server_id": "cf-ai-search",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cf-ai-search",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at autorag.mcp.cloudflare.com.",
+      "upstream": {
+        "url": "https://autorag.mcp.cloudflare.com/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_rags",
+          "search",
+          "ai_search"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-cf-bindings",
+      "server_id": "cf-bindings",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cf-bindings",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at bindings.mcp.cloudflare.com.",
+      "upstream": {
+        "url": "https://bindings.mcp.cloudflare.com/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "kv_namespaces_list",
+          "kv_namespace_create",
+          "kv_namespace_delete",
+          "kv_namespace_get",
+          "kv_namespace_update",
+          "workers_list",
+          "workers_get_worker",
+          "workers_get_worker_code",
+          "r2_buckets_list",
+          "r2_bucket_create",
+          "r2_bucket_get",
+          "r2_bucket_delete",
+          "d1_databases_list",
+          "d1_database_create",
+          "d1_database_delete",
+          "d1_database_get",
+          "d1_database_query",
+          "hyperdrive_configs_list",
+          "hyperdrive_config_delete",
+          "hyperdrive_config_get",
+          "hyperdrive_config_edit",
+          "search_cloudflare_documentation",
+          "migrate_pages_to_workers_guide"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-cf-builds",
+      "server_id": "cf-builds",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cf-builds",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at builds.mcp.cloudflare.com.",
+      "upstream": {
+        "url": "https://builds.mcp.cloudflare.com/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "dev-portal",
+          "reason": "Developer docs/tooling server (section 5 dev-portal list)",
+          "on_behalf": false
+        },
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "workers_list",
+          "workers_get_worker",
+          "workers_get_worker_code",
+          "workers_builds_list_builds",
+          "workers_builds_get_build",
+          "workers_builds_get_build_logs"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-cf-containers",
+      "server_id": "cf-containers",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cf-containers",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at containers.mcp.cloudflare.com.",
+      "upstream": {
+        "url": "https://containers.mcp.cloudflare.com/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "container_initialize",
+          "container_ping",
+          "container_exec",
+          "container_file_delete",
+          "container_file_write",
+          "container_files_list",
+          "container_file_read"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-cf-dns",
+      "server_id": "cf-dns",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cf-dns",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at dns-analytics.mcp.cloudflare.com.",
+      "upstream": {
+        "url": "https://dns-analytics.mcp.cloudflare.com/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "dns_report",
+          "show_account_dns_settings",
+          "show_zone_dns_settings",
+          "zones_list",
+          "zone_details"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-cf-docs",
+      "server_id": "cf-docs",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cf-docs",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at docs.mcp.cloudflare.com.",
+      "upstream": {
+        "url": "https://docs.mcp.cloudflare.com/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "unauthenticated",
+        "current": "unauthenticated",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "dev-portal",
+          "reason": "Developer docs/tooling server (section 5 dev-portal list)",
+          "on_behalf": false
+        },
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "search_cloudflare_documentation",
+          "migrate_pages_to_workers_guide"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-cf-graphql",
+      "server_id": "cf-graphql",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cf-graphql",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at graphql.mcp.cloudflare.com.",
+      "upstream": {
+        "url": "https://graphql.mcp.cloudflare.com/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "zones_list",
+          "zone_details",
+          "graphql_schema_search",
+          "graphql_schema_overview",
+          "graphql_type_details",
+          "graphql_complete_schema",
+          "graphql_query",
+          "graphql_api_explorer"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-cf-observsbility",
+      "server_id": "cf-observsbility",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cf-observsbility",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at observability.mcp.cloudflare.com.",
+      "upstream": {
+        "url": "https://observability.mcp.cloudflare.com/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "dev-portal",
+          "reason": "Developer docs/tooling server (section 5 dev-portal list)",
+          "on_behalf": false
+        },
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "workers_list",
+          "workers_get_worker",
+          "workers_get_worker_code",
+          "query_worker_observability",
+          "observability_keys",
+          "observability_values",
+          "search_cloudflare_documentation",
+          "migrate_pages_to_workers_guide"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-ch1tty",
+      "server_id": "ch1tty",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/ch1tty",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/ch1tty/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/ch1tty/mcp",
+        "worker": "chittyagent-ch1tty",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "parked",
+      "portals": [],
+      "parked_reason": "operator decision pending: umbrella gateway; portal inside portal",
+      "current_portals": [
+        "chitty-mcp",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "search",
+          "execute",
+          "status",
+          "reload",
+          "cast"
+        ]
+      },
+      "prompts": {
+        "expose": [
+          "ch1tty_discover_capability",
+          "ch1tty_run_tool",
+          "ch1tty_cast_intent",
+          "ch1tty_gateway_health"
+        ]
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-chatgpt",
+      "server_id": "chatgpt",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/chatgpt",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/chatgpt/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/chatgpt/mcp",
+        "worker": "chittyagent-chatgpt",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chittycomms",
+          "reason": "Messaging server (section 5 chittycomms list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "design_mcp",
+          "design_actions",
+          "design_plugins",
+          "troubleshoot"
+        ]
+      },
+      "prompts": {
+        "expose": [
+          "chatgpt_design_mcp_server",
+          "chatgpt_design_custom_action",
+          "chatgpt_troubleshoot_integration",
+          "chatgpt_migrate_plugin_to_action"
+        ]
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chittycomms"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-chitty-scrape",
+      "server_id": "chitty-scrape",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/chitty-scrape",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at mcp.apify.com.",
+      "upstream": {
+        "url": "https://mcp.apify.com/?tools=actors,docs,experimental,runs,storage,jeanarlene/chittyscrape",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "apf-portal",
+          "reason": "Scraping server (section 5 apf-portal list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chode"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "search-actors",
+          "fetch-actor-details",
+          "call-actor",
+          "get-actor-run",
+          "get-dataset-items",
+          "get-key-value-store-record",
+          "abort-actor-run",
+          "fetch-actor-mcp-tool-list",
+          "call-actor-mcp-tool",
+          "send-server-actor-request",
+          "search-apify-docs",
+          "fetch-apify-docs",
+          "get-actor-run-list",
+          "get-actor-run-log",
+          "get-dataset",
+          "get-dataset-schema",
+          "get-key-value-store",
+          "get-key-value-store-keys",
+          "get-dataset-list",
+          "get-key-value-store-list"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-cleaner",
+      "server_id": "cleaner",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cleaner",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/cleaner/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/cleaner/mcp",
+        "worker": "chittyagent-cleaner",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_tools",
+          "execute",
+          "chat"
+        ]
+      },
+      "prompts": {
+        "expose": [
+          "cleaner_triage_disk",
+          "cleaner_analyze_logs",
+          "cleaner_recommend_cleanup",
+          "cleaner_spark_joy"
+        ]
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-cloudeflare-codemode",
+      "server_id": "cloudeflare-codemode",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cloudeflare-codemode",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at mcp.cloudflare.com.",
+      "upstream": {
+        "url": "https://mcp.cloudflare.com/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "docs",
+          "search",
+          "execute",
+          "whoami"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-cloudflare",
+      "server_id": "cloudflare",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/cloudflare",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/cloudflare/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/cloudflare/mcp",
+        "worker": "chittyagent-cloudflare",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "cf",
+          "reason": "Cloudflare platform server (section 5 cf list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "cf",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_accounts",
+          "call"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-command",
+      "server_id": "command",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/command",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/command/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/command/mcp",
+        "worker": "chittyagent-command",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_agent_capabilities",
+          "triage_ingest",
+          "triage_rank",
+          "triage_route",
+          "dispatch",
+          "status"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-comptroller",
+      "server_id": "comptroller",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/comptroller",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/comptroller/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/comptroller/mcp",
+        "worker": "chittyagent-comptroller",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "get_budget_status",
+          "get_metrics",
+          "get_insights",
+          "list_anomalies",
+          "list_signals"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-context",
+      "server_id": "context",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/context",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/context/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/context/mcp",
+        "worker": "chittyagent-context",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_sessions",
+          "get_session",
+          "check_prune_auth",
+          "trigger_reconcile",
+          "list_chunks"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-contextual",
+      "server_id": "contextual",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/contextual",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/contextual/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/contextual/mcp",
+        "worker": "chittyagent-contextual",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "legal",
+          "reason": "Legal domain agent (D8: leaves chitty-mcp for the legal portal; matter isolation still enforced by the agent)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "search_messages",
+          "get_timeline",
+          "get_topics",
+          "get_entities",
+          "get_cross_references",
+          "get_documents",
+          "get_analytics",
+          "get_topic_analysis",
+          "get_evidence"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "legal"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-dispatch",
+      "server_id": "dispatch",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/dispatch",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/dispatch/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/dispatch/mcp",
+        "worker": "chittyagent-dispatch",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_targets",
+          "call"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-dispute",
+      "server_id": "dispute",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/dispute",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/dispute/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/dispute/mcp",
+        "worker": "chittyagent-dispute",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "legal",
+          "reason": "Legal domain agent (D8: leaves chitty-mcp for the legal portal; matter isolation still enforced by the agent)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "search",
+          "ingest",
+          "emails_list",
+          "actions_list",
+          "timeline_get",
+          "link",
+          "monitor"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "legal"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-evidence",
+      "server_id": "evidence",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/evidence",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/evidence/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/evidence/mcp",
+        "worker": "chittyagent-evidence",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "legal",
+          "reason": "Legal domain agent (D8: leaves chitty-mcp for the legal portal; matter isolation still enforced by the agent)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "search",
+          "get",
+          "stats",
+          "ingest",
+          "pipeline_status",
+          "workflow_status"
+        ]
+      },
+      "prompts": {
+        "expose": [
+          "evidence_ingest_document",
+          "evidence_triage_recent",
+          "evidence_chain_of_custody"
+        ]
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "legal"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-ext-apify",
+      "server_id": "ext-apify",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/ext-apify",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at mcp.apify.com.",
+      "upstream": {
+        "url": "https://mcp.apify.com",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "apf-portal",
+          "reason": "Scraping server (section 5 apf-portal list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "search-actors",
+          "fetch-actor-details",
+          "call-actor",
+          "get-actor-run",
+          "get-dataset-items",
+          "get-key-value-store-record",
+          "abort-actor-run",
+          "fetch-actor-mcp-tool-list",
+          "call-actor-mcp-tool",
+          "send-server-actor-request",
+          "search-apify-docs",
+          "fetch-apify-docs",
+          "report-problem",
+          "apify--web-search",
+          "apify--web-fetch"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-finance",
+      "server_id": "finance",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/finance",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/finance/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/finance/mcp",
+        "worker": "chittyagent-finance",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "finance-portal",
+          "reason": "Finance domain agent (D8: leaves chitty-mcp for the finance portal)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_entities",
+          "get_balances",
+          "get_transactions",
+          "cash_flow",
+          "inter_entity_transfers",
+          "flow_of_funds"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "finance-portal"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-gam",
+      "server_id": "gam",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/gam",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/gam/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/gam/mcp",
+        "worker": "chittyagent-gam",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "gws-portal",
+          "reason": "Google Workspace server (section 5: gws only)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_capabilities",
+          "execute"
+        ]
+      },
+      "prompts": {
+        "expose": [
+          "gam_provision_user",
+          "gam_offboard_user",
+          "gam_audit_group_membership",
+          "gam_domain_inventory"
+        ]
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "gws-portal"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-gh",
+      "server_id": "gh",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/gh",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at api.githubcopilot.com.",
+      "upstream": {
+        "url": "https://api.githubcopilot.com/mcp/",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "bearer",
+        "current": "bearer",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "dev-portal",
+          "reason": "Developer docs/tooling server (section 5 dev-portal list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "add_comment_to_pending_review",
+          "add_issue_comment",
+          "add_reply_to_pull_request_comment",
+          "create_branch",
+          "create_or_update_file",
+          "create_pull_request",
+          "create_repository",
+          "delete_file",
+          "fork_repository",
+          "get_commit",
+          "get_file_contents",
+          "get_label",
+          "get_latest_release",
+          "get_me",
+          "get_release_by_tag",
+          "get_tag",
+          "get_team_members",
+          "get_teams",
+          "issue_read",
+          "issue_write",
+          "list_branches",
+          "list_commits",
+          "list_issue_fields",
+          "list_issue_types",
+          "list_issues",
+          "list_pull_requests",
+          "list_releases",
+          "list_repository_collaborators",
+          "list_tags",
+          "merge_pull_request",
+          "pull_request_read",
+          "pull_request_review_write",
+          "push_files",
+          "request_copilot_review",
+          "run_secret_scanning",
+          "search_code",
+          "search_commits",
+          "search_issues",
+          "search_pull_requests",
+          "search_repositories",
+          "search_users",
+          "sub_issue_write",
+          "ui_get",
+          "update_issue_comment",
+          "update_pull_request",
+          "update_pull_request_branch"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-git",
+      "server_id": "git",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/git",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/git/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/git/mcp",
+        "worker": "chittyagent-git",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "status",
+          "log",
+          "show",
+          "diff",
+          "list_branches"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-google",
+      "server_id": "google",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/google",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/google/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/google/mcp",
+        "worker": "chittyagent-google",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "parked",
+      "portals": [],
+      "parked_reason": "Duplicate upstream of gws (agent.chitty.cc/google/mcp), 0 portals; operator did not decide, so parked (defined, in no portal), not retired.",
+      "current_portals": [],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": []
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-gws",
+      "server_id": "gws",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/gws",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/google/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/google/mcp",
+        "worker": "chittyagent-google",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "gws-portal",
+          "reason": "Google Workspace server (section 5: gws only)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_services",
+          "mcp_proxy",
+          "gmail_send",
+          "gmail_get_message",
+          "gmail_list_messages",
+          "gmail_search",
+          "gmail_get_raw_message",
+          "gmail_export_pdf_to_drive",
+          "gmail_send_message",
+          "gmail_search_messages",
+          "gmail_get_attachment",
+          "gmail_list_labels",
+          "gmail_trash_message",
+          "gmail_mark_read",
+          "gmail_attachment_to_drive",
+          "docs_get",
+          "docs_create",
+          "docs_batch_update",
+          "sheets_get",
+          "sheets_get_values",
+          "sheets_update_values",
+          "sheets_append_values",
+          "tasks_list_tasklists",
+          "tasks_list_tasks",
+          "tasks_create_task",
+          "tasks_complete_task",
+          "drive_list_files",
+          "drive_get_file",
+          "calendar_list_calendars",
+          "calendar_list_events",
+          "calendar_create_event",
+          "drive_create_folder",
+          "drive_upload_file",
+          "drive_move_file",
+          "drive_export_file",
+          "sheets_create"
+        ]
+      },
+      "prompts": {
+        "expose": [
+          "email_triage",
+          "schedule_meeting",
+          "find_document",
+          "daily_briefing",
+          "extract_evidence",
+          "draft_document",
+          "analyze_spreadsheet",
+          "manage_tasks",
+          "lookup_person"
+        ]
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "gws-portal"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-heartbeat",
+      "server_id": "heartbeat",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/heartbeat",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/heartbeat/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/heartbeat/mcp",
+        "worker": "chittyagent-heartbeat",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": []
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-helper",
+      "server_id": "helper",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/helper",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/helper/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/helper/mcp",
+        "worker": "chittyagent-helper",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "query",
+          "registry_lookup",
+          "record_feedback",
+          "list_patterns",
+          "list_gaps",
+          "sync_registry"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-human-escalator",
+      "server_id": "human-escalator",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/human-escalator",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/human-escalator/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/human-escalator/mcp",
+        "worker": "chittyagent-human-escalator",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "open",
+          "get",
+          "list",
+          "resolve"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-imessage",
+      "server_id": "imessage",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/imessage",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/imessage/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/imessage/mcp",
+        "worker": "chittyagent-imessage",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents",
+          "ChittyAgent iMessage MCP (edge)"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chittycomms",
+          "reason": "Messaging server (section 5 chittycomms list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "search",
+          "list_recent",
+          "list_top_contacts",
+          "get_thread",
+          "get_unified_timeline",
+          "get_sync_status"
+        ]
+      },
+      "prompts": {
+        "expose": [
+          "imsg_summarize_thread",
+          "imsg_unified_brief",
+          "imsg_search_brief"
+        ]
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chittycomms"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-market",
+      "server_id": "market",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/market",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/market/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/market/mcp",
+        "worker": "chittyagent-market",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "discover",
+          "register",
+          "get_manifest"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-monitor",
+      "server_id": "monitor",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/monitor",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/monitor/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/monitor/mcp",
+        "worker": "chittyagent-monitor",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "get_global_kill_switch",
+          "set_global_kill_switch"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-neon",
+      "server_id": "neon",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/neon",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/neon/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/neon/mcp",
+        "worker": "chittyagent-neon",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_projects",
+          "get_project",
+          "list_branches",
+          "list_databases",
+          "run_sql",
+          "get_connection_string",
+          "list_operations",
+          "list_tables",
+          "describe_table"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-notes",
+      "server_id": "notes",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/notes",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/notes/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/notes/mcp",
+        "worker": "chittyagent-notes",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chittycomms",
+          "reason": "Messaging server (section 5 chittycomms list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "search",
+          "read",
+          "folders_list",
+          "stats_get",
+          "recent_get",
+          "folder_contents_list"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chittycomms"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-notion",
+      "server_id": "notion",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/notion",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/notion/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/notion/mcp",
+        "worker": "chittyagent-notion",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list_registries",
+          "query",
+          "create_page",
+          "update_page",
+          "archive_page",
+          "unarchive_page",
+          "get_page",
+          "get_database",
+          "get_page_blocks",
+          "health"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-npm",
+      "server_id": "npm",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/npm",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at npm.chitty.cc.",
+      "upstream": {
+        "url": "https://npm.chitty.cc/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "unauthenticated",
+        "current": "unauthenticated",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "dev-portal",
+          "reason": "Developer docs/tooling server (section 5 dev-portal list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "package_info",
+          "package_versions",
+          "dist_tags",
+          "download_stats",
+          "audit_bulk",
+          "search",
+          "publish_preflight",
+          "status",
+          "describe"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-openai-docs",
+      "server_id": "openai-docs",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/openai-docs",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at developers.openai.com.",
+      "upstream": {
+        "url": "https://developers.openai.com/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "unauthenticated",
+        "current": "unauthenticated",
+        "access_apps": [],
+        "on_behalf": false
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "dev-portal",
+          "reason": "Developer docs/tooling server (section 5 dev-portal list)",
+          "on_behalf": false
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": false
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "search_openai_docs",
+          "list_openai_docs",
+          "fetch_openai_doc",
+          "list_api_endpoints",
+          "get_openapi_spec"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-orchestrator",
+      "server_id": "orchestrator",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/orchestrator",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/orchestrator/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/orchestrator/mcp",
+        "worker": "chittyagent-orchestrator",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "provision_evaluate",
+          "provision_bind",
+          "provision_fork",
+          "provision_status",
+          "skill_list",
+          "skill_search",
+          "skill_execute",
+          "skill_register",
+          "agent_list",
+          "agent_search",
+          "agent_execute",
+          "agent_register",
+          "list_provision_candidates"
+        ]
+      },
+      "prompts": {
+        "expose": [
+          "orchestrator_route_intent",
+          "orchestrator_discover",
+          "orchestrator_provision_session"
+        ]
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-quo",
+      "server_id": "quo",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/quo",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/quo/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/quo/mcp",
+        "worker": "chittyagent-quo",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chittycomms",
+          "reason": "Messaging server (section 5 chittycomms list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "send_message",
+          "list_messages",
+          "get_message",
+          "list_calls",
+          "get_call",
+          "get_call_transcription",
+          "get_call_summary",
+          "list_phone_numbers",
+          "list_conversations",
+          "list_contacts",
+          "get_contact",
+          "create_contact",
+          "update_contact",
+          "resolve_contact_context",
+          "list_recent_events",
+          "list_recent_calls_local",
+          "list_recent_messages_local"
+        ]
+      },
+      "prompts": {
+        "expose": [
+          "quo_triage_inbound",
+          "quo_summarize_thread",
+          "quo_compose_followup",
+          "send_text_message",
+          "create_contact",
+          "fetch_conversation_history",
+          "fetch_call_transcripts"
+        ]
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chittycomms"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-resolve",
+      "server_id": "resolve",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/resolve",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/resolve/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/resolve/mcp",
+        "worker": "chittyagent-resolve",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "evaluate_error",
+          "list",
+          "get_stats",
+          "suppress"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-sandbox",
+      "server_id": "sandbox",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/sandbox",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/sandbox/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/sandbox/mcp",
+        "worker": "chittyagent-sandbox",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "describe_domains",
+          "run_ts"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-schema",
+      "server_id": "schema",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/schema",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/schema/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/schema/mcp",
+        "worker": "chittyagent-schema",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": []
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-scrape",
+      "server_id": "scrape",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/scrape",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/scrape/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/scrape/mcp",
+        "worker": "chittyagent-scrape",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "apf-portal",
+          "reason": "Scraping server (section 5 apf-portal list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "enqueue_job",
+          "process_queue",
+          "get_job",
+          "list_jobs"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "apf-portal"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-secrets",
+      "server_id": "secrets",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/secrets",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Third-party style MCP server at secrets.chitty.cc.",
+      "upstream": {
+        "url": "https://secrets.chitty.cc/mcp",
+        "worker": null,
+        "repo": null
+      },
+      "auth": {
+        "target": "bearer",
+        "current": "bearer",
+        "access_apps": [
+          "ChittySecrets (secrets.chitty.cc)"
+        ],
+        "on_behalf": false
+      },
+      "classification": "parked",
+      "portals": [],
+      "parked_reason": "operator decision pending: credential surface",
+      "current_portals": [
+        "apf-portal",
+        "cf",
+        "chitty-mcp",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": []
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": null,
+      "status": "active"
+    },
+    {
+      "name": "server-ship",
+      "server_id": "ship",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/ship",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/ship/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/ship/mcp",
+        "worker": "chittyagent-ship",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "apf-portal",
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "start",
+          "preflight",
+          "brainstorm",
+          "checkpoint",
+          "cleanup",
+          "branch",
+          "status",
+          "get_preferences"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-storage",
+      "server_id": "storage",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/storage",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/storage/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/storage/mcp",
+        "worker": "chittyagent-storage",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "search",
+          "entity",
+          "locate",
+          "ingest",
+          "references",
+          "hold",
+          "entities_list",
+          "classify",
+          "classify_batch",
+          "embed_batch",
+          "ai_search",
+          "scan_r2"
+        ]
+      },
+      "prompts": {
+        "expose": [
+          "storage_ingest_document",
+          "storage_trace_copies",
+          "storage_place_hold",
+          "storage_triage_unclassified"
+        ]
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-sync",
+      "server_id": "sync",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/sync",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/sync/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/sync/mcp",
+        "worker": "chittyagent-sync",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "status",
+          "health",
+          "ingest",
+          "get_decision",
+          "queue_review",
+          "resolve_review",
+          "registry_list"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-tasks",
+      "server_id": "tasks",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/tasks",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/tasks/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/tasks/mcp",
+        "worker": "chittyagent-tasks",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "oauth",
+        "access_apps": [
+          "agent · tasks (pilot)",
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "list",
+          "get",
+          "create",
+          "claim",
+          "heartbeat",
+          "complete",
+          "triage"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-twilio",
+      "server_id": "twilio",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/twilio",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/twilio/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/twilio/mcp",
+        "worker": "chittyagent-twilio",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chittycomms",
+          "reason": "Messaging server (section 5 chittycomms list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "send_sms",
+          "send_whatsapp",
+          "make_call",
+          "list_messages",
+          "get_message",
+          "list_calls",
+          "get_call",
+          "list_recordings",
+          "list_numbers"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chittycomms"
+      },
+      "status": "active"
+    },
+    {
+      "name": "server-viewport",
+      "server_id": "viewport",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/servers/viewport",
+      "kind": "mcp-portal-server",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyOS agent MCP server at agent.chitty.cc/viewport/mcp.",
+      "upstream": {
+        "url": "https://agent.chitty.cc/viewport/mcp",
+        "worker": "chittyagent-viewport",
+        "repo": "chittyos/chittyentity"
+      },
+      "auth": {
+        "target": "oauth",
+        "current": "unauthenticated",
+        "access_apps": [
+          "ChittyAgents"
+        ],
+        "on_behalf": true
+      },
+      "classification": "placed",
+      "portals": [
+        {
+          "id": "chitty-mcp",
+          "reason": "ChittyOS control-plane agent (section 5 chitty-mcp list)",
+          "on_behalf": true
+        },
+        {
+          "id": "chode",
+          "reason": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+          "on_behalf": true
+        },
+        {
+          "id": "chittymcp-vm",
+          "reason": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+          "on_behalf": true
+        }
+      ],
+      "current_portals": [
+        "cf",
+        "chitty-mcp",
+        "chittycomms",
+        "chittymcp-vm",
+        "chode",
+        "dev-portal",
+        "gws-portal"
+      ],
+      "tools": {
+        "naming": "no-self-prefix",
+        "expected": [
+          "hydrate",
+          "resolve_context",
+          "memory_recall",
+          "memory_persist",
+          "doctrine_seed"
+        ]
+      },
+      "prompts": {
+        "expose": "none"
+      },
+      "resources": "unavailable",
+      "tags": {
+        "chitty.repo": "chittyos/chittyentity",
+        "chitty.env": "production",
+        "chitty.portal": "chitty-mcp"
+      },
+      "status": "active"
+    }
+  ],
+  "portals": [
+    {
+      "name": "portal-apf-portal",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/apf-portal",
+      "kind": "mcp-portal",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "MCP portal apf-portal.",
+      "portal_id": "apf-portal",
+      "hostname": "portal.actors.chitty.cc",
+      "audience": "scraping",
+      "display_name": null,
+      "access_app": "ChittyScrape-Apify",
+      "code_mode": "default_on",
+      "membership": "explicit",
+      "evidence": null,
+      "status": "active"
+    },
+    {
+      "name": "portal-cf",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/cf",
+      "kind": "mcp-portal",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "MCP portal cf.",
+      "portal_id": "cf",
+      "hostname": "cf.chitty.cc",
+      "audience": "Cloudflare platform",
+      "display_name": null,
+      "access_app": "ChittyPortal-CF",
+      "code_mode": "default_on",
+      "membership": "explicit",
+      "evidence": null,
+      "status": "active"
+    },
+    {
+      "name": "portal-chitty-mcp",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/chitty-mcp",
+      "kind": "mcp-portal",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "ChittyMCP Main Aggregator",
+      "portal_id": "chitty-mcp",
+      "hostname": "mcp.chitty.cc",
+      "audience": "operator core: ChittyOS control-plane agents (legal and finance agents moved to the legal and finance domain portals, D8)",
+      "display_name": "ChittyMCP Main Aggregator",
+      "access_app": "ChittyMCP",
+      "code_mode": "opt_in",
+      "membership": "explicit",
+      "evidence": null,
+      "status": "active"
+    },
+    {
+      "name": "portal-chittycomms",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/chittycomms",
+      "kind": "mcp-portal",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Messaging MCP, Quo, imessage, twillio, and others coming soon",
+      "portal_id": "chittycomms",
+      "hostname": "msg.chitty.cc",
+      "audience": "messaging",
+      "display_name": null,
+      "access_app": "ChittyMSG",
+      "code_mode": "default_on",
+      "membership": "explicit",
+      "evidence": null,
+      "status": "active"
+    },
+    {
+      "name": "portal-chittymcp-vm",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/chittymcp-vm",
+      "kind": "mcp-portal",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Service Access - Headless",
+      "portal_id": "chittymcp-vm",
+      "hostname": "vm.ch1tty.com",
+      "audience": "headless service access; mirror of chitty-mcp membership",
+      "display_name": "ChittyMCP VM",
+      "access_app": "ChittyOS MCP VM",
+      "code_mode": "opt_in",
+      "membership": "mirror:chitty-mcp",
+      "evidence": "Headless service-access portal (live GET 2026-11-23: code_mode opt_in, description \"Service Access - Headless\", 58 servers); mirrors chitty-mcp membership by design (reason recorded).",
+      "status": "active"
+    },
+    {
+      "name": "portal-chode",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/chode",
+      "kind": "mcp-portal",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Chitty Code Mode",
+      "portal_id": "chode",
+      "hostname": "chode.chitty.cc",
+      "audience": "code-mode connector (claude.ai Chitty Code-Mode); carries every placed server",
+      "display_name": "Chode",
+      "access_app": "Chode",
+      "code_mode": "default_on",
+      "membership": "all-placed",
+      "evidence": "Code-mode portal (live GET 2026-11-23: code_mode default_on, description \"Chitty Code Mode\", 59 servers); D6 exception: may carry every placed server.",
+      "status": "active"
+    },
+    {
+      "name": "portal-dev-portal",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/dev-portal",
+      "kind": "mcp-portal",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "MCP portal dev-portal.",
+      "portal_id": "dev-portal",
+      "hostname": "dev.chitty.cc",
+      "audience": "developer docs and tooling",
+      "display_name": null,
+      "access_app": "ChittyDev Portal",
+      "code_mode": "default_on",
+      "membership": "explicit",
+      "evidence": null,
+      "status": "active"
+    },
+    {
+      "name": "portal-finance-portal",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/finance-portal",
+      "kind": "mcp-portal",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Finance domain portal: finance (portal id finance-portal because id finance collides with the finance server id)",
+      "portal_id": "finance-portal",
+      "hostname": "finance.chitty.cc",
+      "audience": "books and finance",
+      "display_name": "Finance",
+      "access_app": null,
+      "code_mode": "opt_in",
+      "membership": "explicit",
+      "evidence": null,
+      "status": "proposed"
+    },
+    {
+      "name": "portal-gws-portal",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/gws-portal",
+      "kind": "mcp-portal",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "MCP portal gws-portal.",
+      "portal_id": "gws-portal",
+      "hostname": "workspace.chitty.cc",
+      "audience": "Google Workspace",
+      "display_name": null,
+      "access_app": "GWS",
+      "code_mode": "default_on",
+      "membership": "explicit",
+      "evidence": null,
+      "status": "active"
+    },
+    {
+      "name": "portal-legal",
+      "canon_uri": "chittycanon://core/services/chittymarket#mcp-portal/portals/legal",
+      "kind": "mcp-portal",
+      "plugin": "chittyos-mcp",
+      "runtimes": [
+        "cf-portal"
+      ],
+      "description": "Legal domain portal: evidence, dispute, contextual",
+      "portal_id": "legal",
+      "hostname": "legal.chitty.cc",
+      "audience": "litigation and evidence work",
+      "display_name": "Legal",
+      "access_app": null,
+      "code_mode": "opt_in",
+      "membership": "explicit",
+      "evidence": null,
+      "status": "proposed"
+    }
+  ]
+}
