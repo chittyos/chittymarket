@@ -36,6 +36,7 @@ _MAP = {
     ("cf-portal", "mcp-portal-server"): ("plugins/{plugin}/cf-portal/servers/{name}.json", "cf-portal.sh"),
     ("cf-portal", "mcp-portal"):    ("plugins/{plugin}/cf-portal/portals/{name}.json", "cf-portal.sh"),
     ("nomad", "job"):               ("plugins/{plugin}/nomad-jobs/{name}.nomad.json", "nomad-job.sh"),
+    ("xai-grok-bot", "agent"):      ("plugins/{plugin}/xai-grok-bot/{name}.json", "xai-grok-bot.sh"),
 }
 
 KNOWN_RUNTIMES = sorted({rt for rt, _ in _MAP})

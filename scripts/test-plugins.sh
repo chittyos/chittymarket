@@ -331,6 +331,18 @@ else
 fi
 echo ""
 
+# --- xai-grok-bot adapter tests ---
+echo "--- xai-grok-bot adapter ---"
+_grok_out="$(bash "$PLUGINS_DIR/chittyagent-dispatch/scripts/test-xai-grok-bot-adapter.sh" 2>&1)" && _grok_rc=0 || _grok_rc=$?
+if [ "$_grok_rc" -eq 0 ]; then
+  green "xai-grok-bot adapter tests"
+else
+  red "xai-grok-bot adapter tests (run plugins/chittyagent-dispatch/scripts/test-xai-grok-bot-adapter.sh)"
+  printf '%s\n' "$_grok_out" | sed 's/^/    | /'
+  echo "    | (exit $_grok_rc; python3 $(python3 -V 2>&1), bash $BASH_VERSION)"
+fi
+echo ""
+
 # --- Summary ---
 TOTAL=$((PASS + FAIL))
 echo "=== Test Summary ==="

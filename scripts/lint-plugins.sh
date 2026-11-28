@@ -316,7 +316,8 @@ while IFS= read -r f; do projection_paths+=("$f"); done < <(
        -o -path "*/claude-skills/*.json" \
        -o -path "*/chatgpt-apps/*.json" \
        -o -path "*/workflows/*.js" \
-       -o -path "*/nomad-jobs/*.nomad.json" \) 2>/dev/null
+       -o -path "*/nomad-jobs/*.nomad.json" \
+       -o -path "*/xai-grok-bot/*.json" \) 2>/dev/null
 )
 for proj in "${projection_paths[@]}"; do
   # Derive canonical name + expected canonical kind-subdir from the projection path.
@@ -347,6 +348,9 @@ for proj in "${projection_paths[@]}"; do
   elif [[ "$proj" == */nomad-jobs/*.nomad.json ]]; then
     name=$(basename "$proj" .nomad.json)
     expected_kind="jobs"
+  elif [[ "$proj" == */xai-grok-bot/*.json ]]; then
+    name=$(basename "$proj" .json)
+    expected_kind="agents"
   else
     continue
   fi
